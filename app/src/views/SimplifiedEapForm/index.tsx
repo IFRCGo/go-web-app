@@ -5,7 +5,10 @@ import {
     useRef,
     useState,
 } from 'react';
-import { useParams } from 'react-router-dom';
+import {
+    useLocation,
+    useParams,
+} from 'react-router-dom';
 import {
     Button,
     ListView,
@@ -100,6 +103,9 @@ export function Component() {
     const alert = useAlert();
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const { eapId } = useParams<{ eapId: string }>();
+
+    const { state } = useLocation();
+    const isReadOnly = state?.mode === 'view';
 
     const updateFileUrlMapping = useCallback((response: GetSimplifiedResponse) => {
         setFileIdToUrlMap((prevMap) => {
@@ -280,6 +286,56 @@ export function Component() {
         pathVariables: isTruthyString(eapId) ? {
             id: Number(eapId),
         } : undefined,
+        onSuccess: (response) => {
+            if (isDefined(response.national_society_contact_name)) {
+                setFieldValue(
+                    response?.national_society_contact_name,
+                    'national_society_contact_name',
+                );
+            }
+            if (isDefined(response.national_society_contact_title)) {
+                setFieldValue(
+                    response?.national_society_contact_title,
+                    'national_society_contact_title',
+                );
+            }
+            if (isDefined(response.national_society_contact_email)) {
+                setFieldValue(
+                    response?.national_society_contact_email,
+                    'national_society_contact_email',
+                );
+            }
+            if (isDefined(response.national_society_contact_phone_number)) {
+                setFieldValue(
+                    response?.national_society_contact_phone_number,
+                    'national_society_contact_phone_number',
+                );
+            }
+            if (isDefined(response.dref_focal_point_name)) {
+                setFieldValue(
+                    response?.dref_focal_point_name,
+                    'dref_focal_point_name',
+                );
+            }
+            if (isDefined(response.dref_focal_point_title)) {
+                setFieldValue(
+                    response?.dref_focal_point_title,
+                    'dref_focal_point_title',
+                );
+            }
+            if (isDefined(response.dref_focal_point_email)) {
+                setFieldValue(
+                    response?.dref_focal_point_email,
+                    'dref_focal_point_email',
+                );
+            }
+            if (isDefined(response.dref_focal_point_phone_number)) {
+                setFieldValue(
+                    response?.dref_focal_point_phone_number,
+                    'dref_focal_point_phone_number',
+                );
+            }
+        },
     });
 
     // FIXME: get the latest simplified properly
@@ -509,6 +565,7 @@ export function Component() {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         eapRegistrationDetail={eapDetailResponse}
+                        readOnly={isReadOnly}
                     />
                 </TabPanel>
                 <TabPanel name="riskAnalysis">
@@ -519,6 +576,7 @@ export function Component() {
                         disabled={disabled}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
+                        readOnly={isReadOnly}
                     />
                 </TabPanel>
                 <TabPanel name="earlyAction">
@@ -528,6 +586,7 @@ export function Component() {
                         error={formError}
                         disabled={disabled}
                         eapRegistrationDetail={eapDetailResponse}
+                        readOnly={isReadOnly}
                     />
                 </TabPanel>
                 <TabPanel name="plannedOperations">
@@ -536,6 +595,7 @@ export function Component() {
                         setFieldValue={setFieldValue}
                         error={formError}
                         disabled={disabled}
+                        readOnly={isReadOnly}
                     />
                 </TabPanel>
                 <TabPanel name="enablingApproaches">
@@ -544,6 +604,7 @@ export function Component() {
                         setFieldValue={setFieldValue}
                         error={formError}
                         disabled={disabled}
+                        readOnly={isReadOnly}
                     />
                 </TabPanel>
                 <TabPanel name="deliveryAndBudget">
@@ -554,6 +615,7 @@ export function Component() {
                         disabled={disabled}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
+                        readOnly={isReadOnly}
                     />
                 </TabPanel>
                 <ListView withCenteredContents>

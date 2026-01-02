@@ -32,6 +32,7 @@ interface Props {
     disabled?: boolean;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    readOnly?: boolean;
 }
 
 function DeliveryAndBudget(props: Props) {
@@ -42,15 +43,20 @@ function DeliveryAndBudget(props: Props) {
         disabled,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        readOnly,
     } = props;
 
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
 
     const {
+        pending: globalFilesLoading,
         response: globalFilesResponse,
     } = useRequest({
-        url: '/api/v2/eap/global-files/budget_template/',
+        url: '/api/v2/eap/global-files/{template_type}/',
+        pathVariables: {
+            template_type: 'budget_template',
+        },
     });
 
     return (
@@ -73,6 +79,7 @@ function DeliveryAndBudget(props: Props) {
                             onChange={setFieldValue}
                             error={error?.early_action_capability}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                     <InputSection
@@ -117,6 +124,7 @@ function DeliveryAndBudget(props: Props) {
                             onChange={setFieldValue}
                             error={error?.rcrc_movement_involvement}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                 </ListView>
@@ -202,6 +210,7 @@ function DeliveryAndBudget(props: Props) {
                                 error={error?.total_budget}
                                 disabled={disabled}
                                 label={strings.deliverBudgetLabel}
+                                readOnly={readOnly}
                             />
                             <NumberInput
                                 label={strings.deliverReadinessLabel}
@@ -210,6 +219,7 @@ function DeliveryAndBudget(props: Props) {
                                 onChange={setFieldValue}
                                 error={error?.readiness_budget}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                             <NumberInput
                                 label={strings.deliverPrepositioning}
@@ -218,6 +228,7 @@ function DeliveryAndBudget(props: Props) {
                                 onChange={setFieldValue}
                                 error={error?.pre_positioning_budget}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                             <NumberInput
                                 label={strings.earlyAction}
@@ -226,6 +237,7 @@ function DeliveryAndBudget(props: Props) {
                                 onChange={setFieldValue}
                                 error={error?.early_action_budget}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                         </ListView>
                     </InputSection>
@@ -238,6 +250,7 @@ function DeliveryAndBudget(props: Props) {
                                     href={globalFilesResponse?.url}
                                     withLinkIcon
                                     external
+                                    disabled={globalFilesLoading || !globalFilesResponse?.url}
                                 >
                                     {strings.downloadBudgetTemplate}
                                 </Link>
@@ -254,6 +267,7 @@ function DeliveryAndBudget(props: Props) {
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
+                            readOnly={readOnly}
                         >
                             {strings.upload}
                         </GoSingleFileInput>

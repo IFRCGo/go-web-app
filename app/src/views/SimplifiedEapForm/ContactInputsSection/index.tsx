@@ -21,6 +21,7 @@ interface Props {
     setFieldValue: (...entries: EntriesAsList<PartialSimplifiedEapType>) => void;
     error: Error<PartialSimplifiedEapType> | undefined;
     disabled?: boolean;
+    readOnly?: boolean;
 }
 
 function ContactInputsSection(props: Props) {
@@ -32,6 +33,7 @@ function ContactInputsSection(props: Props) {
         setFieldValue,
         error: formError,
         disabled,
+        readOnly,
     } = props;
 
     const error = getErrorObject(formError);
@@ -54,6 +56,7 @@ function ContactInputsSection(props: Props) {
                 onChange={setFieldValue}
                 error={error?.[name]}
                 disabled={disabled}
+                readOnly={readOnly}
             />
             <TextInput
                 label="Title"
@@ -62,6 +65,7 @@ function ContactInputsSection(props: Props) {
                 onChange={setFieldValue}
                 error={error?.[title]}
                 disabled={disabled}
+                readOnly={readOnly}
             />
             <TextInput
                 label="Email"
@@ -70,6 +74,7 @@ function ContactInputsSection(props: Props) {
                 onChange={setFieldValue}
                 error={error?.[email]}
                 disabled={disabled}
+                readOnly={readOnly}
             />
             <TextInput
                 label="Phone number"
@@ -78,6 +83,7 @@ function ContactInputsSection(props: Props) {
                 onChange={setFieldValue}
                 error={error?.[phoneNumber]}
                 disabled={disabled}
+                readOnly={readOnly}
             />
         </InputSection>
     );

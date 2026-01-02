@@ -44,6 +44,7 @@ interface Props {
     error: Error<PartialSimplifiedEapType> | undefined;
     disabled?: boolean;
     eapRegistrationDetail?: GoApiResponse<'/api/v2/eap-registration/{id}/'>;
+    readOnly?: boolean;
 }
 
 function EarlyAction(props: Props) {
@@ -53,6 +54,7 @@ function EarlyAction(props: Props) {
         error: formError,
         disabled,
         eapRegistrationDetail,
+        readOnly,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -100,6 +102,7 @@ function EarlyAction(props: Props) {
                         onChange={setFieldValue}
                         error={error?.overall_objective_intervention}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -128,6 +131,7 @@ function EarlyAction(props: Props) {
                         onChange={setFieldValue}
                         error={error?.potential_geographical_high_risk_areas}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     {isDefined(eapRegistrationDetail?.country) && (
                         <Admin2Input
@@ -136,6 +140,7 @@ function EarlyAction(props: Props) {
                             value={value?.admin2}
                             countryId={eapRegistrationDetail.country}
                             error={getErrorString(error?.admin2)}
+                            readOnly={readOnly}
                         />
                     )}
                 </InputSection>
@@ -153,6 +158,7 @@ function EarlyAction(props: Props) {
                         onChange={setFieldValue}
                         error={error?.people_targeted}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -168,6 +174,7 @@ function EarlyAction(props: Props) {
                         onChange={setFieldValue}
                         error={error?.assisted_through_operation}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -188,6 +195,7 @@ function EarlyAction(props: Props) {
                         onChange={setFieldValue}
                         error={error?.selection_criteria}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -248,6 +256,7 @@ function EarlyAction(props: Props) {
                         onChange={setFieldValue}
                         error={error?.trigger_statement}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -263,6 +272,7 @@ function EarlyAction(props: Props) {
                         onChange={setFieldValue}
                         error={error?.seap_lead_time}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <SelectInput
                         label={strings.operationTimeFrame}
@@ -274,6 +284,7 @@ function EarlyAction(props: Props) {
                         options={eapTimeframeOption}
                         disabled={disabled}
                         error={error?.seap_lead_timeframe_unit}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -289,6 +300,7 @@ function EarlyAction(props: Props) {
                         onChange={setFieldValue}
                         error={error?.operational_timeframe}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <SelectInput
                         label={strings.operationTimeFrame}
@@ -300,6 +312,7 @@ function EarlyAction(props: Props) {
                         options={eapTimeframeOption}
                         disabled={disabled}
                         error={error?.operational_timeframe_unit}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -324,6 +337,7 @@ function EarlyAction(props: Props) {
                         onChange={setFieldValue}
                         error={error?.trigger_threshold_justification}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -338,6 +352,7 @@ function EarlyAction(props: Props) {
                         onChange={setFieldValue}
                         error={error?.next_step_towards_full_eap}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
             </ListView>

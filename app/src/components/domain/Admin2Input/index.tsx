@@ -47,6 +47,7 @@ interface Props<NAME> {
     onChange: (newValue: number[] | undefined, name: NAME) => void;
     countryId: number;
     error?: React.ReactNode;
+    readOnly?: boolean;
 }
 
 function Admin2Input<const NAME>(props: Props<NAME>) {
@@ -56,6 +57,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
         onChange,
         countryId,
         error,
+        readOnly,
     } = props;
 
     const countryDetails = useCountry({ id: countryId });
@@ -222,6 +224,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                     <Button
                         name={undefined}
                         onClick={setShowModalTrue}
+                        disabled={readOnly}
                         // FIXME: use label from props
                     >
                         Select areas

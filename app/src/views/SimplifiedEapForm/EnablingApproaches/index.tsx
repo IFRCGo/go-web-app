@@ -37,6 +37,7 @@ interface Props {
     error: Error<PartialSimplifiedEapType> | undefined;
     disabled?: boolean;
     setFieldValue: (...entries: EntriesAsList<PartialSimplifiedEapType>) => void;
+    readOnly?: boolean;
 }
 
 function approachesKeySelector(option: EapApproachOption) {
@@ -48,6 +49,7 @@ function EnablingApproaches(props: Props) {
         error: formError,
         disabled,
         setFieldValue,
+        readOnly,
     } = props;
 
     const error = getErrorObject(formError);
@@ -116,6 +118,7 @@ function EnablingApproaches(props: Props) {
                         labelSelector={stringValueSelector}
                         checkListLayout="grid"
                         checkListLayoutPreferredGridColumns={3}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 {value?.enable_approaches?.map((approach, index) => (
@@ -128,6 +131,7 @@ function EnablingApproaches(props: Props) {
                         onRemove={onApproachRemove}
                         error={getErrorObject(error?.enable_approaches)}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 ))}
             </ListView>

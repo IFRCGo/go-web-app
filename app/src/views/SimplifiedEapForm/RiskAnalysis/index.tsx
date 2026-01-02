@@ -27,6 +27,7 @@ interface Props {
     disabled?: boolean;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    readOnly?: boolean;
 }
 
 function RiskAnalysis(props: Props) {
@@ -37,6 +38,7 @@ function RiskAnalysis(props: Props) {
         disabled,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        readOnly,
     } = props;
 
     const error = getErrorObject(formError);
@@ -120,6 +122,7 @@ function RiskAnalysis(props: Props) {
                             onChange={setFieldValue}
                             error={error?.prioritized_hazard_and_impact}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                         <MultiImageWithCaptionInput
                             name="hazard_impact_images"
@@ -130,6 +133,7 @@ function RiskAnalysis(props: Props) {
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                     <InputSection
@@ -144,6 +148,7 @@ function RiskAnalysis(props: Props) {
                             onChange={setFieldValue}
                             error={error?.risks_selected_protocols}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                         <MultiImageWithCaptionInput
                             name="risk_selected_protocols_images"
@@ -154,6 +159,7 @@ function RiskAnalysis(props: Props) {
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                 </ListView>
@@ -214,6 +220,7 @@ function RiskAnalysis(props: Props) {
                             onChange={setFieldValue}
                             error={error?.selected_early_actions}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                         <MultiImageWithCaptionInput
                             name="selected_early_actions_images"
@@ -224,6 +231,7 @@ function RiskAnalysis(props: Props) {
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                 </ListView>
