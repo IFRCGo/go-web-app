@@ -47,6 +47,7 @@ interface Props {
     onRemove: (index: number) => void;
     index: number;
     disabled?: boolean;
+    readOnly?: boolean;
 }
 
 function OperationActivityInput(props: Props) {
@@ -57,6 +58,7 @@ function OperationActivityInput(props: Props) {
         index,
         onRemove,
         disabled,
+        readOnly,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -115,7 +117,7 @@ function OperationActivityInput(props: Props) {
                     onClick={onRemove}
                     styleVariant="action"
                     title="Remove"
-                    disabled={disabled}
+                    disabled={disabled || readOnly}
                 >
                     <DeleteBinTwoLineIcon />
                 </Button>
@@ -129,6 +131,7 @@ function OperationActivityInput(props: Props) {
                     error={error?.activity}
                     onChange={onFieldChange}
                     disabled={disabled}
+                    readOnly={readOnly}
                     withAsterisk
                 />
                 <ListView layout="grid">
@@ -142,6 +145,7 @@ function OperationActivityInput(props: Props) {
                         options={eap_timeframe}
                         disabled={disabled}
                         error={error?.timeframe}
+                        readOnly={readOnly}
                     />
                     {value?.timeframe && (
                         <Checklist
@@ -157,6 +161,7 @@ function OperationActivityInput(props: Props) {
                             renderer={TimeSpanCheck}
                             withoutOpticalSpacingCorrection
                             error={getErrorString(error?.time_value)}
+                            readOnly={readOnly}
                         />
                     )}
                 </ListView>

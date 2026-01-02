@@ -4,10 +4,11 @@
         "startFullLink": "Start Full EAP",
         "startSimplifiedLink": "Start sEAP",
         "editFullLink": "Edit Full EAP",
-        "editSimplifiedLink": "Edit sEAP",
         "exportChangesButton": "Export with changes",
         "exportButton": "Export",
         "previewExportLink": "Preview export",
-        "reviewCheckList": "Review Checklist"
+        "reviewCheckList": "Review Checklist",
+        "eapEditSimplifiedLink": "Edit sEAP",
+        "eapViewSimplifiedLink": "View sEAP"
     }
 }

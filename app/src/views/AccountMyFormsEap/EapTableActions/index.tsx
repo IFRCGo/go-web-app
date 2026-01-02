@@ -2,6 +2,7 @@ import {
     useCallback,
     useState,
 } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
     DocumentPdfLineIcon,
     DownloadTwoLineIcon,
@@ -44,6 +45,10 @@ function EapTableActions(props: Props) {
 
     const [exportWithDiffView, setExportWithDiffView] = useState(false);
     const [showExportModal, setShowExportModal] = useState(false);
+
+    const { state } = useLocation();
+
+    const isReadOnly = state?.mode === 'view';
 
     const strings = useTranslation(i18n);
 
@@ -126,22 +131,38 @@ function EapTableActions(props: Props) {
                         </Link>
                     </ListView>
                 )}
-                {type === 'development'
-                    && !details?.data.is_locked
-                    && eap.eap_type === EAP_TYPE_SIMPLIFIED
-                    && (eap.status === EAP_STATUS_UNDER_DEVELOPMENT
-                        || (eap.status === EAP_STATUS_NS_ADDRESSING_COMMENTS
-                            && eap.latest_simplified_eap === details?.data.id))
-                    && (
-                        <Link
-                            to="simplifiedEapForm"
-                            urlParams={{ eapId: eap.id }}
-                            styleVariant="outline"
-                            colorVariant="primary"
-                        >
-                            {strings.editSimplifiedLink}
-                        </Link>
-                    )}
+                <ListView>
+                    {type === 'development'
+                        && !details?.data.is_locked
+                        && eap.eap_type === EAP_TYPE_SIMPLIFIED
+                        && (eap.status === EAP_STATUS_UNDER_DEVELOPMENT
+                            || (eap.status === EAP_STATUS_NS_ADDRESSING_COMMENTS
+                                && eap.latest_simplified_eap === details?.data.id))
+                        && (
+                            <Link
+                                to="simplifiedEapForm"
+                                urlParams={{ eapId: eap.id }}
+                                styleVariant="outline"
+                                colorVariant="primary"
+                            >
+                                {strings.eapEditSimplifiedLink}
+                            </Link>
+                        )}
+                    {type === 'development'
+                            && eap.eap_type === EAP_TYPE_SIMPLIFIED
+                            && !isReadOnly
+                            && (
+                                <Link
+                                    to="simplifiedEapForm"
+                                    urlParams={{ eapId: eap.id }}
+                                    styleVariant="outline"
+                                    colorVariant="primary"
+                                    state={{ mode: 'view' }}
+                                >
+                                    {strings.eapViewSimplifiedLink}
+                                </Link>
+                            )}
+                </ListView>
                 {type === 'development' && !details?.data.is_locked && eap.eap_type === EAP_TYPE_FULL && (
                     <Link
                         to="fullEapForm"

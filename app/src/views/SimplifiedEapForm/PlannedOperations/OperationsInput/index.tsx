@@ -52,6 +52,7 @@ interface Props {
     index: number;
     disabled?: boolean;
     operationTitle?: React.ReactNode;
+    readOnly?: boolean;
 }
 
 function OperationsBySectorInput(props: Props) {
@@ -63,6 +64,7 @@ function OperationsBySectorInput(props: Props) {
         onRemove,
         disabled,
         operationTitle,
+        readOnly,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -173,7 +175,7 @@ function OperationsBySectorInput(props: Props) {
                     name={index}
                     onClick={onRemove}
                     styleVariant="action"
-                    disabled={disabled}
+                    disabled={disabled || readOnly}
                     title={strings.operationRemoveButton}
                 >
                     <DeleteBinTwoLineIcon />
@@ -197,6 +199,7 @@ function OperationsBySectorInput(props: Props) {
                         onChange={onFieldChange}
                         disabled={disabled}
                         error={error?.people_targeted}
+                        readOnly={readOnly}
                     />
                     <NumberInput
                         label={strings.operationBudget}
@@ -205,6 +208,7 @@ function OperationsBySectorInput(props: Props) {
                         onChange={onFieldChange}
                         disabled={disabled}
                         error={error?.budget_per_sector}
+                        readOnly={readOnly}
                     />
                     <NumberInput
                         label={strings.operationApCode}
@@ -213,6 +217,7 @@ function OperationsBySectorInput(props: Props) {
                         onChange={onFieldChange}
                         disabled={disabled}
                         error={error?.ap_code}
+                        readOnly={readOnly}
                     />
                 </ListView>
                 <ListView
@@ -233,7 +238,7 @@ function OperationsBySectorInput(props: Props) {
                                 name={undefined}
                                 onClick={handleIndicatorAddButtonClick}
                                 spacing="sm"
-                                disabled={disabled}
+                                disabled={disabled || readOnly}
                                 before={<AddLineIcon />}
                             >
                                 {strings.operationAddIndicators}
@@ -252,6 +257,7 @@ function OperationsBySectorInput(props: Props) {
                                     onRemove={onIndicatorRemove}
                                     error={getErrorObject(error?.indicators)}
                                     disabled={disabled}
+                                    readOnly={readOnly}
                                 />
                             ))}
                         </ListView>
@@ -275,7 +281,7 @@ function OperationsBySectorInput(props: Props) {
                                 name={undefined}
                                 onClick={handleReadinessAddButtonClick}
                                 spacing="sm"
-                                disabled={disabled}
+                                disabled={disabled || readOnly}
                                 before={<AddLineIcon />}
                             >
                                 {strings.operationAddActivityButton}
@@ -302,6 +308,7 @@ function OperationsBySectorInput(props: Props) {
                                     onRemove={onReadinessRemove}
                                     error={getErrorObject(error?.readiness_activities)}
                                     disabled={disabled}
+                                    readOnly={readOnly}
                                 />
                             ))}
                         </ListView>
@@ -324,7 +331,7 @@ function OperationsBySectorInput(props: Props) {
                             <Button
                                 name={undefined}
                                 onClick={handlePrepositioningAddButtonClick}
-                                disabled={disabled}
+                                disabled={disabled || readOnly}
                                 spacing="sm"
                                 before={<AddLineIcon />}
                             >
@@ -352,6 +359,7 @@ function OperationsBySectorInput(props: Props) {
                                     onRemove={onPrepositioningRemove}
                                     error={getErrorObject(error?.prepositioning_activities)}
                                     disabled={disabled}
+                                    readOnly={readOnly}
                                 />
                             ))}
                         </ListView>
@@ -387,7 +395,7 @@ function OperationsBySectorInput(props: Props) {
                             <Button
                                 name={undefined}
                                 onClick={handleEarlyActionAddButtonClick}
-                                disabled={disabled}
+                                disabled={disabled || readOnly}
                                 spacing="sm"
                                 before={<AddLineIcon />}
                             >
@@ -412,6 +420,7 @@ function OperationsBySectorInput(props: Props) {
                                     onRemove={onEarlyActionRemove}
                                     error={getErrorObject(error?.early_action_activities)}
                                     disabled={disabled}
+                                    readOnly={readOnly}
                                 />
                             ))}
                         </ListView>

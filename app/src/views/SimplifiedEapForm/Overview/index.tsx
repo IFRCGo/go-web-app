@@ -35,6 +35,7 @@ interface Props {
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     eapRegistrationDetail?: FormFields;
+    readOnly?: boolean;
 }
 
 function Overview(props: Props) {
@@ -46,12 +47,13 @@ function Overview(props: Props) {
         fileIdToUrlMap,
         setFileIdToUrlMap,
         eapRegistrationDetail,
+        readOnly,
     } = props;
 
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
 
-    const noop = () => {};
+    const noOp = () => {};
 
     return (
         <TabPage>
@@ -71,7 +73,7 @@ function Overview(props: Props) {
                     >
                         <NationalSocietySelectInput
                             name="national_society"
-                            onChange={noop}
+                            onChange={noOp}
                             value={eapRegistrationDetail?.national_society}
                             disabled={disabled}
                             readOnly
@@ -86,7 +88,7 @@ function Overview(props: Props) {
                         <CountrySelectInput
                             name="country"
                             value={eapRegistrationDetail?.country}
-                            onChange={noop}
+                            onChange={noOp}
                             disabled={disabled}
                             readOnly
                         />
@@ -100,7 +102,7 @@ function Overview(props: Props) {
                         <DisasterTypeSelectInput
                             name="disaster_type"
                             value={eapRegistrationDetail?.disaster_type}
-                            onChange={noop}
+                            onChange={noOp}
                             disabled={disabled}
                             readOnly
                         />
@@ -119,6 +121,7 @@ function Overview(props: Props) {
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                     <InputSection
@@ -133,6 +136,7 @@ function Overview(props: Props) {
                             onChange={setFieldValue}
                             error={error?.seap_timeframe}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                 </ListView>
@@ -161,6 +165,7 @@ function Overview(props: Props) {
                                 setFieldValue={setFieldValue}
                                 error={error}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                             <ContactInputsSection
                                 title={strings.partnerNS}
@@ -170,6 +175,7 @@ function Overview(props: Props) {
                                 setFieldValue={setFieldValue}
                                 error={error}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                         </ListView>
                     </Container>
@@ -188,6 +194,7 @@ function Overview(props: Props) {
                                 setFieldValue={setFieldValue}
                                 error={error}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                             <ContactInputsSection
                                 title={strings.delegation}
@@ -196,6 +203,7 @@ function Overview(props: Props) {
                                 setFieldValue={setFieldValue}
                                 error={error}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                         </ListView>
                     </Container>
@@ -215,6 +223,7 @@ function Overview(props: Props) {
                                 setFieldValue={setFieldValue}
                                 error={error}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                             <ContactInputsSection
                                 title={strings.regionalFocalPoint}
@@ -223,6 +232,7 @@ function Overview(props: Props) {
                                 setFieldValue={setFieldValue}
                                 error={error}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                             <ContactInputsSection
                                 title={strings.regionalManager}
@@ -231,6 +241,7 @@ function Overview(props: Props) {
                                 setFieldValue={setFieldValue}
                                 error={error}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                             <ContactInputsSection
                                 title={strings.regionalHead}
@@ -239,6 +250,7 @@ function Overview(props: Props) {
                                 setFieldValue={setFieldValue}
                                 error={error}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                             <ContactInputsSection
                                 title={strings.regionalCoordinator}
@@ -247,6 +259,7 @@ function Overview(props: Props) {
                                 setFieldValue={setFieldValue}
                                 error={error}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                         </ListView>
                     </Container>

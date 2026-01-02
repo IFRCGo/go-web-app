@@ -41,6 +41,7 @@ interface Props {
     error: Error<PartialSimplifiedEapType> | undefined;
     disabled?: boolean;
     setFieldValue: (...entries: EntriesAsList<PartialSimplifiedEapType>) => void;
+    readOnly?: boolean;
 }
 
 function PlannedOperations(props: Props) {
@@ -49,6 +50,7 @@ function PlannedOperations(props: Props) {
         error: formError,
         disabled,
         setFieldValue,
+        readOnly,
     } = props;
 
     const error = getErrorObject(formError);
@@ -117,6 +119,7 @@ function PlannedOperations(props: Props) {
                             labelSelector={stringValueSelector}
                             checkListLayout="grid"
                             checkListLayoutPreferredGridColumns={3}
+                            readOnly={readOnly}
                         />
 
                     </InputSection>
@@ -130,6 +133,7 @@ function PlannedOperations(props: Props) {
                             onRemove={onOperationRemove}
                             error={getErrorObject(error?.planned_operations)}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     ))}
                 </ListView>
