@@ -101,39 +101,38 @@ function RiskAnalysis(props: Props) {
         <TabPage>
             <ListView layout="block">
                 <Heading level={4}>
-                    {strings.eapFullFormRiskAnalysisHeading}
+                    {strings.riskAnalysisHeading}
                 </Heading>
                 <InputSection
-                    title={strings.eapFullFormHazardSelectionTitle}
+                    title={strings.hazardSelectionTitle}
                     tooltip={(
                         <ListView layout="block">
                             <TextOutput
-                                label={strings.eapFullFormRiskExplanatoryNoteLabel}
+                                label={strings.riskExplanatoryNoteLabel}
                                 strongLabel
-                                value={strings.eapFullFormHazardSelectionExplanatoryNote}
+                                value={strings.hazardSelectionExplanatoryNote}
                             />
                             <TextOutput
-                                label={strings.eapFullFormRiskRequiredPointsLabel}
+                                label={strings.riskRequiredPointsLabel}
                                 strongLabel
                                 value={(
                                     <ul>
                                         <li>
-                                            {strings.eapFullFormHazardSelectionRequiredPoint1}
+                                            {strings.hazardSelectionRequiredPoint1}
                                         </li>
                                         <li>
-                                            {strings.eapFullFormHazardSelectionRequiredPoint2}
+                                            {strings.hazardSelectionRequiredPoint2}
                                         </li>
                                         <li>
-                                            {strings.eapFullFormHazardSelectionRequiredPoint3}
+                                            {strings.hazardSelectionRequiredPoint3}
                                             <ul>
                                                 <li>
-                                                    {/* eslint-disable-next-line max-len */}
-                                                    {strings.eapFullFormHazardSelectionRequiredPoint31}
+                                                    {strings.hazardSelectionRequiredPoint31}
                                                 </li>
                                             </ul>
                                         </li>
                                         <li>
-                                            {strings.eapFullFormHazardSelectionRequiredPoint4}
+                                            {strings.hazardSelectionRequiredPoint4}
                                         </li>
                                     </ul>
                                 )}
@@ -142,16 +141,16 @@ function RiskAnalysis(props: Props) {
                     )}
                     description={(
                         <ul>
-                            <li>{strings.eapFullFormHazardSelectionDescription1}</li>
-                            <li>{strings.eapFullFormHazardSelectionDescription2}</li>
-                            <li>{strings.eapFullFormHazardSelectionDescription3}</li>
-                            <li>{strings.eapFullFormHazardSelectionDescription4}</li>
+                            <li>{strings.hazardSelectionDescription1}</li>
+                            <li>{strings.hazardSelectionDescription2}</li>
+                            <li>{strings.hazardSelectionDescription3}</li>
+                            <li>{strings.hazardSelectionDescription4}</li>
                         </ul>
                     )}
                     withAsteriskOnTitle
                 >
                     <TextArea
-                        label={strings.eapFullFormRiskDescriptionLabel}
+                        label={strings.riskDescriptionLabel}
                         name="hazard_selection"
                         onChange={setFieldValue}
                         value={value?.hazard_selection}
@@ -171,33 +170,33 @@ function RiskAnalysis(props: Props) {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.eapFullFormExposeElementTitle}
+                    title={strings.exposeElementTitle}
                     tooltip={(
                         <ListView layout="block">
                             <TextOutput
-                                label={strings.eapFullFormRiskExplanatoryNoteLabel}
+                                label={strings.riskExplanatoryNoteLabel}
                                 strongLabel
-                                value={strings.eapFullFormExposeElementExplanatoryNote}
+                                value={strings.exposeElementExplanatoryNote}
                             />
                             <TextOutput
-                                label={strings.eapFullFormRiskRequiredPointsLabel}
+                                label={strings.riskRequiredPointsLabel}
                                 strongLabel
                                 value={(
                                     <ul>
                                         <li>
-                                            {strings.eapFullFormExposeElementRequiredPoint1}
+                                            {strings.exposeElementRequiredPoint1}
                                         </li>
                                         <li>
-                                            {strings.eapFullFormExposeElementRequiredPoint2}
+                                            {strings.exposeElementRequiredPoint2}
                                         </li>
                                         <li>
-                                            {strings.eapFullFormExposeElementRequiredPoint3}
+                                            {strings.exposeElementRequiredPoint3}
                                         </li>
                                         <li>
-                                            {strings.eapFullFormExposeElementRequiredPoint4}
+                                            {strings.exposeElementRequiredPoint4}
                                         </li>
                                         <li>
-                                            {strings.eapFullFormExposeElementRequiredPoint5}
+                                            {strings.exposeElementRequiredPoint5}
                                         </li>
                                     </ul>
                                 )}
@@ -206,17 +205,17 @@ function RiskAnalysis(props: Props) {
                     )}
                     description={(
                         <ul>
-                            <li>{strings.eapFullFormExposeElementDescription1}</li>
-                            <li>{strings.eapFullFormExposeElementDescription2}</li>
-                            <li>{strings.eapFullFormExposeElementDescription3}</li>
-                            <li>{strings.eapFullFormExposeElementDescription4}</li>
-                            <li>{strings.eapFullFormExposeElementDescription5}</li>
+                            <li>{strings.exposeElementDescription1}</li>
+                            <li>{strings.exposeElementDescription2}</li>
+                            <li>{strings.exposeElementDescription3}</li>
+                            <li>{strings.exposeElementDescription4}</li>
+                            <li>{strings.exposeElementDescription5}</li>
                         </ul>
                     )}
                     withAsteriskOnTitle
                 >
                     <TextArea
-                        label={strings.eapFullFormRiskDescriptionLabel}
+                        label={strings.riskDescriptionLabel}
                         name="exposed_element_and_vulnerability_factor"
                         onChange={setFieldValue}
                         value={value?.exposed_element_and_vulnerability_factor}
@@ -230,25 +229,25 @@ function RiskAnalysis(props: Props) {
                         error={getErrorObject(error?.hazard_selection_images)}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
-                        label={strings.eapFullFormAttachFilesSelectImagesLabel}
+                        label={strings.attachFilesSelectImagesLabel}
                         disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.eapFullFormPrioritisedImpactTitle}
+                    title={strings.prioritisedImpactTitle}
                     tooltip={(
                         <TextOutput
-                            label={strings.eapFullFormRiskExplanatoryNoteLabel}
+                            label={strings.riskExplanatoryNoteLabel}
                             strongLabel
-                            value={strings.eapFullFormPrioritisedImpactExplanatoryNote}
+                            value={strings.prioritisedImpactExplanatoryNote}
                         />
                     )}
-                    description={strings.eapFullFormPrioritisedImpactDescription}
+                    description={strings.prioritisedImpactDescription}
                     withAsteriskOnTitle
                 >
                     <TextOutput
                         withLightText
-                        value={strings.eapFullFormPrioritisedImpactsLabel}
+                        value={strings.prioritisedImpactsLabel}
                     />
                     <NonFieldError
                         error={getErrorObject(error?.prioritized_impacts)}
@@ -269,10 +268,10 @@ function RiskAnalysis(props: Props) {
                         onClick={handlePrioritizedImpactAdd}
                         disabled={disabled}
                     >
-                        {strings.eapFullFormImpactAddButtonLabel}
+                        {strings.impactAddButtonLabel}
                     </Button>
                     <TextArea
-                        label={strings.eapFullFormRiskDescriptionLabel}
+                        label={strings.riskDescriptionLabel}
                         name="prioritized_impact"
                         onChange={setFieldValue}
                         value={value?.prioritized_impact}
@@ -286,13 +285,13 @@ function RiskAnalysis(props: Props) {
                         error={getErrorObject(error?.hazard_selection_images)}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
-                        label={strings.eapFullFormAttachFilesSelectImagesLabel}
+                        label={strings.attachFilesSelectImagesLabel}
                         disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.eapFullFormAttachFilesTitle}
-                    description={strings.eapFullFormAttachFilesDescription}
+                    title={strings.attachFilesTitle}
+                    description={strings.attachFilesDescription}
                 >
                     <GoMultiFileInput
                         name="risk_analysis_relevant_files"
@@ -307,12 +306,12 @@ function RiskAnalysis(props: Props) {
                         disabled={disabled}
                         useCurrentLanguageForMutation
                     >
-                        {strings.eapFullFormAttachFilesUploadLabel}
+                        {strings.attachFilesUploadLabel}
                     </GoMultiFileInput>
                 </InputSection>
                 <InputSection
-                    title={strings.eapFullFormSourceOfInformationTitle}
-                    description={strings.eapFullFormSourceOfInformationDescription}
+                    title={strings.sourceOfInformationTitle}
+                    description={strings.sourceOfInformationDescription}
                 >
                     <NonFieldError
                         error={getErrorObject(error?.risk_analysis_source_of_information)}
@@ -335,7 +334,7 @@ function RiskAnalysis(props: Props) {
                         onClick={handleSourceInformationAdd}
                         disabled={disabled}
                     >
-                        {strings.eapFullFormSourceOfInformationAddNewLabel}
+                        {strings.sourceOfInformationAddNewLabel}
                     </Button>
                 </InputSection>
             </ListView>
