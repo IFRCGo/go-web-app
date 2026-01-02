@@ -230,6 +230,9 @@ function ApproachesInput(props: Props) {
                         empty={isNotDefined(value.indicators) || value.indicators.length === 0}
                         emptyMessage={strings.approachNoIndicatorsMessage}
                     >
+                        <NonFieldError
+                            error={getErrorObject(error?.indicators)}
+                        />
                         <ListView layout="block">
                             {value.indicators?.map((indicator, i) => (
                                 <IndicatorInput
@@ -281,6 +284,9 @@ function ApproachesInput(props: Props) {
                             />
                         )}
                     >
+                        <NonFieldError
+                            error={getErrorObject(error?.readiness_activities)}
+                        />
                         <ListView layout="block">
                             {value?.readiness_activities?.map((activity, i) => (
                                 <OperationActivityInput
@@ -334,6 +340,9 @@ function ApproachesInput(props: Props) {
                             />
                         )}
                     >
+                        <NonFieldError
+                            error={getErrorObject(error?.prepositioning_activities)}
+                        />
                         <ListView layout="block">
                             {value?.prepositioning_activities?.map((activity, i) => (
                                 <OperationActivityInput
@@ -385,6 +394,9 @@ function ApproachesInput(props: Props) {
                             />
                         )}
                     >
+                        <NonFieldError
+                            error={getErrorObject(error?.early_action_activities)}
+                        />
                         <ListView layout="block">
                             {value?.early_action_activities?.map((activity, i) => (
                                 <OperationActivityInput

@@ -23,6 +23,7 @@ import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
+import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type GoApiBody } from '#utils/restRequest';
 
@@ -63,6 +64,8 @@ function Overview(props: Props) {
 
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
+
+    // NOTE: We dont want some fields to have onChange functionality
     const noop = () => { };
 
     const { setValue: onKeyActorsChange, removeValue: onKeyActorsRemove } = useFormArray<'key_actors', KeyActorsFormFields>(
@@ -87,9 +90,7 @@ function Overview(props: Props) {
     return (
         <TabPage>
             <ListView layout="block" spacing="sm">
-                <Heading level={4}>
-                    {strings.overviewHeading}
-                </Heading>
+                <Heading level={4}>{strings.overviewHeading}</Heading>
                 <InputSection
                     title={strings.nationalSociety}
                     description={strings.nationalSocietyDescription}
@@ -154,6 +155,7 @@ function Overview(props: Props) {
                     <TextInput
                         name="expected_submission_time"
                         value={value?.expected_submission_time}
+                        error={error?.expected_submission_time}
                         onChange={setFieldValue}
                         disabled={disabled}
                     />
@@ -167,6 +169,7 @@ function Overview(props: Props) {
                         label={strings.workWithGovernmentDescriptionLabel}
                         name="objective"
                         value={value?.objective}
+                        error={error?.objective}
                         onChange={setFieldValue}
                         disabled={disabled}
                     />
@@ -175,10 +178,7 @@ function Overview(props: Props) {
             <Heading>{strings.formContacts}</Heading>
             <ListView layout="block">
                 <Heading level={4}>{strings.nationalHeader}</Heading>
-                <ListView
-                    layout="block"
-                    spacing="sm"
-                >
+                <ListView layout="block" spacing="sm">
                     <ContactInputsSection
                         title={strings.nSContact}
                         description={strings.nSContactDescription}
@@ -199,10 +199,7 @@ function Overview(props: Props) {
                     />
                 </ListView>
                 <Heading level={4}>{strings.delegationHeader}</Heading>
-                <ListView
-                    layout="block"
-                    spacing="sm"
-                >
+                <ListView layout="block" spacing="sm">
                     <ContactInputsSection
                         title={strings.formFocalPoint}
                         namePrefix="ifrc_delegation_focal_point"
@@ -221,10 +218,7 @@ function Overview(props: Props) {
                     />
                 </ListView>
                 <Heading level={4}>{strings.regionalHeader}</Heading>
-                <ListView
-                    layout="block"
-                    spacing="sm"
-                >
+                <ListView layout="block" spacing="sm">
                     <ContactInputsSection
                         title={strings.drefFocalPoint}
                         description={strings.drefFocalPointDescription}
@@ -268,10 +262,7 @@ function Overview(props: Props) {
                     />
                 </ListView>
                 <Heading level={4}>{strings.stakeholderHeader}</Heading>
-                <ListView
-                    layout="block"
-                    spacing="sm"
-                >
+                <ListView layout="block" spacing="sm">
                     <InputSection
                         title={strings.workWithGovernmentTitle}
                         tooltip={(
@@ -325,6 +316,7 @@ function Overview(props: Props) {
                         description={strings.keyActorsDescription}
                         withAsteriskOnTitle
                     >
+                        <NonFieldError error={getErrorObject(error?.key_actors)} />
                         {value.key_actors?.map((actor, index) => (
                             <KeyActorsInput
                                 key={actor.client_id}

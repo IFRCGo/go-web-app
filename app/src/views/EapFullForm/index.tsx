@@ -520,9 +520,9 @@ export function Component() {
         },
     });
 
-    const latestFullEapId = eapDetailResponse?.full_eap_details?.toSorted(
+    const latestFullEapId = useMemo(() => eapDetailResponse?.full_eap_details?.toSorted(
         (a, b) => compareNumber(a.version, b.version, -1),
-    )?.[0]?.id;
+    )?.[0]?.id, [eapDetailResponse?.full_eap_details]);
 
     useRequest({
         skip: isNotDefined(latestFullEapId),
@@ -540,7 +540,7 @@ export function Component() {
         url: '/api/v2/full-eap/',
         body: (body: EapFullRequestBody) => body,
         onSuccess: () => {
-            const message = strings.fullEapSuccess;
+            const message = strings.successMessage;
             alert.show(message, { variant: 'success' });
             navigate('accountMyFormsEap');
         },
@@ -551,7 +551,7 @@ export function Component() {
 
             processServerErrors(formErrors);
 
-            alert.show(strings.fullEapFailure, {
+            alert.show(strings.failureMessage, {
                 variant: 'danger',
                 description: messageForNotification,
             });
@@ -566,7 +566,7 @@ export function Component() {
         },
         body: (formFields: EapFullRequestBody) => formFields,
         onSuccess: (response) => {
-            alert.show(strings.fullEapUpdateSuccess, { variant: 'success' });
+            alert.show(strings.updateSuccess, { variant: 'success' });
 
             // FIXME: only navigate to accounts page for the submit action
             navigate('accountMyFormsEap', { params: { eapId: response.id } });
@@ -578,7 +578,7 @@ export function Component() {
 
             processServerErrors(formErrors);
 
-            alert.show(strings.fullEapUpdateFailure, {
+            alert.show(strings.updateFailure, {
                 variant: 'danger',
                 description: messageForNotification,
             });
@@ -633,8 +633,8 @@ export function Component() {
     return (
         <Tabs value={activeTab} onChange={setActiveTab} styleVariant="step">
             <Page
-                heading={strings.fullEapHeading}
-                description={strings.fullEapDescription}
+                heading={strings.mainHeading}
+                description={strings.mainDescription}
                 withBackgroundColorInMainSection
                 actions={(
                     <>
@@ -643,10 +643,10 @@ export function Component() {
                             styleVariant="outline"
                             colorVariant="primary"
                         >
-                            {strings.fullEapCancelButton}
+                            {strings.cancelButton}
                         </Link>
                         <Button name={undefined} onClick={handleSave}>
-                            {strings.fullEapSaveButton}
+                            {strings.saveButton}
                         </Button>
                         <Button
                             name={undefined}
@@ -655,7 +655,7 @@ export function Component() {
                                 eapDetailResponse?.status !== EAP_STATUS_UNDER_DEVELOPMENT
                             }
                         >
-                            {strings.fullEapSubmitButton}
+                            {strings.submitButton}
                         </Button>
                     </>
                 )}
@@ -666,56 +666,56 @@ export function Component() {
                             step={1}
                             errored={checkTabErrors(formError, 'overview')}
                         >
-                            {strings.fullEapOverview}
+                            {strings.overviewTabLabel}
                         </Tab>
                         <Tab
                             name="riskAnalysis"
                             step={2}
                             errored={checkTabErrors(formError, 'riskAnalysis')}
                         >
-                            {strings.fullEapRiskAnalysis}
+                            {strings.riskAnalysisTabLabel}
                         </Tab>
                         <Tab
                             name="triggerModel"
                             step={3}
                             errored={checkTabErrors(formError, 'triggerModel')}
                         >
-                            {strings.fullEapTriggerModel}
+                            {strings.triggerModelTabLabel}
                         </Tab>
                         <Tab
                             name="selectionActions"
                             step={4}
                             errored={checkTabErrors(formError, 'selectionActions')}
                         >
-                            {strings.fullEapSelectionActions}
+                            {strings.selectionActionsTabLabel}
                         </Tab>
                         <Tab
                             name="eapActivation"
                             step={5}
                             errored={checkTabErrors(formError, 'eapActivation')}
                         >
-                            {strings.fullEapActivationProcess}
+                            {strings.activationProcessTabLabel}
                         </Tab>
                         <Tab
                             name="meal"
                             step={6}
                             errored={checkTabErrors(formError, 'meal')}
                         >
-                            {strings.fullEapMeal}
+                            {strings.mealTabLabel}
                         </Tab>
                         <Tab
                             name="nationalSocietyCapacity"
                             step={7}
                             errored={checkTabErrors(formError, 'nationalSocietyCapacity')}
                         >
-                            {strings.fullEapNationalSocietyCapacity}
+                            {strings.nationalSocietyCapacityTabLabel}
                         </Tab>
                         <Tab
                             name="financeLogistics"
                             step={8}
                             errored={checkTabErrors(formError, 'financeLogistics')}
                         >
-                            {strings.fullEapFinanceLogistics}
+                            {strings.financeLogisticsTabLabel}
                         </Tab>
                     </TabList>
                 )}
@@ -808,15 +808,15 @@ export function Component() {
                         onClick={handleTabChange}
                         disabled={isNotDefined(prevStep)}
                     >
-                        {strings.fullEapBackButton}
+                        {strings.backButton}
                     </Button>
                     {isDefined(nextStep) ? (
                         <Button name={nextStep ?? activeTab} onClick={handleTabChange}>
-                            {strings.fullEapNextButton}
+                            {strings.nextButton}
                         </Button>
                     ) : (
                         <Button name={undefined} onClick={handleSave}>
-                            {strings.fullEapSaveButton}
+                            {strings.saveButton}
                         </Button>
                     )}
                 </ListView>

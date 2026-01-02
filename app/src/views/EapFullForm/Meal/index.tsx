@@ -113,7 +113,7 @@ function Meal(props: Props) {
                         fileIdToUrlMap={fileIdToUrlMap}
                         onChange={setFieldValue}
                         url="/api/v2/eap-file/multiple/"
-                        value={value?.meal_relevant_files}
+                        value={value.meal_relevant_files}
                         error={getErrorString(error?.meal_relevant_files)}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         clearable

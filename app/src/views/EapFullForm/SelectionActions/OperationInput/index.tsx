@@ -236,6 +236,9 @@ function OperationsInput(props: Props) {
                         }
                         emptyMessage={strings.noIndicatorsMessage}
                     >
+                        <NonFieldError
+                            error={getErrorObject(error?.indicators)}
+                        />
                         <ListView layout="block">
                             {value.indicators?.map((indicator, i) => (
                                 <IndicatorInput

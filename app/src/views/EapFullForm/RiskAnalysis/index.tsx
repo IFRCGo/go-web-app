@@ -250,6 +250,9 @@ function RiskAnalysis(props: Props) {
                         withLightText
                         value={strings.eapFullFormPrioritisedImpactsLabel}
                     />
+                    <NonFieldError
+                        error={getErrorObject(error?.prioritized_impacts)}
+                    />
                     {value?.prioritized_impacts?.map((impact, index) => (
                         <PrioritisedImpactInput
                             key={impact.client_id}
@@ -257,7 +260,7 @@ function RiskAnalysis(props: Props) {
                             value={impact}
                             onChange={onPrioritizedChange}
                             onRemove={onPrioritizedRemove}
-                            error={getErrorObject(error?.early_actions)}
+                            error={getErrorObject(error?.prioritized_impacts)}
                             disabled={disabled}
                         />
                     ))}
