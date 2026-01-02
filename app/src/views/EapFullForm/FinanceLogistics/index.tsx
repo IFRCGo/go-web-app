@@ -110,7 +110,7 @@ function FinanceLogistics(props: Props) {
                 >
                     <GoSingleFileInput
                         name="budget_file"
-                        accept=".pdf, .docx, .pptx"
+                        accept=".xlsx, .xlsm"
                         fileIdToUrlMap={fileIdToUrlMap}
                         onChange={setFieldValue}
                         url="/api/v2/eap-file/"
