@@ -45,6 +45,8 @@ type HazardImagesResponse = NonNullable<EapSimplifiedRequestBody['hazard_impact_
 type RiskImagesResponse = NonNullable<EapSimplifiedRequestBody['risk_selected_protocols_images']>[number];
 type EarlyActionImagesResponse = NonNullable<EapSimplifiedRequestBody['selected_early_actions_images']>[number];
 
+type PartnerContactsResponse = NonNullable<EapSimplifiedRequestBody['partner_contacts']>[number];
+
 type ApproachEarlyActionFormFields = ApproachEarlyActionResponse & { client_id: string };
 type ApproachPrepositioningFormFields = ApproachPrepositioningResponse & { client_id: string };
 type ApproachReadinessFormFields = ApproachReadinessResponse & { client_id: string };
@@ -60,6 +62,8 @@ type IndicatorFormFields = IndicatorResponse & { client_id: string };
 type HazardImagesFormFields = HazardImagesResponse & { client_id: string };
 type RiskImagesFormFields = RiskImagesResponse & { client_id: string };
 type EarlyActionImagesFormFields = EarlyActionImagesResponse & { client_id: string };
+
+type PartnerContactsFormFields = PartnerContactsResponse & { client_id: string };
 
 type EnableApproachesResponseFormFields = (
     DeepReplace<
@@ -107,10 +111,14 @@ type FormFields = (
             DeepReplace<
                 DeepReplace<
                     DeepReplace<
-                        DeepReplace<
-                            EapSimplifiedRequestBody,
-                            PlannedOperationsResponse,
-                            OperationsResponseFormFields
+                        DeepReplace <
+                            DeepReplace<
+                                EapSimplifiedRequestBody,
+                                PlannedOperationsResponse,
+                                OperationsResponseFormFields
+                            >,
+                            PartnerContactsResponse,
+                            PartnerContactsFormFields
                         >,
                         EnableApproachesResponse,
                         EnableApproachesResponseFormFields
@@ -149,6 +157,8 @@ type ApproachIndicatorFields = ReturnType<
 type RiskProtocolsFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['risk_selected_protocols_images']>[number], PartialSimplifiedEapType>['fields']>;
 type HazardImpactFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['hazard_impact_images']>[number], PartialSimplifiedEapType>['fields']>;
 type EarlyActionFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['selected_early_actions_images']>[number], PartialSimplifiedEapType>['fields']>;
+
+type PartnerContactFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['partner_contacts']>[number], PartialSimplifiedEapType>['fields']>;
 
 type FormSchema = ObjectSchema<PartialSimplifiedEapType>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
@@ -197,9 +207,20 @@ export const formSchema: FormSchema = {
             }),
         },
         seap_timeframe: { required: true },
-
+        partner_contacts: {
+            keySelector: (item) => item.client_id,
+            member: () => ({
+                fields: (): PartnerContactFields => ({
+                    client_id: {},
+                    id: { defaultValue: undefinedValue },
+                    name: {},
+                    email: { validations: [emailCondition] },
+                    phone_number: {},
+                    title: {},
+                }),
+            }),
+        },
         ...getContactSchema('national_society_contact'),
-        ...getContactSchema('partner_ns'),
         ...getContactSchema('ifrc_delegation_focal_point'),
         ...getContactSchema('ifrc_head_of_delegation'),
         ...getContactSchema('dref_focal_point'),

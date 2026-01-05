@@ -27,6 +27,7 @@
         "regionalFocalPoint": "IFRC Regional AA Focal Point",
         "regionalManager": "IFRC Regional Ops Manager",
         "regionalHead": "IFRC Regional Head of DCC",
-        "regionalCoordinator": "IFRC Global Ops Coordinator"
+        "regionalCoordinator": "IFRC Global Ops Coordinator",
+        "addPartnerNSContactButton": "Add Partner NS"
     }
 }

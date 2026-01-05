@@ -1,0 +1,10 @@
+{
+    "namespace": "contactInput",
+    "strings": {
+        "partnerNSNameLabel": "Name",
+        "partnerNSEmailLabel": "Email",
+        "partnerNSPhoneNumberLabel": "Phone Number",
+        "partnerNSTitleLabel": "Title",
+        "partnerNSDeleteButton": "Remove Contact"
+    }
+}

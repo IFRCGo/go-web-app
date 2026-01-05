@@ -47,6 +47,7 @@ import {
 } from './utils';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 type Key = EapListItem['id'];
 const ITEM_PER_PAGE = 6;
@@ -127,7 +128,7 @@ export function Component() {
                 (item) => item.eap_type_display,
             ),
             createElementColumn<EapListItem, number, EapStatusProps>(
-                'status_display',
+                'status',
                 strings.eapStatus,
                 EapStatus,
                 (key, row) => ({
@@ -135,6 +136,7 @@ export function Component() {
                     status: row.status,
                     onStatusUpdate: reloadEapList,
                 }),
+                { columnClassName: styles.status },
             ),
             createExpandColumn<EapListItem, Key>(
                 'expandRow',

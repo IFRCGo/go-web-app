@@ -1,4 +1,6 @@
 .expand-button {
+    width: max-content;
+
     .icon {
         font-size: var(--go-ui-height-icon-multiplier);
     }
