@@ -1,23 +1,30 @@
+import { useCallback } from 'react';
+import { AddLineIcon } from '@ifrc-go/icons';
 import {
+    Button,
     Container,
     InputSection,
     ListView,
     NumberInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { randomString } from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
     getErrorObject,
     type PartialForm,
+    useFormArray,
 } from '@togglecorp/toggle-form';
 
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
+import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type GoApiBody } from '#utils/restRequest';
+import PartnerContactsInput from '#views/PartnerContactInput';
 
 import ContactInputsSection from '../ContactInputsSection';
 import { type PartialSimplifiedEapType } from '../schema';
@@ -26,6 +33,7 @@ import i18n from './i18n.json';
 
 type EapRegisterRequestBody = GoApiBody<'/api/v2/eap-registration/', 'POST'>;
 type FormFields = PartialForm<EapRegisterRequestBody>;
+type PartnerContactFormFields = NonNullable<PartialSimplifiedEapType['partner_contacts']>[number];
 
 interface Props {
     value: PartialSimplifiedEapType;
@@ -54,6 +62,27 @@ function Overview(props: Props) {
     const error = getErrorObject(formError);
 
     const noOp = () => {};
+
+    const {
+        setValue: onPartnerContactChange,
+        removeValue: onPartnerContactRemove,
+    } = useFormArray<'partner_contacts', PartnerContactFormFields>(
+        'partner_contacts',
+        setFieldValue,
+    );
+
+    const handlePartnerContactAdd = useCallback(() => {
+        const newPartnerContactItem: PartnerContactFormFields = {
+            client_id: randomString(),
+        };
+
+        setFieldValue(
+            (oldValue: PartnerContactFormFields[] | undefined) => (
+                [...(oldValue ?? []), newPartnerContactItem]
+            ),
+            'partner_contacts' as const,
+        );
+    }, [setFieldValue]);
 
     return (
         <TabPage>
@@ -167,16 +196,33 @@ function Overview(props: Props) {
                                 disabled={disabled}
                                 readOnly={readOnly}
                             />
-                            <ContactInputsSection
+                            <InputSection
                                 title={strings.partnerNS}
                                 description={strings.partnerNSDescription}
-                                namePrefix="partner_ns"
-                                value={value}
-                                setFieldValue={setFieldValue}
-                                error={error}
-                                disabled={disabled}
-                                readOnly={readOnly}
-                            />
+                            >
+                                {/* FIXME: Add ReadOnly */}
+                                <NonFieldError error={getErrorObject(error?.partner_contacts)} />
+                                {value.partner_contacts?.map((contact, index) => (
+                                    <PartnerContactsInput
+                                        key={contact.client_id}
+                                        index={index}
+                                        value={contact}
+                                        onChange={onPartnerContactChange}
+                                        onRemove={onPartnerContactRemove}
+                                        error={getErrorObject(error?.partner_contacts)}
+                                        disabled={disabled}
+                                    />
+                                ))}
+                                {/* FIXME: Add ReadOnly */}
+                                <Button
+                                    name={undefined}
+                                    onClick={handlePartnerContactAdd}
+                                    disabled={disabled}
+                                    before={<AddLineIcon />}
+                                >
+                                    {strings.addPartnerNSContactButton}
+                                </Button>
+                            </InputSection>
                         </ListView>
                     </Container>
                     <Container
