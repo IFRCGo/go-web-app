@@ -4,6 +4,7 @@ import {
     type BooleanOutputProps,
     DateOutput,
     type DateOutputProps,
+    ListView,
     NumberOutput,
     type NumberOutputProps,
 } from '@ifrc-go/ui';
@@ -16,7 +17,12 @@ import {
     paddingSpacings,
     type SpacingType,
 } from '@ifrc-go/ui/utils';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+    isNotDefined,
+    isTruthyString,
+} from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
@@ -31,28 +37,34 @@ interface BaseProps {
     withPadding?: boolean;
     withBackground?: boolean;
     spacing?: SpacingType;
+    withDiff?: boolean;
 }
 
 interface BooleanProps extends BooleanOutputProps {
     valueType: 'boolean',
+    prevValue?: BooleanOutputProps['value'];
 }
 
 interface NumberProps extends NumberOutputProps {
     valueType: 'number',
+    prevValue?: NumberOutputProps['value'];
 }
 
 interface DateProps extends DateOutputProps {
     valueType: 'date',
+    prevValue?: DateProps['value'];
 }
 
 interface TextProps {
     valueType: 'text',
     value: string | null | undefined;
+    prevValue?: TextProps['value'];
 }
 
 interface NodeProps {
     valueType?: never;
     value?: React.ReactNode;
+    prevValue?: never;
 }
 
 type Props = BaseProps & (
@@ -71,57 +83,136 @@ function PrintableDataDisplay(props: Props) {
         withPadding,
         withBackground,
         spacing,
+        withDiff,
         ...otherProps
     } = props;
 
     const valueComponent = useMemo(() => {
-        if (otherProps.valueType === 'number') {
+        const {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            prevValue: _,
+            ...componentProps
+        } = otherProps;
+
+        if (componentProps.valueType === 'number') {
             return (
                 <NumberOutput
                     // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...otherProps}
+                    {...componentProps}
                     invalidText={invalidText}
                 />
             );
         }
 
-        if (otherProps.valueType === 'date') {
+        if (componentProps.valueType === 'date') {
             return (
                 <DateOutput
                     // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...otherProps}
+                    {...componentProps}
                     invalidText={invalidText}
                     format={DEFAULT_PRINT_DATE_FORMAT}
                 />
             );
         }
 
-        if (otherProps.valueType === 'boolean') {
+        if (componentProps.valueType === 'boolean') {
             return (
                 <BooleanOutput
                     // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...otherProps}
+                    {...componentProps}
                     invalidText={invalidText}
                 />
             );
         }
 
-        if (!(otherProps.value instanceof Date)) {
-            return otherProps.value || invalidText;
+        if (!(componentProps.value instanceof Date)) {
+            return componentProps.value || invalidText;
         }
 
         return invalidText;
     }, [otherProps, invalidText]);
 
+    const prevValueComponent = useMemo(() => {
+        const {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            value: _,
+            ...componentProps
+        } = otherProps;
+
+        if (!withDiff) {
+            return null;
+        }
+
+        if (componentProps.valueType === 'number') {
+            return (
+                <NumberOutput
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...componentProps}
+                    invalidText={invalidText}
+                    value={componentProps.prevValue}
+                />
+            );
+        }
+
+        if (componentProps.valueType === 'date') {
+            return (
+                <DateOutput
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...componentProps}
+                    invalidText={invalidText}
+                    format={DEFAULT_PRINT_DATE_FORMAT}
+                    value={componentProps.prevValue}
+                />
+            );
+        }
+
+        if (componentProps.valueType === 'boolean') {
+            return (
+                <BooleanOutput
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...componentProps}
+                    invalidText={invalidText}
+                    value={componentProps.prevValue}
+                />
+            );
+        }
+
+        if (isTruthyString(componentProps.prevValue)) {
+            return componentProps.prevValue;
+        }
+
+        return invalidText;
+    }, [withDiff, otherProps, invalidText]);
+
+    const { value, valueType, prevValue } = otherProps;
+
+    const diffType: 'added' | 'removed' | 'updated' | undefined = useMemo(() => {
+        if (isNotDefined(prevValue) && isDefined(value)) {
+            return 'added';
+        }
+
+        if (isNotDefined(value) && isDefined(prevValue)) {
+            return 'removed';
+        }
+
+        if (isDefined(valueType) && value !== prevValue) {
+            return 'updated';
+        }
+
+        return undefined;
+    }, [value, prevValue, valueType]);
+
+    const spacingOffset = -3;
+
     const spacingClassName = useSpacingToken({
         spacing,
-        offset: -3,
+        offset: spacingOffset,
         modes: withPadding ? fullSpacings : gapSpacings,
     });
 
     const innerPaddingClassName = useSpacingToken({
         spacing,
-        offset: -3,
+        offset: spacingOffset,
         modes: paddingSpacings,
     });
 
@@ -155,7 +246,26 @@ function PrintableDataDisplay(props: Props) {
                     otherProps.valueType === 'text' && styles.textType,
                 )}
             >
-                {valueComponent}
+                {!withDiff && valueComponent}
+                {withDiff && (
+                    <ListView
+                        withWrap
+                        spacing={spacing}
+                        spacingOffset={spacingOffset}
+                        className={_cs(
+                            diffType === 'added' && styles.added,
+                            diffType === 'updated' && styles.added,
+                            diffType === 'removed' && styles.removed,
+                        )}
+                    >
+                        {diffType === 'updated' && (
+                            <span className={styles.removed}>{prevValueComponent}</span>
+                        )}
+                        <span className={styles.added}>
+                            {valueComponent}
+                        </span>
+                    </ListView>
+                )}
             </div>
         </div>
     );
