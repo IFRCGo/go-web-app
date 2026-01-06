@@ -10,26 +10,34 @@ import { diffSentences } from 'diff';
 
 import styles from './styles.module.css';
 
-interface Props {
+interface CommonProps {
     value?: string | null;
     className?: string;
-    prevValue?: string | null;
 }
+
+type Props = CommonProps & ({
+    withDiff?: false;
+    prevValue?: never;
+} | {
+    withDiff: true;
+    prevValue: string | undefined | null;
+})
 
 function PrintableDescription(props: Props) {
     const {
         className,
         value,
         prevValue,
+        withDiff = false,
     } = props;
 
     const diff = useMemo(() => {
-        if (isNotDefined(value) || isNotDefined(prevValue)) {
+        if (!withDiff) {
             return undefined;
         }
 
-        return diffSentences(prevValue, value);
-    }, [value, prevValue]);
+        return diffSentences(prevValue ?? '', value ?? '');
+    }, [withDiff, value, prevValue]);
 
     if (isNotDefined(diff)) {
         return (
