@@ -381,6 +381,7 @@ function OperationsBySectorInput(props: Props) {
                                                     href="https://www.anticipation-hub.org/experience/early-action/early-action-database/ea-list"
                                                     styleVariant="action"
                                                     external
+                                                    withLinkIcon
                                                 >
                                                     {strings.earlyActionDatabaseLink}
                                                 </Link>
