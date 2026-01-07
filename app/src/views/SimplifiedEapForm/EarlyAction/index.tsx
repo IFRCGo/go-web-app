@@ -78,7 +78,10 @@ function EarlyAction(props: Props) {
                     title={strings.intervention}
                     description={strings.interventionDescription}
                     tooltip={(
-                        <>
+                        <ListView
+                            layout="block"
+                            spacing="3xs"
+                        >
                             {strings.interventiontooltipDescription}
                             <ul>
                                 <li>
@@ -91,7 +94,7 @@ function EarlyAction(props: Props) {
                                     {strings.interventiontooltipDescriptionListThree}
                                 </li>
                             </ul>
-                        </>
+                        </ListView>
                     )}
                     withAsteriskOnTitle
                 >
@@ -116,6 +119,7 @@ function EarlyAction(props: Props) {
                                     href="https://manual.forecast-based-financing.org/en/chapter/set-the-trigger/"
                                     styleVariant="action"
                                     external
+                                    withLinkIcon
                                 >
                                     {strings.practitionersManualLink}
                                 </Link>
@@ -202,49 +206,58 @@ function EarlyAction(props: Props) {
                     title={strings.actionsStatement}
                     description={strings.actionsStatementDescription}
                     tooltip={(
-                        <ListView layout="block">
-                            {strings.actionsStatementDescriptionTooltipDescriptionOne}
+                        <ListView
+                            layout="block"
+                            spacing="3xs"
+                        >
+                            {strings.actionsStatementTooltipDescriptionOne}
                             <TextOutput
                                 strongLabel
-                                label={strings.actionsStatementDescriptionTooltipDescriptionTwo}
-                                value={strings.actionsStatementDescriptionTooltipDescriptionThree}
+                                label={strings.actionsStatementTooltipDescriptionTwo}
+                                value={strings.actionsStatementTooltipDescriptionThree}
                             />
                             <ul>
                                 <li>
-                                    {strings.actionsStatementDescriptionTooltipListOne}
+                                    {strings.actionsStatementTooltipListOne}
                                 </li>
                                 <li>
-                                    {strings.actionsStatementDescriptionTooltipListTwo}
+                                    {strings.actionsStatementTooltipListTwo}
                                 </li>
                                 <li>
-                                    {strings.actionsStatementDescriptionTooltipListThree}
+                                    {strings.actionsStatementTooltipListThree}
                                 </li>
                                 <li>
-                                    {strings.actionsStatementDescriptionTooltipListFour}
+                                    {strings.actionsStatementTooltipListFour}
                                 </li>
                             </ul>
                             <TextOutput
                                 strongLabel
-                                label={strings.actionsStatementDescriptionTooltipDescriptionFour}
-                                value={strings.actionsStatementDescriptionTooltipDescriptionFive}
-                            />
-                            {strings.actionsStatementDescriptionTooltipDescriptionSix}
-                            <p>
-                                {resolveToComponent(
-                                    strings.actionsStatementDescriptionTooltipDescriptionSeven,
-                                    {
-                                        triggerDatabaseLink: (
-                                            <Link
-                                                href="https://www.anticipation-hub.org/experience/triggers/trigger-database/trigger-list"
-                                                styleVariant="action"
-                                                external
-                                            >
-                                                {strings.triggerDatabaseLink}
-                                            </Link>
-                                        ),
-                                    },
+                                label={strings.actionsStatementTooltipDescriptionFour}
+                                value={(
+                                    <ListView
+                                        layout="block"
+                                        spacing="3xs"
+                                    >
+                                        <p>{strings.actionsStatementTooltipDescriptionFive}</p>
+                                        <p>{strings.actionsStatementTooltipDescriptionSix}</p>
+                                        {resolveToComponent(
+                                            strings.actionsStatementTooltipDescriptionSeven,
+                                            {
+                                                triggerDatabaseLink: (
+                                                    <Link
+                                                        href="https://www.anticipation-hub.org/experience/triggers/trigger-database/trigger-list"
+                                                        styleVariant="action"
+                                                        external
+                                                        withLinkIcon
+                                                    >
+                                                        {strings.triggerDatabaseLink}
+                                                    </Link>
+                                                ),
+                                            },
+                                        )}
+                                    </ListView>
                                 )}
-                            </p>
+                            />
                         </ListView>
                     )}
                     withAsteriskOnTitle
@@ -319,8 +332,11 @@ function EarlyAction(props: Props) {
                     title={strings.justification}
                     description={strings.justificationDescription}
                     tooltip={(
-                        <ListView layout="block">
-                            <p>{strings.justificationTooltipDescriptionOne}</p>
+                        <ListView
+                            layout="block"
+                            spacing="3xs"
+                        >
+                            {strings.justificationTooltipDescriptionOne}
                             <TextOutput
                                 strongLabel
                                 label={strings.justificationTooltipDescriptionTwo}

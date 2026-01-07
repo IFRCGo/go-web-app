@@ -54,65 +54,78 @@ function RiskAnalysis(props: Props) {
                     <InputSection
                         title={strings.historicalImpact}
                         description={strings.riskDescription}
-                        tooltip={(resolveToComponent(
-                            strings.riskTooltipDescription,
-                            {
-                                drefOperationsLink: (
-                                    <Link
-                                        href="https://www.ifrc.org/appeals"
-                                        styleVariant="action"
-                                        external
-                                    >
-                                        {strings.drefOperationsLink}
-                                    </Link>
-                                ),
-                                goPlatformLink: (
-                                    <Link
-                                        href="https://go.ifrc.org/"
-                                        styleVariant="action"
-                                        external
-                                    >
-                                        {strings.goPlatformLink}
-                                    </Link>
-                                ),
-                                reliefwebLink: (
-                                    <Link
-                                        href="https://reliefweb.int/countries"
-                                        styleVariant="action"
-                                        external
-                                    >
-                                        {strings.reliefwebLink}
-                                    </Link>
-                                ),
-                                desinventarLink: (
-                                    <Link
-                                        href="https://www.desinventar.net/DesInventar/index.jsp"
-                                        styleVariant="action"
-                                        external
-                                    >
-                                        {strings.desinventarLink}
-                                    </Link>
-                                ),
-                                eMdATLink: (
-                                    <Link
-                                        href="https://public.emdat.be/"
-                                        styleVariant="action"
-                                        external
-                                    >
-                                        {strings.eMdATLink}
-                                    </Link>
-                                ),
-                                idmcLink: (
-                                    <Link
-                                        href="https://www.internal-displacement.org/#:~:text=IDMC&text=Every%20day%2C%20people%20flee%20conflict,implement%20solutions%20to%20internal%20displacement."
-                                        styleVariant="action"
-                                        external
-                                    >
-                                        {strings.idmcLink}
-                                    </Link>
-                                ),
-                            },
-                        ))}
+                        tooltip={(
+                            <ListView
+                                layout="block"
+                                spacing="3xs"
+                            >
+                                {resolveToComponent(
+                                    strings.riskTooltipDescription,
+                                    {
+                                        drefOperationsLink: (
+                                            <Link
+                                                href="https://www.ifrc.org/appeals"
+                                                styleVariant="action"
+                                                external
+                                                withLinkIcon
+                                            >
+                                                {strings.drefOperationsLink}
+                                            </Link>
+                                        ),
+                                        goPlatformLink: (
+                                            <Link
+                                                href="https://go.ifrc.org/"
+                                                styleVariant="action"
+                                                external
+                                                withLinkIcon
+                                            >
+                                                {strings.goPlatformLink}
+                                            </Link>
+                                        ),
+                                        reliefwebLink: (
+                                            <Link
+                                                href="https://reliefweb.int/countries"
+                                                styleVariant="action"
+                                                external
+                                                withLinkIcon
+                                            >
+                                                {strings.reliefwebLink}
+                                            </Link>
+                                        ),
+                                        desinventarLink: (
+                                            <Link
+                                                href="https://www.desinventar.net/DesInventar/index.jsp"
+                                                styleVariant="action"
+                                                external
+                                                withLinkIcon
+                                            >
+                                                {strings.desinventarLink}
+                                            </Link>
+                                        ),
+                                        eMdATLink: (
+                                            <Link
+                                                href="https://public.emdat.be/"
+                                                styleVariant="action"
+                                                external
+                                                withLinkIcon
+                                            >
+                                                {strings.eMdATLink}
+                                            </Link>
+                                        ),
+                                        idmcLink: (
+                                            <Link
+                                                href="https://www.internal-displacement.org/"
+                                                styleVariant="action"
+                                                external
+                                                withLinkIcon
+                                            >
+                                                {strings.idmcLink}
+                                            </Link>
+                                        ),
+                                    },
+                                )}
+                            </ListView>
+                        )}
                         withAsteriskOnTitle
                     >
                         <TextArea
@@ -163,6 +176,30 @@ function RiskAnalysis(props: Props) {
                         />
                     </InputSection>
                 </ListView>
+                <InputSection
+                    title={strings.riskProtocol}
+                    description={strings.riskProtocolDescription}
+                    withAsteriskOnTitle
+                >
+                    <TextArea
+                        label={strings.riskDescriptionLabel}
+                        name="risks_selected_protocols"
+                        value={value?.risks_selected_protocols}
+                        onChange={setFieldValue}
+                        error={error?.risks_selected_protocols}
+                        disabled={disabled}
+                    />
+                    <MultiImageWithCaptionInput
+                        name="risk_selected_protocols_images"
+                        url="/api/v2/eap-file/multiple/"
+                        value={value?.risk_selected_protocols_images}
+                        onChange={setFieldValue}
+                        error={getErrorObject(error?.risk_selected_protocols_images)}
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        disabled={disabled}
+                    />
+                </InputSection>
             </Container>
             <Container heading={strings.earlyActionSelection}>
                 <ListView
@@ -173,23 +210,25 @@ function RiskAnalysis(props: Props) {
                         title={strings.selectedEarlyAction}
                         description={strings.selectedEarlyActionDescription}
                         tooltip={(
-                            <ListView layout="block">
-                                <p>
-                                    {resolveToComponent(
-                                        strings.selectedEarlyActionTooltipDescriptionOne,
-                                        {
-                                            earlyActionsLink: (
-                                                <Link
-                                                    href="https://manual.forecast-based-financing.org/en/chapter/select-early-actions/"
-                                                    styleVariant="action"
-                                                    external
-                                                >
-                                                    {strings.earlyActionsLink}
-                                                </Link>
-                                            ),
-                                        },
-                                    )}
-                                </p>
+                            <ListView
+                                layout="block"
+                                spacing="3xs"
+                            >
+                                {resolveToComponent(
+                                    strings.selectedEarlyActionTooltipDescriptionOne,
+                                    {
+                                        earlyActionsLink: (
+                                            <Link
+                                                href="https://manual.forecast-based-financing.org/en/chapter/select-early-actions/"
+                                                styleVariant="action"
+                                                external
+                                                withLinkIcon
+                                            >
+                                                {strings.earlyActionsLink}
+                                            </Link>
+                                        ),
+                                    },
+                                )}
                                 {strings.selectedEarlyActionTooltipDescriptionTwo}
                                 <ul>
                                     <li>

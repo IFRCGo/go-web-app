@@ -64,7 +64,6 @@ function DeliveryAndBudget(props: Props) {
             <Container heading={strings.deliverHeading}>
                 <ListView
                     layout="block"
-                    spacing="sm"
                 >
                     <InputSection
                         title={strings.deliverEarlyActions}
@@ -86,8 +85,11 @@ function DeliveryAndBudget(props: Props) {
                         title={strings.deliverInvolved}
                         description={strings.deliverInvolvedDescription}
                         tooltip={(
-                            <ListView layout="block">
-                                <p>{strings.deliverInvolvedTooltipDescriptionOne}</p>
+                            <ListView
+                                layout="block"
+                                spacing="3xs"
+                            >
+                                {strings.deliverInvolvedTooltipDescriptionOne}
                                 <TextOutput
                                     strongLabel
                                     label={strings.deliverInvolvedTooltipDescriptionTwo}
@@ -99,6 +101,7 @@ function DeliveryAndBudget(props: Props) {
                                                     href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQn1ca51QIBCgok06lTQUFUBdmFAz3k28QkRMzbxMnRv1A?e=uBzYht"
                                                     styleVariant="action"
                                                     external
+                                                    withLinkIcon
                                                 >
                                                     {strings.guideLink}
                                                 </Link>
@@ -106,7 +109,7 @@ function DeliveryAndBudget(props: Props) {
                                         },
                                     )}
                                 />
-                                <p>{strings.deliverInvolvedTooltipDescriptionFour}</p>
+                                {strings.deliverInvolvedTooltipDescriptionFour}
                                 <ul>
                                     <li>{strings.deliverInvolvedTooltipListOne}</li>
                                     <li>{strings.deliverInvolvedTooltipListTwo}</li>
@@ -131,58 +134,64 @@ function DeliveryAndBudget(props: Props) {
             </Container>
             <Container
                 heading={(
-                    <ListView layout="inline">
+                    <ListView
+                        layout="inline"
+                        spacing="sm"
+                    >
                         {strings.budgetHeading}
                         <InfoPopup
                             description={(
-                                <ListView layout="block">
-                                    <p>
-                                        {resolveToComponent(
-                                            strings.deliverTotalBudgetTooltipDescription,
-                                            {
-                                                hereLink: (
-                                                    <Link
-                                                        href="https://ifrcorg.sharepoint.com/:x:/s/IFRCSharing/EYPXxZjKUdNJrifrpPBDAEgB0gWWyzb5SayqJqU56HvEnQ?e=GAiaFP"
-                                                        styleVariant="action"
-                                                        external
-                                                    >
-                                                        {strings.hereLink}
-                                                    </Link>
-                                                ),
-                                            },
-                                        )}
-                                    </p>
-                                    <ul>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListOne}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListTwo}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListThree}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListFour}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListFive}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListSix}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListSeven}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListEight}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListNine}
-                                        </li>
-                                    </ul>
-                                    {strings.deliverTotalBudgetTooltipListSix}
-                                </ListView>
+                                <>
+                                    {resolveToComponent(
+                                        strings.deliverTotalBudgetTooltipDescription,
+                                        {
+                                            hereLink: (
+                                                <Link
+                                                    href="https://ifrcorg.sharepoint.com/:x:/s/IFRCSharing/EYPXxZjKUdNJrifrpPBDAEgB0gWWyzb5SayqJqU56HvEnQ?e=GAiaFP"
+                                                    styleVariant="action"
+                                                    external
+                                                    withLinkIcon
+                                                >
+                                                    {strings.hereLink}
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                    <ListView
+                                        layout="block"
+                                        spacing="3xs"
+                                    >
+                                        <ul>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListOne}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListTwo}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListThree}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListFour}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListFive}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListSix}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListSeven}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListEight}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListNine}
+                                            </li>
+                                        </ul>
+                                    </ListView>
+                                </>
                             )}
                         />
                     </ListView>
