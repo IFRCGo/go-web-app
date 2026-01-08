@@ -133,9 +133,9 @@ function EapTableActions(props: Props) {
             )}
             {type === 'development' && (
                 <>
-                    {eap.eap_type === EAP_TYPE_SIMPLIFIED && isCreated && (
+                    {isCreated && (
                         <Link
-                            to="simplifiedEapExport"
+                            to="eapExport"
                             urlParams={{ eapId: eap.id }}
                             urlSearch={isDefined(details?.data.version)
                                 ? `version=${details.data.version}`

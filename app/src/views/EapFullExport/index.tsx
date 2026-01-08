@@ -2,16 +2,12 @@ import {
     useCallback,
     useMemo,
 } from 'react';
-import {
-    useParams,
-    useSearchParams,
-} from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Label } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { Image } from '@ifrc-go/ui/printable';
 import {
     isDefined,
-    isFalsyString,
     isNotDefined,
     isTruthyString,
     listToMap,
@@ -37,27 +33,23 @@ type Sector = NonNullable<
     >[number]
 >['sector'];
 
+type EapRegistrationResponse = GoApiResponse<'/api/v2/eap-registration/{id}/'>;
+
+interface Props {
+    eapRegistrationResponse: EapRegistrationResponse;
+    eapRegistrationPending: boolean;
+}
+
 /** @knipignore */
-// eslint-disable-next-line import/prefer-default-export
-export function Component() {
-    const { eapId } = useParams<{ eapId: string }>();
+export default function EapFullExport(props: Props) {
+    const { eapRegistrationResponse, eapRegistrationPending } = props;
 
     const [searchParams] = useSearchParams();
 
     const strings = useTranslation(i18n);
 
     const version = searchParams.get('version') ?? undefined;
-    const showDiff = searchParams.get('diff') ?? undefined;
-
-    const { pending: eapRegistrationPending, response: eapRegistrationResponse } = useRequest({
-        skip: isFalsyString(eapId),
-        url: '/api/v2/eap-registration/{id}/',
-        pathVariables: isTruthyString(eapId)
-            ? {
-                id: Number(eapId),
-            }
-            : undefined,
-    });
+    const withDiff = searchParams.get('diff')?.toLowerCase() === 'true';
 
     const selectedFullEap = eapRegistrationResponse?.full_eap_details?.find(
         (fullEap) => String(fullEap.version) === String(version),
@@ -90,7 +82,7 @@ export function Component() {
     });
 
     const { pending: prevFullEapPending, response: prevFullEapResponse } = useRequest({
-        skip: isNotDefined(prevFullEap) || showDiff?.toLowerCase() !== 'true',
+        skip: isNotDefined(prevFullEap) || !withDiff,
         url: '/api/v2/full-eap/{id}/',
         pathVariables: isDefined(prevFullEap)
             ? {
@@ -524,6 +516,7 @@ export function Component() {
                             variant="block"
                             withPadding
                             withBackground
+                            withDiff={withDiff}
                         />
                         <PrintableDataDisplay
                             label={strings.eapTimeframeLabel}
@@ -533,6 +526,7 @@ export function Component() {
                             variant="block"
                             withPadding
                             withBackground
+                            withDiff={withDiff}
                         />
                         <PrintableDataDisplay
                             label={strings.eapApprovedLabel}
@@ -542,6 +536,7 @@ export function Component() {
                             variant="block"
                             withPadding
                             withBackground
+                            withDiff={withDiff}
                         />
                     </div>
                     <PrintableDataDisplay
@@ -553,6 +548,7 @@ export function Component() {
                         variant="block"
                         withPadding
                         withBackground
+                        withDiff={withDiff}
                     />
                 </div>
             </PrintableContainer>
@@ -571,6 +567,7 @@ export function Component() {
                     </Label>
                     <PrintableDataDisplay
                         label={strings.nationalSocietyContactLabel}
+                        valueType="text"
                         value={[
                             national_society_contact_name,
                             national_society_contact_title,
@@ -589,9 +586,12 @@ export function Component() {
                             .join(', ')}
                         variant="inline"
                         strongLabel
+                        withDiff={withDiff}
                     />
                     <PrintableDataDisplay
                         label={strings.partnerNationalSocietyContactLabel}
+                        valueType="text"
+                        withDiff={withDiff}
                         value={[
                             partner_ns_name,
                             partner_ns_email,
@@ -619,6 +619,8 @@ export function Component() {
                     </Label>
                     <PrintableDataDisplay
                         label={strings.delegationFocalLabel}
+                        valueType="text"
+                        withDiff={withDiff}
                         value={[
                             ifrc_delegation_focal_point_name,
                             ifrc_delegation_focal_point_email,
@@ -640,6 +642,8 @@ export function Component() {
                     />
                     <PrintableDataDisplay
                         label={strings.delegationHeadLabel}
+                        valueType="text"
+                        withDiff={withDiff}
                         value={[
                             ifrc_head_of_delegation_name,
                             ifrc_head_of_delegation_title,
@@ -666,6 +670,8 @@ export function Component() {
                     </Label>
                     <PrintableDataDisplay
                         label={strings.drefFocalLabel}
+                        valueType="text"
+                        withDiff={withDiff}
                         value={[
                             dref_focal_point_name,
                             dref_focal_point_email,
@@ -687,6 +693,8 @@ export function Component() {
                     />
                     <PrintableDataDisplay
                         label={strings.regionalFocalLabel}
+                        valueType="text"
+                        withDiff={withDiff}
                         value={[
                             ifrc_regional_focal_point_name,
                             ifrc_regional_focal_point_email,
@@ -708,6 +716,8 @@ export function Component() {
                     />
                     <PrintableDataDisplay
                         label={strings.regionalOpsLabel}
+                        valueType="text"
+                        withDiff={withDiff}
                         value={[
                             ifrc_regional_ops_manager_name,
                             ifrc_regional_ops_manager_email,
@@ -729,6 +739,8 @@ export function Component() {
                     />
                     <PrintableDataDisplay
                         label={strings.regionalHeadLabel}
+                        valueType="text"
+                        withDiff={withDiff}
                         value={[
                             ifrc_regional_head_dcc_name,
                             ifrc_regional_head_dcc_email,
@@ -750,6 +762,8 @@ export function Component() {
                     />
                     <PrintableDataDisplay
                         label={strings.globalOpsLabel}
+                        valueType="text"
+                        withDiff={withDiff}
                         value={[
                             ifrc_global_ops_coordinator_name,
                             ifrc_global_ops_coordinator_email,
@@ -783,6 +797,7 @@ export function Component() {
                         valueType="boolean"
                         variant="inline"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -794,6 +809,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer heading={strings.keyActorsHeading} headingLevel={6}>
@@ -809,6 +825,7 @@ export function Component() {
                                 valueType="text"
                                 variant="inline"
                                 strongLabel
+                                withDiff={withDiff}
                             />
                             <PrintableDataDisplay
                                 label={strings.descriptionLabel}
@@ -819,6 +836,7 @@ export function Component() {
                                 valueType="text"
                                 variant="inline"
                                 strongLabel
+                                withDiff={withDiff}
                             />
                         </>
                     ))}
@@ -835,6 +853,7 @@ export function Component() {
                             valueType="boolean"
                             variant="inline"
                             strongLabel
+                            withDiff={withDiff}
                         />
                     </PrintableContainer>
                     <PrintableContainer>
@@ -846,6 +865,7 @@ export function Component() {
                             withoutLabelColon
                             variant="inline"
                             strongLabel
+                            withDiff={withDiff}
                         />
                     </PrintableContainer>
                     <PrintableContainer>
@@ -857,6 +877,7 @@ export function Component() {
                             withoutLabelColon
                             variant="block"
                             strongLabel
+                            withDiff={withDiff}
                         />
                     </PrintableContainer>
                 </PrintableContainer>
@@ -874,6 +895,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -890,6 +912,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -930,6 +953,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -955,6 +979,7 @@ export function Component() {
                                     valueType="text"
                                     variant="inline"
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                                 <PrintableDataDisplay
                                     label={strings.linkLabel}
@@ -965,6 +990,7 @@ export function Component() {
                                     valueType="text"
                                     variant="inline"
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                             </>
                         ))}
@@ -984,6 +1010,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -994,6 +1021,7 @@ export function Component() {
                         valueType="number"
                         variant="inline"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1013,6 +1041,7 @@ export function Component() {
                                     valueType="text"
                                     variant="inline"
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                                 <PrintableDataDisplay
                                     label={strings.linkLabel}
@@ -1024,6 +1053,7 @@ export function Component() {
                                     valueType="text"
                                     variant="inline"
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                             </>
                         ))}
@@ -1038,6 +1068,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1061,6 +1092,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1081,6 +1113,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1107,6 +1140,7 @@ export function Component() {
                                     valueType="text"
                                     variant="inline"
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                                 <PrintableDataDisplay
                                     label={strings.linkLabel}
@@ -1118,6 +1152,7 @@ export function Component() {
                                     valueType="text"
                                     variant="inline"
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                             </>
                         ))}
@@ -1155,6 +1190,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1182,6 +1218,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1201,6 +1238,7 @@ export function Component() {
                                     valueType="text"
                                     variant="inline"
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                                 <PrintableDataDisplay
                                     label={strings.linkLabel}
@@ -1212,6 +1250,7 @@ export function Component() {
                                     valueType="text"
                                     variant="inline"
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                             </>
                         ))}
@@ -1226,6 +1265,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer
@@ -1249,6 +1289,7 @@ export function Component() {
                                     valueType="number"
                                     prefix="CHF "
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                                 <PrintableDataDisplay
                                     label={strings.operationPeopleTargetedLabel}
@@ -1259,6 +1300,7 @@ export function Component() {
                                     }
                                     valueType="number"
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                                 <PrintableDataDisplay
                                     label="AP Code"
@@ -1268,6 +1310,7 @@ export function Component() {
                                     }
                                     valueType="number"
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                             </PrintableContainer>
                             <PrintableContainer
@@ -1296,6 +1339,7 @@ export function Component() {
                                             withBackground
                                             withPadding
                                             withoutLabelColon
+                                            withDiff={withDiff}
                                         />
                                     ))}
                                 </div>
@@ -1316,6 +1360,7 @@ export function Component() {
                                             withBackground
                                             withPadding
                                             withoutLabelColon
+                                            withDiff={withDiff}
                                         />
                                     ))}
                                 </div>
@@ -1337,6 +1382,7 @@ export function Component() {
                                                 withBackground
                                                 withPadding
                                                 withoutLabelColon
+                                                withDiff={withDiff}
                                             />
                                         ),
                                     )}
@@ -1358,6 +1404,7 @@ export function Component() {
                                             withBackground
                                             withPadding
                                             withoutLabelColon
+                                            withDiff={withDiff}
                                         />
                                     ))}
                                 </div>
@@ -1386,6 +1433,7 @@ export function Component() {
                                     valueType="number"
                                     prefix="CHF "
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                             </PrintableContainer>
                             <PrintableDataDisplay
@@ -1394,6 +1442,7 @@ export function Component() {
                                 prevValue={prevEnableApproachesMapping[approach.id!]?.ap_code}
                                 valueType="number"
                                 strongLabel
+                                withDiff={withDiff}
                             />
                             <PrintableContainer
                                 heading={strings.indicatorsHeading}
@@ -1418,6 +1467,7 @@ export function Component() {
                                             withBackground
                                             withPadding
                                             withoutLabelColon
+                                            withDiff={withDiff}
                                         />
                                     ))}
                                 </div>
@@ -1438,6 +1488,7 @@ export function Component() {
                                             withBackground
                                             withPadding
                                             withoutLabelColon
+                                            withDiff={withDiff}
                                         />
                                     ))}
                                 </div>
@@ -1458,6 +1509,7 @@ export function Component() {
                                             withBackground
                                             withPadding
                                             withoutLabelColon
+                                            withDiff={withDiff}
                                         />
                                     ))}
                                 </div>
@@ -1478,6 +1530,7 @@ export function Component() {
                                             withBackground
                                             withPadding
                                             withoutLabelColon
+                                            withDiff={withDiff}
                                         />
                                     ))}
                                 </div>
@@ -1494,6 +1547,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
             </PrintableContainer>
@@ -1510,6 +1564,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1528,6 +1583,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1545,6 +1601,7 @@ export function Component() {
                         valueType="number"
                         variant="inline"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1556,6 +1613,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1567,6 +1625,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1586,6 +1645,7 @@ export function Component() {
                                     valueType="text"
                                     variant="inline"
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                                 <PrintableDataDisplay
                                     label={strings.linkLabel}
@@ -1597,6 +1657,7 @@ export function Component() {
                                     valueType="text"
                                     variant="inline"
                                     strongLabel
+                                    withDiff={withDiff}
                                 />
                             </>
                         ))}
@@ -1613,6 +1674,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
             </PrintableContainer>
@@ -1629,6 +1691,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1640,6 +1703,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1651,6 +1715,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
             </PrintableContainer>
@@ -1666,6 +1731,7 @@ export function Component() {
                         valueType="number"
                         variant="inline"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1677,6 +1743,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1692,6 +1759,7 @@ export function Component() {
                         valueType="number"
                         variant="inline"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1703,6 +1771,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1713,6 +1782,7 @@ export function Component() {
                         valueType="number"
                         variant="inline"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1724,6 +1794,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1734,6 +1805,7 @@ export function Component() {
                         valueType="number"
                         variant="inline"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1745,6 +1817,7 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1756,11 +1829,10 @@ export function Component() {
                         withoutLabelColon
                         variant="block"
                         strongLabel
+                        withDiff={withDiff}
                     />
                 </PrintableContainer>
             </PrintableContainer>
         </PrintablePage>
     );
 }
-
-Component.displayName = 'EapFullExport';

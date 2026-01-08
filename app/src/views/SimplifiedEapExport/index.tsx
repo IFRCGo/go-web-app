@@ -1,7 +1,4 @@
-import {
-    useParams,
-    useSearchParams,
-} from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import {
     Label,
     ListView,
@@ -10,7 +7,6 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import { Image } from '@ifrc-go/ui/printable';
 import {
     isDefined,
-    isFalsyString,
     isNotDefined,
     isTruthyString,
     listToMap,
@@ -22,7 +18,10 @@ import PrintableDescription from '#components/printable/PrintableDescription';
 import PrintableLabel from '#components/printable/PrintableLabel';
 import PrintablePage from '#components/printable/PrintablePage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import { useRequest } from '#utils/restRequest';
+import {
+    type GoApiResponse,
+    useRequest,
+} from '#utils/restRequest';
 
 import PrintableActivityOutput from './PrintableActivityOutput';
 import PrintableContactOutput from './PrintableContactOutput';
@@ -30,27 +29,22 @@ import PrintableContactOutput from './PrintableContactOutput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type EapRegistrationResponse = GoApiResponse<'/api/v2/eap-registration/{id}/'>;
+
+interface Props {
+    eapRegistrationResponse: EapRegistrationResponse;
+    eapRegistrationPending: boolean;
+}
+
 /** @knipignore */
-// eslint-disable-next-line import/prefer-default-export
-export function Component() {
-    const { eapId } = useParams<{ eapId: string }>();
+export default function SimplifiedEapExport(props: Props) {
+    const { eapRegistrationResponse, eapRegistrationPending } = props;
     const [searchParams] = useSearchParams();
 
     const version = searchParams.get('version') ?? undefined;
     const withDiff = searchParams.get('diff')?.toLowerCase() === 'true';
 
     const strings = useTranslation(i18n);
-
-    const {
-        pending: eapRegistrationPending,
-        response: eapRegistrationResponse,
-    } = useRequest({
-        skip: isFalsyString(eapId),
-        url: '/api/v2/eap-registration/{id}/',
-        pathVariables: isTruthyString(eapId) ? {
-            id: Number(eapId),
-        } : undefined,
-    });
 
     const selectedSimplifiedEap = eapRegistrationResponse?.simplified_eap_details?.find(
         (simplifiedEap) => String(simplifiedEap.version) === String(version),
@@ -72,15 +66,14 @@ export function Component() {
         (simplifiedEap) => simplifiedEap.version === prevSimplifiedEapVersion,
     );
 
-    const {
-        pending: simplifiedEapPending,
-        response: simplifiedEapResponse,
-    } = useRequest({
+    const { pending: simplifiedEapPending, response: simplifiedEapResponse } = useRequest({
         skip: isNotDefined(currentSimplifiedEapId),
         url: '/api/v2/simplified-eap/{id}/',
-        pathVariables: isDefined(currentSimplifiedEapId) ? {
-            id: Number(currentSimplifiedEapId),
-        } : undefined,
+        pathVariables: isDefined(currentSimplifiedEapId)
+            ? {
+                id: Number(currentSimplifiedEapId),
+            }
+            : undefined,
     });
 
     const {
@@ -89,9 +82,11 @@ export function Component() {
     } = useRequest({
         skip: isNotDefined(prevSimplifiedEap) || !withDiff,
         url: '/api/v2/simplified-eap/{id}/',
-        pathVariables: isDefined(prevSimplifiedEap) ? {
-            id: Number(prevSimplifiedEap.id),
-        } : undefined,
+        pathVariables: isDefined(prevSimplifiedEap)
+            ? {
+                id: Number(prevSimplifiedEap.id),
+            }
+            : undefined,
     });
 
     const { eap_sector, eap_approach } = useGlobalEnums();
@@ -108,10 +103,7 @@ export function Component() {
         ({ value }) => value,
     );
 
-    const {
-        disaster_type_details,
-        country_details,
-    } = eapRegistrationResponse ?? {};
+    const { disaster_type_details, country_details } = eapRegistrationResponse ?? {};
 
     const {
         cover_image_file,
@@ -165,7 +157,8 @@ export function Component() {
 
         selected_early_actions: prev_selected_early_actions,
         overall_objective_intervention: prev_overall_objective_intervention,
-        potential_geographical_high_risk_areas: prev_potential_geographical_high_risk_areas,
+        potential_geographical_high_risk_areas:
+        prev_potential_geographical_high_risk_areas,
         assisted_through_operation: prev_assisted_through_operation,
         trigger_statement: prev_trigger_statement,
         trigger_threshold_justification: prev_trigger_threshold_justification,
@@ -201,7 +194,9 @@ export function Component() {
         country_details?.name,
         admin2_details?.map(({ name }) => name).join(', '),
         disaster_type_details?.name,
-    ].filter(isTruthyString).join(' | ');
+    ]
+        .filter(isTruthyString)
+        .join(' | ');
 
     const previewReady = !eapRegistrationPending
         && !simplifiedEapPending
@@ -230,10 +225,7 @@ export function Component() {
                 </PrintableContainer>
             )}
             <PrintableContainer>
-                <ListView
-                    layout="grid"
-                    spacing="2xs"
-                >
+                <ListView layout="grid" spacing="2xs">
                     <PrintableDataDisplay
                         label={strings.sEapNoLabel}
                         value="--"
@@ -263,14 +255,9 @@ export function Component() {
                 headingLevel={3}
             >
                 <PrintableContainer headingLevel={4}>
-                    <PrintableDescription
-                        value={strings.contactInformationDescription}
-                    />
+                    <PrintableDescription value={strings.contactInformationDescription} />
                 </PrintableContainer>
-                <PrintableContainer
-                    heading={strings.nationalHeading}
-                    headingLevel={4}
-                >
+                <PrintableContainer heading={strings.nationalHeading} headingLevel={4}>
                     <PrintableContactOutput
                         label={strings.nationalSocietyContactHeading}
                         namePrefix="national_society_contact"
@@ -409,11 +396,7 @@ export function Component() {
                 headingLevel={2}
             >
                 <PrintableContainer headingLevel={3}>
-                    <ListView
-                        layout="grid"
-                        spacing="2xs"
-                        numPreferredGridColumns={3}
-                    >
+                    <ListView layout="grid" spacing="2xs" numPreferredGridColumns={3}>
                         <PrintableDataDisplay
                             label={strings.peopleTargetedHeading}
                             value={people_targeted}
@@ -585,10 +568,7 @@ export function Component() {
                                     >
                                         {strings.indicatorTitleLabel}
                                     </Label>
-                                    <Label
-                                        textSize="sm"
-                                        strong
-                                    >
+                                    <Label textSize="sm" strong>
                                         {strings.indicatorTargetLabel}
                                     </Label>
                                     {operation.indicators.map((indicator) => {
@@ -646,22 +626,21 @@ export function Component() {
                                 headingLevel={4}
                             >
                                 <div className={styles.activityItems}>
-                                    {operation.prepositioning_activities.map((activity, index) => {
-                                        const prevActivity = isDefined(activity.previous_id)
-                                            ? prevPrepositioningActivitiesMap
-                                                ?.[activity.previous_id]
-                                            : undefined;
-
-                                        return (
-                                            <PrintableActivityOutput
-                                                key={activity.id}
-                                                activity={activity}
-                                                prevActivity={prevActivity}
-                                                index={index}
-                                                withDiff={withDiff}
-                                            />
-                                        );
-                                    })}
+                                    {operation.prepositioning_activities.map(
+                                        (activity, index) => {
+                                            const prevActivity = prevPrepositioningActivitiesMap
+                                                ?.[activity.id!];
+                                            return (
+                                                <PrintableActivityOutput
+                                                    key={activity.id}
+                                                    activity={activity}
+                                                    prevActivity={prevActivity}
+                                                    index={index}
+                                                    withDiff={withDiff}
+                                                />
+                                            );
+                                        },
+                                    )}
                                 </div>
                             </PrintableContainer>
                             <PrintableContainer
@@ -757,10 +736,7 @@ export function Component() {
                                     >
                                         {strings.indicatorTitleLabel}
                                     </Label>
-                                    <Label
-                                        textSize="sm"
-                                        strong
-                                    >
+                                    <Label textSize="sm" strong>
                                         {strings.indicatorTargetLabel}
                                     </Label>
                                     {approach.indicators.map((indicator) => {
@@ -887,10 +863,7 @@ export function Component() {
                     />
                 </PrintableContainer>
             </PrintableContainer>
-            <PrintableContainer
-                heading={strings.budgetHeading}
-                headingLevel={2}
-            >
+            <PrintableContainer heading={strings.budgetHeading} headingLevel={2}>
                 <ListView
                     layout="grid"
                     numPreferredGridColumns={4}
@@ -950,5 +923,3 @@ export function Component() {
         </PrintablePage>
     );
 }
-
-Component.displayName = 'SimplifiedEapExport';
