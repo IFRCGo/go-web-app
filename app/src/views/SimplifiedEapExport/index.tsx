@@ -117,6 +117,8 @@ export function Component() {
         cover_image_file,
         admin2_details,
 
+        partner_contacts,
+
         total_budget,
         readiness_budget,
         pre_positioning_budget,
@@ -150,6 +152,8 @@ export function Component() {
         // FIXME: implement diff
         // admin2_details: prev_admin2_details,
 
+        partner_contacts: prev_partner_contacts,
+
         total_budget: prev_total_budget,
         readiness_budget: prev_readiness_budget,
         pre_positioning_budget: prev_pre_positioning_budget,
@@ -176,6 +180,11 @@ export function Component() {
         seap_lead_time: prev_seap_lead_time,
         seap_lead_timeframe_unit: prev_seap_lead_timeframe_unit,
     } = prevSimplifiedEapResponse ?? {};
+
+    const prevPartnerContactMap = listToMap(
+        prev_partner_contacts,
+        ({ id }) => id!,
+    );
 
     const prevPlannedOperationMap = listToMap(
         prev_planned_operations,
@@ -269,13 +278,35 @@ export function Component() {
                         prevData={prevSimplifiedEapResponse}
                         withDiff={withDiff}
                     />
-                    <PrintableContactOutput
-                        label={strings.partnerNationalSocietyContactHeading}
-                        namePrefix="partner_ns"
-                        data={simplifiedEapResponse}
-                        prevData={prevSimplifiedEapResponse}
-                        withDiff={withDiff}
-                    />
+                    <PrintableContainer
+                        headingLevel={6}
+                        heading={strings.partnerNationalSocietyContactHeading}
+                    >
+                        {partner_contacts?.map((partnerContact) => {
+                            const prevPartnerContact = isDefined(partnerContact.previous_id)
+                                ? prevPartnerContactMap?.[partnerContact.previous_id]
+                                : undefined;
+
+                            return (
+                                <PrintableDescription
+                                    key={partnerContact.id}
+                                    value={[
+                                        partnerContact.name,
+                                        partnerContact.title,
+                                        partnerContact.email,
+                                        partnerContact.phone_number,
+                                    ].filter(isTruthyString).join(', ')}
+                                    prevValue={[
+                                        prevPartnerContact?.name,
+                                        prevPartnerContact?.title,
+                                        prevPartnerContact?.email,
+                                        prevPartnerContact?.phone_number,
+                                    ].filter(isTruthyString).join(', ')}
+                                    withDiff={withDiff}
+                                />
+                            );
+                        })}
+                    </PrintableContainer>
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.delegationHeading}
@@ -593,8 +624,9 @@ export function Component() {
                             >
                                 <div className={styles.activityItems}>
                                     {operation.readiness_activities.map((activity, index) => {
-                                        const prevActivity = prevReadinessActivitiesMap
-                                            ?.[activity.id!];
+                                        const prevActivity = isDefined(activity.previous_id)
+                                            ? prevReadinessActivitiesMap?.[activity.previous_id]
+                                            : undefined;
 
                                         return (
                                             <PrintableActivityOutput
@@ -614,8 +646,10 @@ export function Component() {
                             >
                                 <div className={styles.activityItems}>
                                     {operation.prepositioning_activities.map((activity, index) => {
-                                        const prevActivity = prevPrepositioningActivitiesMap
-                                            ?.[activity.id!];
+                                        const prevActivity = isDefined(activity.previous_id)
+                                            ? prevPrepositioningActivitiesMap
+                                                ?.[activity.previous_id]
+                                            : undefined;
 
                                         return (
                                             <PrintableActivityOutput
@@ -635,8 +669,9 @@ export function Component() {
                             >
                                 <div className={styles.activityItems}>
                                     {operation.early_action_activities.map((activity, index) => {
-                                        const prevActivity = prevEarlyActionActivitiesMap
-                                            ?.[activity.id!];
+                                        const prevActivity = isDefined(activity.previous_id)
+                                            ? prevEarlyActionActivitiesMap?.[activity.previous_id]
+                                            : undefined;
 
                                         return (
                                             <PrintableActivityOutput
@@ -728,8 +763,9 @@ export function Component() {
                                         {strings.indicatorTargetLabel}
                                     </Label>
                                     {approach.indicators.map((indicator) => {
-                                        const prevIndicator = prevApproachIndicatorMap
-                                            ?.[indicator.id!];
+                                        const prevIndicator = isDefined(indicator.previous_id)
+                                            ? prevApproachIndicatorMap?.[indicator.previous_id]
+                                            : undefined;
 
                                         return (
                                             <PrintableDataDisplay
@@ -760,8 +796,9 @@ export function Component() {
                             >
                                 <div className={styles.activityItems}>
                                     {approach.readiness_activities.map((activity, index) => {
-                                        const prevActivity = prevReadinessActivitiesMap
-                                            ?.[activity.id!];
+                                        const prevActivity = isDefined(activity.previous_id)
+                                            ? prevReadinessActivitiesMap?.[activity.previous_id]
+                                            : undefined;
 
                                         return (
                                             <PrintableActivityOutput
@@ -781,8 +818,10 @@ export function Component() {
                             >
                                 <div className={styles.activityItems}>
                                     {approach.prepositioning_activities.map((activity, index) => {
-                                        const prevActivity = prevPrepositioningActivitiesMap
-                                            ?.[activity.id!];
+                                        const prevActivity = isDefined(activity.previous_id)
+                                            ? prevPrepositioningActivitiesMap
+                                                ?.[activity.previous_id]
+                                            : undefined;
 
                                         return (
                                             <PrintableActivityOutput
@@ -802,8 +841,9 @@ export function Component() {
                             >
                                 <div className={styles.activityItems}>
                                     {approach.early_action_activities.map((activity, index) => {
-                                        const prevActivity = prevEarlyActionActivitiesMap
-                                            ?.[activity.id!];
+                                        const prevActivity = isDefined(activity.previous_id)
+                                            ? prevEarlyActionActivitiesMap?.[activity.previous_id]
+                                            : undefined;
 
                                         return (
                                             <PrintableActivityOutput

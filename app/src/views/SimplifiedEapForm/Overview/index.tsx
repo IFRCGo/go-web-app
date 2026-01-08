@@ -211,13 +211,14 @@ function Overview(props: Props) {
                                         onRemove={onPartnerContactRemove}
                                         error={getErrorObject(error?.partner_contacts)}
                                         disabled={disabled}
+                                        readOnly={readOnly}
                                     />
                                 ))}
                                 {/* FIXME: Add ReadOnly */}
                                 <Button
                                     name={undefined}
                                     onClick={handlePartnerContactAdd}
-                                    disabled={disabled}
+                                    disabled={disabled || readOnly}
                                     before={<AddLineIcon />}
                                 >
                                     {strings.addPartnerNSContactButton}
