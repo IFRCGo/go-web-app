@@ -42,6 +42,7 @@ interface Props {
     version?: number;
     onClose: () => void;
     diff?: boolean;
+    summary?: boolean;
 }
 
 function EapExportModal(props: Props) {
@@ -51,6 +52,7 @@ function EapExportModal(props: Props) {
         onClose,
         version,
         diff,
+        summary,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -66,9 +68,10 @@ function EapExportModal(props: Props) {
             is_pga: undefined,
             per_country: undefined,
             version,
+            summary,
             diff,
         }),
-        [eapId, eapType, version, diff],
+        [eapId, eapType, version, diff, summary],
     );
 
     const {

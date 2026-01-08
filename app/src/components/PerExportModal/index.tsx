@@ -50,6 +50,7 @@ function PerExportModal(props: Props) {
             export_type: 'per' as const,
             per_country: Number(countryId),
             is_pga: undefined,
+            summary: undefined,
             version: undefined,
             diff: undefined,
         } satisfies ExportBody),

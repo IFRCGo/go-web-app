@@ -28,16 +28,16 @@ function maxOperationalTimeframeCondition(value: number | undefined) {
 type EapSimplifiedRequestBody = PurgeNull<GoApiBody<'/api/v2/simplified-eap/', 'POST'>>;
 
 type EnableApproachesResponse = NonNullable<EapSimplifiedRequestBody['enable_approaches']>[number];
-type ApproachEarlyActionResponse = NonNullable<EnableApproachesResponse['early_action_activities']>[number];
-type ApproachPrepositioningResponse = NonNullable<EnableApproachesResponse['prepositioning_activities']>[number];
-type ApproachReadinessResponse = NonNullable<EnableApproachesResponse['readiness_activities']>[number];
-type ApproachIndicatorResponse = NonNullable<EnableApproachesResponse['indicators']>[number];
+type ApproachEarlyActionResponse = Omit<NonNullable<EnableApproachesResponse['early_action_activities']>[number], 'previous_id'>;
+type ApproachPrepositioningResponse = Omit<NonNullable<EnableApproachesResponse['prepositioning_activities']>[number], 'previous_id'>;
+type ApproachReadinessResponse = Omit<NonNullable<EnableApproachesResponse['readiness_activities']>[number], 'previous_id'>;
+type ApproachIndicatorResponse = Omit<NonNullable<EnableApproachesResponse['indicators']>[number], 'previous_id'>;
 
 type PlannedOperationsResponse = NonNullable<EapSimplifiedRequestBody['planned_operations']>[number];
-type EarlyActionResponse = NonNullable<PlannedOperationsResponse['early_action_activities']>[number];
-type PrepositioningResponse = NonNullable<PlannedOperationsResponse['prepositioning_activities']>[number];
-type ReadinessResponse = NonNullable<PlannedOperationsResponse['readiness_activities']>[number];
-type IndicatorResponse = NonNullable<PlannedOperationsResponse['indicators']>[number];
+type EarlyActionResponse = Omit<NonNullable<PlannedOperationsResponse['early_action_activities']>[number], 'previous_id'>;
+type PrepositioningResponse = Omit<NonNullable<PlannedOperationsResponse['prepositioning_activities']>[number], 'previous_id'>;
+type ReadinessResponse = Omit<NonNullable<PlannedOperationsResponse['readiness_activities']>[number], 'previous_id'>;
+type IndicatorResponse = Omit<NonNullable<PlannedOperationsResponse['indicators']>[number], 'previous_id'>;
 
 type CoverImageFileResponse = NonNullable<EapSimplifiedRequestBody['cover_image_file']>;
 
