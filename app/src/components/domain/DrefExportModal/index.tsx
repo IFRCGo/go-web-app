@@ -87,6 +87,7 @@ function DrefExportModal(props: Props) {
                 is_pga: includePga,
                 // selector: '#pdf-preview-ready',
                 per_country: undefined,
+                summary: undefined,
                 version: undefined,
                 diff: undefined,
             } satisfies ExportBody;
