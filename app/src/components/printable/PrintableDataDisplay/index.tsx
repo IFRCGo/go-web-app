@@ -37,7 +37,7 @@ interface BaseProps {
     withPadding?: boolean;
     withBackground?: boolean;
     spacing?: SpacingType;
-    withDiff?: boolean;
+    withDiff: boolean;
 }
 
 interface BooleanProps extends BooleanOutputProps {
@@ -187,6 +187,10 @@ function PrintableDataDisplay(props: Props) {
     const { value, valueType, prevValue } = otherProps;
 
     const diffType: 'added' | 'removed' | 'updated' | undefined = useMemo(() => {
+        if (!withDiff) {
+            return undefined;
+        }
+
         if (isNotDefined(prevValue) && isDefined(value)) {
             return 'added';
         }
@@ -200,7 +204,7 @@ function PrintableDataDisplay(props: Props) {
         }
 
         return undefined;
-    }, [value, prevValue, valueType]);
+    }, [withDiff, value, prevValue, valueType]);
 
     const spacingOffset = -3;
 
@@ -228,45 +232,49 @@ function PrintableDataDisplay(props: Props) {
                 className,
             )}
         >
-            <div
-                className={_cs(
-                    styles.label,
-                    strongLabel && styles.strong,
-                    variant === 'contents' && withPadding && innerPaddingClassName,
-                    !withoutLabelColon && styles.withColon,
-                )}
-            >
-                {label}
-            </div>
-            <div
-                className={_cs(
-                    styles.value,
-                    strongValue && styles.strong,
-                    variant === 'contents' && withPadding && innerPaddingClassName,
-                    otherProps.valueType === 'text' && styles.textType,
-                )}
-            >
-                {!withDiff && valueComponent}
-                {withDiff && (
-                    <ListView
-                        withWrap
-                        spacing={spacing}
-                        spacingOffset={spacingOffset}
-                        className={_cs(
-                            diffType === 'added' && styles.added,
-                            diffType === 'updated' && styles.added,
-                            diffType === 'removed' && styles.removed,
-                        )}
-                    >
-                        {diffType === 'updated' && (
-                            <span className={styles.removed}>{prevValueComponent}</span>
-                        )}
-                        <span className={styles.added}>
-                            {valueComponent}
-                        </span>
-                    </ListView>
-                )}
-            </div>
+            {label && (
+                <div
+                    className={_cs(
+                        styles.label,
+                        strongLabel && styles.strong,
+                        variant === 'contents' && withPadding && innerPaddingClassName,
+                        !withoutLabelColon && styles.withColon,
+                    )}
+                >
+                    {label}
+                </div>
+            )}
+            {(valueComponent || prevValueComponent) && (
+                <div
+                    className={_cs(
+                        styles.value,
+                        strongValue && styles.strong,
+                        variant === 'contents' && withPadding && innerPaddingClassName,
+                        otherProps.valueType === 'text' && styles.textType,
+                    )}
+                >
+                    {isNotDefined(diffType) && valueComponent}
+                    {isDefined(diffType) && (
+                        <ListView
+                            withWrap
+                            spacing={spacing}
+                            spacingOffset={spacingOffset}
+                            className={_cs(
+                                diffType === 'added' && styles.added,
+                                diffType === 'updated' && styles.added,
+                                diffType === 'removed' && styles.removed,
+                            )}
+                        >
+                            {diffType === 'updated' && (
+                                <span className={styles.removed}>{prevValueComponent}</span>
+                            )}
+                            <span className={styles.added}>
+                                {valueComponent}
+                            </span>
+                        </ListView>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
