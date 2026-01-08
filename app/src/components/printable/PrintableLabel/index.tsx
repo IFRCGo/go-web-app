@@ -6,7 +6,7 @@ import {
     _cs,
     isNotDefined,
 } from '@togglecorp/fujs';
-import { diffSentences } from 'diff';
+import { diffWordsWithSpace } from 'diff';
 
 import styles from './styles.module.css';
 
@@ -17,7 +17,7 @@ interface Props {
     prevValue?: string | null;
 }
 
-function PrintableDescription(props: Props) {
+function PrintableLabel(props: Props) {
     const {
         className,
         value,
@@ -30,12 +30,12 @@ function PrintableDescription(props: Props) {
             return undefined;
         }
 
-        return diffSentences(prevValue ?? '', value ?? '');
+        return diffWordsWithSpace(prevValue ?? '', value ?? '');
     }, [withDiff, value, prevValue]);
 
     if (isNotDefined(diff)) {
         return (
-            <div className={_cs(styles.printableDescription, className)}>
+            <div className={_cs(styles.printableLabel, className)}>
                 {value}
             </div>
         );
@@ -44,7 +44,7 @@ function PrintableDescription(props: Props) {
     return (
         <div
             className={_cs(
-                styles.printableDescription,
+                styles.printableLabel,
                 styles.withDiffView,
                 className,
             )}
@@ -87,4 +87,4 @@ function PrintableDescription(props: Props) {
     );
 }
 
-export default PrintableDescription;
+export default PrintableLabel;
