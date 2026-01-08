@@ -1,14 +1,15 @@
 {
     "namespace":"accountMyFormsEap",
     "strings":{
-        "startFullLink": "Start Full EAP",
-        "startSimplifiedLink": "Start sEAP",
-        "editFullLink": "Edit Full EAP",
-        "exportChangesButton": "Export with changes",
-        "exportButton": "Export",
-        "previewExportLink": "Preview export",
-        "reviewCheckList": "Review Checklist",
-        "eapEditSimplifiedLink": "Edit sEAP",
-        "eapViewSimplifiedLink": "View sEAP"
+        "startFullEapLinkLabel": "Start Full EAP",
+        "startSimplifiedEapLinkLabel": "Start sEAP",
+        "editFullEapLinkLabel": "Edit Full EAP",
+        "viewFullEapLinkLabel": "View Full EAP",
+        "exportWithChangesButtonLabel": "Export with changes",
+        "exportButtonLabel": "Export",
+        "previewExportLinkLabel": "Preview export",
+        "downloadReviewCheckListButtonLabel": "Download Review Checklist",
+        "editSimplifiedEapLinkLabel": "Edit sEAP",
+        "viewSimplifiedEapLinkLabel": "View sEAP"
     }
 }

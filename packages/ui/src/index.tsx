@@ -111,7 +111,6 @@ export type { Props as PageHeaderProps } from './components/PageHeader';
 export { default as PageHeader } from './components/PageHeader';
 export type { Props as PagerProps } from './components/Pager';
 export { default as Pager } from './components/Pager';
-export { default as TopBanner } from './components/parked/TopBanner';
 export type { Props as PasswordInputProps } from './components/PasswordInput';
 export { default as PasswordInput } from './components/PasswordInput';
 export type { Props as PieChartProps } from './components/PieChart';
@@ -194,6 +193,7 @@ export { default as TimeSeriesChart } from './components/TimeSeriesChart';
 export { default as ChartPoint } from './components/TimeSeriesChart/ChartPoint';
 export type { Props as TooltipProps } from './components/Tooltip';
 export { default as Tooltip } from './components/Tooltip';
+export { default as TopBanner } from './components/TopBanner';
 export type {
     BaseCell,
     BaseHeader,

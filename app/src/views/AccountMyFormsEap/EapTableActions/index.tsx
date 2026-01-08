@@ -1,8 +1,8 @@
 import {
     useCallback,
+    useMemo,
     useState,
 } from 'react';
-import { useLocation } from 'react-router-dom';
 import {
     DocumentPdfLineIcon,
     DownloadTwoLineIcon,
@@ -46,10 +46,6 @@ function EapTableActions(props: Props) {
     const [exportWithDiffView, setExportWithDiffView] = useState(false);
     const [showExportModal, setShowExportModal] = useState(false);
 
-    const { state } = useLocation();
-
-    const isReadOnly = state?.mode === 'view';
-
     const strings = useTranslation(i18n);
 
     const setShowExportModalTrue = useCallback((withDiff?: boolean) => {
@@ -62,118 +58,138 @@ function EapTableActions(props: Props) {
         setShowExportModal(false);
     }, []);
 
+    const isLatestVersion = useMemo(() => {
+        if (eap.eap_type === EAP_TYPE_SIMPLIFIED) {
+            return eap.latest_simplified_eap === details?.data.id;
+        }
+
+        if (eap.eap_type === EAP_TYPE_FULL) {
+            return eap.latest_full_eap === details?.data.id;
+        }
+
+        return false;
+    }, [eap, details]);
+
+    const isEditable = details?.data.is_locked === false && (
+        eap.status === EAP_STATUS_UNDER_DEVELOPMENT
+            || eap.status === EAP_STATUS_NS_ADDRESSING_COMMENTS
+    ) && isLatestVersion;
+
     return (
-        <>
-            <ListView layout="block">
-                {type === 'development' && eap.eap_type === EAP_TYPE_SIMPLIFIED && (
-                    <Link
-                        to="simplifiedEapExport"
-                        urlParams={{ eapId: eap.id }}
-                        urlSearch={isDefined(details?.data.version)
-                            ? `version=${details.data.version}`
-                            : undefined}
-                        title={strings.previewExportLink}
-                        before={<DocumentPdfLineIcon fontSize={18} />}
-                    >
-                        {strings.previewExportLink}
-                    </Link>
-                )}
-                {type === 'development' && details?.data.is_locked && isDefined(eap.review_checklist_file) && (
-                    <Link
-                        external
-                        href={eap.review_checklist_file}
-                        before={<DownloadTwoLineIcon />}
-                    >
-                        {strings.reviewCheckList}
-                    </Link>
-                )}
-                {type === 'development' && eap.eap_type === EAP_TYPE_SIMPLIFIED && (
-                    <Button
-                        name={false}
-                        onClick={setShowExportModalTrue}
-                        before={<DownloadTwoLineIcon />}
-                        styleVariant="action"
-                    >
-                        {strings.exportButton}
-                    </Button>
-                )}
-                {type === 'development'
-                    && eap.eap_type === EAP_TYPE_SIMPLIFIED
-                    && isDefined(details?.data.version)
-                    && details.data.version > 1
-                    && (
-                        <Button
-                            name
-                            onClick={setShowExportModalTrue}
-                            before={<DownloadTwoLineIcon />}
-                            styleVariant="action"
-                        >
-                            {strings.exportChangesButton}
-                        </Button>
-                    )}
-                {type === 'registration' && isNotDefined(eap.eap_type) && isNotDefined(details) && (
-                    <ListView>
-                        <Link
-                            to="simplifiedEapForm"
-                            urlParams={{ eapId: eap.id }}
-                            styleVariant="outline"
-                            colorVariant="primary"
-                        >
-                            {strings.startSimplifiedLink}
-                        </Link>
-                        <Link
-                            to="fullEapForm"
-                            urlParams={{ eapId: eap.id }}
-                            styleVariant="outline"
-                            colorVariant="primary"
-                        >
-                            {strings.startFullLink}
-                        </Link>
-                    </ListView>
-                )}
+        <ListView layout="block">
+            {type === 'registration' && isNotDefined(eap.eap_type) && isNotDefined(details) && (
                 <ListView>
-                    {type === 'development'
-                        && !details?.data.is_locked
-                        && eap.eap_type === EAP_TYPE_SIMPLIFIED
-                        && (eap.status === EAP_STATUS_UNDER_DEVELOPMENT
-                            || (eap.status === EAP_STATUS_NS_ADDRESSING_COMMENTS
-                                && eap.latest_simplified_eap === details?.data.id))
-                        && (
-                            <Link
-                                to="simplifiedEapForm"
-                                urlParams={{ eapId: eap.id }}
-                                styleVariant="outline"
-                                colorVariant="primary"
-                            >
-                                {strings.eapEditSimplifiedLink}
-                            </Link>
-                        )}
-                    {type === 'development'
-                            && eap.eap_type === EAP_TYPE_SIMPLIFIED
-                            && !isReadOnly
-                            && (
-                                <Link
-                                    to="simplifiedEapForm"
-                                    urlParams={{ eapId: eap.id }}
-                                    styleVariant="outline"
-                                    colorVariant="primary"
-                                    state={{ mode: 'view' }}
-                                >
-                                    {strings.eapViewSimplifiedLink}
-                                </Link>
-                            )}
-                </ListView>
-                {type === 'development' && !details?.data.is_locked && eap.eap_type === EAP_TYPE_FULL && (
+                    <Link
+                        to="simplifiedEapForm"
+                        urlParams={{ eapId: eap.id }}
+                        styleVariant="outline"
+                        colorVariant="primary"
+                    >
+                        {strings.startSimplifiedEapLinkLabel}
+                    </Link>
                     <Link
                         to="fullEapForm"
                         urlParams={{ eapId: eap.id }}
                         styleVariant="outline"
                         colorVariant="primary"
                     >
-                        {strings.editFullLink}
+                        {strings.startFullEapLinkLabel}
                     </Link>
-                )}
-            </ListView>
+                </ListView>
+            )}
+            {type === 'development' && (
+                <ListView layout="block">
+                    {eap.eap_type === EAP_TYPE_SIMPLIFIED && (
+                        <Link
+                            to="simplifiedEapExport"
+                            urlParams={{ eapId: eap.id }}
+                            urlSearch={isDefined(details?.data.version)
+                                ? `version=${details.data.version}`
+                                : undefined}
+                            title={strings.previewExportLinkLabel}
+                            before={<DocumentPdfLineIcon fontSize={18} />}
+                        >
+                            {strings.previewExportLinkLabel}
+                        </Link>
+                    )}
+                    {eap.eap_type === EAP_TYPE_SIMPLIFIED && (
+                        <Button
+                            name={false}
+                            onClick={setShowExportModalTrue}
+                            before={<DownloadTwoLineIcon />}
+                            styleVariant="action"
+                        >
+                            {strings.exportButtonLabel}
+                        </Button>
+                    )}
+                    {eap.eap_type === EAP_TYPE_SIMPLIFIED
+                        && isDefined(details?.data.version)
+                        && details.data.version > 1
+                        && (
+                            <Button
+                                name
+                                onClick={setShowExportModalTrue}
+                                before={<DownloadTwoLineIcon />}
+                                styleVariant="action"
+                            >
+                                {strings.exportWithChangesButtonLabel}
+                            </Button>
+                        )}
+                    {/* FIXME: update url for review checklist file */}
+                    {isDefined(eap.review_checklist_file) && (
+                        <Link
+                            external
+                            href={eap.review_checklist_file}
+                            before={<DownloadTwoLineIcon />}
+                        >
+                            {strings.downloadReviewCheckListButtonLabel}
+                        </Link>
+                    )}
+                    {eap.eap_type === EAP_TYPE_SIMPLIFIED && isEditable && (
+                        <Link
+                            to="simplifiedEapForm"
+                            urlParams={{ eapId: eap.id }}
+                            styleVariant="outline"
+                            colorVariant="primary"
+                        >
+                            {strings.editSimplifiedEapLinkLabel}
+                        </Link>
+                    )}
+                    {eap.eap_type === EAP_TYPE_SIMPLIFIED && !isEditable && (
+                        <Link
+                            to="simplifiedEapForm"
+                            urlParams={{ eapId: eap.id }}
+                            urlSearch={`version=${details?.data.version}`}
+                            styleVariant="outline"
+                            colorVariant="primary"
+                            state={{ mode: 'view' }}
+                        >
+                            {strings.viewSimplifiedEapLinkLabel}
+                        </Link>
+                    )}
+                    {eap.eap_type === EAP_TYPE_FULL && isEditable && (
+                        <Link
+                            to="fullEapForm"
+                            urlParams={{ eapId: eap.id }}
+                            styleVariant="outline"
+                            colorVariant="primary"
+                        >
+                            {strings.editFullEapLinkLabel}
+                        </Link>
+                    )}
+                    {eap.eap_type === EAP_TYPE_FULL && !isEditable && (
+                        <Link
+                            to="fullEapForm"
+                            urlParams={{ eapId: eap.id }}
+                            urlSearch={`version=${details?.data.version}`}
+                            styleVariant="outline"
+                            colorVariant="primary"
+                        >
+                            {strings.viewFullEapLinkLabel}
+                        </Link>
+                    )}
+                </ListView>
+            )}
             {showExportModal && isDefined(eap.eap_type) && (
                 <EapExportModal
                     eapId={eap.id}
@@ -183,7 +199,7 @@ function EapTableActions(props: Props) {
                     diff={exportWithDiffView}
                 />
             )}
-        </>
+        </ListView>
     );
 }
 
