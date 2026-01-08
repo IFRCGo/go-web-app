@@ -1,6 +1,7 @@
 import {
     type ElementRef,
     useCallback,
+    useEffect,
     useMemo,
     useRef,
     useState,
@@ -69,6 +70,8 @@ import {
 } from './schema';
 
 import i18n from './i18n.json';
+
+const DEFAULT_SEAP_TIMEFRAME = 2; // years
 
 type EapSimplifiedRequestBody = GoApiBody<'/api/v2/simplified-eap/', 'POST'>;
 type GetSimplifiedResponse = GoApiResponse<'/api/v2/simplified-eap/{id}/'>;
@@ -158,7 +161,7 @@ export function Component() {
         });
     }, []);
 
-    const loadResponseToFormValue = useCallback((response: GetSimplifiedResponse) => {
+    const updateFormValueFromResponse = useCallback((response: GetSimplifiedResponse) => {
         updateFileUrlMapping(response);
 
         const {
@@ -168,6 +171,7 @@ export function Component() {
             hazard_impact_images,
             selected_early_actions_images,
             risk_selected_protocols_images,
+            partner_contacts,
             ...otherValues
         } = removeNull(response);
 
@@ -177,6 +181,8 @@ export function Component() {
             cover_image_file: isDefined(cover_image_file)
                 ? injectClientId(cover_image_file)
                 : undefined,
+
+            partner_contacts: partner_contacts?.map(injectClientId),
 
             hazard_impact_images: hazard_impact_images?.map(injectClientId),
             selected_early_actions_images: selected_early_actions_images?.map(injectClientId),
@@ -207,6 +213,12 @@ export function Component() {
                 let match = matchArray(locations, ['cover_image_file', NUM]);
                 if (isDefined(match)) {
                     return value?.cover_image_file?.client_id;
+                }
+
+                match = matchArray(locations, ['partner_contacts', NUM]);
+                if (isDefined(match)) {
+                    const [index] = match;
+                    return value?.partner_contacts?.[index!]?.client_id;
                 }
 
                 match = matchArray(locations, ['hazard_impact_images', NUM]);
@@ -288,84 +300,72 @@ export function Component() {
         pathVariables: isTruthyString(eapId) ? {
             id: Number(eapId),
         } : undefined,
-        onSuccess: (response) => {
-            // FIXME: only set this the first time
-
-            if (isDefined(response.national_society_contact_name)) {
-                setFieldValue(
-                    response?.national_society_contact_name,
-                    'national_society_contact_name',
-                );
-            }
-            if (isDefined(response.national_society_contact_title)) {
-                setFieldValue(
-                    response?.national_society_contact_title,
-                    'national_society_contact_title',
-                );
-            }
-            if (isDefined(response.national_society_contact_email)) {
-                setFieldValue(
-                    response?.national_society_contact_email,
-                    'national_society_contact_email',
-                );
-            }
-            if (isDefined(response.national_society_contact_phone_number)) {
-                setFieldValue(
-                    response?.national_society_contact_phone_number,
-                    'national_society_contact_phone_number',
-                );
-            }
-            if (isDefined(response.dref_focal_point_name)) {
-                setFieldValue(
-                    response?.dref_focal_point_name,
-                    'dref_focal_point_name',
-                );
-            }
-            if (isDefined(response.dref_focal_point_title)) {
-                setFieldValue(
-                    response?.dref_focal_point_title,
-                    'dref_focal_point_title',
-                );
-            }
-            if (isDefined(response.dref_focal_point_email)) {
-                setFieldValue(
-                    response?.dref_focal_point_email,
-                    'dref_focal_point_email',
-                );
-            }
-            if (isDefined(response.dref_focal_point_phone_number)) {
-                setFieldValue(
-                    response?.dref_focal_point_phone_number,
-                    'dref_focal_point_phone_number',
-                );
-            }
-        },
     });
 
     const selectedSimplifiedEap = eapRegistrationResponse?.simplified_eap_details?.find(
         (simplifiedEap) => String(simplifiedEap.version) === String(version),
     );
 
-    const latestSimplifiedEapVersion = eapRegistrationResponse?.latest_simplified_eap;
+    const latestSimplifiedEapId = eapRegistrationResponse?.latest_simplified_eap;
     const latestSimplifiedEap = eapRegistrationResponse?.simplified_eap_details?.find(
-        (simplifiedEap) => simplifiedEap.version === latestSimplifiedEapVersion,
+        (simplifiedEap) => simplifiedEap.id === latestSimplifiedEapId,
     );
-    const latestSimplifiedEapId = latestSimplifiedEap?.id;
 
     const currentSimplifiedEap = selectedSimplifiedEap ?? latestSimplifiedEap;
     const currentSimplifiedEapId = currentSimplifiedEap?.id;
 
     // FIXME: handle errors
-    useRequest({
+    const {
+        pending: simplifiedEapPending,
+        response: simplifiedEapResponse,
+    } = useRequest({
         skip: isNotDefined(currentSimplifiedEapId),
         url: '/api/v2/simplified-eap/{id}/',
         pathVariables: isDefined(currentSimplifiedEapId) ? {
             id: Number(currentSimplifiedEapId),
         } : undefined,
         onSuccess: (response) => {
-            loadResponseToFormValue(response);
+            updateFormValueFromResponse(response);
         },
     });
+
+    useEffect(() => {
+        if (isNotDefined(eapRegistrationResponse)) {
+            return;
+        }
+
+        if (simplifiedEapPending) {
+            return;
+        }
+
+        if (isDefined(simplifiedEapResponse)) {
+            return;
+        }
+
+        const {
+            national_society_contact_name,
+            national_society_contact_title,
+            national_society_contact_email,
+            national_society_contact_phone_number,
+            dref_focal_point_name,
+            dref_focal_point_title,
+            dref_focal_point_email,
+            dref_focal_point_phone_number,
+        } = removeNull(eapRegistrationResponse);
+
+        setValue((prevValue) => ({
+            ...prevValue,
+            national_society_contact_name,
+            national_society_contact_title,
+            national_society_contact_email,
+            national_society_contact_phone_number,
+            dref_focal_point_name,
+            dref_focal_point_title,
+            dref_focal_point_email,
+            dref_focal_point_phone_number,
+            seap_timeframe: DEFAULT_SEAP_TIMEFRAME,
+        }));
+    }, [eapRegistrationResponse, simplifiedEapPending, simplifiedEapResponse, setValue]);
 
     const isLatestVersion = currentSimplifiedEapId === latestSimplifiedEapId;
 
@@ -376,7 +376,7 @@ export function Component() {
     const readOnly = !isEditable;
 
     const {
-        pending: eapSimplifiedPending,
+        pending: createSimplifiedEapPending,
         trigger: createSimplifiedEap,
     } = useLazyRequest({
         method: 'POST',
@@ -411,7 +411,7 @@ export function Component() {
     });
 
     const {
-        pending: updateSimplifiedFormPending,
+        pending: updateSimplifiedEapPending,
         trigger: updateSimplifiedEap,
     } = useLazyRequest({
         url: '/api/v2/simplified-eap/{id}/',
@@ -443,7 +443,7 @@ export function Component() {
             processServerErrors(formErrors);
 
             alert.show(
-                strings.eapSimplifiedFailure,
+                strings.updateFailureMessage,
                 {
                     variant: 'danger',
                     description: messageForNotification,
@@ -452,19 +452,23 @@ export function Component() {
         },
     });
 
-    const disabled = eapSimplifiedPending || eapRegistrationPending || updateSimplifiedFormPending;
+    const disabled = createSimplifiedEapPending
+        || eapRegistrationPending
+        || updateSimplifiedEapPending;
 
     const handleValidationSuccess = useCallback((validatedFormValue: PartialSimplifiedEapType) => {
         if (isNotDefined(latestSimplifiedEapId)) {
             createSimplifiedEap({
-                ...validatedFormValue as EapSimplifiedRequestBody,
+                // FIXME: remove cast to unknown (need to make previous_id read-only)
+                ...validatedFormValue as unknown as EapSimplifiedRequestBody,
                 eap_registration: Number(eapId),
             });
         } else {
             updateSimplifiedEap({
                 ...validatedFormValue,
                 id: latestSimplifiedEapId,
-            } as EapSimplifiedRequestBody);
+                // FIXME: remove cast to unknown (need to make previous_id read-only)
+            } as unknown as EapSimplifiedRequestBody);
         }
     }, [
         eapId,
@@ -513,7 +517,7 @@ export function Component() {
                 description={strings.simplifiedEapDescription}
                 beforeHeaderContent={readOnly && (
                     <TopBanner variant="warning">
-                        You’re viewing this form in read-only mode. Editing is currently disabled.
+                        {strings.readOnlyWarningMessage}
                     </TopBanner>
                 )}
                 actions={(

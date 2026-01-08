@@ -13,8 +13,10 @@
         "simplifiedBackButton": "Back",
         "simplifiedNextButton": "Next",
         "simplifiedSaveButton": "Save",
-        "eapSimplifiedFailure": "Sorry could not create a new Simplified EAP right now!",
+        "eapSimplifiedFailure": "Failed to create the EAP!",
         "eapSimplifiedSuccess": "Successfully created a new Simplified EAP!",
-        "eapSimplifiedUpdateMessage": "Simplified EAP Form updated Successfully."
+        "eapSimplifiedUpdateMessage": "Simplified EAP Form updated Successfully.",
+        "updateFailureMessage": "Failed to update the EAP!",
+        "readOnlyWarningMessage": "You’re viewing this form in read-only mode. Editing is currently disabled."
     }
 }
