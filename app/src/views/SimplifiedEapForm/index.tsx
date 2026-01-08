@@ -6,8 +6,8 @@ import {
     useState,
 } from 'react';
 import {
-    useLocation,
     useParams,
+    useSearchParams,
 } from 'react-router-dom';
 import {
     Button,
@@ -16,11 +16,11 @@ import {
     TabList,
     TabPanel,
     Tabs,
+    TopBanner,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { injectClientId } from '@ifrc-go/ui/utils';
 import {
-    compareNumber,
     isDefined,
     isNotDefined,
     isTruthyString,
@@ -36,6 +36,10 @@ import Link from '#components/Link';
 import Page from '#components/Page';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
+import {
+    EAP_STATUS_NS_ADDRESSING_COMMENTS,
+    EAP_STATUS_UNDER_DEVELOPMENT,
+} from '#utils/constants';
 import {
     type GoApiBody,
     type GoApiResponse,
@@ -65,7 +69,6 @@ import {
 } from './schema';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type EapSimplifiedRequestBody = GoApiBody<'/api/v2/simplified-eap/', 'POST'>;
 type GetSimplifiedResponse = GoApiResponse<'/api/v2/simplified-eap/{id}/'>;
@@ -103,9 +106,8 @@ export function Component() {
     const alert = useAlert();
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const { eapId } = useParams<{ eapId: string }>();
-
-    const { state } = useLocation();
-    const isReadOnly = state?.mode === 'view';
+    const [searchParams] = useSearchParams();
+    const version = searchParams.get('version') ?? undefined;
 
     const updateFileUrlMapping = useCallback((response: GetSimplifiedResponse) => {
         setFileIdToUrlMap((prevMap) => {
@@ -278,8 +280,8 @@ export function Component() {
     }, [value, setError]);
 
     const {
-        pending: fetchingEap,
-        response: eapDetailResponse,
+        pending: eapRegistrationPending,
+        response: eapRegistrationResponse,
     } = useRequest({
         skip: isNotDefined(eapId),
         url: '/api/v2/eap-registration/{id}/',
@@ -287,6 +289,8 @@ export function Component() {
             id: Number(eapId),
         } : undefined,
         onSuccess: (response) => {
+            // FIXME: only set this the first time
+
             if (isDefined(response.national_society_contact_name)) {
                 setFieldValue(
                     response?.national_society_contact_name,
@@ -338,20 +342,38 @@ export function Component() {
         },
     });
 
-    // FIXME: get the latest simplified properly
-    const latestSimplifiedEapId = eapDetailResponse?.simplified_eap_details?.toSorted(
-        (a, b) => compareNumber(a.version, b.version, -1),
-    )?.[0]?.id;
+    const selectedSimplifiedEap = eapRegistrationResponse?.simplified_eap_details?.find(
+        (simplifiedEap) => String(simplifiedEap.version) === String(version),
+    );
+
+    const latestSimplifiedEapVersion = eapRegistrationResponse?.latest_simplified_eap;
+    const latestSimplifiedEap = eapRegistrationResponse?.simplified_eap_details?.find(
+        (simplifiedEap) => simplifiedEap.version === latestSimplifiedEapVersion,
+    );
+    const latestSimplifiedEapId = latestSimplifiedEap?.id;
+
+    const currentSimplifiedEap = selectedSimplifiedEap ?? latestSimplifiedEap;
+    const currentSimplifiedEapId = currentSimplifiedEap?.id;
 
     // FIXME: handle errors
     useRequest({
-        skip: isNotDefined(latestSimplifiedEapId),
+        skip: isNotDefined(currentSimplifiedEapId),
         url: '/api/v2/simplified-eap/{id}/',
-        pathVariables: isDefined(latestSimplifiedEapId) ? ({
-            id: latestSimplifiedEapId,
-        }) : undefined,
-        onSuccess: (simplifiedEapResponse) => loadResponseToFormValue(simplifiedEapResponse),
+        pathVariables: isDefined(currentSimplifiedEapId) ? {
+            id: Number(currentSimplifiedEapId),
+        } : undefined,
+        onSuccess: (response) => {
+            loadResponseToFormValue(response);
+        },
     });
+
+    const isLatestVersion = currentSimplifiedEapId === latestSimplifiedEapId;
+
+    const isEditable = isLatestVersion
+        && (eapRegistrationResponse?.status === EAP_STATUS_UNDER_DEVELOPMENT
+            || eapRegistrationResponse?.status === EAP_STATUS_NS_ADDRESSING_COMMENTS);
+
+    const readOnly = !isEditable;
 
     const {
         pending: eapSimplifiedPending,
@@ -430,7 +452,7 @@ export function Component() {
         },
     });
 
-    const disabled = eapSimplifiedPending || fetchingEap || updateSimplifiedFormPending;
+    const disabled = eapSimplifiedPending || eapRegistrationPending || updateSimplifiedFormPending;
 
     const handleValidationSuccess = useCallback((validatedFormValue: PartialSimplifiedEapType) => {
         if (isNotDefined(latestSimplifiedEapId)) {
@@ -487,24 +509,32 @@ export function Component() {
             styleVariant="step"
         >
             <Page
-                className={styles.simplifiedEapForm}
                 heading={strings.simplifiedEapHeading}
                 description={strings.simplifiedEapDescription}
+                beforeHeaderContent={readOnly && (
+                    <TopBanner variant="warning">
+                        You’re viewing this form in read-only mode. Editing is currently disabled.
+                    </TopBanner>
+                )}
                 actions={(
                     <>
-                        <Link
-                            to="accountMyFormsEap"
-                            styleVariant="outline"
-                            colorVariant="primary"
-                        >
-                            {strings.simplifiedCancelButton}
-                        </Link>
-                        <Button
-                            name={undefined}
-                            onClick={handleSave}
-                        >
-                            {strings.simplifiedSaveButton}
-                        </Button>
+                        {isEditable && (
+                            <Link
+                                to="accountMyFormsEap"
+                                styleVariant="outline"
+                                colorVariant="primary"
+                            >
+                                {strings.simplifiedCancelButton}
+                            </Link>
+                        )}
+                        {isEditable && (
+                            <Button
+                                name={undefined}
+                                onClick={handleSave}
+                            >
+                                {strings.simplifiedSaveButton}
+                            </Button>
+                        )}
                     </>
                 )}
                 info={(
@@ -554,7 +584,6 @@ export function Component() {
                     </TabList>
                 )}
                 withBackgroundColorInMainSection
-                mainSectionClassName={styles.content}
             >
                 <TabPanel name="overview">
                     <Overview
@@ -564,8 +593,8 @@ export function Component() {
                         disabled={disabled}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
-                        eapRegistrationDetail={eapDetailResponse}
-                        readOnly={isReadOnly}
+                        eapRegistrationDetail={eapRegistrationResponse}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <TabPanel name="riskAnalysis">
@@ -576,7 +605,7 @@ export function Component() {
                         disabled={disabled}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
-                        readOnly={isReadOnly}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <TabPanel name="earlyAction">
@@ -585,8 +614,8 @@ export function Component() {
                         setFieldValue={setFieldValue}
                         error={formError}
                         disabled={disabled}
-                        eapRegistrationDetail={eapDetailResponse}
-                        readOnly={isReadOnly}
+                        eapRegistrationDetail={eapRegistrationResponse}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <TabPanel name="plannedOperations">
@@ -595,7 +624,7 @@ export function Component() {
                         setFieldValue={setFieldValue}
                         error={formError}
                         disabled={disabled}
-                        readOnly={isReadOnly}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <TabPanel name="enablingApproaches">
@@ -604,7 +633,7 @@ export function Component() {
                         setFieldValue={setFieldValue}
                         error={formError}
                         disabled={disabled}
-                        readOnly={isReadOnly}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <TabPanel name="deliveryAndBudget">
@@ -615,7 +644,7 @@ export function Component() {
                         disabled={disabled}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
-                        readOnly={isReadOnly}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <ListView withCenteredContents>
@@ -637,6 +666,7 @@ export function Component() {
                         <Button
                             name={undefined}
                             onClick={handleSave}
+                            disabled={readOnly}
                         >
                             {strings.simplifiedSaveButton}
                         </Button>

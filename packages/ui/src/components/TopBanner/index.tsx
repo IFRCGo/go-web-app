@@ -13,12 +13,13 @@ function TopBanner(props: Props) {
     const {
         className,
         children,
-        variant = 'negative',
+        variant = 'information',
     } = props;
 
     return (
         <div className={_cs(
             styles.topBanner,
+            variant === 'negative' && styles.negative,
             variant === 'warning' && styles.warning,
             variant === 'positive' && styles.positive,
             variant === 'information' && styles.information,
