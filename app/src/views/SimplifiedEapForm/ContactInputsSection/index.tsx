@@ -50,6 +50,7 @@ function ContactInputsSection(props: Props) {
             numPreferredColumns={2}
         >
             <TextInput
+                // FIXME: use translations
                 label="Name"
                 name={name}
                 value={value?.[name]}
@@ -59,6 +60,7 @@ function ContactInputsSection(props: Props) {
                 readOnly={readOnly}
             />
             <TextInput
+                // FIXME: use translations
                 label="Title"
                 name={title}
                 value={value?.[title]}
@@ -68,6 +70,7 @@ function ContactInputsSection(props: Props) {
                 readOnly={readOnly}
             />
             <TextInput
+                // FIXME: use translations
                 label="Email"
                 name={email}
                 value={value?.[email]}
@@ -77,6 +80,7 @@ function ContactInputsSection(props: Props) {
                 readOnly={readOnly}
             />
             <TextInput
+                // FIXME: use translations
                 label="Phone number"
                 name={phoneNumber}
                 value={value?.[phoneNumber]}

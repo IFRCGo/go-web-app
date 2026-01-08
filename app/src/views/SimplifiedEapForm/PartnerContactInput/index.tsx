@@ -14,7 +14,7 @@ import {
     useFormObject,
 } from '@togglecorp/toggle-form';
 
-import { type PartialSimplifiedEapType } from '#views/SimplifiedEapForm/schema';
+import { type PartialSimplifiedEapType } from '../schema';
 
 import i18n from './i18n.json';
 

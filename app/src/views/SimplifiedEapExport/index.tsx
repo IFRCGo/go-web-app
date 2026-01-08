@@ -592,8 +592,9 @@ export function Component() {
                                         {strings.indicatorTargetLabel}
                                     </Label>
                                     {operation.indicators.map((indicator) => {
-                                        const prevIndicator = prevOperationIndicatorMap
-                                            ?.[indicator.id!];
+                                        const prevIndicator = isDefined(indicator.previous_id)
+                                            ? prevOperationIndicatorMap?.[indicator.previous_id]
+                                            : undefined;
 
                                         return (
                                             <PrintableDataDisplay

@@ -373,5 +373,8 @@ export const formSchema: FormSchema = {
         pre_positioning_budget: { required: true },
         early_action_budget: { required: true },
         budget_file: { required: true },
+
+        // FIXME: this should be conditional and required
+        updated_checklist_file: {},
     }),
 };

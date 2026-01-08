@@ -20,7 +20,7 @@ function getFormattedActivityTimeline(activity: OperationActivity | undefined) {
     } = activity;
 
     const timeValueDisplay = time_value.toSorted(
-        (a, b) => compareNumber(a, b, -1),
+        (a, b) => compareNumber(a, b, 1),
     );
 
     return (

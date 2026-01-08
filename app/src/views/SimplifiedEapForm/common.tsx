@@ -87,6 +87,7 @@ const deliveryAndBudgetTabFields: (keyof PartialSimplifiedEapType)[] = [
     'pre_positioning_budget',
     'early_action_budget',
     'budget_file',
+    'updated_checklist_file',
 ] satisfies (keyof PartialSimplifiedEapType)[];
 
 const tabToFieldsMap: Record<TabKeys, (keyof PartialSimplifiedEapType)[]> = {
