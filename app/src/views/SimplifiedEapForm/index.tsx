@@ -122,6 +122,9 @@ export function Component() {
                 selected_early_actions_images,
 
                 budget_file_details,
+
+                // FIXME: add updated checklist file details
+                // updated_checklist_file,
             } = response;
 
             return {

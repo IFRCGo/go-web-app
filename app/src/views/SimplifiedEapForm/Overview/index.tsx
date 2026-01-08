@@ -24,9 +24,9 @@ import NationalSocietySelectInput from '#components/domain/NationalSocietySelect
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type GoApiBody } from '#utils/restRequest';
-import PartnerContactsInput from '#views/PartnerContactInput';
 
 import ContactInputsSection from '../ContactInputsSection';
+import PartnerContactsInput from '../PartnerContactInput';
 import { type PartialSimplifiedEapType } from '../schema';
 
 import i18n from './i18n.json';
