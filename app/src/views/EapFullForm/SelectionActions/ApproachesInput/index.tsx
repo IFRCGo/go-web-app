@@ -50,6 +50,7 @@ interface Props {
     index: number;
     disabled?: boolean;
     approachTitle?: React.ReactNode;
+    readOnly?: boolean;
 }
 
 function ApproachesInput(props: Props) {
@@ -61,6 +62,7 @@ function ApproachesInput(props: Props) {
         onRemove,
         disabled,
         approachTitle,
+        readOnly,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -173,7 +175,7 @@ function ApproachesInput(props: Props) {
                     onClick={onRemove}
                     styleVariant="action"
                     title={strings.approachRemoveButton}
-                    disabled={disabled}
+                    disabled={disabled || readOnly}
                 >
                     <DeleteBinTwoLineIcon />
                 </Button>
@@ -193,6 +195,7 @@ function ApproachesInput(props: Props) {
                         value={value?.budget_per_approach}
                         onChange={onFieldChange}
                         disabled={disabled}
+                        readOnly={readOnly}
                         error={error?.budget_per_approach}
                     />
                     <NumberInput
@@ -201,6 +204,7 @@ function ApproachesInput(props: Props) {
                         value={value?.ap_code}
                         onChange={onFieldChange}
                         disabled={disabled}
+                        readOnly={readOnly}
                         error={error?.ap_code}
                     />
                 </ListView>
@@ -221,7 +225,7 @@ function ApproachesInput(props: Props) {
                                 name={undefined}
                                 onClick={handleIndicatorAddButtonClick}
                                 spacing="sm"
-                                disabled={disabled}
+                                disabled={disabled || readOnly}
                                 before={<AddLineIcon />}
                             >
                                 {strings.approachAddIndicatorsButtonLabel}
@@ -243,6 +247,7 @@ function ApproachesInput(props: Props) {
                                     onRemove={onIndicatorRemove}
                                     error={getErrorObject(error?.indicators)}
                                     disabled={disabled}
+                                    readOnly={readOnly}
                                 />
                             ))}
                         </ListView>
@@ -266,7 +271,7 @@ function ApproachesInput(props: Props) {
                                 styleVariant="outline"
                                 name={undefined}
                                 onClick={handleReadinessAddButtonClick}
-                                disabled={disabled}
+                                disabled={disabled || readOnly}
                                 spacing="sm"
                                 before={<AddLineIcon />}
                             >
@@ -297,6 +302,7 @@ function ApproachesInput(props: Props) {
                                     onRemove={onReadinessRemove}
                                     error={getErrorObject(error?.readiness_activities)}
                                     disabled={disabled}
+                                    readOnly={readOnly}
                                 />
                             ))}
                         </ListView>
@@ -322,7 +328,7 @@ function ApproachesInput(props: Props) {
                                 styleVariant="outline"
                                 name={undefined}
                                 onClick={handlePrepositioningAddButtonClick}
-                                disabled={disabled}
+                                disabled={disabled || readOnly}
                                 spacing="sm"
                                 before={<AddLineIcon />}
                             >
@@ -353,6 +359,7 @@ function ApproachesInput(props: Props) {
                                     onRemove={onPrepositioningRemove}
                                     error={getErrorObject(error?.prepositioning_activities)}
                                     disabled={disabled}
+                                    readOnly={readOnly}
                                 />
                             ))}
                         </ListView>
@@ -376,7 +383,7 @@ function ApproachesInput(props: Props) {
                                 styleVariant="outline"
                                 name={undefined}
                                 onClick={handleEarlyActionAddButtonClick}
-                                disabled={disabled}
+                                disabled={disabled || readOnly}
                                 spacing="sm"
                                 before={<AddLineIcon />}
                             >
@@ -407,6 +414,7 @@ function ApproachesInput(props: Props) {
                                     onRemove={onEarlyActionRemove}
                                     error={getErrorObject(error?.early_action_activities)}
                                     disabled={disabled}
+                                    readOnly={readOnly}
                                 />
                             ))}
                         </ListView>

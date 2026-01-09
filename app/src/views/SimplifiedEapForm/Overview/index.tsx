@@ -200,7 +200,6 @@ function Overview(props: Props) {
                                 title={strings.partnerNS}
                                 description={strings.partnerNSDescription}
                             >
-                                {/* FIXME: Add ReadOnly */}
                                 <NonFieldError error={getErrorObject(error?.partner_contacts)} />
                                 {value.partner_contacts?.map((contact, index) => (
                                     <PartnerContactsInput
@@ -214,7 +213,6 @@ function Overview(props: Props) {
                                         readOnly={readOnly}
                                     />
                                 ))}
-                                {/* FIXME: Add ReadOnly */}
                                 <Button
                                     name={undefined}
                                     onClick={handlePartnerContactAdd}

@@ -24,6 +24,7 @@ interface Props {
     setFieldValue: (...entries: EntriesAsList<PartialEapFullFormType>) => void;
     error: Error<PartialEapFullFormType> | undefined;
     disabled?: boolean;
+    readOnly?: boolean;
 }
 
 function ContactInputsSection(props: Props) {
@@ -35,6 +36,7 @@ function ContactInputsSection(props: Props) {
         setFieldValue,
         error: formError,
         disabled,
+        readOnly,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -59,6 +61,7 @@ function ContactInputsSection(props: Props) {
                 onChange={setFieldValue}
                 error={error?.[name]}
                 disabled={disabled}
+                readOnly={readOnly}
             />
             <TextInput
                 label={strings.fullContactTitleLabel}
@@ -67,6 +70,7 @@ function ContactInputsSection(props: Props) {
                 onChange={setFieldValue}
                 error={error?.[title]}
                 disabled={disabled}
+                readOnly={readOnly}
             />
             <TextInput
                 label={strings.fullContactEmailLabel}
@@ -75,6 +79,7 @@ function ContactInputsSection(props: Props) {
                 onChange={setFieldValue}
                 error={error?.[email]}
                 disabled={disabled}
+                readOnly={readOnly}
             />
             <TextInput
                 label={strings.fullContactPhoneLabel}
@@ -83,6 +88,7 @@ function ContactInputsSection(props: Props) {
                 onChange={setFieldValue}
                 error={error?.[phoneNumber]}
                 disabled={disabled}
+                readOnly={readOnly}
             />
         </InputSection>
     );

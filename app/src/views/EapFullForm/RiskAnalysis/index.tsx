@@ -41,6 +41,7 @@ interface Props {
     setFileIdToUrlMap?: React.Dispatch<
         React.SetStateAction<Record<number, string>>
     >;
+    readOnly?: boolean;
 }
 
 function RiskAnalysis(props: Props) {
@@ -51,6 +52,7 @@ function RiskAnalysis(props: Props) {
         disabled,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        readOnly,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -156,6 +158,7 @@ function RiskAnalysis(props: Props) {
                         value={value?.hazard_selection}
                         error={error?.hazard_selection}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <MultiImageWithCaptionInput
                         name="hazard_selection_images"
@@ -167,6 +170,7 @@ function RiskAnalysis(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label="Upload"
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -220,6 +224,7 @@ function RiskAnalysis(props: Props) {
                         onChange={setFieldValue}
                         value={value?.exposed_element_and_vulnerability_factor}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <MultiImageWithCaptionInput
                         name="exposed_element_and_vulnerability_factor_images"
@@ -231,6 +236,7 @@ function RiskAnalysis(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label={strings.attachFilesSelectImagesLabel}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -261,6 +267,7 @@ function RiskAnalysis(props: Props) {
                             onRemove={onPrioritizedRemove}
                             error={getErrorObject(error?.prioritized_impacts)}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     ))}
                     <Button
@@ -276,6 +283,7 @@ function RiskAnalysis(props: Props) {
                         onChange={setFieldValue}
                         value={value?.prioritized_impact}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <MultiImageWithCaptionInput
                         name="prioritized_impact_images"
@@ -287,6 +295,7 @@ function RiskAnalysis(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label={strings.attachFilesSelectImagesLabel}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -304,6 +313,7 @@ function RiskAnalysis(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         clearable
                         disabled={disabled}
+                        readOnly={readOnly}
                         useCurrentLanguageForMutation
                     >
                         {strings.attachFilesUploadLabel}
@@ -327,12 +337,13 @@ function RiskAnalysis(props: Props) {
                                 error?.risk_analysis_source_of_information,
                             )}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     ))}
                     <Button
                         name={undefined}
                         onClick={handleSourceInformationAdd}
-                        disabled={disabled}
+                        disabled={disabled || readOnly}
                     >
                         {strings.sourceOfInformationAddNewLabel}
                     </Button>

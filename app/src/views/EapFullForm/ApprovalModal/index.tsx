@@ -26,9 +26,15 @@ interface Props {
     onClose: () => void;
     eapId: string;
     status: EapStatus;
+    readOnly?: boolean;
 }
 function ApprovalModal(props: Props) {
-    const { onClose, eapId, status } = props;
+    const {
+        onClose,
+        eapId,
+        status,
+        readOnly,
+    } = props;
     const alert = useAlert();
 
     const strings = useTranslation(i18n);
@@ -66,7 +72,11 @@ function ApprovalModal(props: Props) {
             onClose={onClose}
             footerActions={(
                 <ListView>
-                    <Button name={requestBody} onClick={triggerStatusUpdate} disabled={disabled}>
+                    <Button
+                        name={requestBody}
+                        onClick={triggerStatusUpdate}
+                        disabled={disabled || readOnly}
+                    >
                         {strings.approvalConfirmButton}
                     </Button>
                     <Button name={undefined} onClick={onClose}>
