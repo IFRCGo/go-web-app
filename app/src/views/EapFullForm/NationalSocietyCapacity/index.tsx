@@ -30,6 +30,7 @@ interface Props {
     setFileIdToUrlMap?: React.Dispatch<
         React.SetStateAction<Record<number, string>>
     >;
+    readOnly?: boolean;
 }
 function NationalSocietyCapacity(props: Props) {
     const {
@@ -39,6 +40,7 @@ function NationalSocietyCapacity(props: Props) {
         disabled,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        readOnly,
     } = props;
 
     const error = getErrorObject(formError);
@@ -70,6 +72,7 @@ function NationalSocietyCapacity(props: Props) {
                         error={error?.operational_administrative_capacity}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -84,6 +87,7 @@ function NationalSocietyCapacity(props: Props) {
                         error={error?.strategies_and_plans}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -116,6 +120,7 @@ function NationalSocietyCapacity(props: Props) {
                         error={error?.advance_financial_capacity}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -133,6 +138,7 @@ function NationalSocietyCapacity(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         clearable
                         disabled={disabled}
+                        readOnly={readOnly}
                         useCurrentLanguageForMutation
                     >
                         {strings.capacityNationalRelevantFilesUploadLabel}

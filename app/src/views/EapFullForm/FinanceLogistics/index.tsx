@@ -33,6 +33,7 @@ interface Props {
     setFileIdToUrlMap?: React.Dispatch<
         React.SetStateAction<Record<number, string>>
     >;
+    readOnly?: boolean;
 }
 
 function FinanceLogistics(props: Props) {
@@ -43,6 +44,7 @@ function FinanceLogistics(props: Props) {
         disabled,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        readOnly,
     } = props;
 
     const error = getErrorObject(formError);
@@ -85,6 +87,7 @@ function FinanceLogistics(props: Props) {
                         error={error?.total_budget}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextArea
                         label={strings.financeDescriptionLabel}
@@ -93,6 +96,7 @@ function FinanceLogistics(props: Props) {
                         error={error?.budget_description}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -120,6 +124,7 @@ function FinanceLogistics(props: Props) {
                         required
                         clearable
                         disabled={disabled}
+                        readOnly={readOnly}
                         useCurrentLanguageForMutation
                         label={strings.financeUploadBudgetLabel}
                     >
@@ -162,6 +167,7 @@ function FinanceLogistics(props: Props) {
                         error={error?.readiness_budget}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextArea
                         label={strings.financeDescriptionLabel}
@@ -170,6 +176,7 @@ function FinanceLogistics(props: Props) {
                         error={error?.readiness_cost_description}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -210,6 +217,7 @@ function FinanceLogistics(props: Props) {
                         error={error?.pre_positioning_budget}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextArea
                         label={strings.financeDescriptionLabel}
@@ -218,6 +226,7 @@ function FinanceLogistics(props: Props) {
                         error={error?.prepositioning_cost_description}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -260,6 +269,7 @@ function FinanceLogistics(props: Props) {
                         error={error?.early_action_budget}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextArea
                         label={strings.financeDescriptionLabel}
@@ -268,6 +278,7 @@ function FinanceLogistics(props: Props) {
                         error={error?.early_action_cost_description}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <Heading level={4}>{strings.financeEapEndorsementHeading}</Heading>
@@ -290,6 +301,7 @@ function FinanceLogistics(props: Props) {
                         error={error?.eap_endorsement}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
             </ListView>

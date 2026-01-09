@@ -5,7 +5,10 @@ import {
     useRef,
     useState,
 } from 'react';
-import { useParams } from 'react-router-dom';
+import {
+    useParams,
+    useSearchParams,
+} from 'react-router-dom';
 import {
     Button,
     ListView,
@@ -20,7 +23,6 @@ import {
 } from '@ifrc-go/ui/hooks';
 import { injectClientId } from '@ifrc-go/ui/utils';
 import {
-    compareNumber,
     isDefined,
     isNotDefined,
     isTruthyString,
@@ -36,7 +38,10 @@ import Link from '#components/Link';
 import Page from '#components/Page';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
-import { EAP_STATUS_UNDER_DEVELOPMENT } from '#utils/constants';
+import {
+    EAP_STATUS_NS_ADDRESSING_COMMENTS,
+    EAP_STATUS_UNDER_DEVELOPMENT,
+} from '#utils/constants';
 import {
     type GoApiBody,
     type GoApiResponse,
@@ -97,6 +102,8 @@ export function Component() {
         {},
     );
     const { eapId } = useParams<{ eapId: string }>();
+    const [searchParams] = useSearchParams();
+    const version = searchParams.get('version') ?? undefined;
     const formContentRef = useRef<ElementRef<'div'>>(null);
     const strings = useTranslation(i18n);
     const { navigate } = useRouting();
@@ -198,12 +205,14 @@ export function Component() {
                 trigger_statement_source_of_information,
                 key_actors,
                 prioritized_impacts,
+                partner_contacts,
                 ...otherValues
             } = removeNull(response);
 
             setValue({
                 ...otherValues,
 
+                partner_contacts: partner_contacts?.map(injectClientId),
                 activation_process_source_of_information:
                     activation_process_source_of_information?.map(injectClientId),
                 risk_analysis_source_of_information:
@@ -272,6 +281,12 @@ export function Component() {
                     let match = matchArray(locations, ['cover_image_file', NUM]);
                     if (isDefined(match)) {
                         return value?.cover_image_file?.client_id;
+                    }
+
+                    match = matchArray(locations, ['partner_contacts', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.partner_contacts?.[index!]?.client_id;
                     }
 
                     match = matchArray(locations, ['hazard_selection_images', NUM]);
@@ -521,9 +536,17 @@ export function Component() {
         },
     });
 
-    const latestFullEapId = useMemo(() => eapDetailResponse?.full_eap_details?.toSorted(
-        (a, b) => compareNumber(a.version, b.version, -1),
-    )?.[0]?.id, [eapDetailResponse?.full_eap_details]);
+    const selectedFullEap = eapDetailResponse?.full_eap_details?.find(
+        (fullEap) => String(fullEap.version) === String(version),
+    );
+
+    const latestFullEapId = eapDetailResponse?.latest_full_eap;
+    const latestFullEap = eapDetailResponse?.full_eap_details?.find(
+        (fullEap) => fullEap.id === latestFullEapId,
+    );
+
+    const currentFullEap = selectedFullEap ?? latestFullEap;
+    const currentFullEapId = currentFullEap?.id;
 
     useRequest({
         skip: isNotDefined(latestFullEapId),
@@ -585,6 +608,15 @@ export function Component() {
             });
         },
     });
+
+    const isLatestVersion = currentFullEapId === latestFullEapId;
+
+    const isEditable = isLatestVersion
+        && (eapDetailResponse?.status === EAP_STATUS_UNDER_DEVELOPMENT
+            || eapDetailResponse?.status === EAP_STATUS_NS_ADDRESSING_COMMENTS);
+
+    const readOnly = !isEditable;
+
     const disabled = eapFullPending || updateFullFormPending || fetchingEap;
 
     const nextStep = getNextStep(activeTab, 1);
@@ -594,14 +626,14 @@ export function Component() {
         (validatedFormValue: PartialEapFullFormType) => {
             if (isNotDefined(latestFullEapId)) {
                 createFullEap({
-                    ...(validatedFormValue as EapFullRequestBody),
+                    ...(validatedFormValue as unknown as EapFullRequestBody),
                     eap_registration: Number(eapId),
                 });
             } else {
                 updateFullEap({
                     ...validatedFormValue,
                     id: latestFullEapId,
-                } as EapFullRequestBody);
+                } as unknown as EapFullRequestBody);
             }
         },
         [eapId, createFullEap, latestFullEapId, updateFullEap],
@@ -637,29 +669,31 @@ export function Component() {
                 heading={strings.mainHeading}
                 description={strings.mainDescription}
                 withBackgroundColorInMainSection
-                actions={(
-                    <>
-                        <Link
-                            to="accountMyFormsEap"
-                            styleVariant="outline"
-                            colorVariant="primary"
-                        >
-                            {strings.cancelButton}
-                        </Link>
-                        <Button name={undefined} onClick={handleSave}>
-                            {strings.saveButton}
-                        </Button>
-                        <Button
-                            name={undefined}
-                            onClick={handleSubmitApproval}
-                            disabled={
-                                eapDetailResponse?.status !== EAP_STATUS_UNDER_DEVELOPMENT
-                            }
-                        >
-                            {strings.submitButton}
-                        </Button>
-                    </>
-                )}
+                actions={
+                    isEditable && (
+                        <>
+                            <Link
+                                to="accountMyFormsEap"
+                                styleVariant="outline"
+                                colorVariant="primary"
+                            >
+                                {strings.cancelButton}
+                            </Link>
+                            <Button name={undefined} onClick={handleSave}>
+                                {strings.saveButton}
+                            </Button>
+                            <Button
+                                name={undefined}
+                                onClick={handleSubmitApproval}
+                                disabled={
+                                    eapDetailResponse?.status !== EAP_STATUS_UNDER_DEVELOPMENT
+                                }
+                            >
+                                {strings.submitButton}
+                            </Button>
+                        </>
+                    )
+                }
                 info={(
                     <TabList>
                         <Tab
@@ -730,6 +764,7 @@ export function Component() {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         eapRegistrationDetail={eapDetailResponse}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <TabPanel name="riskAnalysis">
@@ -740,6 +775,7 @@ export function Component() {
                         disabled={disabled}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <TabPanel name="triggerModel">
@@ -751,6 +787,7 @@ export function Component() {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         eapRegistrationDetail={eapDetailResponse}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <TabPanel name="selectionActions">
@@ -761,6 +798,7 @@ export function Component() {
                         disabled={disabled}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <TabPanel name="eapActivation">
@@ -771,6 +809,7 @@ export function Component() {
                         disabled={disabled}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <TabPanel name="meal">
@@ -781,6 +820,7 @@ export function Component() {
                         disabled={disabled}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <TabPanel name="nationalSocietyCapacity">
@@ -791,6 +831,7 @@ export function Component() {
                         disabled={disabled}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <TabPanel name="financeLogistics">
@@ -801,6 +842,7 @@ export function Component() {
                         disabled={disabled}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
+                        readOnly={readOnly}
                     />
                 </TabPanel>
                 <ListView withCenteredContents>
@@ -830,6 +872,7 @@ export function Component() {
                             onClose={setShowApprovalModalFalse}
                             eapId={eapId}
                             status={eapDetailResponse?.status}
+                            readOnly={readOnly}
                         />
                     )}
             </Page>

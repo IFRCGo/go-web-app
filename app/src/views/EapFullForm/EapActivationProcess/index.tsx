@@ -38,6 +38,7 @@ interface Props {
     setFileIdToUrlMap?: React.Dispatch<
         React.SetStateAction<Record<number, string>>
     >;
+    readOnly?: boolean;
 }
 
 function EapActivationProcess(props: Props) {
@@ -48,6 +49,7 @@ function EapActivationProcess(props: Props) {
         disabled,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        readOnly,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -121,6 +123,7 @@ function EapActivationProcess(props: Props) {
                         value={value?.early_action_implementation_process}
                         error={error?.early_action_implementation_process}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <MultiImageWithCaptionInput
                         name="early_action_implementation_images"
@@ -132,6 +135,7 @@ function EapActivationProcess(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label={strings.activationProcessUploadLabel}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -172,6 +176,7 @@ function EapActivationProcess(props: Props) {
                         value={value?.trigger_activation_system}
                         error={error?.trigger_activation_system}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <MultiImageWithCaptionInput
                         name="trigger_activation_system_images"
@@ -183,6 +188,7 @@ function EapActivationProcess(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label={strings.activationProcessUploadLabel}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -196,6 +202,7 @@ function EapActivationProcess(props: Props) {
                         value={value?.people_targeted}
                         error={error?.people_targeted}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -236,6 +243,7 @@ function EapActivationProcess(props: Props) {
                         value={value?.selection_of_target_population}
                         error={error?.selection_of_target_population}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -276,6 +284,7 @@ function EapActivationProcess(props: Props) {
                         value={value?.stop_mechanism}
                         error={error?.stop_mechanism}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -294,6 +303,7 @@ function EapActivationProcess(props: Props) {
                         clearable
                         disabled={disabled}
                         useCurrentLanguageForMutation
+                        readOnly={readOnly}
                     >
                         {strings.activationProcessUploadLabel}
                     </GoMultiFileInput>
@@ -319,13 +329,14 @@ function EapActivationProcess(props: Props) {
                                     error?.activation_process_source_of_information,
                                 )}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                         ),
                     )}
                     <Button
                         name={undefined}
                         onClick={handleSourceInformationAdd}
-                        disabled={disabled}
+                        disabled={disabled || readOnly}
                     >
                         {strings.activationSourceOfInformationAddNewLabel}
                     </Button>

@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { AddLineIcon } from '@ifrc-go/icons';
 import {
     BooleanInput,
     Button,
@@ -30,6 +31,7 @@ import { type GoApiBody } from '#utils/restRequest';
 import ContactInputsSection from '../ContactInputsSection';
 import { type PartialEapFullFormType } from '../schema';
 import KeyActorsInput from './KeyActorsInput';
+import PartnerContactsInput from './PartnerContactsInput';
 
 import i18n from './i18n.json';
 
@@ -37,6 +39,10 @@ type EapRegisterRequestBody = GoApiBody<'/api/v2/eap-registration/', 'POST'>;
 type RegistrationFormFields = PartialForm<EapRegisterRequestBody>;
 type KeyActorsFormFields = NonNullable<
     PartialEapFullFormType['key_actors']
+>[number];
+
+type PartnerContactFormFields = NonNullable<
+    PartialEapFullFormType['partner_contacts']
 >[number];
 
 interface Props {
@@ -49,6 +55,7 @@ interface Props {
         React.SetStateAction<Record<number, string>>
     >;
     eapRegistrationDetail?: RegistrationFormFields;
+    readOnly?: boolean;
 }
 
 function Overview(props: Props) {
@@ -60,6 +67,7 @@ function Overview(props: Props) {
         fileIdToUrlMap,
         setFileIdToUrlMap,
         eapRegistrationDetail,
+        readOnly,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -67,6 +75,26 @@ function Overview(props: Props) {
 
     // NOTE: We dont want some fields to have onChange functionality
     const noop = () => { };
+    const {
+        setValue: onPartnerContactChange,
+        removeValue: onPartnerContactRemove,
+    } = useFormArray<'partner_contacts', PartnerContactFormFields>(
+        'partner_contacts',
+        setFieldValue,
+    );
+
+    const handlePartnerContactAdd = useCallback(() => {
+        const newPartnerContactItem: PartnerContactFormFields = {
+            client_id: randomString(),
+        };
+
+        setFieldValue(
+            (oldValue: PartnerContactFormFields[] | undefined) => (
+                [...(oldValue ?? []), newPartnerContactItem]
+            ),
+            'partner_contacts' as const,
+        );
+    }, [setFieldValue]);
 
     const { setValue: onKeyActorsChange, removeValue: onKeyActorsRemove } = useFormArray<'key_actors', KeyActorsFormFields>(
         'key_actors',
@@ -158,6 +186,7 @@ function Overview(props: Props) {
                         error={error?.expected_submission_time}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -172,6 +201,7 @@ function Overview(props: Props) {
                         error={error?.objective}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
             </ListView>
@@ -187,16 +217,35 @@ function Overview(props: Props) {
                         setFieldValue={setFieldValue}
                         error={error}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
-                    <ContactInputsSection
+                    <InputSection
                         title={strings.partnerNS}
                         description={strings.partnerNSDescription}
-                        namePrefix="partner_ns"
-                        value={value}
-                        setFieldValue={setFieldValue}
-                        error={error}
-                        disabled={disabled}
-                    />
+                    >
+                        <NonFieldError error={getErrorObject(error?.partner_contacts)} />
+                        {value.partner_contacts?.map((contact, index) => (
+                            <PartnerContactsInput
+                                key={contact.client_id}
+                                index={index}
+                                value={contact}
+                                onChange={onPartnerContactChange}
+                                onRemove={onPartnerContactRemove}
+                                error={getErrorObject(error?.partner_contacts)}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                            />
+                        ))}
+                        {/* FIXME: Add ReadOnly */}
+                        <Button
+                            name={undefined}
+                            onClick={handlePartnerContactAdd}
+                            disabled={disabled || readOnly}
+                            before={<AddLineIcon />}
+                        >
+                            {strings.addPartnerNSContactButton}
+                        </Button>
+                    </InputSection>
                 </ListView>
                 <Heading level={4}>{strings.delegationHeader}</Heading>
                 <ListView layout="block" spacing="sm">
@@ -207,6 +256,7 @@ function Overview(props: Props) {
                         setFieldValue={setFieldValue}
                         error={error}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <ContactInputsSection
                         title={strings.delegation}
@@ -215,6 +265,7 @@ function Overview(props: Props) {
                         setFieldValue={setFieldValue}
                         error={error}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </ListView>
                 <Heading level={4}>{strings.regionalHeader}</Heading>
@@ -227,6 +278,7 @@ function Overview(props: Props) {
                         setFieldValue={setFieldValue}
                         error={error}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <ContactInputsSection
                         title={strings.regionalFocalPoint}
@@ -235,6 +287,7 @@ function Overview(props: Props) {
                         setFieldValue={setFieldValue}
                         error={error}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <ContactInputsSection
                         title={strings.regionalManager}
@@ -243,6 +296,7 @@ function Overview(props: Props) {
                         setFieldValue={setFieldValue}
                         error={error}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <ContactInputsSection
                         title={strings.regionalHead}
@@ -251,6 +305,7 @@ function Overview(props: Props) {
                         setFieldValue={setFieldValue}
                         error={error}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <ContactInputsSection
                         title={strings.regionalCoordinator}
@@ -259,6 +314,7 @@ function Overview(props: Props) {
                         setFieldValue={setFieldValue}
                         error={error}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </ListView>
                 <Heading level={4}>{strings.stakeholderHeader}</Heading>
@@ -281,6 +337,7 @@ function Overview(props: Props) {
                             onChange={setFieldValue}
                             error={error?.is_worked_with_government}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                         <TextArea
                             label={strings.workWithGovernmentDescriptionLabel}
@@ -289,6 +346,7 @@ function Overview(props: Props) {
                             onChange={setFieldValue}
                             error={error?.worked_with_government_description}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                     <InputSection
@@ -326,12 +384,14 @@ function Overview(props: Props) {
                                 onRemove={onKeyActorsRemove}
                                 error={getErrorObject(error?.key_actors)}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                         ))}
                         <Button
                             name={undefined}
                             onClick={handleKeyActorsAdd}
-                            disabled={disabled}
+                            disabled={disabled || readOnly}
+                            before={<AddLineIcon />}
                         >
                             {strings.keyActorsAddButton}
                         </Button>
@@ -347,6 +407,7 @@ function Overview(props: Props) {
                             onChange={setFieldValue}
                             error={error?.is_technical_working_groups}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                         <TextInput
                             label={strings.technicalWorkingGroupsTitleLabel}
@@ -355,6 +416,7 @@ function Overview(props: Props) {
                             onChange={setFieldValue}
                             error={error?.technically_working_group_title}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                         <TextArea
                             label={strings.workWithGovernmentDescriptionLabel}
@@ -363,6 +425,7 @@ function Overview(props: Props) {
                             onChange={setFieldValue}
                             error={error?.technical_working_groups_in_place_description}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                 </ListView>

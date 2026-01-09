@@ -50,6 +50,7 @@ interface Props {
         React.SetStateAction<Record<number, string>>
     >;
     eapRegistrationDetail?: GoApiResponse<'/api/v2/eap-registration/{id}/'>;
+    readOnly?: boolean;
 }
 
 function TriggerModel(props: Props) {
@@ -61,6 +62,7 @@ function TriggerModel(props: Props) {
         fileIdToUrlMap,
         setFileIdToUrlMap,
         eapRegistrationDetail,
+        readOnly,
     } = props;
 
     const error = getErrorObject(formError);
@@ -143,6 +145,7 @@ function TriggerModel(props: Props) {
                         error={error?.trigger_statement}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection title={strings.triggerLeadTimeTitle} withAsteriskOnTitle>
@@ -152,6 +155,7 @@ function TriggerModel(props: Props) {
                         error={error?.lead_time}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -175,13 +179,14 @@ function TriggerModel(props: Props) {
                                     error?.risk_analysis_source_of_information,
                                 )}
                                 disabled={disabled}
+                                readOnly={readOnly}
                             />
                         ),
                     )}
                     <Button
                         name={undefined}
                         onClick={handleSourcesForecastAdd}
-                        disabled={disabled}
+                        disabled={disabled || readOnly}
                     >
                         {strings.addNewSourcesForecastLabel}
                     </Button>
@@ -217,6 +222,7 @@ function TriggerModel(props: Props) {
                         error={error?.forecast_selection}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <MultiImageWithCaptionInput
                         name="forecast_selection_images"
@@ -228,6 +234,7 @@ function TriggerModel(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label={strings.triggerSelectImagesLabel}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextOutput withLightText value={strings.forecastTableLabel} />
                 </InputSection>
@@ -255,6 +262,7 @@ function TriggerModel(props: Props) {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         onChange={setFieldValue}
+                        readOnly={readOnly}
                     >
                         {strings.triggerUploadTableLabel}
                     </GoSingleFileInput>
@@ -300,6 +308,7 @@ function TriggerModel(props: Props) {
                         error={error?.definition_and_justification_impact_level}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <MultiImageWithCaptionInput
                         name="definition_and_justification_impact_level_images"
@@ -313,6 +322,7 @@ function TriggerModel(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label={strings.triggerSelectImagesLabel}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -353,6 +363,7 @@ function TriggerModel(props: Props) {
                         error={error?.identification_of_the_intervention_area}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <MultiImageWithCaptionInput
                         name="identification_of_the_intervention_area_images"
@@ -366,6 +377,7 @@ function TriggerModel(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label={strings.triggerSelectImagesLabel}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -400,6 +412,7 @@ function TriggerModel(props: Props) {
                         clearable
                         disabled={disabled}
                         useCurrentLanguageForMutation
+                        readOnly={readOnly}
                     >
                         {strings.attachRelevantFilesUploadLabel}
                     </GoMultiFileInput>
@@ -420,12 +433,13 @@ function TriggerModel(props: Props) {
                             onRemove={onSourceInformationRemove}
                             error={getErrorObject(error?.trigger_model_source_of_information)}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     ))}
                     <Button
                         name={undefined}
                         onClick={handleSourceInformationAdd}
-                        disabled={disabled}
+                        disabled={disabled || readOnly}
                     >
                         {strings.addNewSourceInformationLabel}
                     </Button>

@@ -27,6 +27,7 @@ interface Props {
     disabled?: boolean;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    readOnly?: boolean;
 }
 
 function Meal(props: Props) {
@@ -37,6 +38,7 @@ function Meal(props: Props) {
         disabled,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        readOnly,
     } = props;
 
     const error = getErrorObject(formError);
@@ -101,6 +103,7 @@ function Meal(props: Props) {
                         error={error?.meal}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -118,6 +121,7 @@ function Meal(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         clearable
                         disabled={disabled}
+                        readOnly={readOnly}
                         useCurrentLanguageForMutation
                     >
                         {strings.mealAttachRelevantFilesUploadLabel}

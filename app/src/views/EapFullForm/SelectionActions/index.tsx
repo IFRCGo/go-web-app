@@ -81,6 +81,7 @@ interface Props {
     setFileIdToUrlMap?: React.Dispatch<
         React.SetStateAction<Record<number, string>>
     >;
+    readOnly?: boolean;
 }
 
 function SelectionActions(props: Props) {
@@ -91,6 +92,7 @@ function SelectionActions(props: Props) {
         disabled,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        readOnly,
     } = props;
 
     const error = getErrorObject(formError);
@@ -287,12 +289,13 @@ function SelectionActions(props: Props) {
                             onRemove={onEarlyActionsRemove}
                             error={getErrorObject(error?.early_actions)}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     ))}
                     <Button
                         name={undefined}
                         onClick={handleEarlyActionsAdd}
-                        disabled={disabled}
+                        disabled={disabled || readOnly}
                     >
                         {strings.earlyActionsAddButtonLabel}
                     </Button>
@@ -303,6 +306,7 @@ function SelectionActions(props: Props) {
                         onChange={setFieldValue}
                         error={error?.early_action_selection_process}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <MultiImageWithCaptionInput
                         name="early_action_selection_process_images"
@@ -314,6 +318,7 @@ function SelectionActions(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label={strings.selectionActionUploadLabel}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -341,6 +346,7 @@ function SelectionActions(props: Props) {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         onChange={setFieldValue}
+                        readOnly={readOnly}
                     >
                         {strings.selectionActionUploadLabel}
                     </GoSingleFileInput>
@@ -364,6 +370,7 @@ function SelectionActions(props: Props) {
                         onChange={setFieldValue}
                         error={error?.evidence_base}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -381,6 +388,7 @@ function SelectionActions(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         clearable
                         disabled={disabled}
+                        readOnly={readOnly}
                         useCurrentLanguageForMutation
                     >
                         {strings.selectionActionUploadLabel}
@@ -402,12 +410,13 @@ function SelectionActions(props: Props) {
                             onRemove={onSourceInformationRemove}
                             error={getErrorObject(error?.evidence_base_source_of_information)}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     ))}
                     <Button
                         name={undefined}
                         onClick={handleSourceInformationAdd}
-                        disabled={disabled}
+                        disabled={disabled || readOnly}
                     >
                         {strings.selectionSourceOfInformationAddNewLabel}
                     </Button>
@@ -436,6 +445,7 @@ function SelectionActions(props: Props) {
                             labelSelector={stringValueSelector}
                             checkListLayout="grid"
                             checkListLayoutPreferredGridColumns={3}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                     {value?.planned_operations?.map((operation, index) => (
@@ -448,6 +458,7 @@ function SelectionActions(props: Props) {
                             onRemove={onOperationRemove}
                             error={getErrorObject(error?.planned_operations)}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     ))}
                     <InputSection
@@ -465,6 +476,7 @@ function SelectionActions(props: Props) {
                             labelSelector={stringValueSelector}
                             checkListLayout="grid"
                             checkListLayoutPreferredGridColumns={3}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                     {value?.enable_approaches?.map((approach, index) => (
@@ -477,6 +489,7 @@ function SelectionActions(props: Props) {
                             onRemove={onApproachRemove}
                             error={getErrorObject(error?.enable_approaches)}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     ))}
                     <InputSection
@@ -500,6 +513,7 @@ function SelectionActions(props: Props) {
                             onChange={setFieldValue}
                             error={error?.usefulness_of_actions}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                     <InputSection
@@ -533,6 +547,7 @@ function SelectionActions(props: Props) {
                             onChange={setFieldValue}
                             error={error?.feasibility}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                 </ListView>

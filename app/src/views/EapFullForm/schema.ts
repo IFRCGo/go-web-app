@@ -23,7 +23,18 @@ function lessThanEqualToFiveImagesCondition<T>(value: T[] | undefined) {
 
 type EapFullRequestBody = PurgeNull<GoApiBody<'/api/v2/full-eap/', 'POST'>>;
 
-type KeyActorsResponse = NonNullable<EapFullRequestBody['key_actors']>[number];
+type PartnerContactsResponse = Omit<
+    NonNullable<EapFullRequestBody['partner_contacts']>[number],
+    'previous_id'
+>;
+type PartnerContactsFormFields = PartnerContactsResponse & {
+    client_id: string;
+};
+
+type KeyActorsResponse = Omit<
+    NonNullable<EapFullRequestBody['key_actors']>[number],
+    'previous_id'
+>;
 type KeyActorsFields = KeyActorsResponse & { client_id: string };
 
 type CoverImageFileResponse = NonNullable<
@@ -51,15 +62,21 @@ type PrioritizedImpactImagesFields = PrioritizedImpactImagesResponse & {
     client_id: string;
 };
 
-type RiskAnalysisSourceOfInformationResponse = NonNullable<
-    EapFullRequestBody['risk_analysis_source_of_information']
->[number];
+type RiskAnalysisSourceOfInformationResponse = Omit<
+    NonNullable<
+        EapFullRequestBody['risk_analysis_source_of_information']
+    >[number],
+    'previous_id'
+>;
 type RiskAnalysisSourceOfInformationFields =
     RiskAnalysisSourceOfInformationResponse & { client_id: string };
 
-type TriggerStatementSourceOfInformationResponse = NonNullable<
-    EapFullRequestBody['trigger_statement_source_of_information']
->[number];
+type TriggerStatementSourceOfInformationResponse = Omit<
+    NonNullable<
+        EapFullRequestBody['trigger_statement_source_of_information']
+    >[number],
+    'previous_id'
+>;
 type TriggerStatementSourceOfInformationFields =
     TriggerStatementSourceOfInformationResponse & { client_id: string };
 
@@ -82,9 +99,12 @@ type IdentificationInterventionImagesResponse = NonNullable<
 type IdentificationInterventionImagesResponseFields =
     IdentificationInterventionImagesResponse & { client_id: string };
 
-type TriggerModelSourceOfInformationResponse = NonNullable<
-    EapFullRequestBody['trigger_model_source_of_information']
->[number];
+type TriggerModelSourceOfInformationResponse = Omit<
+    NonNullable<
+        EapFullRequestBody['trigger_model_source_of_information']
+    >[number],
+    'previous_id'
+>;
 type TriggerModelSourceOfInformationResponseFields =
     TriggerModelSourceOfInformationResponse & { client_id: string };
 
@@ -100,9 +120,12 @@ type TriggerActivationSystemImagesResponse = NonNullable<
 type TriggerActivationSystemImagesResponseFields =
     TriggerActivationSystemImagesResponse & { client_id: string };
 
-type ActivationProcessSourceInformationResponse = NonNullable<
-    EapFullRequestBody['activation_process_source_of_information']
->[number];
+type ActivationProcessSourceInformationResponse = Omit<
+    NonNullable<
+        EapFullRequestBody['activation_process_source_of_information']
+    >[number],
+    'previous_id'
+>;
 type ActivationProcessSourceInformationResponseFields =
     ActivationProcessSourceInformationResponse & { client_id: string };
 
@@ -112,34 +135,42 @@ type EarlyActionsSelectionImagesResponse = NonNullable<
 type EarlyActionsSelectionImagesResponseFields =
     EarlyActionsSelectionImagesResponse & { client_id: string };
 
-type EvidenceBaseSourceInformationResponse = NonNullable<
-    EapFullRequestBody['evidence_base_source_of_information']
->[number];
+type EvidenceBaseSourceInformationResponse = Omit<
+    NonNullable<
+        EapFullRequestBody['evidence_base_source_of_information']
+    >[number],
+    'previous_id'
+>;
 type EvidenceBaseSourceInformationResponseFields =
     EvidenceBaseSourceInformationResponse & { client_id: string };
 
-type PlannedOperationsResponse = NonNullable<
-    EapFullRequestBody['planned_operations']
->[number];
+type PlannedOperationsResponse = Omit<
+    NonNullable<EapFullRequestBody['planned_operations']>[number],
+    'previous_id'
+>;
 
-type EarlyActionResponse = NonNullable<
-    PlannedOperationsResponse['early_action_activities']
->[number];
+type EarlyActionResponse = Omit<
+    NonNullable<PlannedOperationsResponse['early_action_activities']>[number],
+    'previous_id'
+>;
 type EarlyActionFormFields = EarlyActionResponse & { client_id: string };
 
-type PrepositioningResponse = NonNullable<
-    PlannedOperationsResponse['prepositioning_activities']
->[number];
+type PrepositioningResponse = Omit<
+    NonNullable<PlannedOperationsResponse['prepositioning_activities']>[number],
+    'previous_id'
+>;
 type PrepositioningFormFields = PrepositioningResponse & { client_id: string };
 
-type ReadinessResponse = NonNullable<
-    PlannedOperationsResponse['readiness_activities']
->[number];
+type ReadinessResponse = Omit<
+    NonNullable<PlannedOperationsResponse['readiness_activities']>[number],
+    'previous_id'
+>;
 type ReadinessFormFields = ReadinessResponse & { client_id: string };
 
-type IndicatorResponse = NonNullable<
-    PlannedOperationsResponse['indicators']
->[number];
+type IndicatorResponse = Omit<
+    NonNullable<PlannedOperationsResponse['indicators']>[number],
+    'previous_id'
+>;
 type IndicatorFormFields = IndicatorResponse & { client_id: string };
 
 type EarlyActionSelectionResponse = NonNullable<
@@ -178,30 +209,34 @@ type EnableApproachesResponse = NonNullable<
     EapFullRequestBody['enable_approaches']
 >[number];
 
-type EarlyActionApproachesResponse = NonNullable<
-    EnableApproachesResponse['early_action_activities']
->[number];
+type EarlyActionApproachesResponse = Omit<
+    NonNullable<EnableApproachesResponse['early_action_activities']>[number],
+    'previous_id'
+>;
 type EarlyActionApproachesFormFields = EarlyActionApproachesResponse & {
     client_id: string;
 };
 
-type PrepositioningApproachesResponse = NonNullable<
-    EnableApproachesResponse['prepositioning_activities']
->[number];
+type PrepositioningApproachesResponse = Omit<
+    NonNullable<EnableApproachesResponse['prepositioning_activities']>[number],
+    'previous_id'
+>;
 type PrepositioningApproachesFormFields = PrepositioningApproachesResponse & {
     client_id: string;
 };
 
-type ReadinessApproachesResponse = NonNullable<
-    EnableApproachesResponse['readiness_activities']
->[number];
+type ReadinessApproachesResponse = Omit<
+    NonNullable<EnableApproachesResponse['readiness_activities']>[number],
+    'previous_id'
+>;
 type ReadinessApproachesFormFields = ReadinessApproachesResponse & {
     client_id: string;
 };
 
-type IndicatorApproachesResponse = NonNullable<
-    EnableApproachesResponse['indicators']
->[number];
+type IndicatorApproachesResponse = Omit<
+    NonNullable<EnableApproachesResponse['indicators']>[number],
+    'previous_id'
+>;
 type IndicatorApproachesFormFields = IndicatorApproachesResponse & {
     client_id: string;
 };
@@ -244,21 +279,29 @@ type FormFields = DeepReplace<
                                                                     DeepReplace<
                                                                         DeepReplace<
                                                                             DeepReplace<
-                                                                                EapFullRequestBody,
-                                                                                KeyActorsResponse,
-                                                                                KeyActorsFields
+                                                                                DeepReplace<
+                                                                // eslint-disable-next-line max-len
+                                                                                    EapFullRequestBody,
+                                                                // eslint-disable-next-line max-len
+                                                                                    KeyActorsResponse,
+                                                                                    KeyActorsFields
+                                                                                >,
+                                                                // eslint-disable-next-line max-len
+                                                                                CoverImageFileResponse,
+                                                                                CoverImageFileFields
                                                                             >,
-                                                                            CoverImageFileResponse,
-                                                                            CoverImageFileFields
+                                                                // eslint-disable-next-line max-len
+                                                                            HazardSelectionImagesResponse,
+                                                                // eslint-disable-next-line max-len
+                                                                            HazardSelectionImagesFields
                                                                         >,
                                                                 // eslint-disable-next-line max-len
-                                                                        HazardSelectionImagesResponse,
-                                                                        HazardSelectionImagesFields
+                                                                        ExposedElementAndVulnerabilityImagesResponse,
+                                                                // eslint-disable-next-line max-len
+                                                                        ExposedElementAndVulnerabilityFields
                                                                     >,
-                                                                // eslint-disable-next-line max-len
-                                                                    ExposedElementAndVulnerabilityImagesResponse,
-                                                                // eslint-disable-next-line max-len
-                                                                    ExposedElementAndVulnerabilityFields
+                                                                    PartnerContactsResponse,
+                                                                    PartnerContactsFormFields
                                                                 >,
                                                                 PrioritizedImpactImagesResponse,
                                                                 PrioritizedImpactImagesFields
@@ -323,6 +366,12 @@ type CoverImageFileFormFields = ReturnType<
 type KeyActorsFormFields = ReturnType<
     ObjectSchema<
         NonNullable<PartialEapFullFormType['key_actors']>[number],
+        PartialEapFullFormType
+    >['fields']
+>;
+type PartnerContactFormFields = ReturnType<
+    ObjectSchema<
+        NonNullable<PartialEapFullFormType['partner_contacts']>[number],
         PartialEapFullFormType
     >['fields']
 >;
@@ -484,7 +533,7 @@ type ExtractContactPrefix<KEY extends FieldKeys> = KEY extends `${infer PREFIX}_
                 : never
             : never
         : never
-    : never
+    : never;
 
 export type ValidContactFieldPrefixes = ExtractContactPrefix<FieldKeys>;
 
@@ -516,9 +565,21 @@ export const formSchema: EapFullFormSchema = {
                 id: { defaultValue: undefinedValue },
             }),
         },
+        partner_contacts: {
+            keySelector: (item) => item.client_id,
+            member: () => ({
+                fields: (): PartnerContactFormFields => ({
+                    client_id: {},
+                    id: { defaultValue: undefinedValue },
+                    name: {},
+                    email: { validations: [emailCondition] },
+                    phone_number: {},
+                    title: {},
+                }),
+            }),
+        },
 
         ...getContactSchema('national_society_contact'),
-        ...getContactSchema('partner_ns'),
         ...getContactSchema('ifrc_delegation_focal_point'),
         ...getContactSchema('ifrc_head_of_delegation'),
         ...getContactSchema('dref_focal_point'),
