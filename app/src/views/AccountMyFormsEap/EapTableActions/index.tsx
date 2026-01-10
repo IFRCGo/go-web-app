@@ -135,22 +135,19 @@ function EapTableActions(props: Props) {
                                 {strings.exportWithChangesButtonLabel}
                             </Button>
                         )}
-                    {/* FIXME: update url for review checklist file */}
-                    {/* isDefined(eap.review_checklist_file) && (
+                    {isDefined(details?.data?.review_checklist_file) && (
                         <Link
                             external
-                            href={eap.review_checklist_file}
+                            href={details.data.review_checklist_file}
                             before={<DownloadTwoLineIcon />}
                         >
-                            {strings.downloadReviewCheckListButtonLabel}
+                            {strings.downloadReviewChecklistLinkLabel}
                         </Link>
-                    ) */}
-                    {isDefined(details?.data.updated_checklist_file) && (
-                        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                    )}
+                    {isDefined(details?.data?.updated_checklist_file_details?.file) && (
                         <Link
                             external
-                            // FIXME: get details for updated_checklist_file
-                            href="#"
+                            href={details.data.updated_checklist_file_details.file}
                             before={<DownloadTwoLineIcon />}
                         >
                             {strings.downloadUpdatedChecklistLinkLabel}
