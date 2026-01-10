@@ -165,6 +165,10 @@
         }
     }
 
+    .tab-layout {
+        /* FIXME: use css variable */
+        max-width: 12.5rem;
+    }
 
     .dot-wrapper {
         display: flex;

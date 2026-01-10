@@ -123,8 +123,7 @@ export function Component() {
 
                 budget_file_details,
 
-                // FIXME: add updated checklist file details
-                // updated_checklist_file,
+                updated_checklist_file_details,
             } = response;
 
             return {
@@ -136,6 +135,7 @@ export function Component() {
                         ...risk_selected_protocols_images ?? [],
                         ...selected_early_actions_images ?? [],
                         budget_file_details,
+                        updated_checklist_file_details,
                     ].map(
                         (eapFile) => {
                             if (isNotDefined(eapFile)) {
