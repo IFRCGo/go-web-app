@@ -8,9 +8,10 @@
         "exportWithChangesButtonLabel": "Export with changes",
         "exportButtonLabel": "Export",
         "previewExportLinkLabel": "Preview export",
-        "downloadReviewChecklistLinkLabel": "Download Review Checklist",
-        "downloadUpdatedChecklistLinkLabel": "Download Updated Checklist",
+        "downloadReviewChecklistLinkLabel": "Download review checklist",
+        "downloadUpdatedChecklistLinkLabel": "Download updated checklist",
         "editSimplifiedEapLinkLabel": "Edit sEAP",
-        "viewSimplifiedEapLinkLabel": "View sEAP"
+        "viewSimplifiedEapLinkLabel": "View sEAP",
+        "downloadValidatedBudgetLinkLabel": "Download validated budget"
     }
 }

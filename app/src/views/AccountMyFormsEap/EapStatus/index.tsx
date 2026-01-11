@@ -3,9 +3,13 @@ import {
     useMemo,
     useState,
 } from 'react';
-import { ArrowRightFillIcon } from '@ifrc-go/icons';
+import {
+    ArrowRightFillIcon,
+    UploadLineIcon,
+} from '@ifrc-go/icons';
 import {
     Button,
+    Description,
     DropdownMenu,
     Label,
     ListView,
@@ -14,6 +18,7 @@ import {
 } from '@ifrc-go/ui';
 import {
     isDefined,
+    isNotDefined,
     listToMap,
 } from '@togglecorp/fujs';
 
@@ -95,6 +100,7 @@ function EapStatus(props: Props) {
             }
 
             alert.show(
+                // FIXME: use translations
                 'Status updated successfully!',
                 { variant: 'success' },
             );
@@ -102,6 +108,7 @@ function EapStatus(props: Props) {
         formData: true,
         onFailure: (error) => {
             alert.show(
+                // FIXME: use translations
                 'Failed to update the status!',
                 {
                     variant: 'danger',
@@ -152,32 +159,46 @@ function EapStatus(props: Props) {
                         <Button
                             name={requestBody}
                             onClick={triggerStatusUpdate}
+                            disabled={newStatus === EAP_STATUS_NS_ADDRESSING_COMMENTS
+                                && isNotDefined(checklistFile)}
+                            // FIXME: use strings
                         >
                             Confirm
                         </Button>
                     )}
                 >
-                    <ListView layout="block">
-                        <div>
+                    <ListView
+                        layout="block"
+                        // FIXME: use strings
+                    >
+                        <Description>
                             Are you sure you want to update the status?
-                        </div>
-                        <ListView>
-                            <div>
+                        </Description>
+                        <ListView spacing="sm">
+                            <Label>
                                 {statusLabelMapping?.[status]}
-                            </div>
+                            </Label>
                             <ArrowRightFillIcon />
-                            <div>
+                            <Label>
                                 {statusLabelMapping?.[newStatus]}
-                            </div>
+                            </Label>
                         </ListView>
                         {newStatus === EAP_STATUS_NS_ADDRESSING_COMMENTS && (
                             <ListView
                                 layout="block"
                                 spacing="sm"
                             >
+                                {/* FIXME: use strings */}
+                                <Description withLightText>
+                                    Upload the Review Checklist for the National Society
+                                    to download and review. Make sure to keep a proper
+                                    labeling of the file to avoid duplications.
+                                </Description>
                                 <RawFileInput
                                     name="review_checklist_file"
                                     onChange={setChecklistFile}
+                                    before={<UploadLineIcon />}
+                                    // FIXME: use strings
                                 >
                                     Select review checklist file
                                 </RawFileInput>

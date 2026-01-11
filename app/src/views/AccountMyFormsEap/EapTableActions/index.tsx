@@ -21,21 +21,27 @@ import EapExportModal from '#components/domain/EapExportModal';
 import Link from '#components/Link';
 import {
     EAP_STATUS_NS_ADDRESSING_COMMENTS,
+    EAP_STATUS_TECHNICALLY_VALIDATED,
     EAP_STATUS_UNDER_DEVELOPMENT,
     EAP_TYPE_FULL,
     EAP_TYPE_SIMPLIFIED,
 } from '#utils/constants';
 
 import { type EapExpandedListItem } from '../utils';
+import BudgetFileInput from './BudgetFileInput';
 
 import i18n from './i18n.json';
 
 export interface Props {
     expandedListItem: EapExpandedListItem;
+    onUpdate?: () => void;
 }
 
 function EapTableActions(props: Props) {
-    const { expandedListItem } = props;
+    const {
+        expandedListItem,
+        onUpdate,
+    } = props;
 
     const {
         type,
@@ -98,7 +104,7 @@ function EapTableActions(props: Props) {
                 </ListView>
             )}
             {type === 'development' && (
-                <ListView layout="block">
+                <>
                     {eap.eap_type === EAP_TYPE_SIMPLIFIED && (
                         <Link
                             to="simplifiedEapExport"
@@ -196,7 +202,27 @@ function EapTableActions(props: Props) {
                             {strings.viewFullEapLinkLabel}
                         </Link>
                     )}
-                </ListView>
+                </>
+            )}
+            {type === 'validated' && (
+                <>
+                    {isDefined(eap.validated_budget_file) && (
+                        <Link
+                            external
+                            href={eap.validated_budget_file}
+                            before={<DownloadTwoLineIcon />}
+                        >
+                            {strings.downloadValidatedBudgetLinkLabel}
+                        </Link>
+                    )}
+                    {eap.status === EAP_STATUS_TECHNICALLY_VALIDATED && (
+                        <BudgetFileInput
+                            eapId={eap.id}
+                            hasBudgetFile={isDefined(eap.validated_budget_file)}
+                            onBudgetFileUpload={onUpdate}
+                        />
+                    )}
+                </>
             )}
             {showExportModal && isDefined(eap.eap_type) && (
                 <EapExportModal

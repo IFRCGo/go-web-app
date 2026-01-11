@@ -390,12 +390,14 @@ export const formSchema: FormSchema = {
             budget_file: { required: true },
         };
 
-        if (isNotDefined(context) || context.isRevision) {
+        if (isNotDefined(context) || !context.isRevision) {
             return defaultSchema;
         }
 
         return {
             ...defaultSchema,
+
+            // Delivery & Budget
             updated_checklist_file: {
                 required: true,
             },

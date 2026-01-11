@@ -224,20 +224,23 @@ export function Component() {
                         label: 'Technically Validated',
                         eap: eapListItem,
                         type: 'validated',
+                        lastUpdated: eapListItem.technically_validated_at ?? undefined,
                         details: undefined,
                         disabled: status < EAP_STATUS_TECHNICALLY_VALIDATED,
                     } satisfies EapExpandedListItem,
                     {
-                        label: 'Approved',
+                        label: 'Pending PFA',
+                        lastUpdated: eapListItem.pending_pfa_at ?? undefined,
                         eap: eapListItem,
-                        type: 'approved',
+                        type: 'pending-pfa',
                         details: undefined,
                         disabled: status < EAP_STATUS_PENDING_PFA,
                     } satisfies EapExpandedListItem,
                     {
-                        label: 'PFA Signed',
+                        label: 'Approved',
                         eap: eapListItem,
-                        type: 'signed',
+                        lastUpdated: eapListItem.approved_at ?? undefined,
+                        type: 'approved',
                         details: undefined,
                         disabled: status < EAP_STATUS_APPROVED,
                     } satisfies EapExpandedListItem,
@@ -275,11 +278,12 @@ export function Component() {
                 EapTableActions,
                 (_, row) => ({
                     expandedListItem: row,
+                    onUpdate: reloadEapList,
                 }),
             ),
             createEmptyColumn<EapExpandedListItem, string | number>(),
         ]),
-        [strings.eapLastUpdated],
+        [strings.eapLastUpdated, reloadEapList],
     );
 
     const rowModifier = useCallback(

@@ -176,30 +176,6 @@ function RiskAnalysis(props: Props) {
                         />
                     </InputSection>
                 </ListView>
-                <InputSection
-                    title={strings.riskProtocol}
-                    description={strings.riskProtocolDescription}
-                    withAsteriskOnTitle
-                >
-                    <TextArea
-                        label={strings.riskDescriptionLabel}
-                        name="risks_selected_protocols"
-                        value={value?.risks_selected_protocols}
-                        onChange={setFieldValue}
-                        error={error?.risks_selected_protocols}
-                        disabled={disabled}
-                    />
-                    <MultiImageWithCaptionInput
-                        name="risk_selected_protocols_images"
-                        url="/api/v2/eap-file/multiple/"
-                        value={value?.risk_selected_protocols_images}
-                        onChange={setFieldValue}
-                        error={getErrorObject(error?.risk_selected_protocols_images)}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        disabled={disabled}
-                    />
-                </InputSection>
             </Container>
             <Container heading={strings.earlyActionSelection}>
                 <ListView
