@@ -33,6 +33,7 @@ interface Props {
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     readOnly?: boolean;
+    isRevision?: boolean;
 }
 
 function DeliveryAndBudget(props: Props) {
@@ -44,6 +45,7 @@ function DeliveryAndBudget(props: Props) {
         fileIdToUrlMap,
         setFileIdToUrlMap,
         readOnly,
+        isRevision,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -281,23 +283,25 @@ function DeliveryAndBudget(props: Props) {
                             {strings.upload}
                         </GoSingleFileInput>
                     </InputSection>
-                    <InputSection
-                        title={strings.updatedChecklistTitle}
-                    >
-                        <GoSingleFileInput
-                            name="updated_checklist_file"
-                            url="/api/v2/eap-file/"
-                            value={value?.updated_checklist_file}
-                            onChange={setFieldValue}
-                            error={getErrorString(error?.updated_checklist_file)}
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            disabled={disabled}
-                            readOnly={readOnly}
+                    {isRevision && (
+                        <InputSection
+                            title={strings.updatedChecklistTitle}
                         >
-                            {strings.upload}
-                        </GoSingleFileInput>
-                    </InputSection>
+                            <GoSingleFileInput
+                                name="updated_checklist_file"
+                                url="/api/v2/eap-file/"
+                                value={value?.updated_checklist_file}
+                                onChange={setFieldValue}
+                                error={getErrorString(error?.updated_checklist_file)}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                            >
+                                {strings.upload}
+                            </GoSingleFileInput>
+                        </InputSection>
+                    )}
                 </ListView>
             </Container>
         </TabPage>

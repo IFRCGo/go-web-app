@@ -6,7 +6,7 @@ import {
 
 import { type components } from '#generated/types';
 
-type OperationActivity = components['schemas']['OperationActivity'];
+type OperationActivity = components<'write'>['schemas']['OperationActivity'];
 
 export type OperationActivityFormFields = PartialForm<Omit<OperationActivity, 'timeframe_display'>> & {
     client_id: string;

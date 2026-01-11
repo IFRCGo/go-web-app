@@ -91,12 +91,54 @@ function getNextStep(current: TabKeys, direction: 1 | -1) {
     return tabKeyList[currentIndex + direction];
 }
 
+const defaultFormValue: PartialSimplifiedEapType = {};
+
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const { navigate } = useRouting();
+    const alert = useAlert();
+    const { eapId } = useParams<{ eapId: string }>();
+    const [searchParams] = useSearchParams();
+    const versionFromParams = searchParams.get('version') ?? undefined;
 
+    const {
+        pending: eapRegistrationPending,
+        response: eapRegistrationResponse,
+    } = useRequest({
+        skip: isNotDefined(eapId),
+        url: '/api/v2/eap-registration/{id}/',
+        pathVariables: isTruthyString(eapId) ? {
+            id: Number(eapId),
+        } : undefined,
+    });
+
+    const selectedSimplifiedEap = eapRegistrationResponse?.simplified_eap_details?.find(
+        (simplifiedEap) => String(simplifiedEap.version) === String(versionFromParams),
+    );
+
+    const latestSimplifiedEapId = eapRegistrationResponse?.latest_simplified_eap ?? undefined;
+    const latestSimplifiedEap = eapRegistrationResponse?.simplified_eap_details?.find(
+        (simplifiedEap) => simplifiedEap.id === latestSimplifiedEapId,
+    );
+
+    const currentSimplifiedEap = selectedSimplifiedEap ?? latestSimplifiedEap;
+    const currentSimplifiedEapId = currentSimplifiedEap?.id;
+
+    // FIXME: handle errors
+    const {
+        pending: simplifiedEapPending,
+        response: simplifiedEapResponse,
+    } = useRequest({
+        skip: isNotDefined(currentSimplifiedEapId),
+        url: '/api/v2/simplified-eap/{id}/',
+        pathVariables: isDefined(currentSimplifiedEapId) ? {
+            id: Number(currentSimplifiedEapId),
+        } : undefined,
+    });
+
+    const isRevision = eapRegistrationResponse?.status === EAP_STATUS_NS_ADDRESSING_COMMENTS;
     const {
         value,
         setFieldValue,
@@ -104,13 +146,13 @@ export function Component() {
         setError,
         validate,
         setValue,
-    } = useForm(formSchema, { value: {} });
+    } = useForm(
+        formSchema,
+        { value: defaultFormValue },
+        { isRevision },
+    );
 
-    const alert = useAlert();
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
-    const { eapId } = useParams<{ eapId: string }>();
-    const [searchParams] = useSearchParams();
-    const version = searchParams.get('version') ?? undefined;
 
     const updateFileUrlMapping = useCallback((response: GetSimplifiedResponse) => {
         setFileIdToUrlMap((prevMap) => {
@@ -294,43 +336,11 @@ export function Component() {
         ));
     }, [value, setError]);
 
-    const {
-        pending: eapRegistrationPending,
-        response: eapRegistrationResponse,
-    } = useRequest({
-        skip: isNotDefined(eapId),
-        url: '/api/v2/eap-registration/{id}/',
-        pathVariables: isTruthyString(eapId) ? {
-            id: Number(eapId),
-        } : undefined,
-    });
-
-    const selectedSimplifiedEap = eapRegistrationResponse?.simplified_eap_details?.find(
-        (simplifiedEap) => String(simplifiedEap.version) === String(version),
-    );
-
-    const latestSimplifiedEapId = eapRegistrationResponse?.latest_simplified_eap;
-    const latestSimplifiedEap = eapRegistrationResponse?.simplified_eap_details?.find(
-        (simplifiedEap) => simplifiedEap.id === latestSimplifiedEapId,
-    );
-
-    const currentSimplifiedEap = selectedSimplifiedEap ?? latestSimplifiedEap;
-    const currentSimplifiedEapId = currentSimplifiedEap?.id;
-
-    // FIXME: handle errors
-    const {
-        pending: simplifiedEapPending,
-        response: simplifiedEapResponse,
-    } = useRequest({
-        skip: isNotDefined(currentSimplifiedEapId),
-        url: '/api/v2/simplified-eap/{id}/',
-        pathVariables: isDefined(currentSimplifiedEapId) ? {
-            id: Number(currentSimplifiedEapId),
-        } : undefined,
-        onSuccess: (response) => {
-            updateFormValueFromResponse(response);
-        },
-    });
+    useEffect(() => {
+        if (isDefined(simplifiedEapResponse)) {
+            updateFormValueFromResponse(simplifiedEapResponse);
+        }
+    }, [updateFormValueFromResponse, simplifiedEapResponse]);
 
     useEffect(() => {
         if (isNotDefined(eapRegistrationResponse)) {
@@ -652,6 +662,7 @@ export function Component() {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         readOnly={readOnly}
+                        isRevision={isRevision}
                     />
                 </TabPanel>
                 <ListView withCenteredContents>

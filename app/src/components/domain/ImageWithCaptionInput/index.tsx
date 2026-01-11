@@ -19,13 +19,9 @@ import {
 import GoSingleFileInput, { type SupportedPaths } from '#components/domain/GoSingleFileInput';
 import NonFieldError from '#components/NonFieldError';
 
-import i18n from './i18n.json';
+import { type ImageWithCaptionValue } from './schema';
 
-type InputValue = {
-    id?: number;
-    client_id: string;
-    caption?: string | null;
-};
+import i18n from './i18n.json';
 
 type OutputValue = {
     id?: number;
@@ -37,9 +33,9 @@ interface Props<NAME> {
     className?: string;
     name: NAME;
     url: SupportedPaths;
-    value: InputValue | null | undefined;
+    value: ImageWithCaptionValue | null | undefined;
     onChange: (value: SetValueArg<OutputValue> | undefined, name: NAME) => void;
-    error: ObjectError<InputValue> | undefined;
+    error: ObjectError<ImageWithCaptionValue> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     label?: React.ReactNode;
