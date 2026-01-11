@@ -1,5 +1,8 @@
 import { type DeepReplace } from '@ifrc-go/ui/utils';
-import { isDefined } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 import {
     emailCondition,
     type LiteralSchema,
@@ -24,6 +27,10 @@ function maxOperationalTimeframeCondition(value: number | undefined) {
         ? 'Timeframe cannot be more than 12 months'
         : undefined;
 }
+
+type EapSimplifiedFormContext = {
+    isRevision: boolean,
+} | undefined;
 
 type EapSimplifiedRequestBody = PurgeNull<GoApiBody<'/api/v2/simplified-eap/', 'POST'>>;
 
@@ -138,29 +145,36 @@ type FormFields = (
 );
 
 export type PartialSimplifiedEapType = PartialForm<FormFields, 'client_id' | 'sector' | 'approach'>;
-type PlannedOperationalFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['planned_operations']>[number], PartialSimplifiedEapType>['fields']>;
-type EnableApproachesFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['enable_approaches']>[number], PartialSimplifiedEapType>['fields']>;
-type CoverImageFileFormFields = ReturnType<ObjectSchema<PartialSimplifiedEapType['cover_image_file'], PartialSimplifiedEapType>['fields']>;
+
+type PlannedOperationalFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['planned_operations']>[number], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
+type EnableApproachesFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['enable_approaches']>[number], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
+type CoverImageFileFormFields = ReturnType<ObjectSchema<PartialSimplifiedEapType['cover_image_file'], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
 type IndicatorFields = ReturnType<
     ObjectSchema<
         NonNullable<NonNullable<PartialSimplifiedEapType['planned_operations']>[number]['indicators']>[number],
-        PartialSimplifiedEapType
+        PartialSimplifiedEapType,
+        EapSimplifiedFormContext
     >['fields']
 >;
 type ApproachIndicatorFields = ReturnType<
     ObjectSchema<
         NonNullable<NonNullable<PartialSimplifiedEapType['enable_approaches']>[number]['indicators']>[number],
-        PartialSimplifiedEapType
+        PartialSimplifiedEapType,
+        EapSimplifiedFormContext
     >['fields']
 >;
 
-type RiskProtocolsFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['risk_selected_protocols_images']>[number], PartialSimplifiedEapType>['fields']>;
-type HazardImpactFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['hazard_impact_images']>[number], PartialSimplifiedEapType>['fields']>;
-type EarlyActionFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['selected_early_actions_images']>[number], PartialSimplifiedEapType>['fields']>;
+type RiskProtocolsFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['risk_selected_protocols_images']>[number], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
+type HazardImpactFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['hazard_impact_images']>[number], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
+type EarlyActionFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['selected_early_actions_images']>[number], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
 
-type PartnerContactFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['partner_contacts']>[number], PartialSimplifiedEapType>['fields']>;
+type PartnerContactFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['partner_contacts']>[number], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
 
-type FormSchema = ObjectSchema<PartialSimplifiedEapType>;
+type FormSchema = ObjectSchema<
+    PartialSimplifiedEapType,
+    PartialSimplifiedEapType,
+    EapSimplifiedFormContext
+>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
 type FieldKeys = keyof EapSimplifiedRequestBody;
@@ -180,7 +194,7 @@ export type ValidContactFieldPrefixes = ExtractContactPrefix<FieldKeys>;
 
 function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY) {
     type ContactSchema = {
-        [K in `${KEY}_${ContactFieldSuffix}`]: LiteralSchema<string | undefined, PartialSimplifiedEapType>
+        [K in `${KEY}_${ContactFieldSuffix}`]: LiteralSchema<string | undefined, PartialSimplifiedEapType, EapSimplifiedFormContext>
     }
 
     return {
@@ -192,189 +206,199 @@ function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY) {
 }
 
 export const formSchema: FormSchema = {
-    fields: (): FormSchemaFields => ({
-        // Overview
+    fields: (_, __, context): FormSchemaFields => {
+        const defaultSchema: FormSchemaFields = {
+            // Overview
 
-        // national_society: {},
-        // country: {},
-        // disaster_type: {},
+            // national_society: {},
+            // country: {},
+            // disaster_type: {},
 
-        cover_image_file: {
-            fields: (): CoverImageFileFormFields => ({
-                client_id: {},
-                caption: {},
-                id: { defaultValue: undefinedValue },
-            }),
-        },
-        seap_timeframe: { required: true },
-        partner_contacts: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): PartnerContactFields => ({
-                    client_id: {},
-                    id: { defaultValue: undefinedValue },
-                    name: {},
-                    email: { validations: [emailCondition] },
-                    phone_number: {},
-                    title: {},
-                }),
-            }),
-        },
-        ...getContactSchema('national_society_contact'),
-        ...getContactSchema('ifrc_delegation_focal_point'),
-        ...getContactSchema('ifrc_head_of_delegation'),
-        ...getContactSchema('dref_focal_point'),
-        ...getContactSchema('ifrc_regional_focal_point'),
-        ...getContactSchema('ifrc_regional_ops_manager'),
-        ...getContactSchema('ifrc_regional_head_dcc'),
-        ...getContactSchema('ifrc_global_ops_coordinator'),
-
-        // Risk Analysis
-
-        prioritized_hazard_and_impact: {},
-        hazard_impact_images: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): HazardImpactFileFields => ({
+            cover_image_file: {
+                fields: (): CoverImageFileFormFields => ({
                     client_id: {},
                     caption: {},
                     id: { defaultValue: undefinedValue },
                 }),
-            }),
-            validation: lessThanEqualToFiveImagesCondition,
-        },
-        risks_selected_protocols: {},
-        risk_selected_protocols_images: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): RiskProtocolsFileFields => ({
-                    client_id: {},
-                    caption: {},
-                    id: { defaultValue: undefinedValue },
+            },
+            seap_timeframe: { required: true },
+            partner_contacts: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): PartnerContactFields => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        name: {},
+                        email: { validations: [emailCondition] },
+                        phone_number: {},
+                        title: {},
+                    }),
                 }),
-            }),
-            validation: lessThanEqualToFiveImagesCondition,
-        },
-        selected_early_actions: {},
-        selected_early_actions_images: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): EarlyActionFileFields => ({
-                    client_id: {},
-                    caption: {},
-                    id: { defaultValue: undefinedValue },
+            },
+            ...getContactSchema('national_society_contact'),
+            ...getContactSchema('ifrc_delegation_focal_point'),
+            ...getContactSchema('ifrc_head_of_delegation'),
+            ...getContactSchema('dref_focal_point'),
+            ...getContactSchema('ifrc_regional_focal_point'),
+            ...getContactSchema('ifrc_regional_ops_manager'),
+            ...getContactSchema('ifrc_regional_head_dcc'),
+            ...getContactSchema('ifrc_global_ops_coordinator'),
+
+            // Risk Analysis
+
+            prioritized_hazard_and_impact: {},
+            hazard_impact_images: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): HazardImpactFileFields => ({
+                        client_id: {},
+                        caption: {},
+                        id: { defaultValue: undefinedValue },
+                    }),
                 }),
-            }),
-            validation: lessThanEqualToFiveImagesCondition,
-        },
+                validation: lessThanEqualToFiveImagesCondition,
+            },
+            risks_selected_protocols: {},
+            risk_selected_protocols_images: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): RiskProtocolsFileFields => ({
+                        client_id: {},
+                        caption: {},
+                        id: { defaultValue: undefinedValue },
+                    }),
+                }),
+                validation: lessThanEqualToFiveImagesCondition,
+            },
+            selected_early_actions: {},
+            selected_early_actions_images: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): EarlyActionFileFields => ({
+                        client_id: {},
+                        caption: {},
+                        id: { defaultValue: undefinedValue },
+                    }),
+                }),
+                validation: lessThanEqualToFiveImagesCondition,
+            },
 
-        // Early Action Interventions
+            // Early Action Interventions
 
-        overall_objective_intervention: {},
-        potential_geographical_high_risk_areas: {},
-        admin2: {
-            defaultValue: [],
-        },
-        people_targeted: { required: true },
-        assisted_through_operation: {},
-        selection_criteria: {},
-        trigger_statement: {},
-        seap_lead_time: { required: true },
-        seap_lead_timeframe_unit: { required: true },
-        operational_timeframe: {
-            required: true,
-            validations: [maxOperationalTimeframeCondition],
-        },
-        operational_timeframe_unit: {},
-        trigger_threshold_justification: {},
-        next_step_towards_full_eap: { required: true },
+            overall_objective_intervention: {},
+            potential_geographical_high_risk_areas: {},
+            admin2: {
+                defaultValue: [],
+            },
+            people_targeted: { required: true },
+            assisted_through_operation: {},
+            selection_criteria: {},
+            trigger_statement: {},
+            seap_lead_time: { required: true },
+            seap_lead_timeframe_unit: { required: true },
+            operational_timeframe: {
+                required: true,
+                validations: [maxOperationalTimeframeCondition],
+            },
+            operational_timeframe_unit: {},
+            trigger_threshold_justification: {},
+            next_step_towards_full_eap: { required: true },
 
-        // Planned Operations
+            // Planned Operations
 
-        planned_operations: {
-            keySelector: (item) => item.sector,
-            member: () => ({
-                fields: (): PlannedOperationalFields => ({
-                    id: { defaultValue: undefinedValue },
-                    sector: {},
-                    budget_per_sector: {},
-                    ap_code: {},
-                    indicators: {
-                        keySelector: (indicator) => indicator.client_id,
-                        member: () => ({
-                            fields: (): IndicatorFields => ({
-                                client_id: {},
-                                id: { defaultValue: undefinedValue },
-                                title: {},
-                                target: { validations: [positiveNumberCondition] },
+            planned_operations: {
+                keySelector: (item) => item.sector,
+                member: () => ({
+                    fields: (): PlannedOperationalFields => ({
+                        id: { defaultValue: undefinedValue },
+                        sector: {},
+                        budget_per_sector: {},
+                        ap_code: {},
+                        indicators: {
+                            keySelector: (indicator) => indicator.client_id,
+                            member: () => ({
+                                fields: (): IndicatorFields => ({
+                                    client_id: {},
+                                    id: { defaultValue: undefinedValue },
+                                    title: {},
+                                    target: { validations: [positiveNumberCondition] },
+                                }),
                             }),
-                        }),
-                    },
-                    people_targeted: {},
-                    early_action_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => operationActivitySchema,
-                    },
-                    readiness_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => operationActivitySchema,
-                    },
-                    prepositioning_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => operationActivitySchema,
-                    },
+                        },
+                        people_targeted: {},
+                        early_action_activities: {
+                            keySelector: (item) => item.client_id,
+                            member: () => operationActivitySchema,
+                        },
+                        readiness_activities: {
+                            keySelector: (item) => item.client_id,
+                            member: () => operationActivitySchema,
+                        },
+                        prepositioning_activities: {
+                            keySelector: (item) => item.client_id,
+                            member: () => operationActivitySchema,
+                        },
+                    }),
                 }),
-            }),
-        },
+            },
 
-        // Enabling Approaches
+            // Enabling Approaches
 
-        enable_approaches: {
-            keySelector: (item) => item.approach,
-            member: () => ({
-                fields: (): EnableApproachesFields => ({
-                    id: { defaultValue: undefinedValue },
-                    approach: {},
-                    budget_per_approach: {},
-                    ap_code: {},
-                    indicators: {
-                        keySelector: (indicator) => indicator.client_id,
-                        member: () => ({
-                            fields: (): ApproachIndicatorFields => ({
-                                client_id: {},
-                                id: { defaultValue: undefinedValue },
-                                title: {},
-                                target: { validations: [positiveNumberCondition] },
+            enable_approaches: {
+                keySelector: (item) => item.approach,
+                member: () => ({
+                    fields: (): EnableApproachesFields => ({
+                        id: { defaultValue: undefinedValue },
+                        approach: {},
+                        budget_per_approach: {},
+                        ap_code: {},
+                        indicators: {
+                            keySelector: (indicator) => indicator.client_id,
+                            member: () => ({
+                                fields: (): ApproachIndicatorFields => ({
+                                    client_id: {},
+                                    id: { defaultValue: undefinedValue },
+                                    title: {},
+                                    target: { validations: [positiveNumberCondition] },
+                                }),
                             }),
-                        }),
-                    },
-                    early_action_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => operationActivitySchema,
-                    },
-                    readiness_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => operationActivitySchema,
-                    },
-                    prepositioning_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => operationActivitySchema,
-                    },
+                        },
+                        early_action_activities: {
+                            keySelector: (item) => item.client_id,
+                            member: () => operationActivitySchema,
+                        },
+                        readiness_activities: {
+                            keySelector: (item) => item.client_id,
+                            member: () => operationActivitySchema,
+                        },
+                        prepositioning_activities: {
+                            keySelector: (item) => item.client_id,
+                            member: () => operationActivitySchema,
+                        },
+                    }),
                 }),
-            }),
-        },
+            },
 
-        // Delivery & Budget
+            // Delivery & Budget
 
-        early_action_capability: {},
-        rcrc_movement_involvement: {},
-        total_budget: { required: true },
-        readiness_budget: { required: true },
-        pre_positioning_budget: { required: true },
-        early_action_budget: { required: true },
-        budget_file: { required: true },
+            early_action_capability: {},
+            rcrc_movement_involvement: {},
+            total_budget: { required: true },
+            readiness_budget: { required: true },
+            pre_positioning_budget: { required: true },
+            early_action_budget: { required: true },
+            budget_file: { required: true },
+        };
 
-        // FIXME: this should be conditional and required
-        updated_checklist_file: {},
-    }),
+        if (isNotDefined(context) || context.isRevision) {
+            return defaultSchema;
+        }
+
+        return {
+            ...defaultSchema,
+            updated_checklist_file: {
+                required: true,
+            },
+        } satisfies FormSchemaFields;
+    },
 };
