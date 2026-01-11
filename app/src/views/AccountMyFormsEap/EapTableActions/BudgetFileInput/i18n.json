@@ -1,0 +1,11 @@
+{
+    "namespace":"accountMyFormsEap",
+    "strings":{
+        "newBudgetFileUploadLabel": "Upload validated budget",
+        "updateBudgetFileLabel": "Update validated budget",
+        "fileInputLabel": "Select a file to upload",
+        "confirmButtonLabel": "Confirm",
+        "uploadSuccessfulMessage": "Budget file uploaded successfully!",
+        "uploadFailureMessage": "Failed to upload the budget file!"
+    }
+}

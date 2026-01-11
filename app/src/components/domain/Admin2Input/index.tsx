@@ -266,6 +266,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                     onClose={setShowModalFalse}
                     // FIXME: use strings
                     heading="Select Admin-2"
+                    size="xl"
                     footerActions={(
                         <Button
                             name={undefined}
@@ -287,6 +288,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                         <GoMapContainer
                             title="Admin-2 Map"
                             withoutDownloadButton
+                            withFullHeight
                         />
                         {bounds && (
                             <MapBounds

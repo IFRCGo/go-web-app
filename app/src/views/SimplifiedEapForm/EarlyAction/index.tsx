@@ -156,7 +156,6 @@ function EarlyAction(props: Props) {
                     numPreferredColumns={2}
                 >
                     <NumberInput
-                        label={strings.actionDescription}
                         name="people_targeted"
                         value={value?.people_targeted}
                         onChange={setFieldValue}

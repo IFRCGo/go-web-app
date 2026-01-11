@@ -19,9 +19,13 @@ import {
 import GoSingleFileInput, { type SupportedPaths } from '#components/domain/GoSingleFileInput';
 import NonFieldError from '#components/NonFieldError';
 
-import { type ImageWithCaptionValue } from './schema';
-
 import i18n from './i18n.json';
+
+type ImageWithCaptionValue = {
+    id?: number;
+    client_id: string;
+    caption?: string | null;
+};
 
 type OutputValue = {
     id?: number;
