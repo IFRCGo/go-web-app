@@ -29,35 +29,76 @@ function maxOperationalTimeframeCondition(value: number | undefined) {
 }
 
 type EapSimplifiedFormContext = {
-    isRevision: boolean,
-} | undefined;
+        isRevision: boolean;
+    }
+    | undefined;
 
-type EapSimplifiedRequestBody = PurgeNull<GoApiBody<'/api/v2/simplified-eap/', 'POST'>>;
+type EapSimplifiedRequestBody = PurgeNull<
+    GoApiBody<'/api/v2/simplified-eap/', 'POST'>
+>;
 
-type EnableApproachesResponse = NonNullable<EapSimplifiedRequestBody['enable_approaches']>[number];
-type ApproachEarlyActionResponse = NonNullable<EnableApproachesResponse['early_action_activities']>[number];
-type ApproachPrepositioningResponse = NonNullable<EnableApproachesResponse['prepositioning_activities']>[number];
-type ApproachReadinessResponse = NonNullable<EnableApproachesResponse['readiness_activities']>[number];
-type ApproachIndicatorResponse = NonNullable<EnableApproachesResponse['indicators']>[number];
+type EnableApproachesResponse = NonNullable<
+    EapSimplifiedRequestBody['enable_approaches']
+>[number];
+type ApproachEarlyActionResponse = NonNullable<
+    EnableApproachesResponse['early_action_activities']
+>[number];
+type ApproachPrepositioningResponse = NonNullable<
+    EnableApproachesResponse['prepositioning_activities']
+>[number];
+type ApproachReadinessResponse = NonNullable<
+    EnableApproachesResponse['readiness_activities']
+>[number];
+type ApproachIndicatorResponse = NonNullable<
+    EnableApproachesResponse['indicators']
+>[number];
 
-type PlannedOperationsResponse = NonNullable<EapSimplifiedRequestBody['planned_operations']>[number];
-type EarlyActionResponse = NonNullable<PlannedOperationsResponse['early_action_activities']>[number];
-type PrepositioningResponse = NonNullable<PlannedOperationsResponse['prepositioning_activities']>[number];
-type ReadinessResponse = NonNullable<PlannedOperationsResponse['readiness_activities']>[number];
-type IndicatorResponse = NonNullable<PlannedOperationsResponse['indicators']>[number];
+type PlannedOperationsResponse = NonNullable<
+    EapSimplifiedRequestBody['planned_operations']
+>[number];
+type EarlyActionResponse = NonNullable<
+    PlannedOperationsResponse['early_action_activities']
+>[number];
+type PrepositioningResponse = NonNullable<
+    PlannedOperationsResponse['prepositioning_activities']
+>[number];
+type ReadinessResponse = NonNullable<
+    PlannedOperationsResponse['readiness_activities']
+>[number];
+type IndicatorResponse = NonNullable<
+    PlannedOperationsResponse['indicators']
+>[number];
 
-type CoverImageFileResponse = NonNullable<EapSimplifiedRequestBody['cover_image_file']>;
+type CoverImageFileResponse = NonNullable<
+    EapSimplifiedRequestBody['cover_image_file']
+>;
 
-type HazardImagesResponse = NonNullable<EapSimplifiedRequestBody['hazard_impact_images']>[number];
-type RiskImagesResponse = NonNullable<EapSimplifiedRequestBody['risk_selected_protocols_images']>[number];
-type EarlyActionImagesResponse = NonNullable<EapSimplifiedRequestBody['selected_early_actions_images']>[number];
+type HazardImagesResponse = NonNullable<
+    EapSimplifiedRequestBody['hazard_impact_images']
+>[number];
+type RiskImagesResponse = NonNullable<
+    EapSimplifiedRequestBody['risk_selected_protocols_images']
+>[number];
+type EarlyActionImagesResponse = NonNullable<
+    EapSimplifiedRequestBody['selected_early_actions_images']
+>[number];
 
-type PartnerContactsResponse = NonNullable<EapSimplifiedRequestBody['partner_contacts']>[number];
+type PartnerContactsResponse = NonNullable<
+    EapSimplifiedRequestBody['partner_contacts']
+>[number];
 
-type ApproachEarlyActionFormFields = ApproachEarlyActionResponse & { client_id: string };
-type ApproachPrepositioningFormFields = ApproachPrepositioningResponse & { client_id: string };
-type ApproachReadinessFormFields = ApproachReadinessResponse & { client_id: string };
-type ApproachIndicatorFormFields = ApproachIndicatorResponse & { client_id: string };
+type ApproachEarlyActionFormFields = ApproachEarlyActionResponse & {
+    client_id: string;
+};
+type ApproachPrepositioningFormFields = ApproachPrepositioningResponse & {
+    client_id: string;
+};
+type ApproachReadinessFormFields = ApproachReadinessResponse & {
+    client_id: string;
+};
+type ApproachIndicatorFormFields = ApproachIndicatorResponse & {
+    client_id: string;
+};
 
 type CoverImageFileFields = CoverImageFileResponse & { client_id: string };
 
@@ -68,107 +109,162 @@ type IndicatorFormFields = IndicatorResponse & { client_id: string };
 
 type HazardImagesFormFields = HazardImagesResponse & { client_id: string };
 type RiskImagesFormFields = RiskImagesResponse & { client_id: string };
-type EarlyActionImagesFormFields = EarlyActionImagesResponse & { client_id: string };
+type EarlyActionImagesFormFields = EarlyActionImagesResponse & {
+    client_id: string;
+};
 
-type PartnerContactsFormFields = PartnerContactsResponse & { client_id: string };
+type PartnerContactsFormFields = PartnerContactsResponse & {
+    client_id: string;
+};
 
-type EnableApproachesResponseFormFields = (
+type EnableApproachesResponseFormFields = DeepReplace<
     DeepReplace<
         DeepReplace<
             DeepReplace<
-                DeepReplace<
-                    EnableApproachesResponse,
-                    ApproachEarlyActionResponse,
-                    ApproachEarlyActionFormFields
-                >,
-                ApproachPrepositioningResponse,
-                ApproachPrepositioningFormFields
+                EnableApproachesResponse,
+                ApproachEarlyActionResponse,
+                ApproachEarlyActionFormFields
             >,
-            ApproachReadinessResponse,
-            ApproachReadinessFormFields
+            ApproachPrepositioningResponse,
+            ApproachPrepositioningFormFields
         >,
-        ApproachIndicatorResponse,
-        ApproachIndicatorFormFields
-    >
-);
+        ApproachReadinessResponse,
+        ApproachReadinessFormFields
+    >,
+    ApproachIndicatorResponse,
+    ApproachIndicatorFormFields
+>;
 
-type OperationsResponseFormFields = (
+type OperationsResponseFormFields = DeepReplace<
     DeepReplace<
         DeepReplace<
             DeepReplace<
-                DeepReplace<
-                    PlannedOperationsResponse,
-                    EarlyActionResponse,
-                    EarlyActionFormFields
-                >,
-                PrepositioningResponse,
-                PrepositioningFormFields
+                PlannedOperationsResponse,
+                EarlyActionResponse,
+                EarlyActionFormFields
             >,
-            ReadinessResponse,
-            ReadinessFormFields
+            PrepositioningResponse,
+            PrepositioningFormFields
         >,
-        IndicatorResponse,
-        IndicatorFormFields
-    >
-);
+        ReadinessResponse,
+        ReadinessFormFields
+    >,
+    IndicatorResponse,
+    IndicatorFormFields
+>;
 
-type FormFields = (
+type FormFields = DeepReplace<
     DeepReplace<
         DeepReplace<
             DeepReplace<
                 DeepReplace<
                     DeepReplace<
-                        DeepReplace <
-                            DeepReplace<
-                                EapSimplifiedRequestBody,
-                                PlannedOperationsResponse,
-                                OperationsResponseFormFields
-                            >,
-                            PartnerContactsResponse,
-                            PartnerContactsFormFields
+                        DeepReplace<
+                            EapSimplifiedRequestBody,
+                            PlannedOperationsResponse,
+                            OperationsResponseFormFields
                         >,
-                        EnableApproachesResponse,
-                        EnableApproachesResponseFormFields
+                        PartnerContactsResponse,
+                        PartnerContactsFormFields
                     >,
-                    CoverImageFileResponse,
-                    CoverImageFileFields
+                    EnableApproachesResponse,
+                    EnableApproachesResponseFormFields
                 >,
-                HazardImagesResponse,
-                HazardImagesFormFields
+                CoverImageFileResponse,
+                CoverImageFileFields
             >,
-            RiskImagesResponse,
-            RiskImagesFormFields
+            HazardImagesResponse,
+            HazardImagesFormFields
         >,
-        EarlyActionImagesResponse,
-        EarlyActionImagesFormFields
-    >
-);
+        RiskImagesResponse,
+        RiskImagesFormFields
+    >,
+    EarlyActionImagesResponse,
+    EarlyActionImagesFormFields
+>;
 
-export type PartialSimplifiedEapType = PartialForm<FormFields, 'client_id' | 'sector' | 'approach'>;
+export type PartialSimplifiedEapType = PartialForm<
+    FormFields,
+    'client_id' | 'sector' | 'approach'
+>;
 
-type PlannedOperationalFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['planned_operations']>[number], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
-type EnableApproachesFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['enable_approaches']>[number], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
-type CoverImageFileFormFields = ReturnType<ObjectSchema<PartialSimplifiedEapType['cover_image_file'], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
+type PlannedOperationalFields = ReturnType<
+    ObjectSchema<
+        NonNullable<PartialSimplifiedEapType['planned_operations']>[number],
+        PartialSimplifiedEapType,
+        EapSimplifiedFormContext
+    >['fields']
+>;
+type EnableApproachesFields = ReturnType<
+    ObjectSchema<
+        NonNullable<PartialSimplifiedEapType['enable_approaches']>[number],
+        PartialSimplifiedEapType,
+        EapSimplifiedFormContext
+    >['fields']
+>;
+type CoverImageFileFormFields = ReturnType<
+    ObjectSchema<
+        PartialSimplifiedEapType['cover_image_file'],
+        PartialSimplifiedEapType,
+        EapSimplifiedFormContext
+    >['fields']
+>;
 type IndicatorFields = ReturnType<
     ObjectSchema<
-        NonNullable<NonNullable<PartialSimplifiedEapType['planned_operations']>[number]['indicators']>[number],
+        NonNullable<
+            NonNullable<
+                PartialSimplifiedEapType['planned_operations']
+            >[number]['indicators']
+        >[number],
         PartialSimplifiedEapType,
         EapSimplifiedFormContext
     >['fields']
 >;
 type ApproachIndicatorFields = ReturnType<
     ObjectSchema<
-        NonNullable<NonNullable<PartialSimplifiedEapType['enable_approaches']>[number]['indicators']>[number],
+        NonNullable<
+            NonNullable<
+                PartialSimplifiedEapType['enable_approaches']
+            >[number]['indicators']
+        >[number],
         PartialSimplifiedEapType,
         EapSimplifiedFormContext
     >['fields']
 >;
 
-type RiskProtocolsFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['risk_selected_protocols_images']>[number], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
-type HazardImpactFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['hazard_impact_images']>[number], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
-type EarlyActionFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['selected_early_actions_images']>[number], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
+type RiskProtocolsFileFields = ReturnType<
+    ObjectSchema<
+        NonNullable<
+            PartialSimplifiedEapType['risk_selected_protocols_images']
+        >[number],
+        PartialSimplifiedEapType,
+        EapSimplifiedFormContext
+    >['fields']
+>;
+type HazardImpactFileFields = ReturnType<
+    ObjectSchema<
+        NonNullable<PartialSimplifiedEapType['hazard_impact_images']>[number],
+        PartialSimplifiedEapType,
+        EapSimplifiedFormContext
+    >['fields']
+>;
+type EarlyActionFileFields = ReturnType<
+    ObjectSchema<
+        NonNullable<
+            PartialSimplifiedEapType['selected_early_actions_images']
+        >[number],
+        PartialSimplifiedEapType,
+        EapSimplifiedFormContext
+    >['fields']
+>;
 
-type PartnerContactFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['partner_contacts']>[number], PartialSimplifiedEapType, EapSimplifiedFormContext>['fields']>;
+type PartnerContactFields = ReturnType<
+    ObjectSchema<
+        NonNullable<PartialSimplifiedEapType['partner_contacts']>[number],
+        PartialSimplifiedEapType,
+        EapSimplifiedFormContext
+    >['fields']
+>;
 
 type FormSchema = ObjectSchema<
     PartialSimplifiedEapType,
@@ -180,22 +276,27 @@ type FormSchemaFields = ReturnType<FormSchema['fields']>;
 type FieldKeys = keyof EapSimplifiedRequestBody;
 
 type ContactFieldSuffix = 'name' | 'title' | 'email' | 'phone_number';
-type ExtractContactPrefix<KEY extends FieldKeys> = KEY extends `${infer PREFIX}_name`
+type ExtractContactPrefix<KEY extends FieldKeys> =
+    KEY extends `${infer PREFIX}_name`
     ? `${PREFIX}_title` extends FieldKeys
-        ? `${PREFIX}_email` extends FieldKeys
-            ? `${PREFIX}_phone_number` extends FieldKeys
-                ? PREFIX
-                : never
-            : never
-        : never
+    ? `${PREFIX}_email` extends FieldKeys
+    ? `${PREFIX}_phone_number` extends FieldKeys
+    ? PREFIX
     : never
+    : never
+    : never
+    : never;
 
 export type ValidContactFieldPrefixes = ExtractContactPrefix<FieldKeys>;
 
 function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY) {
     type ContactSchema = {
-        [K in `${KEY}_${ContactFieldSuffix}`]: LiteralSchema<string | undefined, PartialSimplifiedEapType, EapSimplifiedFormContext>
-    }
+        [K in `${KEY}_${ContactFieldSuffix}`]: LiteralSchema<
+            string | undefined,
+            PartialSimplifiedEapType,
+            EapSimplifiedFormContext
+        >;
+    };
 
     return {
         [`${key}_name`]: {},

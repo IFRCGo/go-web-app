@@ -137,6 +137,7 @@ const financeLogisticsTabFields: (keyof PartialEapFullFormType)[] = [
     'early_action_budget',
     'early_action_cost_description',
     'eap_endorsement',
+    'updated_checklist_file',
 ];
 
 const tabToFieldsMap: Record<TabKeys, (keyof PartialEapFullFormType)[]> = {

@@ -1,6 +1,7 @@
 import {
     type ElementRef,
     useCallback,
+    useEffect,
     useMemo,
     useRef,
     useState,
@@ -114,6 +115,29 @@ export function Component() {
 
     const alert = useAlert();
 
+    const { pending: fetchingEap, response: eapDetailResponse } = useRequest({
+        skip: isNotDefined(eapId),
+        url: '/api/v2/eap-registration/{id}/',
+        pathVariables: isTruthyString(eapId)
+            ? {
+                id: Number(eapId),
+            }
+            : undefined,
+    });
+
+    const isRevision = eapDetailResponse?.status === EAP_STATUS_NS_ADDRESSING_COMMENTS;
+    const selectedFullEap = eapDetailResponse?.full_eap_details?.find(
+        (fullEap) => String(fullEap.version) === String(version),
+    );
+
+    const latestFullEapId = eapDetailResponse?.latest_full_eap ?? undefined;
+    const latestFullEap = eapDetailResponse?.full_eap_details?.find(
+        (fullEap) => fullEap.id === latestFullEapId,
+    );
+
+    const currentFullEap = selectedFullEap ?? latestFullEap;
+    const currentFullEapId = currentFullEap?.id;
+
     const {
         value,
         setFieldValue,
@@ -121,9 +145,11 @@ export function Component() {
         error: formError,
         validate,
         setError,
-    } = useForm(formSchema, {
-        value: {},
-    });
+    } = useForm(
+        formSchema,
+        { value: {} },
+        { isRevision },
+    );
 
     const updateFileUrlMapping = useCallback((response: GetFullEapResponse) => {
         setFileIdToUrlMap((prevMap) => {
@@ -139,6 +165,7 @@ export function Component() {
                 prioritized_impact_images,
                 early_action_implementation_images,
                 budget_file_details,
+                updated_checklist_file_details,
             } = response;
             return {
                 ...prevMap,
@@ -155,6 +182,7 @@ export function Component() {
                         ...(prioritized_impact_images ?? []),
                         ...(early_action_implementation_images ?? []),
                         budget_file_details,
+                        updated_checklist_file_details,
                     ]
                         .map((eapFile) => {
                             if (isNotDefined(eapFile)) {
@@ -518,37 +546,10 @@ export function Component() {
         [value, setError],
     );
 
-    const { pending: fetchingEap, response: eapDetailResponse } = useRequest({
-        skip: isNotDefined(eapId),
-        url: '/api/v2/eap-registration/{id}/',
-        pathVariables: isTruthyString(eapId)
-            ? {
-                id: Number(eapId),
-            }
-            : undefined,
-        onSuccess: (response) => {
-            if (isDefined(response.expected_submission_time)) {
-                setFieldValue(
-                    response?.expected_submission_time,
-                    'expected_submission_time' as const,
-                );
-            }
-        },
-    });
-
-    const selectedFullEap = eapDetailResponse?.full_eap_details?.find(
-        (fullEap) => String(fullEap.version) === String(version),
-    );
-
-    const latestFullEapId = eapDetailResponse?.latest_full_eap;
-    const latestFullEap = eapDetailResponse?.full_eap_details?.find(
-        (fullEap) => fullEap.id === latestFullEapId,
-    );
-
-    const currentFullEap = selectedFullEap ?? latestFullEap;
-    const currentFullEapId = currentFullEap?.id;
-
-    useRequest({
+    const {
+        pending: fullEapPending,
+        response: fullEapResponse,
+    } = useRequest({
         skip: isNotDefined(latestFullEapId),
         url: '/api/v2/full-eap/{id}/',
         pathVariables: isDefined(latestFullEapId)
@@ -556,8 +557,13 @@ export function Component() {
                 id: latestFullEapId,
             }
             : undefined,
-        onSuccess: (response) => loadResponseToFormValue(response),
     });
+
+    useEffect(() => {
+        if (isDefined(fullEapResponse)) {
+            loadResponseToFormValue(fullEapResponse);
+        }
+    }, [fullEapResponse, loadResponseToFormValue]);
 
     const { pending: eapFullPending, trigger: createFullEap } = useLazyRequest({
         method: 'POST',
@@ -608,6 +614,44 @@ export function Component() {
             });
         },
     });
+
+    useEffect(() => {
+        if (isNotDefined(eapDetailResponse)) {
+            return;
+        }
+
+        if (fullEapPending) {
+            return;
+        }
+
+        if (isDefined(fullEapResponse)) {
+            return;
+        }
+
+        const {
+            expected_submission_time,
+            national_society_contact_email,
+            national_society_contact_name,
+            national_society_contact_title,
+            national_society_contact_phone_number,
+            dref_focal_point_name,
+            dref_focal_point_title,
+            dref_focal_point_phone_number,
+            dref_focal_point_email,
+        } = removeNull(eapDetailResponse);
+
+        setValue({
+            expected_submission_time,
+            national_society_contact_email,
+            national_society_contact_name,
+            national_society_contact_title,
+            national_society_contact_phone_number,
+            dref_focal_point_name,
+            dref_focal_point_title,
+            dref_focal_point_phone_number,
+            dref_focal_point_email,
+        });
+    }, [eapDetailResponse, fullEapPending, fullEapResponse, setValue]);
 
     const isLatestVersion = currentFullEapId === latestFullEapId;
 
@@ -843,6 +887,7 @@ export function Component() {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         readOnly={readOnly}
+                        isRevision={isRevision}
                     />
                 </TabPanel>
                 <ListView withCenteredContents>

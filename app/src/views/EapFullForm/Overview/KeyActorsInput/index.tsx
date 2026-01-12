@@ -1,6 +1,9 @@
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
     Button,
+    Heading,
+    InlineView,
+    ListView,
     TextArea,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -13,11 +16,14 @@ import {
 } from '@togglecorp/toggle-form';
 
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
+import NonFieldError from '#components/NonFieldError';
 import { type PartialEapFullFormType } from '#views/EapFullForm/schema';
 
 import i18n from './i18n.json';
 
-type KeyActorsFormFields = NonNullable<PartialEapFullFormType['key_actors']>[number];
+type KeyActorsFormFields = NonNullable<
+    PartialEapFullFormType['key_actors']
+>[number];
 
 interface Props {
     value: KeyActorsFormFields;
@@ -42,45 +48,52 @@ function KeyActorsInput(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const onFieldChange = useFormObject(
-        index,
-        onChange,
-        () => ({
-            client_id: randomString(),
-        }),
-    );
+    const onFieldChange = useFormObject(index, onChange, () => ({
+        client_id: randomString(),
+    }));
 
-    const error = (value && value.client_id && errorFromProps)
+    const error = value && value.client_id && errorFromProps
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
 
     return (
         <>
-            <NationalSocietySelectInput
-                label={strings.overviewKeyActorsSelectPartnerLabel}
-                error={error?.national_society}
-                name="national_society"
-                onChange={onFieldChange}
-                value={value?.national_society}
-                disabled={disabled}
-                readOnly={readOnly}
-            />
-            <TextArea
-                required
-                label={strings.overviewKeyActorsDescriptionLabel}
-                name="description"
-                value={value?.description}
-                onChange={onFieldChange}
-            />
-            <Button
-                name={index}
-                onClick={onRemove}
-                styleVariant="action"
-                disabled={disabled || readOnly}
-                title={strings.overviewKeyActorsDeleteButton}
+            <Heading level={5}>
+                {`Key Actor #${index + 1}`}
+            </Heading>
+            <NonFieldError error={error} />
+            <InlineView
+                after={(
+                    <Button
+                        name={index}
+                        onClick={onRemove}
+                        styleVariant="action"
+                        disabled={disabled || readOnly}
+                        title={strings.overviewKeyActorsDeleteButton}
+                    >
+                        <DeleteBinTwoLineIcon />
+                    </Button>
+                )}
             >
-                <DeleteBinTwoLineIcon />
-            </Button>
+                <ListView layout="block">
+                    <NationalSocietySelectInput
+                        label={strings.overviewKeyActorsSelectPartnerLabel}
+                        error={error?.national_society}
+                        name="national_society"
+                        onChange={onFieldChange}
+                        value={value?.national_society}
+                        disabled={disabled}
+                        readOnly={readOnly}
+                    />
+                    <TextArea
+                        required
+                        label={strings.overviewKeyActorsDescriptionLabel}
+                        name="description"
+                        value={value?.description}
+                        onChange={onFieldChange}
+                    />
+                </ListView>
+            </InlineView>
         </>
     );
 }

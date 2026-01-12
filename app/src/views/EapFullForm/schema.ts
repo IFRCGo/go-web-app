@@ -1,5 +1,8 @@
 import { type DeepReplace } from '@ifrc-go/ui/utils';
-import { isDefined } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 import {
     emailCondition,
     type LiteralSchema,
@@ -21,20 +24,22 @@ function lessThanEqualToFiveImagesCondition<T>(value: T[] | undefined) {
         : undefined;
 }
 
+type EapFullFormContext =
+    | {
+        isRevision: boolean;
+    }
+    | undefined;
+
 type EapFullRequestBody = PurgeNull<GoApiBody<'/api/v2/full-eap/', 'POST'>>;
 
-type PartnerContactsResponse = Omit<
-    NonNullable<EapFullRequestBody['partner_contacts']>[number],
-    'previous_id'
->;
+type PartnerContactsResponse = NonNullable<EapFullRequestBody['partner_contacts']>[number];
+
 type PartnerContactsFormFields = PartnerContactsResponse & {
     client_id: string;
 };
 
-type KeyActorsResponse = Omit<
-    NonNullable<EapFullRequestBody['key_actors']>[number],
-    'previous_id'
->;
+type KeyActorsResponse = NonNullable<EapFullRequestBody['key_actors']>[number];
+
 type KeyActorsFields = KeyActorsResponse & { client_id: string };
 
 type CoverImageFileResponse = NonNullable<
@@ -62,21 +67,16 @@ type PrioritizedImpactImagesFields = PrioritizedImpactImagesResponse & {
     client_id: string;
 };
 
-type RiskAnalysisSourceOfInformationResponse = Omit<
-    NonNullable<
-        EapFullRequestBody['risk_analysis_source_of_information']
-    >[number],
-    'previous_id'
->;
+type RiskAnalysisSourceOfInformationResponse = NonNullable<
+    EapFullRequestBody['risk_analysis_source_of_information']
+>[number];
+
 type RiskAnalysisSourceOfInformationFields =
     RiskAnalysisSourceOfInformationResponse & { client_id: string };
 
-type TriggerStatementSourceOfInformationResponse = Omit<
-    NonNullable<
-        EapFullRequestBody['trigger_statement_source_of_information']
-    >[number],
-    'previous_id'
->;
+type TriggerStatementSourceOfInformationResponse = NonNullable<
+    EapFullRequestBody['trigger_statement_source_of_information']
+>[number];
 type TriggerStatementSourceOfInformationFields =
     TriggerStatementSourceOfInformationResponse & { client_id: string };
 
@@ -99,12 +99,9 @@ type IdentificationInterventionImagesResponse = NonNullable<
 type IdentificationInterventionImagesResponseFields =
     IdentificationInterventionImagesResponse & { client_id: string };
 
-type TriggerModelSourceOfInformationResponse = Omit<
-    NonNullable<
-        EapFullRequestBody['trigger_model_source_of_information']
-    >[number],
-    'previous_id'
->;
+type TriggerModelSourceOfInformationResponse = NonNullable<
+    EapFullRequestBody['trigger_model_source_of_information']
+>[number];
 type TriggerModelSourceOfInformationResponseFields =
     TriggerModelSourceOfInformationResponse & { client_id: string };
 
@@ -120,12 +117,9 @@ type TriggerActivationSystemImagesResponse = NonNullable<
 type TriggerActivationSystemImagesResponseFields =
     TriggerActivationSystemImagesResponse & { client_id: string };
 
-type ActivationProcessSourceInformationResponse = Omit<
-    NonNullable<
-        EapFullRequestBody['activation_process_source_of_information']
-    >[number],
-    'previous_id'
->;
+type ActivationProcessSourceInformationResponse = NonNullable<
+    EapFullRequestBody['activation_process_source_of_information']
+>[number];
 type ActivationProcessSourceInformationResponseFields =
     ActivationProcessSourceInformationResponse & { client_id: string };
 
@@ -135,42 +129,24 @@ type EarlyActionsSelectionImagesResponse = NonNullable<
 type EarlyActionsSelectionImagesResponseFields =
     EarlyActionsSelectionImagesResponse & { client_id: string };
 
-type EvidenceBaseSourceInformationResponse = Omit<
-    NonNullable<
-        EapFullRequestBody['evidence_base_source_of_information']
-    >[number],
-    'previous_id'
->;
+type EvidenceBaseSourceInformationResponse = NonNullable<
+    EapFullRequestBody['evidence_base_source_of_information']
+>[number];
 type EvidenceBaseSourceInformationResponseFields =
     EvidenceBaseSourceInformationResponse & { client_id: string };
 
-type PlannedOperationsResponse = Omit<
-    NonNullable<EapFullRequestBody['planned_operations']>[number],
-    'previous_id'
->;
+type PlannedOperationsResponse = NonNullable<EapFullRequestBody['planned_operations']>[number];
 
-type EarlyActionResponse = Omit<
-    NonNullable<PlannedOperationsResponse['early_action_activities']>[number],
-    'previous_id'
->;
+type EarlyActionResponse = NonNullable<PlannedOperationsResponse['early_action_activities']>[number];
 type EarlyActionFormFields = EarlyActionResponse & { client_id: string };
 
-type PrepositioningResponse = Omit<
-    NonNullable<PlannedOperationsResponse['prepositioning_activities']>[number],
-    'previous_id'
->;
+type PrepositioningResponse = NonNullable<PlannedOperationsResponse['prepositioning_activities']>[number];
 type PrepositioningFormFields = PrepositioningResponse & { client_id: string };
 
-type ReadinessResponse = Omit<
-    NonNullable<PlannedOperationsResponse['readiness_activities']>[number],
-    'previous_id'
->;
+type ReadinessResponse = NonNullable<PlannedOperationsResponse['readiness_activities']>[number];
 type ReadinessFormFields = ReadinessResponse & { client_id: string };
 
-type IndicatorResponse = Omit<
-    NonNullable<PlannedOperationsResponse['indicators']>[number],
-    'previous_id'
->;
+type IndicatorResponse = NonNullable<PlannedOperationsResponse['indicators']>[number];
 type IndicatorFormFields = IndicatorResponse & { client_id: string };
 
 type EarlyActionSelectionResponse = NonNullable<
@@ -209,34 +185,22 @@ type EnableApproachesResponse = NonNullable<
     EapFullRequestBody['enable_approaches']
 >[number];
 
-type EarlyActionApproachesResponse = Omit<
-    NonNullable<EnableApproachesResponse['early_action_activities']>[number],
-    'previous_id'
->;
+type EarlyActionApproachesResponse = NonNullable<EnableApproachesResponse['early_action_activities']>[number];
 type EarlyActionApproachesFormFields = EarlyActionApproachesResponse & {
     client_id: string;
 };
 
-type PrepositioningApproachesResponse = Omit<
-    NonNullable<EnableApproachesResponse['prepositioning_activities']>[number],
-    'previous_id'
->;
+type PrepositioningApproachesResponse = NonNullable<EnableApproachesResponse['prepositioning_activities']>[number];
 type PrepositioningApproachesFormFields = PrepositioningApproachesResponse & {
     client_id: string;
 };
 
-type ReadinessApproachesResponse = Omit<
-    NonNullable<EnableApproachesResponse['readiness_activities']>[number],
-    'previous_id'
->;
+type ReadinessApproachesResponse = NonNullable<EnableApproachesResponse['readiness_activities']>[number];
 type ReadinessApproachesFormFields = ReadinessApproachesResponse & {
     client_id: string;
 };
 
-type IndicatorApproachesResponse = Omit<
-    NonNullable<EnableApproachesResponse['indicators']>[number],
-    'previous_id'
->;
+type IndicatorApproachesResponse = NonNullable<EnableApproachesResponse['indicators']>[number];
 type IndicatorApproachesFormFields = IndicatorApproachesResponse & {
     client_id: string;
 };
@@ -360,25 +324,29 @@ export type PartialEapFullFormType = PartialForm<
 type CoverImageFileFormFields = ReturnType<
     ObjectSchema<
         PartialEapFullFormType['cover_image_file'],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type KeyActorsFormFields = ReturnType<
     ObjectSchema<
         NonNullable<PartialEapFullFormType['key_actors']>[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type PartnerContactFormFields = ReturnType<
     ObjectSchema<
         NonNullable<PartialEapFullFormType['partner_contacts']>[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type HazardSelectionImagesFormFields = ReturnType<
     ObjectSchema<
         NonNullable<PartialEapFullFormType['hazard_selection_images']>[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type ExposedElementAndVulnerabilityImagesFormFields = ReturnType<
@@ -386,13 +354,15 @@ type ExposedElementAndVulnerabilityImagesFormFields = ReturnType<
         NonNullable<
             PartialEapFullFormType['exposed_element_and_vulnerability_factor_images']
         >[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type PrioritizedImpactImagesFormFields = ReturnType<
     ObjectSchema<
         NonNullable<PartialEapFullFormType['prioritized_impact_images']>[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type RiskAnalysisSourceOfInformationFormFields = ReturnType<
@@ -400,7 +370,8 @@ type RiskAnalysisSourceOfInformationFormFields = ReturnType<
         NonNullable<
             PartialEapFullFormType['risk_analysis_source_of_information']
         >[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type TriggerStatementSourceOfInformationFormFields = ReturnType<
@@ -408,13 +379,15 @@ type TriggerStatementSourceOfInformationFormFields = ReturnType<
         NonNullable<
             PartialEapFullFormType['trigger_statement_source_of_information']
         >[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type ForecastSelectionImagesResponseFormFields = ReturnType<
     ObjectSchema<
         NonNullable<PartialEapFullFormType['forecast_selection_images']>[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type DefinitionAndJustificationImagesResponseFormFields = ReturnType<
@@ -422,7 +395,8 @@ type DefinitionAndJustificationImagesResponseFormFields = ReturnType<
         NonNullable<
             PartialEapFullFormType['definition_and_justification_impact_level_images']
         >[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type IdentificationInterventionImagesResponseFormFields = ReturnType<
@@ -430,7 +404,8 @@ type IdentificationInterventionImagesResponseFormFields = ReturnType<
         NonNullable<
             PartialEapFullFormType['identification_of_the_intervention_area_images']
         >[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type TriggerModelSourceOfInformationResponseFormFields = ReturnType<
@@ -438,7 +413,8 @@ type TriggerModelSourceOfInformationResponseFormFields = ReturnType<
         NonNullable<
             PartialEapFullFormType['trigger_model_source_of_information']
         >[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type EarlyActionImagesResponseFormFields = ReturnType<
@@ -446,13 +422,15 @@ type EarlyActionImagesResponseFormFields = ReturnType<
         NonNullable<
             PartialEapFullFormType['early_action_implementation_images']
         >[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type EarlyActionsSelectionResponseFormFields = ReturnType<
     ObjectSchema<
         NonNullable<PartialEapFullFormType['early_actions']>[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type TriggerActivationImagesResponseFormFields = ReturnType<
@@ -460,7 +438,8 @@ type TriggerActivationImagesResponseFormFields = ReturnType<
         NonNullable<
             PartialEapFullFormType['early_action_implementation_images']
         >[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type ActivationProcessSourceOfInformationResponseFormFields = ReturnType<
@@ -468,19 +447,22 @@ type ActivationProcessSourceOfInformationResponseFormFields = ReturnType<
         NonNullable<
             PartialEapFullFormType['activation_process_source_of_information']
         >[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type PlannedOperationalFields = ReturnType<
     ObjectSchema<
         NonNullable<PartialEapFullFormType['planned_operations']>[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type EnableApproachesFields = ReturnType<
     ObjectSchema<
         NonNullable<PartialEapFullFormType['enable_approaches']>[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type EvidenceBaseSourceOfInformationResponseFormFields = ReturnType<
@@ -488,7 +470,8 @@ type EvidenceBaseSourceOfInformationResponseFormFields = ReturnType<
         NonNullable<
             PartialEapFullFormType['evidence_base_source_of_information']
         >[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type IndicatorFields = ReturnType<
@@ -498,7 +481,8 @@ type IndicatorFields = ReturnType<
                 PartialEapFullFormType['planned_operations']
             >[number]['indicators']
         >[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 type ApproachIndicatorFields = ReturnType<
@@ -508,32 +492,39 @@ type ApproachIndicatorFields = ReturnType<
                 PartialEapFullFormType['enable_approaches']
             >[number]['indicators']
         >[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 
 type PrioritizedImpactsFields = ReturnType<
     ObjectSchema<
         NonNullable<PartialEapFullFormType['prioritized_impacts']>[number],
-        PartialEapFullFormType
+        PartialEapFullFormType,
+        EapFullFormContext
     >['fields']
 >;
 
-type EapFullFormSchema = ObjectSchema<PartialEapFullFormType>;
+type EapFullFormSchema = ObjectSchema<
+    PartialEapFullFormType,
+    PartialEapFullFormType,
+    EapFullFormContext
+>;
 type EapFullFormSchemaFields = ReturnType<EapFullFormSchema['fields']>;
 
 type FieldKeys = keyof EapFullRequestBody;
 
 type ContactFieldSuffix = 'name' | 'title' | 'email' | 'phone_number';
-type ExtractContactPrefix<KEY extends FieldKeys> = KEY extends `${infer PREFIX}_name`
-    ? `${PREFIX}_title` extends FieldKeys
-        ? `${PREFIX}_email` extends FieldKeys
-            ? `${PREFIX}_phone_number` extends FieldKeys
-                ? PREFIX
+type ExtractContactPrefix<KEY extends FieldKeys> =
+    KEY extends `${infer PREFIX}_name`
+        ? `${PREFIX}_title` extends FieldKeys
+            ? `${PREFIX}_email` extends FieldKeys
+                ? `${PREFIX}_phone_number` extends FieldKeys
+                    ? PREFIX
+                    : never
                 : never
             : never
-        : never
-    : never;
+        : never;
 
 export type ValidContactFieldPrefixes = ExtractContactPrefix<FieldKeys>;
 
@@ -541,7 +532,8 @@ function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY) {
     type ContactSchema = {
         [K in `${KEY}_${ContactFieldSuffix}`]: LiteralSchema<
             string | undefined,
-            PartialEapFullFormType
+            PartialEapFullFormType,
+            EapFullFormContext
         >;
     };
 
@@ -554,402 +546,418 @@ function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY) {
 }
 
 export const formSchema: EapFullFormSchema = {
-    fields: (): EapFullFormSchemaFields => ({
-        // ------------Overview-----------------
-        expected_submission_time: { required: true },
-        objective: { required: true },
-        cover_image_file: {
-            fields: (): CoverImageFileFormFields => ({
-                client_id: {},
-                caption: {},
-                id: { defaultValue: undefinedValue },
-            }),
-        },
-        partner_contacts: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): PartnerContactFormFields => ({
-                    client_id: {},
-                    id: { defaultValue: undefinedValue },
-                    name: {},
-                    email: { validations: [emailCondition] },
-                    phone_number: {},
-                    title: {},
-                }),
-            }),
-        },
-
-        ...getContactSchema('national_society_contact'),
-        ...getContactSchema('ifrc_delegation_focal_point'),
-        ...getContactSchema('ifrc_head_of_delegation'),
-        ...getContactSchema('dref_focal_point'),
-        ...getContactSchema('ifrc_regional_focal_point'),
-        ...getContactSchema('ifrc_regional_ops_manager'),
-        ...getContactSchema('ifrc_regional_head_dcc'),
-        ...getContactSchema('ifrc_global_ops_coordinator'),
-
-        // Stakeholders
-        is_worked_with_government: { required: true },
-        worked_with_government_description: {},
-
-        key_actors: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): KeyActorsFormFields => ({
-                    client_id: {},
-                    id: { defaultValue: undefinedValue },
-                    description: { required: true },
-                    national_society: { required: true },
-                }),
-            }),
-        },
-
-        is_technical_working_groups: { required: true },
-        technically_working_group_title: {},
-        technical_working_groups_in_place_description: {},
-
-        // ------------Risk Analysis-----------------
-        hazard_selection: { required: true },
-        hazard_selection_images: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): HazardSelectionImagesFormFields => ({
-                    client_id: {},
-                    caption: {},
-                    id: {},
-                }),
-            }),
-            validation: lessThanEqualToFiveImagesCondition,
-        },
-
-        exposed_element_and_vulnerability_factor: { required: true },
-        exposed_element_and_vulnerability_factor_images: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): ExposedElementAndVulnerabilityImagesFormFields => ({
+    fields: (_, __, context): EapFullFormSchemaFields => {
+        const defaultSchema: EapFullFormSchemaFields = {
+            // ------------Overview-----------------
+            expected_submission_time: { required: true },
+            objective: { required: true },
+            cover_image_file: {
+                fields: (): CoverImageFileFormFields => ({
                     client_id: {},
                     caption: {},
                     id: { defaultValue: undefinedValue },
                 }),
-            }),
-            validation: lessThanEqualToFiveImagesCondition,
-        },
+            },
+            partner_contacts: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): PartnerContactFormFields => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        name: {},
+                        email: { validations: [emailCondition] },
+                        phone_number: {},
+                        title: {},
+                    }),
+                }),
+            },
 
-        prioritized_impact: { required: true },
-        prioritized_impact_images: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): PrioritizedImpactImagesFormFields => ({
-                    client_id: {},
-                    caption: {},
-                    id: { defaultValue: undefinedValue },
-                }),
-            }),
-            validation: lessThanEqualToFiveImagesCondition,
-        },
-        prioritized_impacts: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): PrioritizedImpactsFields => ({
-                    client_id: {},
-                    id: { defaultValue: undefinedValue },
-                    impact: { required: true },
-                }),
-            }),
-        },
+            ...getContactSchema('national_society_contact'),
+            ...getContactSchema('ifrc_delegation_focal_point'),
+            ...getContactSchema('ifrc_head_of_delegation'),
+            ...getContactSchema('dref_focal_point'),
+            ...getContactSchema('ifrc_regional_focal_point'),
+            ...getContactSchema('ifrc_regional_ops_manager'),
+            ...getContactSchema('ifrc_regional_head_dcc'),
+            ...getContactSchema('ifrc_global_ops_coordinator'),
 
-        risk_analysis_relevant_files: { defaultValue: [] },
-        risk_analysis_source_of_information: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): RiskAnalysisSourceOfInformationFormFields => ({
-                    client_id: {},
-                    id: { defaultValue: undefinedValue },
-                    source_name: {
-                        required: true,
-                        requiredValidation: requiredStringCondition,
-                    },
-                    source_link: {
-                        required: true,
-                        validations: [urlCondition],
-                    },
-                }),
-            }),
-        },
+            // Stakeholders
+            is_worked_with_government: { required: true },
+            worked_with_government_description: {},
 
-        // -------------Trigger Model--------------------
-        trigger_statement: { required: true },
-        trigger_statement_source_of_information: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): TriggerStatementSourceOfInformationFormFields => ({
-                    client_id: {},
-                    id: { defaultValue: undefinedValue },
-                    source_name: {
-                        required: true,
-                        requiredValidation: requiredStringCondition,
-                    },
-                    source_link: {
-                        required: true,
-                        validations: [urlCondition],
-                    },
+            key_actors: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): KeyActorsFormFields => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        description: { required: true },
+                        national_society: { required: true },
+                    }),
                 }),
-            }),
-        },
-        lead_time: { required: true },
+            },
 
-        forecast_selection: { required: true },
-        forecast_selection_images: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): ForecastSelectionImagesResponseFormFields => ({
-                    client_id: {},
-                    caption: {},
-                    id: { defaultValue: undefinedValue },
-                }),
-            }),
-            validation: lessThanEqualToFiveImagesCondition,
-        },
-        forecast_table_file: { required: true },
+            is_technical_working_groups: { required: true },
+            technically_working_group_title: {},
+            technical_working_groups_in_place_description: {},
 
-        definition_and_justification_impact_level: { required: true },
-        definition_and_justification_impact_level_images: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): DefinitionAndJustificationImagesResponseFormFields => ({
-                    client_id: {},
-                    caption: {},
-                    id: { defaultValue: undefinedValue },
+            // ------------Risk Analysis-----------------
+            hazard_selection: { required: true },
+            hazard_selection_images: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): HazardSelectionImagesFormFields => ({
+                        client_id: {},
+                        caption: {},
+                        id: {},
+                    }),
                 }),
-            }),
-            validation: lessThanEqualToFiveImagesCondition,
-        },
+                validation: lessThanEqualToFiveImagesCondition,
+            },
 
-        identification_of_the_intervention_area: { required: true },
-        identification_of_the_intervention_area_images: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): IdentificationInterventionImagesResponseFormFields => ({
-                    client_id: {},
-                    caption: {},
-                    id: { defaultValue: undefinedValue },
+            exposed_element_and_vulnerability_factor: { required: true },
+            exposed_element_and_vulnerability_factor_images: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): ExposedElementAndVulnerabilityImagesFormFields => ({
+                        client_id: {},
+                        caption: {},
+                        id: { defaultValue: undefinedValue },
+                    }),
                 }),
-            }),
-            validation: lessThanEqualToFiveImagesCondition,
-        },
-        admin2: {
-            defaultValue: [],
-        },
+                validation: lessThanEqualToFiveImagesCondition,
+            },
 
-        trigger_model_relevant_files: { defaultValue: [] },
-        trigger_model_source_of_information: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): TriggerModelSourceOfInformationResponseFormFields => ({
-                    client_id: {},
-                    id: { defaultValue: undefinedValue },
-                    source_name: {
-                        required: true,
-                        requiredValidation: requiredStringCondition,
-                    },
-                    source_link: {
-                        required: true,
-                        validations: [urlCondition],
-                    },
+            prioritized_impact: { required: true },
+            prioritized_impact_images: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): PrioritizedImpactImagesFormFields => ({
+                        client_id: {},
+                        caption: {},
+                        id: { defaultValue: undefinedValue },
+                    }),
                 }),
-            }),
-        },
+                validation: lessThanEqualToFiveImagesCondition,
+            },
+            prioritized_impacts: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): PrioritizedImpactsFields => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        impact: { required: true },
+                    }),
+                }),
+            },
 
-        // ---------Selection Of Actions
-        early_actions: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): EarlyActionsSelectionResponseFormFields => ({
-                    client_id: {},
-                    id: { defaultValue: undefinedValue },
-                    action: { required: true },
+            risk_analysis_relevant_files: { defaultValue: [] },
+            risk_analysis_source_of_information: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): RiskAnalysisSourceOfInformationFormFields => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        source_name: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        source_link: {
+                            required: true,
+                            validations: [urlCondition],
+                        },
+                    }),
                 }),
-            }),
-        },
-        early_action_selection_process: { required: true },
-        early_action_selection_process_images: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): IdentificationInterventionImagesResponseFormFields => ({
-                    client_id: {},
-                    caption: {},
-                    id: { defaultValue: undefinedValue },
-                }),
-            }),
-            validation: lessThanEqualToFiveImagesCondition,
-        },
-        theory_of_change_table_file: { required: true },
+            },
 
-        evidence_base: { required: true },
-        evidence_base_source_of_information: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): EvidenceBaseSourceOfInformationResponseFormFields => ({
-                    client_id: {},
-                    id: { defaultValue: undefinedValue },
-                    source_name: {
-                        required: true,
-                        requiredValidation: requiredStringCondition,
-                    },
-                    source_link: {
-                        required: true,
-                        validations: [urlCondition],
-                    },
+            // -------------Trigger Model--------------------
+            trigger_statement: { required: true },
+            trigger_statement_source_of_information: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): TriggerStatementSourceOfInformationFormFields => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        source_name: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        source_link: {
+                            required: true,
+                            validations: [urlCondition],
+                        },
+                    }),
                 }),
-            }),
-        },
+            },
+            lead_time: { required: true },
 
-        // Planned Operations
-        planned_operations: {
-            keySelector: (item) => item.sector,
-            member: () => ({
-                fields: (): PlannedOperationalFields => ({
-                    id: { defaultValue: undefinedValue },
-                    sector: {},
-                    budget_per_sector: {},
-                    ap_code: {},
-                    indicators: {
-                        keySelector: (indicator) => indicator.client_id,
-                        member: () => ({
-                            fields: (): IndicatorFields => ({
-                                client_id: {},
-                                id: { defaultValue: undefinedValue },
-                                title: {},
-                                target: { validations: [positiveNumberCondition] },
+            forecast_selection: { required: true },
+            forecast_selection_images: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): ForecastSelectionImagesResponseFormFields => ({
+                        client_id: {},
+                        caption: {},
+                        id: { defaultValue: undefinedValue },
+                    }),
+                }),
+                validation: lessThanEqualToFiveImagesCondition,
+            },
+            forecast_table_file: { required: true },
+
+            definition_and_justification_impact_level: { required: true },
+            definition_and_justification_impact_level_images: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): DefinitionAndJustificationImagesResponseFormFields => ({
+                        client_id: {},
+                        caption: {},
+                        id: { defaultValue: undefinedValue },
+                    }),
+                }),
+                validation: lessThanEqualToFiveImagesCondition,
+            },
+
+            identification_of_the_intervention_area: { required: true },
+            identification_of_the_intervention_area_images: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): IdentificationInterventionImagesResponseFormFields => ({
+                        client_id: {},
+                        caption: {},
+                        id: { defaultValue: undefinedValue },
+                    }),
+                }),
+                validation: lessThanEqualToFiveImagesCondition,
+            },
+            admin2: {
+                defaultValue: [],
+            },
+
+            trigger_model_relevant_files: { defaultValue: [] },
+            trigger_model_source_of_information: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): TriggerModelSourceOfInformationResponseFormFields => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        source_name: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        source_link: {
+                            required: true,
+                            validations: [urlCondition],
+                        },
+                    }),
+                }),
+            },
+
+            // ---------Selection Of Actions
+            early_actions: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): EarlyActionsSelectionResponseFormFields => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        action: { required: true },
+                    }),
+                }),
+            },
+            early_action_selection_process: { required: true },
+            early_action_selection_process_images: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): IdentificationInterventionImagesResponseFormFields => ({
+                        client_id: {},
+                        caption: {},
+                        id: { defaultValue: undefinedValue },
+                    }),
+                }),
+                validation: lessThanEqualToFiveImagesCondition,
+            },
+            theory_of_change_table_file: { required: true },
+
+            evidence_base: { required: true },
+            evidence_base_source_of_information: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): EvidenceBaseSourceOfInformationResponseFormFields => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        source_name: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        source_link: {
+                            required: true,
+                            validations: [urlCondition],
+                        },
+                    }),
+                }),
+            },
+
+            // Planned Operations
+            planned_operations: {
+                keySelector: (item) => item.sector,
+                member: () => ({
+                    fields: (): PlannedOperationalFields => ({
+                        id: { defaultValue: undefinedValue },
+                        sector: {},
+                        budget_per_sector: {},
+                        ap_code: {},
+                        indicators: {
+                            keySelector: (indicator) => indicator.client_id,
+                            member: () => ({
+                                fields: (): IndicatorFields => ({
+                                    client_id: {},
+                                    id: { defaultValue: undefinedValue },
+                                    title: {},
+                                    target: { validations: [positiveNumberCondition] },
+                                }),
                             }),
-                        }),
-                    },
-                    people_targeted: {},
-                    early_action_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => operationActivitySchema,
-                    },
-                    readiness_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => operationActivitySchema,
-                    },
-                    prepositioning_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => operationActivitySchema,
-                    },
+                        },
+                        people_targeted: {},
+                        early_action_activities: {
+                            keySelector: (item) => item.client_id,
+                            member: () => operationActivitySchema,
+                        },
+                        readiness_activities: {
+                            keySelector: (item) => item.client_id,
+                            member: () => operationActivitySchema,
+                        },
+                        prepositioning_activities: {
+                            keySelector: (item) => item.client_id,
+                            member: () => operationActivitySchema,
+                        },
+                    }),
                 }),
-            }),
-        },
+            },
 
-        // Enabling Approaches
-        enable_approaches: {
-            keySelector: (item) => item.approach,
-            member: () => ({
-                fields: (): EnableApproachesFields => ({
-                    id: { defaultValue: undefinedValue },
-                    approach: {},
-                    budget_per_approach: {},
-                    ap_code: {},
-                    indicators: {
-                        keySelector: (indicator) => indicator.client_id,
-                        member: () => ({
-                            fields: (): ApproachIndicatorFields => ({
-                                client_id: {},
-                                id: { defaultValue: undefinedValue },
-                                title: {},
-                                target: { validations: [positiveNumberCondition] },
+            // Enabling Approaches
+            enable_approaches: {
+                keySelector: (item) => item.approach,
+                member: () => ({
+                    fields: (): EnableApproachesFields => ({
+                        id: { defaultValue: undefinedValue },
+                        approach: {},
+                        budget_per_approach: {},
+                        ap_code: {},
+                        indicators: {
+                            keySelector: (indicator) => indicator.client_id,
+                            member: () => ({
+                                fields: (): ApproachIndicatorFields => ({
+                                    client_id: {},
+                                    id: { defaultValue: undefinedValue },
+                                    title: {},
+                                    target: { validations: [positiveNumberCondition] },
+                                }),
                             }),
+                        },
+                        early_action_activities: {
+                            keySelector: (item) => item.client_id,
+                            member: () => operationActivitySchema,
+                        },
+                        readiness_activities: {
+                            keySelector: (item) => item.client_id,
+                            member: () => operationActivitySchema,
+                        },
+                        prepositioning_activities: {
+                            keySelector: (item) => item.client_id,
+                            member: () => operationActivitySchema,
+                        },
+                    }),
+                }),
+            },
+
+            usefulness_of_actions: { required: true },
+            feasibility: { required: true },
+
+            // ----------EAP Activation Process---------
+            early_action_implementation_process: { required: true },
+            early_action_implementation_images: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): EarlyActionImagesResponseFormFields => ({
+                        client_id: {},
+                        caption: {},
+                        id: { defaultValue: undefinedValue },
+                    }),
+                }),
+                validation: lessThanEqualToFiveImagesCondition,
+            },
+
+            trigger_activation_system: { required: true },
+            trigger_activation_system_images: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): TriggerActivationImagesResponseFormFields => ({
+                        client_id: {},
+                        caption: {},
+                        id: { defaultValue: undefinedValue },
+                    }),
+                }),
+                validation: lessThanEqualToFiveImagesCondition,
+            },
+
+            people_targeted: { required: true },
+            selection_of_target_population: { required: true },
+            stop_mechanism: { required: true },
+
+            activation_process_relevant_files: { defaultValue: [] },
+            activation_process_source_of_information: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields:
+                        (): ActivationProcessSourceOfInformationResponseFormFields => ({
+                            client_id: {},
+                            id: { defaultValue: undefinedValue },
+                            source_name: {
+                                required: true,
+                                requiredValidation: requiredStringCondition,
+                            },
+                            source_link: {
+                                required: true,
+                                validations: [urlCondition],
+                            },
                         }),
-                    },
-                    early_action_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => operationActivitySchema,
-                    },
-                    readiness_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => operationActivitySchema,
-                    },
-                    prepositioning_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => operationActivitySchema,
-                    },
                 }),
-            }),
-        },
+            },
 
-        usefulness_of_actions: { required: true },
-        feasibility: { required: true },
+            // --------------Meal-------------
+            meal: { required: true },
+            meal_relevant_files: { defaultValue: [] },
 
-        // ----------EAP Activation Process---------
-        early_action_implementation_process: { required: true },
-        early_action_implementation_images: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): EarlyActionImagesResponseFormFields => ({
-                    client_id: {},
-                    caption: {},
-                    id: { defaultValue: undefinedValue },
-                }),
-            }),
-            validation: lessThanEqualToFiveImagesCondition,
-        },
+            // -----------National Society Capacity-----------
+            operational_administrative_capacity: { required: true },
+            strategies_and_plans: { required: true },
+            advance_financial_capacity: { required: true },
+            capacity_relevant_files: { defaultValue: [] },
 
-        trigger_activation_system: { required: true },
-        trigger_activation_system_images: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): TriggerActivationImagesResponseFormFields => ({
-                    client_id: {},
-                    caption: {},
-                    id: { defaultValue: undefinedValue },
-                }),
-            }),
-            validation: lessThanEqualToFiveImagesCondition,
-        },
+            // ------------Finance and Logistics----------------
+            total_budget: { required: true },
+            budget_description: {},
+            budget_file: { required: true },
+            readiness_budget: { required: true },
+            readiness_cost_description: {},
+            pre_positioning_budget: { required: true },
+            prepositioning_cost_description: {},
+            early_action_budget: { required: true },
+            early_action_cost_description: {},
+            eap_endorsement: { required: true },
+        };
 
-        people_targeted: { required: true },
-        selection_of_target_population: { required: true },
-        stop_mechanism: { required: true },
+        if (isNotDefined(context) || !context.isRevision) {
+            return defaultSchema;
+        }
 
-        activation_process_relevant_files: { defaultValue: [] },
-        activation_process_source_of_information: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): ActivationProcessSourceOfInformationResponseFormFields => ({
-                    client_id: {},
-                    id: { defaultValue: undefinedValue },
-                    source_name: {
-                        required: true,
-                        requiredValidation: requiredStringCondition,
-                    },
-                    source_link: {
-                        required: true,
-                        validations: [urlCondition],
-                    },
-                }),
-            }),
-        },
+        return {
+            ...defaultSchema,
 
-        // --------------Meal-------------
-        meal: { required: true },
-        meal_relevant_files: { defaultValue: [] },
-
-        // -----------National Society Capacity-----------
-        operational_administrative_capacity: { required: true },
-        strategies_and_plans: { required: true },
-        advance_financial_capacity: { required: true },
-        capacity_relevant_files: { defaultValue: [] },
-
-        // ------------Finance and Logistics----------------
-        total_budget: { required: true },
-        budget_description: {},
-        budget_file: { required: true },
-        readiness_budget: { required: true },
-        readiness_cost_description: {},
-        pre_positioning_budget: { required: true },
-        prepositioning_cost_description: {},
-        early_action_budget: { required: true },
-        early_action_cost_description: {},
-        eap_endorsement: { required: true },
-    }),
+            // ------------Finance and Logistics----------------
+            updated_checklist_file: {
+                required: true,
+            },
+        } satisfies EapFullFormSchemaFields;
+    },
 };

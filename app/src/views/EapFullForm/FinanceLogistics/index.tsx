@@ -34,6 +34,7 @@ interface Props {
         React.SetStateAction<Record<number, string>>
     >;
     readOnly?: boolean;
+    isRevision?: boolean;
 }
 
 function FinanceLogistics(props: Props) {
@@ -45,6 +46,7 @@ function FinanceLogistics(props: Props) {
         fileIdToUrlMap,
         setFileIdToUrlMap,
         readOnly,
+        isRevision,
     } = props;
 
     const error = getErrorObject(formError);
@@ -304,6 +306,25 @@ function FinanceLogistics(props: Props) {
                         readOnly={readOnly}
                     />
                 </InputSection>
+                {isRevision && (
+                    <InputSection
+                        title={strings.updatedChecklistTitle}
+                    >
+                        <GoSingleFileInput
+                            name="updated_checklist_file"
+                            url="/api/v2/eap-file/"
+                            value={value?.updated_checklist_file}
+                            onChange={setFieldValue}
+                            error={getErrorString(error?.updated_checklist_file)}
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        >
+                            {strings.financeUploadButtonLabel}
+                        </GoSingleFileInput>
+                    </InputSection>
+                )}
             </ListView>
         </TabPage>
     );
