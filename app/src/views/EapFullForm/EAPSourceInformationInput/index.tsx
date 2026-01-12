@@ -2,6 +2,8 @@ import { useCallback } from 'react';
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
     Button,
+    InlineView,
+    ListView,
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -73,33 +75,39 @@ function EAPSourceInformationInput(props: Props) {
     return (
         <>
             <NonFieldError error={error} />
-            <TextInput
-                label={strings.eapSourceInformationNameLabel}
-                name="source_name"
-                value={value.source_name}
-                error={error?.source_name}
-                onChange={onFieldChange}
-                readOnly={readOnly}
-                disabled={disabled}
-            />
-            <TextInput
-                label={strings.eapSourceInformationLinkLabel}
-                name="source_link"
-                value={value.source_link}
-                error={error?.source_link}
-                onChange={handleSourceFieldChange}
-                readOnly={readOnly}
-                disabled={disabled}
-            />
-            <Button
-                name={index}
-                onClick={onRemove}
-                styleVariant="action"
-                disabled={disabled || readOnly}
-                title={strings.eapSourceInformationDeleteButton}
+            <InlineView after={(
+                <Button
+                    name={index}
+                    onClick={onRemove}
+                    styleVariant="action"
+                    disabled={disabled || readOnly}
+                    title={strings.eapSourceInformationDeleteButton}
+                >
+                    <DeleteBinTwoLineIcon />
+                </Button>
+            )}
             >
-                <DeleteBinTwoLineIcon />
-            </Button>
+                <ListView layout="grid">
+                    <TextInput
+                        label={strings.eapSourceInformationNameLabel}
+                        name="source_name"
+                        value={value.source_name}
+                        error={error?.source_name}
+                        onChange={onFieldChange}
+                        readOnly={readOnly}
+                        disabled={disabled}
+                    />
+                    <TextInput
+                        label={strings.eapSourceInformationLinkLabel}
+                        name="source_link"
+                        value={value.source_link}
+                        error={error?.source_link}
+                        onChange={handleSourceFieldChange}
+                        readOnly={readOnly}
+                        disabled={disabled}
+                    />
+                </ListView>
+            </InlineView>
         </>
     );
 }

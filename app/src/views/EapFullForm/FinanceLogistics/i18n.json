@@ -36,6 +36,7 @@
         "financeEapEndorsementHeading": "EAP endorsement/Approval",
         "financeEapEndorsementTitle": "EAP endorsement",
         "financeEapEndorsementExplanatoryNote": "It should be ensured that at the point of the trigger being reached no further permissions are needed. Thus, the EAP should have prior approval from all relevant stakeholders. The EAP must be endorsed by the leadership of the submitting NS. The EAP should also be endorsed by other key relevant stakeholders, such as the NHMS and the respective DRM authorities. If technical working groups have been created for FbF, their members should also endorse the final version of the EAP before submission.",
-        "financeEapEndorsementDescription": "Describe by whom, how and when the EAP was agreed and endorsed."
+        "financeEapEndorsementDescription": "Describe by whom, how and when the EAP was agreed and endorsed.",
+        "updatedChecklistTitle": "Updated checklist"
     }
 }
