@@ -64,6 +64,21 @@ function EapTableActions(props: Props) {
         setShowExportModal(false);
     }, []);
 
+    const latestVersion = useMemo(() => {
+        if (eap.eap_type === EAP_TYPE_SIMPLIFIED) {
+            return eap.latest_simplified_eap ?? undefined;
+        }
+
+        if (eap.eap_type === EAP_TYPE_FULL) {
+            return eap.latest_full_eap ?? undefined;
+        }
+
+        return undefined;
+    }, [eap]);
+
+    const isCreated = isDefined(latestVersion);
+    const isLocked = isDefined(details) && !!details.data.is_locked;
+
     const isLatestVersion = useMemo(() => {
         if (eap.eap_type === EAP_TYPE_SIMPLIFIED) {
             return eap.latest_simplified_eap === details?.data.id;
@@ -76,10 +91,23 @@ function EapTableActions(props: Props) {
         return false;
     }, [eap, details]);
 
-    const isEditable = details?.data.is_locked === false && (
-        eap.status === EAP_STATUS_UNDER_DEVELOPMENT
-            || eap.status === EAP_STATUS_NS_ADDRESSING_COMMENTS
-    ) && isLatestVersion;
+    const isEditable = useMemo(() => {
+        if (isCreated && !isLatestVersion) {
+            return false;
+        }
+
+        if (isLocked) {
+            return false;
+        }
+
+        if (eap.status !== EAP_STATUS_UNDER_DEVELOPMENT
+            && eap.status !== EAP_STATUS_NS_ADDRESSING_COMMENTS
+        ) {
+            return false;
+        }
+
+        return true;
+    }, [isCreated, isLatestVersion, isLocked, eap]);
 
     return (
         <ListView layout="block">
@@ -105,7 +133,7 @@ function EapTableActions(props: Props) {
             )}
             {type === 'development' && (
                 <>
-                    {eap.eap_type === EAP_TYPE_SIMPLIFIED && (
+                    {eap.eap_type === EAP_TYPE_SIMPLIFIED && isCreated && (
                         <Link
                             to="simplifiedEapExport"
                             urlParams={{ eapId: eap.id }}
@@ -118,7 +146,7 @@ function EapTableActions(props: Props) {
                             {strings.previewExportLinkLabel}
                         </Link>
                     )}
-                    {eap.eap_type === EAP_TYPE_SIMPLIFIED && (
+                    {eap.eap_type === EAP_TYPE_SIMPLIFIED && isCreated && (
                         <Button
                             name={false}
                             onClick={setShowExportModalTrue}
