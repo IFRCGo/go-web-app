@@ -17,6 +17,7 @@ import {
     TabList,
     TabPanel,
     Tabs,
+    TopBanner,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -638,6 +639,10 @@ export function Component() {
             dref_focal_point_title,
             dref_focal_point_phone_number,
             dref_focal_point_email,
+            ifrc_contact_name,
+            ifrc_contact_email,
+            ifrc_contact_title,
+            ifrc_contact_phone_number,
         } = removeNull(eapDetailResponse);
 
         setValue({
@@ -650,6 +655,10 @@ export function Component() {
             dref_focal_point_title,
             dref_focal_point_phone_number,
             dref_focal_point_email,
+            ifrc_head_of_delegation_email: ifrc_contact_email,
+            ifrc_head_of_delegation_name: ifrc_contact_name,
+            ifrc_head_of_delegation_title: ifrc_contact_title,
+            ifrc_head_of_delegation_phone_number: ifrc_contact_phone_number,
         });
     }, [eapDetailResponse, fullEapPending, fullEapResponse, setValue]);
 
@@ -713,8 +722,13 @@ export function Component() {
                 heading={strings.mainHeading}
                 description={strings.mainDescription}
                 withBackgroundColorInMainSection
+                beforeHeaderContent={readOnly && (
+                    <TopBanner variant="warning">
+                        {strings.readOnlyWarningMessage}
+                    </TopBanner>
+                )}
                 actions={
-                    isEditable && (
+                    isEditable ? (
                         <>
                             <Link
                                 to="accountMyFormsEap"
@@ -736,6 +750,14 @@ export function Component() {
                                 {strings.submitButton}
                             </Button>
                         </>
+                    ) : (
+                        <Link
+                            to="accountMyFormsEap"
+                            styleVariant="outline"
+                            colorVariant="primary"
+                        >
+                            {strings.backToAccount}
+                        </Link>
                     )
                 }
                 info={(
@@ -903,7 +925,11 @@ export function Component() {
                             {strings.nextButton}
                         </Button>
                     ) : (
-                        <Button name={undefined} onClick={handleSave}>
+                        <Button
+                            name={undefined}
+                            onClick={handleSave}
+                            disabled={readOnly}
+                        >
                             {strings.saveButton}
                         </Button>
                     )}

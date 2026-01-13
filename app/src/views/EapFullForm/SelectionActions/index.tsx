@@ -2,7 +2,6 @@ import {
     useCallback,
     useMemo,
 } from 'react';
-import { DownloadLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Checklist,
@@ -316,9 +315,10 @@ function SelectionActions(props: Props) {
                         error={getErrorObject(error?.early_action_selection_process_images)}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
-                        label={strings.selectionActionUploadLabel}
+                        label={strings.selectionActionSelectImagesLabel}
                         disabled={disabled}
                         readOnly={readOnly}
+                        description={strings.selectionActionImagesCountLabel}
                     />
                 </InputSection>
                 <InputSection
@@ -326,11 +326,10 @@ function SelectionActions(props: Props) {
                         <Link
                             external
                             href={templateUrl?.url}
-                            styleVariant="action"
                             withUnderline
+                            withLinkIcon
                         >
                             {strings.downloadTableLabel}
-                            <DownloadLineIcon />
                         </Link>
                     )}
                 >

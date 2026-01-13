@@ -19,6 +19,8 @@
         "failureMessage": "Sorry could not create a new Full EAP right now!",
         "successMessage": "Successfully created a new Full EAP!",
         "updateFailure": "Sorry could not update Full EAP right now!",
-        "updateSuccess": "Successfully updated a new Full EAP!"
+        "updateSuccess": "Successfully updated a new Full EAP!",
+        "backToAccount": "Back",
+        "readOnlyWarningMessage": "You’re viewing this form in read-only mode. Editing is currently disabled."
     }
 }

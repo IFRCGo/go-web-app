@@ -133,7 +133,8 @@ function EapActivationProcess(props: Props) {
                         error={getErrorObject(error?.early_action_implementation_images)}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
-                        label={strings.activationProcessUploadLabel}
+                        label={strings.activationSelectImagesLabel}
+                        description={strings.activationImageCountLabel}
                         disabled={disabled}
                         readOnly={readOnly}
                     />
@@ -186,7 +187,8 @@ function EapActivationProcess(props: Props) {
                         error={getErrorObject(error?.trigger_activation_system_images)}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
-                        label={strings.activationProcessUploadLabel}
+                        label={strings.activationSelectImagesLabel}
+                        description={strings.activationImageCountLabel}
                         disabled={disabled}
                         readOnly={readOnly}
                     />

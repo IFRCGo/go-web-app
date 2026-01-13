@@ -168,9 +168,10 @@ function RiskAnalysis(props: Props) {
                         error={getErrorObject(error?.hazard_selection_images)}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
-                        label="Upload"
+                        label={strings.attachFilesSelectImagesLabel}
                         disabled={disabled}
                         readOnly={readOnly}
+                        description={strings.riskAnalysisImagesCountLabel}
                     />
                 </InputSection>
                 <InputSection
@@ -223,6 +224,7 @@ function RiskAnalysis(props: Props) {
                         name="exposed_element_and_vulnerability_factor"
                         onChange={setFieldValue}
                         value={value?.exposed_element_and_vulnerability_factor}
+                        error={error?.exposed_element_and_vulnerability_factor}
                         disabled={disabled}
                         readOnly={readOnly}
                     />
@@ -237,6 +239,7 @@ function RiskAnalysis(props: Props) {
                         label={strings.attachFilesSelectImagesLabel}
                         disabled={disabled}
                         readOnly={readOnly}
+                        description={strings.riskAnalysisImagesCountLabel}
                     />
                 </InputSection>
                 <InputSection
@@ -282,6 +285,7 @@ function RiskAnalysis(props: Props) {
                         name="prioritized_impact"
                         onChange={setFieldValue}
                         value={value?.prioritized_impact}
+                        error={error?.prioritized_impact}
                         disabled={disabled}
                         readOnly={readOnly}
                     />
@@ -296,6 +300,7 @@ function RiskAnalysis(props: Props) {
                         label={strings.attachFilesSelectImagesLabel}
                         disabled={disabled}
                         readOnly={readOnly}
+                        description={strings.riskAnalysisImagesCountLabel}
                     />
                 </InputSection>
                 <InputSection

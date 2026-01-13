@@ -39,6 +39,7 @@
         "sourceOfInformationDescription": "Add the description of the sources one at a time. If the source has a link, add in the second field.",
         "sourceOfInformationAddNewLabel": "Add New Source Information",
         "riskExplanatoryNoteLabel": "Explanatory Note",
+        "riskAnalysisImagesCountLabel": "5 images max(optional)",
         "riskRequiredPointsLabel": "Required Points"
     }
 }

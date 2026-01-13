@@ -16,6 +16,7 @@
         "eapSimplifiedFailure": "Failed to create the EAP!",
         "eapSimplifiedSuccess": "Successfully created a new Simplified EAP!",
         "eapSimplifiedUpdateMessage": "Simplified EAP Form updated Successfully.",
+        "backToAccount": "Back",
         "updateFailureMessage": "Failed to update the EAP!",
         "readOnlyWarningMessage": "You’re viewing this form in read-only mode. Editing is currently disabled."
     }
