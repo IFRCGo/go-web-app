@@ -55,6 +55,7 @@ interface Props<N> {
     before?: React.ReactNode;
     after?: React.ReactNode;
     disabled?: boolean;
+    description?: React.ReactNode;
     useCurrentLanguageForMutation?: boolean;
 }
 
@@ -76,6 +77,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
         before,
         after,
         disabled,
+        description,
         useCurrentLanguageForMutation = false,
     } = props;
 
@@ -158,6 +160,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                 readOnly={readOnly}
                 disabled={disabled}
                 useCurrentLanguageForMutation={useCurrentLanguageForMutation}
+                description={description}
             >
                 {label}
             </GoMultiFileInput>

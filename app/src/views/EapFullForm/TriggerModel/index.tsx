@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { DownloadLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Heading,
@@ -235,19 +234,18 @@ function TriggerModel(props: Props) {
                         label={strings.triggerSelectImagesLabel}
                         disabled={disabled}
                         readOnly={readOnly}
+                        description={strings.triggerModelImagesCountLabel}
                     />
-                    <TextOutput withLightText value={strings.forecastTableLabel} />
                 </InputSection>
                 <InputSection
                     description={(
                         <Link
                             external
                             href={templateUrl?.url}
-                            styleVariant="action"
                             withUnderline
+                            withLinkIcon
                         >
                             {strings.downloadForecastTableLabel}
-                            <DownloadLineIcon />
                         </Link>
                     )}
                 >
@@ -323,6 +321,7 @@ function TriggerModel(props: Props) {
                         label={strings.triggerSelectImagesLabel}
                         disabled={disabled}
                         readOnly={readOnly}
+                        description={strings.triggerModelImagesCountLabel}
                     />
                 </InputSection>
                 <InputSection
@@ -378,6 +377,7 @@ function TriggerModel(props: Props) {
                         label={strings.triggerSelectImagesLabel}
                         disabled={disabled}
                         readOnly={readOnly}
+                        description={strings.triggerModelImagesCountLabel}
                     />
                 </InputSection>
                 <InputSection

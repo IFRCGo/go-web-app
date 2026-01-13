@@ -39,6 +39,8 @@
         "activationAttachFilesDescription": "Attach any additional maps, documentation, files, images, etc.",
         "activationSourceOfInformationTitle": "Sources of Information",
         "activationSourceOfInformationAddNewLabel": "Add New Source of Information",
+        "activationSelectImagesLabel": "Select images",
+        "activationImageCountLabel": "5 images max(optional)",
         "activationSourceOfInformationDescription": "Add the description of the sources one at a time. If the source has a link, add in the second field."
     }
 }

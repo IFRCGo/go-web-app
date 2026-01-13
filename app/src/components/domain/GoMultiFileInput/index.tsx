@@ -229,6 +229,11 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                         <DeleteBinLineIcon />
                     </IconButton>
                 )}
+                {isNotDefined(valueUrls) && (
+                    <Description withLightText>
+                        {strings.noFileSelected}
+                    </Description>
+                )}
             </ListView>
             {!withoutPreview && isDefined(valueUrls) && valueUrls.length > 0 && (
                 <ListView

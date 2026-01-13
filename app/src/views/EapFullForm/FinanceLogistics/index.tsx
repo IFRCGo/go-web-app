@@ -1,4 +1,3 @@
-import { DownloadLineIcon } from '@ifrc-go/icons';
 import {
     Heading,
     InputSection,
@@ -106,11 +105,10 @@ function FinanceLogistics(props: Props) {
                         <Link
                             external
                             href={templateUrl?.url}
-                            styleVariant="action"
                             withUnderline
+                            withLinkIcon
                         >
                             {strings.financeDownloadDescription}
-                            <DownloadLineIcon />
                         </Link>
                     )}
                 >

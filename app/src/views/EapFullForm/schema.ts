@@ -4,6 +4,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 import {
+    addCondition,
     emailCondition,
     type LiteralSchema,
     type ObjectSchema,
@@ -528,7 +529,7 @@ type ExtractContactPrefix<KEY extends FieldKeys> =
 
 export type ValidContactFieldPrefixes = ExtractContactPrefix<FieldKeys>;
 
-function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY) {
+function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY, required?: boolean) {
     type ContactSchema = {
         [K in `${KEY}_${ContactFieldSuffix}`]: LiteralSchema<
             string | undefined,
@@ -538,16 +539,16 @@ function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY) {
     };
 
     return {
-        [`${key}_name`]: {},
+        [`${key}_name`]: { required },
         [`${key}_title`]: {},
-        [`${key}_email`]: { validations: [emailCondition] },
+        [`${key}_email`]: { required, validations: [emailCondition] },
         [`${key}_phone_number`]: {},
     } as ContactSchema;
 }
 
 export const formSchema: EapFullFormSchema = {
-    fields: (_, __, context): EapFullFormSchemaFields => {
-        const defaultSchema: EapFullFormSchemaFields = {
+    fields: (formValue, __, context): EapFullFormSchemaFields => {
+        let formFields: EapFullFormSchemaFields = {
             // ------------Overview-----------------
             expected_submission_time: { required: true },
             objective: { required: true },
@@ -572,9 +573,9 @@ export const formSchema: EapFullFormSchema = {
                 }),
             },
 
-            ...getContactSchema('national_society_contact'),
-            ...getContactSchema('ifrc_delegation_focal_point'),
-            ...getContactSchema('ifrc_head_of_delegation'),
+            ...getContactSchema('national_society_contact', true),
+            ...getContactSchema('ifrc_delegation_focal_point', true),
+            ...getContactSchema('ifrc_head_of_delegation', true),
             ...getContactSchema('dref_focal_point'),
             ...getContactSchema('ifrc_regional_focal_point'),
             ...getContactSchema('ifrc_regional_ops_manager'),
@@ -583,7 +584,7 @@ export const formSchema: EapFullFormSchema = {
 
             // Stakeholders
             is_worked_with_government: { required: true },
-            worked_with_government_description: {},
+            worked_with_government_description: { required: true },
 
             key_actors: {
                 keySelector: (item) => item.client_id,
@@ -598,8 +599,7 @@ export const formSchema: EapFullFormSchema = {
             },
 
             is_technical_working_groups: { required: true },
-            technically_working_group_title: {},
-            technical_working_groups_in_place_description: {},
+            technical_working_groups_in_place_description: { required: true },
 
             // ------------Risk Analysis-----------------
             hazard_selection: { required: true },
@@ -936,23 +936,40 @@ export const formSchema: EapFullFormSchema = {
 
             // ------------Finance and Logistics----------------
             total_budget: { required: true },
-            budget_description: {},
+            budget_description: { required: true },
             budget_file: { required: true },
             readiness_budget: { required: true },
-            readiness_cost_description: {},
+            readiness_cost_description: { required: true },
             pre_positioning_budget: { required: true },
-            prepositioning_cost_description: {},
+            prepositioning_cost_description: { required: true },
             early_action_budget: { required: true },
-            early_action_cost_description: {},
+            early_action_cost_description: { required: true },
             eap_endorsement: { required: true },
         };
 
+        formFields = addCondition(
+            formFields,
+            formValue,
+            ['is_technical_working_groups'],
+            ['technically_working_group_title'],
+            (val) => {
+                if (val?.is_technical_working_groups) {
+                    return {
+                        technically_working_group_title: { required: true },
+                    };
+                }
+                return {
+                    technically_working_group_title: {},
+                };
+            },
+        );
+
         if (isNotDefined(context) || !context.isRevision) {
-            return defaultSchema;
+            return formFields;
         }
 
         return {
-            ...defaultSchema,
+            ...formFields,
 
             // ------------Finance and Logistics----------------
             updated_checklist_file: {

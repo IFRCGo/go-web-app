@@ -8,6 +8,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import { type components } from '#generated/types';
 import useAlert from '#hooks/useAlert';
+import useRouting from '#hooks/useRouting';
 import {
     EAP_STATUS_UNDER_DEVELOPMENT,
     EAP_STATUS_UNDER_REVIEW,
@@ -38,6 +39,7 @@ function ApprovalModal(props: Props) {
     const alert = useAlert();
 
     const strings = useTranslation(i18n);
+    const { navigate } = useRouting();
 
     const disabled = useMemo(() => status !== EAP_STATUS_UNDER_DEVELOPMENT, [status]);
 
@@ -50,6 +52,9 @@ function ApprovalModal(props: Props) {
         body: (fields: EapStatusBody) => fields,
         onSuccess: () => {
             alert.show(strings.approvalUpdateSuccessMessage, { variant: 'success' });
+            navigate(
+                'accountMyFormsEap',
+            );
         },
         formData: true,
         onFailure: () => {

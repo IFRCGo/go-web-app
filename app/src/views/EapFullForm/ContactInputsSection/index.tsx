@@ -25,6 +25,7 @@ interface Props {
     error: Error<PartialEapFullFormType> | undefined;
     disabled?: boolean;
     readOnly?: boolean;
+    withAsteriskOnTitle?: boolean;
 }
 
 function ContactInputsSection(props: Props) {
@@ -37,6 +38,7 @@ function ContactInputsSection(props: Props) {
         error: formError,
         disabled,
         readOnly,
+        withAsteriskOnTitle,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -53,6 +55,7 @@ function ContactInputsSection(props: Props) {
             title={sectionTitle}
             description={description}
             numPreferredColumns={2}
+            withAsteriskOnTitle={withAsteriskOnTitle}
         >
             <TextInput
                 label={strings.fullContactNameLabel}

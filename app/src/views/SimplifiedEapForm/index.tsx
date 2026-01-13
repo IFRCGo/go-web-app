@@ -533,9 +533,9 @@ export function Component() {
                         {strings.readOnlyWarningMessage}
                     </TopBanner>
                 )}
-                actions={(
-                    <>
-                        {isEditable && (
+                actions={
+                    isEditable ? (
+                        <>
                             <Link
                                 to="accountMyFormsEap"
                                 styleVariant="outline"
@@ -543,17 +543,23 @@ export function Component() {
                             >
                                 {strings.simplifiedCancelButton}
                             </Link>
-                        )}
-                        {isEditable && (
                             <Button
                                 name={undefined}
                                 onClick={handleSave}
                             >
                                 {strings.simplifiedSaveButton}
                             </Button>
-                        )}
-                    </>
-                )}
+                        </>
+                    ) : (
+                        <Link
+                            to="accountMyFormsEap"
+                            styleVariant="outline"
+                            colorVariant="primary"
+                        >
+                            {strings.backToAccount}
+                        </Link>
+                    )
+                }
                 info={(
                     <TabList>
                         <Tab

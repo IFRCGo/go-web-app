@@ -3,15 +3,17 @@ import { AddLineIcon } from '@ifrc-go/icons';
 import {
     BooleanInput,
     Button,
+    DateInput,
     Heading,
     InputSection,
     ListView,
+    Radio,
     TextArea,
     TextInput,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { randomString } from '@togglecorp/fujs';
+import { isNotDefined, randomString } from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
@@ -101,6 +103,13 @@ function Overview(props: Props) {
         setFieldValue,
     );
 
+    const handleSubmissionTimeClick = useCallback(() => {
+        if (readOnly) {
+            return;
+        }
+        setFieldValue(undefined, 'expected_submission_time');
+    }, [readOnly, setFieldValue]);
+
     const handleKeyActorsAdd = useCallback(() => {
         const newKeyActorsItem: KeyActorsFormFields = {
             client_id: randomString(),
@@ -180,14 +189,25 @@ function Overview(props: Props) {
                     description={strings.formExpectedSubmissionTimeDescription}
                     withAsteriskOnTitle
                 >
-                    <TextInput
-                        name="expected_submission_time"
-                        value={value?.expected_submission_time}
-                        error={error?.expected_submission_time}
-                        onChange={setFieldValue}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
+                    <ListView>
+                        <DateInput
+                            name="expected_submission_time"
+                            value={value?.expected_submission_time}
+                            error={error?.expected_submission_time}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                        <Radio
+                            name="expected_submission_time"
+                            value={isNotDefined(value?.expected_submission_time)}
+                            onClick={handleSubmissionTimeClick}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        >
+                            {strings.notSureLabel}
+                        </Radio>
+                    </ListView>
                 </InputSection>
                 <InputSection
                     title={strings.objectiveTitle}
@@ -218,6 +238,7 @@ function Overview(props: Props) {
                         error={error}
                         disabled={disabled}
                         readOnly={readOnly}
+                        withAsteriskOnTitle
                     />
                     <InputSection
                         title={strings.partnerNS}
@@ -236,7 +257,6 @@ function Overview(props: Props) {
                                 readOnly={readOnly}
                             />
                         ))}
-                        {/* FIXME: Add ReadOnly */}
                         <Button
                             name={undefined}
                             onClick={handlePartnerContactAdd}
@@ -257,6 +277,7 @@ function Overview(props: Props) {
                         error={error}
                         disabled={disabled}
                         readOnly={readOnly}
+                        withAsteriskOnTitle
                     />
                     <ContactInputsSection
                         title={strings.delegation}
@@ -266,6 +287,7 @@ function Overview(props: Props) {
                         error={error}
                         disabled={disabled}
                         readOnly={readOnly}
+                        withAsteriskOnTitle
                     />
                 </ListView>
                 <Heading level={4}>{strings.regionalHeader}</Heading>
@@ -415,7 +437,7 @@ function Overview(props: Props) {
                             value={value?.technically_working_group_title}
                             onChange={setFieldValue}
                             error={error?.technically_working_group_title}
-                            disabled={disabled}
+                            disabled={!value?.is_technical_working_groups || disabled}
                             readOnly={readOnly}
                         />
                         <TextArea

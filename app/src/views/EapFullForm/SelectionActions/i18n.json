@@ -21,6 +21,7 @@
         "earlyActionsOutputValue": "Early Actions",
         "earlyActionsAddButtonLabel": "Add",
         "selectionActionUploadLabel": "Upload",
+        "selectionActionSelectImagesLabel": "Select images",
         "downloadTableLabel": "Download Theory of Change table",
         "selectionActionUploadTableLabel": "Upload Table",
         "evidenceBaseTitle": "Evidence Base",
@@ -44,6 +45,7 @@
         "feasibilityRequiredPoint2": "If Cash and Voucher Assistance (CVA) is chosen as an early action, describe how necessary information for disbursement is collected in the short period of time and how national legislative requirements are met.",
         "useFullnessActionsTitle": "Usefulness of actions in case of non-occurring event",
         "useFullnessActionsDescription": "Describe how your selected actions will contribute to the well-being of the population even if the expected event does not materialize. Include a description of the measures taken to ensure that the actions taken will be of maximum use for the targeted population in a future event.",
+        "selectionActionImagesCountLabel": "5 images max(optional)",
         "useFullnessActionsExplanatoryNote": "In cases where the expected event does not materialize, the early actions implemented by the National Society (funded by the DREF) should still contribute to risk reduction and resiliency building."
     }
 }
