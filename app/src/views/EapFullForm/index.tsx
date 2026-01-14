@@ -948,3 +948,5 @@ export function Component() {
         </Tabs>
     );
 }
+
+Component.displayName = 'EapFullForm';
