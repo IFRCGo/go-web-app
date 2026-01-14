@@ -19,6 +19,11 @@
         background-color: var(--go-ui-color-foreground);
     }
 
+    &.with-border {
+        border-radius: var(--go-ui-border-radius-lg);
+        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+    }
+
     &.with-dark-background {
         border-radius: var(--go-ui-border-radius-lg);
         background-color: var(--go-ui-color-background);

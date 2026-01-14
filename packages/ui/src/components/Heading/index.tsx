@@ -5,7 +5,10 @@ import {
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
+import { paddingSpacings, SpacingType } from '#utils/style';
+
 import styles from './styles.module.css';
+import useSpacingToken from '#hooks/useSpacingToken';
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -24,6 +27,8 @@ export interface Props {
     children: ReactNode;
     ellipsize?: boolean;
     centerAligned?: boolean;
+    variant?: 'form' | 'container';
+    spacing?: SpacingType;
 }
 
 function Heading(props: Props) {
@@ -33,7 +38,14 @@ function Heading(props: Props) {
         children,
         ellipsize,
         centerAligned,
+        variant = 'container',
+        spacing,
     } = props;
+
+    const spacingClassName = useSpacingToken({
+        spacing,
+        modes: paddingSpacings,
+    });
 
     const HeadingTag = `h${level}` as ElementType;
     const headingElementRef = useRef<HTMLHeadingElement>(null);
@@ -49,6 +61,9 @@ function Heading(props: Props) {
                 ellipsize && styles.ellipsized,
                 levelToClassName[level],
                 centerAligned && styles.centerAligned,
+                variant === 'form' && spacingClassName,
+                variant === 'form' && styles.withBottomBorder,
+                variant === 'form' && styles.withLightBackground,
                 className,
             )}
             ref={headingElementRef}
