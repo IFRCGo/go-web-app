@@ -3,6 +3,7 @@ import { AddLineIcon } from '@ifrc-go/icons';
 import {
     BooleanInput,
     Button,
+    Container,
     DateInput,
     Heading,
     InputSection,
@@ -13,7 +14,11 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { isNotDefined, randomString } from '@togglecorp/fujs';
+import { resolveToString } from '@ifrc-go/ui/utils';
+import {
+    isNotDefined,
+    randomString,
+} from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
@@ -125,9 +130,14 @@ function Overview(props: Props) {
     }, [setFieldValue]);
 
     return (
-        <TabPage>
-            <ListView layout="block" spacing="sm">
-                <Heading level={4}>{strings.overviewHeading}</Heading>
+        <TabPage spacingOffset={-2}>
+            <ListView
+                layout="block"
+                spacing="xs"
+            >
+                <Heading variant="form">
+                    {strings.overviewHeading}
+                </Heading>
                 <InputSection
                     title={strings.nationalSociety}
                     description={strings.nationalSocietyDescription}
@@ -225,10 +235,20 @@ function Overview(props: Props) {
                     />
                 </InputSection>
             </ListView>
-            <Heading>{strings.formContacts}</Heading>
-            <ListView layout="block">
-                <Heading level={4}>{strings.nationalHeader}</Heading>
-                <ListView layout="block" spacing="sm">
+            <ListView
+                layout="block"
+                spacing="xs"
+            >
+                <Heading variant="form">
+                    {strings.formContacts}
+                </Heading>
+                <>
+                    <Heading
+                        level={4}
+                        variant="form"
+                    >
+                        {strings.nationalHeader}
+                    </Heading>
                     <ContactInputsSection
                         title={strings.nSContact}
                         description={strings.nSContactDescription}
@@ -266,9 +286,14 @@ function Overview(props: Props) {
                             {strings.addPartnerNSContactButton}
                         </Button>
                     </InputSection>
-                </ListView>
-                <Heading level={4}>{strings.delegationHeader}</Heading>
-                <ListView layout="block" spacing="sm">
+                </>
+                <>
+                    <Heading
+                        level={4}
+                        variant="form"
+                    >
+                        {strings.delegationHeader}
+                    </Heading>
                     <ContactInputsSection
                         title={strings.formFocalPoint}
                         namePrefix="ifrc_delegation_focal_point"
@@ -289,9 +314,14 @@ function Overview(props: Props) {
                         readOnly={readOnly}
                         withAsteriskOnTitle
                     />
-                </ListView>
-                <Heading level={4}>{strings.regionalHeader}</Heading>
-                <ListView layout="block" spacing="sm">
+                </>
+                <>
+                    <Heading
+                        level={4}
+                        variant="form"
+                    >
+                        {strings.regionalHeader}
+                    </Heading>
                     <ContactInputsSection
                         title={strings.drefFocalPoint}
                         description={strings.drefFocalPointDescription}
@@ -338,65 +368,97 @@ function Overview(props: Props) {
                         disabled={disabled}
                         readOnly={readOnly}
                     />
-                </ListView>
-                <Heading level={4}>{strings.stakeholderHeader}</Heading>
-                <ListView layout="block" spacing="sm">
-                    <InputSection
-                        title={strings.workWithGovernmentTitle}
-                        tooltip={(
+                </>
+            </ListView>
+            <ListView
+                layout="block"
+                spacing="xs"
+            >
+                <Heading variant="form">
+                    {strings.stakeholderHeader}
+                </Heading>
+                <InputSection
+                    title={strings.workWithGovernmentTitle}
+                    tooltip={(
+                        <TextOutput
+                            label={strings.overviewExplanatoryNoteLabel}
+                            strongLabel
+                            value={strings.workExplanatoryNote}
+                        />
+                    )}
+                    description={strings.workWithGovernmentDescription}
+                    withAsteriskOnTitle
+                >
+                    <Container
+                        withBorder
+                        withPadding
+                        spacing="sm"
+                    >
+                        <ListView layout="block">
+                            <BooleanInput
+                                name="is_worked_with_government"
+                                value={value?.is_worked_with_government}
+                                onChange={setFieldValue}
+                                error={error?.is_worked_with_government}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                            />
+                            {value.is_worked_with_government && (
+                                <TextArea
+                                    label={strings.workWithGovernmentDescriptionLabel}
+                                    name="worked_with_government_description"
+                                    value={value?.worked_with_government_description}
+                                    onChange={setFieldValue}
+                                    error={error?.worked_with_government_description}
+                                    disabled={disabled}
+                                    readOnly={readOnly}
+                                />
+                            )}
+                        </ListView>
+                    </Container>
+                </InputSection>
+                <InputSection
+                    title={strings.keyActorsTitle}
+                    tooltip={(
+                        <ListView layout="block">
                             <TextOutput
                                 label={strings.overviewExplanatoryNoteLabel}
                                 strongLabel
-                                value={strings.workExplanatoryNote}
+                                value={strings.actorsExplanatoryNote}
                             />
-                        )}
-                        description={strings.workWithGovernmentDescription}
-                        withAsteriskOnTitle
+                            <TextOutput
+                                label={strings.overviewRequiredPointsLabel}
+                                strongLabel
+                                value={(
+                                    <ul>
+                                        <li>{strings.overviewRequiredPoint1}</li>
+                                        <li>{strings.overviewRequiredPoint2}</li>
+                                        <li>{strings.overviewRequiredPoint3}</li>
+                                    </ul>
+                                )}
+                            />
+                        </ListView>
+                    )}
+                    description={(
+                        <>
+                            <div>
+                                {strings.keyActorsDescription}
+                            </div>
+                            <div>
+                                {resolveToString(
+                                    strings.keyActorsDescription2,
+                                    { addNewActorButtonLabel: strings.keyActorsAddButton },
+                                )}
+                            </div>
+                        </>
+                    )}
+                    withAsteriskOnTitle
+                >
+                    <NonFieldError error={getErrorObject(error?.key_actors)} />
+                    <ListView
+                        layout="block"
+                        spacing="sm"
                     >
-                        <BooleanInput
-                            name="is_worked_with_government"
-                            value={value?.is_worked_with_government}
-                            onChange={setFieldValue}
-                            error={error?.is_worked_with_government}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                        />
-                        <TextArea
-                            label={strings.workWithGovernmentDescriptionLabel}
-                            name="worked_with_government_description"
-                            value={value?.worked_with_government_description}
-                            onChange={setFieldValue}
-                            error={error?.worked_with_government_description}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.keyActorsTitle}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    label={strings.overviewExplanatoryNoteLabel}
-                                    strongLabel
-                                    value={strings.actorsExplanatoryNote}
-                                />
-                                <TextOutput
-                                    label={strings.overviewRequiredPointsLabel}
-                                    strongLabel
-                                    value={(
-                                        <ul>
-                                            <li>{strings.overviewRequiredPoint1}</li>
-                                            <li>{strings.overviewRequiredPoint2}</li>
-                                            <li>{strings.overviewRequiredPoint3}</li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
-                        )}
-                        description={strings.keyActorsDescription}
-                        withAsteriskOnTitle
-                    >
-                        <NonFieldError error={getErrorObject(error?.key_actors)} />
                         {value.key_actors?.map((actor, index) => (
                             <KeyActorsInput
                                 key={actor.client_id}
@@ -409,48 +471,63 @@ function Overview(props: Props) {
                                 readOnly={readOnly}
                             />
                         ))}
-                        <Button
-                            name={undefined}
-                            onClick={handleKeyActorsAdd}
-                            disabled={disabled || readOnly}
-                            before={<AddLineIcon />}
-                        >
-                            {strings.keyActorsAddButton}
-                        </Button>
-                    </InputSection>
-                    <InputSection
-                        title={strings.technicalWorkingGroupsTitle}
-                        description={strings.technicalWorkingGroupDescription}
-                        withAsteriskOnTitle
+                    </ListView>
+                    <Button
+                        name={undefined}
+                        onClick={handleKeyActorsAdd}
+                        disabled={disabled || readOnly}
+                        before={<AddLineIcon />}
                     >
-                        <BooleanInput
-                            name="is_technical_working_groups"
-                            value={value?.is_technical_working_groups}
-                            onChange={setFieldValue}
-                            error={error?.is_technical_working_groups}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                        />
-                        <TextInput
-                            label={strings.technicalWorkingGroupsTitleLabel}
-                            name="technically_working_group_title"
-                            value={value?.technically_working_group_title}
-                            onChange={setFieldValue}
-                            error={error?.technically_working_group_title}
-                            disabled={!value?.is_technical_working_groups || disabled}
-                            readOnly={readOnly}
-                        />
-                        <TextArea
-                            label={strings.workWithGovernmentDescriptionLabel}
-                            name="technical_working_groups_in_place_description"
-                            value={value?.technical_working_groups_in_place_description}
-                            onChange={setFieldValue}
-                            error={error?.technical_working_groups_in_place_description}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                        />
-                    </InputSection>
-                </ListView>
+                        {strings.keyActorsAddButton}
+                    </Button>
+                </InputSection>
+                <InputSection
+                    title={strings.technicalWorkingGroupsTitle}
+                    description={strings.technicalWorkingGroupDescription}
+                    withAsteriskOnTitle
+                >
+                    <Container
+                        withPadding
+                        withBorder
+                        spacing="sm"
+                    >
+                        <ListView
+                            layout="block"
+                            spacing="sm"
+                        >
+                            <BooleanInput
+                                name="is_technical_working_groups"
+                                value={value?.is_technical_working_groups}
+                                onChange={setFieldValue}
+                                error={error?.is_technical_working_groups}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                            />
+                            {value.is_technical_working_groups && (
+                                <>
+                                    <TextInput
+                                        label={strings.technicalWorkingGroupsTitleLabel}
+                                        name="technically_working_group_title"
+                                        value={value?.technically_working_group_title}
+                                        onChange={setFieldValue}
+                                        error={error?.technically_working_group_title}
+                                        disabled={!value?.is_technical_working_groups || disabled}
+                                        readOnly={readOnly}
+                                    />
+                                    <TextArea
+                                        label={strings.workWithGovernmentDescriptionLabel}
+                                        name="technical_working_groups_in_place_description"
+                                        value={value?.technical_working_groups_in_place_description}
+                                        onChange={setFieldValue}
+                                        error={error?.technical_working_groups_in_place_description}
+                                        disabled={disabled}
+                                        readOnly={readOnly}
+                                    />
+                                </>
+                            )}
+                        </ListView>
+                    </Container>
+                </InputSection>
             </ListView>
         </TabPage>
     );

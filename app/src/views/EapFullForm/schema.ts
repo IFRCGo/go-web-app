@@ -7,6 +7,7 @@ import {
     addCondition,
     emailCondition,
     type LiteralSchema,
+    nullValue,
     type ObjectSchema,
     type PartialForm,
     type PurgeNull,
@@ -951,15 +952,35 @@ export const formSchema: EapFullFormSchema = {
             formFields,
             formValue,
             ['is_technical_working_groups'],
-            ['technically_working_group_title'],
+            ['technically_working_group_title', 'technical_working_groups_in_place_description'],
             (val) => {
                 if (val?.is_technical_working_groups) {
                     return {
                         technically_working_group_title: { required: true },
+                        technical_working_groups_in_place_description: { required: true },
+                    };
+                }
+
+                return {
+                    technically_working_group_title: { forceValue: nullValue },
+                    technical_working_groups_in_place_description: { forceValue: nullValue },
+                };
+            },
+        );
+
+        formFields = addCondition(
+            formFields,
+            formValue,
+            ['is_worked_with_government'],
+            ['worked_with_government_description'],
+            (val) => {
+                if (val?.is_worked_with_government) {
+                    return {
+                        worked_with_government_description: { required: true },
                     };
                 }
                 return {
-                    technically_working_group_title: {},
+                    worked_with_government_description: { forceValue: nullValue },
                 };
             },
         );

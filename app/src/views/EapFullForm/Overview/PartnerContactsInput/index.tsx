@@ -1,7 +1,8 @@
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
-    Button,
     Container,
+    IconButton,
+    InlineLayout,
     ListView,
     TextInput,
 } from '@ifrc-go/ui';
@@ -57,62 +58,67 @@ function PartnerContactsInput(props: Props) {
 
     return (
         <Container
-            heading={`Partner NS #${index + 1}`}
             headingLevel={5}
-            headerActions={(
-                <Button
-                    name={index}
-                    onClick={onRemove}
-                    styleVariant="action"
-                    disabled={disabled || readOnly}
-                    title={strings.partnerNSDeleteButton}
-                >
-                    <DeleteBinTwoLineIcon />
-                </Button>
-            )}
             spacing="sm"
+            withBorder
+            withPadding
         >
-            <ListView
-                layout="grid"
-                numPreferredGridColumns={2}
+            <InlineLayout
+                after={(
+                    <IconButton
+                        name={index}
+                        onClick={onRemove}
+                        disabled={disabled || readOnly}
+                        title={strings.partnerNSDeleteButton}
+                        ariaLabel={strings.partnerNSDeleteButton}
+                    >
+                        <DeleteBinTwoLineIcon />
+                    </IconButton>
+                )}
+                contentAlignment="start"
             >
-                <TextInput
-                    label={strings.partnerNSNameLabel}
-                    name="name"
-                    value={value.name}
-                    error={error?.name}
-                    onChange={onFieldChange}
-                    readOnly={readOnly}
-                    disabled={disabled}
-                />
-                <TextInput
-                    label={strings.partnerNSTitleLabel}
-                    name="title"
-                    value={value.title}
-                    error={error?.title}
-                    onChange={onFieldChange}
-                    readOnly={readOnly}
-                    disabled={disabled}
-                />
-                <TextInput
-                    label={strings.partnerNSEmailLabel}
-                    name="email"
-                    value={value.email}
-                    error={error?.email}
-                    onChange={onFieldChange}
-                    readOnly={readOnly}
-                    disabled={disabled}
-                />
-                <TextInput
-                    label={strings.partnerNSPhoneNumberLabel}
-                    name="phone_number"
-                    value={value.phone_number}
-                    error={error?.phone_number}
-                    onChange={onFieldChange}
-                    readOnly={readOnly}
-                    disabled={disabled}
-                />
-            </ListView>
+                <ListView
+                    layout="grid"
+                    numPreferredGridColumns={2}
+                >
+                    <TextInput
+                        label={strings.partnerNSNameLabel}
+                        name="name"
+                        value={value.name}
+                        error={error?.name}
+                        onChange={onFieldChange}
+                        readOnly={readOnly}
+                        disabled={disabled}
+                    />
+                    <TextInput
+                        label={strings.partnerNSTitleLabel}
+                        name="title"
+                        value={value.title}
+                        error={error?.title}
+                        onChange={onFieldChange}
+                        readOnly={readOnly}
+                        disabled={disabled}
+                    />
+                    <TextInput
+                        label={strings.partnerNSEmailLabel}
+                        name="email"
+                        value={value.email}
+                        error={error?.email}
+                        onChange={onFieldChange}
+                        readOnly={readOnly}
+                        disabled={disabled}
+                    />
+                    <TextInput
+                        label={strings.partnerNSPhoneNumberLabel}
+                        name="phone_number"
+                        value={value.phone_number}
+                        error={error?.phone_number}
+                        onChange={onFieldChange}
+                        readOnly={readOnly}
+                        disabled={disabled}
+                    />
+                </ListView>
+            </InlineLayout>
         </Container>
     );
 }

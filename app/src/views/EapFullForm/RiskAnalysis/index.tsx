@@ -1,6 +1,8 @@
 import { useCallback } from 'react';
+import { AddLineIcon } from '@ifrc-go/icons';
 import {
     Button,
+    Container,
     Heading,
     InputSection,
     ListView,
@@ -8,7 +10,10 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { randomString } from '@togglecorp/fujs';
+import {
+    isNotDefined,
+    randomString,
+} from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
@@ -254,31 +259,43 @@ function RiskAnalysis(props: Props) {
                     description={strings.prioritisedImpactDescription}
                     withAsteriskOnTitle
                 >
-                    <TextOutput
-                        withLightText
-                        value={strings.prioritisedImpactsLabel}
-                    />
-                    <NonFieldError
-                        error={getErrorObject(error?.prioritized_impacts)}
-                    />
-                    {value?.prioritized_impacts?.map((impact, index) => (
-                        <PrioritisedImpactInput
-                            key={impact.client_id}
-                            index={index}
-                            value={impact}
-                            onChange={onPrioritizedChange}
-                            onRemove={onPrioritizedRemove}
-                            error={getErrorObject(error?.prioritized_impacts)}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                        />
-                    ))}
+                    <Container
+                        heading={strings.prioritisedImpactsLabel}
+                        headingLevel={6}
+                        headerDescription={(
+                            <NonFieldError
+                                error={getErrorObject(error?.prioritized_impacts)}
+                            />
+                        )}
+                        withPadding
+                        withBorder
+                        empty={isNotDefined(value.prioritized_impacts)
+                            || value.prioritized_impacts.length === 0}
+                        emptyMessage={strings.prioritizedImpactsEmptyMessage}
+                        withCompactMessage
+                    >
+                        <ListView layout="block">
+                            {value?.prioritized_impacts?.map((impact, index) => (
+                                <PrioritisedImpactInput
+                                    key={impact.client_id}
+                                    index={index}
+                                    value={impact}
+                                    onChange={onPrioritizedChange}
+                                    onRemove={onPrioritizedRemove}
+                                    error={getErrorObject(error?.prioritized_impacts)}
+                                    disabled={disabled}
+                                    readOnly={readOnly}
+                                />
+                            ))}
+                        </ListView>
+                    </Container>
                     <Button
                         name={undefined}
                         onClick={handlePrioritizedImpactAdd}
                         disabled={disabled}
+                        before={<AddLineIcon />}
                     >
-                        {strings.impactAddButtonLabel}
+                        {strings.addButtonLabel}
                     </Button>
                     <TextArea
                         label={strings.riskDescriptionLabel}
@@ -349,8 +366,9 @@ function RiskAnalysis(props: Props) {
                         name={undefined}
                         onClick={handleSourceInformationAdd}
                         disabled={disabled || readOnly}
+                        before={<AddLineIcon />}
                     >
-                        {strings.sourceOfInformationAddNewLabel}
+                        {strings.addButtonLabel}
                     </Button>
                 </InputSection>
             </ListView>
