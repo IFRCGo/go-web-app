@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
-    Button,
+    Container,
+    IconButton,
     InlineView,
     ListView,
     TextInput,
@@ -73,19 +74,23 @@ function EAPSourceInformationInput(props: Props) {
     );
 
     return (
-        <>
-            <NonFieldError error={error} />
-            <InlineView after={(
-                <Button
-                    name={index}
-                    onClick={onRemove}
-                    styleVariant="action"
-                    disabled={disabled || readOnly}
-                    title={strings.eapSourceInformationDeleteButton}
-                >
-                    <DeleteBinTwoLineIcon />
-                </Button>
-            )}
+        <Container
+            headerDescription={<NonFieldError error={error} />}
+            withPadding
+            withBorder
+        >
+            <InlineView
+                after={(
+                    <IconButton
+                        name={index}
+                        onClick={onRemove}
+                        disabled={disabled || readOnly}
+                        title={strings.eapSourceInformationDeleteButton}
+                        ariaLabel={strings.eapSourceInformationDeleteButton}
+                    >
+                        <DeleteBinTwoLineIcon />
+                    </IconButton>
+                )}
             >
                 <ListView layout="grid">
                     <TextInput
@@ -108,7 +113,7 @@ function EAPSourceInformationInput(props: Props) {
                     />
                 </ListView>
             </InlineView>
-        </>
+        </Container>
     );
 }
 

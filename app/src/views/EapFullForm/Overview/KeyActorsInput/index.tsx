@@ -1,8 +1,8 @@
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
-    Button,
-    Heading,
-    InlineView,
+    Container,
+    IconButton,
+    InlineLayout,
     ListView,
     TextArea,
 } from '@ifrc-go/ui';
@@ -57,27 +57,35 @@ function KeyActorsInput(props: Props) {
         : undefined;
 
     return (
-        <>
-            <Heading level={5}>
-                {`Key Actor #${index + 1}`}
-            </Heading>
-            <NonFieldError error={error} />
-            <InlineView
+        <Container
+            withPadding
+            withBorder
+            spacing="sm"
+            headerDescription={(
+                <NonFieldError error={error} />
+            )}
+        >
+            <InlineLayout
                 after={(
-                    <Button
+                    <IconButton
                         name={index}
                         onClick={onRemove}
-                        styleVariant="action"
                         disabled={disabled || readOnly}
                         title={strings.overviewKeyActorsDeleteButton}
+                        ariaLabel={strings.overviewKeyActorsDeleteButton}
                     >
                         <DeleteBinTwoLineIcon />
-                    </Button>
+                    </IconButton>
                 )}
+                contentAlignment="start"
+                spacing="sm"
             >
-                <ListView layout="block">
+                <ListView
+                    layout="block"
+                    spacing="sm"
+                >
                     <NationalSocietySelectInput
-                        label={strings.overviewKeyActorsSelectPartnerLabel}
+                        placeholder={strings.overviewKeyActorsSelectPartnerLabel}
                         error={error?.national_society}
                         name="national_society"
                         onChange={onFieldChange}
@@ -86,15 +94,14 @@ function KeyActorsInput(props: Props) {
                         readOnly={readOnly}
                     />
                     <TextArea
-                        required
                         label={strings.overviewKeyActorsDescriptionLabel}
                         name="description"
                         value={value?.description}
                         onChange={onFieldChange}
                     />
                 </ListView>
-            </InlineView>
-        </>
+            </InlineLayout>
+        </Container>
     );
 }
 

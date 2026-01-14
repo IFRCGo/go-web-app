@@ -554,9 +554,7 @@ export function Component() {
         skip: isNotDefined(latestFullEapId),
         url: '/api/v2/full-eap/{id}/',
         pathVariables: isDefined(latestFullEapId)
-            ? {
-                id: latestFullEapId,
-            }
+            ? { id: latestFullEapId }
             : undefined,
     });
 

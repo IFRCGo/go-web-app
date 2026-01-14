@@ -46,8 +46,9 @@
         "workWithGovernmentDescriptionLabel": "Description",
         "keyActorsTitle": "Key actors",
         "keyActorsDescription": "Name the external actors and Movement components that have been involved in the development of this EAP. Include international, national, regional and local actors, if applicable.",
+        "keyActorsDescription2": "Use the \"{addNewActorButtonLabel}\" button to list all the actors involved and explain their role.",
         "technicalWorkingGroupsTitle": "Technical working groups in place?",
-        "technicalWorkingGroupDescription": "In case there are technical working groups for the development of the FbF system in country, indicate which organizations participate in these groups. Use the \"Add another actor\" button to list all the actors involved and explain their role.",
+        "technicalWorkingGroupDescription": "In case there are technical working groups for the development of the FbF system in country, indicate which organizations participate in these groups.",
         "addPartnerNSContactButton": "Add Partner NS",
         "technicalWorkingGroupsTitleLabel": "Title"
     }

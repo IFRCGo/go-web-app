@@ -1,6 +1,7 @@
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
     Button,
+    InlineLayout,
     ListView,
     TextInput,
 } from '@ifrc-go/ui';
@@ -51,7 +52,20 @@ function PrioritisedImpactInput(props: Props) {
     return (
         <>
             <NonFieldError error={error} />
-            <ListView withFullWidth>
+            <InlineLayout
+                after={(
+                    <Button
+                        name={index}
+                        onClick={onRemove}
+                        styleVariant="action"
+                        disabled={disabled || readOnly}
+                        // FIXME use translation strings
+                        title="Remove prioritized impact"
+                    >
+                        <DeleteBinTwoLineIcon />
+                    </Button>
+                )}
+            >
                 <TextInput
                     name="impact"
                     value={value.impact}
@@ -60,17 +74,7 @@ function PrioritisedImpactInput(props: Props) {
                     disabled={disabled}
                     error={error?.impact}
                 />
-                <Button
-                    name={index}
-                    onClick={onRemove}
-                    styleVariant="action"
-                    disabled={disabled || readOnly}
-                    // FIXME use translation strings
-                    title="Remove prioritized impact"
-                >
-                    <DeleteBinTwoLineIcon />
-                </Button>
-            </ListView>
+            </InlineLayout>
         </>
     );
 }
