@@ -61,7 +61,7 @@ function FinanceLogistics(props: Props) {
     return (
         <TabPage>
             <ListView layout="block">
-                <Heading level={4}>{strings.financeHeading}</Heading>
+                <Heading variant="form" level={4}>{strings.financeHeading}</Heading>
                 <InputSection
                     title={strings.financeBudgetTitle}
                     tooltip={(

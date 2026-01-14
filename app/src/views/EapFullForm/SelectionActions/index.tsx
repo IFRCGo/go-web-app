@@ -2,6 +2,7 @@ import {
     useCallback,
     useMemo,
 } from 'react';
+import { AddLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Checklist,
@@ -16,6 +17,7 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
 import {
+    isNotDefined,
     listToMap,
     randomString,
 } from '@togglecorp/fujs';
@@ -239,7 +241,7 @@ function SelectionActions(props: Props) {
     return (
         <TabPage>
             <ListView layout="block">
-                <Heading level={4}>
+                <Heading variant="form" level={4}>
                     {strings.selectionActionsHeading}
                     <InfoPopup description={strings.selectionActionsTooltipDescription} />
                 </Heading>
@@ -278,23 +280,40 @@ function SelectionActions(props: Props) {
                     )}
                     withAsteriskOnTitle
                 >
-                    <TextOutput withLightText value={strings.earlyActionsOutputValue} />
-                    {value?.early_actions?.map((action, index) => (
-                        <EarlyActionsInput
-                            key={action.client_id}
-                            index={index}
-                            value={action}
-                            onChange={onEarlyActionsChange}
-                            onRemove={onEarlyActionsRemove}
-                            error={getErrorObject(error?.early_actions)}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                        />
-                    ))}
+                    <Container
+                        heading={strings.earlyActionsOutputValue}
+                        headingLevel={6}
+                        headerDescription={(
+                            <NonFieldError
+                                error={getErrorObject(error?.early_actions)}
+                            />
+                        )}
+                        empty={isNotDefined(value.early_actions)
+                            || value.early_actions.length === 0}
+                        withPadding
+                        withBorder
+                        withCompactMessage
+                    >
+                        <ListView layout="block">
+                            {value?.early_actions?.map((action, index) => (
+                                <EarlyActionsInput
+                                    key={action.client_id}
+                                    index={index}
+                                    value={action}
+                                    onChange={onEarlyActionsChange}
+                                    onRemove={onEarlyActionsRemove}
+                                    error={getErrorObject(error?.early_actions)}
+                                    disabled={disabled}
+                                    readOnly={readOnly}
+                                />
+                            ))}
+                        </ListView>
+                    </Container>
                     <Button
                         name={undefined}
                         onClick={handleEarlyActionsAdd}
                         disabled={disabled || readOnly}
+                        before={<AddLineIcon />}
                     >
                         {strings.earlyActionsAddButtonLabel}
                     </Button>
@@ -427,6 +446,7 @@ function SelectionActions(props: Props) {
                 headerDescription={
                     strings.selectionActionPlannedOperationHeadingDescription
                 }
+                variant="form"
             >
                 <ListView layout="block">
                     <InputSection

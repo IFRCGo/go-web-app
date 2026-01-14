@@ -49,7 +49,7 @@ function NationalSocietyCapacity(props: Props) {
     return (
         <TabPage>
             <ListView layout="block">
-                <Heading level={4}>
+                <Heading variant="form" level={4}>
                     {strings.capacityHeading}
                     <InfoPopup description={strings.capacityHeadingTooltip} />
                 </Heading>
