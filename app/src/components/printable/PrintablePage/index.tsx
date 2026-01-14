@@ -1,6 +1,5 @@
 import React, {
     useEffect,
-    useRef,
     useState,
 } from 'react';
 import { Heading } from '@ifrc-go/ui/printable';
@@ -16,6 +15,7 @@ interface Props {
     heading: React.ReactNode;
     description: React.ReactNode;
     dataReady?: boolean;
+    mainRef: React.RefObject<HTMLDivElement>;
 }
 
 function PrintablePage(props: Props) {
@@ -25,11 +25,10 @@ function PrintablePage(props: Props) {
         heading,
         description,
         dataReady = false,
+        mainRef,
     } = props;
 
     const [previewReady, setPreviewReady] = useState(false);
-
-    const mainRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (!dataReady) {
@@ -69,7 +68,7 @@ function PrintablePage(props: Props) {
         }
 
         waitForImages();
-    }, [dataReady]);
+    }, [dataReady, mainRef]);
 
     return (
         <main

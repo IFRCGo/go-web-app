@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
     Label,
@@ -39,6 +40,8 @@ interface Props {
 /** @knipignore */
 export default function SimplifiedEapExport(props: Props) {
     const { eapRegistrationResponse, eapRegistrationPending } = props;
+
+    const mainRef = useRef<HTMLDivElement>(null);
     const [searchParams] = useSearchParams();
 
     const version = searchParams.get('version') ?? undefined;
@@ -213,6 +216,7 @@ export default function SimplifiedEapExport(props: Props) {
             )}
             description={eapTitle ?? '--'}
             dataReady={previewReady}
+            mainRef={mainRef}
         >
             {/* FIXME: consider diff view */}
             {isDefined(cover_image_file?.file) && (

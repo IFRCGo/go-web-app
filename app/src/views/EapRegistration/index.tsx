@@ -553,3 +553,5 @@ export function Component() {
         </Page>
     );
 }
+
+Component.displayName = 'EapRegistration';
