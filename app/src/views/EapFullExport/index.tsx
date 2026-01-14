@@ -1,5 +1,4 @@
 import {
-    useCallback,
     useMemo,
     useRef,
 } from 'react';
@@ -17,10 +16,12 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
-import Link from '#components/Link';
+import PrintableActivityOutput from '#components/domain/PrintableActivityOutput';
+import Link from '#components/printable/Link';
 import PrintableContainer from '#components/printable/PrintableContainer';
 import PrintableDataDisplay from '#components/printable/PrintableDataDisplay';
 import PrintableDescription from '#components/printable/PrintableDescription';
+import PrintableLabel from '#components/printable/PrintableLabel';
 import PrintablePage from '#components/printable/PrintablePage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
@@ -28,16 +29,11 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
+import PrintableContactOutput from './PrintableContactOutput';
 import TableOfContents from './TableOfContents';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type Sector = NonNullable<
-    NonNullable<
-        GoApiResponse<'/api/v2/full-eap/{id}/'>['planned_operations']
-    >[number]
->['sector'];
 
 type EapRegistrationResponse = GoApiResponse<'/api/v2/eap-registration/{id}/'>;
 
@@ -118,47 +114,7 @@ export default function EapFullExport(props: Props) {
         cover_image_file,
         objective,
 
-        national_society_contact_name,
-        national_society_contact_email,
-        national_society_contact_title,
-        national_society_contact_phone_number,
-
         partner_contacts,
-
-        ifrc_delegation_focal_point_name,
-        ifrc_delegation_focal_point_email,
-        ifrc_delegation_focal_point_title,
-        ifrc_delegation_focal_point_phone_number,
-
-        ifrc_head_of_delegation_name,
-        ifrc_head_of_delegation_email,
-        ifrc_head_of_delegation_title,
-        ifrc_head_of_delegation_phone_number,
-
-        dref_focal_point_name,
-        dref_focal_point_email,
-        dref_focal_point_title,
-        dref_focal_point_phone_number,
-
-        ifrc_regional_focal_point_name,
-        ifrc_regional_focal_point_email,
-        ifrc_regional_focal_point_title,
-        ifrc_regional_focal_point_phone_number,
-
-        ifrc_regional_ops_manager_name,
-        ifrc_regional_ops_manager_email,
-        ifrc_regional_ops_manager_title,
-        ifrc_regional_ops_manager_phone_number,
-
-        ifrc_regional_head_dcc_name,
-        ifrc_regional_head_dcc_email,
-        ifrc_regional_head_dcc_title,
-        ifrc_regional_head_dcc_phone_number,
-
-        ifrc_global_ops_coordinator_name,
-        ifrc_global_ops_coordinator_email,
-        ifrc_global_ops_coordinator_title,
-        ifrc_global_ops_coordinator_phone_number,
 
         admin2_details,
         is_worked_with_government,
@@ -231,54 +187,7 @@ export default function EapFullExport(props: Props) {
     const {
         objective: prev_objective,
 
-        national_society_contact_name: prev_national_society_contact_name,
-        national_society_contact_email: prev_national_society_contact_email,
-        national_society_contact_title: prev_national_society_contact_title,
-        national_society_contact_phone_number:
-        prev_national_society_contact_phone_number,
-
         partner_contacts: prev_partner_contacts,
-
-        ifrc_delegation_focal_point_name: prev_ifrc_delegation_focal_point_name,
-        ifrc_delegation_focal_point_email: prev_ifrc_delegation_focal_point_email,
-        ifrc_delegation_focal_point_title: prev_ifrc_delegation_focal_point_title,
-        ifrc_delegation_focal_point_phone_number:
-        prev_ifrc_delegation_focal_point_phone_number,
-
-        ifrc_head_of_delegation_name: prev_ifrc_head_of_delegation_name,
-        ifrc_head_of_delegation_email: prev_ifrc_head_of_delegation_email,
-        ifrc_head_of_delegation_title: prev_ifrc_head_of_delegation_title,
-        ifrc_head_of_delegation_phone_number:
-        prev_ifrc_head_of_delegation_phone_number,
-
-        dref_focal_point_name: prev_dref_focal_point_name,
-        dref_focal_point_email: prev_dref_focal_point_email,
-        dref_focal_point_title: prev_dref_focal_point_title,
-        dref_focal_point_phone_number: prev_dref_focal_point_phone_number,
-
-        ifrc_regional_focal_point_name: prev_ifrc_regional_focal_point_name,
-        ifrc_regional_focal_point_email: prev_ifrc_regional_focal_point_email,
-        ifrc_regional_focal_point_title: prev_ifrc_regional_focal_point_title,
-        ifrc_regional_focal_point_phone_number:
-        prev_ifrc_regional_focal_point_phone_number,
-
-        ifrc_regional_ops_manager_name: prev_ifrc_regional_ops_manager_name,
-        ifrc_regional_ops_manager_email: prev_ifrc_regional_ops_manager_email,
-        ifrc_regional_ops_manager_title: prev_ifrc_regional_ops_manager_title,
-        ifrc_regional_ops_manager_phone_number:
-        prev_ifrc_regional_ops_manager_phone_number,
-
-        ifrc_regional_head_dcc_name: prev_ifrc_regional_head_dcc_name,
-        ifrc_regional_head_dcc_email: prev_ifrc_regional_head_dcc_email,
-        ifrc_regional_head_dcc_title: prev_ifrc_regional_head_dcc_title,
-        ifrc_regional_head_dcc_phone_number:
-        prev_ifrc_regional_head_dcc_phone_number,
-
-        ifrc_global_ops_coordinator_name: prev_ifrc_global_ops_coordinator_name,
-        ifrc_global_ops_coordinator_email: prev_ifrc_global_ops_coordinator_email,
-        ifrc_global_ops_coordinator_title: prev_ifrc_global_ops_coordinator_title,
-        ifrc_global_ops_coordinator_phone_number:
-        prev_ifrc_global_ops_coordinator_phone_number,
 
         is_worked_with_government: prev_is_worked_with_government,
         worked_with_government_description: prev_worked_with_government_description,
@@ -401,73 +310,9 @@ export default function EapFullExport(props: Props) {
         [prev_planned_operations],
     );
 
-    const prevPlannedIndicatorsMapping = useCallback(
-        (sector: Sector) => listToMap(
-            prevPlannedOperationsMapping[sector]?.indicators ?? [],
-            (activity) => activity.id!,
-        ),
-        [prevPlannedOperationsMapping],
-    );
-
-    const prevPlannedReadinessMapping = useCallback(
-        (sector: Sector) => listToMap(
-            prevPlannedOperationsMapping[sector]?.readiness_activities ?? [],
-            (activity) => activity.id!,
-        ),
-        [prevPlannedOperationsMapping],
-    );
-
-    const prevPlannedPrepositioningMapping = useCallback(
-        (sector: Sector) => listToMap(
-            prevPlannedOperationsMapping[sector]?.prepositioning_activities ?? [],
-            (activity) => activity.id!,
-        ),
-        [prevPlannedOperationsMapping],
-    );
-
-    const prevPlannedEarlyActionMapping = useCallback(
-        (sector: Sector) => listToMap(
-            prevPlannedOperationsMapping[sector]?.early_action_activities ?? [],
-            (activity) => activity.id!,
-        ),
-        [prevPlannedOperationsMapping],
-    );
-
     const prevEnableApproachesMapping = useMemo(
         () => listToMap(prev_enable_approaches ?? [], (approach) => approach.id!),
         [prev_enable_approaches],
-    );
-
-    const prevEnableIndicatorsMapping = useCallback(
-        (id: number) => listToMap(
-            prevEnableApproachesMapping[id]?.indicators ?? [],
-            (activity) => activity.id!,
-        ),
-        [prevEnableApproachesMapping],
-    );
-
-    const prevEnableReadinessMapping = useCallback(
-        (id: number) => listToMap(
-            prevEnableApproachesMapping[id]?.readiness_activities ?? [],
-            (activity) => activity.id!,
-        ),
-        [prevEnableApproachesMapping],
-    );
-
-    const prevEnablePrepositioningMapping = useCallback(
-        (id: number) => listToMap(
-            prevEnableApproachesMapping[id]?.prepositioning_activities ?? [],
-            (activity) => activity.id!,
-        ),
-        [prevEnableApproachesMapping],
-    );
-
-    const prevEnableEarlyActionsMapping = useCallback(
-        (id: number) => listToMap(
-            prevEnableApproachesMapping[id]?.early_action_activities ?? [],
-            (activity) => activity.id!,
-        ),
-        [prevEnableApproachesMapping],
     );
 
     const prevActivationSourceInformationMapping = useMemo(
@@ -491,20 +336,29 @@ export default function EapFullExport(props: Props) {
     const previewReady = !eapRegistrationPending && !fullEapPending && !prevFullEapPending;
 
     return (
-        <>
-            <PrintablePage
-                mainRef={mainRef}
+        <PrintablePage
+            mainRef={mainRef}
+            heading={(
+                <>
+                    {strings.pageTitleFullText}
+                    <br />
+                    {strings.pageTitleEapText}
+                </>
+            )}
+            description={eapTitle ?? '--'}
+            dataReady={previewReady}
+        >
+            <PrintableContainer
                 heading={strings.summaryPageTitle}
-                description={undefined}
-                dataReady={previewReady}
+                breakAfter
             >
-                <ListView layout="block">
+                <div className={styles.summary}>
                     <PrintableDataDisplay
                         label={strings.hazardLabel}
                         value={eapRegistrationResponse.disaster_type_details.name}
                         valueType="text"
-                        strongValue
-                        variant="block"
+                        strongLabel
+                        variant="contents"
                         withPadding
                         withBackground
                         withDiff={withDiff}
@@ -513,8 +367,8 @@ export default function EapFullExport(props: Props) {
                         label={strings.objectiveLabel}
                         value={objective}
                         valueType="text"
-                        strongValue
-                        variant="block"
+                        strongLabel
+                        variant="contents"
                         withPadding
                         withBackground
                         withDiff={withDiff}
@@ -536,8 +390,8 @@ export default function EapFullExport(props: Props) {
                                 ))}
                             </ol>
                         )}
-                        strongValue
-                        variant="block"
+                        strongLabel
+                        variant="contents"
                         withPadding
                         withBackground
                         withDiff={withDiff}
@@ -557,18 +411,18 @@ export default function EapFullExport(props: Props) {
                                 ))}
                             </ol>
                         )}
-                        strongValue
-                        variant="block"
+                        strongLabel
+                        variant="contents"
                         withPadding
                         withBackground
                         withDiff={withDiff}
                     />
                     <PrintableDataDisplay
                         label={strings.houseHoldsSummaryLabel}
-                        value="No data"
-                        strongValue
+                        value="--"
+                        strongLabel
                         valueType="text"
-                        variant="block"
+                        variant="contents"
                         withPadding
                         withBackground
                         withDiff={withDiff}
@@ -576,17 +430,497 @@ export default function EapFullExport(props: Props) {
                     <PrintableDataDisplay
                         label={strings.eapBudgetSummaryLabel}
                         value={total_budget}
-                        strongValue
+                        strongLabel
                         valueType="number"
-                        variant="block"
+                        variant="contents"
                         withPadding
                         withBackground
                         withDiff={withDiff}
                     />
                     <PrintableDataDisplay
                         label={strings.sourceForecastLabel}
-                        value={(trigger_statement_source_of_information?.map((trigger) => (
-                            <ListView layout="grid" spacing="2xs">
+                        value={trigger_statement_source_of_information?.map((trigger) => (
+                            <PrintableLabel
+                                value={trigger.source_name}
+                                prevValue={prevTriggerStatementSourceInformationMapping[
+                                    trigger.id!]?.source_name}
+                            />
+                        ))}
+                        variant="contents"
+                        withPadding
+                        withBackground
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                    <PrintableDataDisplay
+                        label={strings.triggerStatementLabel}
+                        value={trigger_statement}
+                        prevValue={prev_trigger_statement}
+                        valueType="text"
+                        variant="contents"
+                        withPadding
+                        withBackground
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </div>
+            </PrintableContainer>
+            <PrintableContainer breakAfter>
+                <TableOfContents mainRef={mainRef} />
+            </PrintableContainer>
+            <PrintableContainer
+                heading={strings.overviewHeading}
+                headingLevel={2}
+            >
+                {isDefined(cover_image_file?.file) && (
+                    <PrintableContainer>
+                        <Image
+                            src={cover_image_file.file}
+                            alt={cover_image_file.caption ?? '--'}
+                            caption={cover_image_file.caption}
+                        />
+                    </PrintableContainer>
+                )}
+                <PrintableContainer headingLevel={3}>
+                    <ListView
+                        layout="block"
+                        spacing="4xs"
+                    >
+                        <ListView
+                            layout="grid"
+                            spacing="4xs"
+                            numPreferredGridColumns={3}
+                        >
+                            <PrintableDataDisplay
+                                label={strings.eapNoLabel}
+                                value={undefined}
+                                prevValue={undefined}
+                                valueType="number"
+                                strongValue
+                                variant="block"
+                                withPadding
+                                withBackground
+                                withDiff={withDiff}
+                            />
+                            <PrintableDataDisplay
+                                label={strings.eapTimeframeLabel}
+                                value="5 years"
+                                valueType="text"
+                                strongValue
+                                variant="block"
+                                withPadding
+                                withBackground
+                                withDiff={withDiff}
+                            />
+                            <PrintableDataDisplay
+                                label={strings.eapApprovedLabel}
+                                value={approved_at}
+                                valueType="text"
+                                strongValue
+                                variant="block"
+                                withPadding
+                                withBackground
+                                withDiff={withDiff}
+                            />
+                        </ListView>
+                        <PrintableDataDisplay
+                            label={strings.objectiveLabel}
+                            value={objective}
+                            prevValue={prev_objective}
+                            valueType="text"
+                            strongValue
+                            variant="block"
+                            withPadding
+                            withBackground
+                            withDiff={withDiff}
+                        />
+                    </ListView>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.contactInformationHeading}
+                    headingLevel={3}
+                >
+                    <PrintableContainer headingLevel={4}>
+                        <PrintableDescription
+                            value={strings.contactInformationDescription}
+                        />
+                    </PrintableContainer>
+                    <PrintableContainer
+                        heading={strings.nationalLabel}
+                        headingLevel={4}
+                    >
+                        <PrintableContactOutput
+                            label={strings.nationalSocietyContactLabel}
+                            namePrefix="national_society_contact"
+                            data={fullEapResponse}
+                            prevData={prevFullEapResponse}
+                            withDiff={withDiff}
+                        />
+                        <PrintableContainer
+                            heading={strings.partnerNationalSocietyContactLabel}
+                            headingLevel={5}
+                        >
+                            {partner_contacts?.map((partner) => {
+                                const prevPartner = prevPartnerContactsMapping[partner.id!];
+                                return (
+                                    <PrintableDataDisplay
+                                        valueType="text"
+                                        withDiff={withDiff}
+                                        value={[
+                                            partner.name,
+                                            partner.title,
+                                            partner.email,
+                                            partner.phone_number,
+                                        ]
+                                            .filter(isTruthyString)
+                                            .join(', ')}
+                                        prevValue={[
+                                            prevPartner?.name,
+                                            prevPartner?.title,
+                                            prevPartner?.email,
+                                            prevPartner?.phone_number,
+                                        ]
+                                            .filter(isTruthyString)
+                                            .join(', ')}
+                                        variant="inline"
+                                        strongLabel
+                                    />
+                                );
+                            })}
+                        </PrintableContainer>
+                    </PrintableContainer>
+                    <PrintableContainer
+                        heading={strings.delegationLabel}
+                        headingLevel={4}
+                    >
+                        <PrintableContactOutput
+                            label={strings.delegationFocalLabel}
+                            namePrefix="ifrc_delegation_focal_point"
+                            data={fullEapResponse}
+                            prevData={prevFullEapResponse}
+                            withDiff={withDiff}
+                        />
+                        <PrintableContactOutput
+                            label={strings.delegationHeadLabel}
+                            namePrefix="ifrc_head_of_delegation"
+                            data={fullEapResponse}
+                            prevData={prevFullEapResponse}
+                            withDiff={withDiff}
+                        />
+                    </PrintableContainer>
+                    <PrintableContainer
+                        heading={strings.regionalGlobalLabel}
+                        headingLevel={4}
+                    >
+                        <PrintableContactOutput
+                            label={strings.drefFocalLabel}
+                            namePrefix="dref_focal_point"
+                            data={fullEapResponse}
+                            prevData={prevFullEapResponse}
+                            withDiff={withDiff}
+                        />
+                        <PrintableContactOutput
+                            label={strings.regionalFocalLabel}
+                            namePrefix="ifrc_regional_focal_point"
+                            data={fullEapResponse}
+                            prevData={prevFullEapResponse}
+                            withDiff={withDiff}
+                        />
+                        <PrintableContactOutput
+                            label={strings.regionalOpsLabel}
+                            namePrefix="ifrc_regional_ops_manager"
+                            data={fullEapResponse}
+                            prevData={prevFullEapResponse}
+                            withDiff={withDiff}
+                        />
+                        <PrintableContactOutput
+                            label={strings.regionalHeadLabel}
+                            namePrefix="ifrc_regional_head_dcc"
+                            data={fullEapResponse}
+                            prevData={prevFullEapResponse}
+                            withDiff={withDiff}
+                        />
+                        <PrintableContactOutput
+                            label={strings.globalOpsLabel}
+                            namePrefix="ifrc_global_ops_coordinator"
+                            data={fullEapResponse}
+                            prevData={prevFullEapResponse}
+                            withDiff={withDiff}
+                        />
+                    </PrintableContainer>
+                </PrintableContainer>
+            </PrintableContainer>
+            <PrintableContainer
+                heading={strings.stakeholdersHeading}
+                headingLevel={2}
+                breakBefore
+            >
+                <PrintableContainer headingLevel={3}>
+                    <PrintableDataDisplay
+                        label={strings.workWithGovernmentLabel}
+                        value={is_worked_with_government}
+                        prevValue={prev_is_worked_with_government}
+                        valueType="boolean"
+                        variant="block"
+                        withPadding
+                        withBackground
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
+                    headingLevel={4}
+                    heading={strings.workWithGovernmentDescription}
+                >
+                    <PrintableDescription
+                        value={worked_with_government_description}
+                        prevValue={prev_worked_with_government_description}
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.keyActorsHeading}
+                    headingLevel={3}
+                >
+                    {key_actors?.map((actor) => (
+                        <PrintableContainer
+                            key={actor.id}
+                            headingLevel={4}
+                            heading={(
+                                <PrintableLabel
+                                    value={actor.national_society_details.name}
+                                    prevValue={
+                                        prevKeyActorsMapping[actor.national_society]
+                                            ?.national_society_details.society_name
+                                    }
+                                    withDiff={withDiff}
+                                />
+                            )}
+                        >
+                            <PrintableDescription
+                                value={actor.description}
+                                prevValue={
+                                    prevKeyActorsMapping[actor.national_society]
+                                        ?.description
+                                }
+                                withDiff={withDiff}
+                            />
+                        </PrintableContainer>
+                    ))}
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.technicalWorkingHeading}
+                    headingLevel={3}
+                >
+                    <PrintableContainer headingLevel={4}>
+                        <PrintableDataDisplay
+                            label={strings.isTechnicalLabel}
+                            value={is_technical_working_groups}
+                            prevValue={prev_is_technical_working_groups}
+                            valueType="boolean"
+                            variant="block"
+                            strongLabel
+                            withDiff={withDiff}
+                        />
+                    </PrintableContainer>
+                    <PrintableContainer
+                        headingLevel={4}
+                        heading={strings.titleLabel}
+                    >
+                        <PrintableDescription
+                            value={technically_working_group_title}
+                            prevValue={prev_technically_working_group_title}
+                            withDiff={withDiff}
+                        />
+                    </PrintableContainer>
+                    <PrintableContainer
+                        headingLevel={4}
+                        heading={strings.workingDescriptionLabel}
+                    >
+                        <PrintableDescription
+                            value={technical_working_groups_in_place_description}
+                            prevValue={
+                                prev_technical_working_groups_in_place_description
+                            }
+                            withDiff={withDiff}
+                        />
+                    </PrintableContainer>
+                </PrintableContainer>
+            </PrintableContainer>
+            <PrintableContainer
+                heading={strings.riskAnalysisHeading}
+                headingLevel={2}
+                breakBefore
+            >
+                <PrintableContainer
+                    heading={strings.hazardSelectionHeading}
+                    headingLevel={3}
+                >
+                    <PrintableDescription
+                        value={hazard_selection}
+                        prevValue={prev_hazard_selection}
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer headingLevel={3}>
+                    {hazard_selection_images?.map((hazard) => (
+                        <Image key={hazard.id} src={hazard.file} caption={hazard.caption} />
+                    ))}
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.exposedElementsLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDescription
+                        value={exposed_element_and_vulnerability_factor}
+                        prevValue={prev_exposed_element_and_vulnerability_factor}
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer headingLevel={3}>
+                    <div className={styles.imageItems}>
+                        {exposed_element_and_vulnerability_factor_images?.map((element) => (
+                            <Image
+                                key={element.id}
+                                src={element.file}
+                                caption={element.caption}
+                            />
+                        ))}
+                    </div>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.prioritizedImpactHeading}
+                    headingLevel={3}
+                >
+                    <PrintableContainer
+                        heading={strings.listPrioritizedImpactLabel}
+                        headingLevel={6}
+                    >
+                        <ol>
+                            {prioritized_impacts?.map((impact) => (
+                                <li key={impact.id}>
+                                    <PrintableDescription
+                                        value={impact.impact}
+                                        prevValue={
+                                            prevPrioritizedImpactsMapping[impact.id!]?.impact
+                                        }
+                                        withDiff={withDiff}
+                                    />
+                                </li>
+                            ))}
+                        </ol>
+                    </PrintableContainer>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.descriptionLabel}
+                    headingLevel={6}
+                >
+                    <PrintableDataDisplay
+                        value={prioritized_impact}
+                        prevValue={prev_prioritized_impact}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer>
+                    <div className={styles.imageItems}>
+                        {prioritized_impact_images?.map((element) => (
+                            <Image
+                                key={element.id}
+                                src={element.file}
+                                caption={element.caption}
+                            />
+                        ))}
+                    </div>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.sourceInformationLabel}
+                    headingLevel={3}
+                >
+                    <ListView
+                        layout="block"
+                        spacing="xs"
+                    >
+                        {risk_analysis_source_of_information?.map((source) => (
+                            <ListView
+                                key={source.id}
+                                layout="grid"
+                                spacing="2xs"
+                            >
+                                <PrintableDataDisplay
+                                    label={strings.nameLabel}
+                                    value={source.source_name}
+                                    prevValue={
+                                        prevRiskSourceInformationMapping[source.id!]
+                                            ?.source_name
+                                    }
+                                    valueType="text"
+                                    variant="inline"
+                                    withPadding
+                                    withBackground
+                                    strongLabel
+                                    withDiff={withDiff}
+                                />
+                                <PrintableDataDisplay
+                                    label={strings.linkLabel}
+                                    value={source.source_link}
+                                    prevValue={
+                                        prevRiskSourceInformationMapping[source.id!]
+                                            ?.source_link
+                                    }
+                                    withPadding
+                                    withBackground
+                                    valueType="text"
+                                    variant="inline"
+                                    strongLabel
+                                    withDiff={withDiff}
+                                />
+                            </ListView>
+                        ))}
+                    </ListView>
+                </PrintableContainer>
+            </PrintableContainer>
+            <PrintableContainer
+                heading={strings.triggerModelHeading}
+                headingLevel={2}
+            >
+                <PrintableContainer
+                    heading={strings.triggerStatementLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={trigger_statement}
+                        prevValue={prev_trigger_statement}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.leadTimeLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={lead_time}
+                        prevValue={prev_lead_time}
+                        valueType="number"
+                        variant="inline"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.sourceForecastLabel}
+                    headingLevel={3}
+                >
+                    <ListView layout="block" spacing="xs">
+                        {trigger_statement_source_of_information?.map((trigger) => (
+                            <ListView key={trigger.id} layout="grid" spacing="2xs">
                                 <PrintableDataDisplay
                                     label={strings.nameLabel}
                                     value={trigger.source_name}
@@ -597,6 +931,8 @@ export default function EapFullExport(props: Props) {
                                     valueType="text"
                                     variant="inline"
                                     strongLabel
+                                    withPadding
+                                    withBackground
                                     withDiff={withDiff}
                                 />
                                 <PrintableDataDisplay
@@ -608,1023 +944,541 @@ export default function EapFullExport(props: Props) {
                                     }
                                     valueType="text"
                                     variant="inline"
+                                    withPadding
+                                    withBackground
                                     strongLabel
                                     withDiff={withDiff}
                                 />
                             </ListView>
-                        )))}
-                        variant="block"
-                        withPadding
-                        withBackground
-                        strongLabel
-                        withDiff={withDiff}
-                    />
-                    <PrintableDataDisplay
-                        label={strings.triggerStatementLabel}
-                        value={trigger_statement}
-                        prevValue={prev_trigger_statement}
-                        valueType="text"
-                        variant="block"
-                        withPadding
-                        withBackground
-                        strongLabel
-                        withDiff={withDiff}
-                    />
-                    <PrintableDataDisplay
-                        label={strings.governmentalCoordinatingAgencyLabel}
-                        value={partner_contacts?.map((partner) => {
-                            const prevPartner = prevPartnerContactsMapping[partner.id!];
-                            return (
-                                <PrintableDataDisplay
-                                    valueType="text"
-                                    withDiff={withDiff}
-                                    value={[
-                                        partner.name,
-                                        partner.title,
-                                        partner.email,
-                                        partner.phone_number,
-                                    ]
-                                        .filter(isTruthyString)
-                                        .join(', ')}
-                                    prevValue={[
-                                        prevPartner?.name,
-                                        prevPartner?.title,
-                                        prevPartner?.email,
-                                        prevPartner?.phone_number,
-                                    ]
-                                        .filter(isTruthyString)
-                                        .join(', ')}
-                                    variant="inline"
-                                    strongLabel
-                                />
-                            );
-                        })}
-                        strongLabel
-                        withDiff={withDiff}
-                        withPadding
-                        withBackground
-                    />
-                </ListView>
-            </PrintablePage>
-            <PrintablePage
-                heading="Table of Contents"
-                description={undefined}
-                mainRef={mainRef}
-                dataReady={previewReady}
-            >
-                <TableOfContents
-                    mainRef={mainRef}
-                />
-            </PrintablePage>
-            <PrintablePage
-                mainRef={mainRef}
-                heading={(
-                    <>
-                        {strings.pageTitleFullText}
-                        <br />
-                        {strings.pageTitleEapText}
-                    </>
-                )}
-                description={eapTitle ?? '--'}
-                dataReady={previewReady}
-            >
-                <PrintableContainer
-                    heading={strings.overviewHeading}
-                    headingLevel={2}
-                >
-                    {isDefined(cover_image_file?.file) && (
-                        <PrintableContainer>
-                            <Image
-                                src={cover_image_file.file}
-                                alt={cover_image_file.caption ?? '--'}
-                                caption={cover_image_file.caption}
-                            />
-                        </PrintableContainer>
-                    )}
-                    <PrintableContainer>
-                        <ListView layout="block" spacing="2xs">
-                            <ListView layout="grid" spacing="2xs" numPreferredGridColumns={3}>
-                                <PrintableDataDisplay
-                                    label={strings.eapNoLabel}
-                                    value={1234}
-                                    valueType="number"
-                                    strongValue
-                                    variant="block"
-                                    withPadding
-                                    withBackground
-                                    withDiff={withDiff}
-                                />
-                                <PrintableDataDisplay
-                                    label={strings.eapTimeframeLabel}
-                                    value="5 years"
-                                    valueType="text"
-                                    strongValue
-                                    variant="block"
-                                    withPadding
-                                    withBackground
-                                    withDiff={withDiff}
-                                />
-                                <PrintableDataDisplay
-                                    label={strings.eapApprovedLabel}
-                                    value={approved_at}
-                                    valueType="text"
-                                    strongValue
-                                    variant="block"
-                                    withPadding
-                                    withBackground
-                                    withDiff={withDiff}
-                                />
-                            </ListView>
-                            <PrintableDataDisplay
-                                label={strings.objectiveLabel}
-                                value={objective}
-                                prevValue={prev_objective}
-                                valueType="text"
-                                strongValue
-                                variant="block"
-                                withPadding
-                                withBackground
-                                withDiff={withDiff}
-                            />
-                        </ListView>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.contactInformationHeading}
-                        headingLevel={3}
-                    >
-                        <PrintableContainer headingLevel={4}>
-                            <PrintableDescription
-                                value={strings.contactInformationDescription}
-                            />
-                        </PrintableContainer>
-                        <PrintableContainer heading={strings.nationalLabel} headingLevel={4}>
-                            <PrintableDataDisplay
-                                label={strings.nationalSocietyContactLabel}
-                                valueType="text"
-                                value={[
-                                    national_society_contact_name,
-                                    national_society_contact_title,
-                                    national_society_contact_email,
-                                    national_society_contact_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                prevValue={[
-                                    prev_national_society_contact_name,
-                                    prev_national_society_contact_title,
-                                    prev_national_society_contact_email,
-                                    prev_national_society_contact_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                variant="inline"
-                                strongLabel
-                                withDiff={withDiff}
-                            />
-                            <PrintableContainer
-                                heading={strings.partnerNationalSocietyContactLabel}
-                                headingLevel={5}
-                            >
-                                {partner_contacts?.map((partner) => {
-                                    const prevPartner = prevPartnerContactsMapping[partner.id!];
-                                    return (
-                                        <PrintableDataDisplay
-                                            valueType="text"
-                                            withDiff={withDiff}
-                                            value={[
-                                                partner.name,
-                                                partner.title,
-                                                partner.email,
-                                                partner.phone_number,
-                                            ]
-                                                .filter(isTruthyString)
-                                                .join(', ')}
-                                            prevValue={[
-                                                prevPartner?.name,
-                                                prevPartner?.title,
-                                                prevPartner?.email,
-                                                prevPartner?.phone_number,
-                                            ]
-                                                .filter(isTruthyString)
-                                                .join(', ')}
-                                            variant="inline"
-                                            strongLabel
-                                        />
-                                    );
-                                })}
-                            </PrintableContainer>
-                        </PrintableContainer>
-                        <PrintableContainer
-                            heading={strings.delegationLabel}
-                            headingLevel={4}
-                        >
-                            <PrintableDataDisplay
-                                label={strings.delegationFocalLabel}
-                                valueType="text"
-                                withDiff={withDiff}
-                                value={[
-                                    ifrc_delegation_focal_point_name,
-                                    ifrc_delegation_focal_point_email,
-                                    ifrc_delegation_focal_point_title,
-                                    ifrc_delegation_focal_point_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                prevValue={[
-                                    prev_ifrc_delegation_focal_point_name,
-                                    prev_ifrc_delegation_focal_point_email,
-                                    prev_ifrc_delegation_focal_point_title,
-                                    prev_ifrc_delegation_focal_point_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                variant="inline"
-                                strongLabel
-                            />
-                            <PrintableDataDisplay
-                                label={strings.delegationHeadLabel}
-                                valueType="text"
-                                withDiff={withDiff}
-                                value={[
-                                    ifrc_head_of_delegation_name,
-                                    ifrc_head_of_delegation_title,
-                                    ifrc_head_of_delegation_email,
-                                    ifrc_head_of_delegation_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                prevValue={[
-                                    prev_ifrc_head_of_delegation_name,
-                                    prev_ifrc_head_of_delegation_title,
-                                    prev_ifrc_head_of_delegation_email,
-                                    prev_ifrc_head_of_delegation_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                variant="inline"
-                                strongLabel
-                            />
-                        </PrintableContainer>
-                        <PrintableContainer
-                            heading={strings.regionalGlobalLabel}
-                            headingLevel={4}
-                        >
-                            <PrintableDataDisplay
-                                label={strings.drefFocalLabel}
-                                valueType="text"
-                                withDiff={withDiff}
-                                value={[
-                                    dref_focal_point_name,
-                                    dref_focal_point_email,
-                                    dref_focal_point_title,
-                                    dref_focal_point_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                prevValue={[
-                                    prev_dref_focal_point_name,
-                                    prev_dref_focal_point_email,
-                                    prev_dref_focal_point_title,
-                                    prev_dref_focal_point_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                variant="inline"
-                                strongLabel
-                            />
-                            <PrintableDataDisplay
-                                label={strings.regionalFocalLabel}
-                                valueType="text"
-                                withDiff={withDiff}
-                                value={[
-                                    ifrc_regional_focal_point_name,
-                                    ifrc_regional_focal_point_email,
-                                    ifrc_regional_focal_point_title,
-                                    ifrc_regional_focal_point_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                prevValue={[
-                                    prev_ifrc_regional_focal_point_name,
-                                    prev_ifrc_regional_focal_point_email,
-                                    prev_ifrc_regional_focal_point_title,
-                                    prev_ifrc_regional_focal_point_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                variant="inline"
-                                strongLabel
-                            />
-                            <PrintableDataDisplay
-                                label={strings.regionalOpsLabel}
-                                valueType="text"
-                                withDiff={withDiff}
-                                value={[
-                                    ifrc_regional_ops_manager_name,
-                                    ifrc_regional_ops_manager_email,
-                                    ifrc_regional_ops_manager_title,
-                                    ifrc_regional_ops_manager_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                prevValue={[
-                                    prev_ifrc_regional_ops_manager_name,
-                                    prev_ifrc_regional_ops_manager_email,
-                                    prev_ifrc_regional_ops_manager_title,
-                                    prev_ifrc_regional_ops_manager_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                variant="inline"
-                                strongLabel
-                            />
-                            <PrintableDataDisplay
-                                label={strings.regionalHeadLabel}
-                                valueType="text"
-                                withDiff={withDiff}
-                                value={[
-                                    ifrc_regional_head_dcc_name,
-                                    ifrc_regional_head_dcc_email,
-                                    ifrc_regional_head_dcc_title,
-                                    ifrc_regional_head_dcc_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                prevValue={[
-                                    prev_ifrc_regional_head_dcc_name,
-                                    prev_ifrc_regional_head_dcc_email,
-                                    prev_ifrc_regional_head_dcc_title,
-                                    prev_ifrc_regional_head_dcc_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                variant="inline"
-                                strongLabel
-                            />
-                            <PrintableDataDisplay
-                                label={strings.globalOpsLabel}
-                                valueType="text"
-                                withDiff={withDiff}
-                                value={[
-                                    ifrc_global_ops_coordinator_name,
-                                    ifrc_global_ops_coordinator_email,
-                                    ifrc_global_ops_coordinator_title,
-                                    ifrc_global_ops_coordinator_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                prevValue={[
-                                    prev_ifrc_global_ops_coordinator_name,
-                                    prev_ifrc_global_ops_coordinator_email,
-                                    prev_ifrc_global_ops_coordinator_title,
-                                    prev_ifrc_global_ops_coordinator_phone_number,
-                                ]
-                                    .filter(isTruthyString)
-                                    .join(', ')}
-                                variant="inline"
-                                strongLabel
-                            />
-                        </PrintableContainer>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.stakeholdersHeading}
-                        headingLevel={3}
-                    >
-                        <PrintableContainer>
-                            <PrintableDataDisplay
-                                label={strings.workWithGovernmentLabel}
-                                value={is_worked_with_government}
-                                prevValue={prev_is_worked_with_government}
-                                valueType="boolean"
-                                variant="inline"
-                                withPadding
-                                withBackground
-                                strongLabel
-                                withDiff={withDiff}
-                            />
-                        </PrintableContainer>
-                        <PrintableContainer>
-                            <PrintableDataDisplay
-                                label={strings.workWithGovernmentDescription}
-                                value={worked_with_government_description}
-                                prevValue={prev_worked_with_government_description}
-                                valueType="text"
-                                withoutLabelColon
-                                variant="block"
-                                strongLabel
-                                withDiff={withDiff}
-                            />
-                        </PrintableContainer>
-                        <PrintableContainer heading={strings.keyActorsHeading} headingLevel={3}>
-                            <ListView layout="block" spacing="xs">
-                                {key_actors?.map((actor) => (
-                                    <ListView key={actor.id} layout="grid" spacing="2xs">
-                                        <PrintableDataDisplay
-                                            label={strings.partnerLabel}
-                                            value={actor.national_society_details.name}
-                                            prevValue={
-                                                prevKeyActorsMapping[actor.national_society]
-                                                    ?.national_society_details.society_name
-                                            }
-                                            valueType="text"
-                                            variant="block"
-                                            strongLabel
-                                            withPadding
-                                            withBackground
-                                            withDiff={withDiff}
-                                        />
-                                        <PrintableDataDisplay
-                                            label={strings.descriptionLabel}
-                                            value={actor.description}
-                                            prevValue={
-                                                prevKeyActorsMapping[actor.national_society]
-                                                    ?.description
-                                            }
-                                            valueType="text"
-                                            variant="block"
-                                            withPadding
-                                            withBackground
-                                            strongLabel
-                                            withDiff={withDiff}
-                                        />
-                                    </ListView>
-                                ))}
-                            </ListView>
-                        </PrintableContainer>
-                        <PrintableContainer
-                            heading={strings.technicalWorkingHeading}
-                            headingLevel={3}
-                        >
-                            <PrintableContainer>
-                                <PrintableDataDisplay
-                                    label={strings.isTechnicalLabel}
-                                    value={is_technical_working_groups}
-                                    prevValue={prev_is_technical_working_groups}
-                                    valueType="boolean"
-                                    variant="inline"
-                                    strongLabel
-                                    withDiff={withDiff}
-                                />
-                            </PrintableContainer>
-                            <PrintableContainer>
-                                <ListView layout="grid" spacing="2xs">
-                                    <PrintableDataDisplay
-                                        label={strings.titleLabel}
-                                        value={technically_working_group_title}
-                                        prevValue={prev_technically_working_group_title}
-                                        valueType="text"
-                                        withoutLabelColon
-                                        variant="block"
-                                        strongLabel
-                                        withPadding
-                                        withBackground
-                                        withDiff={withDiff}
-                                    />
-                                    <PrintableDataDisplay
-                                        label={strings.workingDescriptionLabel}
-                                        value={technical_working_groups_in_place_description}
-                                        prevValue={
-                                            prev_technical_working_groups_in_place_description
-                                        }
-                                        valueType="text"
-                                        withoutLabelColon
-                                        variant="block"
-                                        withPadding
-                                        withBackground
-                                        strongLabel
-                                        withDiff={withDiff}
-                                    />
-                                </ListView>
-                            </PrintableContainer>
-                        </PrintableContainer>
-                    </PrintableContainer>
+                        ))}
+                    </ListView>
                 </PrintableContainer>
                 <PrintableContainer
-                    heading={strings.riskAnalysisHeading}
-                    headingLevel={2}
-                    breakBefore
+                    heading={strings.forecastSelectionLabel}
+                    headingLevel={3}
                 >
-                    <PrintableContainer
-                        heading={strings.hazardSelectionHeading}
-                        headingLevel={3}
-                    >
-                        <PrintableDescription
-                            value={hazard_selection}
-                            prevValue={prev_hazard_selection}
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer>
-                        {hazard_selection_images?.map((hazard) => (
-                            <Image key={hazard.id} src={hazard.file} caption={hazard.caption} />
+                    <PrintableDataDisplay
+                        value={forecast_selection}
+                        prevValue={prev_forecast_selection}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer>
+                    <div className={styles.imageItems}>
+                        {forecast_selection_images?.map((element) => (
+                            <Image
+                                key={element.id}
+                                src={element.file}
+                                caption={element.caption}
+                            />
                         ))}
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.exposedElementsLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDescription
-                            value={exposed_element_and_vulnerability_factor}
-                            prevValue={prev_exposed_element_and_vulnerability_factor}
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer>
-                        <div className={styles.imageItems}>
-                            {exposed_element_and_vulnerability_factor_images?.map((element) => (
+                    </div>
+                </PrintableContainer>
+                <PrintableContainer>
+                    <Link href={forecast_table_file_details?.file}>
+                        {strings.downloadForecastTableLabel}
+                    </Link>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.definitionJustificationLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={definition_and_justification_impact_level}
+                        prevValue={prev_definition_and_justification_impact_level}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer>
+                    <div className={styles.imageItems}>
+                        {definition_and_justification_impact_level_images?.map(
+                            (element) => (
                                 <Image
                                     key={element.id}
                                     src={element.file}
                                     caption={element.caption}
                                 />
-                            ))}
-                        </div>
-                    </PrintableContainer>
+                            ),
+                        )}
+                    </div>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.identificationInterventionLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        label={strings.identificationInterventionLabel}
+                        value={identification_of_the_intervention_area}
+                        prevValue={prev_identification_of_the_intervention_area}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer>
+                    <div className={styles.imageItems}>
+                        {identification_of_the_intervention_area_images?.map((element) => (
+                            <Image
+                                key={element.id}
+                                src={element.file}
+                                caption={element.caption}
+                            />
+                        ))}
+                    </div>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.sourceInformationLabel}
+                    headingLevel={3}
+                >
+                    <ListView layout="block" spacing="xs">
+                        {trigger_model_source_of_information?.map((trigger) => (
+                            <ListView
+                                key={trigger.id}
+                                layout="grid"
+                                spacing="2xs"
+                            >
+                                <PrintableDataDisplay
+                                    label={strings.nameLabel}
+                                    value={trigger.source_name}
+                                    prevValue={
+                                        prevTriggerModelSourceInformationMapping[
+                                        trigger.id!]?.source_name
+                                    }
+                                    valueType="text"
+                                    variant="inline"
+                                    strongLabel
+                                    withBackground
+                                    withPadding
+                                    withDiff={withDiff}
+                                />
+                                <PrintableDataDisplay
+                                    label={strings.linkLabel}
+                                    value={trigger.source_link}
+                                    prevValue={
+                                        prevTriggerModelSourceInformationMapping[
+                                        trigger.id!]?.source_link
+                                    }
+                                    valueType="text"
+                                    variant="inline"
+                                    strongLabel
+                                    withBackground
+                                    withPadding
+                                    withDiff={withDiff}
+                                />
+                            </ListView>
+                        ))}
+                    </ListView>
+                </PrintableContainer>
+            </PrintableContainer>
+            <PrintableContainer
+                heading={strings.selectionOfActionHeading}
+                headingLevel={2}
+            >
+                <PrintableContainer
+                    heading={strings.selectionOfActionHeading}
+                    headingLevel={3}
+                >
                     <PrintableContainer
-                        heading={strings.prioritizedImpactHeading}
-                        headingLevel={3}
-                    >
-                        <PrintableContainer
-                            heading={strings.listPrioritizedImpactLabel}
-                            headingLevel={6}
-                        >
-                            <ol>
-                                {prioritized_impacts?.map((impact) => (
-                                    <li key={impact.id}>
-                                        <PrintableDescription
-                                            value={impact.impact}
-                                            prevValue={
-                                                prevPrioritizedImpactsMapping[impact.id!]?.impact
-                                            }
-                                            withDiff={withDiff}
-                                        />
-                                    </li>
-                                ))}
-                            </ol>
-                        </PrintableContainer>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.descriptionLabel}
+                        heading={strings.listEarlyActionsLabel}
                         headingLevel={6}
                     >
-                        <PrintableDataDisplay
-                            value={prioritized_impact}
-                            prevValue={prev_prioritized_impact}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer>
-                        <div className={styles.imageItems}>
-                            {prioritized_impact_images?.map((element) => (
-                                <Image
-                                    key={element.id}
-                                    src={element.file}
-                                    caption={element.caption}
-                                />
-                            ))}
-                        </div>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.sourceInformationLabel}
-                        headingLevel={3}
-                    >
-                        <ListView layout="block" spacing="xs">
-                            {risk_analysis_source_of_information?.map((source) => (
-                                <ListView key={source.id} layout="grid" spacing="2xs">
-                                    <PrintableDataDisplay
-                                        label={strings.nameLabel}
-                                        value={source.source_name}
-                                        prevValue={
-                                            prevRiskSourceInformationMapping[source.id!]
-                                                ?.source_name
-                                        }
-                                        valueType="text"
-                                        variant="inline"
-                                        withPadding
-                                        withBackground
-                                        strongLabel
+                        <ol>
+                            {early_actions?.map((action) => (
+                                <li key={action.id}>
+                                    <PrintableDescription
+                                        value={action.action}
+                                        prevValue={prevEarlyActionsMapping[action.id!]?.action}
                                         withDiff={withDiff}
                                     />
-                                    <PrintableDataDisplay
-                                        label={strings.linkLabel}
-                                        value={source.source_link}
-                                        prevValue={
-                                            prevRiskSourceInformationMapping[source.id!]
-                                                ?.source_link
-                                        }
-                                        withPadding
-                                        withBackground
-                                        valueType="text"
-                                        variant="inline"
-                                        strongLabel
-                                        withDiff={withDiff}
-                                    />
-                                </ListView>
+                                </li>
                             ))}
-                        </ListView>
+                        </ol>
                     </PrintableContainer>
                 </PrintableContainer>
                 <PrintableContainer
-                    heading={strings.triggerModelHeading}
-                    headingLevel={2}
+                    heading={strings.earlySelectionLabel}
+                    headingLevel={3}
                 >
-                    <PrintableContainer
-                        heading={strings.triggerStatementLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={trigger_statement}
-                            prevValue={prev_trigger_statement}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.leadTimeLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={lead_time}
-                            prevValue={prev_lead_time}
-                            valueType="number"
-                            variant="inline"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.sourceForecastLabel}
-                        headingLevel={3}
-                    >
-                        <ListView layout="block" spacing="xs">
-                            {trigger_statement_source_of_information?.map((trigger) => (
-                                <ListView key={trigger.id} layout="grid" spacing="2xs">
-                                    <PrintableDataDisplay
-                                        label={strings.nameLabel}
-                                        value={trigger.source_name}
-                                        prevValue={
-                                            prevTriggerStatementSourceInformationMapping[
-                                            trigger.id!]?.source_name
-                                        }
-                                        valueType="text"
-                                        variant="inline"
-                                        strongLabel
-                                        withPadding
-                                        withBackground
-                                        withDiff={withDiff}
-                                    />
-                                    <PrintableDataDisplay
-                                        label={strings.linkLabel}
-                                        value={trigger.source_link}
-                                        prevValue={
-                                            prevTriggerStatementSourceInformationMapping[
-                                            trigger.id!]?.source_link
-                                        }
-                                        valueType="text"
-                                        variant="inline"
-                                        withPadding
-                                        withBackground
-                                        strongLabel
-                                        withDiff={withDiff}
-                                    />
-                                </ListView>
-                            ))}
-                        </ListView>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.forecastSelectionLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={forecast_selection}
-                            prevValue={prev_forecast_selection}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer>
-                        <div className={styles.imageItems}>
-                            {forecast_selection_images?.map((element) => (
-                                <Image
-                                    key={element.id}
-                                    src={element.file}
-                                    caption={element.caption}
+                    <PrintableDataDisplay
+                        value={early_action_selection_process}
+                        prevValue={prev_early_action_selection_process}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer>
+                    <div className={styles.imageItems}>
+                        {early_action_selection_process_images?.map((element) => (
+                            <Image src={element.file} caption={element.caption} />
+                        ))}
+                    </div>
+                </PrintableContainer>
+                <PrintableContainer>
+                    <Link href={theory_of_change_table_file_details?.file}>
+                        {strings.downloadTheoryChangeTableLabel}
+                    </Link>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.evidenceBaseLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={evidence_base}
+                        prevValue={prev_evidence_base}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.sourceInformationLabel}
+                    headingLevel={3}
+                >
+                    <ListView layout="block" spacing="xs">
+                        {evidence_base_source_of_information?.map((trigger) => (
+                            <ListView layout="grid" spacing="2xs">
+                                <PrintableDataDisplay
+                                    label={strings.nameLabel}
+                                    value={trigger.source_name}
+                                    prevValue={
+                                        prevEvidenceBaseSourceInformationMapping[
+                                        trigger.id!]?.source_name
+                                    }
+                                    valueType="text"
+                                    variant="inline"
+                                    strongLabel
+                                    withPadding
+                                    withBackground
+                                    withDiff={withDiff}
                                 />
-                            ))}
-                        </div>
-                    </PrintableContainer>
-                    <PrintableContainer>
-                        <Link href={forecast_table_file_details?.file} external withUnderline>
-                            {strings.downloadForecastTableLabel}
-                        </Link>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.definitionJustificationLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={definition_and_justification_impact_level}
-                            prevValue={prev_definition_and_justification_impact_level}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer>
-                        <div className={styles.imageItems}>
-                            {definition_and_justification_impact_level_images?.map(
-                                (element) => (
-                                    <Image
-                                        key={element.id}
-                                        src={element.file}
-                                        caption={element.caption}
-                                    />
-                                ),
-                            )}
-                        </div>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.identificationInterventionLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            label={strings.identificationInterventionLabel}
-                            value={identification_of_the_intervention_area}
-                            prevValue={prev_identification_of_the_intervention_area}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer>
-                        <div className={styles.imageItems}>
-                            {identification_of_the_intervention_area_images?.map((element) => (
-                                <Image
-                                    key={element.id}
-                                    src={element.file}
-                                    caption={element.caption}
+                                <PrintableDataDisplay
+                                    label={strings.linkLabel}
+                                    value={trigger.source_link}
+                                    prevValue={
+                                        prevEvidenceBaseSourceInformationMapping[
+                                        trigger.id!]?.source_link
+                                    }
+                                    valueType="text"
+                                    variant="inline"
+                                    strongLabel
+                                    withPadding
+                                    withBackground
+                                    withDiff={withDiff}
                                 />
-                            ))}
-                        </div>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.sourceInformationLabel}
-                        headingLevel={3}
-                    >
-                        <ListView layout="block" spacing="xs">
-                            {trigger_model_source_of_information?.map((trigger) => (
+                            </ListView>
+                        ))}
+                    </ListView>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.usefulnessActionsLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={usefulness_of_actions}
+                        prevValue={prev_usefulness_of_actions}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.feasibilityLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={feasibility}
+                        prevValue={prev_feasibility}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+            </PrintableContainer>
+            <PrintableContainer
+                heading={strings.plannedOperationsHeading}
+                headingLevel={2}
+            >
+                {planned_operations?.map((operation) => {
+                    const prevOperation = prevPlannedOperationsMapping?.[operation.sector];
+
+                    const prevOperationIndicatorMap = listToMap(
+                        prevOperation?.indicators,
+                        ({ id }) => id!,
+                    );
+                    const prevReadinessActivitiesMap = listToMap(
+                        prevOperation?.readiness_activities,
+                        ({ id }) => id!,
+                    );
+                    const prevPrepositioningActivitiesMap = listToMap(
+                        prevOperation?.prepositioning_activities,
+                        ({ id }) => id!,
+                    );
+                    const prevEarlyActionActivitiesMap = listToMap(
+                        prevOperation?.early_action_activities,
+                        ({ id }) => id!,
+                    );
+
+                    return (
+                        <PrintableContainer
+                            key={operation.id}
+                            heading={eapSectorTitleMap?.[operation.sector]}
+                            headingLevel={3}
+                        >
+                            <PrintableContainer headingLevel={4}>
                                 <ListView
-                                    key={trigger.id}
                                     layout="grid"
+                                    numPreferredGridColumns={3}
                                     spacing="2xs"
                                 >
                                     <PrintableDataDisplay
-                                        label={strings.nameLabel}
-                                        value={trigger.source_name}
-                                        prevValue={
-                                            prevTriggerModelSourceInformationMapping[
-                                            trigger.id!]?.source_name
-                                        }
-                                        valueType="text"
-                                        variant="inline"
+                                        label={strings.operationBudgetLabel}
+                                        value={operation.budget_per_sector}
+                                        prevValue={prevOperation?.budget_per_sector}
+                                        valueType="number"
+                                        prefix="CHF "
                                         strongLabel
-                                        withBackground
-                                        withPadding
                                         withDiff={withDiff}
                                     />
                                     <PrintableDataDisplay
-                                        label={strings.linkLabel}
-                                        value={trigger.source_link}
-                                        prevValue={
-                                            prevTriggerModelSourceInformationMapping[
-                                            trigger.id!]?.source_link
-                                        }
-                                        valueType="text"
-                                        variant="inline"
+                                        label={strings.operationPeopleTargetedLabel}
+                                        value={operation.people_targeted}
+                                        prevValue={prevOperation.people_targeted}
+                                        valueType="number"
                                         strongLabel
-                                        withBackground
-                                        withPadding
+                                        withDiff={withDiff}
+                                    />
+                                    <PrintableDataDisplay
+                                        // FIXME: use strings
+                                        label="AP Code"
+                                        value={operation.ap_code}
+                                        prevValue={prevOperation?.ap_code}
+                                        valueType="number"
+                                        strongLabel
                                         withDiff={withDiff}
                                     />
                                 </ListView>
-                            ))}
-                        </ListView>
-                    </PrintableContainer>
-                </PrintableContainer>
-                <PrintableContainer
-                    heading={strings.selectionOfActionHeading}
-                    headingLevel={2}
-                >
-                    <PrintableContainer
-                        heading={strings.selectionOfActionHeading}
-                        headingLevel={3}
-                    >
-                        <PrintableContainer
-                            heading={strings.listEarlyActionsLabel}
-                            headingLevel={6}
-                        >
-                            <ol>
-                                {early_actions?.map((action) => (
-                                    <li key={action.id}>
-                                        <PrintableDescription
-                                            value={action.action}
-                                            prevValue={prevEarlyActionsMapping[action.id!]?.action}
-                                            withDiff={withDiff}
-                                        />
-                                    </li>
-                                ))}
-                            </ol>
+                            </PrintableContainer>
+                            <PrintableContainer
+                                heading={strings.indicatorsHeading}
+                                headingLevel={4}
+                            >
+                                <div className={styles.indicatorItems}>
+                                    <Label
+                                        textSize="sm"
+                                        strong
+                                    >
+                                        {strings.indicatorTitleLabel}
+                                    </Label>
+                                    <Label
+                                        textSize="sm"
+                                        strong
+                                    >
+                                        {strings.indicatorTargetLabel}
+                                    </Label>
+                                    {operation.indicators.map((indicator) => {
+                                        const prevIndicator = isDefined(indicator.previous_id)
+                                            ? prevOperationIndicatorMap?.[indicator.previous_id]
+                                            : undefined;
+
+                                        return (
+                                            <PrintableDataDisplay
+                                                key={indicator.id}
+                                                label={(
+                                                    <PrintableLabel
+                                                        value={indicator.title}
+                                                        prevValue={prevIndicator?.title}
+                                                        withDiff={withDiff}
+                                                    />
+                                                )}
+                                                value={indicator.target}
+                                                prevValue={prevIndicator?.target}
+                                                valueType="number"
+                                                variant="contents"
+                                                withBackground
+                                                withPadding
+                                                withoutLabelColon
+                                                withDiff={withDiff}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            </PrintableContainer>
+                            <PrintableContainer
+                                heading={strings.readinessActivitiesHeading}
+                                headingLevel={4}
+                            >
+                                <div className={styles.activityItems}>
+                                    {operation.readiness_activities.map((activity, index) => {
+                                        const prevActivity = isDefined(activity.previous_id)
+                                            ? prevReadinessActivitiesMap?.[activity.previous_id]
+                                            : undefined;
+
+                                        return (
+                                            <PrintableActivityOutput
+                                                key={activity.id}
+                                                activity={activity}
+                                                prevActivity={prevActivity}
+                                                index={index}
+                                                withDiff={withDiff}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            </PrintableContainer>
+                            <PrintableContainer
+                                heading={strings.prepositioningActivitiesHeading}
+                                headingLevel={4}
+                            >
+                                <div className={styles.activityItems}>
+                                    {operation.prepositioning_activities.map(
+                                        (activity, index) => {
+                                            const prevActivity = prevPrepositioningActivitiesMap
+                                                ?.[activity.id!];
+                                            return (
+                                                <PrintableActivityOutput
+                                                    key={activity.id}
+                                                    activity={activity}
+                                                    prevActivity={prevActivity}
+                                                    index={index}
+                                                    withDiff={withDiff}
+                                                />
+                                            );
+                                        },
+                                    )}
+                                </div>
+                            </PrintableContainer>
+                            <PrintableContainer
+                                heading={strings.earlyActionActivitiesHeading}
+                                headingLevel={4}
+                            >
+                                <div className={styles.activityItems}>
+                                    {operation.early_action_activities.map((activity, index) => {
+                                        const prevActivity = isDefined(activity.previous_id)
+                                            ? prevEarlyActionActivitiesMap?.[activity.previous_id]
+                                            : undefined;
+
+                                        return (
+                                            <PrintableActivityOutput
+                                                key={activity.id}
+                                                activity={activity}
+                                                prevActivity={prevActivity}
+                                                index={index}
+                                                withDiff={withDiff}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            </PrintableContainer>
                         </PrintableContainer>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.earlySelectionLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={early_action_selection_process}
-                            prevValue={prev_early_action_selection_process}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer>
-                        <div className={styles.imageItems}>
-                            {early_action_selection_process_images?.map((element) => (
-                                <Image src={element.file} caption={element.caption} />
-                            ))}
-                        </div>
-                    </PrintableContainer>
-                    <PrintableContainer>
-                        <Link
-                            href={theory_of_change_table_file_details?.file}
-                            external
-                            withUnderline
+                    );
+                })}
+            </PrintableContainer>
+            <PrintableContainer
+                heading={strings.enablingApproachesLabel}
+                headingLevel={2}
+            >
+                {enable_approaches?.map((approach) => {
+                    const prevApproach = prevEnableApproachesMapping?.[approach.approach];
+
+                    const prevApproachIndicatorMap = listToMap(
+                        prevApproach?.indicators,
+                        ({ id }) => id!,
+                    );
+                    const prevReadinessActivitiesMap = listToMap(
+                        prevApproach?.readiness_activities,
+                        ({ id }) => id!,
+                    );
+                    const prevPrepositioningActivitiesMap = listToMap(
+                        prevApproach?.prepositioning_activities,
+                        ({ id }) => id!,
+                    );
+                    const prevEarlyActionActivitiesMap = listToMap(
+                        prevApproach?.early_action_activities,
+                        ({ id }) => id!,
+                    );
+
+                    return (
+                        <PrintableContainer
+                            key={approach.id}
+                            heading={eapApproachTitleMap?.[approach.approach]}
+                            headingLevel={3}
                         >
-                            {strings.downloadTheoryChangeTableLabel}
-                        </Link>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.evidenceBaseLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={evidence_base}
-                            prevValue={prev_evidence_base}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.sourceInformationLabel}
-                        headingLevel={3}
-                    >
-                        <ListView layout="block" spacing="xs">
-                            {evidence_base_source_of_information?.map((trigger) => (
-                                <ListView layout="grid" spacing="2xs">
+                            <PrintableContainer headingLevel={4}>
+                                <ListView
+                                    layout="grid"
+                                    numPreferredGridColumns={3}
+                                    spacing="2xs"
+                                >
                                     <PrintableDataDisplay
-                                        label={strings.nameLabel}
-                                        value={trigger.source_name}
-                                        prevValue={
-                                            prevEvidenceBaseSourceInformationMapping[
-                                            trigger.id!]?.source_name
-                                        }
-                                        valueType="text"
-                                        variant="inline"
+                                        label={strings.operationBudgetLabel}
+                                        value={approach.budget_per_approach}
+                                        prevValue={prevApproach?.budget_per_approach}
+                                        valueType="number"
+                                        prefix="CHF "
                                         strongLabel
-                                        withPadding
-                                        withBackground
                                         withDiff={withDiff}
                                     />
                                     <PrintableDataDisplay
-                                        label={strings.linkLabel}
-                                        value={trigger.source_link}
-                                        prevValue={
-                                            prevEvidenceBaseSourceInformationMapping[
-                                            trigger.id!]?.source_link
-                                        }
-                                        valueType="text"
-                                        variant="inline"
+                                        label={strings.apCodeLabel}
+                                        value={approach.ap_code}
+                                        prevValue={prevApproach?.ap_code}
+                                        valueType="number"
                                         strongLabel
-                                        withPadding
-                                        withBackground
                                         withDiff={withDiff}
                                     />
                                 </ListView>
-                            ))}
-                        </ListView>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.usefullnessActionsLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={usefulness_of_actions}
-                            prevValue={prev_usefulness_of_actions}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.plannedOperationsHeading}
-                        headingLevel={2}
-                    >
-                        {planned_operations?.map((operation) => (
+                            </PrintableContainer>
                             <PrintableContainer
-                                key={operation.id}
-                                heading={eapSectorTitleMap?.[operation.sector]}
-                                headingLevel={3}
+                                heading={strings.indicatorsHeading}
+                                headingLevel={4}
                             >
-                                <PrintableContainer headingLevel={4}>
-                                    <ListView
-                                        layout="grid"
-                                        numPreferredGridColumns={3}
-                                        spacing="2xs"
+                                <div className={styles.indicatorItems}>
+                                    <Label
+                                        // FIXME: create and use printable labels
+                                        textSize="sm"
+                                        strong
                                     >
-                                        <PrintableDataDisplay
-                                            label={strings.operationBudgetLabel}
-                                            value={operation.budget_per_sector}
-                                            prevValue={
-                                                prevPlannedOperationsMapping[
-                                                    operation.sector]?.budget_per_sector
-                                            }
-                                            valueType="number"
-                                            prefix="CHF "
-                                            withPadding
-                                            withBackground
-                                            strongLabel
-                                            withDiff={withDiff}
-                                        />
-                                        <PrintableDataDisplay
-                                            label={strings.operationPeopleTargetedLabel}
-                                            value={operation.people_targeted}
-                                            prevValue={
-                                                prevPlannedOperationsMapping[
-                                                    operation.sector]?.people_targeted
-                                            }
-                                            valueType="number"
-                                            strongLabel
-                                            withPadding
-                                            withBackground
-                                            withDiff={withDiff}
-                                        />
-                                        <PrintableDataDisplay
-                                            label="AP Code"
-                                            value={operation.ap_code}
-                                            prevValue={
-                                                prevPlannedOperationsMapping[
-                                                    operation.sector]?.ap_code
-                                            }
-                                            valueType="number"
-                                            strongLabel
-                                            withPadding
-                                            withBackground
-                                            withDiff={withDiff}
-                                        />
-                                    </ListView>
-                                </PrintableContainer>
-                                <PrintableContainer
-                                    heading={strings.indicatorsHeading}
-                                    headingLevel={3}
-                                >
-                                    <div className={styles.indicatorItems}>
-                                        <Label textSize="sm" strong>
-                                            {strings.indicatorTitleLabel}
-                                        </Label>
-                                        <Label textSize="sm" strong>
-                                            {strings.indicatorTargetLabel}
-                                        </Label>
-                                        {operation.indicators.map((indicator) => (
+                                        {strings.indicatorTitleLabel}
+                                    </Label>
+                                    <Label textSize="sm" strong>
+                                        {strings.indicatorTargetLabel}
+                                    </Label>
+                                    {approach.indicators.map((indicator) => {
+                                        const prevIndicator = isDefined(indicator.previous_id)
+                                            ? prevApproachIndicatorMap?.[indicator.previous_id]
+                                            : undefined;
+
+                                        return (
                                             <PrintableDataDisplay
                                                 key={indicator.id}
-                                                label={indicator.title}
+                                                label={(
+                                                    <PrintableLabel
+                                                        value={indicator.title}
+                                                        prevValue={prevIndicator?.title}
+                                                        withDiff={withDiff}
+                                                    />
+                                                )}
                                                 value={indicator.target}
-                                                prevValue={
-                                                    prevPlannedIndicatorsMapping(operation.sector)[
-                                                    indicator.id!]?.target
-                                                }
+                                                prevValue={prevIndicator?.target}
                                                 valueType="number"
                                                 variant="contents"
                                                 withBackground
@@ -1632,556 +1486,406 @@ export default function EapFullExport(props: Props) {
                                                 withoutLabelColon
                                                 withDiff={withDiff}
                                             />
-                                        ))}
-                                    </div>
-                                </PrintableContainer>
-                                <PrintableContainer
-                                    heading={strings.readinessActivitiesHeading}
-                                    headingLevel={3}
-                                >
-                                    <div className={styles.indicatorItems}>
-                                        {operation.readiness_activities.map((activity, index) => (
-                                            <PrintableDataDisplay
-                                                key={activity.id}
-                                                label={`${index + 1}. ${activity.activity}`}
-                                                value={`${activity.time_value} ${activity.timeframe_display}`}
-                                                prevValue={`${prevPlannedReadinessMapping(operation.sector)[activity.id!]?.time_value} ${prevPlannedReadinessMapping(operation.sector)[activity.id!]?.timeframe_display}`}
-                                                valueType="text"
-                                                variant="contents"
-                                                withBackground
-                                                withPadding
-                                                withoutLabelColon
-                                                withDiff={withDiff}
-                                            />
-                                        ))}
-                                    </div>
-                                </PrintableContainer>
-                                <PrintableContainer
-                                    heading={strings.prepositioningActivitiesHeading}
-                                    headingLevel={3}
-                                >
-                                    <div className={styles.indicatorItems}>
-                                        {operation.prepositioning_activities.map(
-                                            (activity, index) => (
-                                                <PrintableDataDisplay
-                                                    key={activity.id}
-                                                    label={`${index + 1}. ${activity.activity}`}
-                                                    value={`${activity.time_value} ${activity.timeframe_display}`}
-                                                    prevValue={`${prevPlannedPrepositioningMapping(operation.sector)[activity.id!]?.time_value} ${prevPlannedPrepositioningMapping(operation.sector)[activity.id!]?.timeframe_display}`}
-                                                    valueType="text"
-                                                    variant="contents"
-                                                    withBackground
-                                                    withPadding
-                                                    withoutLabelColon
-                                                    withDiff={withDiff}
-                                                />
-                                            ),
-                                        )}
-                                    </div>
-                                </PrintableContainer>
-                                <PrintableContainer
-                                    heading={strings.earlyActionActivitiesHeading}
-                                    headingLevel={3}
-                                >
-                                    <div className={styles.indicatorItems}>
-                                        {operation.early_action_activities.map(
-                                            (activity, index) => (
-                                                <PrintableDataDisplay
-                                                    key={activity.id}
-                                                    label={`${index + 1}. ${activity.activity}`}
-                                                    value={`${activity.time_value} ${activity.timeframe_display}`}
-                                                    prevValue={`${prevPlannedEarlyActionMapping(operation.sector)[activity.id!]?.time_value} ${prevPlannedEarlyActionMapping(operation.sector)[activity.id!]?.timeframe_display}`}
-                                                    valueType="text"
-                                                    variant="contents"
-                                                    withBackground
-                                                    withPadding
-                                                    withoutLabelColon
-                                                    withDiff={withDiff}
-                                                />
-                                            ),
-                                        )}
-                                    </div>
-                                </PrintableContainer>
+                                        );
+                                    })}
+                                </div>
                             </PrintableContainer>
-                        ))}
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.enablingApproachesLabel}
-                        headingLevel={2}
-                    >
-                        {enable_approaches?.map((approach) => (
                             <PrintableContainer
-                                key={approach.id}
-                                heading={eapApproachTitleMap?.[approach.approach]}
-                                headingLevel={3}
+                                heading={strings.readinessActivitiesHeading}
+                                headingLevel={4}
                             >
-                                <PrintableContainer headingLevel={4}>
-                                    <ListView
-                                        layout="grid"
-                                        spacing="2xs"
-                                    >
-                                        <PrintableDataDisplay
-                                            label={strings.operationBudgetLabel}
-                                            value={approach.budget_per_approach}
-                                            prevValue={
-                                                prevEnableApproachesMapping[approach.id!]
-                                                    ?.budget_per_approach
-                                            }
-                                            valueType="number"
-                                            prefix="CHF "
-                                            strongLabel
-                                            withBackground
-                                            withPadding
-                                            withDiff={withDiff}
-                                        />
-                                        <PrintableDataDisplay
-                                            label="AP Code"
-                                            value={approach.ap_code}
-                                            prevValue={prevEnableApproachesMapping[approach.id!]
-                                                ?.ap_code}
-                                            valueType="number"
-                                            strongLabel
-                                            withBackground
-                                            withPadding
-                                            withDiff={withDiff}
-                                        />
-                                    </ListView>
-                                </PrintableContainer>
-                                <PrintableContainer
-                                    heading={strings.indicatorsHeading}
-                                    headingLevel={3}
-                                >
-                                    <div className={styles.indicatorItems}>
-                                        <Label textSize="sm" strong>
-                                            {strings.indicatorTitleLabel}
-                                        </Label>
-                                        <Label textSize="sm" strong>
-                                            {strings.indicatorTargetLabel}
-                                        </Label>
-                                        {approach.indicators.map((indicator) => (
-                                            <PrintableDataDisplay
-                                                key={indicator.id}
-                                                label={indicator.title}
-                                                value={indicator.target}
-                                                prevValue={prevEnableIndicatorsMapping(approach
-                                                    .id!)[indicator.id!]?.target}
-                                                valueType="number"
-                                                variant="contents"
-                                                withBackground
-                                                withPadding
-                                                withoutLabelColon
-                                                withDiff={withDiff}
-                                            />
-                                        ))}
-                                    </div>
-                                </PrintableContainer>
-                                <PrintableContainer
-                                    heading={strings.readinessActivitiesHeading}
-                                    headingLevel={3}
-                                >
-                                    <div className={styles.indicatorItems}>
-                                        {approach.readiness_activities.map((activity, index) => (
-                                            <PrintableDataDisplay
+                                <div className={styles.activityItems}>
+                                    {approach.readiness_activities.map((activity, index) => {
+                                        const prevActivity = isDefined(activity.previous_id)
+                                            ? prevReadinessActivitiesMap?.[activity.previous_id]
+                                            : undefined;
+
+                                        return (
+                                            <PrintableActivityOutput
                                                 key={activity.id}
-                                                label={`${index + 1}. ${activity.activity}`}
-                                                value={`${activity.time_value} ${activity.timeframe_display}`}
-                                                prevValue={`${prevEnableReadinessMapping(activity.id!)[activity.id!]?.time_value} ${prevEnableReadinessMapping(activity.id!)[activity.id!]?.timeframe_display}`}
-                                                valueType="text"
-                                                variant="contents"
-                                                withBackground
-                                                withPadding
-                                                withoutLabelColon
+                                                activity={activity}
+                                                prevActivity={prevActivity}
+                                                index={index}
                                                 withDiff={withDiff}
                                             />
-                                        ))}
-                                    </div>
-                                </PrintableContainer>
-                                <PrintableContainer
-                                    heading={strings.prepositioningActivitiesHeading}
-                                    headingLevel={3}
-                                >
-                                    <div className={styles.indicatorItems}>
-                                        {approach.prepositioning_activities.map(
-                                            (activity, index) => (
-                                                <PrintableDataDisplay
-                                                    key={activity.id}
-                                                    label={`${index + 1}. ${activity.activity}`}
-                                                    value={`${activity.time_value} ${activity.timeframe_display}`}
-                                                    prevValue={`${prevEnablePrepositioningMapping(activity.id!)[activity.id!]?.time_value} ${prevEnablePrepositioningMapping(activity.id!)[activity.id!]?.timeframe_display}`}
-                                                    valueType="text"
-                                                    variant="contents"
-                                                    withBackground
-                                                    withPadding
-                                                    withoutLabelColon
-                                                    withDiff={withDiff}
-                                                />
-                                            ),
-                                        )}
-                                    </div>
-                                </PrintableContainer>
-                                <PrintableContainer
-                                    heading={strings.earlyActionActivitiesHeading}
-                                    headingLevel={3}
-                                >
-                                    <div className={styles.indicatorItems}>
-                                        {approach.early_action_activities.map((activity, index) => (
-                                            <PrintableDataDisplay
-                                                key={activity.id}
-                                                label={`${index + 1}. ${activity.activity}`}
-                                                value={`${activity.time_value} ${activity.timeframe_display}`}
-                                                prevValue={`${prevEnableEarlyActionsMapping(activity.id!)[activity.id!]?.time_value} ${prevEnableEarlyActionsMapping(activity.id!)[activity.id!]?.timeframe_display}`}
-                                                valueType="text"
-                                                variant="contents"
-                                                withBackground
-                                                withPadding
-                                                withoutLabelColon
-                                                withDiff={withDiff}
-                                            />
-                                        ))}
-                                    </div>
-                                </PrintableContainer>
+                                        );
+                                    })}
+                                </div>
                             </PrintableContainer>
+                            <PrintableContainer
+                                heading={strings.prepositioningActivitiesHeading}
+                                headingLevel={4}
+                            >
+                                <div className={styles.activityItems}>
+                                    {approach.prepositioning_activities.map((activity, index) => {
+                                        const prevActivity = isDefined(activity.previous_id)
+                                            ? prevPrepositioningActivitiesMap
+                                                ?.[activity.previous_id]
+                                            : undefined;
+
+                                        return (
+                                            <PrintableActivityOutput
+                                                key={activity.id}
+                                                activity={activity}
+                                                prevActivity={prevActivity}
+                                                index={index}
+                                                withDiff={withDiff}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            </PrintableContainer>
+                            <PrintableContainer
+                                heading={strings.earlyActionActivitiesHeading}
+                                headingLevel={4}
+                            >
+                                <div className={styles.activityItems}>
+                                    {approach.early_action_activities.map((activity, index) => {
+                                        const prevActivity = isDefined(activity.previous_id)
+                                            ? prevEarlyActionActivitiesMap?.[activity.previous_id]
+                                            : undefined;
+
+                                        return (
+                                            <PrintableActivityOutput
+                                                key={activity.id}
+                                                activity={activity}
+                                                prevActivity={prevActivity}
+                                                index={index}
+                                                withDiff={withDiff}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            </PrintableContainer>
+                        </PrintableContainer>
+                    );
+                })}
+            </PrintableContainer>
+            <PrintableContainer
+                heading={strings.activationProcessHeading}
+                headingLevel={2}
+            >
+                <PrintableContainer
+                    heading={strings.actionProcessLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={early_action_implementation_process}
+                        prevValue={prev_early_action_implementation_process}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer>
+                    <div className={styles.imageItems}>
+                        {early_action_implementation_images?.map((element) => (
+                            <Image src={element.file} caption={element.caption} />
                         ))}
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.feasibilityLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={feasibility}
-                            prevValue={prev_feasibility}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
+                    </div>
                 </PrintableContainer>
                 <PrintableContainer
-                    heading={strings.activationProcessHeading}
-                    headingLevel={2}
+                    heading={strings.triggerActivationLabel}
+                    headingLevel={3}
                 >
-                    <PrintableContainer
-                        heading={strings.actionProcessLabel}
-                        headingLevel={3}
-                    >
+                    <PrintableDataDisplay
+                        value={trigger_activation_system}
+                        prevValue={prev_trigger_activation_system}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer headingLevel={3}>
+                    <div className={styles.imageItems}>
+                        {trigger_activation_system_images?.map((element) => (
+                            <Image src={element.file} caption={element.caption} />
+                        ))}
+                    </div>
+                </PrintableContainer>
+                <PrintableContainer headingLevel={3}>
+                    <ListView layout="grid">
                         <PrintableDataDisplay
-                            value={early_action_implementation_process}
-                            prevValue={prev_early_action_implementation_process}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer>
-                        <div className={styles.imageItems}>
-                            {early_action_implementation_images?.map((element) => (
-                                <Image src={element.file} caption={element.caption} />
-                            ))}
-                        </div>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.triggerActivationLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={trigger_activation_system}
-                            prevValue={prev_trigger_activation_system}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer>
-                        <div className={styles.imageItems}>
-                            {trigger_activation_system_images?.map((element) => (
-                                <Image src={element.file} caption={element.caption} />
-                            ))}
-                        </div>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.peopleTargetLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
+                            label={strings.peopleTargetLabel}
                             value={people_targeted}
                             prevValue={prev_people_targeted}
                             valueType="number"
-                            variant="inline"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.selectionTargetLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={selection_of_target_population}
-                            prevValue={prev_selection_of_target_population}
-                            valueType="text"
-                            withoutLabelColon
                             variant="block"
+                            withBackground
+                            withPadding
                             strongLabel
                             withDiff={withDiff}
                         />
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.stopMechanismLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={stop_mechanism}
-                            prevValue={prev_stop_mechanism}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.sourceInformationLabel}
-                        headingLevel={3}
-                    >
-                        <ListView layout="block" spacing="xs">
-                            {activation_process_source_of_information?.map((source) => (
-                                <ListView layout="grid" spacing="2xs">
-                                    <PrintableDataDisplay
-                                        label={strings.nameLabel}
-                                        value={source.source_name}
-                                        prevValue={
-                                            prevActivationSourceInformationMapping[source.id!]
-                                                ?.source_name
-                                        }
-                                        valueType="text"
-                                        variant="inline"
-                                        strongLabel
-                                        withBackground
-                                        withPadding
-                                        withDiff={withDiff}
-                                    />
-                                    <PrintableDataDisplay
-                                        label={strings.linkLabel}
-                                        value={source.source_link}
-                                        prevValue={
-                                            prevActivationSourceInformationMapping[source.id!]
-                                                ?.source_link
-                                        }
-                                        valueType="text"
-                                        variant="inline"
-                                        strongLabel
-                                        withBackground
-                                        withPadding
-                                        withDiff={withDiff}
-                                    />
-                                </ListView>
-                            ))}
-                        </ListView>
-                    </PrintableContainer>
-                </PrintableContainer>
-                <PrintableContainer heading={strings.mealHeading} headingLevel={2}>
-                    <PrintableContainer
-                        heading={strings.mealLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={meal}
-                            prevValue={prev_meal}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
+                    </ListView>
                 </PrintableContainer>
                 <PrintableContainer
-                    heading={strings.nationalSocietyHeading}
-                    headingLevel={2}
+                    heading={strings.selectionTargetLabel}
+                    headingLevel={3}
                 >
-                    <PrintableContainer
-                        heading={strings.operationalThematicLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={operational_administrative_capacity}
-                            prevValue={prev_operational_administrative_capacity}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.strategiesPlanLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={strategies_and_plans}
-                            prevValue={prev_strategies_and_plans}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.financialCapacityLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={advance_financial_capacity}
-                            prevValue={prev_advance_financial_capacity}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
+                    <PrintableDataDisplay
+                        value={selection_of_target_population}
+                        prevValue={prev_selection_of_target_population}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
-                    heading={strings.financeLogisticsHeading}
-                    headingLevel={2}
+                    heading={strings.stopMechanismLabel}
+                    headingLevel={3}
                 >
-                    <PrintableContainer>
-                        <ListView
-                            layout="grid"
-                            spacing="2xs"
-                            numPreferredGridColumns={4}
-                            minGridColumnSize="10rem"
-                        >
-                            <PrintableDataDisplay
-                                label={strings.totalBudgetLabel}
-                                value={total_budget}
-                                prevValue={prev_total_budget}
-                                valueType="number"
-                                variant="inline"
-                                strongLabel
-                                withPadding
-                                withBackground
-                                withDiff={withDiff}
-                            />
-                            <PrintableDataDisplay
-                                label={strings.totalReadinessLabel}
-                                value={readiness_budget}
-                                prevValue={prev_readiness_budget}
-                                valueType="number"
-                                variant="inline"
-                                strongLabel
-                                withPadding
-                                withBackground
-                                withDiff={withDiff}
-                            />
-                            <PrintableDataDisplay
-                                label={strings.totalPrepositioningLabel}
-                                value={pre_positioning_budget}
-                                prevValue={prev_pre_positioning_budget}
-                                valueType="number"
-                                variant="inline"
-                                strongLabel
-                                withPadding
-                                withBackground
-                                withDiff={withDiff}
-                            />
-                            <PrintableDataDisplay
-                                label={strings.totalEarlyActionsLabel}
-                                value={early_action_budget}
-                                prevValue={prev_early_action_budget}
-                                valueType="number"
-                                variant="inline"
-                                strongLabel
-                                withPadding
-                                withBackground
-                                withDiff={withDiff}
-                            />
-                        </ListView>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.budgetDescriptionLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={budget_description}
-                            prevValue={prev_budget_description}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer>
-                        <Link href={budget_file_details?.file} external withUnderline>
-                            {strings.downloadBudgetLabel}
-                        </Link>
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.readinessBudgetDescriptionLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={readiness_cost_description}
-                            prevValue={prev_readiness_cost_description}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.prepositioningBudgetDescriptionLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={prepositioning_cost_description}
-                            prevValue={prev_prepositioning_cost_description}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.earlyActionsBudgetDescriptionLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={early_action_cost_description}
-                            prevValue={prev_early_action_cost_description}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer
-                        heading={strings.eapEndorsementLabel}
-                        headingLevel={3}
-                    >
-                        <PrintableDataDisplay
-                            value={eap_endorsement}
-                            prevValue={prev_eap_endorsement}
-                            valueType="text"
-                            withoutLabelColon
-                            variant="block"
-                            strongLabel
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
+                    <PrintableDataDisplay
+                        value={stop_mechanism}
+                        prevValue={prev_stop_mechanism}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
                 </PrintableContainer>
-            </PrintablePage>
-        </>
+                <PrintableContainer
+                    heading={strings.sourceInformationLabel}
+                    headingLevel={3}
+                >
+                    <ListView layout="block" spacing="xs">
+                        {activation_process_source_of_information?.map((source) => (
+                            <ListView layout="grid" spacing="2xs">
+                                <PrintableDataDisplay
+                                    label={strings.nameLabel}
+                                    value={source.source_name}
+                                    prevValue={
+                                        prevActivationSourceInformationMapping[source.id!]
+                                            ?.source_name
+                                    }
+                                    valueType="text"
+                                    variant="inline"
+                                    strongLabel
+                                    withBackground
+                                    withPadding
+                                    withDiff={withDiff}
+                                />
+                                <PrintableDataDisplay
+                                    label={strings.linkLabel}
+                                    value={source.source_link}
+                                    prevValue={
+                                        prevActivationSourceInformationMapping[source.id!]
+                                            ?.source_link
+                                    }
+                                    valueType="text"
+                                    variant="inline"
+                                    strongLabel
+                                    withBackground
+                                    withPadding
+                                    withDiff={withDiff}
+                                />
+                            </ListView>
+                        ))}
+                    </ListView>
+                </PrintableContainer>
+            </PrintableContainer>
+            <PrintableContainer heading={strings.mealHeading} headingLevel={2}>
+                <PrintableContainer
+                    heading={strings.mealLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={meal}
+                        prevValue={prev_meal}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+            </PrintableContainer>
+            <PrintableContainer
+                heading={strings.nationalSocietyHeading}
+                headingLevel={2}
+            >
+                <PrintableContainer
+                    heading={strings.operationalThematicLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={operational_administrative_capacity}
+                        prevValue={prev_operational_administrative_capacity}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.strategiesPlanLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={strategies_and_plans}
+                        prevValue={prev_strategies_and_plans}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.financialCapacityLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={advance_financial_capacity}
+                        prevValue={prev_advance_financial_capacity}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+            </PrintableContainer>
+            <PrintableContainer
+                heading={strings.financeLogisticsHeading}
+                headingLevel={2}
+            >
+                <PrintableContainer>
+                    <ListView
+                        layout="grid"
+                        spacing="4xs"
+                        numPreferredGridColumns={4}
+                        minGridColumnSize="10rem"
+                    >
+                        <PrintableDataDisplay
+                            label={strings.totalBudgetLabel}
+                            value={total_budget}
+                            prevValue={prev_total_budget}
+                            valueType="number"
+                            variant="block"
+                            strongLabel
+                            withPadding
+                            withBackground
+                            withDiff={withDiff}
+                        />
+                        <PrintableDataDisplay
+                            label={strings.totalReadinessLabel}
+                            value={readiness_budget}
+                            prevValue={prev_readiness_budget}
+                            valueType="number"
+                            variant="block"
+                            strongLabel
+                            withPadding
+                            withBackground
+                            withDiff={withDiff}
+                        />
+                        <PrintableDataDisplay
+                            label={strings.totalPrepositioningLabel}
+                            value={pre_positioning_budget}
+                            prevValue={prev_pre_positioning_budget}
+                            valueType="number"
+                            variant="block"
+                            strongLabel
+                            withPadding
+                            withBackground
+                            withDiff={withDiff}
+                        />
+                        <PrintableDataDisplay
+                            label={strings.totalEarlyActionsLabel}
+                            value={early_action_budget}
+                            prevValue={prev_early_action_budget}
+                            valueType="number"
+                            variant="block"
+                            strongLabel
+                            withPadding
+                            withBackground
+                            withDiff={withDiff}
+                        />
+                    </ListView>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.budgetDescriptionLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={budget_description}
+                        prevValue={prev_budget_description}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer headingLevel={3}>
+                    <Link href={budget_file_details?.file}>
+                        {strings.downloadBudgetLabel}
+                    </Link>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.readinessBudgetDescriptionLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={readiness_cost_description}
+                        prevValue={prev_readiness_cost_description}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.prepositioningBudgetDescriptionLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={prepositioning_cost_description}
+                        prevValue={prev_prepositioning_cost_description}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.earlyActionsBudgetDescriptionLabel}
+                    headingLevel={3}
+                >
+                    <PrintableDataDisplay
+                        value={early_action_cost_description}
+                        prevValue={prev_early_action_cost_description}
+                        valueType="text"
+                        withoutLabelColon
+                        variant="block"
+                        strongLabel
+                        withDiff={withDiff}
+                    />
+                </PrintableContainer>
+            </PrintableContainer>
+            <PrintableContainer
+                heading={strings.eapEndorsementLabel}
+                headingLevel={2}
+            >
+                <PrintableDataDisplay
+                    value={eap_endorsement}
+                    prevValue={prev_eap_endorsement}
+                    valueType="text"
+                    withoutLabelColon
+                    variant="block"
+                    strongLabel
+                    withDiff={withDiff}
+                />
+            </PrintableContainer>
+        </PrintablePage>
     );
 }

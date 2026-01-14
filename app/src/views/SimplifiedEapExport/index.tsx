@@ -13,6 +13,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
+import PrintableActivityOutput from '#components/domain/PrintableActivityOutput';
 import PrintableContainer from '#components/printable/PrintableContainer';
 import PrintableDataDisplay from '#components/printable/PrintableDataDisplay';
 import PrintableDescription from '#components/printable/PrintableDescription';
@@ -24,7 +25,6 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
-import PrintableActivityOutput from './PrintableActivityOutput';
 import PrintableContactOutput from './PrintableContactOutput';
 
 import i18n from './i18n.json';
