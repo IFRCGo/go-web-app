@@ -70,6 +70,8 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
     withShadow?: boolean;
     withPadding?: boolean;
 
+    withBorder?: boolean;
+
     spacing?: SpacingType;
     spacingOffset?: number;
     withoutSpacingOpticalCorrection?: boolean;
@@ -123,6 +125,7 @@ function Container(props: Props) {
         withDarkBackground,
         withShadow,
         withPadding,
+        withBorder,
         withFixedHeight,
         spacing,
         spacingOffset = 0,
@@ -214,6 +217,7 @@ function Container(props: Props) {
                 withContentWell && styles.withContentWell,
                 withFixedHeight && styles.withFixedHeight,
                 withCenteredContent && styles.withCenteredContent,
+                withBorder && styles.withBorder,
                 className,
             )}
             spacing={spacing}
