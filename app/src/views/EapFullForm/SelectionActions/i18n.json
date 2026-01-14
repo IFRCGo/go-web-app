@@ -43,9 +43,9 @@
         "feasibilityExplanatoryNote": "In this section please describe why it is feasible to implement the selected actions, based on: time to implement the action, capacity of the National Society to implement, available resources (human, logistics, materials, etc.) and access considerations (see FbF Manual Chapter 4.2 Select Early Actions on criteria.)",
         "feasibilityRequiredPoint1": "Indicate how feasible it is to implement the proposed early actions in the planned timeframe. Has it been tested?  Have similar actions been carried out by the NS in past operations and/or in as short a time with similar resources? If not, was a simulation conducted?",
         "feasibilityRequiredPoint2": "If Cash and Voucher Assistance (CVA) is chosen as an early action, describe how necessary information for disbursement is collected in the short period of time and how national legislative requirements are met.",
-        "useFullnessActionsTitle": "Usefulness of actions in case of non-occurring event",
-        "useFullnessActionsDescription": "Describe how your selected actions will contribute to the well-being of the population even if the expected event does not materialize. Include a description of the measures taken to ensure that the actions taken will be of maximum use for the targeted population in a future event.",
+        "useFulnessActionsTitle": "Usefulness of actions in case of non-occurring event",
+        "useFulnessActionsDescription": "Describe how your selected actions will contribute to the well-being of the population even if the expected event does not materialize. Include a description of the measures taken to ensure that the actions taken will be of maximum use for the targeted population in a future event.",
         "selectionActionImagesCountLabel": "5 images max(optional)",
-        "useFullnessActionsExplanatoryNote": "In cases where the expected event does not materialize, the early actions implemented by the National Society (funded by the DREF) should still contribute to risk reduction and resiliency building."
+        "useFulnessActionsExplanatoryNote": "In cases where the expected event does not materialize, the early actions implemented by the National Society (funded by the DREF) should still contribute to risk reduction and resiliency building."
     }
 }

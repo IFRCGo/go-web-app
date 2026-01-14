@@ -492,14 +492,14 @@ function SelectionActions(props: Props) {
                         />
                     ))}
                     <InputSection
-                        title={strings.useFullnessActionsTitle}
-                        description={strings.useFullnessActionsDescription}
+                        title={strings.useFulnessActionsTitle}
+                        description={strings.useFulnessActionsDescription}
                         tooltip={(
                             <ListView layout="block">
                                 <TextOutput
                                     strongLabel
                                     label={strings.selectionActionExplanatoryNoteLabel}
-                                    value={strings.useFullnessActionsExplanatoryNote}
+                                    value={strings.useFulnessActionsExplanatoryNote}
                                 />
                             </ListView>
                         )}

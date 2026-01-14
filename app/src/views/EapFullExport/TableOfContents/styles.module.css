@@ -1,0 +1,39 @@
+.table-of-contents {
+    padding-inline-start: 0;
+    list-style: none;
+    counter-reset: section;
+
+    > li {
+        font-size: var(--go-ui-font-size-md);
+        counter-reset: subsection;
+        counter-increment: section;
+
+        &::before {
+            content: counter(section) ". ";
+        }
+    }
+
+    ol {
+        padding-inline-start: 0;
+        list-style: none;
+
+        > li {
+            counter-increment: subsection;
+
+            &::before {
+                content: counter(section) "." counter(subsection) " ";
+            }
+        }
+    }
+
+    .sub-section {
+        padding-inline-start: var(--go-ui-spacing-2xs);
+        margin-top: var(--go-ui-spacing-4xs);
+        font-size: var(--go-ui-font-size-sm);
+    }
+}
+
+
+
+
+

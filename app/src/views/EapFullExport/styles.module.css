@@ -1,3 +1,9 @@
+.summary {
+    display: grid;
+    grid-gap: var(--go-ui-width-separator-md);
+    grid-template-columns: 3fr 7fr;
+}
+
 .meta-items {
     display: flex;
     flex-direction: column;
@@ -10,6 +16,7 @@
     }
 }
 
+.activity-items,
 .indicator-items {
     display: grid;
     grid-gap: var(--go-ui-width-separator-md);
