@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { AddLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
@@ -9,7 +10,10 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { isNotDefined, randomString } from '@togglecorp/fujs';
+import {
+    isNotDefined,
+    randomString,
+} from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
@@ -28,7 +32,6 @@ import { type PartialEapFullFormType } from '../schema';
 import PrioritisedImpactInput from './PrioritisedImpactInput';
 
 import i18n from './i18n.json';
-import { AddLineIcon } from '@ifrc-go/icons';
 
 type PrioritisedImpactsFormFields = NonNullable<
     PartialEapFullFormType['prioritized_impacts']

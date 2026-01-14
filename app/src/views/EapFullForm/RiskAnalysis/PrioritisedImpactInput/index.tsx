@@ -2,7 +2,6 @@ import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     InlineLayout,
-    ListView,
     TextInput,
 } from '@ifrc-go/ui';
 import { randomString } from '@togglecorp/fujs';
