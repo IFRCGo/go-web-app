@@ -38,6 +38,7 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
     withCenteredHeaderDescription?: boolean;
     withCenteredHeading?: boolean;
     withoutWrapInHeader?: boolean;
+    variant?: 'form' | 'container';
 
     filters?: React.ReactNode;
     children: React.ReactNode;
@@ -96,6 +97,7 @@ function Container(props: Props) {
         withCenteredHeaderDescription,
         withoutWrapInHeader,
         withLargeBreakpointInHeader,
+        variant,
 
         filters,
 
@@ -230,6 +232,8 @@ function Container(props: Props) {
                     spacingOffset={spacingOffset}
                     layout="block"
                     withSpacingOpticalCorrection
+                    withBackground={variant === 'form'}
+                    withPadding={variant === 'form'}
                 >
                     {shouldShowHeadingRow && (
                         <InlineView
@@ -251,6 +255,8 @@ function Container(props: Props) {
                             <Heading
                                 level={headingLevel}
                                 ellipsize={withEllipsizedHeading}
+                                variant={variant}
+                                spacing={spacing}
                                 centerAligned={withCenteredHeading}
                             >
                                 {heading}

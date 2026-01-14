@@ -81,7 +81,7 @@ function EapActivationProcess(props: Props) {
     return (
         <TabPage>
             <ListView layout="block">
-                <Heading level={4}>
+                <Heading variant="form" level={4}>
                     {strings.activationProcessHeading}
                     <InfoPopup description={strings.activationProcessTooltip} />
                 </Heading>

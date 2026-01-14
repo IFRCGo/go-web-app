@@ -121,7 +121,7 @@ function TriggerModel(props: Props) {
     return (
         <TabPage>
             <ListView layout="block">
-                <Heading level={4}>
+                <Heading variant="form" level={4}>
                     {strings.triggerModelHeading}
                     <InfoPopup description={strings.triggerModelTooltipDescription} />
                 </Heading>

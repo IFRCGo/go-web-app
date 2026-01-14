@@ -107,7 +107,7 @@ function RiskAnalysis(props: Props) {
     return (
         <TabPage>
             <ListView layout="block">
-                <Heading level={4}>
+                <Heading variant="form" level={4}>
                     {strings.riskAnalysisHeading}
                 </Heading>
                 <InputSection

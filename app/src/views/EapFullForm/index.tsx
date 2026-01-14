@@ -741,9 +741,6 @@ export function Component() {
                             <Button
                                 name={undefined}
                                 onClick={handleSubmitApproval}
-                                disabled={
-                                    eapDetailResponse?.status !== EAP_STATUS_UNDER_DEVELOPMENT
-                                }
                             >
                                 {strings.submitButton}
                             </Button>

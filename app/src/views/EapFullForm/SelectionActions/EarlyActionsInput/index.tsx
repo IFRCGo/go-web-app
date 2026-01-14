@@ -1,7 +1,8 @@
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
-    Button,
-    ListView,
+    Container,
+    IconButton,
+    InlineLayout,
     TextInput,
 } from '@ifrc-go/ui';
 import { randomString } from '@togglecorp/fujs';
@@ -49,9 +50,27 @@ function EarlyActionsInput(props: Props) {
         : undefined;
 
     return (
-        <>
-            <NonFieldError error={error} />
-            <ListView withFullWidth>
+        <Container
+            spacing="sm"
+            headerDescription={(
+                <NonFieldError error={error} />
+            )}
+        >
+            <InlineLayout
+                after={(
+                    <IconButton
+                        name={index}
+                        onClick={onRemove}
+                        styleVariant="action"
+                        disabled={disabled || readOnly}
+                        // FIXME use translation strings
+                        title="Remove early action"
+                        ariaLabel="Remove early action"
+                    >
+                        <DeleteBinTwoLineIcon />
+                    </IconButton>
+                )}
+            >
                 <TextInput
                     name="action"
                     value={value.action}
@@ -60,18 +79,8 @@ function EarlyActionsInput(props: Props) {
                     disabled={disabled}
                     error={error?.action}
                 />
-                <Button
-                    name={index}
-                    onClick={onRemove}
-                    styleVariant="action"
-                    disabled={disabled || readOnly}
-                    // FIXME use translation strings
-                    title="Remove early action"
-                >
-                    <DeleteBinTwoLineIcon />
-                </Button>
-            </ListView>
-        </>
+            </InlineLayout>
+        </Container>
     );
 }
 
