@@ -5,10 +5,13 @@ import {
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import { paddingSpacings, SpacingType } from '#utils/style';
+import useSpacingToken from '#hooks/useSpacingToken';
+import {
+    paddingSpacings,
+    SpacingType,
+} from '#utils/style';
 
 import styles from './styles.module.css';
-import useSpacingToken from '#hooks/useSpacingToken';
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 

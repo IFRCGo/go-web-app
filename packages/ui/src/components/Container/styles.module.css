@@ -20,8 +20,8 @@
     }
 
     &.with-border {
-        border-radius: var(--go-ui-border-radius-lg);
         border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        border-radius: var(--go-ui-border-radius-lg);
     }
 
     &.with-dark-background {
