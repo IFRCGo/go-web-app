@@ -29,6 +29,12 @@
         background-color: var(--go-ui-color-background);
     }
 
+    &.form-variant {
+        >.header {
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        }
+    }
+
     .content {
         &:empty {
             display: none;

@@ -111,6 +111,10 @@
         &.active {
             --text-color: var(--variant-color);
         }
+
+        &.completed {
+            --text-color: var(--variant-color);
+        }
     }
 
     &.disabled {
@@ -175,7 +179,7 @@
         align-items: center;
         padding: var(--go-ui-spacing-xs) 0;
 
-        .before-dot {
+        .before-line {
             flex-grow: 1;
             border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
         }
@@ -184,7 +188,7 @@
             flex-shrink: 0;
         }
 
-        .after-dot {
+        .after-line {
             flex-grow: 1;
             border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
         }
@@ -197,45 +201,47 @@
             background-color: var(--go-ui-color-primary-red);
         }
 
-        .before-dot {
-            border-color: var(--go-ui-color-primary-blue);
+        .before-line {
+            border-color: var(--go-ui-color-primary-red);
         }
     }
 
     &.completed {
+        color: var(--go-ui-color-primary-red);
+
         &:not(.active) {
             .dot {
-                background-color: var(--go-ui-color-primary-blue);
+                background-color: var(--go-ui-color-primary-red);
             }
         }
 
-        .after-dot,
-        .before-dot {
-            border-color: var(--go-ui-color-primary-blue);
+        .after-line,
+        .before-line {
+            border-color: var(--go-ui-color-primary-red);
         }
     }
 
     &.first-step {
-        .before-dot {
+        .before-line {
             border-color: transparent;
         }
 
         &.completed,
         &.active {
-            .before-dot {
+            .before-line {
                 border-color: transparent;
             }
         }
     }
 
     &.last-step {
-        .after-dot {
+        .after-line {
             border-color: transparent;
         }
 
         &.completed,
         &.active {
-            .after-dot {
+            .after-line {
                 border-color: transparent;
             }
         }
