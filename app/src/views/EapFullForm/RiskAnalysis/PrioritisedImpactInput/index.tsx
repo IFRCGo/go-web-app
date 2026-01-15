@@ -52,7 +52,7 @@ function PrioritisedImpactInput(props: Props) {
     return (
         <Container
             spacing="sm"
-            headerDescription={(
+            headerDescription={error && (
                 <NonFieldError error={error} />
             )}
         >
