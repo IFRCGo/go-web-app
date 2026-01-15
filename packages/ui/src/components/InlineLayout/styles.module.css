@@ -58,6 +58,10 @@
         overflow-x: auto;
         overflow-y: hidden;
 
+        &:not(.ellipsized) {
+            display: inline-flex;
+        }
+
         &.ellipsized {
             min-width: 0;
             overflow: hidden;

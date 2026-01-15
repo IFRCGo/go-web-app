@@ -1,7 +1,4 @@
-import {
-    CheckFillIcon,
-    CloseLineIcon,
-} from '@ifrc-go/icons';
+import { CloseLineIcon } from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
 
 import InlineLayout, { type Props as InlineLayoutProps } from '#components/InlineLayout';
@@ -124,14 +121,11 @@ function TabLayout(props: Props) {
                 role="tab"
             >
                 <div className={styles.dotWrapper}>
-                    <div className={styles.beforeDot} />
+                    <div className={styles.beforeLine} />
                     <div className={styles.dot}>
-                        {!errored && stepCompleted && (
-                            <CheckFillIcon className={styles.icon} />
-                        )}
                         {errored && <CloseLineIcon className={styles.icon} />}
                     </div>
-                    <div className={styles.afterDot} />
+                    <div className={styles.afterLine} />
                 </div>
                 {tabContent}
             </div>
