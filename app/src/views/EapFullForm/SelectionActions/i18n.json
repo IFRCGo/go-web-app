@@ -1,7 +1,7 @@
 {
     "namespace": "eapFullForm",
     "strings": {
-        "selectionActionsHeading": "Selection of actions section",
+        "selectionActionsHeading": "Selection of actions",
         "selectionActionsTooltipDescription": "It is crucial to select early actions that have the most potential to reduce the identified risks(s) and are feasible to implement given the lead time of the forecast.  It is important to describe briefly: Who was involved? What data was consulted? Was research conducted? Were communities involved? For more guidance see FbF Manual, Chapter 4.2 Select Early Actions.",
         "selectionProcessTitle": "Early action selection process",
         "selectionProcessDescription1": "Add the list of early actions",
@@ -20,6 +20,7 @@
         "selectionActionRequiredPointsLabel": "Required Points",
         "earlyActionsOutputValue": "Early Actions",
         "earlyActionsAddButtonLabel": "Add",
+        "earlyActionsEmptyMessage": "No actions yet!",
         "selectionActionUploadLabel": "Upload",
         "selectionActionSelectImagesLabel": "Select images",
         "downloadTableLabel": "Download Theory of Change table",

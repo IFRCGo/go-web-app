@@ -59,9 +59,12 @@ function FinanceLogistics(props: Props) {
     });
 
     return (
-        <TabPage>
-            <ListView layout="block">
-                <Heading variant="form" level={4}>{strings.financeHeading}</Heading>
+        <TabPage spacingOffset={-2}>
+            <ListView
+                layout="block"
+                spacing="xs"
+            >
+                <Heading variant="form">{strings.financeHeading}</Heading>
                 <InputSection
                     title={strings.financeBudgetTitle}
                     tooltip={(
@@ -281,7 +284,12 @@ function FinanceLogistics(props: Props) {
                         readOnly={readOnly}
                     />
                 </InputSection>
-                <Heading level={4}>{strings.financeEapEndorsementHeading}</Heading>
+            </ListView>
+            <ListView
+                layout="block"
+                spacing="xs"
+            >
+                <Heading variant="form">{strings.financeEapEndorsementHeading}</Heading>
                 <InputSection
                     title={strings.financeEapEndorsementTitle}
                     tooltip={(
@@ -304,26 +312,24 @@ function FinanceLogistics(props: Props) {
                         readOnly={readOnly}
                     />
                 </InputSection>
-                {isRevision && (
-                    <InputSection
-                        title={strings.updatedChecklistTitle}
-                    >
-                        <GoSingleFileInput
-                            name="updated_checklist_file"
-                            url="/api/v2/eap-file/"
-                            value={value?.updated_checklist_file}
-                            onChange={setFieldValue}
-                            error={getErrorString(error?.updated_checklist_file)}
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                        >
-                            {strings.financeUploadButtonLabel}
-                        </GoSingleFileInput>
-                    </InputSection>
-                )}
             </ListView>
+            {isRevision && (
+                <InputSection title={strings.updatedChecklistTitle}>
+                    <GoSingleFileInput
+                        name="updated_checklist_file"
+                        url="/api/v2/eap-file/"
+                        value={value?.updated_checklist_file}
+                        onChange={setFieldValue}
+                        error={getErrorString(error?.updated_checklist_file)}
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        disabled={disabled}
+                        readOnly={readOnly}
+                    >
+                        {strings.financeUploadButtonLabel}
+                    </GoSingleFileInput>
+                </InputSection>
+            )}
         </TabPage>
     );
 }

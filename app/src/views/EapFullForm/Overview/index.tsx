@@ -181,6 +181,7 @@ function Overview(props: Props) {
                     title={strings.formUploadCoverImage}
                     description={strings.formUploadCoverImageDescription}
                     withAsteriskOnTitle
+                    numPreferredColumns={2}
                 >
                     <ImageWithCaptionInput
                         name="cover_image_file"
@@ -198,26 +199,16 @@ function Overview(props: Props) {
                     title={strings.formExpectedSubmissionTimeTitle}
                     description={strings.formExpectedSubmissionTimeDescription}
                     withAsteriskOnTitle
+                    numPreferredColumns={2}
                 >
-                    <ListView>
-                        <DateInput
-                            name="expected_submission_time"
-                            value={value?.expected_submission_time}
-                            error={error?.expected_submission_time}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                        />
-                        <Radio
-                            name="expected_submission_time"
-                            value={isNotDefined(value?.expected_submission_time)}
-                            onClick={handleSubmissionTimeClick}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                        >
-                            {strings.notSureLabel}
-                        </Radio>
-                    </ListView>
+                    <DateInput
+                        name="expected_submission_time"
+                        value={value?.expected_submission_time}
+                        error={error?.expected_submission_time}
+                        onChange={setFieldValue}
+                        disabled={disabled}
+                        readOnly={readOnly}
+                    />
                 </InputSection>
                 <InputSection
                     title={strings.objectiveTitle}

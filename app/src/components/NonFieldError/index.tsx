@@ -49,10 +49,11 @@ function NonFieldError<T>(props: Props<T>) {
     }
 
     return (
-        <div className={_cs(
-            styles.nonFieldError,
-            className,
-        )}
+        <div
+            className={_cs(
+                styles.nonFieldError,
+                className,
+            )}
         >
             <AlertLineIcon className={styles.icon} />
             <div>

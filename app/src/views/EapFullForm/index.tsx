@@ -19,10 +19,7 @@ import {
     Tabs,
     TopBanner,
 } from '@ifrc-go/ui';
-import {
-    useBooleanState,
-    useTranslation,
-} from '@ifrc-go/ui/hooks';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import { injectClientId } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -57,7 +54,6 @@ import {
     transformObjectError,
 } from '#utils/restRequest/error';
 
-import ApprovalModal from './ApprovalModal';
 import {
     checkTabErrors,
     type TabKeys,
@@ -109,10 +105,6 @@ export function Component() {
     const formContentRef = useRef<ElementRef<'div'>>(null);
     const strings = useTranslation(i18n);
     const { navigate } = useRouting();
-    const [
-        showApprovalModal,
-        { setTrue: setShowApprovalModalTrue, setFalse: setShowApprovalModalFalse },
-    ] = useBooleanState(false);
 
     const alert = useAlert();
 
@@ -709,11 +701,6 @@ export function Component() {
         [handleFormError, handleValidationSuccess, validate, setError],
     );
 
-    const handleSubmitApproval = useCallback(() => {
-        handleSave();
-        setShowApprovalModalTrue();
-    }, [handleSave, setShowApprovalModalTrue]);
-
     return (
         <Tabs value={activeTab} onChange={setActiveTab} styleVariant="step">
             <Page
@@ -735,14 +722,11 @@ export function Component() {
                             >
                                 {strings.cancelButton}
                             </Link>
-                            <Button name={undefined} onClick={handleSave}>
-                                {strings.saveButton}
-                            </Button>
                             <Button
                                 name={undefined}
-                                onClick={handleSubmitApproval}
+                                onClick={handleSave}
                             >
-                                {strings.submitButton}
+                                {strings.saveButton}
                             </Button>
                         </>
                     ) : (
@@ -929,18 +913,6 @@ export function Component() {
                         </Button>
                     )}
                 </ListView>
-                {showApprovalModal
-                    && isDefined(eapId)
-                    && isDefined(eapDetailResponse)
-                    && isNotDefined(formError)
-                    && (
-                        <ApprovalModal
-                            onClose={setShowApprovalModalFalse}
-                            eapId={eapId}
-                            status={eapDetailResponse?.status}
-                            readOnly={readOnly}
-                        />
-                    )}
             </Page>
         </Tabs>
     );

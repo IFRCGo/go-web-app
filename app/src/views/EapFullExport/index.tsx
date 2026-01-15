@@ -1261,7 +1261,7 @@ export default function EapFullExport(props: Props) {
                                     <PrintableDataDisplay
                                         label={strings.operationPeopleTargetedLabel}
                                         value={operation.people_targeted}
-                                        prevValue={prevOperation.people_targeted}
+                                        prevValue={prevOperation?.people_targeted}
                                         valueType="number"
                                         strongLabel
                                         withDiff={withDiff}

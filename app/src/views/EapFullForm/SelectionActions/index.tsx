@@ -240,10 +240,15 @@ function SelectionActions(props: Props) {
 
     return (
         <TabPage>
-            <ListView layout="block">
-                <Heading variant="form" level={4}>
-                    {strings.selectionActionsHeading}
-                    <InfoPopup description={strings.selectionActionsTooltipDescription} />
+            <ListView
+                layout="block"
+                spacing="xs"
+            >
+                <Heading variant="form">
+                    <ListView spacing="sm">
+                        {strings.selectionActionsHeading}
+                        <InfoPopup description={strings.selectionActionsTooltipDescription} />
+                    </ListView>
                 </Heading>
                 <InputSection
                     title={strings.selectionProcessTitle}
@@ -290,6 +295,7 @@ function SelectionActions(props: Props) {
                         )}
                         empty={isNotDefined(value.early_actions)
                             || value.early_actions.length === 0}
+                        emptyMessage={strings.earlyActionsEmptyMessage}
                         withPadding
                         withBorder
                         withCompactMessage
@@ -441,7 +447,6 @@ function SelectionActions(props: Props) {
                 </InputSection>
             </ListView>
             <Container
-                withHeaderBorder
                 heading={strings.selectionActionPlannedOperationHeading}
                 headerDescription={
                     strings.selectionActionPlannedOperationHeadingDescription

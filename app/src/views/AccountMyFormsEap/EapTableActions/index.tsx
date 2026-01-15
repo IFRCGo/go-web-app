@@ -146,7 +146,7 @@ function EapTableActions(props: Props) {
                             {strings.previewExportLinkLabel}
                         </Link>
                     )}
-                    {eap.eap_type === EAP_TYPE_SIMPLIFIED && isCreated && (
+                    {isCreated && (
                         <Button
                             name={false}
                             onClick={setShowExportModalTrue}
@@ -156,8 +156,7 @@ function EapTableActions(props: Props) {
                             {strings.exportButtonLabel}
                         </Button>
                     )}
-                    {eap.eap_type === EAP_TYPE_SIMPLIFIED
-                        && isDefined(details?.data.version)
+                    {isDefined(details?.data.version)
                         && details.data.version > 1
                         && (
                             <Button
