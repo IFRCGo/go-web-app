@@ -1,7 +1,7 @@
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
-    Button,
     Container,
+    IconButton,
     ListView,
     TextInput,
 } from '@ifrc-go/ui';
@@ -57,20 +57,21 @@ function PartnerContactsInput(props: Props) {
 
     return (
         <Container
-            heading={`Partner NS #${index + 1}`}
             headingLevel={5}
             headerActions={(
-                <Button
+                <IconButton
                     name={index}
                     onClick={onRemove}
-                    styleVariant="action"
                     disabled={disabled || readOnly}
                     title={strings.partnerNSDeleteButton}
+                    ariaLabel={strings.partnerNSDeleteButton}
                 >
                     <DeleteBinTwoLineIcon />
-                </Button>
+                </IconButton>
             )}
             spacing="sm"
+            withBorder
+            withPadding
         >
             <ListView
                 layout="grid"

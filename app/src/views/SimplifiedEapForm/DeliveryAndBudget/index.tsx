@@ -62,10 +62,14 @@ function DeliveryAndBudget(props: Props) {
     });
 
     return (
-        <TabPage>
-            <Container heading={strings.deliverHeading}>
+        <TabPage spacingOffset={-2}>
+            <Container
+                heading={strings.deliverHeading}
+                variant="form"
+            >
                 <ListView
                     layout="block"
+                    spacing="sm"
                 >
                     <InputSection
                         title={strings.deliverEarlyActions}
@@ -198,6 +202,7 @@ function DeliveryAndBudget(props: Props) {
                         />
                     </ListView>
                 )}
+                variant="form"
             >
                 <ListView
                     layout="block"

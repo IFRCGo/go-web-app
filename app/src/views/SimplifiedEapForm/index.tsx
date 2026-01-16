@@ -71,7 +71,10 @@ import {
 
 import i18n from './i18n.json';
 
-const DEFAULT_SEAP_TIMEFRAME = 2; // years
+const DEFAULT_SEAP_TIMEFRAME = 2; // num years
+
+// FIXME: this should satisfy some enum
+const OPERATION_TIMEFRAME_UNIT = 20; // months
 
 type EapSimplifiedRequestBody = GoApiBody<'/api/v2/simplified-eap/', 'POST'>;
 type GetSimplifiedResponse = GoApiResponse<'/api/v2/simplified-eap/{id}/'>;
@@ -377,6 +380,7 @@ export function Component() {
             dref_focal_point_email,
             dref_focal_point_phone_number,
             seap_timeframe: DEFAULT_SEAP_TIMEFRAME,
+            operational_timeframe_unit: OPERATION_TIMEFRAME_UNIT,
         }));
     }, [eapRegistrationResponse, simplifiedEapPending, simplifiedEapResponse, setValue]);
 

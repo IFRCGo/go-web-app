@@ -7,6 +7,7 @@ import {
     Button,
     Container,
     ExpandableContainer,
+    IconButton,
     InfoPopup,
     ListView,
     NumberInput,
@@ -171,15 +172,16 @@ function OperationsBySectorInput(props: Props) {
         <ExpandableContainer
             heading={operationTitle ?? '--'}
             headerActions={(
-                <Button
+                <IconButton
                     name={index}
                     onClick={onRemove}
                     styleVariant="action"
                     disabled={disabled || readOnly}
                     title={strings.operationRemoveButton}
+                    ariaLabel={strings.operationRemoveButton}
                 >
                     <DeleteBinTwoLineIcon />
-                </Button>
+                </IconButton>
             )}
             withPadding
             withBackground
@@ -268,12 +270,12 @@ function OperationsBySectorInput(props: Props) {
                         withHeaderBorder
                         withPadding
                         heading={(
-                            <>
+                            <ListView spacing="sm">
                                 {strings.operationReadinessActivities}
                                 <InfoPopup
                                     description={strings.operationReadinessActivitiesTooltip}
                                 />
-                            </>
+                            </ListView>
                         )}
                         headingLevel={5}
                         footerActions={(
@@ -298,7 +300,10 @@ function OperationsBySectorInput(props: Props) {
                             />
                         )}
                     >
-                        <ListView layout="block">
+                        <ListView
+                            layout="block"
+                            spacing="sm"
+                        >
                             {value?.readiness_activities?.map((activity, i) => (
                                 <OperationActivityInput
                                     key={activity.client_id}
@@ -319,12 +324,12 @@ function OperationsBySectorInput(props: Props) {
                         withHeaderBorder
                         withPadding
                         heading={(
-                            <>
+                            <ListView spacing="sm">
                                 {strings.operationPrepositioningActivities}
                                 <InfoPopup
                                     description={strings.operationPrepositioningActivitiesTooltip}
                                 />
-                            </>
+                            </ListView>
                         )}
                         headingLevel={5}
                         footerActions={(
@@ -370,7 +375,7 @@ function OperationsBySectorInput(props: Props) {
                         withHeaderBorder
                         withPadding
                         heading={(
-                            <>
+                            <ListView spacing="sm">
                                 {strings.operationEarlyActionActivities}
                                 <InfoPopup
                                     description={(resolveToComponent(
@@ -389,7 +394,7 @@ function OperationsBySectorInput(props: Props) {
                                         },
                                     ))}
                                 />
-                            </>
+                            </ListView>
                         )}
                         headingLevel={5}
                         footerActions={(
@@ -411,7 +416,11 @@ function OperationsBySectorInput(props: Props) {
                             <NonFieldError error={getErrorObject(error?.early_action_activities)} />
                         )}
                     >
-                        <ListView layout="block">
+                        <ListView
+                            layout="block"
+                            spacing="sm"
+                            style={{ border: '1px solid red' }}
+                        >
                             {value?.early_action_activities?.map((activity, i) => (
                                 <OperationActivityInput
                                     key={activity.client_id}

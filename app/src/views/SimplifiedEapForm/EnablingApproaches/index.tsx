@@ -19,6 +19,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import NonFieldError from '#components/NonFieldError';
+import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
@@ -98,45 +99,50 @@ function EnablingApproaches(props: Props) {
     const selectedApproaches = value?.enabling_approaches?.map(({ approach }) => approach);
 
     return (
-        <Container heading={strings.enablingApproachesTitle}>
-            <ListView
-                layout="block"
-                spacing="sm"
+        <TabPage>
+            <Container
+                heading={strings.enablingApproachesTitle}
+                variant="form"
             >
-                <InputSection
-                    title={strings.enablingApproachesTitle}
-                    description={strings.enablingApproachesDescription}
-                    tooltip={strings.enablingApproachesTooltip}
+                <ListView
+                    layout="block"
+                    spacing="sm"
                 >
-                    <NonFieldError error={getErrorObject(error?.enabling_approaches)} />
-                    <Checklist
-                        name={undefined}
-                        options={eapApproachOptions}
-                        onChange={handleApproachChecklistChange}
-                        value={selectedApproaches}
-                        disabled={disabled}
-                        keySelector={approachesKeySelector}
-                        labelSelector={stringValueSelector}
-                        checkListLayout="grid"
-                        checkListLayoutPreferredGridColumns={3}
-                        readOnly={readOnly}
-                    />
-                </InputSection>
-                {value?.enabling_approaches?.map((approach, index) => (
-                    <ApproachesInput
-                        approachTitle={eapApproachLabelMapping?.[approach.approach]}
-                        key={approach.approach}
-                        index={index}
-                        value={approach}
-                        onChange={onApproachChange}
-                        onRemove={onApproachRemove}
-                        error={getErrorObject(error?.enabling_approaches)}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                ))}
-            </ListView>
-        </Container>
+                    <InputSection
+                        title={strings.enablingApproachesTitle}
+                        description={strings.enablingApproachesDescription}
+                        tooltip={strings.enablingApproachesTooltip}
+                    >
+                        <NonFieldError error={getErrorObject(error?.enabling_approaches)} />
+                        <Checklist
+                            name={undefined}
+                            options={eapApproachOptions}
+                            onChange={handleApproachChecklistChange}
+                            value={selectedApproaches}
+                            disabled={disabled}
+                            keySelector={approachesKeySelector}
+                            labelSelector={stringValueSelector}
+                            checkListLayout="grid"
+                            checkListLayoutPreferredGridColumns={3}
+                            readOnly={readOnly}
+                        />
+                    </InputSection>
+                    {value?.enabling_approaches?.map((approach, index) => (
+                        <ApproachesInput
+                            approachTitle={eapApproachLabelMapping?.[approach.approach]}
+                            key={approach.approach}
+                            index={index}
+                            value={approach}
+                            onChange={onApproachChange}
+                            onRemove={onApproachRemove}
+                            error={getErrorObject(error?.enabling_approaches)}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    ))}
+                </ListView>
+            </Container>
+        </TabPage>
     );
 }
 

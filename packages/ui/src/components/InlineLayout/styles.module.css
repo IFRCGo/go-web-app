@@ -2,10 +2,6 @@
     display: grid;
     align-items: center;
 
-    &.with-inline-display {
-        display: inline-grid;
-    }
-
     &.start-aligned-content {
         align-items: start;
     }
@@ -58,10 +54,6 @@
         overflow-x: auto;
         overflow-y: hidden;
 
-        &:not(.ellipsized) {
-            display: inline-flex;
-        }
-
         &.ellipsized {
             min-width: 0;
             overflow: hidden;
@@ -69,4 +61,15 @@
             white-space: nowrap;
         }
     }
+
+    &.with-inline-display {
+        display: inline-grid;
+
+        .children {
+            &:not(.ellipsized) {
+                display: inline-flex;
+            }
+        }
+    }
+
 }

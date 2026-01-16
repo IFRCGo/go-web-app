@@ -156,10 +156,14 @@ function GoSingleFileInput<const NAME>(props: Props<NAME>) {
     return (
         <ListView
             layout="block"
-            spacing="xs"
+            spacing="sm"
             className={className}
         >
-            <ListView spacing="3xs">
+            <ListView
+                withWrap
+                spacing="sm"
+                withSpacingOpticalCorrection
+            >
                 <RawFileInput
                     name={name}
                     onChange={handleChange}
@@ -174,6 +178,19 @@ function GoSingleFileInput<const NAME>(props: Props<NAME>) {
                 >
                     {children}
                 </RawFileInput>
+                {isNotDefined(selectedFileUrl) && !withoutStatus && (
+                    <Description withLightText>
+                        {strings.noFileSelected}
+                    </Description>
+                )}
+                {!withoutPreview && isDefined(selectedFileUrl) && (
+                    <Link
+                        href={selectedFileUrl}
+                        external
+                    >
+                        {selectedFileUrl.split('/').pop()}
+                    </Link>
+                )}
                 {clearable && isDefined(value) && (
                     <IconButton
                         name={undefined}
@@ -187,19 +204,6 @@ function GoSingleFileInput<const NAME>(props: Props<NAME>) {
                     </IconButton>
                 )}
             </ListView>
-            {!withoutPreview && isDefined(selectedFileUrl) && (
-                <Link
-                    href={selectedFileUrl}
-                    external
-                >
-                    {selectedFileUrl.split('/').pop()}
-                </Link>
-            )}
-            {isNotDefined(selectedFileUrl) && !withoutStatus && (
-                <Description withLightText>
-                    {strings.noFileSelected}
-                </Description>
-            )}
             {description && (
                 <Description withLightText>
                     {description}

@@ -170,7 +170,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
     }, [onChange, name]);
 
     const disabled = disabledFromProps || pending || readOnly;
-    const valueUrls = isDefined(value) && value.length > 0 ? (
+    const valueUrls = (isDefined(value) && value.length > 0) ? (
         value.map((fileId) => ({ id: fileId, url: fileIdToUrlMap?.[fileId] }))
     ) : undefined;
 
@@ -193,10 +193,14 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
     return (
         <ListView
             layout="block"
-            spacing="xs"
+            spacing="sm"
             className={className}
         >
-            <ListView spacing="3xs">
+            <ListView
+                withWrap
+                spacing="sm"
+                withSpacingOpticalCorrection
+            >
                 <RawFileInput
                     name={name}
                     onChange={handleChange}

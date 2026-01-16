@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
-    Button,
     Checklist,
+    IconButton,
     InlineLayout,
     ListView,
     SelectInput,
@@ -112,15 +112,17 @@ function OperationActivityInput(props: Props) {
     return (
         <InlineLayout
             after={(
-                <Button
+                <IconButton
                     name={index}
                     onClick={onRemove}
                     styleVariant="action"
+                    // FIXME: use translations
                     title="Remove"
+                    ariaLabel="Remove"
                     disabled={disabled || readOnly}
                 >
                     <DeleteBinTwoLineIcon />
-                </Button>
+                </IconButton>
             )}
         >
             <ListView layout="grid">

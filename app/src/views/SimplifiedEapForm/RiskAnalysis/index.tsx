@@ -45,8 +45,11 @@ function RiskAnalysis(props: Props) {
     const strings = useTranslation(i18n);
 
     return (
-        <TabPage>
-            <Container heading={strings.riskHeading}>
+        <TabPage spacingOffset={-2}>
+            <Container
+                heading={strings.riskHeading}
+                variant="form"
+            >
                 <ListView
                     layout="block"
                     spacing="sm"
@@ -147,6 +150,7 @@ function RiskAnalysis(props: Props) {
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
                             readOnly={readOnly}
+                            description={strings.uploadImageLabel}
                         />
                     </InputSection>
                     <InputSection
@@ -173,11 +177,15 @@ function RiskAnalysis(props: Props) {
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
                             readOnly={readOnly}
+                            description={strings.uploadImageLabel}
                         />
                     </InputSection>
                 </ListView>
             </Container>
-            <Container heading={strings.earlyActionSelection}>
+            <Container
+                heading={strings.earlyActionSelection}
+                variant="form"
+            >
                 <ListView
                     layout="block"
                     spacing="sm"
@@ -247,6 +255,7 @@ function RiskAnalysis(props: Props) {
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
                             readOnly={readOnly}
+                            description={strings.uploadImageLabel}
                         />
                     </InputSection>
                 </ListView>

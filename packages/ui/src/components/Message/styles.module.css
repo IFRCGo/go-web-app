@@ -4,13 +4,13 @@
     flex-direction: column;
     justify-content: center;
     border-radius: var(--go-ui-border-radius-lg);
-    background-color: var(--go-ui-color-foreground);
     padding: var(--go-ui-spacing-md);
     min-height: var(--go-ui-content-min-height);
     text-align: center;
     gap: var(--go-ui-spacing-sm);
 
     .icon {
+        display: flex;
         line-height: 1;
         color: var(--go-ui-color-text-light);
         font-size: var(--go-ui-height-status-icon);
@@ -36,6 +36,7 @@
     &.compact {
         padding: var(--go-ui-spacing-sm);
         min-height: var(--go-ui-compact-content-min-height);
+        gap: var(--go-ui-spacing-3xs);
 
         .title {
             font-size: var(--go-ui-font-size-md);
