@@ -21,6 +21,7 @@ import EapExportModal from '#components/domain/EapExportModal';
 import Link from '#components/Link';
 import {
     EAP_STATUS_NS_ADDRESSING_COMMENTS,
+    EAP_STATUS_PENDING_PFA,
     EAP_STATUS_TECHNICALLY_VALIDATED,
     EAP_STATUS_UNDER_DEVELOPMENT,
     EAP_TYPE_FULL,
@@ -50,21 +51,26 @@ function EapTableActions(props: Props) {
     } = expandedListItem;
 
     const [exportWithDiffView, setExportWithDiffView] = useState(false);
+    const [summaryExport, setSummaryExport] = useState(false);
     const [showExportModal, setShowExportModal] = useState(false);
 
     const strings = useTranslation(i18n);
 
     const setShowExportModalTrue = useCallback((withDiff?: boolean) => {
+        if (type === 'pending-pfa') {
+            setSummaryExport(true);
+        }
         setExportWithDiffView(!!withDiff);
         setShowExportModal(true);
-    }, []);
+    }, [type]);
 
     const setShowExportModalFalse = useCallback(() => {
+        setSummaryExport(false);
         setExportWithDiffView(false);
         setShowExportModal(false);
     }, []);
 
-    const latestVersion = useMemo(() => {
+    const latestId = useMemo(() => {
         if (eap.eap_type === EAP_TYPE_SIMPLIFIED) {
             return eap.latest_simplified_eap ?? undefined;
         }
@@ -76,7 +82,19 @@ function EapTableActions(props: Props) {
         return undefined;
     }, [eap]);
 
-    const isCreated = isDefined(latestVersion);
+    const latestVersion = useMemo(() => {
+        if (eap.eap_type === EAP_TYPE_SIMPLIFIED) {
+            return eap.simplified_eap_details.find(({ id }) => latestId === id)?.version;
+        }
+
+        if (eap.eap_type === EAP_TYPE_FULL) {
+            return eap.full_eap_details.find(({ id }) => latestId === id)?.version;
+        }
+
+        return undefined;
+    }, [eap, latestId]);
+
+    const isCreated = isDefined(latestId);
     const isLocked = isDefined(details) && !!details.data.is_locked;
 
     const isLatestVersion = useMemo(() => {
@@ -133,9 +151,22 @@ function EapTableActions(props: Props) {
             )}
             {type === 'development' && (
                 <>
-                    {isCreated && (
+                    {eap.eap_type === EAP_TYPE_SIMPLIFIED && isCreated && (
                         <Link
-                            to="eapExport"
+                            to="eapSimplifiedExport"
+                            urlParams={{ eapId: eap.id }}
+                            urlSearch={isDefined(details?.data.version)
+                                ? `version=${details.data.version}`
+                                : undefined}
+                            title={strings.previewExportLinkLabel}
+                            before={<DocumentPdfLineIcon fontSize={18} />}
+                        >
+                            {strings.previewExportLinkLabel}
+                        </Link>
+                    )}
+                    {eap.eap_type === EAP_TYPE_FULL && isCreated && (
+                        <Link
+                            to="eapFullExport"
                             urlParams={{ eapId: eap.id }}
                             urlSearch={isDefined(details?.data.version)
                                 ? `version=${details.data.version}`
@@ -251,13 +282,42 @@ function EapTableActions(props: Props) {
                     )}
                 </>
             )}
+            {type === 'pending-pfa' && eap.status >= EAP_STATUS_PENDING_PFA && eap.eap_type === EAP_TYPE_FULL && (
+                <ListView
+                    layout="block"
+                    spacing="sm"
+                >
+                    <Link
+                        to="eapSummaryExport"
+                        urlParams={{ eapId: eap.id }}
+                        urlSearch={isDefined(latestVersion)
+                            ? `version=${latestVersion}`
+                            : undefined}
+                        title={strings.previewExportLinkLabel}
+                        before={<DocumentPdfLineIcon fontSize={18} />}
+                    >
+                        {strings.previewSummaryExportLinkLabel}
+                    </Link>
+                    <Button
+                        name={false}
+                        onClick={setShowExportModalTrue}
+                        before={<DownloadTwoLineIcon />}
+                        styleVariant="action"
+                    >
+                        {strings.exportSummaryButtonLabel}
+                    </Button>
+                </ListView>
+            )}
             {showExportModal && isDefined(eap.eap_type) && (
                 <EapExportModal
                     eapId={eap.id}
                     eapType={eap.eap_type}
                     onClose={setShowExportModalFalse}
-                    version={details?.data.version}
+                    version={type === 'pending-pfa'
+                        ? latestVersion
+                        : details?.data.version}
                     diff={exportWithDiffView}
+                    summary={summaryExport}
                 />
             )}
         </ListView>

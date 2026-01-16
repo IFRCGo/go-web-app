@@ -2,7 +2,10 @@ import {
     useMemo,
     useRef,
 } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import {
+    useParams,
+    useSearchParams,
+} from 'react-router-dom';
 import {
     Label,
     ListView,
@@ -11,6 +14,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import { Image } from '@ifrc-go/ui/printable';
 import {
     isDefined,
+    isFalsyString,
     isNotDefined,
     isTruthyString,
     listToMap,
@@ -24,10 +28,7 @@ import PrintableDescription from '#components/printable/PrintableDescription';
 import PrintableLabel from '#components/printable/PrintableLabel';
 import PrintablePage from '#components/printable/PrintablePage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import {
-    type GoApiResponse,
-    useRequest,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 
 import PrintableContactOutput from './PrintableContactOutput';
 import TableOfContents from './TableOfContents';
@@ -35,16 +36,20 @@ import TableOfContents from './TableOfContents';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type EapRegistrationResponse = GoApiResponse<'/api/v2/eap-registration/{id}/'>;
-
-interface Props {
-    eapRegistrationResponse: EapRegistrationResponse;
-    eapRegistrationPending: boolean;
-}
-
 /** @knipignore */
-export default function EapFullExport(props: Props) {
-    const { eapRegistrationResponse, eapRegistrationPending } = props;
+// eslint-disable-next-line import/prefer-default-export
+export function Component() {
+    const { eapId } = useParams<{ eapId: string }>();
+
+    const { pending: eapRegistrationPending, response: eapRegistrationResponse } = useRequest({
+        skip: isFalsyString(eapId),
+        url: '/api/v2/eap-registration/{id}/',
+        pathVariables: isTruthyString(eapId)
+            ? {
+                id: Number(eapId),
+            }
+            : undefined,
+    });
 
     const mainRef = useRef<HTMLDivElement>(null);
     const [searchParams] = useSearchParams();
@@ -355,7 +360,7 @@ export default function EapFullExport(props: Props) {
                 <div className={styles.summary}>
                     <PrintableDataDisplay
                         label={strings.hazardLabel}
-                        value={eapRegistrationResponse.disaster_type_details.name}
+                        value={eapRegistrationResponse?.disaster_type_details.name}
                         valueType="text"
                         strongLabel
                         variant="contents"
@@ -1814,13 +1819,9 @@ export default function EapFullExport(props: Props) {
                     heading={strings.budgetDescriptionLabel}
                     headingLevel={3}
                 >
-                    <PrintableDataDisplay
+                    <PrintableDescription
                         value={budget_description}
                         prevValue={prev_budget_description}
-                        valueType="text"
-                        withoutLabelColon
-                        variant="block"
-                        strongLabel
                         withDiff={withDiff}
                     />
                 </PrintableContainer>
@@ -1833,13 +1834,9 @@ export default function EapFullExport(props: Props) {
                     heading={strings.readinessBudgetDescriptionLabel}
                     headingLevel={3}
                 >
-                    <PrintableDataDisplay
+                    <PrintableDescription
                         value={readiness_cost_description}
                         prevValue={prev_readiness_cost_description}
-                        valueType="text"
-                        withoutLabelColon
-                        variant="block"
-                        strongLabel
                         withDiff={withDiff}
                     />
                 </PrintableContainer>
@@ -1847,13 +1844,9 @@ export default function EapFullExport(props: Props) {
                     heading={strings.prepositioningBudgetDescriptionLabel}
                     headingLevel={3}
                 >
-                    <PrintableDataDisplay
+                    <PrintableDescription
                         value={prepositioning_cost_description}
                         prevValue={prev_prepositioning_cost_description}
-                        valueType="text"
-                        withoutLabelColon
-                        variant="block"
-                        strongLabel
                         withDiff={withDiff}
                     />
                 </PrintableContainer>
@@ -1861,13 +1854,9 @@ export default function EapFullExport(props: Props) {
                     heading={strings.earlyActionsBudgetDescriptionLabel}
                     headingLevel={3}
                 >
-                    <PrintableDataDisplay
+                    <PrintableDescription
                         value={early_action_cost_description}
                         prevValue={prev_early_action_cost_description}
-                        valueType="text"
-                        withoutLabelColon
-                        variant="block"
-                        strongLabel
                         withDiff={withDiff}
                     />
                 </PrintableContainer>
@@ -1876,16 +1865,14 @@ export default function EapFullExport(props: Props) {
                 heading={strings.eapEndorsementLabel}
                 headingLevel={2}
             >
-                <PrintableDataDisplay
+                <PrintableDescription
                     value={eap_endorsement}
                     prevValue={prev_eap_endorsement}
-                    valueType="text"
-                    withoutLabelColon
-                    variant="block"
-                    strongLabel
                     withDiff={withDiff}
                 />
             </PrintableContainer>
         </PrintablePage>
     );
 }
+
+Component.displayName = 'EapFullExport';

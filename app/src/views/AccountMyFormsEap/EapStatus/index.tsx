@@ -54,7 +54,7 @@ const validStatusTransition: Record<EapStatus, EapStatus[]> = {
         EAP_STATUS_UNDER_REVIEW,
     ],
     [EAP_STATUS_TECHNICALLY_VALIDATED]: [
-        EAP_STATUS_UNDER_REVIEW,
+        EAP_STATUS_NS_ADDRESSING_COMMENTS,
         EAP_STATUS_PENDING_PFA,
     ],
     [EAP_STATUS_PENDING_PFA]: [EAP_STATUS_APPROVED],
