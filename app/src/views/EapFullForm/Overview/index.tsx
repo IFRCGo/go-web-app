@@ -8,17 +8,13 @@ import {
     Heading,
     InputSection,
     ListView,
-    Radio,
     TextArea,
     TextInput,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
-import {
-    isNotDefined,
-    randomString,
-} from '@togglecorp/fujs';
+import { randomString } from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
@@ -107,13 +103,6 @@ function Overview(props: Props) {
         'key_actors',
         setFieldValue,
     );
-
-    const handleSubmissionTimeClick = useCallback(() => {
-        if (readOnly) {
-            return;
-        }
-        setFieldValue(undefined, 'expected_submission_time');
-    }, [readOnly, setFieldValue]);
 
     const handleKeyActorsAdd = useCallback(() => {
         const newKeyActorsItem: KeyActorsFormFields = {

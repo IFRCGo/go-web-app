@@ -1,5 +1,4 @@
 .alert-container {
-    isolation: isolate;
     position: fixed;
     top: 0;
     left: 50%;
@@ -9,8 +8,11 @@
     z-index: 1;
 
     padding: var(--go-ui-spacing-2xl) 0;
+    /* FIXME: use variables */
+    width: min(26rem, 100vw);
     max-height: calc(100vh - 2 * var(--go-ui-spacing-2xl));
     overflow: auto;
+    isolation: isolate;
     scrollbar-width: none;
 
     &::-webkit-scrollbar {

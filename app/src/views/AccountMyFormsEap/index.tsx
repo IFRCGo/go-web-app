@@ -23,6 +23,7 @@ import {
 import {
     isDefined,
     isNotDefined,
+    isTruthyString,
     listToMap,
 } from '@togglecorp/fujs';
 
@@ -134,6 +135,7 @@ export function Component() {
                 (key, row) => ({
                     eapId: key,
                     status: row.status,
+                    hasValidateBudgetFile: isTruthyString(row.validated_budget_file),
                     onStatusUpdate: reloadEapList,
                 }),
                 { columnClassName: styles.status },
