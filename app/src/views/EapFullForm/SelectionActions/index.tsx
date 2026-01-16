@@ -2,19 +2,27 @@ import {
     useCallback,
     useMemo,
 } from 'react';
-import { AddLineIcon } from '@ifrc-go/icons';
+import {
+    AddLineIcon,
+    CheckboxMultipleBlankFillIcon,
+} from '@ifrc-go/icons';
 import {
     Button,
     Checklist,
     Container,
     Heading,
     InfoPopup,
+    InlineLayout,
     InputSection,
     ListView,
+    Modal,
     TextArea,
     TextOutput,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
 import {
     isNotDefined,
@@ -115,6 +123,14 @@ function SelectionActions(props: Props) {
             template_type: 'theory_of_change_table',
         },
     });
+
+    const [
+        showQualityCriteria,
+        {
+            setTrue: setShowQualityCriteriaTrue,
+            setFalse: setShowQualityCriteriaFalse,
+        },
+    ] = useBooleanState(false);
 
     const { setValue: onOperationChange, removeValue: onOperationRemove } = useFormArray<'planned_operations', PlannedOperationFormFields>(
         'planned_operations',
@@ -239,7 +255,18 @@ function SelectionActions(props: Props) {
     }, [setFieldValue]);
 
     return (
-        <TabPage>
+        <TabPage spacingOffset={-6}>
+            <InlineLayout
+                after={(
+                    <Button
+                        name={undefined}
+                        onClick={setShowQualityCriteriaTrue}
+                        after={(<CheckboxMultipleBlankFillIcon />)}
+                    >
+                        {strings.actionsSectionCriteriaButtonLabel}
+                    </Button>
+                )}
+            />
             <ListView
                 layout="block"
                 spacing="xs"
@@ -576,6 +603,62 @@ function SelectionActions(props: Props) {
                     </InputSection>
                 </ListView>
             </Container>
+            {showQualityCriteria && (
+                <Modal
+                    onClose={setShowQualityCriteriaFalse}
+                    heading={strings.actionsStatementSectionHeading}
+                >
+                    <ListView layout="block">
+                        <TextOutput
+                            label={strings.actionsSectionCriteriaIntroduction1}
+                            value={strings.actionsSectionCriteriaComment1}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                        <TextOutput
+                            label={strings.actionsSectionCriteriaIntroduction2}
+                            value={strings.actionsSectionCriteriaComment2}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                        <TextOutput
+                            label={strings.actionsSectionCriteriaIntroduction3}
+                            value={strings.actionsSectionCriteriaComment3}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                        <TextOutput
+                            label={(
+                                <>
+                                    {strings.actionsSectionCriteriaIntroduction4}
+                                    <br />
+                                    {strings.actionsSectionCriteriaIntroduction5}
+                                </>
+                            )}
+                            value={strings.actionsSectionCriteriaComment5}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                        <TextOutput
+                            label={(
+                                <>
+                                    {strings.actionsSectionCriteriaIntroduction6}
+                                    <br />
+                                    {strings.actionsSectionCriteriaIntroduction7}
+                                </>
+                            )}
+                            value={strings.actionsSectionCriteriaComment7}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                    </ListView>
+                </Modal>
+            )}
         </TabPage>
     );
 }

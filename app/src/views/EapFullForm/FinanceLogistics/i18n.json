@@ -37,6 +37,16 @@
         "financeEapEndorsementTitle": "EAP endorsement",
         "financeEapEndorsementExplanatoryNote": "It should be ensured that at the point of the trigger being reached no further permissions are needed. Thus, the EAP should have prior approval from all relevant stakeholders. The EAP must be endorsed by the leadership of the submitting NS. The EAP should also be endorsed by other key relevant stakeholders, such as the NHMS and the respective DRM authorities. If technical working groups have been created for FbF, their members should also endorse the final version of the EAP before submission.",
         "financeEapEndorsementDescription": "Describe by whom, how and when the EAP was agreed and endorsed.",
-        "updatedChecklistTitle": "Updated checklist"
+        "updatedChecklistTitle": "Updated checklist",
+        "financeCriteriaButtonLabel": "Section quality criteria",
+        "financeSectionHeading": "Quality Criteria: Finance and logistics",
+        "financeCriteriaIntroduction11": "The EAP includes a budget in the IFRC template, detailing the costs for the readiness activities, pre-positioning and trigger-based Early Action.",
+        "financeCriteriaIntroduction12": "The budget upholds to the established percentages: A maximum of 65% of the EAP budget can be allocated for readiness activities and prepositioned stock.",
+        "financeCriteriaComment1": "The EAP budget consists of all the costs linked to the activation of the EAP as well as readiness and pre-positioning costs.",
+        "financeCriteriaIntroduction2": "The EAP should reach ideally a target minimum of 10,000 people.",
+        "financeCriteriaComment2": "If EAPs are foreseen for sparsely populated areas or with high quality early actions, lower household numbers can be accepted.\nGiven the impacts of drought may be acutely felt for an entire calendar year (e.g. until there is a subsequent good harvest), or longer, it is possible that the most effective actions to support people will be expensive ones, or actions that are staggered and layered one on top of each there (e.g. cash + seeds and fertilizers). With appropriate justification the validation committee might accept exceptions to this criterion.",
+        "financeCriteriaIntroduction31": "The shelf life of the items to be prepositioned equals or exceeds the EAP lifespan and there is a plan for stock management.",
+        "financeCriteriaIntroduction32": "The EAP should have prior approval from all relevant stakeholders. The EAP must be endorsed by the leadership of the submitting NS. The EAP should also be endorsed by other key relevant stakeholders, such as the national Hydro-Met agencies NHMS and the respective DRM authorities.",
+        "financeCriteriaComment3": "To ensure the feasibility of the rapid distribution of items in the short timeframe between forecast and event, pre-positioning of goods might be necessary. They should normally have a lifetime of at least the lifecycle of the EAP and should only be replenished after an activation."
     }
 }

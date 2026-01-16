@@ -1,15 +1,21 @@
 import { useCallback } from 'react';
+import { CheckboxMultipleBlankFillIcon } from '@ifrc-go/icons';
 import {
     Button,
     Heading,
     InfoPopup,
+    InlineLayout,
     InputSection,
     ListView,
+    Modal,
     NumberInput,
     TextArea,
     TextOutput,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import {
     isDefined,
     randomString,
@@ -82,6 +88,14 @@ function TriggerModel(props: Props) {
         SourceInformationFormFields
     >('trigger_statement_source_of_information', setFieldValue);
 
+    const [
+        showQualityCriteria,
+        {
+            setTrue: setShowQualityCriteriaTrue,
+            setFalse: setShowQualityCriteriaFalse,
+        },
+    ] = useBooleanState(false);
+
     const handleSourcesForecastAdd = useCallback(() => {
         const newSourceInformationItem: SourceInformationFormFields = {
             client_id: randomString(),
@@ -120,6 +134,17 @@ function TriggerModel(props: Props) {
 
     return (
         <TabPage spacingOffset={-6}>
+            <InlineLayout
+                after={(
+                    <Button
+                        name={undefined}
+                        onClick={setShowQualityCriteriaTrue}
+                        after={(<CheckboxMultipleBlankFillIcon />)}
+                    >
+                        {strings.triggerSectionCriteriaButtonLabel}
+                    </Button>
+                )}
+            />
             <Heading variant="form">
                 <ListView spacing="sm">
                     {strings.triggerModelHeading}
@@ -445,6 +470,66 @@ function TriggerModel(props: Props) {
                     {strings.addNewSourceInformationLabel}
                 </Button>
             </InputSection>
+            {showQualityCriteria && (
+                <Modal
+                    onClose={setShowQualityCriteriaFalse}
+                    heading={strings.triggerStatementSectionHeading}
+                >
+                    <ListView layout="block">
+                        <TextOutput
+                            label={strings.triggerSectionCriteriaIntroduction1}
+                            value={strings.triggerSectionCriteriaComment1}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                        <TextOutput
+                            label={strings.triggerSectionCriteriaIntroduction2}
+                            value={strings.triggerSectionCriteriaComment2}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                        <TextOutput
+                            label={strings.triggerSectionCriteriaIntroduction3}
+                            value={strings.triggerSectionCriteriaComment3}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                        <TextOutput
+                            label={strings.triggerSectionCriteriaIntroduction4}
+                            value={strings.triggerSectionCriteriaComment4}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                        <TextOutput
+                            label={strings.triggerSectionCriteriaIntroduction5}
+                            value={strings.triggerSectionCriteriaComment5}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                        <TextOutput
+                            label={(
+                                <>
+                                    {strings.triggerSectionCriteriaIntroduction6}
+                                    <ol>
+                                        <li>{strings.triggerSectionCriteriaIntroduction61}</li>
+                                        <li>{strings.triggerSectionCriteriaIntroduction62}</li>
+                                        <li>{strings.triggerSectionCriteriaIntroduction63}</li>
+                                    </ol>
+                                </>
+                            )}
+                            value={strings.triggerSectionCriteriaComment6}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                    </ListView>
+                </Modal>
+            )}
         </TabPage>
     );
 }

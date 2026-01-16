@@ -1,12 +1,19 @@
+import { CheckboxMultipleBlankFillIcon } from '@ifrc-go/icons';
 import {
+    Button,
     Heading,
+    InlineLayout,
     InputSection,
     ListView,
+    Modal,
     NumberInput,
     TextArea,
     TextOutput,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import {
     type EntriesAsList,
     type Error,
@@ -51,6 +58,14 @@ function FinanceLogistics(props: Props) {
     const error = getErrorObject(formError);
     const strings = useTranslation(i18n);
 
+    const [
+        showQualityCriteria,
+        {
+            setTrue: setShowQualityCriteriaTrue,
+            setFalse: setShowQualityCriteriaFalse,
+        },
+    ] = useBooleanState(false);
+
     const { response: templateUrl } = useRequest({
         url: '/api/v2/eap/global-files/{template_type}/',
         pathVariables: {
@@ -59,7 +74,18 @@ function FinanceLogistics(props: Props) {
     });
 
     return (
-        <TabPage spacingOffset={-2}>
+        <TabPage spacingOffset={-6}>
+            <InlineLayout
+                after={(
+                    <Button
+                        name={undefined}
+                        onClick={setShowQualityCriteriaTrue}
+                        after={(<CheckboxMultipleBlankFillIcon />)}
+                    >
+                        {strings.financeCriteriaButtonLabel}
+                    </Button>
+                )}
+            />
             <ListView
                 layout="block"
                 spacing="xs"
@@ -329,6 +355,48 @@ function FinanceLogistics(props: Props) {
                         {strings.financeUploadButtonLabel}
                     </GoSingleFileInput>
                 </InputSection>
+            )}
+            {showQualityCriteria && (
+                <Modal
+                    onClose={setShowQualityCriteriaFalse}
+                    heading={strings.financeSectionHeading}
+                >
+                    <ListView layout="block">
+                        <TextOutput
+                            label={(
+                                <>
+                                    {strings.financeCriteriaIntroduction11}
+                                    <br />
+                                    {strings.financeCriteriaIntroduction12}
+                                </>
+                            )}
+                            value={strings.financeCriteriaComment1}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                        <TextOutput
+                            label={strings.financeCriteriaIntroduction2}
+                            value={strings.financeCriteriaComment2}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                        <TextOutput
+                            label={(
+                                <>
+                                    {strings.financeCriteriaIntroduction31}
+                                    <br />
+                                    {strings.financeCriteriaIntroduction32}
+                                </>
+                            )}
+                            value={strings.financeCriteriaComment3}
+                            strongLabel
+                            valueType="text"
+                            withoutLabelColon
+                        />
+                    </ListView>
+                </Modal>
             )}
         </TabPage>
     );

@@ -16,6 +16,13 @@
         "mealExplanatoryNote": "Building evidence about the impact of FbF systems is a priority. Therefore, the EAP should include an M&E plan to 1) assess the impact of the early actions and the extreme event after each activation and 2) identify if all activities were carried out as planned and document how early actions were implemented 3) learn from the process to improve the system in the future. The chapters 4.3 Design M&E plan and 6. Activate, Monitor, Evaluate in the FbF Manual, provide guidance on the set-up and implementation of the monitoring, evaluation, learning tools. Ideally, the M&E system should be set up to allow comparison of impacts between communities that received early actions and those that didn´t (please refer to FbF manual for more information). This M&E plan should be harmonized with the existing IFRC PMER guidance and tools, available on FedNet.",
         "mealAttachRelevantFilesTitle": "Attach relevant files",
         "mealAttachRelevantFilesDescription": "Attach any additional maps, documentation, files, images, etc.",
-        "mealAttachRelevantFilesUploadLabel": "Upload"
+        "mealAttachRelevantFilesUploadLabel": "Upload",
+        "mealCriteriaButtonLabel": "Section quality criteria",
+        "mealSectionHeading": "Quality Criteria: Meal",
+        "mealCriteriaIntroduction1": "The EAP includes an M&E plan to",
+        "mealCriteriaIntroduction11": "assess the impact of the early actions and the extreme event after each activation and",
+        "mealCriteriaIntroduction12": "identify if all activities were carried out as planned and document how early actions were implemented",
+        "mealCriteriaIntroduction13": "learn from the process to improve the system in the future.",
+        "mealCriteriaComment1": "Ideally, the M&E system should be set up in a way that the impact of the event in the community that received early actions is assessed by using data from comparison communities. Depending on the specific context of the hazard an impact evaluation might only be done several months after finishing the implementations of the actions."
     }
 }
