@@ -8,6 +8,7 @@ import {
     UploadLineIcon,
 } from '@ifrc-go/icons';
 import {
+    Alert,
     Button,
     Description,
     DropdownMenu,
@@ -65,6 +66,7 @@ export interface Props {
     eapId: number;
     status: EapStatus;
     onStatusUpdate?: () => void;
+    hasValidatedBudgetFile?: boolean;
 }
 
 function EapStatus(props: Props) {
@@ -72,6 +74,7 @@ function EapStatus(props: Props) {
         eapId,
         status,
         onStatusUpdate,
+        hasValidatedBudgetFile,
     } = props;
 
     const alert = useAlert();
@@ -131,6 +134,11 @@ function EapStatus(props: Props) {
         setNewStatus(undefined);
     }, []);
 
+    const confirmDisabled = (
+        (newStatus === EAP_STATUS_NS_ADDRESSING_COMMENTS && isNotDefined(checklistFile))
+            || (newStatus === EAP_STATUS_PENDING_PFA && !hasValidatedBudgetFile)
+    );
+
     return (
         <>
             <DropdownMenu
@@ -159,8 +167,7 @@ function EapStatus(props: Props) {
                         <Button
                             name={requestBody}
                             onClick={triggerStatusUpdate}
-                            disabled={newStatus === EAP_STATUS_NS_ADDRESSING_COMMENTS
-                                && isNotDefined(checklistFile)}
+                            disabled={confirmDisabled}
                             // FIXME: use strings
                         >
                             Confirm
@@ -175,11 +182,11 @@ function EapStatus(props: Props) {
                             Are you sure you want to update the status?
                         </Description>
                         <ListView spacing="sm">
-                            <Label>
+                            <Label strong>
                                 {statusLabelMapping?.[status]}
                             </Label>
                             <ArrowRightFillIcon />
-                            <Label>
+                            <Label strong>
                                 {statusLabelMapping?.[newStatus]}
                             </Label>
                         </ListView>
@@ -206,6 +213,16 @@ function EapStatus(props: Props) {
                                     {isDefined(checklistFile) && checklistFile.name}
                                 </Label>
                             </ListView>
+                        )}
+                        {newStatus === EAP_STATUS_PENDING_PFA && !hasValidatedBudgetFile && (
+                            <Alert
+                                name="no-budget-file-warning"
+                                type="danger"
+                                // FIXME: use strings
+                                title="Please attach the validated budget file before proceeding!"
+                                withLightBackground
+                                withoutShadow
+                            />
                         )}
                     </ListView>
                 </Modal>
