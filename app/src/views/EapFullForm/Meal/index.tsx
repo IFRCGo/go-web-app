@@ -1,11 +1,18 @@
+import { CheckboxMultipleBlankFillIcon } from '@ifrc-go/icons';
 import {
+    Button,
     Heading,
+    InlineLayout,
     InputSection,
     ListView,
+    Modal,
     TextArea,
     TextOutput,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import {
     type EntriesAsList,
     type Error,
@@ -44,8 +51,27 @@ function Meal(props: Props) {
     const error = getErrorObject(formError);
     const strings = useTranslation(i18n);
 
+    const [
+        showQualityCriteria,
+        {
+            setTrue: setShowQualityCriteriaTrue,
+            setFalse: setShowQualityCriteriaFalse,
+        },
+    ] = useBooleanState(false);
+
     return (
         <TabPage spacingOffset={-6}>
+            <InlineLayout
+                after={(
+                    <Button
+                        name={undefined}
+                        onClick={setShowQualityCriteriaTrue}
+                        after={(<CheckboxMultipleBlankFillIcon />)}
+                    >
+                        {strings.mealCriteriaButtonLabel}
+                    </Button>
+                )}
+            />
             <Heading variant="form">
                 {strings.mealHeading}
             </Heading>
@@ -124,6 +150,29 @@ function Meal(props: Props) {
                     {strings.mealAttachRelevantFilesUploadLabel}
                 </GoMultiFileInput>
             </InputSection>
+            {showQualityCriteria && (
+                <Modal
+                    onClose={setShowQualityCriteriaFalse}
+                    heading={strings.mealSectionHeading}
+                >
+                    <TextOutput
+                        label={(
+                            <>
+                                {strings.mealCriteriaIntroduction1}
+                                <ol>
+                                    <li>{strings.mealCriteriaIntroduction11}</li>
+                                    <li>{strings.mealCriteriaIntroduction12}</li>
+                                    <li>{strings.mealCriteriaIntroduction13}</li>
+                                </ol>
+                            </>
+                        )}
+                        value={strings.mealCriteriaComment1}
+                        strongLabel
+                        valueType="text"
+                        withoutLabelColon
+                    />
+                </Modal>
+            )}
         </TabPage>
     );
 }

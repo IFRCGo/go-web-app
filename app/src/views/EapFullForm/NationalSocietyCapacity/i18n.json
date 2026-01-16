@@ -18,6 +18,11 @@
         "capacityFinancialCapacityDescription": "Indicate whether the NS (and/or PNS in country) has the capacity to advance funds, to start early actions, in the short duration between trigger and funds from the DREF arriving.",
         "capacityNationalRelevantFilesTitle": "Attach relevant files",
         "capacityNationalRelevantFilesDescription": "Attach any additional maps, documentation, files, images, etc.",
-        "capacityNationalRelevantFilesUploadLabel": "Upload"
+        "capacityNationalRelevantFilesUploadLabel": "Upload",
+        "capacityCriteriaButtonLabel": "Section quality criteria",
+        "capacitySectionHeading": "Quality Criteria: National Society Capacity",
+        "capacityCriteriaIntroduction11": "The EAP describes the National Society operational (Cash, WASH, Food Security, Shelter etc.) and administrative (Finance, PMER, Human Resources) capacity and experience to implement the EAP.  If no capacity exists, the EAP describes how they plan to address this limitation in order to implement the EAP effectively and efficiently.",
+        "capacityCriteriaIntroduction12": "The EAP describes its alignment with the National Society Disaster Risk Management strategy (e.g. the existing contingency plan, response plan, DRR plan etc.)",
+        "capacityCriteriaComment1": "In the mid-term the EAP should be integrated in the DRM strategy."
     }
 }

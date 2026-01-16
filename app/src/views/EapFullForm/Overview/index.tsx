@@ -1,18 +1,26 @@
 import { useCallback } from 'react';
-import { AddLineIcon } from '@ifrc-go/icons';
+import {
+    AddLineIcon,
+    CheckboxMultipleBlankFillIcon,
+} from '@ifrc-go/icons';
 import {
     BooleanInput,
     Button,
     Container,
     DateInput,
     Heading,
+    InlineLayout,
     InputSection,
     ListView,
+    Modal,
     TextArea,
     TextInput,
     TextOutput,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
 import { randomString } from '@togglecorp/fujs';
 import {
@@ -86,6 +94,14 @@ function Overview(props: Props) {
         setFieldValue,
     );
 
+    const [
+        showQualityCriteria,
+        {
+            setTrue: setShowQualityCriteriaTrue,
+            setFalse: setShowQualityCriteriaFalse,
+        },
+    ] = useBooleanState(false);
+
     const handlePartnerContactAdd = useCallback(() => {
         const newPartnerContactItem: PartnerContactFormFields = {
             client_id: randomString(),
@@ -119,7 +135,18 @@ function Overview(props: Props) {
     }, [setFieldValue]);
 
     return (
-        <TabPage spacingOffset={-2}>
+        <TabPage spacingOffset={-6}>
+            <InlineLayout
+                after={(
+                    <Button
+                        name={undefined}
+                        onClick={setShowQualityCriteriaTrue}
+                        after={(<CheckboxMultipleBlankFillIcon />)}
+                    >
+                        {strings.sectionCriteriaButtonLabel}
+                    </Button>
+                )}
+            />
             <ListView
                 layout="block"
                 spacing="xs"
@@ -509,6 +536,27 @@ function Overview(props: Props) {
                     </Container>
                 </InputSection>
             </ListView>
+            {showQualityCriteria && (
+                <Modal
+                    onClose={setShowQualityCriteriaFalse}
+                    heading={strings.overviewSectionHeading}
+                >
+                    <ListView layout="block">
+                        <TextOutput
+                            label={(
+                                <>
+                                    {strings.sectionCriteriaIntroduction1}
+                                    <br />
+                                    {strings.sectionCriteriaIntroduction2}
+                                </>
+                            )}
+                            value={strings.sectionCriteriaComment2}
+                            strongLabel
+                            withoutLabelColon
+                        />
+                    </ListView>
+                </Modal>
+            )}
         </TabPage>
     );
 }
