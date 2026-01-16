@@ -98,7 +98,10 @@ function PlannedOperations(props: Props) {
 
     return (
         <TabPage>
-            <Container heading={strings.plannedOperationsTitle}>
+            <Container
+                heading={strings.plannedOperationsTitle}
+                variant="form"
+            >
                 <ListView
                     layout="block"
                     spacing="sm"

@@ -8,7 +8,10 @@ import {
     NumberInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { randomString } from '@togglecorp/fujs';
+import {
+    isNotDefined,
+    randomString,
+} from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
@@ -88,7 +91,7 @@ function Overview(props: Props) {
         <TabPage>
             <Container
                 heading={strings.detailsHeading}
-                spacing="lg"
+                variant="form"
             >
                 <ListView
                     layout="block"
@@ -140,6 +143,7 @@ function Overview(props: Props) {
                         title={strings.uploadCoverImage}
                         description={strings.uploadCoverImageDescription}
                         withAsteriskOnTitle
+                        numPreferredColumns={2}
                     >
                         <ImageWithCaptionInput
                             name="cover_image_file"
@@ -172,7 +176,7 @@ function Overview(props: Props) {
             </Container>
             <Container
                 heading={strings.contacts}
-                spacing="lg"
+                variant="form"
             >
                 <ListView
                     layout="block"
@@ -181,6 +185,7 @@ function Overview(props: Props) {
                     <Container
                         heading={strings.nationalHeader}
                         headingLevel={4}
+                        variant="form"
                     >
                         <ListView
                             layout="block"
@@ -201,18 +206,30 @@ function Overview(props: Props) {
                                 description={strings.partnerNSDescription}
                             >
                                 <NonFieldError error={getErrorObject(error?.partner_contacts)} />
-                                {value.partner_contacts?.map((contact, index) => (
-                                    <PartnerContactsInput
-                                        key={contact.client_id}
-                                        index={index}
-                                        value={contact}
-                                        onChange={onPartnerContactChange}
-                                        onRemove={onPartnerContactRemove}
-                                        error={getErrorObject(error?.partner_contacts)}
-                                        disabled={disabled}
-                                        readOnly={readOnly}
-                                    />
-                                ))}
+                                <Container
+                                    empty={isNotDefined(value.partner_contacts)
+                                        || value.partner_contacts?.length === 0}
+                                    emptyMessage={strings.partnerNsEmptyMessage}
+                                    withCompactMessage
+                                >
+                                    <ListView
+                                        spacing="sm"
+                                        layout="block"
+                                    >
+                                        {value.partner_contacts?.map((contact, index) => (
+                                            <PartnerContactsInput
+                                                key={contact.client_id}
+                                                index={index}
+                                                value={contact}
+                                                onChange={onPartnerContactChange}
+                                                onRemove={onPartnerContactRemove}
+                                                error={getErrorObject(error?.partner_contacts)}
+                                                disabled={disabled}
+                                                readOnly={readOnly}
+                                            />
+                                        ))}
+                                    </ListView>
+                                </Container>
                                 <Button
                                     name={undefined}
                                     onClick={handlePartnerContactAdd}
@@ -227,6 +244,7 @@ function Overview(props: Props) {
                     <Container
                         heading={strings.delegationHeader}
                         headingLevel={4}
+                        variant="form"
                     >
                         <ListView
                             layout="block"
@@ -255,6 +273,7 @@ function Overview(props: Props) {
                     <Container
                         heading={strings.regionalHeader}
                         headingLevel={4}
+                        variant="form"
                     >
                         <ListView
                             layout="block"

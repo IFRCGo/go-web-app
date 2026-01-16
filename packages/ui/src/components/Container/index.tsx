@@ -227,6 +227,7 @@ function Container(props: Props) {
             spacingOffset={spacingOffset}
             withoutSpacingOpticalCorrection={withoutSpacingOpticalCorrection}
             withPadding={withPadding}
+            beforeContainerClassName={styles.beforeContainer}
             before={shouldShowHeader && (
                 <ListView
                     spacing={spacing}
@@ -235,7 +236,6 @@ function Container(props: Props) {
                     withSpacingOpticalCorrection
                     withBackground={variant === 'form'}
                     withPadding={variant === 'form'}
-                    className={styles.header}
                 >
                     {shouldShowHeadingRow && (
                         <InlineView

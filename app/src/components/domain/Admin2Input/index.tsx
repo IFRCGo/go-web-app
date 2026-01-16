@@ -12,7 +12,10 @@ import {
     Modal,
 } from '@ifrc-go/ui';
 import { useBooleanState } from '@ifrc-go/ui/hooks';
-import { isNotDefined } from '@togglecorp/fujs';
+import {
+    isNotDefined,
+    listToMap,
+} from '@togglecorp/fujs';
 import {
     MapBounds,
     MapLayer,
@@ -28,6 +31,7 @@ import {
 
 import GoMapContainer from '#components/GoMapContainer';
 import useCountry from '#hooks/domain/useCountry';
+import useDebouncedValue from '#hooks/useDebouncedValue';
 import {
     COLOR_BLACK,
     COLOR_DARK_GREY,
@@ -38,6 +42,7 @@ import {
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
+import { useRequest } from '#utils/restRequest';
 
 import BaseMap from '../BaseMap';
 
@@ -62,6 +67,22 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
 
     const countryDetails = useCountry({ id: countryId });
     const iso3 = countryDetails?.iso3;
+
+    const valueDebounced = useDebouncedValue(value, 1000);
+
+    const { response: admin2Details } = useRequest({
+        skip: isNotDefined(valueDebounced) || valueDebounced.length === 0,
+        url: '/api/v2/admin2/',
+        query: {
+            id__in: valueDebounced ?? [],
+        },
+    });
+
+    const admin2NameMap = listToMap(
+        admin2Details?.results,
+        ({ id }) => id,
+        ({ name: admin2Name, district_name }) => `${admin2Name} (${district_name})`,
+    );
 
     const bounds = useMemo(() => {
         if (!countryDetails) {
@@ -218,8 +239,8 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
     return (
         <ListView layout="block">
             <Container
-                heading="Selected areas:"
-                headingLevel={5}
+                heading="Selected areas"
+                headingLevel={6}
                 footer={(
                     <Button
                         name={undefined}
@@ -232,6 +253,8 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                 )}
                 withCompactMessage
                 empty={!value || value.length === 0}
+                withBorder
+                withPadding
             >
                 <ListView
                     withWrap
@@ -246,12 +269,14 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                                     name={admin2Id}
                                     onClick={removeSelection}
                                     styleVariant="action"
+                                    readOnly
                                 >
                                     <CloseLineIcon />
                                 </Button>
                             )}
+                            readOnly
                         >
-                            {admin2Id}
+                            {admin2NameMap?.[admin2Id] ?? admin2Id}
                         </ButtonLayout>
                     ))}
                 </ListView>
@@ -304,6 +329,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                                     sourceKey="country-admin-2"
                                     sourceOptions={{
                                         type: 'vector',
+                                        // FIXME: this should be defined as a constant
                                         url: `mapbox://go-ifrc.go-admin2-${iso3}-staging`,
                                     }}
                                 >
