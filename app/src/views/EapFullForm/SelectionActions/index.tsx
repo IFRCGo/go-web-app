@@ -62,7 +62,7 @@ type EapApproach = components['schemas']['EapApproachEnumKey'];
 type EapApproachOption = components['schemas']['EapApproachEnum'];
 
 type EnablingApproachesFormFields = NonNullable<
-    PartialEapFullFormType['enable_approaches']
+    PartialEapFullFormType['enabling_approaches']
 >[number];
 
 type PlannedOperationFormFields = NonNullable<
@@ -177,8 +177,8 @@ function SelectionActions(props: Props) {
         [eapApproachOptions],
     );
 
-    const { setValue: onApproachChange, removeValue: onApproachRemove } = useFormArray<'enable_approaches', EnablingApproachesFormFields>(
-        'enable_approaches',
+    const { setValue: onApproachChange, removeValue: onApproachRemove } = useFormArray<'enabling_approaches', EnablingApproachesFormFields>(
+        'enabling_approaches',
         setFieldValue,
     );
 
@@ -203,15 +203,15 @@ function SelectionActions(props: Props) {
                         } satisfies EnablingApproachesFormFields;
                     });
                 },
-                'enable_approaches',
+                'enabling_approaches',
             );
         },
         [setFieldValue],
     );
 
-    const selectedApproaches = useMemo(() => value?.enable_approaches?.map(
+    const selectedApproaches = useMemo(() => value?.enabling_approaches?.map(
         ({ approach }) => approach,
-    ), [value?.enable_approaches]);
+    ), [value?.enabling_approaches]);
 
     const {
         setValue: onSourceInformationChange,
@@ -530,7 +530,7 @@ function SelectionActions(props: Props) {
                             readOnly={readOnly}
                         />
                     </InputSection>
-                    {value?.enable_approaches?.map((approach, index) => (
+                    {value?.enabling_approaches?.map((approach, index) => (
                         <ApproachesInput
                             approachTitle={eapApproachLabelMapping?.[approach.approach]}
                             key={approach.approach}
@@ -538,7 +538,7 @@ function SelectionActions(props: Props) {
                             value={approach}
                             onChange={onApproachChange}
                             onRemove={onApproachRemove}
-                            error={getErrorObject(error?.enable_approaches)}
+                            error={getErrorObject(error?.enabling_approaches)}
                             disabled={disabled}
                             readOnly={readOnly}
                         />

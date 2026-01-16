@@ -32,7 +32,7 @@ import IndicatorInput from '../IndicatorInput';
 
 import i18n from './i18n.json';
 
-type EnableApproachesFormFields = NonNullable<PartialEapFullFormType['enable_approaches']>[number];
+type EnableApproachesFormFields = NonNullable<PartialEapFullFormType['enabling_approaches']>[number];
 type EarlyActionFormFields = NonNullable<EnableApproachesFormFields['early_action_activities']>[number];
 type PrepositioningFormFields = NonNullable<EnableApproachesFormFields['prepositioning_activities']>[number];
 type ReadinessFormFields = NonNullable<EnableApproachesFormFields['readiness_activities']>[number];

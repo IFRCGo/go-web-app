@@ -1242,7 +1242,7 @@ const eapFullExport = customWrapRoute({
 
 const eapSimplifiedExport = customWrapRoute({
     parent: rootLayout,
-    path: 'eap/:eapId/export/full',
+    path: 'eap/:eapId/export/simplified',
     component: {
         render: () => import('#views/SimplifiedEapExport'),
         props: {},

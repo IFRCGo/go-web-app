@@ -184,7 +184,7 @@ type PlannedOperationsResponseFields = DeepReplace<
 >;
 
 type EnableApproachesResponse = NonNullable<
-    EapFullRequestBody['enable_approaches']
+    EapFullRequestBody['enabling_approaches']
 >[number];
 
 type EarlyActionApproachesResponse = NonNullable<EnableApproachesResponse['early_action_activities']>[number];
@@ -462,7 +462,7 @@ type PlannedOperationalFields = ReturnType<
 >;
 type EnableApproachesFields = ReturnType<
     ObjectSchema<
-        NonNullable<PartialEapFullFormType['enable_approaches']>[number],
+        NonNullable<PartialEapFullFormType['enabling_approaches']>[number],
         PartialEapFullFormType,
         EapFullFormContext
     >['fields']
@@ -491,7 +491,7 @@ type ApproachIndicatorFields = ReturnType<
     ObjectSchema<
         NonNullable<
             NonNullable<
-                PartialEapFullFormType['enable_approaches']
+                PartialEapFullFormType['enabling_approaches']
             >[number]['indicators']
         >[number],
         PartialEapFullFormType,
@@ -836,7 +836,7 @@ export const formSchema: EapFullFormSchema = {
             },
 
             // Enabling Approaches
-            enable_approaches: {
+            enabling_approaches: {
                 keySelector: (item) => item.approach,
                 member: () => ({
                     fields: (): EnableApproachesFields => ({

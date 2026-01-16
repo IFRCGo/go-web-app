@@ -76,7 +76,7 @@ const plannedOperationsTabFields: (keyof PartialSimplifiedEapType)[] = [
 ] satisfies (keyof PartialSimplifiedEapType)[];
 
 const enablingApproachesTabFields: (keyof PartialSimplifiedEapType)[] = [
-    'enable_approaches',
+    'enabling_approaches',
 ] satisfies (keyof PartialSimplifiedEapType)[];
 
 const deliveryAndBudgetTabFields: (keyof PartialSimplifiedEapType)[] = [

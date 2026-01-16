@@ -30,7 +30,7 @@ import i18n from './i18n.json';
 type EapApproach = components['schemas']['EapApproachEnumKey'];
 type EapApproachOption = components['schemas']['EapApproachEnum'];
 
-type EnablingApproachesFormFields = NonNullable<PartialSimplifiedEapType['enable_approaches']>[number];
+type EnablingApproachesFormFields = NonNullable<PartialSimplifiedEapType['enabling_approaches']>[number];
 
 interface Props {
     value: PartialSimplifiedEapType;
@@ -69,8 +69,8 @@ function EnablingApproaches(props: Props) {
     const {
         setValue: onApproachChange,
         removeValue: onApproachRemove,
-    } = useFormArray<'enable_approaches', EnablingApproachesFormFields>(
-        'enable_approaches',
+    } = useFormArray<'enabling_approaches', EnablingApproachesFormFields>(
+        'enabling_approaches',
         setFieldValue,
     );
 
@@ -92,10 +92,10 @@ function EnablingApproaches(props: Props) {
                     approach,
                 } satisfies EnablingApproachesFormFields;
             });
-        }, 'enable_approaches');
+        }, 'enabling_approaches');
     }, [setFieldValue]);
 
-    const selectedApproaches = value?.enable_approaches?.map(({ approach }) => approach);
+    const selectedApproaches = value?.enabling_approaches?.map(({ approach }) => approach);
 
     return (
         <Container heading={strings.enablingApproachesTitle}>
@@ -108,7 +108,7 @@ function EnablingApproaches(props: Props) {
                     description={strings.enablingApproachesDescription}
                     tooltip={strings.enablingApproachesTooltip}
                 >
-                    <NonFieldError error={getErrorObject(error?.enable_approaches)} />
+                    <NonFieldError error={getErrorObject(error?.enabling_approaches)} />
                     <Checklist
                         name={undefined}
                         options={eapApproachOptions}
@@ -122,7 +122,7 @@ function EnablingApproaches(props: Props) {
                         readOnly={readOnly}
                     />
                 </InputSection>
-                {value?.enable_approaches?.map((approach, index) => (
+                {value?.enabling_approaches?.map((approach, index) => (
                     <ApproachesInput
                         approachTitle={eapApproachLabelMapping?.[approach.approach]}
                         key={approach.approach}
@@ -130,7 +130,7 @@ function EnablingApproaches(props: Props) {
                         value={approach}
                         onChange={onApproachChange}
                         onRemove={onApproachRemove}
-                        error={getErrorObject(error?.enable_approaches)}
+                        error={getErrorObject(error?.enabling_approaches)}
                         disabled={disabled}
                         readOnly={readOnly}
                     />
