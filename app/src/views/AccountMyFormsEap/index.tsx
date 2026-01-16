@@ -135,7 +135,7 @@ export function Component() {
                 (key, row) => ({
                     eapId: key,
                     status: row.status,
-                    hasValidateBudgetFile: isTruthyString(row.validated_budget_file),
+                    hasValidatedBudgetFile: isTruthyString(row.validated_budget_file),
                     onStatusUpdate: reloadEapList,
                 }),
                 { columnClassName: styles.status },
@@ -231,7 +231,7 @@ export function Component() {
                         disabled: status < EAP_STATUS_TECHNICALLY_VALIDATED,
                     } satisfies EapExpandedListItem,
                     {
-                        label: 'Pending PFA',
+                        label: 'Approved (Pending PFA)',
                         lastUpdated: eapListItem.pending_pfa_at ?? undefined,
                         eap: eapListItem,
                         type: 'pending-pfa',

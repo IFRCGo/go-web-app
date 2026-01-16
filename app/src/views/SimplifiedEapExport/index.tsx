@@ -1,5 +1,8 @@
 import { useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import {
+    useParams,
+    useSearchParams,
+} from 'react-router-dom';
 import {
     Label,
     ListView,
@@ -8,6 +11,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import { Image } from '@ifrc-go/ui/printable';
 import {
     isDefined,
+    isFalsyString,
     isNotDefined,
     isTruthyString,
     listToMap,
@@ -20,26 +24,27 @@ import PrintableDescription from '#components/printable/PrintableDescription';
 import PrintableLabel from '#components/printable/PrintableLabel';
 import PrintablePage from '#components/printable/PrintablePage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import {
-    type GoApiResponse,
-    useRequest,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 
 import PrintableContactOutput from './PrintableContactOutput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type EapRegistrationResponse = GoApiResponse<'/api/v2/eap-registration/{id}/'>;
-
-interface Props {
-    eapRegistrationResponse: EapRegistrationResponse;
-    eapRegistrationPending: boolean;
-}
-
 /** @knipignore */
-export default function SimplifiedEapExport(props: Props) {
-    const { eapRegistrationResponse, eapRegistrationPending } = props;
+// eslint-disable-next-line import/prefer-default-export
+export function Component() {
+    const { eapId } = useParams<{ eapId: string }>();
+
+    const { pending: eapRegistrationPending, response: eapRegistrationResponse } = useRequest({
+        skip: isFalsyString(eapId),
+        url: '/api/v2/eap-registration/{id}/',
+        pathVariables: isTruthyString(eapId)
+            ? {
+                id: Number(eapId),
+            }
+            : undefined,
+    });
 
     const mainRef = useRef<HTMLDivElement>(null);
     const [searchParams] = useSearchParams();
@@ -927,3 +932,5 @@ export default function SimplifiedEapExport(props: Props) {
         </PrintablePage>
     );
 }
+
+Component.displayName = 'SimplifiedEapExport';
