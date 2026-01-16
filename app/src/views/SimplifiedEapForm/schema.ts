@@ -38,7 +38,7 @@ type EapSimplifiedRequestBody = PurgeNull<
 >;
 
 type EnableApproachesResponse = NonNullable<
-    EapSimplifiedRequestBody['enable_approaches']
+    EapSimplifiedRequestBody['enabling_approaches']
 >[number];
 type ApproachEarlyActionResponse = NonNullable<
     EnableApproachesResponse['early_action_activities']
@@ -197,7 +197,7 @@ type PlannedOperationalFields = ReturnType<
 >;
 type EnableApproachesFields = ReturnType<
     ObjectSchema<
-        NonNullable<PartialSimplifiedEapType['enable_approaches']>[number],
+        NonNullable<PartialSimplifiedEapType['enabling_approaches']>[number],
         PartialSimplifiedEapType,
         EapSimplifiedFormContext
     >['fields']
@@ -224,7 +224,7 @@ type ApproachIndicatorFields = ReturnType<
     ObjectSchema<
         NonNullable<
             NonNullable<
-                PartialSimplifiedEapType['enable_approaches']
+                PartialSimplifiedEapType['enabling_approaches']
             >[number]['indicators']
         >[number],
         PartialSimplifiedEapType,
@@ -278,14 +278,14 @@ type FieldKeys = keyof EapSimplifiedRequestBody;
 type ContactFieldSuffix = 'name' | 'title' | 'email' | 'phone_number';
 type ExtractContactPrefix<KEY extends FieldKeys> =
     KEY extends `${infer PREFIX}_name`
-    ? `${PREFIX}_title` extends FieldKeys
-    ? `${PREFIX}_email` extends FieldKeys
-    ? `${PREFIX}_phone_number` extends FieldKeys
-    ? PREFIX
-    : never
-    : never
-    : never
-    : never;
+        ? `${PREFIX}_title` extends FieldKeys
+            ? `${PREFIX}_email` extends FieldKeys
+                ? `${PREFIX}_phone_number` extends FieldKeys
+                    ? PREFIX
+                    : never
+                : never
+            : never
+        : never;
 
 export type ValidContactFieldPrefixes = ExtractContactPrefix<FieldKeys>;
 
@@ -445,7 +445,7 @@ export const formSchema: FormSchema = {
 
             // Enabling Approaches
 
-            enable_approaches: {
+            enabling_approaches: {
                 keySelector: (item) => item.approach,
                 member: () => ({
                     fields: (): EnableApproachesFields => ({

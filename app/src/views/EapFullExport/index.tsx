@@ -158,7 +158,7 @@ export function Component() {
         evidence_base_source_of_information,
 
         planned_operations,
-        enable_approaches,
+        enabling_approaches,
         usefulness_of_actions,
         feasibility,
 
@@ -229,7 +229,7 @@ export function Component() {
         prev_evidence_base_source_of_information,
 
         planned_operations: prev_planned_operations,
-        enable_approaches: prev_enable_approaches,
+        enabling_approaches: prev_enabling_approaches,
         usefulness_of_actions: prev_usefulness_of_actions,
         feasibility: prev_feasibility,
 
@@ -316,8 +316,8 @@ export function Component() {
     );
 
     const prevEnableApproachesMapping = useMemo(
-        () => listToMap(prev_enable_approaches ?? [], (approach) => approach.id!),
-        [prev_enable_approaches],
+        () => listToMap(prev_enabling_approaches ?? [], (approach) => approach.id!),
+        [prev_enabling_approaches],
     );
 
     const prevActivationSourceInformationMapping = useMemo(
@@ -1401,7 +1401,7 @@ export function Component() {
                 heading={strings.enablingApproachesLabel}
                 headingLevel={2}
             >
-                {enable_approaches?.map((approach) => {
+                {enabling_approaches?.map((approach) => {
                     const prevApproach = prevEnableApproachesMapping?.[approach.approach];
 
                     const prevApproachIndicatorMap = listToMap(

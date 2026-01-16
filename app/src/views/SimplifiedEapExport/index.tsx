@@ -136,7 +136,7 @@ export function Component() {
         trigger_threshold_justification,
         next_step_towards_full_eap,
         planned_operations,
-        enable_approaches,
+        enabling_approaches,
 
         early_action_capability,
         rcrc_movement_involvement,
@@ -172,7 +172,7 @@ export function Component() {
         trigger_threshold_justification: prev_trigger_threshold_justification,
         next_step_towards_full_eap: prev_next_step_towards_full_eap,
         planned_operations: prev_planned_operations,
-        enable_approaches: prev_enable_approaches,
+        enabling_approaches: prev_enabling_approaches,
 
         early_action_capability: prev_early_action_capability,
         rcrc_movement_involvement: prev_rcrc_movement_involvement,
@@ -193,7 +193,7 @@ export function Component() {
     );
 
     const prevEnablingApproachesMap = listToMap(
-        prev_enable_approaches,
+        prev_enabling_approaches,
         ({ approach }) => approach,
     );
 
@@ -682,7 +682,7 @@ export function Component() {
                 heading={strings.enablingApproachesLabel}
                 headingLevel={2}
             >
-                {enable_approaches?.map((approach) => {
+                {enabling_approaches?.map((approach) => {
                     const prevApproach = prevEnablingApproachesMap?.[approach.approach];
 
                     const prevApproachIndicatorMap = listToMap(

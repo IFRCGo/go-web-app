@@ -170,7 +170,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
     }, [onChange, name]);
 
     const disabled = disabledFromProps || pending || readOnly;
-    const valueUrls = isDefined(value) ? (
+    const valueUrls = isDefined(value) && value.length > 0 ? (
         value.map((fileId) => ({ id: fileId, url: fileIdToUrlMap?.[fileId] }))
     ) : undefined;
 
@@ -213,7 +213,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                 >
                     {children}
                 </RawFileInput>
-                {clearable && value && (
+                {clearable && value && value.length > 0 && (
                     <IconButton
                         name={undefined}
                         onClick={handleClearButtonClick}

@@ -211,7 +211,7 @@ export function Component() {
 
         const {
             planned_operations,
-            enable_approaches,
+            enabling_approaches,
             cover_image_file,
             hazard_impact_images,
             selected_early_actions_images,
@@ -241,7 +241,7 @@ export function Component() {
                 prepositioning_activities: intervention.prepositioning_activities
                     ?.map(injectClientId),
             })),
-            enable_approaches: enable_approaches?.map((approach) => ({
+            enabling_approaches: enabling_approaches?.map((approach) => ({
                 ...approach,
                 indicators: approach.indicators?.map(injectClientId),
                 early_action_activities: approach.early_action_activities?.map(injectClientId),
@@ -307,28 +307,28 @@ export function Component() {
                     const [poIndex] = match;
                     return value?.planned_operations?.[poIndex!]?.sector;
                 }
-                match = matchArray(locations, ['enable_approaches', NUM, 'early_action_activities', NUM]);
+                match = matchArray(locations, ['enabling_approaches', NUM, 'early_action_activities', NUM]);
                 if (isDefined(match)) {
                     const [eaIndex, index] = match;
-                    return value?.enable_approaches?.[eaIndex!]
+                    return value?.enabling_approaches?.[eaIndex!]
                         ?.early_action_activities?.[index!]?.client_id;
                 }
-                match = matchArray(locations, ['enable_approaches', NUM, 'readiness_activities', NUM]);
+                match = matchArray(locations, ['enabling_approaches', NUM, 'readiness_activities', NUM]);
                 if (isDefined(match)) {
                     const [eaIndex, index] = match;
-                    return value?.enable_approaches?.[eaIndex!]
+                    return value?.enabling_approaches?.[eaIndex!]
                         ?.readiness_activities?.[index!]?.client_id;
                 }
-                match = matchArray(locations, ['enable_approaches', NUM, 'prepositioning_activities', NUM]);
+                match = matchArray(locations, ['enabling_approaches', NUM, 'prepositioning_activities', NUM]);
                 if (isDefined(match)) {
                     const [eaIndex, index] = match;
-                    return value?.enable_approaches?.[eaIndex!]
+                    return value?.enabling_approaches?.[eaIndex!]
                         ?.prepositioning_activities?.[index!]?.client_id;
                 }
-                match = matchArray(locations, ['enable_approaches', NUM]);
+                match = matchArray(locations, ['enabling_approaches', NUM]);
                 if (isDefined(match)) {
                     const [eaIndex] = match;
-                    return value?.enable_approaches?.[eaIndex!]?.approach;
+                    return value?.enabling_approaches?.[eaIndex!]?.approach;
                 }
 
                 return undefined;

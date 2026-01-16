@@ -118,7 +118,7 @@ export function Component() {
         admin2_details,
         lead_time,
         planned_operations,
-        enable_approaches,
+        enabling_approaches,
 
         budget_file_details,
     } = fullEapResponse ?? {};
@@ -364,7 +364,7 @@ export function Component() {
                 heading={strings.enablingApproachesLabel}
                 headingLevel={2}
             >
-                {enable_approaches?.map((approach) => (
+                {enabling_approaches?.map((approach) => (
                     <PrintableContainer
                         key={approach.id}
                         heading={eapApproachTitleMap?.[approach.approach]}

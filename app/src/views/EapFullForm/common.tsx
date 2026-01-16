@@ -97,7 +97,7 @@ const selectionActionsTabFields: (keyof PartialEapFullFormType)[] = [
     'evidence_base_source_of_information',
     'evidence_base_relevant_files',
     'planned_operations',
-    'enable_approaches',
+    'enabling_approaches',
     'usefulness_of_actions',
     'feasibility',
 ];
