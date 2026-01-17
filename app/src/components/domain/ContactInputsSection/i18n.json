@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "contactInputsSection",
     "strings": {
         "contactNameInputLabel": "Name",
         "contactTitleInputLabel": "Title",
