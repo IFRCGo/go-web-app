@@ -31,6 +31,7 @@ import {
     useFormArray,
 } from '@togglecorp/toggle-form';
 
+import ContactInputsSection from '#components/domain/ContactInputsSection';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
@@ -39,7 +40,6 @@ import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type GoApiBody } from '#utils/restRequest';
 
-import ContactInputsSection from '../ContactInputsSection';
 import { type PartialEapFullFormType } from '../schema';
 import KeyActorsInput from './KeyActorsInput';
 import PartnerContactsInput from './PartnerContactsInput';

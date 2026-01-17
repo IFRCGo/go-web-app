@@ -792,7 +792,7 @@ const simplifiedEapForm = customWrapRoute({
     parent: rootLayout,
     path: 'eap/:eapId/simplified',
     component: {
-        render: () => import('#views/SimplifiedEapForm'),
+        render: () => import('#views/EapSimplifiedForm'),
         props: {},
     },
     wrapperComponent: Auth,
@@ -1244,7 +1244,7 @@ const eapSimplifiedExport = customWrapRoute({
     parent: rootLayout,
     path: 'eap/:eapId/export/simplified',
     component: {
-        render: () => import('#views/SimplifiedEapExport'),
+        render: () => import('#views/EapSimplifiedExport'),
         props: {},
     },
     wrapperComponent: Auth,
