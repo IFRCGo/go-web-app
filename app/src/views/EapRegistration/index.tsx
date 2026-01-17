@@ -2,17 +2,15 @@ import {
     type ElementRef,
     useCallback,
     useRef,
+    useState,
 } from 'react';
 import {
-    useLocation,
-    useParams,
-} from 'react-router-dom';
-import {
-    ConfirmButton,
+    Button,
     Container,
     DateInput,
     InputSection,
     ListView,
+    Modal,
     Radio,
     RadioInput,
     TextInput,
@@ -22,11 +20,7 @@ import {
     resolveToComponent,
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
-import {
-    isDefined,
-    isNotDefined,
-    isTruthyString,
-} from '@togglecorp/fujs';
+import { isNotDefined } from '@togglecorp/fujs';
 import {
     createSubmitHandler,
     getErrorObject,
@@ -36,7 +30,6 @@ import {
 
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
-import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import Link from '#components/Link';
@@ -45,21 +38,20 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
-    type GoApiBody,
     type GoApiResponse,
     useLazyRequest,
-    useRequest,
 } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';
 
 import {
     defaultFormValue,
+    type EapRegisterFormFields,
+    type EapRegisterRequestBody,
     formSchema,
 } from './schema';
 
 import i18n from './i18n.json';
 
-type EapRegisterRequestBody = GoApiBody<'/api/v2/eap-registration/', 'POST'>;
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type EapTypeOption = NonNullable<GlobalEnumsResponse['eap_eap_type']>[number];
 
@@ -73,59 +65,39 @@ export function Component() {
     const strings = useTranslation(i18n);
     const alert = useAlert();
     const { navigate } = useRouting();
-    const { eapId: eapIdFromParams } = useParams<{ eapId: string }>();
-
-    const { state } = useLocation();
-    const eapId = eapIdFromParams ?? state?.eapId as string | undefined;
-    const isReadOnly = state?.mode === 'view';
 
     const {
         value,
         setFieldValue,
         error: formError,
         setError,
-        setValue,
         validate,
     } = useForm(formSchema, { value: defaultFormValue });
 
-    const {
-        eap_eap_type: eapFormOptions,
-    } = useGlobalEnums();
+    const { eap_eap_type: eapFormOptions } = useGlobalEnums();
 
     const error = getErrorObject(formError);
     const formContentRef = useRef<ElementRef<'div'>>(null);
 
-    const {
-        pending: fetchingEap,
-        error: eapError,
-    } = useRequest({
-        skip: isNotDefined(eapId),
-        url: '/api/v2/eap-registration/{id}/',
-        pathVariables: isTruthyString(eapId) ? {
-            id: Number(eapId),
-        } : undefined,
-        onSuccess: (response) => {
-            const {
-                ...formValues
-            } = response;
-            setValue(formValues);
-        },
-    });
+    const [
+        showEapRegistrationsuccessModal,
+        setShowEapRegistrationsuccessModal,
+    ] = useState(false);
 
     const {
         pending: eapRegistrationPending,
-        trigger: eapRegister,
+        trigger: triggerEapRegistration,
     } = useLazyRequest({
         method: 'POST',
         url: '/api/v2/eap-registration/',
         body: (body: EapRegisterRequestBody) => body,
         onSuccess: () => {
-            const message = strings.eapRegistrationSuccess;
+            const message = strings.registrationSuccess;
             alert.show(
                 message,
                 { variant: 'success' },
             );
-            navigate('accountMyFormsEap');
+            setShowEapRegistrationsuccessModal(true);
         },
         onFailure: (err) => {
             const {
@@ -137,145 +109,67 @@ export function Component() {
             setError(transformObjectError(formErrors, () => undefined));
 
             alert.show(
-                strings.eapRegistrationFailure,
+                strings.registrationFailure,
                 { variant: 'danger' },
             );
         },
     });
 
-    const {
-        pending: updateEapRegistrationPending,
-        trigger: updateEapRegistration,
-    } = useLazyRequest({
-        url: '/api/v2/eap-registration/{id}/',
-        method: 'PATCH',
-        pathVariables: {
-            id: Number(eapId),
-        },
-        body: (formFields: EapRegisterRequestBody) => formFields,
-        onSuccess: (response) => {
-            alert.show(
-                strings.eapRegistrationUpdateMessage,
-                { variant: 'success' },
-            );
-            navigate(
-                'accountMyFormsEap',
-                { params: { eapId: response.id } },
-            );
-        },
-        onFailure: (err) => {
-            const {
-                value: {
-                    formErrors,
-                    messageForNotification,
-                },
-            } = err;
-
-            setError(transformObjectError(
-                formErrors,
-                () => undefined,
-            ));
-
-            alert.show(
-                strings.eapRegistrationFailureMessage,
-                {
-                    variant: 'danger',
-                    description: messageForNotification,
-                },
-            );
-        },
-    });
-
-    const handleCountryChange = useCallback(
-        (val: number | undefined, name: 'country') => {
-            setFieldValue(val, name);
-        },
-        [setFieldValue],
-    );
-
-    const handleEapTypeClick = useCallback(() => {
-        if (isReadOnly) {
-            return;
-        }
+    const handleEapTypeNotSureClick = useCallback(() => {
         setFieldValue(null, 'eap_type');
-    }, [isReadOnly, setFieldValue]);
+    }, [setFieldValue]);
 
-    const handleSubmissionTimeClick = useCallback(() => {
-        if (isReadOnly) {
-            return;
-        }
+    const handleSubmissionTimeNotSureClick = useCallback(() => {
         setFieldValue(null, 'expected_submission_time');
-    }, [isReadOnly, setFieldValue]);
+    }, [setFieldValue]);
 
-    const eapRegistration = useCallback(() => {
-        const handler = createSubmitHandler(
-            validate,
-            setError,
-            (formValues) => {
-                if (isNotDefined(eapId)) {
-                    eapRegister(formValues as EapRegisterRequestBody);
-                } else {
-                    updateEapRegistration({
-                        ...formValues,
-                        id: eapId,
-                    } as EapRegisterRequestBody);
-                }
-            },
-        );
-        handler();
-    }, [
-        setError,
-        validate,
-        eapRegister,
-        updateEapRegistration,
-        eapId,
-    ]);
+    const handleRegisterFormValidation = useCallback((formValues: EapRegisterFormFields) => {
+        triggerEapRegistration(formValues as EapRegisterRequestBody);
+    }, [triggerEapRegistration]);
 
     const handleFormError = useCallback(() => {
         setTimeout(() => formContentRef.current?.scrollIntoView(), 200);
     }, []);
 
-    const handleEapRegistration = useCallback(() => {
+    const handleSubmitButtonClick = useCallback(() => {
         const handler = createSubmitHandler(
             validate,
             setError,
-            eapRegistration,
+            handleRegisterFormValidation,
             handleFormError,
         );
         handler();
     }, [
         handleFormError,
-        eapRegistration,
+        handleRegisterFormValidation,
         validate,
         setError,
     ]);
-
-    const disabled = eapRegistrationPending || fetchingEap || updateEapRegistrationPending;
 
     const handleNationalSocietyInputChange = useCallback((newValue: number | undefined) => {
         setFieldValue(newValue, 'national_society');
         setFieldValue(newValue, 'country');
     }, [setFieldValue]);
 
-    if (isDefined(eapError)) {
-        return (
-            <FormFailedToLoadMessage
-                description={strings.eapFailedToLoad}
-            />
-        );
-    }
+    const handleRegistrationsuccessModalClose = useCallback(() => {
+        setShowEapRegistrationsuccessModal(false);
+        navigate('accountMyFormsEap');
+    }, [navigate]);
+
+    const disabled = eapRegistrationPending;
 
     return (
         <Page
-            heading={strings.eapRegistrationHeading}
+            heading={strings.registrationHeading}
             description={resolveToComponent(
-                strings.eapRegistrationDescription,
+                strings.registrationDescription,
                 {
                     link: (
                         <Link
                             to="eapDetail"
+                            withUnderline
                         >
-                            {strings.eapRegistrationLink}
+                            {strings.registrationLink}
                         </Link>
                     ),
                 },
@@ -286,270 +180,280 @@ export function Component() {
                     styleVariant="outline"
                     colorVariant="primary"
                 >
-                    {eapId ? strings.eapBackButton : strings.eapCancelButton}
+                    {strings.cancelButton}
                 </Link>
             )}
             elementRef={formContentRef}
             withBackgroundColorInMainSection
         >
-            <Container heading={strings.eapApplicationDetails}>
-                <ListView layout="block">
-                    <InputSection
-                        title={strings.eapNationalSociety}
-                        description={strings.eapNationalSocietyDescription}
-                        withAsteriskOnTitle
-                        numPreferredColumns={2}
+            <ListView
+                layout="block"
+                spacing="xl"
+            >
+                <Container
+                    heading={strings.applicationDetails}
+                    variant="form"
+                >
+                    <ListView
+                        layout="block"
+                        spacing="sm"
                     >
-                        <NationalSocietySelectInput
-                            error={error?.national_society}
-                            name="national_society"
-                            onChange={handleNationalSocietyInputChange}
-                            value={value?.national_society}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapCountry}
-                        description={strings.eapCountryDescription}
-                        withAsteriskOnTitle
-                        numPreferredColumns={2}
-                    >
-                        <CountrySelectInput
-                            error={error?.country}
-                            name="country"
-                            onChange={handleCountryChange}
-                            value={value?.country}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapDisasterType}
-                        description={strings.eapDisasterTypeDescription}
-                        withAsteriskOnTitle
-                        numPreferredColumns={2}
-                    >
-                        <DisasterTypeSelectInput
-                            name="disaster_type"
-                            value={value?.disaster_type}
-                            onChange={setFieldValue}
-                            error={error?.disaster_type}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapType}
-                        // TODO: Add link here
-                        description={strings.eapTypeDescription}
-                        withAsteriskOnTitle
-                    >
-                        <ListView>
-                            <RadioInput
-                                name="eap_type"
-                                value={value?.eap_type ?? undefined}
+                        <InputSection
+                            title={strings.nationalSociety}
+                            description={strings.nationalSocietyDescription}
+                            withAsteriskOnTitle
+                        >
+                            <NationalSocietySelectInput
+                                error={error?.national_society}
+                                name="national_society"
+                                onChange={handleNationalSocietyInputChange}
+                                value={value?.national_society}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.country}
+                            description={strings.countryDescription}
+                            withAsteriskOnTitle
+                            numPreferredColumns={2}
+                        >
+                            <CountrySelectInput
+                                error={error?.country}
+                                name="country"
                                 onChange={setFieldValue}
-                                options={eapFormOptions}
-                                keySelector={eapTypeKeySelector}
-                                labelSelector={stringValueSelector}
-                                error={error?.eap_type}
-                                readOnly={isReadOnly}
+                                value={value?.country}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.disasterType}
+                            description={strings.disasterTypeDescription}
+                            withAsteriskOnTitle
+                            numPreferredColumns={2}
+                        >
+                            <DisasterTypeSelectInput
+                                name="disaster_type"
+                                value={value?.disaster_type}
+                                onChange={setFieldValue}
+                                error={error?.disaster_type}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.type}
+                            // TODO: Add link here
+                            description={strings.typeDescription}
+                            withAsteriskOnTitle
+                        >
+                            <ListView>
+                                <RadioInput
+                                    name="eap_type"
+                                    value={value?.eap_type ?? undefined}
+                                    onChange={setFieldValue}
+                                    options={eapFormOptions}
+                                    keySelector={eapTypeKeySelector}
+                                    labelSelector={stringValueSelector}
+                                    error={error?.eap_type}
+                                />
+                                <Radio
+                                    name="eap_type"
+                                    value={isNotDefined(value?.eap_type)}
+                                    onClick={handleEapTypeNotSureClick}
+                                >
+                                    {strings.notSure}
+                                </Radio>
+                            </ListView>
+                        </InputSection>
+                        <InputSection
+                            title={strings.submission}
+                            description={strings.submissionDescription}
+                            withAsteriskOnTitle
+                            numPreferredColumns={2}
+                        >
+                            <DateInput
+                                name="expected_submission_time"
+                                onChange={setFieldValue}
+                                value={value?.expected_submission_time}
+                                error={error?.expected_submission_time}
                             />
                             <Radio
-                                name="eap_type"
-                                value={isNotDefined(value?.eap_type)}
-                                onClick={handleEapTypeClick}
-                                readOnly={isReadOnly}
+                                name="expected_submission_time"
+                                value={isNotDefined(value?.expected_submission_time)}
+                                onClick={handleSubmissionTimeNotSureClick}
                             >
-                                {strings.eapNotSure}
+                                {strings.notSure}
                             </Radio>
-                        </ListView>
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapSubmission}
-                        description={strings.eapSubmissionDescription}
-                        withAsteriskOnTitle
-                        numPreferredColumns={2}
-                    >
-                        <DateInput
-                            name="expected_submission_time"
-                            onChange={setFieldValue}
-                            value={value?.expected_submission_time}
-                            error={error?.expected_submission_time}
-                            readOnly={isReadOnly}
-                        />
-                        <Radio
-                            name="expected_submission_time"
-                            value={isNotDefined(value?.expected_submission_time)}
-                            onClick={handleSubmissionTimeClick}
-                            readOnly={isReadOnly}
+                        </InputSection>
+                        <InputSection
+                            title={strings.partnersInvolved}
+                            description={strings.partnersInvolvedDescription}
+                            withAsteriskOnTitle
                         >
-                            {strings.eapNotSure}
-                        </Radio>
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapPartnersInvolved}
-                        description={strings.eapPartnersInvolvedDescription}
-                        withAsteriskOnTitle
-                    >
-                        <NationalSocietyMultiSelectInput
-                            name="partners"
-                            value={value.partners}
-                            error={getErrorString(error?.partners)}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                    </InputSection>
-                </ListView>
-            </Container>
-            <Container
-                heading={strings.eapContacts}
-                spacing="md"
-            >
-                <ListView
-                    layout="block"
+                            <NationalSocietyMultiSelectInput
+                                name="partners"
+                                value={value.partners}
+                                error={getErrorString(error?.partners)}
+                                onChange={setFieldValue}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    </ListView>
+                </Container>
+                <Container
+                    heading={strings.contacts}
+                    variant="form"
                 >
-                    <InputSection
-                        title={strings.eapNSContact}
-                        description={strings.eapNSContactDescription}
-                        numPreferredColumns={2}
+                    <ListView
+                        layout="block"
+                        spacing="sm"
                     >
-                        <TextInput
-                            label={strings.eapNSName}
-                            name="national_society_contact_name"
-                            value={value?.national_society_contact_name}
-                            onChange={setFieldValue}
-                            error={error?.national_society_contact_name}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                        <TextInput
-                            label={strings.eapNSTitle}
-                            name="national_society_contact_title"
-                            value={value?.national_society_contact_title}
-                            onChange={setFieldValue}
-                            error={error?.national_society_contact_title}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                        <TextInput
-                            label={strings.eapNSEmail}
-                            name="national_society_contact_email"
-                            value={value?.national_society_contact_email}
-                            onChange={setFieldValue}
-                            error={error?.national_society_contact_email}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                        <TextInput
-                            label={strings.eapNSPhoneNumber}
-                            name="national_society_contact_phone_number"
-                            value={value?.national_society_contact_phone_number}
-                            onChange={setFieldValue}
-                            error={error?.national_society_contact_phone_number}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapIFRCContact}
-                        description={strings.eapIFRCContactDescription}
-                        numPreferredColumns={2}
+                        <InputSection
+                            title={strings.nsContact}
+                            description={strings.nsContactDescription}
+                            numPreferredColumns={2}
+                        >
+                            <TextInput
+                                label={strings.nsName}
+                                name="national_society_contact_name"
+                                value={value?.national_society_contact_name}
+                                onChange={setFieldValue}
+                                error={error?.national_society_contact_name}
+                                disabled={disabled}
+                                required
+                            />
+                            <TextInput
+                                label={strings.nsTitle}
+                                name="national_society_contact_title"
+                                value={value?.national_society_contact_title}
+                                onChange={setFieldValue}
+                                error={error?.national_society_contact_title}
+                                disabled={disabled}
+                            />
+                            <TextInput
+                                label={strings.nsEmail}
+                                name="national_society_contact_email"
+                                value={value?.national_society_contact_email}
+                                onChange={setFieldValue}
+                                error={error?.national_society_contact_email}
+                                disabled={disabled}
+                                required
+                            />
+                            <TextInput
+                                label={strings.nsPhoneNumber}
+                                name="national_society_contact_phone_number"
+                                value={value?.national_society_contact_phone_number}
+                                onChange={setFieldValue}
+                                error={error?.national_society_contact_phone_number}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.ifrcContact}
+                            description={strings.ifrcContactDescription}
+                            numPreferredColumns={2}
+                        >
+                            <TextInput
+                                label={strings.ifrcName}
+                                name="ifrc_contact_name"
+                                value={value?.ifrc_contact_name}
+                                onChange={setFieldValue}
+                                error={error?.ifrc_contact_name}
+                                disabled={disabled}
+                            />
+                            <TextInput
+                                label={strings.ifrcTitle}
+                                name="ifrc_contact_title"
+                                value={value?.ifrc_contact_title}
+                                onChange={setFieldValue}
+                                error={error?.ifrc_contact_title}
+                                disabled={disabled}
+                            />
+                            <TextInput
+                                label={strings.ifrcEmail}
+                                name="ifrc_contact_email"
+                                value={value?.ifrc_contact_email}
+                                onChange={setFieldValue}
+                                error={error?.ifrc_contact_email}
+                                disabled={disabled}
+                            />
+                            <TextInput
+                                label={strings.ifrcPhoneNumber}
+                                name="ifrc_contact_phone_number"
+                                value={value?.ifrc_contact_phone_number}
+                                onChange={setFieldValue}
+                                error={error?.ifrc_contact_phone_number}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.focalPoint}
+                            description={strings.focalPointDescription}
+                            numPreferredColumns={2}
+                        >
+                            <TextInput
+                                label={strings.focalPointName}
+                                name="dref_focal_point_name"
+                                value={value?.dref_focal_point_name}
+                                onChange={setFieldValue}
+                                error={error?.dref_focal_point_name}
+                                disabled={disabled}
+                            />
+                            <TextInput
+                                label={strings.focalPointTitle}
+                                name="dref_focal_point_title"
+                                value={value?.dref_focal_point_title}
+                                onChange={setFieldValue}
+                                error={error?.dref_focal_point_title}
+                                disabled={disabled}
+                            />
+                            <TextInput
+                                label={strings.focalPointEmail}
+                                name="dref_focal_point_email"
+                                value={value?.dref_focal_point_email}
+                                onChange={setFieldValue}
+                                error={error?.dref_focal_point_email}
+                                disabled={disabled}
+                            />
+                            <TextInput
+                                label={strings.focalPointPhoneNumber}
+                                name="dref_focal_point_phone_number"
+                                value={value?.dref_focal_point_phone_number}
+                                onChange={setFieldValue}
+                                error={error?.dref_focal_point_phone_number}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    </ListView>
+                </Container>
+                <ListView withCenteredContents>
+                    <Button
+                        name={undefined}
+                        disabled={disabled}
+                        onClick={handleSubmitButtonClick}
                     >
-                        <TextInput
-                            label={strings.eapIFRCName}
-                            name="ifrc_contact_name"
-                            value={value?.ifrc_contact_name}
-                            onChange={setFieldValue}
-                            error={error?.ifrc_contact_name}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                        <TextInput
-                            label={strings.eapIFRCTitle}
-                            name="ifrc_contact_title"
-                            value={value?.ifrc_contact_title}
-                            onChange={setFieldValue}
-                            error={error?.ifrc_contact_title}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                        <TextInput
-                            label={strings.eapIFRCEmail}
-                            name="ifrc_contact_email"
-                            value={value?.ifrc_contact_email}
-                            onChange={setFieldValue}
-                            error={error?.ifrc_contact_email}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                        <TextInput
-                            label={strings.eapIFRCPhoneNumber}
-                            name="ifrc_contact_phone_number"
-                            value={value?.ifrc_contact_phone_number}
-                            onChange={setFieldValue}
-                            error={error?.ifrc_contact_phone_number}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFocalPoint}
-                        description={strings.eapFocalPointDescription}
-                        numPreferredColumns={2}
-                    >
-                        <TextInput
-                            label={strings.eapFocalPointName}
-                            name="dref_focal_point_name"
-                            value={value?.dref_focal_point_name}
-                            onChange={setFieldValue}
-                            error={error?.dref_focal_point_name}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                        <TextInput
-                            label={strings.eapFocalPointTitle}
-                            name="dref_focal_point_title"
-                            value={value?.dref_focal_point_title}
-                            onChange={setFieldValue}
-                            error={error?.dref_focal_point_title}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                        <TextInput
-                            label={strings.eapFocalPointEmail}
-                            name="dref_focal_point_email"
-                            value={value?.dref_focal_point_email}
-                            onChange={setFieldValue}
-                            error={error?.dref_focal_point_email}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                        <TextInput
-                            label={strings.eapFocalPointPhoneNumber}
-                            name="dref_focal_point_phone_number"
-                            value={value?.dref_focal_point_phone_number}
-                            onChange={setFieldValue}
-                            error={error?.dref_focal_point_phone_number}
-                            disabled={disabled}
-                            readOnly={isReadOnly}
-                        />
-                    </InputSection>
+                        {strings.submitButton}
+                    </Button>
                 </ListView>
-            </Container>
-            <ListView withCenteredContents>
-                <ConfirmButton
-                    name={undefined}
-                    confirmHeading={strings.eapDevelopmentRegistrationHeading}
-                    confirmMessage={strings.eapDevelopmentRegistrationDescription}
-                    onConfirm={handleEapRegistration}
-                    disabled={disabled || isReadOnly}
-                >
-                    {strings.eapSubmitButton}
-                </ConfirmButton>
             </ListView>
+            {showEapRegistrationsuccessModal && (
+                <Modal
+                    size="sm"
+                    heading={strings.successModalHeading}
+                    withHeaderBorder
+                    onClose={handleRegistrationsuccessModalClose}
+                    footerActions={(
+                        <Button
+                            name={undefined}
+                            styleVariant="filled"
+                            onClick={handleRegistrationsuccessModalClose}
+                        >
+                            {strings.closeButtonLabel}
+                        </Button>
+                    )}
+                >
+                    {strings.successModalDescription}
+                </Modal>
+            )}
         </Page>
     );
 }
