@@ -1,6 +1,7 @@
 import {
     type ObjectSchema,
     type PartialForm,
+    requiredStringCondition,
     undefinedValue,
 } from '@togglecorp/toggle-form';
 
@@ -18,7 +19,11 @@ const schema: OperationActivitySchema = {
     fields: (): ReturnType<OperationActivitySchema['fields']> => ({
         client_id: {},
         id: { defaultValue: undefinedValue },
-        activity: {},
+        activity: {
+            // FIXME: add validation for character limit
+            required: true,
+            requiredValidation: requiredStringCondition,
+        },
         time_value: {},
         timeframe: {},
     }),

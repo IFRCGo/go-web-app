@@ -5,7 +5,6 @@
     animation-delay: var(--go-ui-duration-animation-slow);
     gap: var(--go-ui-spacing-sm);
     color: var(--go-ui-color-red);
-    font-weight: var(--go-ui-font-weight-medium);
 
     .icon {
         flex-shrink: 0;

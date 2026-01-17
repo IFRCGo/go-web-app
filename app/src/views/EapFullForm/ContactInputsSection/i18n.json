@@ -1,9 +1,0 @@
-{
-    "namespace": "eapFullForm",
-    "strings": {
-        "fullContactNameLabel": "Name",
-        "fullContactTitleLabel": "Title",
-        "fullContactEmailLabel": "Email",
-        "fullContactPhoneLabel": "Phone number"
-    }
-}

@@ -1,0 +1,23 @@
+{
+    "namespace": "form",
+    "strings": {
+        "pageHeading": "Simplified EAP form",
+        "pageDescription": "Use the following form to submit the details of your Simplified Early Action Protocols (sEAP) submission",
+        "overviewTabLabel": "Overview",
+        "riskAnalysisTabLabel": "Risk Analysis & Early Action Selection",
+        "earlyActionTabLabel": "Early Action Intervention",
+        "plannedOperationsTabLabel": "Planned Operations",
+        "enablingApproachesTabLabel": "Enabling Approaches",
+        "deliveryAndBudgetTabLabel": "Conditions to deliver & budgets",
+        "cancelButtonLabel": "Cancel",
+        "backButtonLabel": "Back",
+        "nextButtonLabel": "Next",
+        "saveButtonLabel": "Save",
+        "createFailureMessage": "Failed to create the EAP!",
+        "updateFailureMessage": "Failed to update the EAP!",
+        "createSuccessMessage": "Successfully created a new Simplified EAP!",
+        "updateSuccessMessage": "Simplified EAP Form updated Successfully!",
+        "backToAccountLinkLabel": "Back",
+        "readOnlyWarningMessage": "You’re viewing this form in read-only mode. Editing is currently disabled."
+    }
+}
