@@ -6,16 +6,16 @@ import {
 
 import { type GoApiBody } from '#utils/restRequest';
 
-type EapRegisterRequestBody = GoApiBody<'/api/v2/eap-registration/', 'POST'>;
+export type EapRegisterRequestBody = GoApiBody<'/api/v2/eap-registration/', 'POST'>;
 
-export const defaultFormValue: FormFields = {
+export const defaultFormValue: EapRegisterFormFields = {
     eap_type: undefined,
     expected_submission_time: undefined,
 };
 
-type FormFields = PartialForm<EapRegisterRequestBody>;
+export type EapRegisterFormFields = PartialForm<EapRegisterRequestBody>;
 
-type FormSchema = ObjectSchema<FormFields>;
+type FormSchema = ObjectSchema<EapRegisterFormFields>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>
 
 export const formSchema: FormSchema = {

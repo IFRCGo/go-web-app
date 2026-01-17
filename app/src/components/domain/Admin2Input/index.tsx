@@ -107,7 +107,8 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
         },
         layout: {
             'text-offset': [
-                0, 1,
+                0,
+                1,
             ],
             visibility: 'visible',
         },
@@ -205,6 +206,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
             admin1_name: string;
             name?: string;
         };
+
         if (isNotDefined(properties.id)) {
             return false;
         }
