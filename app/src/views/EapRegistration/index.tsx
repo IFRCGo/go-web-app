@@ -13,7 +13,6 @@ import {
     Modal,
     Radio,
     RadioInput,
-    TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -28,6 +27,7 @@ import {
     useForm,
 } from '@togglecorp/toggle-form';
 
+import ContactInputsSection from '#components/domain/ContactInputsSection';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
@@ -307,122 +307,31 @@ export function Component() {
                         layout="block"
                         spacing="sm"
                     >
-                        <InputSection
+                        <ContactInputsSection
                             title={strings.nsContact}
                             description={strings.nsContactDescription}
-                            numPreferredColumns={2}
-                        >
-                            <TextInput
-                                label={strings.nsName}
-                                name="national_society_contact_name"
-                                value={value?.national_society_contact_name}
-                                onChange={setFieldValue}
-                                error={error?.national_society_contact_name}
-                                disabled={disabled}
-                                required
-                            />
-                            <TextInput
-                                label={strings.nsTitle}
-                                name="national_society_contact_title"
-                                value={value?.national_society_contact_title}
-                                onChange={setFieldValue}
-                                error={error?.national_society_contact_title}
-                                disabled={disabled}
-                            />
-                            <TextInput
-                                label={strings.nsEmail}
-                                name="national_society_contact_email"
-                                value={value?.national_society_contact_email}
-                                onChange={setFieldValue}
-                                error={error?.national_society_contact_email}
-                                disabled={disabled}
-                                required
-                            />
-                            <TextInput
-                                label={strings.nsPhoneNumber}
-                                name="national_society_contact_phone_number"
-                                value={value?.national_society_contact_phone_number}
-                                onChange={setFieldValue}
-                                error={error?.national_society_contact_phone_number}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                        <InputSection
+                            value={value}
+                            error={error}
+                            setFieldValue={setFieldValue}
+                            namePrefix="national_society_contact"
+                            withRequiredNameAndEmail
+                        />
+                        <ContactInputsSection
                             title={strings.ifrcContact}
                             description={strings.ifrcContactDescription}
-                            numPreferredColumns={2}
-                        >
-                            <TextInput
-                                label={strings.ifrcName}
-                                name="ifrc_contact_name"
-                                value={value?.ifrc_contact_name}
-                                onChange={setFieldValue}
-                                error={error?.ifrc_contact_name}
-                                disabled={disabled}
-                            />
-                            <TextInput
-                                label={strings.ifrcTitle}
-                                name="ifrc_contact_title"
-                                value={value?.ifrc_contact_title}
-                                onChange={setFieldValue}
-                                error={error?.ifrc_contact_title}
-                                disabled={disabled}
-                            />
-                            <TextInput
-                                label={strings.ifrcEmail}
-                                name="ifrc_contact_email"
-                                value={value?.ifrc_contact_email}
-                                onChange={setFieldValue}
-                                error={error?.ifrc_contact_email}
-                                disabled={disabled}
-                            />
-                            <TextInput
-                                label={strings.ifrcPhoneNumber}
-                                name="ifrc_contact_phone_number"
-                                value={value?.ifrc_contact_phone_number}
-                                onChange={setFieldValue}
-                                error={error?.ifrc_contact_phone_number}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                        <InputSection
+                            value={value}
+                            error={error}
+                            setFieldValue={setFieldValue}
+                            namePrefix="ifrc_contact"
+                        />
+                        <ContactInputsSection
                             title={strings.focalPoint}
                             description={strings.focalPointDescription}
-                            numPreferredColumns={2}
-                        >
-                            <TextInput
-                                label={strings.focalPointName}
-                                name="dref_focal_point_name"
-                                value={value?.dref_focal_point_name}
-                                onChange={setFieldValue}
-                                error={error?.dref_focal_point_name}
-                                disabled={disabled}
-                            />
-                            <TextInput
-                                label={strings.focalPointTitle}
-                                name="dref_focal_point_title"
-                                value={value?.dref_focal_point_title}
-                                onChange={setFieldValue}
-                                error={error?.dref_focal_point_title}
-                                disabled={disabled}
-                            />
-                            <TextInput
-                                label={strings.focalPointEmail}
-                                name="dref_focal_point_email"
-                                value={value?.dref_focal_point_email}
-                                onChange={setFieldValue}
-                                error={error?.dref_focal_point_email}
-                                disabled={disabled}
-                            />
-                            <TextInput
-                                label={strings.focalPointPhoneNumber}
-                                name="dref_focal_point_phone_number"
-                                value={value?.dref_focal_point_phone_number}
-                                onChange={setFieldValue}
-                                error={error?.dref_focal_point_phone_number}
-                                disabled={disabled}
-                            />
-                        </InputSection>
+                            namePrefix="dref_focal_point"
+                            value={value}
+                            error={error}
+                            setFieldValue={setFieldValue}
+                        />
                     </ListView>
                 </Container>
                 <ListView withCenteredContents>

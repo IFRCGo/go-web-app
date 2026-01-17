@@ -528,7 +528,7 @@ type ExtractContactPrefix<KEY extends FieldKeys> =
             : never
         : never;
 
-export type ValidContactFieldPrefixes = ExtractContactPrefix<FieldKeys>;
+type ValidContactFieldPrefixes = ExtractContactPrefix<FieldKeys>;
 
 function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY, required?: boolean) {
     type ContactSchema = {
