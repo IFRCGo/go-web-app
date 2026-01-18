@@ -86,7 +86,7 @@ function Overview(props: Props) {
     }, [setFieldValue]);
 
     return (
-        <TabPage>
+        <TabPage spacingOffset={-2}>
             <Container
                 heading={strings.detailsHeading}
                 variant="form"
@@ -256,6 +256,7 @@ function Overview(props: Props) {
                                 error={error}
                                 disabled={disabled}
                                 readOnly={readOnly}
+                                withRequiredNameAndEmail
                             />
                             <ContactInputsSection
                                 title={strings.delegation}
@@ -265,6 +266,7 @@ function Overview(props: Props) {
                                 error={error}
                                 disabled={disabled}
                                 readOnly={readOnly}
+                                withRequiredNameAndEmail
                             />
                         </ListView>
                     </Container>

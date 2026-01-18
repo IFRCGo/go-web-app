@@ -1,5 +1,4 @@
 import {
-    type ElementRef,
     useCallback,
     useEffect,
     useMemo,
@@ -11,8 +10,10 @@ import {
     useSearchParams,
 } from 'react-router-dom';
 import {
+    Alert,
     Button,
     ListView,
+    Modal,
     Tab,
     TabList,
     TabPanel,
@@ -28,6 +29,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 import {
+    analyzeErrors,
     createSubmitHandler,
     removeNull,
     useForm,
@@ -40,6 +42,7 @@ import useRouting from '#hooks/useRouting';
 import {
     EAP_STATUS_NS_ADDRESSING_COMMENTS,
     EAP_STATUS_UNDER_DEVELOPMENT,
+    EAP_STATUS_UNDER_REVIEW,
 } from '#utils/constants';
 import {
     type GoApiBody,
@@ -79,6 +82,8 @@ const OPERATION_TIMEFRAME_UNIT = 20; // months
 type EapSimplifiedRequestBody = GoApiBody<'/api/v2/simplified-eap/', 'POST'>;
 type GetSimplifiedResponse = GoApiResponse<'/api/v2/simplified-eap/{id}/'>;
 
+type EapStatusBody = GoApiBody<'/api/v2/eap-registration/{id}/status/', 'POST'>;
+
 function getNextStep(current: TabKeys, direction: 1 | -1) {
     const tabKeyList: TabKeys[] = [
         'overview',
@@ -105,6 +110,9 @@ export function Component() {
     const { eapId } = useParams<{ eapId: string }>();
     const [searchParams] = useSearchParams();
     const versionFromParams = searchParams.get('version') ?? undefined;
+
+    const [shouldSubmit, setShouldSubmit] = useState(false);
+    const tabListRef = useRef<HTMLDivElement>(null);
 
     const {
         pending: eapRegistrationPending,
@@ -367,6 +375,10 @@ export function Component() {
             dref_focal_point_title,
             dref_focal_point_email,
             dref_focal_point_phone_number,
+            ifrc_contact_name,
+            ifrc_contact_title,
+            ifrc_contact_email,
+            ifrc_contact_phone_number,
         } = removeNull(eapRegistrationResponse);
 
         setValue((prevValue) => ({
@@ -379,6 +391,10 @@ export function Component() {
             dref_focal_point_title,
             dref_focal_point_email,
             dref_focal_point_phone_number,
+            ifrc_head_of_delegation_name: ifrc_contact_name,
+            ifrc_head_of_delegation_title: ifrc_contact_title,
+            ifrc_head_of_delegation_email: ifrc_contact_email,
+            ifrc_head_of_delegation_phone_number: ifrc_contact_phone_number,
             seap_timeframe: DEFAULT_SEAP_TIMEFRAME,
             operational_timeframe_unit: OPERATION_TIMEFRAME_UNIT,
         }));
@@ -394,7 +410,7 @@ export function Component() {
 
     const {
         pending: createSimplifiedEapPending,
-        trigger: createSimplifiedEap,
+        trigger: triggerCreateSimplifiedEap,
     } = useLazyRequest({
         method: 'POST',
         url: '/api/v2/simplified-eap/',
@@ -427,7 +443,7 @@ export function Component() {
 
     const {
         pending: updateSimplifiedEapPending,
-        trigger: updateSimplifiedEap,
+        trigger: triggerUpdateSimplifiedEap,
     } = useLazyRequest({
         url: '/api/v2/simplified-eap/{id}/',
         method: 'PATCH',
@@ -467,19 +483,50 @@ export function Component() {
         },
     });
 
+    const { trigger: triggerStatusUpdate } = useLazyRequest({
+        method: 'POST',
+        url: '/api/v2/eap-registration/{id}/status/',
+        pathVariables: isTruthyString(eapId) ? {
+            id: Number(eapId),
+        } : undefined,
+        body: () => ({
+            status: EAP_STATUS_UNDER_REVIEW,
+        // FIXME: fix typings in the server
+        } as EapStatusBody),
+        onSuccess: () => {
+            alert.show(
+                // FIXME: use translations
+                'Successfully submitted EAP for approval!',
+                { variant: 'success' },
+            );
+
+            navigate('accountMyFormsEap');
+        },
+        onFailure: (error) => {
+            alert.show(
+                // FIXME: use translations
+                'Failed to submit the EAP for approval!',
+                {
+                    variant: 'danger',
+                    description: error.value.messageForNotification,
+                },
+            );
+        },
+    });
+
     const disabled = createSimplifiedEapPending
         || eapRegistrationPending
         || updateSimplifiedEapPending;
 
     const handleValidationSuccess = useCallback((validatedFormValue: PartialSimplifiedEapType) => {
         if (isNotDefined(latestSimplifiedEapId)) {
-            createSimplifiedEap({
+            triggerCreateSimplifiedEap({
                 // FIXME: remove cast to unknown (need to make previous_id read-only)
                 ...validatedFormValue as unknown as EapSimplifiedRequestBody,
                 eap_registration: Number(eapId),
             });
         } else {
-            updateSimplifiedEap({
+            triggerUpdateSimplifiedEap({
                 ...validatedFormValue,
                 id: latestSimplifiedEapId,
                 // FIXME: remove cast to unknown (need to make previous_id read-only)
@@ -487,17 +534,21 @@ export function Component() {
         }
     }, [
         eapId,
-        createSimplifiedEap,
-        updateSimplifiedEap,
+        triggerCreateSimplifiedEap,
+        triggerUpdateSimplifiedEap,
         latestSimplifiedEapId,
     ]);
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
-    const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const handleFormError = useCallback(() => {
-        setTimeout(() => formContentRef.current?.scrollIntoView(), 200);
-    }, []);
+        alert.show(
+            strings.validationErrorAlertMessage,
+            { variant: 'warning' },
+        );
+
+        // setShouldSubmit(false);
+    }, [alert, strings.validationErrorAlertMessage]);
 
     const handleSave = useMemo(() => (
         createSubmitHandler(
@@ -513,13 +564,32 @@ export function Component() {
         setError,
     ]);
 
+    const handleRequestForApprovalButtonClick = useCallback(() => {
+        setShouldSubmit(true);
+        handleSave();
+    }, [handleSave]);
+
+    const handleRequestForApprovalCancel = useCallback(() => {
+        setShouldSubmit(false);
+    }, []);
+
+    const handleSubmitForApprovalConfirm = useCallback(() => {
+        triggerStatusUpdate(null);
+        setShouldSubmit(false);
+    }, [triggerStatusUpdate]);
+
     const nextStep = getNextStep(activeTab, 1);
     const prevStep = getNextStep(activeTab, -1);
 
     const handleTabChange = useCallback((newTab: TabKeys) => {
-        formContentRef.current?.scrollIntoView();
         setActiveTab(newTab);
+        tabListRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, []);
+
+    const hasFormErrors = useMemo(
+        () => analyzeErrors(formError),
+        [formError],
+    );
 
     return (
         <Tabs
@@ -563,7 +633,7 @@ export function Component() {
                     )
                 }
                 info={(
-                    <TabList>
+                    <TabList elementRef={tabListRef}>
                         <Tab
                             name="overview"
                             step={1}
@@ -692,14 +762,49 @@ export function Component() {
                     ) : (
                         <Button
                             name={undefined}
-                            onClick={handleSave}
+                            onClick={handleRequestForApprovalButtonClick}
                             disabled={readOnly}
                         >
-                            {strings.saveButtonLabel}
+                            {strings.submitButtonLabel}
                         </Button>
                     )}
                 </ListView>
             </Page>
+            {shouldSubmit && (
+                <Modal
+                    heading={strings.submitConfirmHeading}
+                    onClose={handleRequestForApprovalCancel}
+                    pending={createSimplifiedEapPending || updateSimplifiedEapPending}
+                    pendingMessage={strings.savingPendingMessage}
+                    footerActions={(
+                        <Button
+                            name={undefined}
+                            disabled={hasFormErrors}
+                            onClick={handleSubmitForApprovalConfirm}
+                        >
+                            {strings.submitConfirmButtonLabel}
+                        </Button>
+                    )}
+                >
+                    <ListView
+                        layout="block"
+                        spacing="sm"
+                    >
+                        <div>
+                            {strings.submitConfirmMessage}
+                        </div>
+                        {hasFormErrors && (
+                            <Alert
+                                name="form-error-warning"
+                                title={strings.submitFormErrorMessage}
+                                type="warning"
+                                withLightBackground
+                                withoutShadow
+                            />
+                        )}
+                    </ListView>
+                </Modal>
+            )}
         </Tabs>
     );
 }

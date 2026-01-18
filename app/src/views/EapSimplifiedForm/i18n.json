@@ -18,6 +18,13 @@
         "createSuccessMessage": "Successfully created a new Simplified EAP!",
         "updateSuccessMessage": "Simplified EAP Form updated Successfully!",
         "backToAccountLinkLabel": "Back",
-        "readOnlyWarningMessage": "You’re viewing this form in read-only mode. Editing is currently disabled."
+        "readOnlyWarningMessage": "You’re viewing this form in read-only mode. Editing is currently disabled.",
+        "validationErrorAlertMessage": "Please fix all the errors before continuing!",
+        "savingPendingMessage": "Saving data...",
+        "submitFormErrorMessage": "Please make sure you've filled in all the required details before proceeding!",
+        "submitButtonLabel": "Submit for approval",
+        "submitConfirmButtonLabel": "Confirm",
+        "submitConfirmHeading": "Submit EAP for approval",
+        "submitConfirmMessage": "Are you sure you want to submit the EAP? Reviewers will be notified and you'll no longer be able to edit the form!"
     }
 }
