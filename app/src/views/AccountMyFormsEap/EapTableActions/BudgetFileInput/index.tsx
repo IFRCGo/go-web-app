@@ -3,9 +3,12 @@ import {
     useMemo,
     useState,
 } from 'react';
+import { UploadLineIcon } from '@ifrc-go/icons';
 import {
     Button,
+    Description,
     Label,
+    ListView,
     Modal,
     RawFileInput,
 } from '@ifrc-go/ui';
@@ -92,6 +95,7 @@ function BudgetFileInput(props: Props) {
             <Button
                 name
                 onClick={setShowUploadModal}
+                before={<UploadLineIcon />}
             >
                 {hasBudgetFile ? strings.updateBudgetFileLabel : strings.newBudgetFileUploadLabel}
             </Button>
@@ -108,15 +112,24 @@ function BudgetFileInput(props: Props) {
                         </Button>
                     )}
                 >
-                    <RawFileInput
-                        name={undefined}
-                        onChange={setBudgetFile}
+                    <ListView
+                        layout="block"
+                        spacing="sm"
                     >
-                        {strings.fileInputLabel}
-                    </RawFileInput>
-                    <Label>
-                        {isDefined(budgetFile) && budgetFile.name}
-                    </Label>
+                        <Description>
+                            {strings.uploadFileDescription}
+                        </Description>
+                        <RawFileInput
+                            name={undefined}
+                            onChange={setBudgetFile}
+                            before={<UploadLineIcon />}
+                        >
+                            {strings.fileInputLabel}
+                        </RawFileInput>
+                        <Label>
+                            {isDefined(budgetFile) && budgetFile.name}
+                        </Label>
+                    </ListView>
                 </Modal>
             )}
         </>

@@ -183,26 +183,28 @@ function GoSingleFileInput<const NAME>(props: Props<NAME>) {
                         {strings.noFileSelected}
                     </Description>
                 )}
-                {!withoutPreview && isDefined(selectedFileUrl) && (
-                    <Link
-                        href={selectedFileUrl}
-                        external
-                    >
-                        {selectedFileUrl.split('/').pop()}
-                    </Link>
-                )}
-                {clearable && isDefined(value) && (
-                    <IconButton
-                        name={undefined}
-                        onClick={handleClearButtonClick}
-                        title={strings.removeFileButtonTitle}
-                        ariaLabel={strings.removeFileButtonTitle}
-                        spacing="none"
-                        disabled={disabled}
-                    >
-                        <DeleteBinLineIcon />
-                    </IconButton>
-                )}
+                <ListView spacing="xs">
+                    {!withoutPreview && isDefined(selectedFileUrl) && (
+                        <Link
+                            href={selectedFileUrl}
+                            external
+                        >
+                            {selectedFileUrl.split('/').pop()}
+                        </Link>
+                    )}
+                    {clearable && isDefined(value) && (
+                        <IconButton
+                            name={undefined}
+                            onClick={handleClearButtonClick}
+                            title={strings.removeFileButtonTitle}
+                            ariaLabel={strings.removeFileButtonTitle}
+                            spacing="none"
+                            disabled={disabled}
+                        >
+                            <DeleteBinLineIcon />
+                        </IconButton>
+                    )}
+                </ListView>
             </ListView>
             {description && (
                 <Description withLightText>
