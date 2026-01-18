@@ -1,6 +1,6 @@
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
-    Button,
+    IconButton,
     InlineLayout,
     ListView,
     NumberInput,
@@ -19,7 +19,7 @@ import { type components } from '#generated/types';
 
 import i18n from './i18n.json';
 
-type Indicator = components['schemas']['Indicator'] & { client_id: string };
+type Indicator = components<'write'>['schemas']['Indicator'] & { client_id: string };
 type IndicatorFormFields = PartialForm<Indicator, 'client_id'>;
 
 const defaultIndicatorValue: IndicatorFormFields = {
@@ -36,7 +36,7 @@ interface Props {
     readOnly?: boolean;
 }
 
-function IndicatorInput(props: Props) {
+function EapIndicatorInput(props: Props) {
     const {
         error: errorFromProps,
         readOnly,
@@ -58,40 +58,45 @@ function IndicatorInput(props: Props) {
     return (
         <InlineLayout
             after={(
-                <Button
+                <IconButton
                     name={index}
                     onClick={onRemove}
-                    styleVariant="action"
-                    title={strings.indicatorRemoveTitle}
+                    title={strings.removeButtonTitle}
+                    ariaLabel={strings.removeButtonTitle}
                     disabled={disabled || readOnly}
                 >
                     <DeleteBinTwoLineIcon />
-                </Button>
+                </IconButton>
             )}
             spacing="sm"
         >
-            <ListView layout="grid" spacing="sm">
+            <ListView
+                layout="grid"
+                spacing="sm"
+            >
                 <TextInput
-                    label={strings.indicatorTitleLabel}
+                    label={strings.titleInputLabel}
                     name="title"
                     value={value.title}
                     onChange={onFieldChange}
                     error={error?.title}
                     disabled={disabled}
                     readOnly={readOnly}
+                    required
                 />
                 <NumberInput
-                    label={strings.indicatorTargetLabel}
+                    label={strings.targetInputLabel}
                     name="target"
                     value={value.target}
                     onChange={onFieldChange}
                     error={error?.target}
                     disabled={disabled}
                     readOnly={readOnly}
+                    required
                 />
             </ListView>
         </InlineLayout>
     );
 }
 
-export default IndicatorInput;
+export default EapIndicatorInput;

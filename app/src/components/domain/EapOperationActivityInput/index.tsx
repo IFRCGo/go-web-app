@@ -50,7 +50,7 @@ interface Props {
     readOnly?: boolean;
 }
 
-function OperationActivityInput(props: Props) {
+function EapOperationActivityInput(props: Props) {
     const {
         error: errorFromProps,
         onChange,
@@ -115,7 +115,6 @@ function OperationActivityInput(props: Props) {
                 <IconButton
                     name={index}
                     onClick={onRemove}
-                    styleVariant="action"
                     // FIXME: use translations
                     title="Remove"
                     ariaLabel="Remove"
@@ -172,4 +171,4 @@ function OperationActivityInput(props: Props) {
     );
 }
 
-export default OperationActivityInput;
+export default EapOperationActivityInput;
