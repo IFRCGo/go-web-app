@@ -52,7 +52,7 @@ function EarlyActionsInput(props: Props) {
     return (
         <Container
             spacing="sm"
-            headerDescription={(
+            footer={error && (
                 <NonFieldError error={error} />
             )}
         >
@@ -61,10 +61,10 @@ function EarlyActionsInput(props: Props) {
                     <IconButton
                         name={index}
                         onClick={onRemove}
-                        styleVariant="action"
                         disabled={disabled || readOnly}
                         // FIXME use translation strings
                         title="Remove early action"
+                        // FIXME use translation strings
                         ariaLabel="Remove early action"
                     >
                         <DeleteBinTwoLineIcon />

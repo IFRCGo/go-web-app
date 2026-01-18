@@ -16,7 +16,7 @@ import {
     urlCondition,
 } from '@togglecorp/toggle-form';
 
-import operationActivitySchema from '#components/domain/OperationActivityInput/schema';
+import operationActivitySchema from '#components/domain/EapOperationActivityInput/schema';
 import { positiveNumberCondition } from '#utils/form';
 import { type GoApiBody } from '#utils/restRequest';
 

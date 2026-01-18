@@ -6,26 +6,29 @@ import {
 } from '@togglecorp/toggle-form';
 
 import { type components } from '#generated/types';
+import { positiveNumberCondition } from '#utils/form';
 
-type OperationActivity = components<'write'>['schemas']['OperationActivity'];
+type Indicator = components<'write'>['schemas']['Indicator'];
 
-export type OperationActivityFormFields = PartialForm<Omit<OperationActivity, 'timeframe_display'>> & {
+export type IndicatorFormFields = PartialForm<Indicator> & {
     client_id: string;
 }
 
-type OperationActivitySchema = ObjectSchema<OperationActivityFormFields>;
+type IndicatorSchema = ObjectSchema<IndicatorFormFields>;
 
-const schema: OperationActivitySchema = {
-    fields: (): ReturnType<OperationActivitySchema['fields']> => ({
+const schema: IndicatorSchema = {
+    fields: (): ReturnType<IndicatorSchema['fields']> => ({
         client_id: {},
         id: { defaultValue: undefinedValue },
-        activity: {
+        title: {
             // FIXME: add validation for character limit
             required: true,
             requiredValidation: requiredStringCondition,
         },
-        time_value: {},
-        timeframe: {},
+        target: {
+            required: true,
+            validations: [positiveNumberCondition],
+        },
     }),
 };
 

@@ -1,51 +1,27 @@
-import { useCallback } from 'react';
-import {
-    AddLineIcon,
-    DeleteBinTwoLineIcon,
-} from '@ifrc-go/icons';
+import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
     Button,
-    Container,
     ExpandableContainer,
-    InfoPopup,
     ListView,
     NumberInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
-    isNotDefined,
-    randomString,
-} from '@togglecorp/fujs';
-import {
     type ArrayError,
     getErrorObject,
     type SetValueArg,
-    useFormArray,
     useFormObject,
 } from '@togglecorp/toggle-form';
 
-import OperationActivityInput from '#components/domain/OperationActivityInput';
-import NonFieldError from '#components/NonFieldError';
+import EapIndicatorListInput from '#components/domain/EapIndicatorListInput';
+import EapOperationActivityListInput from '#components/domain/EapOperationActivityListInput';
 
 import { type PartialEapFullFormType } from '../../schema';
-import IndicatorInput from '../IndicatorInput';
 
 import i18n from './i18n.json';
 
 type PlannedOperationFormFields = NonNullable<
     PartialEapFullFormType['planned_operations']
->[number];
-type EarlyActionFormFields = NonNullable<
-    PlannedOperationFormFields['early_action_activities']
->[number];
-type PrepositioningFormFields = NonNullable<
-    PlannedOperationFormFields['prepositioning_activities']
->[number];
-type ReadinessFormFields = NonNullable<
-    PlannedOperationFormFields['readiness_activities']
->[number];
-type IndicatorFormFields = NonNullable<
-    PlannedOperationFormFields['indicators']
 >[number];
 
 const defaultOperationValue: PlannedOperationFormFields = {
@@ -85,83 +61,6 @@ function OperationsInput(props: Props) {
         ? getErrorObject(errorFromProps?.[value.sector])
         : undefined;
 
-    const { setValue: onEarlyActionChange, removeValue: onEarlyActionRemove } = useFormArray<'early_action_activities', EarlyActionFormFields>(
-        'early_action_activities' as const,
-        onFieldChange,
-    );
-    const {
-        setValue: onPrepositioningChange,
-        removeValue: onPrepositioningRemove,
-    } = useFormArray<'prepositioning_activities', PrepositioningFormFields>(
-        'prepositioning_activities' as const,
-        onFieldChange,
-    );
-    const { setValue: onReadinessChange, removeValue: onReadinessRemove } = useFormArray<'readiness_activities', ReadinessFormFields>(
-        'readiness_activities' as const,
-        onFieldChange,
-    );
-
-    const { setValue: onIndicatorChange, removeValue: onIndicatorRemove } = useFormArray<'indicators', IndicatorFormFields>(
-        'indicators' as const,
-        onFieldChange,
-    );
-
-    const handleEarlyActionAddButtonClick = useCallback(() => {
-        const newActionItem: EarlyActionFormFields = {
-            client_id: randomString(),
-        };
-
-        onFieldChange(
-            (oldValue: EarlyActionFormFields[] | undefined) => [
-                ...(oldValue ?? []),
-                newActionItem,
-            ],
-            'early_action_activities' as const,
-        );
-    }, [onFieldChange]);
-
-    const handlePrepositioningAddButtonClick = useCallback(() => {
-        const newActionItem: PrepositioningFormFields = {
-            client_id: randomString(),
-        };
-
-        onFieldChange(
-            (oldValue: PrepositioningFormFields[] | undefined) => [
-                ...(oldValue ?? []),
-                newActionItem,
-            ],
-            'prepositioning_activities' as const,
-        );
-    }, [onFieldChange]);
-
-    const handleReadinessAddButtonClick = useCallback(() => {
-        const newActionItem: ReadinessFormFields = {
-            client_id: randomString(),
-        };
-
-        onFieldChange(
-            (oldValue: ReadinessFormFields[] | undefined) => [
-                ...(oldValue ?? []),
-                newActionItem,
-            ],
-            'readiness_activities' as const,
-        );
-    }, [onFieldChange]);
-
-    const handleIndicatorAddButtonClick = useCallback(() => {
-        const newIndicator: IndicatorFormFields = {
-            client_id: randomString(),
-        };
-
-        onFieldChange(
-            (oldValue: IndicatorFormFields[] | undefined) => [
-                ...(oldValue ?? []),
-                newIndicator,
-            ],
-            'indicators' as const,
-        );
-    }, [onFieldChange]);
-
     return (
         <ExpandableContainer
             heading={operationTitle ?? '--'}
@@ -180,10 +79,13 @@ function OperationsInput(props: Props) {
             withBackground
             initiallyExpanded
             withHeaderBorder
-        // FIXME: add non field error and error indicator
+            // FIXME: add non field error and error indicator
         >
             <ListView layout="block">
-                <ListView layout="grid" numPreferredGridColumns={3}>
+                <ListView
+                    layout="grid"
+                    numPreferredGridColumns={3}
+                >
                     <NumberInput
                         label={strings.selectionActionsPlannedOperationPeopleTargeted}
                         name="people_targeted"
@@ -215,215 +117,31 @@ function OperationsInput(props: Props) {
                 <ListView
                     layout="block"
                     spacing="2xs"
-                // FIXME: following can be converted into a component and reused
                 >
-                    <Container
-                        spacing="sm"
-                        withDarkBackground
-                        withHeaderBorder
-                        withPadding
-                        withCompactMessage
-                        headingLevel={6}
-                        heading={strings.selectionActionsPlannedOperationIndicators}
-                        footerActions={(
-                            <Button
-                                name={undefined}
-                                onClick={handleIndicatorAddButtonClick}
-                                spacing="sm"
-                                disabled={disabled || readOnly}
-                                before={<AddLineIcon />}
-                            >
-                                {strings.addIndicatorsButtonLabel}
-                            </Button>
-                        )}
-                        empty={
-                            isNotDefined(value.indicators) || value.indicators.length === 0
-                        }
-                        emptyMessage={strings.noIndicatorsMessage}
-                    >
-                        <NonFieldError
-                            error={getErrorObject(error?.indicators)}
-                        />
-                        <ListView layout="block">
-                            {value.indicators?.map((indicator, i) => (
-                                <IndicatorInput
-                                    key={indicator.client_id}
-                                    index={i}
-                                    value={indicator}
-                                    onChange={onIndicatorChange}
-                                    onRemove={onIndicatorRemove}
-                                    error={getErrorObject(error?.indicators)}
-                                    disabled={disabled}
-                                    readOnly={readOnly}
-                                />
-                            ))}
-                        </ListView>
-                    </Container>
-                    <Container
-                        spacing="sm"
-                        withDarkBackground
-                        withHeaderBorder
-                        withPadding
-                        heading={(
-                            <>
-                                {strings.selectionActionsReadinessActivities}
-                                <InfoPopup
-                                    description={
-                                        strings.selectionActionsReadinessActivitiesDescription
-                                    }
-                                />
-                            </>
-                        )}
-                        headingLevel={5}
-                        footerActions={(
-                            <Button
-                                styleVariant="outline"
-                                name={undefined}
-                                onClick={handleReadinessAddButtonClick}
-                                spacing="sm"
-                                disabled={disabled || readOnly}
-                                before={<AddLineIcon />}
-                            >
-                                {strings.selectionActionsPlannedOperationAddActivityButton}
-                            </Button>
-                        )}
-                        withCompactMessage
-                        empty={
-                            isNotDefined(value.readiness_activities)
-                            || value.readiness_activities.length === 0
-                        }
-                        emptyMessage={strings.selectionActionsNoActivitiesMessage}
-                        headerDescription={(
-                            <NonFieldError
-                                error={getErrorObject(error?.readiness_activities)}
-                            />
-                        )}
-                    >
-                        <ListView layout="block">
-                            {value?.readiness_activities?.map((activity, i) => (
-                                <OperationActivityInput
-                                    key={activity.client_id}
-                                    index={i}
-                                    value={activity}
-                                    onChange={onReadinessChange}
-                                    onRemove={onReadinessRemove}
-                                    error={getErrorObject(error?.readiness_activities)}
-                                    disabled={disabled}
-                                    readOnly={readOnly}
-                                />
-                            ))}
-                        </ListView>
-                    </Container>
-                    <Container
-                        spacing="sm"
-                        withDarkBackground
-                        withHeaderBorder
-                        withPadding
-                        heading={(
-                            <>
-                                {strings.selectionActionsPrepositioningActivities}
-                                <InfoPopup
-                                    description={
-                                        strings.selectionActionsPrepositioningActivitiesDescription
-                                    }
-                                />
-                            </>
-                        )}
-                        headingLevel={5}
-                        footerActions={(
-                            <Button
-                                name={undefined}
-                                onClick={handlePrepositioningAddButtonClick}
-                                disabled={disabled || readOnly}
-                                styleVariant="outline"
-                                spacing="sm"
-                                before={<AddLineIcon />}
-                            >
-                                {strings.selectionActionsPlannedOperationAddActivityButton}
-                            </Button>
-                        )}
-                        withCompactMessage
-                        empty={
-                            isNotDefined(value.prepositioning_activities)
-                            || value.prepositioning_activities.length === 0
-                        }
-                        emptyMessage={strings.selectionActionsNoActivitiesMessage}
-                        headerDescription={(
-                            <NonFieldError
-                                error={getErrorObject(error?.prepositioning_activities)}
-                            />
-                        )}
-                    >
-                        <ListView layout="block">
-                            {value?.prepositioning_activities?.map((activity, i) => (
-                                <OperationActivityInput
-                                    key={activity.client_id}
-                                    index={i}
-                                    value={activity}
-                                    onChange={onPrepositioningChange}
-                                    onRemove={onPrepositioningRemove}
-                                    error={getErrorObject(error?.prepositioning_activities)}
-                                    disabled={disabled}
-                                    readOnly={readOnly}
-                                />
-                            ))}
-                        </ListView>
-                    </Container>
-                    <Container
-                        spacing="sm"
-                        withDarkBackground
-                        withHeaderBorder
-                        withPadding
-                        heading={(
-                            <>
-                                {strings.selectionActionsEarlyActionActivities}
-                                <InfoPopup
-                                    description={
-                                        strings.selectionActionsEarlyActionActivitiesDescription
-                                    }
-                                />
-                            </>
-                        )}
-                        headingLevel={5}
-                        footerActions={(
-                            <Button
-                                name={undefined}
-                                onClick={handleEarlyActionAddButtonClick}
-                                disabled={disabled || readOnly}
-                                styleVariant="outline"
-                                spacing="sm"
-                                before={<AddLineIcon />}
-                            >
-                                {strings.selectionActionsPlannedOperationAddActivityButton}
-                            </Button>
-                        )}
-                        withCompactMessage
-                        empty={
-                            isNotDefined(value.early_action_activities)
-                            || value.early_action_activities.length === 0
-                        }
-                        emptyMessage={strings.selectionActionsNoActivitiesMessage}
-                        headerDescription={(
-                            <NonFieldError
-                                error={getErrorObject(error?.early_action_activities)}
-                            />
-                        )}
-                    >
-                        <ListView layout="block">
-                            {value?.early_action_activities?.map((activity, i) => (
-                                <OperationActivityInput
-                                    key={activity.client_id}
-                                    index={i}
-                                    value={activity}
-                                    onChange={onEarlyActionChange}
-                                    onRemove={onEarlyActionRemove}
-                                    error={getErrorObject(error?.early_action_activities)}
-                                    disabled={disabled}
-                                    readOnly={readOnly}
-                                />
-                            ))}
-                        </ListView>
-                    </Container>
+                    <EapIndicatorListInput
+                        name="indicators"
+                        value={value.indicators}
+                        onChange={onFieldChange}
+                        error={getErrorObject(error?.indicators)}
+                    />
+                    <EapOperationActivityListInput
+                        name="readiness_activities"
+                        value={value.readiness_activities}
+                        onChange={onFieldChange}
+                        error={getErrorObject(error?.readiness_activities)}
+                    />
+                    <EapOperationActivityListInput
+                        name="prepositioning_activities"
+                        value={value.prepositioning_activities}
+                        onChange={onFieldChange}
+                        error={getErrorObject(error?.prepositioning_activities)}
+                    />
+                    <EapOperationActivityListInput
+                        name="early_action_activities"
+                        value={value.early_action_activities}
+                        onChange={onFieldChange}
+                        error={getErrorObject(error?.early_action_activities)}
+                    />
                 </ListView>
             </ListView>
         </ExpandableContainer>

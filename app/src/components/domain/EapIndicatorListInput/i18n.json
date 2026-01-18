@@ -1,0 +1,8 @@
+{
+    "namespace": "eapIndicatorListInput",
+    "strings": {
+        "indicatorsTitle": "Indicators",
+        "addButtonLabel": "Add indicator",
+        "emptyMessage": "No indicators yet!"
+    }
+}

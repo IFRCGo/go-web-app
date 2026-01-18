@@ -13,8 +13,8 @@ import {
     undefinedValue,
 } from '@togglecorp/toggle-form';
 
-import operationActivitySchema from '#components/domain/OperationActivityInput/schema';
-import { positiveNumberCondition } from '#utils/form';
+import indicatorSchema from '#components/domain/EapIndicatorInput/schema';
+import operationActivitySchema from '#components/domain/EapOperationActivityInput/schema';
 import { type GoApiBody } from '#utils/restRequest';
 
 function lessThanEqualToFiveImagesCondition<T>(value: T[] | undefined) {
@@ -205,28 +205,6 @@ type EnableApproachesFields = ReturnType<
 type CoverImageFileFormFields = ReturnType<
     ObjectSchema<
         PartialSimplifiedEapType['cover_image_file'],
-        PartialSimplifiedEapType,
-        EapSimplifiedFormContext
-    >['fields']
->;
-type IndicatorFields = ReturnType<
-    ObjectSchema<
-        NonNullable<
-            NonNullable<
-                PartialSimplifiedEapType['planned_operations']
-            >[number]['indicators']
-        >[number],
-        PartialSimplifiedEapType,
-        EapSimplifiedFormContext
-    >['fields']
->;
-type ApproachIndicatorFields = ReturnType<
-    ObjectSchema<
-        NonNullable<
-            NonNullable<
-                PartialSimplifiedEapType['enabling_approaches']
-            >[number]['indicators']
-        >[number],
         PartialSimplifiedEapType,
         EapSimplifiedFormContext
     >['fields']
@@ -458,20 +436,7 @@ export const formSchema: FormSchema = {
                         ap_code: { required: true },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
-                            member: () => ({
-                                fields: (): IndicatorFields => ({
-                                    client_id: {},
-                                    id: { defaultValue: undefinedValue },
-                                    title: {
-                                        required: true,
-                                        requiredValidation: requiredStringCondition,
-                                    },
-                                    target: {
-                                        required: true,
-                                        validations: [positiveNumberCondition],
-                                    },
-                                }),
-                            }),
+                            member: () => indicatorSchema,
                             validation: (indicators) => {
                                 if (isNotDefined(indicators) || indicators.length === 0) {
                                     return 'This field is required';
@@ -515,20 +480,7 @@ export const formSchema: FormSchema = {
                         ap_code: {},
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
-                            member: () => ({
-                                fields: (): ApproachIndicatorFields => ({
-                                    client_id: {},
-                                    id: { defaultValue: undefinedValue },
-                                    title: {
-                                        required: true,
-                                        requiredValidation: requiredStringCondition,
-                                    },
-                                    target: {
-                                        required: true,
-                                        validations: [positiveNumberCondition],
-                                    },
-                                }),
-                            }),
+                            member: () => indicatorSchema,
                             validation: (indicators) => {
                                 if (isNotDefined(indicators) || indicators.length === 0) {
                                     return 'This field is required';

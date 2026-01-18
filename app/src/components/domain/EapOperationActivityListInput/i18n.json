@@ -1,0 +1,14 @@
+{
+    "namespace": "eapOperationActivityListInput",
+    "strings": {
+        "addButtonLabel": "Add activity",
+        "emptyMessage": "No activities yet!",
+        "readinessTitle": "Readiness Activities",
+        "readinessDescription": "Readiness activities are done year on year to ensure that the National Society is ready to conduct the early actions. These are activities that will happen irrespective of an activation. Readiness activities may include refresher training, coordination meetings with government, readiness meetings, simulations, etc. Under readiness they can include any ongoing costs and services (human resources and logistics) that are deemed indispensable for subsequent trigger-based early action activities. If, during the simplified EAP development process the National Society finds some areas for improvement to deliver on their selected early actions, these could be addressed with activities included under readiness.",
+        "prepositioningTitle": "Pre-positioning Activities",
+        "prepositioningDescription": "The National Society should preposition the materials needed to undertake the early action, especially those that may require a longer procurement process.  For example, prepositioned stocks could include shelter kits (for house reinforcement), sandbags (for protecting infrastructure), or tarpaulins (for protecting water sources), etc. Food, medicine and other items with a shelf life of less than two years are not eligible as pre-positioning, they will have to be procured as part of the early actions. Pre-positioning activities are one-off and done in the first year following approval of the simplified EAP.",
+        "earlyActionTitle": "Early Action Activities",
+        "earlyActionDescription": "Early action activities are implemented once a trigger is reached and before the impact of the hazard. Early actions seek to reduce or mitigate the impact of the hazard. Consider selecting only a few early actions, especially for sudden onset events, as they will have to be implemented within a short timeframe. The early actions will be unique to each hazard and context, but may be activities such as evacuation of at-risk communities and/or livestock, early harvest of crops, cash transfer, shelter strengthening, provision of water treatment, hygiene kits or mosquito nets, etc. For more examples of early action activities, visit the {earlyActionDatabaseLink} on the Anticipation Hub.",
+        "earlyActionDatabaseLinkLabel": "early action database"
+    }
+}
