@@ -151,7 +151,7 @@ export function Component() {
                     parentRoute
                 >
                     <EmergencyTelecommunicationsIcon className={styles.icon} />
-                    {strings.catalogueInformationTechnologyTelecom}
+                    {strings.catalogueDigitalSystems}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOtherInternationalDisasterResponseLaw"
