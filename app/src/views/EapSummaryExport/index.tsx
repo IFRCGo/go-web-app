@@ -17,13 +17,14 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
-import Link from '#components/Link';
+import Link from '#components/printable/Link';
 import PrintableContainer from '#components/printable/PrintableContainer';
 import PrintableDataDisplay from '#components/printable/PrintableDataDisplay';
 import PrintableDescription from '#components/printable/PrintableDescription';
 import PrintablePage from '#components/printable/PrintablePage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { useRequest } from '#utils/restRequest';
+import PrintableContactOutput from '#views/EapFullExport/PrintableContactOutput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -73,47 +74,7 @@ export function Component() {
     const {
         cover_image_file,
 
-        national_society_contact_name,
-        national_society_contact_email,
-        national_society_contact_title,
-        national_society_contact_phone_number,
-
         partner_contacts,
-
-        ifrc_delegation_focal_point_name,
-        ifrc_delegation_focal_point_email,
-        ifrc_delegation_focal_point_title,
-        ifrc_delegation_focal_point_phone_number,
-
-        ifrc_head_of_delegation_name,
-        ifrc_head_of_delegation_email,
-        ifrc_head_of_delegation_title,
-        ifrc_head_of_delegation_phone_number,
-
-        dref_focal_point_name,
-        dref_focal_point_email,
-        dref_focal_point_title,
-        dref_focal_point_phone_number,
-
-        ifrc_regional_focal_point_name,
-        ifrc_regional_focal_point_email,
-        ifrc_regional_focal_point_title,
-        ifrc_regional_focal_point_phone_number,
-
-        ifrc_regional_ops_manager_name,
-        ifrc_regional_ops_manager_email,
-        ifrc_regional_ops_manager_title,
-        ifrc_regional_ops_manager_phone_number,
-
-        ifrc_regional_head_dcc_name,
-        ifrc_regional_head_dcc_email,
-        ifrc_regional_head_dcc_title,
-        ifrc_regional_head_dcc_phone_number,
-
-        ifrc_global_ops_coordinator_name,
-        ifrc_global_ops_coordinator_email,
-        ifrc_global_ops_coordinator_title,
-        ifrc_global_ops_coordinator_phone_number,
 
         admin2_details,
         lead_time,
@@ -482,16 +443,8 @@ export function Component() {
                     </PrintableContainer>
                 ))}
             </PrintableContainer>
-            <PrintableContainer
-                heading={strings.operationBudgetLabel}
-                headingLevel={3}
-            >
-                <Link
-                    href={budget_file_details?.file}
-                    withLinkIcon
-                    external
-                    withUnderline
-                >
+            <PrintableContainer headingLevel={3}>
+                <Link href={budget_file_details?.file}>
                     {strings.downloadBudgetLabel}
                 </Link>
             </PrintableContainer>
@@ -503,24 +456,16 @@ export function Component() {
                     <PrintableDescription value={strings.contactInformationDescription} />
                 </PrintableContainer>
                 <PrintableContainer heading={strings.nationalLabel} headingLevel={4}>
-                    <PrintableDataDisplay
+                    <PrintableContactOutput
                         label={strings.nationalSocietyContactLabel}
-                        valueType="text"
-                        value={[
-                            national_society_contact_name,
-                            national_society_contact_title,
-                            national_society_contact_email,
-                            national_society_contact_phone_number,
-                        ]
-                            .filter(isTruthyString)
-                            .join(', ')}
-                        variant="inline"
-                        strongLabel
+                        namePrefix="national_society_contact"
+                        data={fullEapResponse}
+                        prevData={undefined}
                         withDiff={false}
                     />
                     <PrintableContainer
                         heading={strings.partnerNationalSocietyContactLabel}
-                        headingLevel={5}
+                        headingLevel={6}
                     >
                         {partner_contacts?.map((partner) => (
                             <PrintableDataDisplay
@@ -541,115 +486,59 @@ export function Component() {
                     </PrintableContainer>
                 </PrintableContainer>
                 <PrintableContainer heading={strings.delegationLabel} headingLevel={4}>
-                    <PrintableDataDisplay
+                    <PrintableContactOutput
                         label={strings.delegationFocalLabel}
-                        valueType="text"
+                        namePrefix="ifrc_delegation_focal_point"
+                        data={fullEapResponse}
+                        prevData={undefined}
                         withDiff={false}
-                        value={[
-                            ifrc_delegation_focal_point_name,
-                            ifrc_delegation_focal_point_email,
-                            ifrc_delegation_focal_point_title,
-                            ifrc_delegation_focal_point_phone_number,
-                        ]
-                            .filter(isTruthyString)
-                            .join(', ')}
-                        variant="inline"
-                        strongLabel
                     />
-                    <PrintableDataDisplay
+                    <PrintableContactOutput
                         label={strings.delegationHeadLabel}
-                        valueType="text"
+                        namePrefix="ifrc_head_of_delegation"
+                        data={fullEapResponse}
+                        prevData={undefined}
                         withDiff={false}
-                        value={[
-                            ifrc_head_of_delegation_name,
-                            ifrc_head_of_delegation_title,
-                            ifrc_head_of_delegation_email,
-                            ifrc_head_of_delegation_phone_number,
-                        ]
-                            .filter(isTruthyString)
-                            .join(', ')}
-                        variant="inline"
-                        strongLabel
                     />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.regionalGlobalLabel}
                     headingLevel={4}
                 >
-                    <PrintableDataDisplay
+                    <PrintableContactOutput
                         label={strings.drefFocalLabel}
-                        valueType="text"
+                        namePrefix="dref_focal_point"
+                        data={fullEapResponse}
+                        prevData={undefined}
                         withDiff={false}
-                        value={[
-                            dref_focal_point_name,
-                            dref_focal_point_email,
-                            dref_focal_point_title,
-                            dref_focal_point_phone_number,
-                        ]
-                            .filter(isTruthyString)
-                            .join(', ')}
-                        variant="inline"
-                        strongLabel
                     />
-                    <PrintableDataDisplay
+                    <PrintableContactOutput
                         label={strings.regionalFocalLabel}
-                        valueType="text"
+                        namePrefix="ifrc_regional_focal_point"
+                        data={fullEapResponse}
+                        prevData={undefined}
                         withDiff={false}
-                        value={[
-                            ifrc_regional_focal_point_name,
-                            ifrc_regional_focal_point_email,
-                            ifrc_regional_focal_point_title,
-                            ifrc_regional_focal_point_phone_number,
-                        ]
-                            .filter(isTruthyString)
-                            .join(', ')}
-                        variant="inline"
-                        strongLabel
                     />
-                    <PrintableDataDisplay
+                    <PrintableContactOutput
                         label={strings.regionalOpsLabel}
-                        valueType="text"
+                        namePrefix="ifrc_regional_ops_manager"
+                        data={fullEapResponse}
+                        prevData={undefined}
                         withDiff={false}
-                        value={[
-                            ifrc_regional_ops_manager_name,
-                            ifrc_regional_ops_manager_email,
-                            ifrc_regional_ops_manager_title,
-                            ifrc_regional_ops_manager_phone_number,
-                        ]
-                            .filter(isTruthyString)
-                            .join(', ')}
-                        variant="inline"
-                        strongLabel
                     />
-                    <PrintableDataDisplay
+                    <PrintableContactOutput
                         label={strings.regionalHeadLabel}
-                        valueType="text"
+                        namePrefix="ifrc_regional_head_dcc"
+                        data={fullEapResponse}
+                        prevData={undefined}
                         withDiff={false}
-                        value={[
-                            ifrc_regional_head_dcc_name,
-                            ifrc_regional_head_dcc_email,
-                            ifrc_regional_head_dcc_title,
-                            ifrc_regional_head_dcc_phone_number,
-                        ]
-                            .filter(isTruthyString)
-                            .join(', ')}
-                        variant="inline"
-                        strongLabel
                     />
-                    <PrintableDataDisplay
+                    <PrintableContactOutput
                         label={strings.globalOpsLabel}
-                        valueType="text"
+                        namePrefix="ifrc_global_ops_coordinator"
+                        data={fullEapResponse}
+                        prevData={undefined}
                         withDiff={false}
-                        value={[
-                            ifrc_global_ops_coordinator_name,
-                            ifrc_global_ops_coordinator_email,
-                            ifrc_global_ops_coordinator_title,
-                            ifrc_global_ops_coordinator_phone_number,
-                        ]
-                            .filter(isTruthyString)
-                            .join(', ')}
-                        variant="inline"
-                        strongLabel
                     />
                 </PrintableContainer>
             </PrintableContainer>
