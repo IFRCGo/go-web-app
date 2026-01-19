@@ -484,6 +484,7 @@ function SelectionActions(props: Props) {
                     <InputSection
                         title={strings.plannedOperationTitle}
                         description={strings.plannedOperationDescription}
+                        withAsteriskOnTitle
                     >
                         <NonFieldError error={getErrorObject(error?.planned_operations)} />
                         <Checklist
@@ -515,6 +516,7 @@ function SelectionActions(props: Props) {
                     <InputSection
                         title={strings.enablingApproachesTitle}
                         description={strings.enablingApproachesDescription}
+                        withAsteriskOnTitle
                     >
                         <NonFieldError error={getErrorObject(error?.planned_operations)} />
                         <Checklist

@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { CheckboxMultipleBlankFillIcon } from '@ifrc-go/icons';
 import {
     Button,
@@ -14,11 +15,13 @@ import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
+import { sumSafe } from '@ifrc-go/ui/utils';
 import {
     type EntriesAsList,
     type Error,
     getErrorObject,
     getErrorString,
+    type SetBaseValueArg,
 } from '@togglecorp/toggle-form';
 
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
@@ -33,6 +36,7 @@ import i18n from './i18n.json';
 interface Props {
     value: PartialEapFullFormType;
     setFieldValue: (...entries: EntriesAsList<PartialEapFullFormType>) => void;
+    setValue: (value: SetBaseValueArg<PartialEapFullFormType>) => void;
     error: Error<PartialEapFullFormType> | undefined;
     disabled?: boolean;
     fileIdToUrlMap: Record<number, string>;
@@ -47,6 +51,7 @@ function FinanceLogistics(props: Props) {
     const {
         value,
         setFieldValue,
+        setValue,
         error: formError,
         disabled,
         fileIdToUrlMap,
@@ -73,6 +78,36 @@ function FinanceLogistics(props: Props) {
         },
     });
 
+    const setBudgetValue = useCallback(
+        (
+            budgetValue: number | undefined,
+            name:
+                | 'readiness_budget'
+                | 'pre_positioning_budget'
+                | 'early_action_budget',
+        ) => {
+            setValue((prevValue) => {
+                const newBudgetValue = {
+                    readiness_budget: prevValue.readiness_budget,
+                    pre_positioning_budget: prevValue.pre_positioning_budget,
+                    early_action_budget: prevValue.early_action_budget,
+                    [name]: budgetValue,
+                };
+
+                return {
+                    ...prevValue,
+                    [name]: budgetValue,
+                    total_budget: sumSafe([
+                        newBudgetValue.readiness_budget,
+                        newBudgetValue.pre_positioning_budget,
+                        newBudgetValue.early_action_budget,
+                    ]),
+                };
+            });
+        },
+        [setValue],
+    );
+
     return (
         <TabPage spacingOffset={-6}>
             <InlineLayout
@@ -80,16 +115,13 @@ function FinanceLogistics(props: Props) {
                     <Button
                         name={undefined}
                         onClick={setShowQualityCriteriaTrue}
-                        after={(<CheckboxMultipleBlankFillIcon />)}
+                        after={<CheckboxMultipleBlankFillIcon />}
                     >
                         {strings.financeCriteriaButtonLabel}
                     </Button>
                 )}
             />
-            <ListView
-                layout="block"
-                spacing="xs"
-            >
+            <ListView layout="block" spacing="xs">
                 <Heading variant="form">{strings.financeHeading}</Heading>
                 <InputSection
                     title={strings.financeBudgetTitle}
@@ -117,7 +149,8 @@ function FinanceLogistics(props: Props) {
                         error={error?.total_budget}
                         onChange={setFieldValue}
                         disabled={disabled}
-                        readOnly={readOnly}
+                        readOnly
+                        required
                     />
                     <TextArea
                         label={strings.financeDescriptionLabel}
@@ -131,12 +164,7 @@ function FinanceLogistics(props: Props) {
                 </InputSection>
                 <InputSection
                     description={(
-                        <Link
-                            external
-                            href={templateUrl?.url}
-                            withUnderline
-                            withLinkIcon
-                        >
+                        <Link external href={templateUrl?.url} withUnderline withLinkIcon>
                             {strings.financeDownloadDescription}
                         </Link>
                     )}
@@ -194,9 +222,10 @@ function FinanceLogistics(props: Props) {
                         name="readiness_budget"
                         value={value?.readiness_budget}
                         error={error?.readiness_budget}
-                        onChange={setFieldValue}
+                        onChange={setBudgetValue}
                         disabled={disabled}
                         readOnly={readOnly}
+                        required
                     />
                     <TextArea
                         label={strings.financeDescriptionLabel}
@@ -244,9 +273,10 @@ function FinanceLogistics(props: Props) {
                         name="pre_positioning_budget"
                         value={value?.pre_positioning_budget}
                         error={error?.pre_positioning_budget}
-                        onChange={setFieldValue}
+                        onChange={setBudgetValue}
                         disabled={disabled}
                         readOnly={readOnly}
+                        required
                     />
                     <TextArea
                         label={strings.financeDescriptionLabel}
@@ -296,9 +326,10 @@ function FinanceLogistics(props: Props) {
                         name="early_action_budget"
                         value={value?.early_action_budget}
                         error={error?.early_action_budget}
-                        onChange={setFieldValue}
+                        onChange={setBudgetValue}
                         disabled={disabled}
                         readOnly={readOnly}
+                        required
                     />
                     <TextArea
                         label={strings.financeDescriptionLabel}
@@ -311,10 +342,7 @@ function FinanceLogistics(props: Props) {
                     />
                 </InputSection>
             </ListView>
-            <ListView
-                layout="block"
-                spacing="xs"
-            >
+            <ListView layout="block" spacing="xs">
                 <Heading variant="form">{strings.financeEapEndorsementHeading}</Heading>
                 <InputSection
                     title={strings.financeEapEndorsementTitle}
