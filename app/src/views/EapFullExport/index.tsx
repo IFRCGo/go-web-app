@@ -563,13 +563,13 @@ export function Component() {
                         />
                         <PrintableContainer
                             heading={strings.partnerNationalSocietyContactLabel}
-                            headingLevel={5}
+                            headingLevel={6}
                         >
                             {partner_contacts?.map((partner) => {
                                 const prevPartner = prevPartnerContactsMapping[partner.id!];
                                 return (
-                                    <PrintableDataDisplay
-                                        valueType="text"
+                                    <PrintableDescription
+                                        key={partner.id}
                                         withDiff={withDiff}
                                         value={[
                                             partner.name,
@@ -587,8 +587,6 @@ export function Component() {
                                         ]
                                             .filter(isTruthyString)
                                             .join(', ')}
-                                        variant="inline"
-                                        strongLabel
                                     />
                                 );
                             })}
@@ -820,13 +818,9 @@ export function Component() {
                     heading={strings.descriptionLabel}
                     headingLevel={6}
                 >
-                    <PrintableDataDisplay
+                    <PrintableDescription
                         value={prioritized_impact}
                         prevValue={prev_prioritized_impact}
-                        valueType="text"
-                        withoutLabelColon
-                        variant="block"
-                        strongLabel
                         withDiff={withDiff}
                     />
                 </PrintableContainer>
@@ -896,28 +890,26 @@ export function Component() {
                     heading={strings.triggerStatementLabel}
                     headingLevel={3}
                 >
-                    <PrintableDataDisplay
+                    <PrintableDescription
                         value={trigger_statement}
                         prevValue={prev_trigger_statement}
-                        valueType="text"
-                        withoutLabelColon
-                        variant="block"
-                        strongLabel
                         withDiff={withDiff}
                     />
                 </PrintableContainer>
-                <PrintableContainer
-                    heading={strings.leadTimeLabel}
-                    headingLevel={3}
-                >
-                    <PrintableDataDisplay
-                        value={lead_time}
-                        prevValue={prev_lead_time}
-                        valueType="number"
-                        variant="inline"
-                        strongLabel
-                        withDiff={withDiff}
-                    />
+                <PrintableContainer headingLevel={3}>
+                    <ListView layout="grid">
+                        <PrintableDataDisplay
+                            label={strings.leadTimeLabel}
+                            value={lead_time}
+                            prevValue={prev_lead_time}
+                            valueType="number"
+                            variant="block"
+                            withBackground
+                            withPadding
+                            strongLabel
+                            withDiff={withDiff}
+                        />
+                    </ListView>
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.sourceForecastLabel}
@@ -962,13 +954,9 @@ export function Component() {
                     heading={strings.forecastSelectionLabel}
                     headingLevel={3}
                 >
-                    <PrintableDataDisplay
+                    <PrintableDescription
                         value={forecast_selection}
                         prevValue={prev_forecast_selection}
-                        valueType="text"
-                        withoutLabelColon
-                        variant="block"
-                        strongLabel
                         withDiff={withDiff}
                     />
                 </PrintableContainer>
@@ -992,13 +980,9 @@ export function Component() {
                     heading={strings.definitionJustificationLabel}
                     headingLevel={3}
                 >
-                    <PrintableDataDisplay
+                    <PrintableDescription
                         value={definition_and_justification_impact_level}
                         prevValue={prev_definition_and_justification_impact_level}
-                        valueType="text"
-                        withoutLabelColon
-                        variant="block"
-                        strongLabel
                         withDiff={withDiff}
                     />
                 </PrintableContainer>
@@ -1019,14 +1003,9 @@ export function Component() {
                     heading={strings.identificationInterventionLabel}
                     headingLevel={3}
                 >
-                    <PrintableDataDisplay
-                        label={strings.identificationInterventionLabel}
+                    <PrintableDescription
                         value={identification_of_the_intervention_area}
                         prevValue={prev_identification_of_the_intervention_area}
-                        valueType="text"
-                        withoutLabelColon
-                        variant="block"
-                        strongLabel
                         withDiff={withDiff}
                     />
                 </PrintableContainer>
