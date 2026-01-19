@@ -7,7 +7,6 @@ import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
-import { isDefined } from '@togglecorp/fujs';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import { environment } from '#config';
@@ -17,7 +16,6 @@ import usePermissions from '#hooks/domain/usePermissions';
 
 import {
     EXTERNALLY_MANAGED,
-    type ManageResponse,
     VALIDATED,
 } from '../../common';
 import LocalUnitDeleteModal from '../../LocalUnitDeleteModal';
@@ -34,9 +32,8 @@ export interface Props {
     localUnitType: number;
     isBulkUploadLocalUnit: boolean;
     status: number | undefined;
-    onDeleteActionSuccess: () => void;
-    onValidationActionSuccess: () => void;
-    manageResponse: ManageResponse;
+    onLocalUnitUpdate: () => void;
+    isExternallyManagedType?: boolean;
 }
 
 function LocalUnitsTableActions(props: Props) {
@@ -47,9 +44,8 @@ function LocalUnitsTableActions(props: Props) {
         localUnitType,
         status,
         isBulkUploadLocalUnit,
-        onValidationActionSuccess,
-        onDeleteActionSuccess,
-        manageResponse,
+        onLocalUnitUpdate,
+        isExternallyManagedType,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -75,9 +71,7 @@ function LocalUnitsTableActions(props: Props) {
     const regionAdmin = isRegionAdmin(countryDetails?.region);
 
     const isExternallyManaged = status === EXTERNALLY_MANAGED
-        || (isDefined(localUnitType)
-            && isDefined(manageResponse)
-            && !!manageResponse[localUnitType]?.enabled);
+        || isExternallyManagedType;
 
     const hasValidatePermission = isAuthenticated
         && !isExternallyManaged
@@ -118,18 +112,18 @@ function LocalUnitsTableActions(props: Props) {
 
     const handleValidationSuccess = useCallback(() => {
         setShowValidateLocalUnitModalFalse();
-        onValidationActionSuccess();
-    }, [onValidationActionSuccess, setShowValidateLocalUnitModalFalse]);
+        onLocalUnitUpdate();
+    }, [onLocalUnitUpdate, setShowValidateLocalUnitModalFalse]);
 
     const handleLocalUnitsFormModalClose = useCallback(
         (shouldUpdate?: boolean) => {
             setShowLocalUnitModalFalse();
 
             if (shouldUpdate) {
-                onDeleteActionSuccess();
+                onLocalUnitUpdate();
             }
         },
-        [setShowLocalUnitModalFalse, onDeleteActionSuccess],
+        [setShowLocalUnitModalFalse, onLocalUnitUpdate],
     );
 
     const handleViewLocalUnitClick = useCallback(
@@ -213,14 +207,13 @@ function LocalUnitsTableActions(props: Props) {
                     localUnitId={localUnitId}
                     readOnly={readOnlyLocalUnitModal}
                     setReadOnly={setReadOnlyLocalUnitModal}
-                    onDeleteActionSuccess={onDeleteActionSuccess}
                 />
             )}
             {showDeleteLocalUnitModal && (
                 <LocalUnitDeleteModal
                     onClose={setShowDeleteLocalUnitModalFalse}
                     localUnitName={localUnitName}
-                    onDeleteActionSuccess={onDeleteActionSuccess}
+                    onDeleteActionSuccess={onLocalUnitUpdate}
                     localUnitId={localUnitId}
                 />
             )}

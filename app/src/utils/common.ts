@@ -72,7 +72,15 @@ export function joinStrings(
     return values.filter(Boolean).join(separator);
 }
 
-export function hasChanged(prevValue: unknown, newValue: unknown) {
+export function hasChanged(
+    prevValue: unknown,
+    newValue: unknown,
+    enabled: boolean | undefined = true,
+) {
+    if (!enabled) {
+        return false;
+    }
+
     // NOTE: we consider `null` and `undefined` as same for
     // this scenario
     if (isNotDefined(prevValue) && isNotDefined(newValue)) {

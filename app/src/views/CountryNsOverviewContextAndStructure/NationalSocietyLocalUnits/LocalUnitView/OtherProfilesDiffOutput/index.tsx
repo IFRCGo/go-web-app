@@ -6,7 +6,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import DiffWrapper from '#components/DiffWrapper';
 
-import { type PartialLocalUnits } from '../../LocalUnitsFormModal/LocalUnitsForm/schema';
+import { type PartialLocalUnits } from '../../LocalUnitsFormModal/schema';
 
 import i18n from './i18n.json';
 
@@ -17,15 +17,25 @@ type OtherProfile = NonNullable<
 interface Props {
     newValue: OtherProfile;
     oldValue: OtherProfile | undefined;
+    withBackground?: boolean;
 }
 
 function OtherProfilesDiffOutput(props: Props) {
-    const { newValue, oldValue } = props;
+    const {
+        newValue,
+        oldValue,
+        withBackground,
+    } = props;
 
     const strings = useTranslation(i18n);
 
     return (
-        <ListView>
+        <ListView
+            withPadding={withBackground}
+            withBackground={withBackground}
+            spacing="sm"
+            layout="grid"
+        >
             <DiffWrapper
                 hideOnPristine
                 value={newValue?.position}

@@ -8,7 +8,7 @@
         "localUnitTypeInputLabel": "Local unit type",
         "uploadFileSectionTitle": "Upload xlsx file",
         "uploadFileSectionDescription": "Please make sure to select a supported file format (xlsx, xlsm) with size less than 10MB",
-        "selectFileButtonLabel": "Select a file",
+        "selectFileButtonLabel": "Select a file to upload",
         "cancelUploadButtonLabel": "Cancel",
         "startUploadButtonLabel": "Upload",
         "contentStructureDescription": "The contents in the xlsx should follow the structure provided in {templateLink}.",

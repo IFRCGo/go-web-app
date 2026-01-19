@@ -1,6 +1,7 @@
 import {
     useCallback,
     useEffect,
+    useMemo,
     useState,
 } from 'react';
 import {
@@ -10,20 +11,23 @@ import {
 
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import RawInput, { Props as RawInputProps } from '#components/RawInput';
+import { getHighlightMode } from '#utils/common';
 import { extractInputContainerProps } from '#utils/inputs';
 
-type InheritedProps<T> = Omit<InputContainerProps, 'input'>
-& Omit<RawInputProps<T>, 'onChange' | 'value' | 'className' | 'elementRef'>;
+type InheritedProps<NAME> = Omit<InputContainerProps, 'input'>
+& Omit<RawInputProps<NAME>, 'onChange' | 'value' | 'className' | 'elementRef'>;
 
-export interface Props<T> extends InheritedProps<T> {
-  inputElementRef?: React.RefObject<HTMLInputElement>;
-  inputClassName?: string;
-  value: number | undefined | null;
-  onChange?: (
-    value: number | undefined,
-    name: T,
-    e?: React.FormEvent<HTMLInputElement> | undefined,
-  ) => void;
+export interface Props<NAME> extends InheritedProps<NAME> {
+    inputElementRef?: React.RefObject<HTMLInputElement>;
+    inputClassName?: string;
+    value: number | undefined | null;
+    onChange?: (
+        value: number | undefined,
+        name: NAME,
+        e?: React.FormEvent<HTMLInputElement> | undefined,
+    ) => void;
+    withDiffView?: boolean;
+    prevValue?: number | undefined | null;
 }
 
 function NumberInput<const T>(props: Props<T>) {
@@ -34,6 +38,9 @@ function NumberInput<const T>(props: Props<T>) {
         value: valueFromProps,
         required,
         onChange,
+        withDiffView,
+        value,
+        prevValue,
         ...otherProps
     } = props;
 
@@ -63,6 +70,11 @@ function NumberInput<const T>(props: Props<T>) {
         }
     }, [onChange]);
 
+    const highlightMode = useMemo(
+        () => getHighlightMode(value, prevValue, withDiffView),
+        [value, prevValue, withDiffView],
+    );
+
     return (
         <InputContainer
             // eslint-disable-next-line react/jsx-props-no-spreading
@@ -70,6 +82,8 @@ function NumberInput<const T>(props: Props<T>) {
             disabled={disabled}
             readOnly={readOnly}
             required={required}
+            highlightMode={highlightMode}
+            prevValue={prevValue}
             input={(
                 <RawInput
                     // eslint-disable-next-line react/jsx-props-no-spreading

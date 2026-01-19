@@ -70,7 +70,7 @@ import {
 } from '../common';
 import type { FilterValue } from '../Filters';
 import LocalUnitsFormModal from '../LocalUnitsFormModal';
-import { TYPE_HEALTH_CARE } from '../LocalUnitsFormModal/LocalUnitsForm/schema';
+import { TYPE_HEALTH_CARE } from '../LocalUnitsFormModal/schema';
 import LocalUnitStatus from '../LocalUnitStatus';
 
 import i18n from './i18n.json';
@@ -328,11 +328,15 @@ function LocalUnitsMap(props: Props) {
     );
 
     const handleLocalUnitsFormModalClose = useCallback(
-        () => {
+        (shouldUpdate?: boolean) => {
             setShowLocalUnitViewModalFalse();
             setReadOnlyLocalUnitModal(true);
+
+            if (shouldUpdate) {
+                refetchLocalUnits();
+            }
         },
-        [setShowLocalUnitViewModalFalse],
+        [setShowLocalUnitViewModalFalse, refetchLocalUnits],
     );
 
     const emailRendererParams = useCallback(
@@ -609,7 +613,6 @@ function LocalUnitsMap(props: Props) {
                     localUnitId={clickedPointProperties?.localUnitId}
                     readOnly={readOnlyLocalUnitModal}
                     setReadOnly={setReadOnlyLocalUnitModal}
-                    onDeleteActionSuccess={refetchLocalUnits}
                 />
             ))}
         </Container>

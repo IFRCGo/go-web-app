@@ -62,7 +62,7 @@
         "localUnitViewCommentsNS": "Comments by the NS",
         "localUnitViewLatitude": "Latitude",
         "localUnitViewLongitude": "Longitude",
-        "localUnitViewUpdateReason": "Edit reason",
+        "localUnitViewUpdateReason": "Reason for edit",
         "localUnitViewNoChanges": "No changes found"
     }
 }

@@ -38,11 +38,11 @@
     }
 
     &.level-four {
-        --font-size: 1rem;
+        --font-size: 1.125rem;
     }
 
     &.level-five {
-        --font-size: var(--go-ui-font-size-md);
+        --font-size: 1rem;
     }
 
     &.level-six {

@@ -1,9 +1,13 @@
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
 
 import Description from '#components/Description';
 import InlineLayout from '#components/InlineLayout';
 import InputError from '#components/InputError';
 import InputLabel from '#components/InputLabel';
+import Label from '#components/Label';
 import ListView from '#components/ListView';
 import useSpacingToken from '#hooks/useSpacingToken';
 import { SpacingType } from '#utils/style';
@@ -28,11 +32,18 @@ export interface Props {
     disabled?: boolean;
     readOnly?: boolean;
     required?: boolean;
-    changed?: boolean;
+
+    highlightMode?: 'add' | 'update' | 'remove';
+    prevValue?: React.ReactNode;
+    withPrevValue?: boolean;
 
     variant?: 'form' | 'general' | 'transparent';
     withAsterisk?: boolean;
     spacing?: SpacingType;
+
+    withPadding?: boolean;
+    withBackground?: boolean;
+    withDarkBackground?: boolean;
 }
 
 function InputContainer(props: Props) {
@@ -51,16 +62,20 @@ function InputContainer(props: Props) {
         readOnly,
         required,
         variant = 'form',
-        changed,
         withAsterisk,
         spacing,
+        prevValue,
+        withPrevValue,
+        highlightMode,
+        withPadding,
+        withBackground,
+        withDarkBackground,
     } = props;
 
     const isRequired = withAsterisk ?? required;
     const paddingClassName = useSpacingToken({
         spacing,
-        offset: -3,
-        // withAdditionalInlinePadding: true,
+        offset: variant === 'transparent' ? -2 : -3,
         modes: ['padding-inline'],
     });
 
@@ -72,10 +87,13 @@ function InputContainer(props: Props) {
                 styles.inputContainer,
                 !!error && styles.errored,
                 readOnly && styles.readOnly,
-                variant === 'form' && styles.form,
-                variant === 'general' && styles.general,
+                variant === 'form' && styles.formVariant,
+                variant === 'general' && styles.generalVariant,
+                variant === 'transparent' && styles.transparentVariant,
                 disabled && styles.disabled,
-                changed && styles.changed,
+                highlightMode === 'add' && styles.withAddHighlight,
+                highlightMode === 'update' && styles.withUpdateHighlight,
+                highlightMode === 'remove' && styles.withRemoveHighlight,
                 className,
             )}
             title={(errorOnTooltip && !!error && typeof error === 'string')
@@ -83,6 +101,9 @@ function InputContainer(props: Props) {
                 : undefined}
             spacing={spacing}
             spacingOffset={-4}
+            withBackground={withBackground}
+            withDarkBackground={withDarkBackground}
+            withPadding={withPadding}
         >
             <InputLabel
                 disabled={disabled}
@@ -103,6 +124,11 @@ function InputContainer(props: Props) {
             >
                 {input}
             </InlineLayout>
+            {withPrevValue && prevValue && isDefined(highlightMode) && (
+                <Label strong>
+                    {prevValue}
+                </Label>
+            )}
             {!error && !errorOnTooltip && hint && (
                 <Description
                     withLightText

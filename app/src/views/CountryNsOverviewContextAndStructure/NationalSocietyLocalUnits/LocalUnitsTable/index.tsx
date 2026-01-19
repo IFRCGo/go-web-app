@@ -17,18 +17,19 @@ import {
 import {
     isDefined,
     isNotDefined,
+    listToMap,
 } from '@togglecorp/fujs';
 
 import usePermissions from '#hooks/domain/usePermissions';
 import useFilterState from '#hooks/useFilterState';
 import { getFirstTruthyString } from '#utils/common';
+import { MAX_PAGE_LIMIT } from '#utils/constants';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
 
-import { type ManageResponse } from '../common';
 import type { FilterValue } from '../Filters';
 import LocalUnitStatus, { type LocalUnitStatusProps } from '../LocalUnitStatus';
 import LocalUnitsTableActions, { type Props as LocalUnitsTableActionsProps } from './LocalUnitTableActions';
@@ -44,14 +45,12 @@ type LocalUnitsTableListItem = NonNullable<LocalUnitsTableResponse['results']>[n
 interface Props {
     filter: FilterValue;
     filtered: boolean;
-    manageResponse: ManageResponse;
 }
 
 function LocalUnitsTable(props: Props) {
     const {
         filter,
         filtered,
-        manageResponse,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -65,6 +64,8 @@ function LocalUnitsTable(props: Props) {
     } = usePermissions();
 
     const { countryResponse } = useOutletContext<CountryOutletContext>();
+
+    const countryId = countryResponse?.id;
 
     const hasPermission = isSuperUser
         || isLocalUnitGlobalValidator()
@@ -91,6 +92,18 @@ function LocalUnitsTable(props: Props) {
     }, [filter, setFilter]);
 
     const {
+        response: externallyManagedLocalUnitsResponse,
+        pending: externallyManagedLocalUnitsPending,
+    } = useRequest({
+        skip: isNotDefined(countryId),
+        url: '/api/v2/externally-managed-local-unit/',
+        query: {
+            country__id: countryId,
+            limit: MAX_PAGE_LIMIT,
+        },
+    });
+
+    const {
         pending: localUnitsPending,
         error: localUnitsError,
         response: localUnitsResponse,
@@ -108,6 +121,14 @@ function LocalUnitsTable(props: Props) {
             country__iso3: isDefined(countryResponse?.iso3) ? countryResponse?.iso3 : undefined,
         },
     });
+
+    const externallyManagedUnitByType = useMemo(() => {
+        listToMap(
+            externallyManagedLocalUnitsResponse?.results,
+            ({ local_unit_type_details }) => local_unit_type_details.id,
+            ({ enabled }) => enabled,
+        );
+    }, [externallyManagedLocalUnitsResponse?.results]);
 
     const columns = useMemo(() => {
         if (hasAddEditLocalUnitPermission) {
@@ -155,13 +176,12 @@ function LocalUnitsTable(props: Props) {
                         status: item.status,
                         localUnitType: item.type,
                         isBulkUploadLocalUnit: isDefined(item.bulk_upload),
-                        manageResponse,
+                        isExternallyManagedType: externallyManagedUnitByType?.[item.type],
                         localUnitName: getFirstTruthyString(
                             item.local_branch_name,
                             item.english_branch_name,
                         ),
-                        onDeleteActionSuccess: refetchLocalUnits,
-                        onValidationActionSuccess: refetchLocalUnits,
+                        onLocalUnitUpdate: refetchLocalUnits,
                     }),
                     { columnClassName: styles.actions },
                 ),
@@ -194,20 +214,19 @@ function LocalUnitsTable(props: Props) {
                     localUnitId: item.id,
                     status: item.status,
                     isBulkUploadLocalUnit: isDefined(item.bulk_upload),
-                    manageResponse,
+                    isExternallyManagedType: externallyManagedUnitByType?.[item.type],
                     localUnitName: getFirstTruthyString(
                         item.local_branch_name,
                         item.english_branch_name,
                     ),
                     localUnitType: item.type,
-                    onDeleteActionSuccess: refetchLocalUnits,
-                    onValidationActionSuccess: refetchLocalUnits,
+                    onLocalUnitUpdate: refetchLocalUnits,
                 }),
                 { columnClassName: styles.actions },
             ),
         ];
     }, [
-        manageResponse,
+        externallyManagedUnitByType,
         hasAddEditLocalUnitPermission,
         strings.localUnitsTableAddress,
         strings.localUnitsTableName,
@@ -229,7 +248,7 @@ function LocalUnitsTable(props: Props) {
             )}
         >
             <Table
-                pending={localUnitsPending}
+                pending={localUnitsPending || externallyManagedLocalUnitsPending}
                 filtered={filtered}
                 errored={isDefined(localUnitsError)}
                 className={styles.table}

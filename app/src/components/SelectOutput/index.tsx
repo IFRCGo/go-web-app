@@ -9,6 +9,7 @@ export interface Props<VALUE, OPTION> {
     keySelector: (datum: OPTION) => VALUE;
     labelSelector: (datum: OPTION) => React.ReactNode;
     label?: React.ReactNode;
+    withBackground?: boolean;
 }
 
 function SelectOutput<VALUE, OPTION>(props: Props<VALUE, OPTION>) {
@@ -19,6 +20,7 @@ function SelectOutput<VALUE, OPTION>(props: Props<VALUE, OPTION>) {
         keySelector,
         labelSelector,
         label,
+        withBackground,
     } = props;
 
     const selectedOption = useMemo(() => options?.find(
@@ -36,7 +38,8 @@ function SelectOutput<VALUE, OPTION>(props: Props<VALUE, OPTION>) {
             className={className}
             label={label}
             value={valueLabel}
-            strongValue
+            strongLabel
+            withBackground={withBackground}
         />
     );
 }

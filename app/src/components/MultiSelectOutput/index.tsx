@@ -9,6 +9,7 @@ interface Props<VALUE, OPTION> {
     keySelector: (datum: OPTION) => VALUE;
     labelSelector: (datum: OPTION) => React.ReactNode;
     label: React.ReactNode;
+    withBackground?: boolean;
 }
 
 function MultiSelectOutput<VALUE extends string | number, OPTION>(props: Props<VALUE, OPTION>) {
@@ -19,6 +20,7 @@ function MultiSelectOutput<VALUE extends string | number, OPTION>(props: Props<V
         keySelector,
         labelSelector,
         label,
+        withBackground,
     } = props;
 
     const valueMap = useMemo(
@@ -42,7 +44,8 @@ function MultiSelectOutput<VALUE extends string | number, OPTION>(props: Props<V
             className={className}
             label={label}
             value={valueLabel}
-            strongValue
+            strongLabel
+            withBackground={withBackground}
         />
     );
 }

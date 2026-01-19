@@ -1,3 +1,9 @@
+.warning {
+    border-radius: var(--go-ui-border-radius-lg);
+    background-color: color-mix(in srgb, var(--go-ui-color-semantic-yellow) 30%, transparent);
+}
+
+.alarm-icon,
 .file-icon {
     font-size: var(--go-ui-font-size-2xl);
 }

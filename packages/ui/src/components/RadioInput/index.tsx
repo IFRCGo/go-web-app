@@ -1,11 +1,14 @@
-import React from 'react';
-import { isNotDefined } from '@togglecorp/fujs';
+import React, { useMemo } from 'react';
+import {
+    isNotDefined,
+    listToMap,
+    OptionKey,
+} from '@togglecorp/fujs';
 
-import Description from '#components/Description';
-import InputError from '#components/InputError';
-import InputLabel from '#components/InputLabel';
+import InputContainer from '#components/InputContainer';
 import ListView from '#components/ListView';
 import RawList from '#components/RawList';
+import { getHighlightMode } from '#utils/common';
 import { SpacingType } from '#utils/style';
 
 import Radio, { Props as RadioProps } from './Radio';
@@ -34,6 +37,10 @@ export interface CommonProps<NAME, OPTION, VALUE, RADIO_RENDERER_PROPS extends R
     withPadding?: boolean;
     withBackground?: boolean;
     withDarkBackground?: boolean;
+
+    prevValue?: VALUE | undefined | null;
+    withPrevValue?: boolean;
+    withDiffView?: boolean;
 }
 
 type ClearableProps<VALUE, NAME> = {
@@ -85,8 +92,32 @@ function RadioInput<
         withPadding,
         withBackground,
         withDarkBackground,
+
+        prevValue,
+        withDiffView,
+        withPrevValue,
+
         ...otherOptions
     } = props;
+
+    const highlightMode = useMemo(
+        () => getHighlightMode(value, prevValue, withDiffView),
+        [value, prevValue, withDiffView],
+    );
+
+    const prevValueDisplay = useMemo(() => {
+        if (!withPrevValue || isNotDefined(prevValue)) {
+            return null;
+        }
+
+        const labelMap = listToMap(
+            options ?? [],
+            (option) => keySelector(option) as OptionKey,
+            labelSelector,
+        );
+
+        return labelMap[prevValue as OptionKey];
+    }, [withPrevValue, prevValue, options, keySelector, labelSelector]);
 
     const handleRadioClick = React.useCallback((radioKey: VALUE | undefined) => {
         if (readOnly || disabled) {
@@ -134,7 +165,6 @@ function RadioInput<
         descriptionSelector,
     ]);
 
-    const isRequired = withAsterisk ?? required;
     const radioList = (
         <RawList
             data={options}
@@ -144,67 +174,61 @@ function RadioInput<
         />
     );
 
+    const spacingOffset = -2;
+
     return (
-        <ListView
-            layout="block"
+        <InputContainer
             className={className}
-            withSpacingOpticalCorrection
-            spacing={spacing}
             withBackground={withBackground}
             withDarkBackground={withDarkBackground}
             withPadding={withPadding}
-        >
-            <InputLabel
-                disabled={disabled}
-                required={isRequired}
-            >
-                {label}
-            </InputLabel>
-            {radioListLayout === 'inline' && (
-                <ListView
-                    withWrap
-                    withSpacingOpticalCorrection
-                    spacing={spacing}
-                >
-                    {radioList}
-                </ListView>
+            disabled={disabled}
+            required={required}
+            label={label}
+            error={error}
+            hint={hint}
+            highlightMode={highlightMode}
+            prevValue={prevValueDisplay}
+            withPrevValue={withPrevValue}
+            withAsterisk={withAsterisk}
+            errorOnTooltip={errorOnTooltip}
+            variant="transparent"
+            input={(
+                <>
+                    {radioListLayout === 'inline' && (
+                        <ListView
+                            withWrap
+                            withSpacingOpticalCorrection
+                            spacing={spacing}
+                            spacingOffset={spacingOffset}
+                        >
+                            {radioList}
+                        </ListView>
+                    )}
+                    {radioListLayout === 'block' && (
+                        <ListView
+                            layout="block"
+                            withSpacingOpticalCorrection
+                            spacing={spacing}
+                            spacingOffset={spacingOffset}
+                        >
+                            {radioList}
+                        </ListView>
+                    )}
+                    {radioListLayout === 'grid' && (
+                        <ListView
+                            layout="grid"
+                            numPreferredGridColumns={radioListLayoutPreferredGridColumns}
+                            withSpacingOpticalCorrection
+                            spacing={spacing}
+                            spacingOffset={spacingOffset}
+                        >
+                            {radioList}
+                        </ListView>
+                    )}
+                </>
             )}
-            {radioListLayout === 'block' && (
-                <ListView
-                    layout="block"
-                    withSpacingOpticalCorrection
-                    spacing={spacing}
-                >
-                    {radioList}
-                </ListView>
-            )}
-            {radioListLayout === 'grid' && (
-                <ListView
-                    layout="grid"
-                    numPreferredGridColumns={radioListLayoutPreferredGridColumns}
-                    withSpacingOpticalCorrection
-                    spacing={spacing}
-                >
-                    {radioList}
-                </ListView>
-            )}
-            {!error && !errorOnTooltip && hint && (
-                <Description
-                    withLightText
-                    textSize="sm"
-                >
-                    {hint}
-                </Description>
-            )}
-            {error && (
-                <InputError
-                    disabled={disabled}
-                    floating={errorOnTooltip}
-                >
-                    {error}
-                </InputError>
-            )}
-        </ListView>
+        />
     );
 }
 

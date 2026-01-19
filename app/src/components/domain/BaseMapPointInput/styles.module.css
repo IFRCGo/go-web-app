@@ -5,6 +5,11 @@
     gap: var(--go-ui-spacing-md);
     isolation: isolate;
 
+    .map-container {
+        background-color: var(--go-ui-color-background);
+        height: 32rem;
+    }
+
     .location-search {
         position: absolute;
         right: var(--go-ui-spacing-sm);

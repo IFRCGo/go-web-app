@@ -10,6 +10,7 @@ import { _cs } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import Container from '#components/Container';
+import IconButton from '#components/IconButton';
 import { AlertType } from '#contexts/alert';
 import useTranslation from '#hooks/useTranslation';
 
@@ -87,29 +88,30 @@ function Alert<N extends string>(props: Props<N>) {
             headerIcons={icon[type]}
             heading={title}
             headingLevel={5}
-            headerActions={nonDismissable && (
-                <Button
+            headerActions={!nonDismissable && (
+                <IconButton
                     name={undefined}
                     onClick={handleCloseButtonClick}
                     colorVariant="text-on-dark"
-                    styleVariant="action"
                     title={strings.closeButtonTitle}
+                    ariaLabel={strings.closeButtonTitle}
                 >
-                    <CloseLineIcon className={styles.closeIcon} />
-                </Button>
+                    <CloseLineIcon />
+                </IconButton>
             )}
             withoutWrapInHeader
+            withoutWrapInFooter
             footerActions={debugMessage && (
-                <div className={styles.actions}>
-                    <Button
-                        name={undefined}
-                        onClick={handleCopyDebugMessageButtonClick}
-                        colorVariant="text-on-dark"
-                        styleVariant="action"
-                    >
-                        {strings.alertCopyErrorDetails}
-                    </Button>
-                </div>
+                <Button
+                    name={undefined}
+                    onClick={handleCopyDebugMessageButtonClick}
+                    colorVariant="text-on-dark"
+                    styleVariant="translucent"
+                    textSize="sm"
+                    spacing="sm"
+                >
+                    {strings.alertCopyErrorDetails}
+                </Button>
             )}
             withPadding
             withShadow

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 
+import { getHighlightMode } from '#utils/common';
 import { extractInputContainerProps } from '#utils/inputs';
 
 import InputContainer, { Props as InputContainerProps } from '../InputContainer';
@@ -12,10 +13,12 @@ const KEY_ENTER = 'Enter';
 type InheritedProps<NAME> = Omit<InputContainerProps, 'input'>
 & Omit<RawTextAreaProps<NAME>, 'type' | 'className' | 'elementRef'>;
 
-export interface Props<T> extends InheritedProps<T> {
-  inputElementRef?: React.RefObject<HTMLInputElement>;
-  autoBullets?: boolean;
-  inputClassName?: string;
+export interface Props<NAME> extends InheritedProps<NAME> {
+    inputElementRef?: React.RefObject<HTMLInputElement>;
+    autoBullets?: boolean;
+    inputClassName?: string;
+    withDiffView?: boolean;
+    prevValue?: RawTextAreaProps<NAME>['value'];
 }
 
 function TextArea<const N>(props: Props<N>) {
@@ -29,11 +32,20 @@ function TextArea<const N>(props: Props<N>) {
 
         autoBullets = false,
         rows = 5,
+
+        withDiffView,
+        value,
+        prevValue,
         ...otherProps
     } = props;
 
     const [inputContainerProps, rawInputProps] = extractInputContainerProps(
         otherProps,
+    );
+
+    const highlightMode = useMemo(
+        () => getHighlightMode(value, prevValue, withDiffView),
+        [value, prevValue, withDiffView],
     );
 
     const handleInputFocus = React.useCallback((e: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -63,10 +75,13 @@ function TextArea<const N>(props: Props<N>) {
             disabled={disabled}
             readOnly={readOnly}
             required={required}
+            highlightMode={highlightMode}
+            prevValue={prevValue}
             input={(
                 <RawTextArea
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...rawInputProps}
+                    value={value}
                     className={inputClassName}
                     disabled={disabled}
                     readOnly={readOnly}

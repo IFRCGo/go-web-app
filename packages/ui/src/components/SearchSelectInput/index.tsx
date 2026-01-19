@@ -17,7 +17,10 @@ import {
 } from '@togglecorp/fujs';
 
 import SelectInputContainer, { Props as SelectInputContainerProps } from '#components/SelectInputContainer';
-import { rankedSearchOnList } from '#utils/common';
+import {
+    getHighlightMode,
+    rankedSearchOnList,
+} from '#utils/common';
 
 import Option from './Option';
 
@@ -35,6 +38,9 @@ export type Props<
 > = (
     Omit<{
         value: OPTION_KEY | undefined | null;
+        prevValue?: OPTION_KEY | undefined | null;
+        withDiffView?: boolean;
+
         options: OPTION[] | undefined | null;
         searchOptions?: OPTION[] | undefined | null;
         keySelector: (option: OPTION) => OPTION_KEY;
@@ -115,6 +121,8 @@ function SearchSelectInput<
         optionsPending,
         optionsErrored,
         value,
+        prevValue,
+        withDiffView,
         sortFunction,
         searchOptions: searchOptionsFromProps,
         onSearchValueChange,
@@ -147,7 +155,13 @@ function SearchSelectInput<
         [options, keySelector, labelSelector],
     );
 
+    const highlightMode = useMemo(
+        () => getHighlightMode(value, prevValue, withDiffView),
+        [prevValue, value, withDiffView],
+    );
+
     const valueDisplay = isDefined(value) ? optionsLabelMap[value] ?? '?' : '';
+    const prevValueDisplay = isDefined(prevValue) ? optionsLabelMap[prevValue] : null;
 
     // NOTE: we can skip this calculation if optionsShowInitially is false
     const selectedOptions = useMemo(
@@ -331,6 +345,8 @@ function SearchSelectInput<
             hasValue={isDefined(value)}
             persistentOptionPopup={false}
             onEnterWithoutOption={handleEnterWithoutOption}
+            prevValue={prevValueDisplay}
+            highlightMode={highlightMode}
         />
     );
 }
