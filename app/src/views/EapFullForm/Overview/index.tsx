@@ -265,7 +265,7 @@ function Overview(props: Props) {
                         error={error}
                         disabled={disabled}
                         readOnly={readOnly}
-                        withAsteriskOnTitle
+                        withRequiredNameAndEmail
                     />
                     <InputSection
                         title={strings.partnerNS}
@@ -309,7 +309,7 @@ function Overview(props: Props) {
                         error={error}
                         disabled={disabled}
                         readOnly={readOnly}
-                        withAsteriskOnTitle
+                        withRequiredNameAndEmail
                     />
                     <ContactInputsSection
                         title={strings.delegation}
@@ -319,7 +319,7 @@ function Overview(props: Props) {
                         error={error}
                         disabled={disabled}
                         readOnly={readOnly}
-                        withAsteriskOnTitle
+                        withRequiredNameAndEmail
                     />
                 </>
                 <>

@@ -19,7 +19,16 @@
         "successMessage": "Successfully created a new Full EAP!",
         "updateFailure": "Sorry could not update Full EAP right now!",
         "updateSuccess": "Successfully updated a new Full EAP!",
+        "submitApprovalSuccess": "Successfully submitted EAP for approval!",
+        "submitFailedSuccess": "Failed to submit the EAP for approval!",
         "backToAccount": "Back",
-        "readOnlyWarningMessage": "You’re viewing this form in read-only mode. Editing is currently disabled."
+        "readOnlyWarningMessage": "You’re viewing this form in read-only mode. Editing is currently disabled.",
+        "validationErrorAlertMessage": "Please fix all the errors before continuing!",
+        "savingPendingMessage": "Saving data...",
+        "submitFormErrorMessage": "Please make sure you've filled in all the required details before proceeding!",
+        "submitButtonLabel": "Submit for approval",
+        "submitConfirmButtonLabel": "Confirm",
+        "submitConfirmHeading": "Submit EAP for approval",
+        "submitConfirmMessage": "Are you sure you want to submit the EAP? Reviewers will be notified and you'll no longer be able to edit the form!"
     }
 }

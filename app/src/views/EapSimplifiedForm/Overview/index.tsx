@@ -198,6 +198,7 @@ function Overview(props: Props) {
                                 error={error}
                                 disabled={disabled}
                                 readOnly={readOnly}
+                                withRequiredNameAndEmail
                             />
                             <InputSection
                                 title={strings.partnerNS}
