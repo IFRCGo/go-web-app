@@ -14,13 +14,22 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.catalogueITCoordinator,
-            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EdRtpzYtoFhNnrXHDiEc74ABKv7njX3cz1-jPl1SxWqWSg',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/IQDtrX8gMjdPQ4CMfMroIj9VAQgZdzBve91RXBjev0Ir7BY',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueITOfficer,
-            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETEdR5wmWSdHqw2o2nJRMeYBN9M7VZBZJ5blIgn67vFdzQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/IQDoLWIUDOKdRIsqiiBaS_kLASSE6xwghl5ppP1WbXQJVeg',
+            external: true,
+            withLinkIcon: true,
+        },
+    ];
+
+    const frameworkData: LinkData[] = [
+        {
+            title: strings.catalogueITTechnical,
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/IQDLuy0m_QmhSpBry1BRyOVlAefldFleoJ3iS0p8kkdfH3w',
             external: true,
             withLinkIcon: true,
         },
@@ -34,17 +43,39 @@ export function Component() {
         },
     ];
 
+    const rolesResponsibilities: LinkData[] = [
+        {
+            title: strings.catalogueITLearnMore,
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/IQCgKsew7QmAR4hyhgzth85EAe9viC7zXFpjvbwwieorq9E',
+            external: true,
+            withLinkIcon: true,
+        },
+    ];
+
     return (
         <SurgeCatalogueContainer
             heading={strings.catalogueITTitle}
-            description={strings.catalogueITDetail}
+            description={strings.catalogueITIntro}
         >
+            <p>
+                <b>{strings.catalogueITTDetail.slice(0, 34)}</b>
+                {strings.catalogueITTDetail.slice(34)}
+            </p>
+            <p>
+                <b>{strings.catalogueITDDetail.slice(0, 14)}</b>
+                {strings.catalogueITDDetail.slice(14)}
+            </p>
             <SurgeCardContainer
                 heading={strings.catalogueITRoleHeading}
             >
                 <CatalogueInfoCard
                     title={strings.catalogueITRoleTitle}
                     data={roleProfiles}
+                />
+                <CatalogueInfoCard
+                    title={strings.catalogueITTechnical}
+                    data={frameworkData}
+                    description={strings.catalogueITTechnicalDescription}
                 />
             </SurgeCardContainer>
             <SurgeCardContainer
@@ -56,6 +87,16 @@ export function Component() {
                     description={strings.catalogueITServicesDetail}
                 />
             </SurgeCardContainer>
+            <SurgeCardContainer
+                heading={strings.catalogueITAdditionalResourcesTitle}
+            >
+                <CatalogueInfoCard
+                    title={strings.catalogueITRole}
+                    data={rolesResponsibilities}
+                    description={strings.catalogueITRoleDescription}
+                />
+            </SurgeCardContainer>
+
         </SurgeCatalogueContainer>
     );
 }

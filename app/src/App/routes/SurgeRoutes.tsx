@@ -722,7 +722,7 @@ const surgeCatalogueInformationManagementComposition = customWrapRoute({
 
 const surgeCatalogueInformationTechnology = customWrapRoute({
     parent: surgeCatalogueLayout,
-    path: 'information-technology',
+    path: 'digital-systems',
     component: {
         render: () => import('#views/SurgeCatalogueInformationTechnology'),
         props: {},
@@ -736,7 +736,7 @@ const surgeCatalogueInformationTechnology = customWrapRoute({
 
 const surgeCatalogueInformationTechnologyEruItTelecom = customWrapRoute({
     parent: surgeCatalogueLayout,
-    path: 'information-technology/eru-it-telecom',
+    path: 'digital-systems/eru-it-telecom',
     component: {
         render: () => import('#views/SurgeCatalogueInformationTechnologyEruItTelecom'),
         props: {},

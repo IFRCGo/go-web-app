@@ -1,0 +1,87 @@
+{
+    "parent": "000064-1768236808682.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "catalogueDigitalSystems",
+            "namespace": "surgeCatalogue",
+            "value": "Digital Systems, Tools & Information Technology"
+        },
+        {
+            "action": "remove",
+            "key": "catalogueInformationTechnologyTelecom",
+            "namespace": "surgeCatalogue"
+        },
+        {
+            "action": "add",
+            "key": "catalogueITAdditionalResourcesTitle",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "Additional Resources"
+        },
+        {
+            "action": "add",
+            "key": "catalogueITDDetail",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "Digital system surge service ensures the selection and integration of systems and tools tailored to local user needs and contexts, for the surge operations and beyond, while considering factors like data laws, cost, and local capacity. It strengthens the IM function, allowing it to focus on its core responsibilities, by handling complex system implementation, enabling faster, higher-quality, and more relevant assistance delivery."
+        },
+        {
+            "action": "add",
+            "key": "catalogueITIntro",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "The Digital Systems, Tools & Information Technology global Surge service covers both telecommunications and digital systems and tools needs for an operation."
+        },
+        {
+            "action": "add",
+            "key": "catalogueITRole",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "Roles and Responsibilities"
+        },
+        {
+            "action": "add",
+            "key": "catalogueITRoleDescription",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "Clarifying IM and Digital System role mandates in emergency response."
+        },
+        {
+            "action": "add",
+            "key": "catalogueITTDetail",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "Information Technology and Telecom surge service is mainly the IT/TEL ERU. This unit establishes local communication networks and links between the field and the secretariat, to ensure the smooth flow of information to assist operational coordination. The ERU has a range of technology such as satellite phones, high-frequency and very high frequency radio systems, depending on the geographical location and local legal situation."
+        },
+        {
+            "action": "add",
+            "key": "catalogueITTechnical",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "Technical Competency Framework"
+        },
+        {
+            "action": "add",
+            "key": "catalogueITTechnicalDescription",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "Tiered competencies describing the knowledge and skills expected of personnel in this sector."
+        },
+        {
+            "action": "remove",
+            "key": "catalogueITDetail",
+            "namespace": "surgeCatalogueInformationTechnology"
+        },
+        {
+            "action": "update",
+            "key": "catalogueITCoordinator",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "newValue": "Digital Systems Coordinator"
+        },
+        {
+            "action": "update",
+            "key": "catalogueITOfficer",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "newValue": "Digital Tools Officer"
+        },
+        {
+            "action": "update",
+            "key": "catalogueITTitle",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "newValue": "Digital Systems, Tools & Information Technology"
+        }
+    ]
+}

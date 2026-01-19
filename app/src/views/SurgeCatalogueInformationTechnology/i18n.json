@@ -1,15 +1,22 @@
 {
     "namespace": "surgeCatalogueInformationTechnology",
     "strings": {
-        "catalogueITTitle": "Information Technology",
-        "catalogueITDetail": "IT/Tel global surge services are mainly the IT/TEL ERU. This unit establishes local communication networks and links between the field and the secretariat, to ensure the smooth flow of information to assist operational coordination. The ERU has a range of technology such as satellite phones, high-frequency and very high frequency radio systems, depending on the geographical location and local legal situation.",
+        "catalogueITTitle": "Digital Systems, Tools & Information Technology",
+        "catalogueITIntro": "The Digital Systems, Tools & Information Technology global Surge service covers both telecommunications and digital systems and tools needs for an operation.",
+        "catalogueITTDetail": "Information Technology and Telecom surge service is mainly the IT/TEL ERU. This unit establishes local communication networks and links between the field and the secretariat, to ensure the smooth flow of information to assist operational coordination. The ERU has a range of technology such as satellite phones, high-frequency and very high frequency radio systems, depending on the geographical location and local legal situation.",
+        "catalogueITDDetail": "Digital system surge service ensures the selection and integration of systems and tools tailored to local user needs and contexts, for the surge operations and beyond, while considering factors like data laws, cost, and local capacity. It strengthens the IM function, allowing it to focus on its core responsibilities, by handling complex system implementation, enabling faster, higher-quality, and more relevant assistance delivery.",
         "catalogueITRoleHeading": "Rapid Response Personnel",
         "catalogueITRoleTitle": "Role Profiles",
-        "catalogueITCoordinator": "IT & Telecom Coordination",
-        "catalogueITOfficer": "IT & Telecom Officer",
+        "catalogueITCoordinator": "Digital Systems Coordinator",
+        "catalogueITOfficer": "Digital Tools Officer",
+        "catalogueITTechnical": "Technical Competency Framework",
+        "catalogueITTechnicalDescription": "Tiered competencies describing the knowledge and skills expected of personnel in this sector.",
         "catalogueITServicesHeading": "Services",
         "catalogueITServicesTitle": "Emergency Response Unit",
         "catalogueITServicesDetail": "ERU IT/Telecom",
-        "catalogueITLearnMore": "Learn More"
+        "catalogueITLearnMore": "Learn More",
+        "catalogueITAdditionalResourcesTitle": "Additional Resources",
+        "catalogueITRole": "Roles and Responsibilities",
+        "catalogueITRoleDescription": "Clarifying IM and Digital System role mandates in emergency response."
     }
 }
