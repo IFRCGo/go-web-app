@@ -11,8 +11,11 @@ import {
     useSearchParams,
 } from 'react-router-dom';
 import {
+    Alert,
     Button,
+    InlineLayout,
     ListView,
+    Modal,
     Tab,
     TabList,
     TabPanel,
@@ -28,6 +31,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 import {
+    analyzeErrors,
     createSubmitHandler,
     removeNull,
     useForm,
@@ -40,6 +44,7 @@ import useRouting from '#hooks/useRouting';
 import {
     EAP_STATUS_NS_ADDRESSING_COMMENTS,
     EAP_STATUS_UNDER_DEVELOPMENT,
+    EAP_STATUS_UNDER_REVIEW,
 } from '#utils/constants';
 import {
     type GoApiBody,
@@ -76,6 +81,8 @@ import i18n from './i18n.json';
 type EapFullRequestBody = GoApiBody<'/api/v2/full-eap/', 'POST'>;
 type GetFullEapResponse = GoApiResponse<'/api/v2/full-eap/{id}/'>;
 
+type EapStatusBody = GoApiBody<'/api/v2/eap-registration/{id}/status/', 'POST'>;
+
 function getNextStep(current: TabKeys, direction: 1 | -1) {
     const tabKeyList: TabKeys[] = [
         'overview',
@@ -99,11 +106,16 @@ export function Component() {
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>(
         {},
     );
+    const [shouldSubmit, setShouldSubmit] = useState(false);
+
     const { eapId } = useParams<{ eapId: string }>();
     const [searchParams] = useSearchParams();
+
     const version = searchParams.get('version') ?? undefined;
-    const formContentRef = useRef<ElementRef<'div'>>(null);
+    const tabListRef = useRef<ElementRef<'div'>>(null);
+
     const strings = useTranslation(i18n);
+
     const { navigate } = useRouting();
 
     const alert = useAlert();
@@ -556,14 +568,13 @@ export function Component() {
         }
     }, [fullEapResponse, loadResponseToFormValue]);
 
-    const { pending: eapFullPending, trigger: createFullEap } = useLazyRequest({
+    const { pending: createFullEapPending, trigger: triggerCreateFullEap } = useLazyRequest({
         method: 'POST',
         url: '/api/v2/full-eap/',
         body: (body: EapFullRequestBody) => body,
         onSuccess: () => {
             const message = strings.successMessage;
             alert.show(message, { variant: 'success' });
-            navigate('accountMyFormsEap');
         },
         onFailure: (err) => {
             const {
@@ -579,18 +590,15 @@ export function Component() {
         },
     });
 
-    const { pending: updateFullFormPending, trigger: updateFullEap } = useLazyRequest({
+    const { pending: updateFullFormPending, trigger: triggerUpdateFullEap } = useLazyRequest({
         url: '/api/v2/full-eap/{id}/',
         method: 'PATCH',
         pathVariables: {
             id: Number(latestFullEapId),
         },
         body: (formFields: EapFullRequestBody) => formFields,
-        onSuccess: (response) => {
+        onSuccess: () => {
             alert.show(strings.updateSuccess, { variant: 'success' });
-
-            // FIXME: only navigate to accounts page for the submit action
-            navigate('accountMyFormsEap', { params: { eapId: response.id } });
         },
         onFailure: (err) => {
             const {
@@ -603,6 +611,35 @@ export function Component() {
                 variant: 'danger',
                 description: messageForNotification,
             });
+        },
+    });
+
+    const { trigger: triggerStatusUpdate } = useLazyRequest({
+        method: 'POST',
+        url: '/api/v2/eap-registration/{id}/status/',
+        pathVariables: isTruthyString(eapId) ? {
+            id: Number(eapId),
+        } : undefined,
+        body: () => ({
+            status: EAP_STATUS_UNDER_REVIEW,
+        // FIXME: fix typings in the server
+        } as EapStatusBody),
+        onSuccess: () => {
+            alert.show(
+                strings.submitApprovalSuccess,
+                { variant: 'success' },
+            );
+
+            navigate('accountMyFormsEap');
+        },
+        onFailure: (error) => {
+            alert.show(
+                strings.submitFailedSuccess,
+                {
+                    variant: 'danger',
+                    description: error.value.messageForNotification,
+                },
+            );
         },
     });
 
@@ -660,7 +697,7 @@ export function Component() {
 
     const readOnly = !isEditable;
 
-    const disabled = eapFullPending || updateFullFormPending || fetchingEap;
+    const disabled = createFullEapPending || updateFullFormPending || fetchingEap;
 
     const nextStep = getNextStep(activeTab, 1);
     const prevStep = getNextStep(activeTab, -1);
@@ -668,28 +705,31 @@ export function Component() {
     const handleValidationSuccess = useCallback(
         (validatedFormValue: PartialEapFullFormType) => {
             if (isNotDefined(latestFullEapId)) {
-                createFullEap({
+                triggerCreateFullEap({
                     ...(validatedFormValue as unknown as EapFullRequestBody),
                     eap_registration: Number(eapId),
                 });
             } else {
-                updateFullEap({
+                triggerUpdateFullEap({
                     ...validatedFormValue,
                     id: latestFullEapId,
                 } as unknown as EapFullRequestBody);
             }
         },
-        [eapId, createFullEap, latestFullEapId, updateFullEap],
+        [eapId, triggerCreateFullEap, latestFullEapId, triggerUpdateFullEap],
     );
 
     const handleTabChange = useCallback((newTab: TabKeys) => {
-        formContentRef.current?.scrollIntoView();
         setActiveTab(newTab);
+        tabListRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, []);
 
     const handleFormError = useCallback(() => {
-        setTimeout(() => formContentRef.current?.scrollIntoView(), 200);
-    }, []);
+        alert.show(
+            strings.validationErrorAlertMessage,
+            { variant: 'warning' },
+        );
+    }, [alert, strings.validationErrorAlertMessage]);
 
     const handleSave = useMemo(
         () => createSubmitHandler(
@@ -699,6 +739,25 @@ export function Component() {
             handleFormError,
         ),
         [handleFormError, handleValidationSuccess, validate, setError],
+    );
+
+    const handleRequestForApprovalButtonClick = useCallback(() => {
+        setShouldSubmit(true);
+        handleSave();
+    }, [handleSave]);
+
+    const handleRequestForApprovalCancel = useCallback(() => {
+        setShouldSubmit(false);
+    }, []);
+
+    const handleSubmitForApprovalConfirm = useCallback(() => {
+        triggerStatusUpdate(null);
+        setShouldSubmit(false);
+    }, [triggerStatusUpdate]);
+
+    const hasFormErrors = useMemo(
+        () => analyzeErrors(formError),
+        [formError],
     );
 
     return (
@@ -740,7 +799,7 @@ export function Component() {
                     )
                 }
                 info={(
-                    <TabList>
+                    <TabList elementRef={tabListRef}>
                         <Tab
                             name="overview"
                             step={1}
@@ -891,29 +950,78 @@ export function Component() {
                         isRevision={isRevision}
                     />
                 </TabPanel>
-                <ListView withCenteredContents>
-                    <Button
-                        name={prevStep ?? activeTab}
-                        onClick={handleTabChange}
-                        disabled={isNotDefined(prevStep)}
-                    >
-                        {strings.backButton}
-                    </Button>
-                    {isDefined(nextStep) ? (
-                        <Button name={nextStep ?? activeTab} onClick={handleTabChange}>
-                            {strings.nextButton}
-                        </Button>
-                    ) : (
+                <InlineLayout
+                    after={(
                         <Button
                             name={undefined}
                             onClick={handleSave}
-                            disabled={readOnly}
                         >
                             {strings.saveButton}
                         </Button>
                     )}
-                </ListView>
+                >
+                    <ListView withCenteredContents>
+                        <Button
+                            name={prevStep ?? activeTab}
+                            onClick={handleTabChange}
+                            disabled={isNotDefined(prevStep)}
+                        >
+                            {strings.backButton}
+                        </Button>
+                        {isDefined(nextStep) ? (
+                            <Button
+                                name={nextStep ?? activeTab}
+                                onClick={handleTabChange}
+                            >
+                                {strings.nextButton}
+                            </Button>
+                        ) : (
+                            <Button
+                                name={undefined}
+                                onClick={handleRequestForApprovalButtonClick}
+                                disabled={readOnly}
+                            >
+                                {strings.submitButtonLabel}
+                            </Button>
+                        )}
+                    </ListView>
+                </InlineLayout>
             </Page>
+            {shouldSubmit && (
+                <Modal
+                    heading={strings.submitConfirmHeading}
+                    onClose={handleRequestForApprovalCancel}
+                    pending={createFullEapPending || updateFullFormPending}
+                    pendingMessage={strings.savingPendingMessage}
+                    footerActions={(
+                        <Button
+                            name={undefined}
+                            disabled={hasFormErrors}
+                            onClick={handleSubmitForApprovalConfirm}
+                        >
+                            {strings.submitConfirmButtonLabel}
+                        </Button>
+                    )}
+                >
+                    <ListView
+                        layout="block"
+                        spacing="sm"
+                    >
+                        <div>
+                            {strings.submitConfirmMessage}
+                        </div>
+                        {hasFormErrors && (
+                            <Alert
+                                name="form-error-warning"
+                                title={strings.submitFormErrorMessage}
+                                type="warning"
+                                withLightBackground
+                                withoutShadow
+                            />
+                        )}
+                    </ListView>
+                </Modal>
+            )}
         </Tabs>
     );
 }

@@ -19,6 +19,8 @@
         "updateSuccessMessage": "Simplified EAP Form updated Successfully!",
         "backToAccountLinkLabel": "Back",
         "readOnlyWarningMessage": "You’re viewing this form in read-only mode. Editing is currently disabled.",
+        "submitApprovalSuccess": "Successfully submitted EAP for approval!",
+        "submitFailedSuccess": "Failed to submit the EAP for approval!",
         "validationErrorAlertMessage": "Please fix all the errors before continuing!",
         "savingPendingMessage": "Saving data...",
         "submitFormErrorMessage": "Please make sure you've filled in all the required details before proceeding!",

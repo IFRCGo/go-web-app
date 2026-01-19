@@ -424,7 +424,6 @@ function TriggerModel(props: Props) {
             <InputSection
                 title={strings.attachRelevantFilesTitle}
                 description={strings.attachRelevantFilesDescription}
-                withAsteriskOnTitle
             >
                 <GoMultiFileInput
                     name="trigger_model_relevant_files"

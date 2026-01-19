@@ -12,6 +12,7 @@ import {
 import {
     Alert,
     Button,
+    InlineLayout,
     ListView,
     Modal,
     Tab,
@@ -451,16 +452,10 @@ export function Component() {
             id: Number(latestSimplifiedEapId),
         },
         body: (formFields: EapSimplifiedRequestBody) => formFields,
-        onSuccess: (response) => {
+        onSuccess: () => {
             alert.show(
                 strings.updateSuccessMessage,
                 { variant: 'success' },
-            );
-
-            // FIXME: only navigate to accounts page for the submit action
-            navigate(
-                'accountMyFormsEap',
-                { params: { eapId: response.id } },
             );
         },
         onFailure: (err) => {
@@ -495,8 +490,7 @@ export function Component() {
         } as EapStatusBody),
         onSuccess: () => {
             alert.show(
-                // FIXME: use translations
-                'Successfully submitted EAP for approval!',
+                strings.submitApprovalSuccess,
                 { variant: 'success' },
             );
 
@@ -504,8 +498,7 @@ export function Component() {
         },
         onFailure: (error) => {
             alert.show(
-                // FIXME: use translations
-                'Failed to submit the EAP for approval!',
+                strings.submitFailedSuccess,
                 {
                     variant: 'danger',
                     description: error.value.messageForNotification,
@@ -744,31 +737,42 @@ export function Component() {
                         isRevision={isRevision}
                     />
                 </TabPanel>
-                <ListView withCenteredContents>
-                    <Button
-                        name={prevStep ?? activeTab}
-                        onClick={handleTabChange}
-                        disabled={isNotDefined(prevStep)}
-                    >
-                        {strings.backButtonLabel}
-                    </Button>
-                    {isDefined(nextStep) ? (
-                        <Button
-                            name={nextStep ?? activeTab}
-                            onClick={handleTabChange}
-                        >
-                            {strings.nextButtonLabel}
-                        </Button>
-                    ) : (
+                <InlineLayout
+                    after={(
                         <Button
                             name={undefined}
-                            onClick={handleRequestForApprovalButtonClick}
-                            disabled={readOnly}
+                            onClick={handleSave}
                         >
-                            {strings.submitButtonLabel}
+                            {strings.saveButtonLabel}
                         </Button>
                     )}
-                </ListView>
+                >
+                    <ListView withCenteredContents>
+                        <Button
+                            name={prevStep ?? activeTab}
+                            onClick={handleTabChange}
+                            disabled={isNotDefined(prevStep)}
+                        >
+                            {strings.backButtonLabel}
+                        </Button>
+                        {isDefined(nextStep) ? (
+                            <Button
+                                name={nextStep ?? activeTab}
+                                onClick={handleTabChange}
+                            >
+                                {strings.nextButtonLabel}
+                            </Button>
+                        ) : (
+                            <Button
+                                name={undefined}
+                                onClick={handleRequestForApprovalButtonClick}
+                                disabled={readOnly}
+                            >
+                                {strings.submitButtonLabel}
+                            </Button>
+                        )}
+                    </ListView>
+                </InlineLayout>
             </Page>
             {shouldSubmit && (
                 <Modal
