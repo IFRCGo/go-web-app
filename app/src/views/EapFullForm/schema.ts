@@ -16,8 +16,8 @@ import {
     urlCondition,
 } from '@togglecorp/toggle-form';
 
+import indicatorSchema from '#components/domain/EapIndicatorInput/schema';
 import operationActivitySchema from '#components/domain/EapOperationActivityInput/schema';
-import { positiveNumberCondition } from '#utils/form';
 import { type GoApiBody } from '#utils/restRequest';
 
 function lessThanEqualToFiveImagesCondition<T>(value: T[] | undefined) {
@@ -476,28 +476,6 @@ type EvidenceBaseSourceOfInformationResponseFormFields = ReturnType<
         EapFullFormContext
     >['fields']
 >;
-type IndicatorFields = ReturnType<
-    ObjectSchema<
-        NonNullable<
-            NonNullable<
-                PartialEapFullFormType['planned_operations']
-            >[number]['indicators']
-        >[number],
-        PartialEapFullFormType,
-        EapFullFormContext
-    >['fields']
->;
-type ApproachIndicatorFields = ReturnType<
-    ObjectSchema<
-        NonNullable<
-            NonNullable<
-                PartialEapFullFormType['enabling_approaches']
-            >[number]['indicators']
-        >[number],
-        PartialEapFullFormType,
-        EapFullFormContext
-    >['fields']
->;
 
 type PrioritizedImpactsFields = ReturnType<
     ObjectSchema<
@@ -540,9 +518,16 @@ function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY, requi
     };
 
     return {
-        [`${key}_name`]: { required },
+        [`${key}_name`]: {
+            required,
+            requiredValidation: requiredStringCondition,
+        },
         [`${key}_title`]: {},
-        [`${key}_email`]: { required, validations: [emailCondition] },
+        [`${key}_email`]: {
+            required,
+            requiredValidation: requiredStringCondition,
+            validations: [emailCondition],
+        },
         [`${key}_phone_number`]: {},
     } as ContactSchema;
 }
@@ -557,7 +542,10 @@ export const formSchema: EapFullFormSchema = {
                 fields: (): CoverImageFileFormFields => ({
                     client_id: {},
                     caption: {},
-                    id: { defaultValue: undefinedValue },
+                    id: {
+                        defaultValue: undefinedValue,
+                        required: true,
+                    },
                 }),
             },
             partner_contacts: {
@@ -585,7 +573,10 @@ export const formSchema: EapFullFormSchema = {
 
             // Stakeholders
             is_worked_with_government: { required: true },
-            worked_with_government_description: { required: true },
+            worked_with_government_description: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
 
             key_actors: {
                 keySelector: (item) => item.client_id,
@@ -600,10 +591,17 @@ export const formSchema: EapFullFormSchema = {
             },
 
             is_technical_working_groups: { required: true },
-            technical_working_groups_in_place_description: { required: true },
+            technical_working_groups_in_place_description: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
 
             // ------------Risk Analysis-----------------
-            hazard_selection: { required: true },
+            hazard_selection: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
+
             hazard_selection_images: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -616,7 +614,10 @@ export const formSchema: EapFullFormSchema = {
                 validation: lessThanEqualToFiveImagesCondition,
             },
 
-            exposed_element_and_vulnerability_factor: { required: true },
+            exposed_element_and_vulnerability_factor: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             exposed_element_and_vulnerability_factor_images: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -629,7 +630,10 @@ export const formSchema: EapFullFormSchema = {
                 validation: lessThanEqualToFiveImagesCondition,
             },
 
-            prioritized_impact: { required: true },
+            prioritized_impact: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             prioritized_impact_images: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -647,7 +651,10 @@ export const formSchema: EapFullFormSchema = {
                     fields: (): PrioritizedImpactsFields => ({
                         client_id: {},
                         id: { defaultValue: undefinedValue },
-                        impact: { required: true },
+                        impact: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
                     }),
                 }),
             },
@@ -672,7 +679,10 @@ export const formSchema: EapFullFormSchema = {
             },
 
             // -------------Trigger Model--------------------
-            trigger_statement: { required: true },
+            trigger_statement: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             trigger_statement_source_of_information: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -692,7 +702,10 @@ export const formSchema: EapFullFormSchema = {
             },
             lead_time: { required: true },
 
-            forecast_selection: { required: true },
+            forecast_selection: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             forecast_selection_images: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -706,7 +719,10 @@ export const formSchema: EapFullFormSchema = {
             },
             forecast_table_file: { required: true },
 
-            definition_and_justification_impact_level: { required: true },
+            definition_and_justification_impact_level: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             definition_and_justification_impact_level_images: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -719,7 +735,10 @@ export const formSchema: EapFullFormSchema = {
                 validation: lessThanEqualToFiveImagesCondition,
             },
 
-            identification_of_the_intervention_area: { required: true },
+            identification_of_the_intervention_area: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             identification_of_the_intervention_area_images: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -765,7 +784,10 @@ export const formSchema: EapFullFormSchema = {
                     }),
                 }),
             },
-            early_action_selection_process: { required: true },
+            early_action_selection_process: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             early_action_selection_process_images: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -779,7 +801,10 @@ export const formSchema: EapFullFormSchema = {
             },
             theory_of_change_table_file: { required: true },
 
-            evidence_base: { required: true },
+            evidence_base: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             evidence_base_source_of_information: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -809,14 +834,15 @@ export const formSchema: EapFullFormSchema = {
                         ap_code: {},
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
-                            member: () => ({
-                                fields: (): IndicatorFields => ({
-                                    client_id: {},
-                                    id: { defaultValue: undefinedValue },
-                                    title: {},
-                                    target: { validations: [positiveNumberCondition] },
-                                }),
-                            }),
+                            member: () => indicatorSchema,
+                            validation: (indicators) => {
+                                if (isNotDefined(indicators)
+                                    || indicators.length === 0) {
+                                    return 'This field is required';
+                                }
+
+                                return undefined;
+                            },
                         },
                         people_targeted: {},
                         early_action_activities: {
@@ -833,6 +859,13 @@ export const formSchema: EapFullFormSchema = {
                         },
                     }),
                 }),
+                validation: (plannedOperations) => {
+                    if (isNotDefined(plannedOperations) || plannedOperations.length === 0) {
+                        return 'This field is required';
+                    }
+
+                    return undefined;
+                },
             },
 
             // Enabling Approaches
@@ -846,14 +879,15 @@ export const formSchema: EapFullFormSchema = {
                         ap_code: {},
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
-                            member: () => ({
-                                fields: (): ApproachIndicatorFields => ({
-                                    client_id: {},
-                                    id: { defaultValue: undefinedValue },
-                                    title: {},
-                                    target: { validations: [positiveNumberCondition] },
-                                }),
-                            }),
+                            member: () => indicatorSchema,
+                            validation: (indicators) => {
+                                if (isNotDefined(indicators)
+                                    || indicators.length === 0) {
+                                    return 'This field is required';
+                                }
+
+                                return undefined;
+                            },
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
@@ -869,13 +903,29 @@ export const formSchema: EapFullFormSchema = {
                         },
                     }),
                 }),
+                validation: (enablingApproaches) => {
+                    if (isNotDefined(enablingApproaches) || enablingApproaches.length === 0) {
+                        return 'This field is required';
+                    }
+
+                    return undefined;
+                },
             },
 
-            usefulness_of_actions: { required: true },
-            feasibility: { required: true },
+            usefulness_of_actions: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
+            feasibility: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
 
             // ----------EAP Activation Process---------
-            early_action_implementation_process: { required: true },
+            early_action_implementation_process: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             early_action_implementation_images: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -888,7 +938,10 @@ export const formSchema: EapFullFormSchema = {
                 validation: lessThanEqualToFiveImagesCondition,
             },
 
-            trigger_activation_system: { required: true },
+            trigger_activation_system: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             trigger_activation_system_images: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -902,7 +955,10 @@ export const formSchema: EapFullFormSchema = {
             },
 
             people_targeted: { required: true },
-            selection_of_target_population: { required: true },
+            selection_of_target_population: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             stop_mechanism: { required: true },
 
             activation_process_relevant_files: { defaultValue: [] },
@@ -926,25 +982,49 @@ export const formSchema: EapFullFormSchema = {
             },
 
             // --------------Meal-------------
-            meal: { required: true },
+            meal: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             meal_relevant_files: { defaultValue: [] },
 
             // -----------National Society Capacity-----------
-            operational_administrative_capacity: { required: true },
-            strategies_and_plans: { required: true },
-            advance_financial_capacity: { required: true },
+            operational_administrative_capacity: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
+            strategies_and_plans: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
+            advance_financial_capacity: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             capacity_relevant_files: { defaultValue: [] },
 
             // ------------Finance and Logistics----------------
             total_budget: { required: true },
-            budget_description: { required: true },
+            budget_description: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             budget_file: { required: true },
             readiness_budget: { required: true },
-            readiness_cost_description: { required: true },
+            readiness_cost_description: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             pre_positioning_budget: { required: true },
-            prepositioning_cost_description: { required: true },
+            prepositioning_cost_description: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             early_action_budget: { required: true },
-            early_action_cost_description: { required: true },
+            early_action_cost_description: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             eap_endorsement: { required: true },
         };
 
@@ -957,7 +1037,10 @@ export const formSchema: EapFullFormSchema = {
                 if (val?.is_technical_working_groups) {
                     return {
                         technically_working_group_title: { required: true },
-                        technical_working_groups_in_place_description: { required: true },
+                        technical_working_groups_in_place_description: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
                     };
                 }
 
@@ -976,7 +1059,10 @@ export const formSchema: EapFullFormSchema = {
             (val) => {
                 if (val?.is_worked_with_government) {
                     return {
-                        worked_with_government_description: { required: true },
+                        worked_with_government_description: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
                     };
                 }
                 return {

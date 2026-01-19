@@ -942,6 +942,7 @@ export function Component() {
                     <FinanceLogistics
                         value={value}
                         setFieldValue={setFieldValue}
+                        setValue={setValue}
                         error={formError}
                         disabled={disabled}
                         fileIdToUrlMap={fileIdToUrlMap}
