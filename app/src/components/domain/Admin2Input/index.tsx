@@ -1,6 +1,7 @@
 import {
     useCallback,
     useMemo,
+    useState,
 } from 'react';
 import { CloseLineIcon } from '@ifrc-go/icons';
 import {
@@ -41,6 +42,7 @@ import {
     COLOR_TEXT_ON_DARK,
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
+    MAX_PAGE_LIMIT,
 } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 
@@ -68,13 +70,22 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
     const countryDetails = useCountry({ id: countryId });
     const iso3 = countryDetails?.iso3;
 
-    const valueDebounced = useDebouncedValue(value, 1000);
+    const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
+
+    const selectedCodesDebounced = useDebouncedValue(selectedCodes, 300);
 
     const { response: admin2Details } = useRequest({
-        skip: isNotDefined(valueDebounced) || valueDebounced.length === 0,
+        skip: isNotDefined(selectedCodesDebounced) || selectedCodesDebounced.length === 0,
         url: '/api/v2/admin2/',
         query: {
-            id__in: valueDebounced ?? [],
+            code__in: selectedCodesDebounced ?? [],
+            limit: MAX_PAGE_LIMIT,
+        },
+        onSuccess: (response) => {
+            onChange(
+                response.results.map(({ id }) => id),
+                name,
+            );
         },
     });
 
@@ -82,6 +93,12 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
         admin2Details?.results,
         ({ id }) => id,
         ({ name: admin2Name, district_name }) => `${admin2Name} (${district_name})`,
+    );
+
+    const admin2CodeMap = listToMap(
+        admin2Details?.results,
+        ({ id }) => id,
+        ({ code }) => code,
     );
 
     const bounds = useMemo(() => {
@@ -150,9 +167,9 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                     ? defaultColor
                     : [
                         'match',
-                        ['get', 'id'],
+                        ['get', 'code'],
                         ...value.map((admin2Id) => [
-                            admin2Id,
+                            admin2CodeMap?.[admin2Id] ?? admin2Id,
                             COLOR_PRIMARY_RED,
                         ]).flat(),
                         defaultColor,
@@ -165,7 +182,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
             },
         };
         return options;
-    }, [iso3, value]);
+    }, [iso3, value, admin2CodeMap]);
 
     const adminTwoLabelLayerOptions = useMemo((): Omit<SymbolLayer, 'id'> | undefined => {
         const textColor: NonNullable<SymbolLayer['paint']>['text-color'] = (
@@ -207,20 +224,22 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
             name?: string;
         };
 
-        if (isNotDefined(properties.id)) {
+        if (isNotDefined(properties.code)) {
             return false;
         }
 
-        const valueIndex = value?.findIndex((admin2Id) => admin2Id === properties.id) ?? -1;
+        setSelectedCodes((prevCodes) => {
+            const codeIndex = prevCodes.findIndex((prevCode) => prevCode === properties.code);
 
-        if (valueIndex === -1) {
-            onChange([...(value ?? []), properties.id], name);
-        } else {
-            onChange(value?.toSpliced(valueIndex, 1), name);
-        }
+            if (codeIndex === -1) {
+                return [...prevCodes, properties.code];
+            }
+
+            return prevCodes.toSpliced(codeIndex, 1);
+        });
 
         return false;
-    }, [value, name, onChange]);
+    }, []);
 
     const [
         showModal,
