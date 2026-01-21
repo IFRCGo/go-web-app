@@ -1,0 +1,46 @@
+.container {
+    position: relative;
+    margin: 0;
+    outline: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: var(--go-ui-font-family-sans-serif);
+}
+
+.svgContainer {
+    padding: var(--go-ui-spacing-md);
+}
+
+.container:focus-visible {
+    outline: var(--go-ui-width-separator-thin) solid var(--go-ui-color-primary-red);
+    outline-offset: var(--go-ui-spacing-xs);
+}
+
+.title {
+    text-align: center;
+    white-space: nowrap;
+    color: var(--go-ui-color-text);
+    font-size: var(--go-ui-font-size-sm);
+    font-weight: var(--go-ui-font-weight-medium);
+}
+
+.label {
+    position: absolute;
+    bottom: -29px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--go-ui-color-text);
+    font-size: var(--go-ui-font-size-sm);
+    font-weight: var(--go-ui-font-weight-normal);
+}
+
+.percentage {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: var(--go-ui-font-size-lg);
+    font-weight: var(--go-ui-font-weight-bold);
+}

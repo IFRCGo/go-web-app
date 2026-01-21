@@ -1,0 +1,77 @@
+.per-performance-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+    margin: 0;
+    /* background-color: var(--go-ui-color-background); */
+    padding: var(--go-ui-spacing-2xl) 0;
+    overflow-x: hidden;
+}
+
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    min-height: 500px;
+}
+
+.lastUpdate {
+    position: absolute;
+    top: 20px;
+    margin-bottom: var(--go-ui-spacing-md);
+    padding: 0 var(--go-ui-spacing-md);
+    color: var(--go-ui-color-gray-60);
+    font-size: var(--go-ui-font-size-sm);
+}
+
+.header-body {
+    line-height: var(--go-ui-line-height-md);
+    color: var(--go-ui-color-text);
+    font-size: var(--go-ui-font-size-md);
+}
+
+.headerDescription {
+    margin-bottom: var(--go-ui-spacing-md);
+    background-color: var(--go-ui-color-background);
+    padding: var(--go-ui-spacing-xl);
+    width: auto;
+    text-align: center;
+    font-size: var(--go-ui-font-size-md);
+
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+    margin: 0;
+    background-color: var(--go-ui-color-white);
+    padding: var(--go-ui-spacing-md);
+}
+
+.container {
+    width: 100%;
+    max-width: 100%;
+}
+
+.perAnalysis {
+    margin-bottom: var(--go-ui-spacing-md);
+}
+
+.ratingAnalysis {
+    width: 100%;
+    max-width: 100%;
+}
+
+.ratingAnalysis > div {
+    padding: 0px !important;
+    max-width: 100% !important;
+    --max-width: 100% !important;
+}
+
+.ratingAnalysis :global(.content) {
+    width: 100%;
+    max-width: 100%;
+}

@@ -1,0 +1,15 @@
+{
+    "namespace": "PERDashboard",
+    "strings": {
+        "performanceLastUpdate": "Last updated:",
+        "performanceResetFilter": "Clear Filter",
+        "performanceResetFilterAriaLabel": "Reset all active filters",
+        "performanceContainerAriaLabel": "PER Performance Dashboard",
+        "performanceHeaderDescription": "This dashboard contains a summary of the overall preparedness and response capacity among National Societies engaged in the PER Approach. The values presented represent the ratings for each component within National Societies' PER Mechanism aggregated at global and regional levels. The visualisations show average rating, the changes in capacity over time, as well as top and bottom-rated components. You can filter the components by region.",
+        "overviewHeading": "Performance Overview",
+        "overviewDescription": "Click on a PER assessment cycle to filter",
+        "globalRatingsHeading": "Global Performance Ratings",
+        "globalRatingsDescription": "Overview of PER ratings and performance metrics",
+        "performanceFetchFailedError": "Failed to load dashboard data"
+    }
+}

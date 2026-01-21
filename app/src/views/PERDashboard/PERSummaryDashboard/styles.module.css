@@ -1,0 +1,97 @@
+.per-summary-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+    margin: 0;
+    /* background-color: var(--go-ui-color-background); */
+    padding: var(--go-ui-spacing-2xl) 0;
+    overflow-x: hidden;
+}
+
+.loading-container {
+    margin: 0;
+    padding: 0;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    min-height: 300px;
+}
+
+.title {
+    text-align: center;
+    line-height: normal;
+    color: var(--go-ui-color-text);
+    font-size: var(--go-ui-font-size-lg);
+    font-weight: var(--go-ui-font-weight-medium);
+}
+
+.lastUpdate {
+    display: inline-block;
+    position: absolute;
+    top: 20px;
+    margin-bottom: var(--go-ui-spacing-md);
+    padding: 0 var(--go-ui-spacing-md);
+    color: var(--go-ui-color-gray-60);
+    font-size: var(--go-ui-font-size-sm);
+}
+
+.header-body {
+    line-height: var(--go-ui-line-height-md);
+    color: var(--go-ui-color-text);
+    font-size: var(--go-ui-font-size-md);
+}
+
+.headerDescription {
+    margin-bottom: var(--go-ui-spacing-md);
+    background-color: var(--go-ui-color-background);
+    padding: var(--go-ui-spacing-xl);
+    width: auto;
+    text-align: center;
+    font-size: var(--go-ui-font-size-md);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+    margin: 0;
+    background-color: var(--go-ui-color-white);
+    padding: var(--go-ui-spacing-md);
+
+}
+
+.charts {
+    display: grid;
+    gap: var(--go-ui-spacing-md);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    margin-top: var(--go-ui-spacing-md);
+    margin-bottom: var(--go-ui-spacing-md);
+    
+
+}
+
+.charts > div {
+    display: flex;
+    height: 100%;
+}
+
+.charts > div > div:last-child {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 80px); /* Subtract header height */
+}
+
+.treemap {
+    margin-bottom: var(--go-ui-spacing-md);
+}
+.assessmentTypesContent {
+    display: flex;
+    flex: 1;
+    gap: var(--go-ui-spacing-md);
+}
+
+.regionsContent {
+    display: flex;
+    flex: 1;
+    gap: var(--go-ui-spacing-md);
+}
