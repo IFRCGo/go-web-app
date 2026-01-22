@@ -1,11 +1,21 @@
-import xlsx, { CellValue } from 'exceljs';
+import xlsx, { CellValue, Row } from 'exceljs';
 import { Md5 } from 'ts-md5';
-import { encodeDate, isDefined, isFalsyString, isNotDefined, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
+import { encodeDate, isDefined, isFalsyString, isNotDefined, listToMap } from '@togglecorp/fujs';
 
 import { Language, ServerActionItem } from '../types';
 import { postLanguageStrings, writeFilePromisify } from '../utils';
 
-function getValueFromCellValue(cellValue: CellValue) {
+type Translation = {
+    key: string;
+    namespace: string;
+    en: string;
+    fr: string | undefined;
+    es: string | undefined;
+    ar: string | undefined;
+    hash: string;
+}
+
+function resolveCellValue(cellValue: CellValue) {
     if (isNotDefined(cellValue)) {
         return undefined;
     }
@@ -48,16 +58,44 @@ function getValueFromCellValue(cellValue: CellValue) {
     }
 
     // Formula result
-    return getValueFromCellValue(cellValue.result);
+    return resolveCellValue(cellValue.result);
 }
 
-async function pushStringsFromExcel(importFilePath: string, apiUrl: string, accessToken: string) {
-    const workbook = new xlsx.Workbook();
+function getStringValueFromCellValue(cellValue: CellValue | undefined) {
+    if (isNotDefined(cellValue)) {
+        return undefined;
+    }
 
-    await workbook.xlsx.readFile(importFilePath);
+    const resolvedValue = resolveCellValue(cellValue);
+
+    if (isNotDefined(resolvedValue)) {
+        return undefined;
+    }
+
+    const stringValue = String(resolvedValue);
+
+    if (isFalsyString(stringValue.trim())) {
+        return undefined;
+    }
+
+    return stringValue;
+}
+
+function getCellValueFromRow(row: Row, columnIndex: number | undefined) {
+    if (isNotDefined(row) || isNotDefined(columnIndex)) {
+        return undefined;
+    }
+
+    const cellValue = row.getCell(columnIndex).value;
+
+    return getStringValueFromCellValue(cellValue);
+}
+
+async function getExcelTranslations(excelFilePath: string) {
+    const workbook = new xlsx.Workbook();
+    await workbook.xlsx.readFile(excelFilePath);
 
     const firstSheet = workbook.worksheets[0];
-    console.info(firstSheet.columnCount);
 
     const columns: {
         key: string;
@@ -72,7 +110,10 @@ async function pushStringsFromExcel(importFilePath: string, apiUrl: string, acce
             return;
         }
 
-        columns.push({ key, column: column.number })
+        columns.push({
+            key: key.toLowerCase(),
+            column: column.number,
+        })
     }
 
     const columnMap = listToMap(
@@ -81,137 +122,115 @@ async function pushStringsFromExcel(importFilePath: string, apiUrl: string, acce
         ({ column }) => column,
     );
 
-    const strings: {
-        key: string;
-        namespace: string;
-        language: Language;
-        value: string;
-        hash: string;
-    }[] = [];
+    // Remove header row
+    firstSheet.spliceRows(1, 1);
 
-    firstSheet.eachRow(
-        (row, i) => {
-            if (i === 0) {
-                return;
-            }
+    const KEY = 'key';
+    const NAMESPACE = 'namespace';
+    const EN = 'en';
+    const FR = 'fr';
+    const ES = 'es';
+    const AR = 'ar';
 
-            const keyColumn = columnMap['Key'];
-            const key = isDefined(keyColumn) ? String(getValueFromCellValue(row.getCell(keyColumn).value)) : undefined;
+    const translations: Translation[] = [];
 
-            const namespaceColumn = columnMap['Namespace'];
-            const namespace = isDefined(namespaceColumn) ? String(getValueFromCellValue(row.getCell(namespaceColumn).value)) : undefined;
+    firstSheet.eachRow((row) => {
+        const key = getCellValueFromRow(row, columnMap[KEY]);
+        const namespace = getCellValueFromRow(row, columnMap[NAMESPACE]);
 
-            if (isFalsyString(key) || isFalsyString(namespace)) {
-                return;
-            }
-
-            const enColumn = columnMap['EN'];
-            const en = isDefined(enColumn) ? getValueFromCellValue(row.getCell(enColumn).value) : undefined;
-
-            if (isFalsyString(en)) {
-                return;
-            }
-
-            const arColumn = columnMap['AR'];
-            const ar = isDefined(arColumn) ? getValueFromCellValue(row.getCell(arColumn).value) : undefined;
-
-            const frColumn = columnMap['FR'];
-            const fr = isDefined(frColumn) ? getValueFromCellValue(row.getCell(frColumn).value) : undefined;
-
-            const esColumn = columnMap['ES'];
-            const es = isDefined(esColumn) ? getValueFromCellValue(row.getCell(esColumn).value) : undefined;
-
-            if (isNotDefined(en)) {
-                return;
-            }
-
-            const hash = Md5.hashStr(String(en));
-
-            strings.push({
-                key,
-                namespace,
-                language: 'en',
-                value: String(en),
-                hash,
-            });
-
-            if (isDefined(fr)) {
-                strings.push({
-                    key,
-                    namespace,
-                    language: 'fr',
-                    value: String(fr),
-                    hash,
-                });
-            }
-
-
-            if (isDefined(es)) {
-                strings.push({
-                    key,
-                    namespace,
-                    language: 'es',
-                    value: String(es),
-                    hash,
-                });
-            }
-
-            if (isDefined(ar)) {
-                strings.push({
-                    key,
-                    namespace,
-                    language: 'ar',
-                    value: String(ar),
-                    hash,
-                });
-            }
-
+        if (isFalsyString(key) || isFalsyString(namespace)) {
+            return;
         }
+
+        const en = getCellValueFromRow(row, columnMap[EN]);
+
+        if (isFalsyString(en)) {
+            return;
+        }
+
+        const fr = getCellValueFromRow(row, columnMap[FR]);
+        const es = getCellValueFromRow(row, columnMap[ES]);
+        const ar = getCellValueFromRow(row, columnMap[AR]);
+
+        const hash = Md5.hashStr(String(en));
+
+        translations.push({
+            key,
+            namespace,
+            en,
+            fr,
+            es,
+            ar,
+            hash,
+        });
+    });
+
+    return translations;
+}
+
+async function pushStringsFromExcel(importFilePath: string, apiUrl: string, accessToken: string) {
+    const translations = await getExcelTranslations(importFilePath);
+
+    if (isNotDefined(translations)) {
+        console.info('Could not process the given excel file', importFilePath);
+        return;
+    }
+
+    console.info(`Found ${translations.length} rows`);
+
+    const applicableLanguages: Language[] = ['en', 'fr', 'es', 'ar'];
+
+    const actionsByLanugage = listToMap(
+        applicableLanguages,
+        (lang) => lang,
+        (lang) => translations.map((translation) => {
+            const languageValue = translation[lang];
+
+            if (isNotDefined(languageValue)) {
+                return undefined;
+            }
+
+            return {
+                action: 'set',
+                key: translation.key,
+                page_name: translation.namespace,
+                value: languageValue,
+                hash: translation.hash,
+            } satisfies ServerActionItem;
+        }).filter(isDefined),
     );
 
-    console.info(`Total ${strings.length} actions`);
+    for (let i = 0; i < applicableLanguages.length; i++) {
+        const language = applicableLanguages[i];
+        const actions = actionsByLanugage[language];
 
-    const languageGroupedActions = mapToList(
-        listToGroupList(
-            strings,
-            ({ language }) => language,
-            (languageString) => {
-                const serverAction: ServerActionItem = {
-                    action: 'set',
-                    key: languageString.key,
-                    page_name: languageString.namespace,
-                    value: languageString.value,
-                    hash: languageString.hash,
-                }
+        if (actions.length > 0) {
+            console.log(`posting ${actions.length} ${language} actions...`);
+            const result = await postLanguageStrings(
+                language,
+                actions,
+                apiUrl,
+                accessToken,
+            );
 
-                return serverAction;
-            },
-        ),
-        (actions, language) => ({
-            language: language as Language,
-            actions,
-        })
-    );
+            try {
+                const resultJson = await result.json();
 
-    await writeFilePromisify(
-        '/tmp/language-grouped-actions.json',
-        JSON.stringify(languageGroupedActions, null, 2),
-        'utf8',
-    );
+                await writeFilePromisify(
+                    '/tmp/push-strings-from-excel-response-${language}.json',
+                    JSON.stringify(resultJson, null, 2),
+                    'utf8',
+                );
+            } catch {
+                const resultText = await result.text();
 
-    for (let i = 0; i < languageGroupedActions.length; i++) {
-        const action = languageGroupedActions[i];
-
-        console.log(`posting ${action.language} actions...`);
-        const result = await postLanguageStrings(
-            action.language,
-            action.actions,
-            apiUrl,
-            accessToken,
-        );
-
-        const resultJson = await result.text();
-        console.info(resultJson);
+                await writeFilePromisify(
+                    '/tmp/push-strings-from-excel-response-${language}.log',
+                    JSON.stringify(resultText, null, 2),
+                    'utf8',
+                );
+            }
+        }
     }
 }
 
