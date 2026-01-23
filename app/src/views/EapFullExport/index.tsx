@@ -6,10 +6,7 @@ import {
     useParams,
     useSearchParams,
 } from 'react-router-dom';
-import {
-    Label,
-    ListView,
-} from '@ifrc-go/ui';
+import { ListView } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { Image } from '@ifrc-go/ui/printable';
 import {
@@ -113,7 +110,11 @@ export function Component() {
         ({ value }) => value,
     );
 
-    const { disaster_type_details, country_details, approved_at } = eapRegistrationResponse ?? {};
+    const {
+        disaster_type_details,
+        country_details,
+        approved_at,
+    } = eapRegistrationResponse ?? {};
 
     const {
         cover_image_file,
@@ -360,23 +361,28 @@ export function Component() {
                 <div className={styles.summary}>
                     <PrintableDataDisplay
                         label={strings.hazardLabel}
-                        value={eapRegistrationResponse?.disaster_type_details.name}
+                        value={disaster_type_details?.name}
                         valueType="text"
                         strongLabel
                         variant="contents"
                         withPadding
                         withBackground
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                     <PrintableDataDisplay
                         label={strings.objectiveLabel}
-                        value={objective}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={objective}
+                                prevValue={prev_objective}
+                                withDiff={withDiff}
+                            />
+                        )}
                         strongLabel
                         variant="contents"
                         withPadding
                         withBackground
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                     <PrintableDataDisplay
                         label={strings.prioritizedImpactsSummaryLabel}
@@ -399,7 +405,7 @@ export function Component() {
                         variant="contents"
                         withPadding
                         withBackground
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                     <PrintableDataDisplay
                         label={strings.earlyActionsSummaryLabel}
@@ -420,11 +426,12 @@ export function Component() {
                         variant="contents"
                         withPadding
                         withBackground
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                     <PrintableDataDisplay
                         label={strings.houseHoldsSummaryLabel}
                         value="--"
+                        prevValue="--"
                         strongLabel
                         valueType="text"
                         variant="contents"
@@ -435,6 +442,7 @@ export function Component() {
                     <PrintableDataDisplay
                         label={strings.eapBudgetSummaryLabel}
                         value={total_budget}
+                        prevValue={prev_total_budget}
                         strongLabel
                         valueType="number"
                         variant="contents"
@@ -449,24 +457,29 @@ export function Component() {
                                 value={trigger.source_name}
                                 prevValue={prevTriggerStatementSourceInformationMapping[
                                     trigger.id!]?.source_name}
+                                withDiff={withDiff}
                             />
                         ))}
                         variant="contents"
                         withPadding
                         withBackground
                         strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                     <PrintableDataDisplay
                         label={strings.triggerStatementLabel}
-                        value={trigger_statement}
-                        prevValue={prev_trigger_statement}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={trigger_statement}
+                                prevValue={prev_trigger_statement}
+                                withDiff={withDiff}
+                            />
+                        )}
+                        strongLabel
                         variant="contents"
                         withPadding
                         withBackground
-                        strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                 </div>
             </PrintableContainer>
@@ -515,7 +528,7 @@ export function Component() {
                                 variant="block"
                                 withPadding
                                 withBackground
-                                withDiff={withDiff}
+                                withDiff={false}
                             />
                             <PrintableDataDisplay
                                 label={strings.eapApprovedLabel}
@@ -525,19 +538,23 @@ export function Component() {
                                 variant="block"
                                 withPadding
                                 withBackground
-                                withDiff={withDiff}
+                                withDiff={false}
                             />
                         </ListView>
                         <PrintableDataDisplay
                             label={strings.objectiveLabel}
-                            value={objective}
-                            prevValue={prev_objective}
-                            valueType="text"
+                            value={(
+                                <PrintableDescription
+                                    value={objective}
+                                    prevValue={prev_objective}
+                                    withDiff={withDiff}
+                                />
+                            )}
                             strongValue
                             variant="block"
                             withPadding
                             withBackground
-                            withDiff={withDiff}
+                            withDiff={false}
                         />
                     </ListView>
                 </PrintableContainer>
@@ -691,7 +708,7 @@ export function Component() {
                             headingLevel={4}
                             heading={(
                                 <PrintableLabel
-                                    value={actor.national_society_details.name}
+                                    value={actor.national_society_details.society_name}
                                     prevValue={
                                         prevKeyActorsMapping[actor.national_society]
                                             ?.national_society_details.society_name
@@ -851,31 +868,39 @@ export function Component() {
                             >
                                 <PrintableDataDisplay
                                     label={strings.nameLabel}
-                                    value={source.source_name}
-                                    prevValue={
-                                        prevRiskSourceInformationMapping[source.id!]
-                                            ?.source_name
-                                    }
-                                    valueType="text"
+                                    value={(
+                                        <PrintableDescription
+                                            value={source.source_name}
+                                            prevValue={
+                                                prevRiskSourceInformationMapping[source.id!]
+                                                    ?.source_name
+                                            }
+                                            withDiff={withDiff}
+                                        />
+                                    )}
                                     variant="inline"
                                     withPadding
                                     withBackground
                                     strongLabel
-                                    withDiff={withDiff}
+                                    withDiff={false}
                                 />
                                 <PrintableDataDisplay
                                     label={strings.linkLabel}
-                                    value={source.source_link}
-                                    prevValue={
-                                        prevRiskSourceInformationMapping[source.id!]
-                                            ?.source_link
-                                    }
+                                    value={(
+                                        <PrintableDescription
+                                            value={source.source_link}
+                                            prevValue={
+                                                prevRiskSourceInformationMapping[source.id!]
+                                                    ?.source_link
+                                            }
+                                            withDiff={withDiff}
+                                        />
+                                    )}
                                     withPadding
                                     withBackground
-                                    valueType="text"
                                     variant="inline"
                                     strongLabel
-                                    withDiff={withDiff}
+                                    withDiff={false}
                                 />
                             </ListView>
                         ))}
@@ -920,31 +945,35 @@ export function Component() {
                             <ListView key={trigger.id} layout="grid" spacing="2xs">
                                 <PrintableDataDisplay
                                     label={strings.nameLabel}
-                                    value={trigger.source_name}
-                                    prevValue={
-                                        prevTriggerStatementSourceInformationMapping[
-                                        trigger.id!]?.source_name
-                                    }
-                                    valueType="text"
+                                    value={(
+                                        <PrintableDescription
+                                            value={trigger.source_name}
+                                            prevValue={prevTriggerStatementSourceInformationMapping[
+                                                trigger.id!]?.source_name}
+                                            withDiff={withDiff}
+                                        />
+                                    )}
                                     variant="inline"
-                                    strongLabel
                                     withPadding
                                     withBackground
-                                    withDiff={withDiff}
+                                    strongLabel
+                                    withDiff={false}
                                 />
                                 <PrintableDataDisplay
                                     label={strings.linkLabel}
-                                    value={trigger.source_link}
-                                    prevValue={
-                                        prevTriggerStatementSourceInformationMapping[
-                                        trigger.id!]?.source_link
-                                    }
-                                    valueType="text"
-                                    variant="inline"
+                                    value={(
+                                        <PrintableDescription
+                                            value={trigger.source_link}
+                                            prevValue={prevTriggerStatementSourceInformationMapping[
+                                                trigger.id!]?.source_link}
+                                            withDiff={withDiff}
+                                        />
+                                    )}
                                     withPadding
                                     withBackground
+                                    variant="inline"
                                     strongLabel
-                                    withDiff={withDiff}
+                                    withDiff={false}
                                 />
                             </ListView>
                         ))}
@@ -1033,31 +1062,35 @@ export function Component() {
                             >
                                 <PrintableDataDisplay
                                     label={strings.nameLabel}
-                                    value={trigger.source_name}
-                                    prevValue={
-                                        prevTriggerModelSourceInformationMapping[
-                                        trigger.id!]?.source_name
-                                    }
-                                    valueType="text"
+                                    value={(
+                                        <PrintableDescription
+                                            value={trigger.source_name}
+                                            prevValue={prevTriggerModelSourceInformationMapping[
+                                                trigger.id!]?.source_name}
+                                            withDiff={withDiff}
+                                        />
+                                    )}
                                     variant="inline"
-                                    strongLabel
-                                    withBackground
                                     withPadding
-                                    withDiff={withDiff}
+                                    withBackground
+                                    strongLabel
+                                    withDiff={false}
                                 />
                                 <PrintableDataDisplay
                                     label={strings.linkLabel}
-                                    value={trigger.source_link}
-                                    prevValue={
-                                        prevTriggerModelSourceInformationMapping[
-                                        trigger.id!]?.source_link
-                                    }
-                                    valueType="text"
+                                    value={(
+                                        <PrintableDescription
+                                            value={trigger.source_link}
+                                            prevValue={prevTriggerModelSourceInformationMapping[
+                                                trigger.id!]?.source_link}
+                                            withDiff={withDiff}
+                                        />
+                                    )}
+                                    withPadding
+                                    withBackground
                                     variant="inline"
                                     strongLabel
-                                    withBackground
-                                    withPadding
-                                    withDiff={withDiff}
+                                    withDiff={false}
                                 />
                             </ListView>
                         ))}
@@ -1094,13 +1127,17 @@ export function Component() {
                     headingLevel={3}
                 >
                     <PrintableDataDisplay
-                        value={early_action_selection_process}
-                        prevValue={prev_early_action_selection_process}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={early_action_selection_process}
+                                prevValue={prev_early_action_selection_process}
+                                withDiff={withDiff}
+                            />
+                        )}
                         withoutLabelColon
                         variant="block"
                         strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1120,13 +1157,17 @@ export function Component() {
                     headingLevel={3}
                 >
                     <PrintableDataDisplay
-                        value={evidence_base}
-                        prevValue={prev_evidence_base}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={evidence_base}
+                                prevValue={prev_evidence_base}
+                                withDiff={withDiff}
+                            />
+                        )}
                         withoutLabelColon
                         variant="block"
                         strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                 </PrintableContainer>
                 <PrintableContainer
@@ -1138,31 +1179,35 @@ export function Component() {
                             <ListView layout="grid" spacing="2xs">
                                 <PrintableDataDisplay
                                     label={strings.nameLabel}
-                                    value={trigger.source_name}
-                                    prevValue={
-                                        prevEvidenceBaseSourceInformationMapping[
-                                        trigger.id!]?.source_name
-                                    }
-                                    valueType="text"
+                                    value={(
+                                        <PrintableDescription
+                                            value={trigger.source_name}
+                                            prevValue={prevEvidenceBaseSourceInformationMapping[
+                                                trigger.id!]?.source_name}
+                                            withDiff={withDiff}
+                                        />
+                                    )}
                                     variant="inline"
-                                    strongLabel
                                     withPadding
                                     withBackground
-                                    withDiff={withDiff}
+                                    strongLabel
+                                    withDiff={false}
                                 />
                                 <PrintableDataDisplay
                                     label={strings.linkLabel}
-                                    value={trigger.source_link}
-                                    prevValue={
-                                        prevEvidenceBaseSourceInformationMapping[
-                                        trigger.id!]?.source_link
-                                    }
-                                    valueType="text"
-                                    variant="inline"
-                                    strongLabel
+                                    value={(
+                                        <PrintableDescription
+                                            value={trigger.source_link}
+                                            prevValue={prevEvidenceBaseSourceInformationMapping[
+                                                trigger.id!]?.source_link}
+                                            withDiff={withDiff}
+                                        />
+                                    )}
                                     withPadding
                                     withBackground
-                                    withDiff={withDiff}
+                                    variant="inline"
+                                    strongLabel
+                                    withDiff={false}
                                 />
                             </ListView>
                         ))}
@@ -1173,13 +1218,17 @@ export function Component() {
                     headingLevel={3}
                 >
                     <PrintableDataDisplay
-                        value={usefulness_of_actions}
-                        prevValue={prev_usefulness_of_actions}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={usefulness_of_actions}
+                                prevValue={prev_usefulness_of_actions}
+                                withDiff={withDiff}
+                            />
+                        )}
                         withoutLabelColon
                         variant="block"
                         strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                 </PrintableContainer>
                 <PrintableContainer
@@ -1187,13 +1236,17 @@ export function Component() {
                     headingLevel={3}
                 >
                     <PrintableDataDisplay
-                        value={feasibility}
-                        prevValue={prev_feasibility}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={feasibility}
+                                prevValue={prev_feasibility}
+                                withDiff={withDiff}
+                            />
+                        )}
                         withoutLabelColon
                         variant="block"
                         strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                 </PrintableContainer>
             </PrintableContainer>
@@ -1266,18 +1319,12 @@ export function Component() {
                                 headingLevel={4}
                             >
                                 <div className={styles.indicatorItems}>
-                                    <Label
-                                        textSize="sm"
-                                        strong
-                                    >
-                                        {strings.indicatorTitleLabel}
-                                    </Label>
-                                    <Label
-                                        textSize="sm"
-                                        strong
-                                    >
-                                        {strings.indicatorTargetLabel}
-                                    </Label>
+                                    <PrintableLabel
+                                        value={strings.indicatorTitleLabel}
+                                    />
+                                    <PrintableLabel
+                                        value={strings.indicatorTargetLabel}
+                                    />
                                     {operation.indicators.map((indicator) => {
                                         const prevIndicator = isDefined(indicator.previous_id)
                                             ? prevOperationIndicatorMap?.[indicator.previous_id]
@@ -1436,16 +1483,12 @@ export function Component() {
                                 headingLevel={4}
                             >
                                 <div className={styles.indicatorItems}>
-                                    <Label
-                                        // FIXME: create and use printable labels
-                                        textSize="sm"
-                                        strong
-                                    >
-                                        {strings.indicatorTitleLabel}
-                                    </Label>
-                                    <Label textSize="sm" strong>
-                                        {strings.indicatorTargetLabel}
-                                    </Label>
+                                    <PrintableLabel
+                                        value={strings.indicatorTitleLabel}
+                                    />
+                                    <PrintableLabel
+                                        value={strings.indicatorTargetLabel}
+                                    />
                                     {approach.indicators.map((indicator) => {
                                         const prevIndicator = isDefined(indicator.previous_id)
                                             ? prevApproachIndicatorMap?.[indicator.previous_id]
@@ -1554,13 +1597,17 @@ export function Component() {
                     headingLevel={3}
                 >
                     <PrintableDataDisplay
-                        value={early_action_implementation_process}
-                        prevValue={prev_early_action_implementation_process}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={early_action_implementation_process}
+                                prevValue={prev_early_action_implementation_process}
+                                withDiff={withDiff}
+                            />
+                        )}
                         withoutLabelColon
                         variant="block"
                         strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                 </PrintableContainer>
                 <PrintableContainer>
@@ -1575,13 +1622,17 @@ export function Component() {
                     headingLevel={3}
                 >
                     <PrintableDataDisplay
-                        value={trigger_activation_system}
-                        prevValue={prev_trigger_activation_system}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={trigger_activation_system}
+                                prevValue={prev_trigger_activation_system}
+                                withDiff={withDiff}
+                            />
+                        )}
                         withoutLabelColon
                         variant="block"
                         strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                 </PrintableContainer>
                 <PrintableContainer headingLevel={3}>
@@ -1611,13 +1662,17 @@ export function Component() {
                     headingLevel={3}
                 >
                     <PrintableDataDisplay
-                        value={selection_of_target_population}
-                        prevValue={prev_selection_of_target_population}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={selection_of_target_population}
+                                prevValue={prev_selection_of_target_population}
+                                withDiff={withDiff}
+                            />
+                        )}
                         withoutLabelColon
                         variant="block"
                         strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                 </PrintableContainer>
                 <PrintableContainer
@@ -1625,13 +1680,17 @@ export function Component() {
                     headingLevel={3}
                 >
                     <PrintableDataDisplay
-                        value={stop_mechanism}
-                        prevValue={prev_stop_mechanism}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={stop_mechanism}
+                                prevValue={prev_stop_mechanism}
+                                withDiff={withDiff}
+                            />
+                        )}
                         withoutLabelColon
                         variant="block"
                         strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                 </PrintableContainer>
                 <PrintableContainer
@@ -1643,31 +1702,35 @@ export function Component() {
                             <ListView layout="grid" spacing="2xs">
                                 <PrintableDataDisplay
                                     label={strings.nameLabel}
-                                    value={source.source_name}
-                                    prevValue={
-                                        prevActivationSourceInformationMapping[source.id!]
-                                            ?.source_name
-                                    }
-                                    valueType="text"
+                                    value={(
+                                        <PrintableDescription
+                                            value={source.source_name}
+                                            prevValue={prevActivationSourceInformationMapping[
+                                                source.id!]?.source_name}
+                                            withDiff={withDiff}
+                                        />
+                                    )}
                                     variant="inline"
-                                    strongLabel
-                                    withBackground
                                     withPadding
-                                    withDiff={withDiff}
+                                    withBackground
+                                    strongLabel
+                                    withDiff={false}
                                 />
                                 <PrintableDataDisplay
                                     label={strings.linkLabel}
-                                    value={source.source_link}
-                                    prevValue={
-                                        prevActivationSourceInformationMapping[source.id!]
-                                            ?.source_link
-                                    }
-                                    valueType="text"
+                                    value={(
+                                        <PrintableDescription
+                                            value={source.source_link}
+                                            prevValue={prevActivationSourceInformationMapping[
+                                                source.id!]?.source_link}
+                                            withDiff={withDiff}
+                                        />
+                                    )}
+                                    withPadding
+                                    withBackground
                                     variant="inline"
                                     strongLabel
-                                    withBackground
-                                    withPadding
-                                    withDiff={withDiff}
+                                    withDiff={false}
                                 />
                             </ListView>
                         ))}
@@ -1680,13 +1743,17 @@ export function Component() {
                     headingLevel={3}
                 >
                     <PrintableDataDisplay
-                        value={meal}
-                        prevValue={prev_meal}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={meal}
+                                prevValue={prev_meal}
+                                withDiff={withDiff}
+                            />
+                        )}
                         withoutLabelColon
                         variant="block"
                         strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                 </PrintableContainer>
             </PrintableContainer>
@@ -1699,13 +1766,17 @@ export function Component() {
                     headingLevel={3}
                 >
                     <PrintableDataDisplay
-                        value={operational_administrative_capacity}
-                        prevValue={prev_operational_administrative_capacity}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={operational_administrative_capacity}
+                                prevValue={prev_operational_administrative_capacity}
+                                withDiff={withDiff}
+                            />
+                        )}
                         withoutLabelColon
                         variant="block"
                         strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                 </PrintableContainer>
                 <PrintableContainer
@@ -1713,13 +1784,17 @@ export function Component() {
                     headingLevel={3}
                 >
                     <PrintableDataDisplay
-                        value={strategies_and_plans}
-                        prevValue={prev_strategies_and_plans}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={strategies_and_plans}
+                                prevValue={prev_strategies_and_plans}
+                                withDiff={withDiff}
+                            />
+                        )}
                         withoutLabelColon
                         variant="block"
                         strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                 </PrintableContainer>
                 <PrintableContainer
@@ -1727,13 +1802,17 @@ export function Component() {
                     headingLevel={3}
                 >
                     <PrintableDataDisplay
-                        value={advance_financial_capacity}
-                        prevValue={prev_advance_financial_capacity}
-                        valueType="text"
+                        value={(
+                            <PrintableDescription
+                                value={advance_financial_capacity}
+                                prevValue={prev_advance_financial_capacity}
+                                withDiff={withDiff}
+                            />
+                        )}
                         withoutLabelColon
                         variant="block"
                         strongLabel
-                        withDiff={withDiff}
+                        withDiff={false}
                     />
                 </PrintableContainer>
             </PrintableContainer>

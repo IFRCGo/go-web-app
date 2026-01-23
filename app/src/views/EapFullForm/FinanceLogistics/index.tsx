@@ -373,12 +373,14 @@ function FinanceLogistics(props: Props) {
                         name="updated_checklist_file"
                         url="/api/v2/eap-file/"
                         value={value?.updated_checklist_file}
+                        accept=".pdf, .docx, .pptx, .xlsx, .xlsm"
                         onChange={setFieldValue}
                         error={getErrorString(error?.updated_checklist_file)}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         disabled={disabled}
                         readOnly={readOnly}
+                        clearable
                     >
                         {strings.financeUploadButtonLabel}
                     </GoSingleFileInput>
