@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.23.7
+
+### Patch Changes
+
+- 3076784: Renaming IT to Digital Systems, Tools and Information Technology – Surge CoS
+
 ## 7.23.6
 
 ### Patch Changes
