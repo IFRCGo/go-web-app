@@ -18,6 +18,7 @@ import {
 
 import indicatorSchema from '#components/domain/EapIndicatorInput/schema';
 import operationActivitySchema from '#components/domain/EapOperationActivityInput/schema';
+import { positiveIntegerCondition } from '#utils/form';
 import { type GoApiBody } from '#utils/restRequest';
 
 function lessThanEqualToFiveImagesCondition<T>(value: T[] | undefined) {
@@ -844,7 +845,12 @@ export const formSchema: EapFullFormSchema = {
                                 return undefined;
                             },
                         },
-                        people_targeted: {},
+                        people_targeted: {
+                            required: true,
+                            validations: [
+                                positiveIntegerCondition,
+                            ],
+                        },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
                             member: () => operationActivitySchema,
@@ -954,7 +960,12 @@ export const formSchema: EapFullFormSchema = {
                 validation: lessThanEqualToFiveImagesCondition,
             },
 
-            people_targeted: { required: true },
+            people_targeted: {
+                required: true,
+                validations: [
+                    positiveIntegerCondition,
+                ],
+            },
             selection_of_target_population: {
                 required: true,
                 requiredValidation: requiredStringCondition,
@@ -1004,23 +1015,43 @@ export const formSchema: EapFullFormSchema = {
             capacity_relevant_files: { defaultValue: [] },
 
             // ------------Finance and Logistics----------------
-            total_budget: { required: true },
+            total_budget: {
+                required: true,
+                validations: [
+                    positiveIntegerCondition,
+                ],
+            },
             budget_description: {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
             budget_file: { required: true },
-            readiness_budget: { required: true },
+            readiness_budget: {
+                required: true,
+                validations: [
+                    positiveIntegerCondition,
+                ],
+            },
             readiness_cost_description: {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-            pre_positioning_budget: { required: true },
+            pre_positioning_budget: {
+                required: true,
+                validations: [
+                    positiveIntegerCondition,
+                ],
+            },
             prepositioning_cost_description: {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-            early_action_budget: { required: true },
+            early_action_budget: {
+                required: true,
+                validations: [
+                    positiveIntegerCondition,
+                ],
+            },
             early_action_cost_description: {
                 required: true,
                 requiredValidation: requiredStringCondition,
