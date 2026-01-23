@@ -386,18 +386,19 @@ function SelectionActions(props: Props) {
                     )}
                 >
                     <GoSingleFileInput
-                        accept=".docx"
-                        required
                         name="theory_of_change_table_file"
-                        value={value.theory_of_change_table_file}
+                        accept=".docx"
                         url="/api/v2/eap-file/"
+                        value={value.theory_of_change_table_file}
                         error={error?.theory_of_change_table_file}
-                        disabled={disabled}
                         label={strings.selectionActionUploadTableLabel}
+                        onChange={setFieldValue}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
-                        onChange={setFieldValue}
+                        disabled={disabled}
                         readOnly={readOnly}
+                        required
+                        clearable
                     >
                         {strings.selectionActionUploadLabel}
                     </GoSingleFileInput>
@@ -518,7 +519,7 @@ function SelectionActions(props: Props) {
                         description={strings.enablingApproachesDescription}
                         withAsteriskOnTitle
                     >
-                        <NonFieldError error={getErrorObject(error?.planned_operations)} />
+                        <NonFieldError error={getErrorObject(error?.enabling_approaches)} />
                         <Checklist
                             name={undefined}
                             options={eapApproachOptions}

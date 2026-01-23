@@ -17,6 +17,7 @@ import {
     Modal,
     RawFileInput,
 } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     isDefined,
     isNotDefined,
@@ -40,6 +41,8 @@ import {
     type GoApiBody,
     useLazyRequest,
 } from '#utils/restRequest';
+
+import i18n from './i18n.json';
 
 type EapStatusBody = GoApiBody<'/api/v2/eap-registration/{id}/status/', 'POST'>;
 type EapStatus = components['schemas']['EapEapStatusEnumKey'];
@@ -83,6 +86,8 @@ function EapStatus(props: Props) {
     const [newStatus, setNewStatus] = useState<EapStatus | undefined>();
     const [checklistFile, setChecklistFile] = useState<File | undefined>();
 
+    const strings = useTranslation(i18n);
+
     const statusLabelMapping = listToMap(
         eapStatusOptions,
         ({ key }) => key,
@@ -103,16 +108,14 @@ function EapStatus(props: Props) {
             }
 
             alert.show(
-                // FIXME: use translations
-                'Status updated successfully!',
+                strings.statusUpdateSuccessAlert,
                 { variant: 'success' },
             );
         },
         formData: true,
         onFailure: (error) => {
             alert.show(
-                // FIXME: use translations
-                'Failed to update the status!',
+                strings.statusUpdateFailedAlert,
                 {
                     variant: 'danger',
                     description: error.value.messageForNotification,
@@ -160,26 +163,23 @@ function EapStatus(props: Props) {
             </DropdownMenu>
             {isDefined(newStatus) && (
                 <Modal
-                    // FIXME: use strings
-                    heading="Update Status"
+                    heading={strings.updateStatusHeading}
                     onClose={handleStatusUpdateCancel}
                     footerActions={(
                         <Button
                             name={requestBody}
                             onClick={triggerStatusUpdate}
                             disabled={confirmDisabled}
-                            // FIXME: use strings
                         >
-                            Confirm
+                            {strings.confirmStatusButtonLabel}
                         </Button>
                     )}
                 >
                     <ListView
                         layout="block"
-                        // FIXME: use strings
                     >
                         <Description>
-                            Are you sure you want to update the status?
+                            {strings.updateStatusDescription}
                         </Description>
                         <ListView spacing="sm">
                             <Label strong>
@@ -195,19 +195,16 @@ function EapStatus(props: Props) {
                                 layout="block"
                                 spacing="sm"
                             >
-                                {/* FIXME: use strings */}
                                 <Description withLightText>
-                                    Upload the Review Checklist for the National Society
-                                    to download and review. Make sure to keep a proper
-                                    labeling of the file to avoid duplications.
+                                    {strings.reviewChecklistDescription}
                                 </Description>
                                 <RawFileInput
                                     name="review_checklist_file"
                                     onChange={setChecklistFile}
                                     before={<UploadLineIcon />}
-                                    // FIXME: use strings
+                                    accept=".pdf, .docx, .pptx, .xlsx, .xlsm"
                                 >
-                                    Select review checklist file
+                                    {strings.reviewChecklistInputLabel}
                                 </RawFileInput>
                                 <Label>
                                     {isDefined(checklistFile) && checklistFile.name}
@@ -218,8 +215,7 @@ function EapStatus(props: Props) {
                             <Alert
                                 name="no-budget-file-warning"
                                 type="danger"
-                                // FIXME: use strings
-                                title="Please attach the validated budget file before proceeding!"
+                                title={strings.noBudgetAlertTitle}
                                 withLightBackground
                                 withoutShadow
                             />

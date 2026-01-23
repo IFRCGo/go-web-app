@@ -1,0 +1,13 @@
+{
+    "namespace":"accountMyFormsEap",
+    "strings":{
+        "statusUpdateSuccessAlert": "Status updated successfully!",
+        "statusUpdateFailedAlert": "Failed to update the status!",
+        "updateStatusHeading": "Update Status",
+        "confirmStatusButtonLabel": "Confirm",
+        "updateStatusDescription": "Are you sure you want to update the status?",
+        "reviewChecklistDescription": "Upload the Review Checklist for the National Society to download and review. Make sure to keep a proper labeling of the file to avoid duplications.",
+        "reviewChecklistInputLabel": "Select review checklist file",
+        "noBudgetAlertTitle": "Please attach the validated budget file before proceeding!"
+    }
+}
