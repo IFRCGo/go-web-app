@@ -1,6 +1,7 @@
 import {
     type ElementRef,
     useCallback,
+    useMemo,
     useRef,
     useState,
 } from 'react';
@@ -83,26 +84,26 @@ import i18n from './i18n.json';
 
 type GetDrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
 
-type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
+type DrefTabKey = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
 
 // FIXME: fix typings in server (medium priority)
-function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDrefEnum | '' | undefined) {
+function getNextStep(current: DrefTabKey, direction: 1 | -1, typeOfDref: TypeOfDrefEnum | '' | undefined) {
     if (typeOfDref === TYPE_LOAN && direction === 1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
+        const mapping: { [key in DrefTabKey]?: DrefTabKey } = {
             overview: 'eventDetail',
             eventDetail: 'submission',
         };
         return mapping[current];
     }
     if (typeOfDref === TYPE_LOAN && direction === -1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
+        const mapping: { [key in DrefTabKey]?: DrefTabKey } = {
             submission: 'eventDetail',
             eventDetail: 'overview',
         };
         return mapping[current];
     }
     if (typeOfDref === TYPE_IMMINENT && direction === 1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
+        const mapping: { [key in DrefTabKey]?: DrefTabKey } = {
             overview: 'eventDetail',
             eventDetail: 'operation',
             operation: 'submission',
@@ -110,7 +111,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
         return mapping[current];
     }
     if (typeOfDref === TYPE_IMMINENT && direction === -1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
+        const mapping: { [key in DrefTabKey]?: DrefTabKey } = {
             submission: 'operation',
             operation: 'eventDetail',
             eventDetail: 'overview',
@@ -118,7 +119,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
         return mapping[current];
     }
     if (direction === 1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
+        const mapping: { [key in DrefTabKey]?: DrefTabKey } = {
             overview: 'eventDetail',
             eventDetail: 'actions',
             actions: 'operation',
@@ -127,7 +128,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
         return mapping[current];
     }
     if (direction === -1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
+        const mapping: { [key in DrefTabKey]?: DrefTabKey } = {
             submission: 'operation',
             operation: 'actions',
             actions: 'eventDetail',
@@ -149,7 +150,7 @@ export function Component() {
 
     const formContentRef = useRef<ElementRef<'div'>>(null);
 
-    const [activeTab, setActiveTab] = useState<TabKeys>('overview');
+    const [activeTab, setActiveTab] = useState<DrefTabKey>('overview');
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const currentLanguage = useCurrentLanguage();
 
@@ -611,7 +612,7 @@ export function Component() {
         [handleFormSubmit],
     );
 
-    const handleTabChange = useCallback((newTab: TabKeys) => {
+    const handleTabChange = useCallback((newTab: DrefTabKey) => {
         formContentRef.current?.scrollIntoView();
         setActiveTab(newTab);
     }, []);
@@ -631,6 +632,50 @@ export function Component() {
 
     const shouldHideForm = fetchingDref
         || isDefined(drefResponseError);
+
+    type Tab = {
+        key: DrefTabKey;
+        label: string;
+    }
+
+    const tabs = useMemo<Tab[]>(() => {
+        const defaultTabs: Tab[] = [
+            { key: 'overview', label: strings.formTabOverviewLabel },
+            { key: 'eventDetail', label: strings.formTabEventDetailLabel },
+            { key: 'actions', label: strings.formTabActionsLabel },
+            { key: 'operation', label: strings.formTabOperationLabel },
+            { key: 'submission', label: strings.formTabSubmissionLabel },
+        ];
+
+        if (isNotDefined(value)) {
+            return defaultTabs;
+        }
+
+        const { type_of_dref } = value;
+
+        if (isNotDefined(type_of_dref)) {
+            return defaultTabs;
+        }
+
+        if (type_of_dref === TYPE_IMMINENT) {
+            return [
+                { key: 'overview', label: strings.formTabOverviewLabel },
+                { key: 'eventDetail', label: strings.formTabScenarioAnalysisLabel },
+                { key: 'operation', label: strings.formTabPlanLabel },
+                { key: 'submission', label: strings.formTabSubmissionLabel },
+            ] satisfies Tab[];
+        }
+
+        if (type_of_dref === TYPE_LOAN) {
+            return [
+                { key: 'overview', label: strings.formTabOverviewLabel },
+                { key: 'eventDetail', label: strings.formTabEventDetailLabel },
+                { key: 'submission', label: strings.formTabSubmissionLabel },
+            ];
+        }
+
+        return defaultTabs;
+    }, [value, strings]);
 
     return (
         <Tabs
@@ -681,50 +726,16 @@ export function Component() {
                 )}
                 info={!shouldHideForm && (
                     <TabList styleVariant="step">
-                        <Tab
-                            name="overview"
-                            step={1}
-                            errored={checkTabErrors(formError, 'overview')}
-                        >
-                            {strings.formTabOverviewLabel}
-                        </Tab>
-                        <Tab
-                            name="eventDetail"
-                            step={2}
-                            errored={checkTabErrors(formError, 'eventDetail')}
-                        >
-                            {value?.type_of_dref === TYPE_IMMINENT
-                                ? strings.formTabScenarioAnalysisLabel
-                                : strings.formTabEventDetailLabel}
-                        </Tab>
-                        {value.type_of_dref !== TYPE_LOAN
-                            && value.type_of_dref !== TYPE_IMMINENT && (
+                        {tabs.map((tab, i) => (
                             <Tab
-                                name="actions"
-                                step={3}
-                                errored={checkTabErrors(formError, 'actions')}
+                                key={tab.key}
+                                name={tab.key}
+                                step={i + 1}
+                                errored={checkTabErrors(formError, tab.key)}
                             >
-                                {strings.formTabActionsLabel}
+                                {tab.label}
                             </Tab>
-                        )}
-                        {value.type_of_dref !== TYPE_LOAN && (
-                            <Tab
-                                name="operation"
-                                step={4}
-                                errored={checkTabErrors(formError, 'operation')}
-                            >
-                                {value?.type_of_dref === TYPE_IMMINENT
-                                    ? strings.formTabPlanLabel
-                                    : strings.formTabOperationLabel}
-                            </Tab>
-                        )}
-                        <Tab
-                            name="submission"
-                            step={value.type_of_dref === TYPE_LOAN ? 3 : 5}
-                            errored={checkTabErrors(formError, 'submission')}
-                        >
-                            {strings.formTabSubmissionLabel}
-                        </Tab>
+                        ))}
                     </TabList>
                 )}
                 withBackgroundColorInMainSection
