@@ -30,7 +30,6 @@ import {
 } from '@togglecorp/fujs';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
-import { environment } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import usePermissions from '#hooks/domain/usePermissions';
 import useFilterState from '#hooks/useFilterState';
@@ -155,7 +154,7 @@ function NationalSocietyLocalUnits(props: Props) {
                 className={_cs(styles.nationalSocietyLocalUnits, className)}
                 heading={strings.localUnitsTitle}
                 withHeaderBorder
-                headerActions={isAuthenticated && (environment !== 'production') && (
+                headerActions={isAuthenticated && (
                     <>
                         <Button
                             name={undefined}
@@ -168,7 +167,6 @@ function NationalSocietyLocalUnits(props: Props) {
                                 withoutDropdownIcon
                                 labelStyleVariant="action"
                                 label={<MoreTwoFillIcon className={styles.icon} />}
-                                // label="More options"
                                 persistent
                             >
                                 {isSuperUser && (

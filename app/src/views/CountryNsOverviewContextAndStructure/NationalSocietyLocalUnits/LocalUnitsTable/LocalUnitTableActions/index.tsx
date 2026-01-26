@@ -9,7 +9,6 @@ import {
 } from '@ifrc-go/ui/hooks';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
-import { environment } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import useCountry from '#hooks/domain/useCountry';
 import usePermissions from '#hooks/domain/usePermissions';
@@ -153,7 +152,7 @@ function LocalUnitsTableActions(props: Props) {
         <>
             <TableActions
                 persistent
-                extraActions={environment !== 'production' && (
+                extraActions={(
                     <>
                         <DropdownMenuItem
                             type="button"
@@ -185,7 +184,7 @@ function LocalUnitsTableActions(props: Props) {
                     </>
                 )}
             >
-                {hasValidatePermission && (environment !== 'production') && (
+                {hasValidatePermission && (
                     <LocalUnitValidateButton
                         onClick={handleValidateLocalUnitClick}
                         status={status}
