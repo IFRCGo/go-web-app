@@ -1,5 +1,8 @@
 import { useCallback } from 'react';
-import { CheckboxMultipleBlankFillIcon } from '@ifrc-go/icons';
+import {
+    AddLineIcon,
+    CheckboxMultipleBlankFillIcon,
+} from '@ifrc-go/icons';
 import {
     Button,
     Heading,
@@ -369,8 +372,9 @@ function EapActivationProcess(props: Props) {
                         name={undefined}
                         onClick={handleSourceInformationAdd}
                         disabled={disabled || readOnly}
+                        before={<AddLineIcon />}
                     >
-                        {strings.activationSourceOfInformationAddNewLabel}
+                        {strings.activationAddNewButtonLabel}
                     </Button>
                 </InputSection>
             </ListView>

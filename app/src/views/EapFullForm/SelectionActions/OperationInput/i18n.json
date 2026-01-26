@@ -2,7 +2,7 @@
     "namespace": "eapFullForm",
     "strings": {
         "selectionActionsPlannedOperationPeopleTargeted": "People Targeted",
-        "selectionActionsPlannedOperationBudget": "Budget",
+        "selectionActionsPlannedOperationBudget": "Budget(CHF)",
         "selectionActionsPlannedOperationApCode": "AP Code",
         "selectionActionsPlannedOperationRemoveButton": "Remove"
     }

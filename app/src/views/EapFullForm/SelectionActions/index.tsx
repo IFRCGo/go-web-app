@@ -469,8 +469,9 @@ function SelectionActions(props: Props) {
                         name={undefined}
                         onClick={handleSourceInformationAdd}
                         disabled={disabled || readOnly}
+                        before={<AddLineIcon />}
                     >
-                        {strings.selectionSourceOfInformationAddNewLabel}
+                        {strings.earlyActionsAddButtonLabel}
                     </Button>
                 </InputSection>
             </ListView>
