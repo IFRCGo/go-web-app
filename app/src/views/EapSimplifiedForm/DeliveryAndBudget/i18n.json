@@ -18,7 +18,7 @@
         "deliverInvolvedTooltipListThree": "While not requested as part of the simplified EAP, National Societies should have a draft plan or SOP in place to monitor the forecasts/indicators, to activate the simplified EAP and deliver the early action activities within the lead time.",
         "deliverInvolvedTooltipListFour": "The roles and responsibilities should be clear, who will do what at what time.",
         "budgetHeading": "Budget",
-        "deliverTotalBudget": "Total budget",
+        "deliverTotalBudget": "Total budget(CHF)",
         "deliverTotalBudgetTooltip": "The maximum budget available for a National Society under a simplified EAP is CHF 200,000 over two years. In this field, the National Society should reflect the total amount of the budget (which should match the budget template). The total budget includes 65% maximum for readiness activities and prepositioned stock, with the balance funding the early action activities and needs to be inclusive of the IFRC’s indirect costs (6.5%). Additionally, the IFRC Delegation may add 10% of the total budget to support the simplified EAP implementation bringing the final budget to CHF 220,000 over two years. If a National Society has any questions on the budget, please consult the IFRC’s Country or Country Cluster Delegation. Readiness, pre-positioning, early action: These fields should reflect the plan and budget split across the three types of eligible activities and match the total budget.",
         "deliverTotalBudgetDescription": "Add the expected budget amount.",
         "deliverTotalBudgetTooltipDescription": "The budget template for the simplified EAP can be found {hereLink}. Please note that the budget template has a tab with guidelines on how to use it. ",

@@ -1,5 +1,8 @@
 import { useCallback } from 'react';
-import { CheckboxMultipleBlankFillIcon } from '@ifrc-go/icons';
+import {
+    AddLineIcon,
+    CheckboxMultipleBlankFillIcon,
+} from '@ifrc-go/icons';
 import {
     Button,
     Heading,
@@ -212,8 +215,9 @@ function TriggerModel(props: Props) {
                     name={undefined}
                     onClick={handleSourcesForecastAdd}
                     disabled={disabled || readOnly}
+                    before={<AddLineIcon />}
                 >
-                    {strings.addNewSourcesForecastLabel}
+                    {strings.addNewTriggerButtonLabel}
                 </Button>
             </InputSection>
             <InputSection
@@ -465,8 +469,9 @@ function TriggerModel(props: Props) {
                     name={undefined}
                     onClick={handleSourceInformationAdd}
                     disabled={disabled || readOnly}
+                    before={<AddLineIcon />}
                 >
-                    {strings.addNewSourceInformationLabel}
+                    {strings.addNewTriggerButtonLabel}
                 </Button>
             </InputSection>
             {showQualityCriteria && (
