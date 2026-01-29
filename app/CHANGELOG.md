@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.24.1
+
+### Patch Changes
+
+- Fix event map being replace by cover image is DREF forms
+
 ## 7.24.0
 
 ### Minor Changes
