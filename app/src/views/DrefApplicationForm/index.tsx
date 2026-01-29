@@ -587,7 +587,7 @@ export function Component() {
                     cover_image_file: isNotDefined(result.value.cover_image_file?.id)
                         ? null : result.value.cover_image_file,
                     event_map_file: isNotDefined(result.value.event_map_file?.id)
-                        ? null : result.value.cover_image_file,
+                        ? null : result.value.event_map_file,
                 } as DrefRequestBody);
             } else {
                 createDref({
