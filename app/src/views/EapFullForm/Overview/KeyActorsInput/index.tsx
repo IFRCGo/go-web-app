@@ -92,12 +92,14 @@ function KeyActorsInput(props: Props) {
                         value={value?.national_society}
                         disabled={disabled}
                         readOnly={readOnly}
+                        required
                     />
                     <TextArea
                         label={strings.overviewKeyActorsDescriptionLabel}
                         name="description"
                         value={value?.description}
                         onChange={onFieldChange}
+                        required
                     />
                 </ListView>
             </InlineLayout>

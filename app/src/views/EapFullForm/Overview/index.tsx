@@ -459,7 +459,6 @@ function Overview(props: Props) {
                             </div>
                         </>
                     )}
-                    withAsteriskOnTitle
                 >
                     <NonFieldError error={getErrorObject(error?.key_actors)} />
                     <ListView
