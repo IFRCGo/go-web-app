@@ -311,6 +311,7 @@ function SelectInputContainer<
                                 colorVariant="text"
                                 styleVariant="action"
                                 name={undefined}
+                                disabled={disabled}
                                 title={dropdownShownActual
                                     ? strings.buttonTitleClose
                                     : strings.buttonTitleOpen}
