@@ -413,7 +413,6 @@ function TriggerModel(props: Props) {
             <InputSection
                 title={strings.selectRegionTitle}
                 description={strings.selectRegionDescription}
-                withAsteriskOnTitle
             >
                 {isDefined(eapRegistrationDetail?.country) && (
                     <Admin2Input
