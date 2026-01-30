@@ -1,5 +1,6 @@
 import {
     useCallback,
+    useEffect,
     useMemo,
     useState,
 } from 'react';
@@ -14,6 +15,7 @@ import {
 } from '@ifrc-go/ui';
 import { useBooleanState } from '@ifrc-go/ui/hooks';
 import {
+    isDefined,
     isNotDefined,
     listToMap,
 } from '@togglecorp/fujs';
@@ -44,7 +46,10 @@ import {
     DURATION_MAP_ZOOM,
     MAX_PAGE_LIMIT,
 } from '#utils/constants';
-import { useRequest } from '#utils/restRequest';
+import {
+    useLazyRequest,
+    useRequest,
+} from '#utils/restRequest';
 
 import BaseMap from '../BaseMap';
 
@@ -74,6 +79,18 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
 
     const selectedCodesDebounced = useDebouncedValue(selectedCodes, 300);
 
+    const { trigger: retrieveAdmin2Codes } = useLazyRequest({
+        url: '/api/v2/admin2/',
+        query: {
+            id__in: value ?? [],
+            limit: MAX_PAGE_LIMIT,
+        },
+        onSuccess: (response) => {
+            const responseCode = response.results.map(({ code }) => code);
+            setSelectedCodes(responseCode);
+        },
+    });
+
     const { response: admin2Details } = useRequest({
         skip: isNotDefined(selectedCodesDebounced) || selectedCodesDebounced.length === 0,
         url: '/api/v2/admin2/',
@@ -88,6 +105,16 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
             );
         },
     });
+
+    useEffect(() => {
+        // NOTE: Hydrate selected codes from provided value(IDs) on initialization
+        if (isDefined(value)
+            && value.length > 0
+            && selectedCodes.length === 0
+        ) {
+            retrieveAdmin2Codes(null);
+        }
+    }, [retrieveAdmin2Codes, value, selectedCodes]);
 
     const admin2NameMap = listToMap(
         admin2Details?.results,
