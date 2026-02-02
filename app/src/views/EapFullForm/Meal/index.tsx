@@ -1,18 +1,13 @@
-import { CheckboxMultipleBlankFillIcon } from '@ifrc-go/icons';
 import {
-    Button,
-    Heading,
-    InlineLayout,
+    Container,
+    Description,
     InputSection,
+    Label,
     ListView,
-    Modal,
     TextArea,
     TextOutput,
 } from '@ifrc-go/ui';
-import {
-    useBooleanState,
-    useTranslation,
-} from '@ifrc-go/ui/hooks';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     type EntriesAsList,
     type Error,
@@ -24,6 +19,7 @@ import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import TabPage from '#components/TabPage';
 
 import { type PartialEapFullFormType } from '../schema';
+import SectionQualityCriteria from '../SectionQualityCriteria';
 
 import i18n from './i18n.json';
 
@@ -51,128 +47,118 @@ function Meal(props: Props) {
     const error = getErrorObject(formError);
     const strings = useTranslation(i18n);
 
-    const [
-        showQualityCriteria,
-        {
-            setTrue: setShowQualityCriteriaTrue,
-            setFalse: setShowQualityCriteriaFalse,
-        },
-    ] = useBooleanState(false);
-
     return (
-        <TabPage spacingOffset={-6}>
-            <InlineLayout
-                after={(
-                    <Button
-                        name={undefined}
-                        onClick={setShowQualityCriteriaTrue}
-                        after={(<CheckboxMultipleBlankFillIcon />)}
-                    >
-                        {strings.mealCriteriaButtonLabel}
-                    </Button>
-                )}
-            />
-            <Heading variant="form">
-                {strings.mealHeading}
-            </Heading>
-            <InputSection
-                title={strings.mealTitle}
-                tooltip={(
-                    <ListView
-                        layout="block"
-                    >
-                        <TextOutput
-                            strongLabel
-                            label={strings.mealExplanatoryNoteLabel}
-                            value={strings.mealExplanatoryNote}
-                        />
-                        <TextOutput
-                            strongLabel
-                            label={strings.mealRequiredPointsLabel}
-                            value={(
-                                <ul>
-                                    <li>{strings.mealDescription1}</li>
-                                    <ul>
-                                        <li>{strings.mealDescription11}</li>
-                                        <li>{strings.mealDescription12}</li>
-                                        <li>{strings.mealDescription13}</li>
-                                        <li>{strings.mealDescription14}</li>
-                                    </ul>
-                                    <li>{strings.mealDescription2}</li>
-                                    <li>{strings.mealDescription3}</li>
-                                </ul>
-                            )}
-                        />
-                    </ListView>
-                )}
-                description={(
-                    <ul>
-                        <li>{strings.mealDescription1}</li>
-                        <ul>
-                            <li>{strings.mealDescription11}</li>
-                            <li>{strings.mealDescription12}</li>
-                            <li>{strings.mealDescription13}</li>
-                        </ul>
-                        <li>{strings.mealDescription2}</li>
-                        <li>{strings.mealDescription3}</li>
-                    </ul>
-                )}
-                withAsteriskOnTitle
-            >
-                <TextArea
-                    label={strings.mealDescriptionLabel}
-                    name="meal"
-                    value={value?.meal}
-                    error={error?.meal}
-                    onChange={setFieldValue}
-                    disabled={disabled}
-                    readOnly={readOnly}
-                />
-            </InputSection>
-            <InputSection
-                title={strings.mealAttachRelevantFilesTitle}
-                description={strings.mealAttachRelevantFilesDescription}
-            >
-                <GoMultiFileInput
-                    name="meal_relevant_files"
-                    accept=".pdf, .docx, .pptx"
-                    fileIdToUrlMap={fileIdToUrlMap}
-                    onChange={setFieldValue}
-                    url="/api/v2/eap-file/multiple/"
-                    value={value.meal_relevant_files}
-                    error={getErrorString(error?.meal_relevant_files)}
-                    setFileIdToUrlMap={setFileIdToUrlMap}
-                    clearable
-                    disabled={disabled}
-                    readOnly={readOnly}
-                    useCurrentLanguageForMutation
-                >
-                    {strings.mealAttachRelevantFilesUploadLabel}
-                </GoMultiFileInput>
-            </InputSection>
-            {showQualityCriteria && (
-                <Modal
-                    onClose={setShowQualityCriteriaFalse}
+        <TabPage
+            headerAction={(
+                <SectionQualityCriteria
                     heading={strings.mealSectionHeading}
-                >
-                    <TextOutput
-                        label={(
-                            <>
-                                {strings.mealCriteriaIntroduction1}
-                                <ol>
-                                    <li>{strings.mealCriteriaIntroduction11}</li>
-                                    <li>{strings.mealCriteriaIntroduction12}</li>
-                                    <li>{strings.mealCriteriaIntroduction13}</li>
-                                </ol>
-                            </>
-                        )}
-                        value={strings.mealCriteriaComment1}
-                        strongLabel
-                        valueType="text"
-                        withoutLabelColon
-                    />
-                </Modal>
+                    content={(
+                        <ListView layout="block" withSpacingOpticalCorrection>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Label strong>
+                                    {strings.mealCriteriaIntroduction1}
+                                </Label>
+                                <Description>
+                                    <ol>
+                                        <li>{strings.mealCriteriaIntroduction11}</li>
+                                        <li>{strings.mealCriteriaIntroduction12}</li>
+                                        <li>{strings.mealCriteriaIntroduction13}</li>
+                                    </ol>
+                                </Description>
+                            </ListView>
+                            <Description>
+                                {strings.mealCriteriaComment1}
+                            </Description>
+                        </ListView>
+                    )}
+                />
             )}
+        >
+            <Container
+                variant="form"
+                heading={strings.mealHeading}
+            >
+                <ListView
+                    layout="block"
+                    spacing="sm"
+                >
+                    <InputSection
+                        title={strings.mealTitle}
+                        tooltip={(
+                            <ListView
+                                layout="block"
+                            >
+                                <TextOutput
+                                    strongLabel
+                                    label={strings.mealExplanatoryNoteLabel}
+                                    value={strings.mealExplanatoryNote}
+                                />
+                                <TextOutput
+                                    strongLabel
+                                    label={strings.mealRequiredPointsLabel}
+                                    value={(
+                                        <ul>
+                                            <li>{strings.mealDescription1}</li>
+                                            <ul>
+                                                <li>{strings.mealDescription11}</li>
+                                                <li>{strings.mealDescription12}</li>
+                                                <li>{strings.mealDescription13}</li>
+                                                <li>{strings.mealDescription14}</li>
+                                            </ul>
+                                            <li>{strings.mealDescription2}</li>
+                                            <li>{strings.mealDescription3}</li>
+                                        </ul>
+                                    )}
+                                />
+                            </ListView>
+                        )}
+                        description={(
+                            <ul>
+                                <li>{strings.mealDescription1}</li>
+                                <ul>
+                                    <li>{strings.mealDescription11}</li>
+                                    <li>{strings.mealDescription12}</li>
+                                    <li>{strings.mealDescription13}</li>
+                                </ul>
+                                <li>{strings.mealDescription2}</li>
+                                <li>{strings.mealDescription3}</li>
+                            </ul>
+                        )}
+                        withAsteriskOnTitle
+                    >
+                        <TextArea
+                            label={strings.mealDescriptionLabel}
+                            name="meal"
+                            value={value?.meal}
+                            error={error?.meal}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.mealAttachRelevantFilesTitle}
+                        description={strings.mealAttachRelevantFilesDescription}
+                    >
+                        <GoMultiFileInput
+                            name="meal_relevant_files"
+                            accept=".pdf, .docx, .pptx"
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            onChange={setFieldValue}
+                            url="/api/v2/eap-file/multiple/"
+                            value={value.meal_relevant_files}
+                            error={getErrorString(error?.meal_relevant_files)}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            clearable
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            useCurrentLanguageForMutation
+                        >
+                            {strings.mealAttachRelevantFilesUploadLabel}
+                        </GoMultiFileInput>
+                    </InputSection>
+                </ListView>
+            </Container>
         </TabPage>
     );
 }

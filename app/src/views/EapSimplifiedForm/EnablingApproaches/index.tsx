@@ -5,7 +5,10 @@ import {
 import {
     Checklist,
     Container,
+    Description,
+    Heading,
     InputSection,
+    Label,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -23,6 +26,7 @@ import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
+import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
 import ApproachesInput from './ApproachesInput';
 
@@ -99,7 +103,59 @@ function EnablingApproaches(props: Props) {
     const selectedApproaches = value?.enabling_approaches?.map(({ approach }) => approach);
 
     return (
-        <TabPage>
+        <TabPage
+            headerAction={(
+                <GuidanceSeap
+                    heading={strings.enablingSectionHeading}
+                    content={(
+                        <ListView layout="block" withSpacingOpticalCorrection>
+                            <Heading level={5}>
+                                {strings.eapEnablingSectionHeading}
+                            </Heading>
+                            <Label strong>
+                                {strings.enablingSectionCriteriaIntroduction1}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.enablingSectionCriteriaComment11}
+                                </Description>
+                                <Description>
+                                    {strings.enablingSectionCriteriaComment12}
+                                </Description>
+                            </ListView>
+                            <Label strong>
+                                {strings.enablingSectionCriteriaIntroduction2}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.enablingSectionCriteriaComment21}
+                                </Description>
+                                <Description>
+                                    {strings.enablingSectionCriteriaComment22}
+                                </Description>
+                                <Description>
+                                    {strings.enablingSectionCriteriaComment23}
+                                </Description>
+                            </ListView>
+                            <Heading level={5}>
+                                {strings.enablingMonitoringSectionCriteriaHeading}
+                            </Heading>
+                            <Label strong>
+                                {strings.enablingSectionCriteriaIntroduction3}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.enablingSectionCriteriaComment31}
+                                </Description>
+                                <Description>
+                                    {strings.enablingSectionCriteriaComment32}
+                                </Description>
+                            </ListView>
+                        </ListView>
+                    )}
+                />
+            )}
+        >
             <Container
                 heading={strings.enablingApproachesTitle}
                 variant="form"
