@@ -2,13 +2,21 @@ import {
     useCallback,
     useMemo,
 } from 'react';
+import { CheckboxMultipleBlankFillIcon } from '@ifrc-go/icons';
 import {
+    Button,
     Checklist,
-    Container,
+    Heading,
+    InlineLayout,
     InputSection,
     ListView,
+    Modal,
+    TextOutput,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
 import { listToMap } from '@togglecorp/fujs';
 import {
@@ -65,6 +73,14 @@ function PlannedOperations(props: Props) {
         )
     ), [eapSectorOptions]);
 
+    const [
+        showQualityCriteria,
+        {
+            setTrue: setShowQualityCriteriaTrue,
+            setFalse: setShowQualityCriteriaFalse,
+        },
+    ] = useBooleanState(false);
+
     const {
         setValue: onOperationChange,
         removeValue: onOperationRemove,
@@ -97,51 +113,109 @@ function PlannedOperations(props: Props) {
     const selectedSectors = value?.planned_operations?.map(({ sector }) => sector);
 
     return (
-        <TabPage>
-            <Container
-                heading={strings.plannedOperationsTitle}
-                variant="form"
-            >
-                <ListView
-                    layout="block"
-                    spacing="sm"
-                >
-                    <InputSection
-                        title={strings.plannedOperationsTitle}
-                        description={strings.plannedOperationsDescription}
-                        tooltip={strings.plannedOperationsTooltipDescription}
-                        withAsteriskOnTitle
+        <TabPage spacingOffset={-6}>
+            <InlineLayout
+                after={(
+                    <Button
+                        name={undefined}
+                        onClick={setShowQualityCriteriaTrue}
+                        after={(<CheckboxMultipleBlankFillIcon />)}
                     >
-                        <NonFieldError error={getErrorObject(error?.planned_operations)} />
-                        <Checklist
-                            name={undefined}
-                            options={eapSectorOptions}
-                            value={selectedSectors}
-                            onChange={handleOperationChecklistChange}
-                            disabled={disabled}
-                            keySelector={sectorKeySelector}
-                            labelSelector={stringValueSelector}
-                            checkListLayout="grid"
-                            checkListLayoutPreferredGridColumns={3}
-                            readOnly={readOnly}
-                        />
+                        {strings.plannedSectionCriteriaButtonLabel}
+                    </Button>
+                )}
+            />
+            <ListView
+                layout="block"
+                spacing="sm"
+            >
+                <Heading variant="form">
+                    {strings.plannedOperationsTitle}
+                </Heading>
+                <InputSection
+                    title={strings.plannedOperationsTitle}
+                    description={strings.plannedOperationsDescription}
+                    tooltip={strings.plannedOperationsTooltipDescription}
+                    withAsteriskOnTitle
+                >
+                    <NonFieldError error={getErrorObject(error?.planned_operations)} />
+                    <Checklist
+                        name={undefined}
+                        options={eapSectorOptions}
+                        value={selectedSectors}
+                        onChange={handleOperationChecklistChange}
+                        disabled={disabled}
+                        keySelector={sectorKeySelector}
+                        labelSelector={stringValueSelector}
+                        checkListLayout="grid"
+                        checkListLayoutPreferredGridColumns={3}
+                        readOnly={readOnly}
+                    />
 
-                    </InputSection>
-                    {value?.planned_operations?.map((operation, index) => (
-                        <OperationInput
-                            operationTitle={eapSectorLabelMapping?.[operation.sector]}
-                            key={operation.sector}
-                            index={index}
-                            value={operation}
-                            onChange={onOperationChange}
-                            onRemove={onOperationRemove}
-                            error={getErrorObject(error?.planned_operations)}
-                            disabled={disabled}
-                            readOnly={readOnly}
+                </InputSection>
+                {value?.planned_operations?.map((operation, index) => (
+                    <OperationInput
+                        operationTitle={eapSectorLabelMapping?.[operation.sector]}
+                        key={operation.sector}
+                        index={index}
+                        value={operation}
+                        onChange={onOperationChange}
+                        onRemove={onOperationRemove}
+                        error={getErrorObject(error?.planned_operations)}
+                        disabled={disabled}
+                        readOnly={readOnly}
+                    />
+                ))}
+            </ListView>
+            {showQualityCriteria && (
+                <Modal
+                    onClose={setShowQualityCriteriaFalse}
+                    heading={strings.plannedSectionHeading}
+                >
+                    <ListView layout="block">
+                        <Heading level={5}>
+                            {strings.eapPlannedSectionHeading}
+                        </Heading>
+                        <TextOutput
+                            label={strings.plannedSectionCriteriaIntroduction1}
+                            value={(
+                                <ul>
+                                    <li>{strings.plannedSectionCriteriaComment11}</li>
+                                    <li>{strings.plannedSectionCriteriaComment12}</li>
+                                </ul>
+                            )}
+                            strongLabel
+                            withoutLabelColon
                         />
-                    ))}
-                </ListView>
-            </Container>
+                        <TextOutput
+                            label={strings.plannedSectionCriteriaIntroduction2}
+                            value={(
+                                <ul>
+                                    <li>{strings.plannedSectionCriteriaComment21}</li>
+                                    <li>{strings.plannedSectionCriteriaComment22}</li>
+                                    <li>{strings.plannedSectionCriteriaComment23}</li>
+                                </ul>
+                            )}
+                            strongLabel
+                            withoutLabelColon
+                        />
+                        <Heading level={5}>
+                            {strings.monitoringSectionCriteriaHeading}
+                        </Heading>
+                        <TextOutput
+                            label={strings.plannedSectionCriteriaIntroduction3}
+                            value={(
+                                <ul>
+                                    <li>{strings.plannedSectionCriteriaComment31}</li>
+                                    <li>{strings.plannedSectionCriteriaComment32}</li>
+                                </ul>
+                            )}
+                            strongLabel
+                            withoutLabelColon
+                        />
+                    </ListView>
+                </Modal>
+            )}
         </TabPage>
     );
 }

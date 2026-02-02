@@ -2,13 +2,21 @@ import {
     useCallback,
     useMemo,
 } from 'react';
+import { CheckboxMultipleBlankFillIcon } from '@ifrc-go/icons';
 import {
+    Button,
     Checklist,
-    Container,
+    Heading,
+    InlineLayout,
     InputSection,
     ListView,
+    Modal,
+    TextOutput,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
 import { listToMap } from '@togglecorp/fujs';
 import {
@@ -67,6 +75,14 @@ function EnablingApproaches(props: Props) {
         )
     ), [eapApproachOptions]);
 
+    const [
+        showQualityCriteria,
+        {
+            setTrue: setShowQualityCriteriaTrue,
+            setFalse: setShowQualityCriteriaFalse,
+        },
+    ] = useBooleanState(false);
+
     const {
         setValue: onApproachChange,
         removeValue: onApproachRemove,
@@ -99,50 +115,108 @@ function EnablingApproaches(props: Props) {
     const selectedApproaches = value?.enabling_approaches?.map(({ approach }) => approach);
 
     return (
-        <TabPage>
-            <Container
-                heading={strings.enablingApproachesTitle}
-                variant="form"
-            >
-                <ListView
-                    layout="block"
-                    spacing="sm"
-                >
-                    <InputSection
-                        title={strings.enablingApproachesTitle}
-                        description={strings.enablingApproachesDescription}
-                        tooltip={strings.enablingApproachesTooltip}
-                        withAsteriskOnTitle
+        <TabPage spacingOffset={-6}>
+            <InlineLayout
+                after={(
+                    <Button
+                        name={undefined}
+                        onClick={setShowQualityCriteriaTrue}
+                        after={(<CheckboxMultipleBlankFillIcon />)}
                     >
-                        <NonFieldError error={getErrorObject(error?.enabling_approaches)} />
-                        <Checklist
-                            name={undefined}
-                            options={eapApproachOptions}
-                            onChange={handleApproachChecklistChange}
-                            value={selectedApproaches}
-                            disabled={disabled}
-                            keySelector={approachesKeySelector}
-                            labelSelector={stringValueSelector}
-                            checkListLayout="grid"
-                            checkListLayoutPreferredGridColumns={3}
-                            readOnly={readOnly}
+                        {strings.enablingSectionCriteriaButtonLabel}
+                    </Button>
+                )}
+            />
+            <ListView
+                layout="block"
+                spacing="sm"
+            >
+                <Heading variant="form">
+                    {strings.enablingApproachesTitle}
+                </Heading>
+                <InputSection
+                    title={strings.enablingApproachesTitle}
+                    description={strings.enablingApproachesDescription}
+                    tooltip={strings.enablingApproachesTooltip}
+                    withAsteriskOnTitle
+                >
+                    <NonFieldError error={getErrorObject(error?.enabling_approaches)} />
+                    <Checklist
+                        name={undefined}
+                        options={eapApproachOptions}
+                        onChange={handleApproachChecklistChange}
+                        value={selectedApproaches}
+                        disabled={disabled}
+                        keySelector={approachesKeySelector}
+                        labelSelector={stringValueSelector}
+                        checkListLayout="grid"
+                        checkListLayoutPreferredGridColumns={3}
+                        readOnly={readOnly}
+                    />
+                </InputSection>
+                {value?.enabling_approaches?.map((approach, index) => (
+                    <ApproachesInput
+                        approachTitle={eapApproachLabelMapping?.[approach.approach]}
+                        key={approach.approach}
+                        index={index}
+                        value={approach}
+                        onChange={onApproachChange}
+                        onRemove={onApproachRemove}
+                        error={getErrorObject(error?.enabling_approaches)}
+                        disabled={disabled}
+                        readOnly={readOnly}
+                    />
+                ))}
+            </ListView>
+            {showQualityCriteria && (
+                <Modal
+                    onClose={setShowQualityCriteriaFalse}
+                    heading={strings.enablingSectionHeading}
+                >
+                    <ListView layout="block">
+                        <Heading level={5}>
+                            {strings.eapEnablingSectionHeading}
+                        </Heading>
+                        <TextOutput
+                            label={strings.enablingSectionCriteriaIntroduction1}
+                            value={(
+                                <ul>
+                                    <li>{strings.enablingSectionCriteriaComment11}</li>
+                                    <li>{strings.enablingSectionCriteriaComment12}</li>
+                                </ul>
+                            )}
+                            strongLabel
+                            withoutLabelColon
                         />
-                    </InputSection>
-                    {value?.enabling_approaches?.map((approach, index) => (
-                        <ApproachesInput
-                            approachTitle={eapApproachLabelMapping?.[approach.approach]}
-                            key={approach.approach}
-                            index={index}
-                            value={approach}
-                            onChange={onApproachChange}
-                            onRemove={onApproachRemove}
-                            error={getErrorObject(error?.enabling_approaches)}
-                            disabled={disabled}
-                            readOnly={readOnly}
+                        <TextOutput
+                            label={strings.enablingSectionCriteriaIntroduction2}
+                            value={(
+                                <ul>
+                                    <li>{strings.enablingSectionCriteriaComment21}</li>
+                                    <li>{strings.enablingSectionCriteriaComment22}</li>
+                                    <li>{strings.enablingSectionCriteriaComment23}</li>
+                                </ul>
+                            )}
+                            strongLabel
+                            withoutLabelColon
                         />
-                    ))}
-                </ListView>
-            </Container>
+                        <Heading level={5}>
+                            {strings.enablingMonitoringSectionCriteriaHeading}
+                        </Heading>
+                        <TextOutput
+                            label={strings.enablingSectionCriteriaIntroduction3}
+                            value={(
+                                <ul>
+                                    <li>{strings.enablingSectionCriteriaComment31}</li>
+                                    <li>{strings.enablingSectionCriteriaComment32}</li>
+                                </ul>
+                            )}
+                            strongLabel
+                            withoutLabelColon
+                        />
+                    </ListView>
+                </Modal>
+            )}
         </TabPage>
     );
 }

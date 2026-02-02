@@ -26,6 +26,21 @@
         "selectedEarlyActionTooltipDescriptionListThree": "Does this prioritized risk align with the priorities of communities and local actors?",
         "selectedEarlyActionTooltipDescriptionListFour": "Is it in the National Society mandate to do early actions to mitigate that risk?",
         "selectedEarlyActionTooltipDescriptionListFive": "Does the National Society have the capacity and systems to conduct early actions within the lead time for the risk they want to prioritize?",
-        "selectedEarlyActionTooltipDescriptionThree": "For example, a major impact of a flood may be the destruction of public infrastructure, such as bridges or roads. However, the National Red Cross, Red Crescent Societies may not have the mandate or the capacity to do early actions for that impact in the short lead time from the forecast to the impact of the hazard."
+        "selectedEarlyActionTooltipDescriptionThree": "For example, a major impact of a flood may be the destruction of public infrastructure, such as bridges or roads. However, the National Red Cross, Red Crescent Societies may not have the mandate or the capacity to do early actions for that impact in the short lead time from the forecast to the impact of the hazard.",
+        "riskSectionCriteriaButtonLabel": "Section quality criteria",
+        "earlyActionSectionCriteriaHeading": "Early Actions",
+        "riskSectionHeading": "Quality Criteria: Risk Analysis & Early Action Selection",
+        "riskSectionCriteriaIntroduction1": "Hazard selection is supported with evidence related to the historical disaster impact.",
+        "riskSectionCriteriaComment11": "The simplified EAP should provide sufficient justification of the prioritized hazard and explain the observed negative impacts that the hazard had on lives, livelihoods and wellbeing in the past.",
+        "riskSectionCriteriaComment12": "The evidence provided should demonstrate that the impacts were above seasonal average  magnitude and have warranted humanitarian assistance.",
+        "riskSectionCriteriaComment13": "For certain types of hazards (such as drought, food security, population movement crisis), there may be limited historical disaster data available. The simplified EAP may consider profiling proxy data/ reference data from other countries/ regions with a similar context to support this analysis.",
+        "riskSectionCriteriaIntroduction2": "The risks being prioritized are relevant to the hazard’s main impacts.",
+        "riskSectionCriteriaComment2": "There must be a clear connection between the hazard’s impacts →the prioritized risks → selected early action.",
+        "riskSectionCriteriaIntroduction3": "Selected early actions seek to reduce the possible impacts of the risks prioritized by the National Society.",
+        "riskSectionCriteriaComment31": "The early action activities aim to reduce the impact of the selected hazard.",
+        "riskSectionCriteriaComment32": "In case evidence is available, there should be a description on the effectiveness of the action in reducing the targeted impact.",
+        "riskSectionCriteriaComment33": "If evidence is not available, further information may be requested on how the National Society foresee that the action chosen will reduce the specific risk.",
+        "riskSectionCriteriaIntroduction4": "Selected early action activities are planned in accordance with identified standards.",
+        "riskSectionCriteriaComment4": "If relevant for the type of intervention, actions should be in line with accepted international and/or national standards, regulations, laws for the relevant sector. E.g. SPHERE, LEGS, Minimum standards for protection, gender and inclusion in emergencies and the principles of Do No Harm."
     }
 }
