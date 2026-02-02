@@ -2,27 +2,20 @@ import {
     useCallback,
     useMemo,
 } from 'react';
-import {
-    AddLineIcon,
-    CheckboxMultipleBlankFillIcon,
-} from '@ifrc-go/icons';
+import { AddLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Checklist,
     Container,
-    Heading,
+    Description,
     InfoPopup,
-    InlineLayout,
     InputSection,
+    Label,
     ListView,
-    Modal,
     TextArea,
     TextOutput,
 } from '@ifrc-go/ui';
-import {
-    useBooleanState,
-    useTranslation,
-} from '@ifrc-go/ui/hooks';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
 import {
     isNotDefined,
@@ -49,6 +42,7 @@ import { useRequest } from '#utils/restRequest';
 
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
+import SectionQualityCriteria from '../SectionQualityCriteria';
 import ApproachesInput from './ApproachesInput';
 import EarlyActionsInput from './EarlyActionsInput';
 import OperationsInput from './OperationInput';
@@ -123,14 +117,6 @@ function SelectionActions(props: Props) {
             template_type: 'theory_of_change_table',
         },
     });
-
-    const [
-        showQualityCriteria,
-        {
-            setTrue: setShowQualityCriteriaTrue,
-            setFalse: setShowQualityCriteriaFalse,
-        },
-    ] = useBooleanState(false);
 
     const { setValue: onOperationChange, removeValue: onOperationRemove } = useFormArray<'planned_operations', PlannedOperationFormFields>(
         'planned_operations',
@@ -255,226 +241,277 @@ function SelectionActions(props: Props) {
     }, [setFieldValue]);
 
     return (
-        <TabPage spacingOffset={-6}>
-            <InlineLayout
-                after={(
-                    <Button
-                        name={undefined}
-                        onClick={setShowQualityCriteriaTrue}
-                        after={(<CheckboxMultipleBlankFillIcon />)}
-                    >
-                        {strings.actionsSectionCriteriaButtonLabel}
-                    </Button>
-                )}
-            />
-            <ListView
-                layout="block"
-                spacing="xs"
-            >
-                <Heading variant="form">
+        <TabPage
+            spacingOffset={-2}
+            headerAction={(
+                <SectionQualityCriteria
+                    heading={strings.actionsStatementSectionHeading}
+                    content={(
+                        <ListView withSpacingOpticalCorrection layout="block">
+                            <Label strong>
+                                {strings.actionsSectionCriteriaIntroduction1}
+                            </Label>
+                            <Description>
+                                {strings.actionsSectionCriteriaComment1}
+                            </Description>
+                            <Label strong>
+                                {strings.actionsSectionCriteriaIntroduction2}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.actionsSectionCriteriaComment21}
+                                </Description>
+                                <Description>
+                                    {strings.actionsSectionCriteriaComment22}
+                                </Description>
+                            </ListView>
+                            <Label strong>
+                                {strings.actionsSectionCriteriaIntroduction3}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.actionsSectionCriteriaComment31}
+                                </Description>
+                                <Description>
+                                    {strings.actionsSectionCriteriaComment32}
+                                </Description>
+                            </ListView>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Label strong>
+                                    {strings.actionsSectionCriteriaIntroduction41}
+                                </Label>
+                                <Label>
+                                    {strings.actionsSectionCriteriaIntroduction42}
+                                </Label>
+                            </ListView>
+                            <Description>
+                                {strings.actionsSectionCriteriaComment4}
+                            </Description>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Label strong>
+                                    {strings.actionsSectionCriteriaIntroduction51}
+                                </Label>
+                                <Label>
+                                    {strings.actionsSectionCriteriaIntroduction52}
+                                </Label>
+                            </ListView>
+                            <Description>
+                                {strings.actionsSectionCriteriaComment5}
+                            </Description>
+                        </ListView>
+                    )}
+                />
+            )}
+        >
+            <Container
+                heading={(
                     <ListView spacing="sm">
                         {strings.selectionActionsHeading}
                         <InfoPopup description={strings.selectionActionsTooltipDescription} />
                     </ListView>
-                </Heading>
-                <InputSection
-                    title={strings.selectionProcessTitle}
-                    tooltip={(
-                        <ListView layout="block">
-                            <TextOutput
-                                label={strings.selectionActionExplanatoryNoteLabel}
-                                strongLabel
-                                value={strings.selectionProcessExplanatoryNote}
-                            />
-                            <TextOutput
-                                label={strings.selectionActionRequiredPointsLabel}
-                                strongLabel
-                                value={(
-                                    <ul>
-                                        <li>{strings.selectionProcessRequiredPoint1}</li>
-                                        <li>{strings.selectionProcessRequiredPoint2}</li>
-                                        <li>{strings.selectionProcessRequiredPoint3}</li>
-                                        <li>{strings.selectionProcessRequiredPoint4}</li>
-                                        <li>{strings.selectionProcessRequiredPoint5}</li>
-                                    </ul>
-                                )}
-                            />
-                        </ListView>
-                    )}
-                    description={(
-                        <ul>
-                            <li>{strings.selectionProcessDescription1}</li>
-                            <li>{strings.selectionProcessDescription2}</li>
-                            <li>{strings.selectionProcessDescription3}</li>
-                            <li>{strings.selectionProcessDescription4}</li>
-                            <li>{strings.selectionProcessDescription5}</li>
-                        </ul>
-                    )}
-                    withAsteriskOnTitle
-                >
-                    <Container
-                        heading={strings.earlyActionsOutputValue}
-                        headingLevel={6}
-                        headerDescription={(
-                            <NonFieldError
-                                error={getErrorObject(error?.early_actions)}
-                            />
-                        )}
-                        empty={isNotDefined(value.early_actions)
-                            || value.early_actions.length === 0}
-                        emptyMessage={strings.earlyActionsEmptyMessage}
-                        withPadding
-                        withBorder
-                        withCompactMessage
-                    >
-                        <ListView layout="block">
-                            {value?.early_actions?.map((action, index) => (
-                                <EarlyActionsInput
-                                    key={action.client_id}
-                                    index={index}
-                                    value={action}
-                                    onChange={onEarlyActionsChange}
-                                    onRemove={onEarlyActionsRemove}
-                                    error={getErrorObject(error?.early_actions)}
-                                    disabled={disabled}
-                                    readOnly={readOnly}
+                )}
+                variant="form"
+            >
+                <ListView layout="block">
+                    <InputSection
+                        title={strings.selectionProcessTitle}
+                        tooltip={(
+                            <ListView layout="block">
+                                <TextOutput
+                                    label={strings.selectionActionExplanatoryNoteLabel}
+                                    strongLabel
+                                    value={strings.selectionProcessExplanatoryNote}
                                 />
-                            ))}
-                        </ListView>
-                    </Container>
-                    <Button
-                        name={undefined}
-                        onClick={handleEarlyActionsAdd}
-                        disabled={disabled || readOnly}
-                        before={<AddLineIcon />}
+                                <TextOutput
+                                    label={strings.selectionActionRequiredPointsLabel}
+                                    strongLabel
+                                    value={(
+                                        <ul>
+                                            <li>{strings.selectionProcessRequiredPoint1}</li>
+                                            <li>{strings.selectionProcessRequiredPoint2}</li>
+                                            <li>{strings.selectionProcessRequiredPoint3}</li>
+                                            <li>{strings.selectionProcessRequiredPoint4}</li>
+                                            <li>{strings.selectionProcessRequiredPoint5}</li>
+                                        </ul>
+                                    )}
+                                />
+                            </ListView>
+                        )}
+                        description={(
+                            <ul>
+                                <li>{strings.selectionProcessDescription1}</li>
+                                <li>{strings.selectionProcessDescription2}</li>
+                                <li>{strings.selectionProcessDescription3}</li>
+                                <li>{strings.selectionProcessDescription4}</li>
+                                <li>{strings.selectionProcessDescription5}</li>
+                            </ul>
+                        )}
+                        withAsteriskOnTitle
                     >
-                        {strings.earlyActionsAddButtonLabel}
-                    </Button>
-                    <TextArea
-                        label={strings.selectionActionDescriptionLabel}
-                        name="early_action_selection_process"
-                        value={value?.early_action_selection_process}
-                        onChange={setFieldValue}
-                        error={error?.early_action_selection_process}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                    <MultiImageWithCaptionInput
-                        name="early_action_selection_process_images"
-                        url="/api/v2/eap-file/multiple/"
-                        value={value?.early_action_selection_process_images}
-                        onChange={setFieldValue}
-                        error={getErrorObject(error?.early_action_selection_process_images)}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        label={strings.selectionActionSelectImagesLabel}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        description={strings.selectionActionImagesCountLabel}
-                    />
-                </InputSection>
-                <InputSection
-                    description={(
-                        <Link
-                            external
-                            href={templateUrl?.url}
-                            withUnderline
-                            withLinkIcon
+                        <Container
+                            heading={strings.earlyActionsOutputValue}
+                            headingLevel={6}
+                            headerDescription={(
+                                <NonFieldError
+                                    error={getErrorObject(error?.early_actions)}
+                                />
+                            )}
+                            empty={isNotDefined(value.early_actions)
+                                || value.early_actions.length === 0}
+                            emptyMessage={strings.earlyActionsEmptyMessage}
+                            withPadding
+                            withBorder
+                            withCompactMessage
                         >
-                            {strings.downloadTableLabel}
-                        </Link>
-                    )}
-                >
-                    <GoSingleFileInput
-                        name="theory_of_change_table_file"
-                        accept=".docx"
-                        url="/api/v2/eap-file/"
-                        value={value.theory_of_change_table_file}
-                        error={error?.theory_of_change_table_file}
-                        label={strings.selectionActionUploadTableLabel}
-                        onChange={setFieldValue}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        required
-                        clearable
-                    >
-                        {strings.selectionActionUploadLabel}
-                    </GoSingleFileInput>
-                </InputSection>
-                <InputSection
-                    title={strings.evidenceBaseTitle}
-                    tooltip={(
-                        <TextOutput
-                            label={strings.selectionActionExplanatoryNoteLabel}
-                            strongLabel
-                            value={strings.evidenceBaseExplanatoryNote}
-                        />
-                    )}
-                    description={strings.evidenceBaseDescription}
-                    withAsteriskOnTitle
-                >
-                    <TextArea
-                        label={strings.selectionActionDescriptionLabel}
-                        name="evidence_base"
-                        value={value?.evidence_base}
-                        onChange={setFieldValue}
-                        error={error?.evidence_base}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.selectionAttachFilesTitle}
-                    description={strings.selectionAttachFilesDescription}
-                >
-                    <GoMultiFileInput
-                        name="evidence_base_relevant_files"
-                        accept=".pdf, .docx, .pptx"
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        onChange={setFieldValue}
-                        url="/api/v2/eap-file/multiple/"
-                        value={value.evidence_base_relevant_files}
-                        error={getErrorString(error?.evidence_base_relevant_files)}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        clearable
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        useCurrentLanguageForMutation
-                    >
-                        {strings.selectionActionUploadLabel}
-                    </GoMultiFileInput>
-                </InputSection>
-                <InputSection
-                    title={strings.selectionSourceOfInformationTitle}
-                    description={strings.selectionSourceOfInformationDescription}
-                >
-                    <NonFieldError
-                        error={getErrorObject(error?.evidence_base_source_of_information)}
-                    />
-                    {value.evidence_base_source_of_information?.map((source, index) => (
-                        <EAPSourceInformationInput
-                            key={source.client_id}
-                            index={index}
-                            value={source}
-                            onChange={onSourceInformationChange}
-                            onRemove={onSourceInformationRemove}
-                            error={getErrorObject(error?.evidence_base_source_of_information)}
+                            <ListView layout="block">
+                                {value?.early_actions?.map((action, index) => (
+                                    <EarlyActionsInput
+                                        key={action.client_id}
+                                        index={index}
+                                        value={action}
+                                        onChange={onEarlyActionsChange}
+                                        onRemove={onEarlyActionsRemove}
+                                        error={getErrorObject(error?.early_actions)}
+                                        disabled={disabled}
+                                        readOnly={readOnly}
+                                    />
+                                ))}
+                            </ListView>
+                        </Container>
+                        <Button
+                            name={undefined}
+                            onClick={handleEarlyActionsAdd}
+                            disabled={disabled || readOnly}
+                            before={<AddLineIcon />}
+                        >
+                            {strings.earlyActionsAddButtonLabel}
+                        </Button>
+                        <TextArea
+                            label={strings.selectionActionDescriptionLabel}
+                            name="early_action_selection_process"
+                            value={value?.early_action_selection_process}
+                            onChange={setFieldValue}
+                            error={error?.early_action_selection_process}
                             disabled={disabled}
                             readOnly={readOnly}
                         />
-                    ))}
-                    <Button
-                        name={undefined}
-                        onClick={handleSourceInformationAdd}
-                        disabled={disabled || readOnly}
-                        before={<AddLineIcon />}
+                        <MultiImageWithCaptionInput
+                            name="early_action_selection_process_images"
+                            url="/api/v2/eap-file/multiple/"
+                            value={value?.early_action_selection_process_images}
+                            onChange={setFieldValue}
+                            error={getErrorObject(error?.early_action_selection_process_images)}
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            label={strings.selectionActionSelectImagesLabel}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            description={strings.selectionActionImagesCountLabel}
+                        />
+                    </InputSection>
+                    <InputSection
+                        description={(
+                            <Link
+                                external
+                                href={templateUrl?.url}
+                                withUnderline
+                                withLinkIcon
+                            >
+                                {strings.downloadTableLabel}
+                            </Link>
+                        )}
                     >
-                        {strings.earlyActionsAddButtonLabel}
-                    </Button>
-                </InputSection>
-            </ListView>
+                        <GoSingleFileInput
+                            name="theory_of_change_table_file"
+                            accept=".docx"
+                            url="/api/v2/eap-file/"
+                            value={value.theory_of_change_table_file}
+                            error={error?.theory_of_change_table_file}
+                            label={strings.selectionActionUploadTableLabel}
+                            onChange={setFieldValue}
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            required
+                            clearable
+                        >
+                            {strings.selectionActionUploadLabel}
+                        </GoSingleFileInput>
+                    </InputSection>
+                    <InputSection
+                        title={strings.evidenceBaseTitle}
+                        tooltip={(
+                            <TextOutput
+                                label={strings.selectionActionExplanatoryNoteLabel}
+                                strongLabel
+                                value={strings.evidenceBaseExplanatoryNote}
+                            />
+                        )}
+                        description={strings.evidenceBaseDescription}
+                        withAsteriskOnTitle
+                    >
+                        <TextArea
+                            label={strings.selectionActionDescriptionLabel}
+                            name="evidence_base"
+                            value={value?.evidence_base}
+                            onChange={setFieldValue}
+                            error={error?.evidence_base}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.selectionAttachFilesTitle}
+                        description={strings.selectionAttachFilesDescription}
+                    >
+                        <GoMultiFileInput
+                            name="evidence_base_relevant_files"
+                            accept=".pdf, .docx, .pptx"
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            onChange={setFieldValue}
+                            url="/api/v2/eap-file/multiple/"
+                            value={value.evidence_base_relevant_files}
+                            error={getErrorString(error?.evidence_base_relevant_files)}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            clearable
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            useCurrentLanguageForMutation
+                        >
+                            {strings.selectionActionUploadLabel}
+                        </GoMultiFileInput>
+                    </InputSection>
+                    <InputSection
+                        title={strings.selectionSourceOfInformationTitle}
+                        description={strings.selectionSourceOfInformationDescription}
+                    >
+                        <NonFieldError
+                            error={getErrorObject(error?.evidence_base_source_of_information)}
+                        />
+                        {value.evidence_base_source_of_information?.map((source, index) => (
+                            <EAPSourceInformationInput
+                                key={source.client_id}
+                                index={index}
+                                value={source}
+                                onChange={onSourceInformationChange}
+                                onRemove={onSourceInformationRemove}
+                                error={getErrorObject(error?.evidence_base_source_of_information)}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                            />
+                        ))}
+                        <Button
+                            name={undefined}
+                            onClick={handleSourceInformationAdd}
+                            disabled={disabled || readOnly}
+                            before={<AddLineIcon />}
+                        >
+                            {strings.earlyActionsAddButtonLabel}
+                        </Button>
+                    </InputSection>
+                </ListView>
+            </Container>
             <Container
                 heading={strings.selectionActionPlannedOperationHeading}
                 headerDescription={
@@ -607,62 +644,6 @@ function SelectionActions(props: Props) {
                     </InputSection>
                 </ListView>
             </Container>
-            {showQualityCriteria && (
-                <Modal
-                    onClose={setShowQualityCriteriaFalse}
-                    heading={strings.actionsStatementSectionHeading}
-                >
-                    <ListView layout="block">
-                        <TextOutput
-                            label={strings.actionsSectionCriteriaIntroduction1}
-                            value={strings.actionsSectionCriteriaComment1}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
-                        />
-                        <TextOutput
-                            label={strings.actionsSectionCriteriaIntroduction2}
-                            value={strings.actionsSectionCriteriaComment2}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
-                        />
-                        <TextOutput
-                            label={strings.actionsSectionCriteriaIntroduction3}
-                            value={strings.actionsSectionCriteriaComment3}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
-                        />
-                        <TextOutput
-                            label={(
-                                <>
-                                    {strings.actionsSectionCriteriaIntroduction4}
-                                    <br />
-                                    {strings.actionsSectionCriteriaIntroduction5}
-                                </>
-                            )}
-                            value={strings.actionsSectionCriteriaComment5}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
-                        />
-                        <TextOutput
-                            label={(
-                                <>
-                                    {strings.actionsSectionCriteriaIntroduction6}
-                                    <br />
-                                    {strings.actionsSectionCriteriaIntroduction7}
-                                </>
-                            )}
-                            value={strings.actionsSectionCriteriaComment7}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
-                        />
-                    </ListView>
-                </Modal>
-            )}
         </TabPage>
     );
 }

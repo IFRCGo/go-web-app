@@ -40,6 +40,21 @@
         "earlyAction": "Early Action",
         "upload": "Upload",
         "downloadBudgetTemplate": "Download budget template",
-        "updatedChecklistTitle": "Updated checklist"
+        "updatedChecklistTitle": "Updated checklist",
+        "deliverSectionHeading": "Quality Criteria: Conditions to Deliver and Budgets",
+        "nationalSocietySectionHeading": "National Society's Capacity",
+        "deliverSectionCriteriaIntroduction1": "The National Society explains its capacity to implement the early action activities and/or minimum conditions needed to deliver on the early actions.",
+        "deliverSectionCriteriaComment11": "The simplified EAP describes the National Society capacities related to sectoral (Cash, WASH, Food Security, Shelter etc.) and administrative (Finance, PMER, Human Resources) capacity and experience to implement the EAP.",
+        "deliverSectionCriteriaComment12": "If there is no or limited capacity, the simplified EAP describes how readiness activities will address these limitations in order to ensure that the early action activities can be implemented effectively and efficiently.",
+        "deliverSectionCriteriaIntroduction2": "The simplified EAP includes a budget in the IFRC template, detailing the costs for the readiness, pre-positioning and trigger-based early action activities",
+        "deliverSectionCriteriaComment21": "The simplified EAP budget is capped at CHF 200,000 and should target a minimum of 2000 people (CHF 100 per person).",
+        "deliverSectionCriteriaComment22": "The allocation for readiness and pre-positioning costs combined will still be capped at 65% of the budget but National Societies can use discretion regarding the split between the two types of expenses. For example, readiness could be 30% of the budget and pre-positioning could be 35% of the budget.",
+        "deliverSectionCriteriaComment23": "Some hazards may require a longer timeframe or more expensive or intensive activities. With appropriate justification, the Validation Committee might accept exceptions to this criterion.",
+        "deliverSectionCriteriaIntroduction3": "The shelf life of pre-positioned stock equals or exceeds the simplified EAP 2-year lifespan.",
+        "deliverSectionCriteriaComment3": "The stock planned for early action has a shelf life of at least 2 years.",
+        "coordinationSectionCriteriaHeading": "Coordination",
+        "deliverSectionCriteriaIntroduction4": "The simplified EAP outlines coordination with relevant stakeholders related to the planning and activation of early action activities",
+        "deliverSectionCriteriaComment41": "The simplified EAP has been prepared in a participatory manner with involvement of key stakeholders, Movement components and external actors, especially Hydro-Met agencies, disaster risk management authorities, government ministries, etc.",
+        "deliverSectionCriteriaComment42": "To avoid creating parallel systems and to minimize negotiation on the mandate/permission, etc. to act early when a trigger occurs, all relevant key stakeholders should be involved in the development, and when necessary, the activation of the early action activities."
     }
 }

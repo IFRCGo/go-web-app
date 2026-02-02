@@ -5,7 +5,10 @@ import {
 import {
     Checklist,
     Container,
+    Description,
+    Heading,
     InputSection,
+    Label,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -23,6 +26,7 @@ import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
+import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
 import OperationInput from './OperationsInput';
 
@@ -97,7 +101,59 @@ function PlannedOperations(props: Props) {
     const selectedSectors = value?.planned_operations?.map(({ sector }) => sector);
 
     return (
-        <TabPage>
+        <TabPage
+            headerAction={(
+                <GuidanceSeap
+                    heading={strings.plannedSectionHeading}
+                    content={(
+                        <ListView layout="block" withSpacingOpticalCorrection>
+                            <Heading level={5}>
+                                {strings.eapPlannedSectionHeading}
+                            </Heading>
+                            <Label strong>
+                                {strings.plannedSectionCriteriaIntroduction1}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.plannedSectionCriteriaComment11}
+                                </Description>
+                                <Description>
+                                    {strings.plannedSectionCriteriaComment12}
+                                </Description>
+                            </ListView>
+                            <Label strong>
+                                {strings.plannedSectionCriteriaIntroduction2}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.plannedSectionCriteriaComment21}
+                                </Description>
+                                <Description>
+                                    {strings.plannedSectionCriteriaComment22}
+                                </Description>
+                                <Description>
+                                    {strings.plannedSectionCriteriaComment23}
+                                </Description>
+                            </ListView>
+                            <Heading level={5}>
+                                {strings.monitoringSectionCriteriaHeading}
+                            </Heading>
+                            <Label strong>
+                                {strings.plannedSectionCriteriaIntroduction3}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.plannedSectionCriteriaComment31}
+                                </Description>
+                                <Description>
+                                    {strings.plannedSectionCriteriaComment32}
+                                </Description>
+                            </ListView>
+                        </ListView>
+                    )}
+                />
+            )}
+        >
             <Container
                 heading={strings.plannedOperationsTitle}
                 variant="form"

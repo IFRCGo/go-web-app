@@ -2,10 +2,16 @@
     position: relative;
     isolation: isolate;
 
-    .wiki-link {
+    .action {
+        display: flex;
         position: absolute;
         top: 0;
         right: 0;
-        transform: translateY(-100%);
+        align-items: center;
+        transform: translateY(-150%);
+
+        &:empty {
+            display: none;
+        }
     }
 }

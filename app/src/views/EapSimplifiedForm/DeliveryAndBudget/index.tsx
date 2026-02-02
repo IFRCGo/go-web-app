@@ -1,8 +1,11 @@
 import { useCallback } from 'react';
 import {
     Container,
+    Description,
+    Heading,
     InfoPopup,
     InputSection,
+    Label,
     ListView,
     NumberInput,
     TextArea,
@@ -26,6 +29,7 @@ import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 import { useRequest } from '#utils/restRequest';
 
+import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
 
 import i18n from './i18n.json';
@@ -93,7 +97,69 @@ function DeliveryAndBudget(props: Props) {
     );
 
     return (
-        <TabPage spacingOffset={-2}>
+        <TabPage
+            spacingOffset={-2}
+            headerAction={(
+                <GuidanceSeap
+                    heading={strings.deliverSectionHeading}
+                    content={(
+                        <ListView layout="block" withSpacingOpticalCorrection>
+                            <Heading level={5}>
+                                {strings.nationalSocietySectionHeading}
+                            </Heading>
+                            <Label strong>
+                                {strings.deliverSectionCriteriaIntroduction1}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.deliverSectionCriteriaComment11}
+                                </Description>
+                                <Description>
+                                    {strings.deliverSectionCriteriaComment12}
+                                </Description>
+                            </ListView>
+                            <Heading level={5}>
+                                {strings.budgetHeading}
+                            </Heading>
+                            <Label strong>
+                                {strings.deliverSectionCriteriaIntroduction2}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.deliverSectionCriteriaComment21}
+                                </Description>
+                                <Description>
+                                    {strings.deliverSectionCriteriaComment22}
+                                </Description>
+                                <Description>
+                                    {strings.deliverSectionCriteriaComment23}
+                                </Description>
+                            </ListView>
+                            <Label strong>
+                                {strings.deliverSectionCriteriaIntroduction3}
+                            </Label>
+                            <Description>
+                                {strings.deliverSectionCriteriaComment3}
+                            </Description>
+                            <Heading level={5}>
+                                {strings.coordinationSectionCriteriaHeading}
+                            </Heading>
+                            <Label strong>
+                                {strings.deliverSectionCriteriaIntroduction4}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.deliverSectionCriteriaComment41}
+                                </Description>
+                                <Description>
+                                    {strings.deliverSectionCriteriaComment42}
+                                </Description>
+                            </ListView>
+                        </ListView>
+                    )}
+                />
+            )}
+        >
             <Container
                 heading={strings.deliverHeading}
                 variant="form"

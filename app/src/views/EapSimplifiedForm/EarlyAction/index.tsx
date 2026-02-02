@@ -1,8 +1,11 @@
 import {
     Container,
+    Description,
+    Heading,
     InfoPopup,
     InlineLayout,
     InputSection,
+    Label,
     ListView,
     NumberInput,
     SelectInput,
@@ -29,6 +32,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { TIMEFRAME_YEAR } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
+import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
 
 import i18n from './i18n.json';
@@ -72,7 +76,65 @@ function EarlyAction(props: Props) {
     );
 
     return (
-        <TabPage>
+        <TabPage
+            headerAction={(
+                <GuidanceSeap
+                    heading={strings.earlySectionHeading}
+                    content={(
+                        <ListView layout="block" withSpacingOpticalCorrection>
+                            <Heading level={5}>
+                                {strings.triggerModelSectionHeading}
+                            </Heading>
+                            <Label strong>
+                                {strings.earlySectionCriteriaIntroduction1}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.earlySectionCriteriaComment11}
+                                </Description>
+                                <Description>
+                                    {strings.earlySectionCriteriaComment12}
+                                </Description>
+                                <Description>
+                                    {strings.earlySectionCriteriaComment13}
+                                </Description>
+                                <Description>
+                                    {strings.earlySectionCriteriaComment14}
+                                </Description>
+                            </ListView>
+                            <Heading level={5}>
+                                {strings.eapActivationSectionCriteriaHeading}
+                            </Heading>
+                            <Label strong>
+                                {strings.earlySectionCriteriaIntroduction2}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.earlySectionCriteriaComment21}
+                                </Description>
+                                <Description>
+                                    {strings.earlySectionCriteriaComment22}
+                                </Description>
+                            </ListView>
+                            <Label strong>
+                                {strings.earlySectionCriteriaIntroduction3}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.earlySectionCriteriaComment31}
+                                </Description>
+                                <Description>
+                                    {strings.earlySectionCriteriaComment32}
+                                </Description>
+                                <Description>
+                                    {strings.earlySectionCriteriaComment33}
+                                </Description>
+                            </ListView>
+                        </ListView>
+                    )}
+                />
+            )}
+        >
             <Container
                 heading={strings.actionHeading}
                 variant="form"

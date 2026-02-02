@@ -3,7 +3,9 @@ import { AddLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
+    Description,
     InputSection,
+    Label,
     ListView,
     NumberInput,
 } from '@ifrc-go/ui';
@@ -28,6 +30,7 @@ import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type GoApiResponse } from '#utils/restRequest';
 
+import GuidanceSeap from '../GuidanceSeap';
 import PartnerContactsInput from '../PartnerContactInput';
 import { type PartialSimplifiedEapType } from '../schema';
 
@@ -86,7 +89,34 @@ function Overview(props: Props) {
     }, [setFieldValue]);
 
     return (
-        <TabPage spacingOffset={-2}>
+        <TabPage
+            spacingOffset={-2}
+            headerAction={(
+                <GuidanceSeap
+                    heading={strings.overviewSectionHeading}
+                    content={(
+                        <ListView withSpacingOpticalCorrection layout="block">
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Label strong>
+                                    {strings.sectionCriteriaIntroduction11}
+                                </Label>
+                                <Label>
+                                    {strings.sectionCriteriaIntroduction12}
+                                </Label>
+                            </ListView>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.sectionCriteriaComment11}
+                                </Description>
+                                <Description>
+                                    {strings.sectionCriteriaComment12}
+                                </Description>
+                            </ListView>
+                        </ListView>
+                    )}
+                />
+            )}
+        >
             <Container
                 heading={strings.detailsHeading}
                 variant="form"

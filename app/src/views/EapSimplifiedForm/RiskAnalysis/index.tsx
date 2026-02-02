@@ -1,6 +1,9 @@
 import {
     Container,
+    Description,
+    Heading,
     InputSection,
+    Label,
     ListView,
     TextArea,
 } from '@ifrc-go/ui';
@@ -16,6 +19,7 @@ import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaption
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 
+import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
 
 import i18n from './i18n.json';
@@ -45,7 +49,64 @@ function RiskAnalysis(props: Props) {
     const strings = useTranslation(i18n);
 
     return (
-        <TabPage spacingOffset={-2}>
+        <TabPage
+            spacingOffset={-2}
+            headerAction={(
+                <GuidanceSeap
+                    heading={strings.riskSectionHeading}
+                    content={(
+                        <ListView layout="block" withSpacingOpticalCorrection>
+                            <Heading level={5}>
+                                {strings.riskHeading}
+                            </Heading>
+                            <Label strong>
+                                {strings.riskSectionCriteriaIntroduction1}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment11}
+                                </Description>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment12}
+                                </Description>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment13}
+                                </Description>
+                            </ListView>
+                            <Label strong>
+                                {strings.riskSectionCriteriaIntroduction2}
+                            </Label>
+                            <Description>
+                                {strings.riskSectionCriteriaComment2}
+                            </Description>
+                            <Heading level={5}>
+                                {strings.earlyActionSectionCriteriaHeading}
+                            </Heading>
+                            <Label strong>
+                                {strings.riskSectionCriteriaIntroduction3}
+                            </Label>
+                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment31}
+                                </Description>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment32}
+                                </Description>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment33}
+                                </Description>
+                            </ListView>
+                            <Label strong>
+                                {strings.riskSectionCriteriaIntroduction4}
+                            </Label>
+                            <Description>
+                                {strings.riskSectionCriteriaComment4}
+                            </Description>
+                        </ListView>
+                    )}
+                />
+            )}
+        >
             <Container
                 heading={strings.riskHeading}
                 variant="form"
