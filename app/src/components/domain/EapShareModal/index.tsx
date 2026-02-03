@@ -13,6 +13,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     isDefined,
     isNotDefined,
+    listToMap,
 } from '@togglecorp/fujs';
 
 import UserSearchMultiSelectInput, { type User } from '#components/domain/UserSearchMultiSelectInput';
@@ -28,16 +29,16 @@ import ShareUserItem from '../ShareUserItem';
 import i18n from './i18n.json';
 
 interface Props {
-    drefId: number;
+    eapId: number;
     onCancel: () => void;
     onSuccess: () => void;
 }
 
 const userKeySelector = (item: User) => item.id;
 
-function DrefShareModal(props: Props) {
+function EapShareModal(props: Props) {
     const {
-        drefId,
+        eapId,
         onCancel,
         onSuccess,
     } = props;
@@ -53,27 +54,32 @@ function DrefShareModal(props: Props) {
         trigger: triggerUpdate,
     } = useLazyRequest({
         method: 'POST',
-        url: '/api/v2/dref-share/',
+        url: '/api/v2/eap-registration/{id}/share/',
+        pathVariables: { id: eapId },
         body: () => ({
-            dref: drefId,
             users,
         }),
         onSuccess: () => {
             alert.show(
-                strings.drefShareSuccessfully,
+                strings.eapShareSuccessfully,
                 { variant: 'success' },
             );
             onSuccess();
         },
+        onFailure: () => {
+            alert.show(
+                strings.eapShareFailed,
+                { variant: 'danger' },
+            );
+        },
     });
 
     const {
-        pending: getPending,
-        // response: usersResponse,
+        pending: usersPending,
     } = useRequest({
-        skip: isNotDefined(drefId),
-        url: '/api/v2/dref-share-user/{id}/',
-        pathVariables: { id: drefId },
+        skip: isNotDefined(eapId),
+        url: '/api/v2/eap-share-users/{id}/',
+        pathVariables: { id: eapId },
         onSuccess: (response) => {
             if (isDefined(response.users)) {
                 setUsers(response.users);
@@ -84,14 +90,26 @@ function DrefShareModal(props: Props) {
     });
 
     const handleUserRemove = useCallback((userId: number) => {
-        setUsers((oldVal = []) => (
-            oldVal.filter((item) => item !== userId)
-        ));
+        setUsers((oldVal = []) => {
+            const index = oldVal.indexOf(userId);
+
+            if (index === -1) return oldVal;
+
+            const userList = [...oldVal];
+            userList.splice(index, 1);
+
+            return userList;
+        });
     }, [setUsers]);
 
+    const userOptionsMap = useMemo(() => listToMap(
+        userOptions,
+        (item) => item.id,
+    ), [userOptions]);
+
     const selectedUsers = useMemo(() => (
-        userOptions?.filter((user) => users.includes(user.id))
-    ), [userOptions, users]);
+        users?.map((item) => userOptionsMap?.[item])
+    ), [userOptionsMap, users]);
 
     const userRendererParams = useCallback((userId: number, user: User) => ({
         userId,
@@ -103,15 +121,15 @@ function DrefShareModal(props: Props) {
 
     return (
         <Modal
-            heading={strings.drefShareTitle}
-            headerDescription={strings.drefShareDescription}
+            heading={strings.eapShareTitle}
+            headerDescription={strings.eapShareDescription}
             onClose={onCancel}
             footerActions={(
                 <Button
                     name={null}
                     onClick={triggerUpdate}
                 >
-                    {strings.drefShareUpdate}
+                    {strings.eapShareUpdate}
                 </Button>
             )}
             size="md"
@@ -119,21 +137,19 @@ function DrefShareModal(props: Props) {
         >
             <ListView layout="block">
                 <UserSearchMultiSelectInput
-                    // FIXME: use strings
-                    label="Select users"
+                    label={strings.eapSelectUserLabel}
                     name={undefined}
                     value={users}
                     onChange={setUsers}
                     options={userOptions}
                     onOptionsChange={setUserOptions}
-                    disabled={updatePending || getPending}
+                    disabled={updatePending || usersPending}
                 />
                 <Container
                     emptyMessage={strings.userListEmptyMessage}
-                    pending={updatePending || getPending}
+                    pending={updatePending || usersPending}
                     headingLevel={6}
-                    // FIXME: use strings
-                    heading="Already shared to"
+                    heading={strings.eapAlreadySharedHeading}
                     withHeaderBorder
                     empty={isNotDefined(selectedUsers) || selectedUsers.length === 0}
                 >
@@ -154,4 +170,4 @@ function DrefShareModal(props: Props) {
     );
 }
 
-export default DrefShareModal;
+export default EapShareModal;

@@ -38,9 +38,9 @@ import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import DrefShareModal from '#components/domain/DrefShareModal';
-import UserItem from '#components/domain/DrefShareModal/UserItem';
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
+import ShareUserItem from '#components/domain/ShareUserItem';
 import { type User } from '#components/domain/UserSearchMultiSelectInput';
 import Link from '#components/Link';
 import useCountry from '#hooks/domain/useCountry';
@@ -206,7 +206,7 @@ function Overview(props: Props) {
                             className={styles.userList}
                             messageClassName={styles.message}
                             data={drefUsers}
-                            renderer={UserItem}
+                            renderer={ShareUserItem}
                             keySelector={userKeySelector}
                             rendererParams={userRendererParams}
                             emptyMessage={strings.userListEmptyMessage}
