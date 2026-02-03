@@ -1,6 +1,11 @@
 {
     "namespace": "eapSimplifiedForm",
     "strings": {
+        "eapFormSharingHeading": "Sharing",
+        "eapShareApplicationLabel": "The Full EAP is shared with",
+        "eapShareApplicationDescription": "The users will be able to view, edit and add other users.",
+        "formShareButtonLabel": "Add",
+        "userListEmptyMessage": "The Full EAP is not shared with anyone.",
         "detailsHeading": "Details",
         "nationalSociety": "National Society (NS)",
         "nationalSocietyDescription": "Select National Society that is planning to apply for the EAP",

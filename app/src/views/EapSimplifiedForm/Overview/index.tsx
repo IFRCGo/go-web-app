@@ -1,5 +1,12 @@
-import { useCallback } from 'react';
-import { AddLineIcon } from '@ifrc-go/icons';
+import {
+    useCallback,
+    useMemo,
+} from 'react';
+import { useParams } from 'react-router-dom';
+import {
+    AddLineIcon,
+    ShareLineIcon,
+} from '@ifrc-go/icons';
 import {
     Button,
     Container,
@@ -8,9 +15,14 @@ import {
     Label,
     ListView,
     NumberInput,
+    RawList,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
+import {
+    isDefined,
     isNotDefined,
     randomString,
 } from '@togglecorp/fujs';
@@ -24,11 +36,18 @@ import {
 import ContactInputsSection from '#components/domain/ContactInputsSection';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import EapShareModal from '#components/domain/EapShareModal';
+import UserItem from '#components/domain/EapShareModal/UserItem';
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
+import { type User } from '#components/domain/UserSearchMultiSelectInput';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
-import { type GoApiResponse } from '#utils/restRequest';
+import useInputState from '#hooks/useInputState';
+import {
+    type GoApiResponse,
+    useRequest,
+} from '#utils/restRequest';
 
 import PartnerContactsInput from '../PartnerContactInput';
 import { type PartialSimplifiedEapType } from '../schema';
@@ -49,6 +68,8 @@ interface Props {
     readOnly?: boolean;
 }
 
+const userKeySelector = (item: User) => item.id;
+
 function Overview(props: Props) {
     const {
         value,
@@ -63,6 +84,24 @@ function Overview(props: Props) {
 
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
+    const { eapId } = useParams<{ eapId: string }>();
+    const [eapUsers, setEapUsers] = useInputState<User[] | undefined | null>([]);
+
+    const [showShareModal, {
+        setTrue: setShowShareModalTrue,
+        setFalse: setShowShareModalFalse,
+    }] = useBooleanState(false);
+
+    const {
+        retrigger: getEapUsers,
+    } = useRequest({
+        skip: isNotDefined(eapId),
+        url: '/api/v2/eap-share-users/{id}/',
+        pathVariables: { id: Number(eapId) },
+        onSuccess: (response) => {
+            setEapUsers(response.users_details);
+        },
+    });
 
     const noOp = () => {};
 
@@ -73,6 +112,14 @@ function Overview(props: Props) {
         'partner_contacts',
         setFieldValue,
     );
+
+    const handleUserShareSuccess = useCallback(() => {
+        setShowShareModalFalse();
+        getEapUsers();
+    }, [
+        getEapUsers,
+        setShowShareModalFalse,
+    ]);
 
     const handlePartnerContactAdd = useCallback(() => {
         const newPartnerContactItem: PartnerContactFormFields = {
@@ -86,6 +133,17 @@ function Overview(props: Props) {
             'partner_contacts' as const,
         );
     }, [setFieldValue]);
+
+    const userRendererParams = useCallback((userId: number, user: User) => ({
+        userId,
+        user,
+    }), []);
+
+    const isSharing = useMemo(
+        () => isDefined(eapRegistrationDetail)
+        && isDefined(eapRegistrationDetail.latest_simplified_eap),
+        [eapRegistrationDetail],
+    );
 
     return (
         <TabPage
@@ -112,6 +170,52 @@ function Overview(props: Props) {
                 </ListView>
             )}
         >
+            {isSharing && (
+                <Container
+                    heading={strings.eapFormSharingHeading}
+                    variant="form"
+                >
+                    <InputSection
+                        title={strings.eapShareApplicationLabel}
+                        description={strings.eapShareApplicationDescription}
+                        numPreferredColumns={1}
+                    >
+                        <Container
+                            headerActions={(
+                                <Button
+                                    name={undefined}
+                                    onClick={setShowShareModalTrue}
+                                    before={<ShareLineIcon />}
+                                    disabled={isNotDefined(eapId) || readOnly}
+                                >
+                                    {strings.formShareButtonLabel}
+                                </Button>
+                            )}
+                            emptyMessage={strings.userListEmptyMessage}
+                            empty={!eapUsers || eapUsers.length === 0}
+                        >
+                            <ListView
+                                spacing="sm"
+                                withWrap
+                            >
+                                <RawList
+                                    data={eapUsers}
+                                    renderer={UserItem}
+                                    keySelector={userKeySelector}
+                                    rendererParams={userRendererParams}
+                                />
+                            </ListView>
+                        </Container>
+                        {showShareModal && isDefined(eapId) && (
+                            <EapShareModal
+                                onCancel={setShowShareModalFalse}
+                                onSuccess={handleUserShareSuccess}
+                                eapId={Number(eapId)}
+                            />
+                        )}
+                    </InputSection>
+                </Container>
+            )}
             <Container
                 heading={strings.detailsHeading}
                 variant="form"
