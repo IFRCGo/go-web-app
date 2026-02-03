@@ -38,6 +38,7 @@ import {
 } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 
+import EapShareActions, { type Props as EapShareActionsProps } from './EapShareActions';
 import EapStatus, { type Props as EapStatusProps } from './EapStatus';
 import EapTableActions, { type Props as EapTableActionProps } from './EapTableActions';
 import Filters, { type FilterValue } from './Filters';
@@ -139,6 +140,19 @@ export function Component() {
                     onStatusUpdate: reloadEapList,
                 }),
                 { columnClassName: styles.status },
+            ),
+            createElementColumn<EapListItem, number, EapShareActionsProps>(
+                'actions',
+                '',
+                EapShareActions,
+                (_, item) => ({
+                    id: item.id,
+                    disabled: (item.eap_type === EAP_TYPE_FULL
+                        && isNotDefined(item.latest_full_eap))
+                        || (item.eap_type === EAP_TYPE_SIMPLIFIED
+                            && isNotDefined(item.latest_simplified_eap)),
+                }),
+
             ),
             createExpandColumn<EapListItem, Key>(
                 'expandRow',
@@ -283,6 +297,7 @@ export function Component() {
                     onUpdate: reloadEapList,
                 }),
             ),
+            createEmptyColumn<EapExpandedListItem, string | number>(),
             createEmptyColumn<EapExpandedListItem, string | number>(),
         ]),
         [strings.eapLastUpdated, reloadEapList],

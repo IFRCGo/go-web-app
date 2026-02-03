@@ -8,6 +8,7 @@
         "earlyActionTabLabel": "Early Action Intervention",
         "plannedOperationsTabLabel": "Planned Operations",
         "enablingApproachesTabLabel": "Enabling Approaches",
+        "formShareButtonAriaLabel": "Share EAP",
         "deliveryAndBudgetTabLabel": "Conditions to deliver & budgets",
         "cancelButtonLabel": "Cancel",
         "backButtonLabel": "Back",

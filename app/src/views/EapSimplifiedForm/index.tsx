@@ -9,9 +9,11 @@ import {
     useParams,
     useSearchParams,
 } from 'react-router-dom';
+import { ShareFillIcon } from '@ifrc-go/icons';
 import {
     Alert,
     Button,
+    IconButton,
     InlineLayout,
     ListView,
     Modal,
@@ -21,7 +23,10 @@ import {
     Tabs,
     TopBanner,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import { injectClientId } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -36,6 +41,7 @@ import {
     useForm,
 } from '@togglecorp/toggle-form';
 
+import EapShareModal from '#components/domain/EapShareModal';
 import Link from '#components/Link';
 import Page from '#components/Page';
 import useAlert from '#hooks/useAlert';
@@ -571,6 +577,17 @@ export function Component() {
         setShouldSubmit(false);
     }, [triggerStatusUpdate]);
 
+    const [showShareModal, {
+        setTrue: setShowShareModalTrue,
+        setFalse: setShowShareModalFalse,
+    }] = useBooleanState(false);
+
+    const canShare = useMemo(
+        () => isDefined(eapRegistrationResponse)
+        && isDefined(eapRegistrationResponse.latest_simplified_eap),
+        [eapRegistrationResponse],
+    );
+
     const nextStep = getNextStep(activeTab, 1);
     const prevStep = getNextStep(activeTab, -1);
 
@@ -614,6 +631,17 @@ export function Component() {
                             >
                                 {strings.saveButtonLabel}
                             </Button>
+                            {canShare && (
+                                <IconButton
+                                    name={undefined}
+                                    onClick={setShowShareModalTrue}
+                                    disabled={isNotDefined(eapId) || readOnly}
+                                    title={strings.formShareButtonAriaLabel}
+                                    ariaLabel={strings.formShareButtonAriaLabel}
+                                >
+                                    <ShareFillIcon />
+                                </IconButton>
+                            )}
                         </>
                     ) : (
                         <Link
@@ -808,6 +836,13 @@ export function Component() {
                         )}
                     </ListView>
                 </Modal>
+            )}
+            {showShareModal && isDefined(eapId) && (
+                <EapShareModal
+                    onCancel={setShowShareModalFalse}
+                    onSuccess={setShowShareModalFalse}
+                    eapId={Number(eapId)}
+                />
             )}
         </Tabs>
     );

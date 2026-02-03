@@ -17,7 +17,7 @@ interface Props {
     onUserRemove?: (item: number) => void;
 }
 
-function UserItem(props: Props) {
+function ShareUserItem(props: Props) {
     const {
         userId,
         user,
@@ -33,7 +33,7 @@ function UserItem(props: Props) {
 
     return (
         <ButtonLayout
-            // FIXME: use appropriate component
+        // FIXME: use appropriate component
             readOnly
             spacingOffset={-2}
             spacing="sm"
@@ -54,4 +54,4 @@ function UserItem(props: Props) {
     );
 }
 
-export default UserItem;
+export default ShareUserItem;

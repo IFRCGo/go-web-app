@@ -16,6 +16,7 @@
         "saveButton": "Save",
         "cancelButton": "Cancel",
         "failureMessage": "Sorry could not create a new Full EAP right now!",
+        "formShareButtonAriaLabel": "Share EAP",
         "successMessage": "Successfully created a new Full EAP!",
         "updateFailure": "Sorry could not update Full EAP right now!",
         "updateSuccess": "Successfully updated a new Full EAP!",

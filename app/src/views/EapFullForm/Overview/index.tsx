@@ -19,7 +19,6 @@ import {
     type EntriesAsList,
     type Error,
     getErrorObject,
-    type PartialForm,
     useFormArray,
 } from '@togglecorp/toggle-form';
 
@@ -30,7 +29,7 @@ import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
-import { type GoApiBody } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
@@ -39,8 +38,7 @@ import PartnerContactsInput from './PartnerContactsInput';
 
 import i18n from './i18n.json';
 
-type EapRegisterRequestBody = GoApiBody<'/api/v2/eap-registration/', 'POST'>;
-type RegistrationFormFields = PartialForm<EapRegisterRequestBody>;
+type EapRegisterRequestDetails = GoApiResponse<'/api/v2/eap-registration/{id}/'>;
 type KeyActorsFormFields = NonNullable<
     PartialEapFullFormType['key_actors']
 >[number];
@@ -58,7 +56,7 @@ interface Props {
     setFileIdToUrlMap?: React.Dispatch<
         React.SetStateAction<Record<number, string>>
     >;
-    eapRegistrationDetail?: RegistrationFormFields;
+    eapRegistrationDetail?: EapRegisterRequestDetails;
     readOnly?: boolean;
 }
 
