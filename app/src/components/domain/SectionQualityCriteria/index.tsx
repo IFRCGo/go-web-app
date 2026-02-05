@@ -46,6 +46,7 @@ function SectionQualityCriteria(props: Props) {
                 <Modal
                     onClose={setShowQualityCriteriaFalse}
                     heading={heading}
+                    size="auto"
                 >
                     {content}
                 </Modal>

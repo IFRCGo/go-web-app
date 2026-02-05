@@ -1,23 +1,16 @@
 import { useCallback } from 'react';
-import {
-    AddLineIcon,
-    CheckboxMultipleBlankFillIcon,
-} from '@ifrc-go/icons';
+import { AddLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
-    Heading,
-    InlineLayout,
+    Description,
     InputSection,
+    Label,
     ListView,
-    Modal,
     TextArea,
     TextOutput,
 } from '@ifrc-go/ui';
-import {
-    useBooleanState,
-    useTranslation,
-} from '@ifrc-go/ui/hooks';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     isNotDefined,
     randomString,
@@ -84,14 +77,6 @@ function RiskAnalysis(props: Props) {
         setFieldValue,
     );
 
-    const [
-        showQualityCriteria,
-        {
-            setTrue: setShowQualityCriteriaTrue,
-            setFalse: setShowQualityCriteriaFalse,
-        },
-    ] = useBooleanState(false);
-
     const handleSourceInformationAdd = useCallback(() => {
         const newSourceInformationItem: SourceInformationFormFields = {
             client_id: randomString(),
@@ -121,344 +106,361 @@ function RiskAnalysis(props: Props) {
     }, [setFieldValue]);
 
     return (
-        <TabPage spacingOffset={-6}>
-            <InlineLayout
-                after={(
-                    <Button
-                        name={undefined}
-                        onClick={setShowQualityCriteriaTrue}
-                        after={(<CheckboxMultipleBlankFillIcon />)}
-                    >
-                        {strings.riskSectionCriteriaButtonLabel}
-                    </Button>
-                )}
-            />
-            <Heading variant="form">
-                {strings.riskAnalysisHeading}
-            </Heading>
-            <ListView layout="block" spacing="xs">
-                <InputSection
-                    title={strings.hazardSelectionTitle}
-                    tooltip={(
-                        <ListView layout="block">
-                            <TextOutput
-                                label={strings.riskExplanatoryNoteLabel}
-                                strongLabel
-                                value={strings.hazardSelectionExplanatoryNote}
-                            />
-                            <TextOutput
-                                label={strings.riskRequiredPointsLabel}
-                                strongLabel
-                                value={(
-                                    <ul>
-                                        <li>
-                                            {strings.hazardSelectionRequiredPoint1}
-                                        </li>
-                                        <li>
-                                            {strings.hazardSelectionRequiredPoint2}
-                                        </li>
-                                        <li>
-                                            {strings.hazardSelectionRequiredPoint3}
-                                            <ul>
-                                                <li>
-                                                    {strings.hazardSelectionRequiredPoint31}
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            {strings.hazardSelectionRequiredPoint4}
-                                        </li>
-                                    </ul>
-                                )}
-                            />
-                        </ListView>
-                    )}
-                    description={(
-                        <ul>
-                            <li>{strings.hazardSelectionDescription1}</li>
-                            <li>{strings.hazardSelectionDescription2}</li>
-                            <li>{strings.hazardSelectionDescription3}</li>
-                            <li>{strings.hazardSelectionDescription4}</li>
-                        </ul>
-                    )}
-                    withAsteriskOnTitle
-                >
-                    <TextArea
-                        label={strings.riskDescriptionLabel}
-                        name="hazard_selection"
-                        onChange={setFieldValue}
-                        value={value?.hazard_selection}
-                        error={error?.hazard_selection}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                    <MultiImageWithCaptionInput
-                        name="hazard_selection_images"
-                        url="/api/v2/eap-file/multiple/"
-                        value={value?.hazard_selection_images}
-                        onChange={setFieldValue}
-                        error={getErrorObject(error?.hazard_selection_images)}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        label={strings.attachFilesSelectImagesLabel}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        description={strings.riskAnalysisImagesCountLabel}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.exposeElementTitle}
-                    tooltip={(
-                        <ListView layout="block">
-                            <TextOutput
-                                label={strings.riskExplanatoryNoteLabel}
-                                strongLabel
-                                value={strings.exposeElementExplanatoryNote}
-                            />
-                            <TextOutput
-                                label={strings.riskRequiredPointsLabel}
-                                strongLabel
-                                value={(
-                                    <ul>
-                                        <li>
-                                            {strings.exposeElementRequiredPoint1}
-                                        </li>
-                                        <li>
-                                            {strings.exposeElementRequiredPoint2}
-                                        </li>
-                                        <li>
-                                            {strings.exposeElementRequiredPoint3}
-                                        </li>
-                                        <li>
-                                            {strings.exposeElementRequiredPoint4}
-                                        </li>
-                                        <li>
-                                            {strings.exposeElementRequiredPoint5}
-                                        </li>
-                                    </ul>
-                                )}
-                            />
-                        </ListView>
-                    )}
-                    description={(
-                        <ul>
-                            <li>{strings.exposeElementDescription1}</li>
-                            <li>{strings.exposeElementDescription2}</li>
-                            <li>{strings.exposeElementDescription3}</li>
-                            <li>{strings.exposeElementDescription4}</li>
-                            <li>{strings.exposeElementDescription5}</li>
-                        </ul>
-                    )}
-                    withAsteriskOnTitle
-                >
-                    <TextArea
-                        label={strings.riskDescriptionLabel}
-                        name="exposed_element_and_vulnerability_factor"
-                        onChange={setFieldValue}
-                        value={value?.exposed_element_and_vulnerability_factor}
-                        error={error?.exposed_element_and_vulnerability_factor}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                    <MultiImageWithCaptionInput
-                        name="exposed_element_and_vulnerability_factor_images"
-                        url="/api/v2/eap-file/multiple/"
-                        value={value?.exposed_element_and_vulnerability_factor_images}
-                        onChange={setFieldValue}
-                        error={getErrorObject(error?.hazard_selection_images)}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        label={strings.attachFilesSelectImagesLabel}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        description={strings.riskAnalysisImagesCountLabel}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.prioritisedImpactTitle}
-                    tooltip={(
-                        <TextOutput
-                            label={strings.riskExplanatoryNoteLabel}
-                            strongLabel
-                            value={strings.prioritisedImpactExplanatoryNote}
-                        />
-                    )}
-                    description={strings.prioritisedImpactDescription}
-                    withAsteriskOnTitle
-                >
-                    <Container
-                        heading={strings.prioritisedImpactsLabel}
-                        headingLevel={6}
-                        headerDescription={(
-                            <NonFieldError
-                                error={getErrorObject(error?.prioritized_impacts)}
-                            />
-                        )}
-                        withPadding
-                        withBorder
-                        empty={isNotDefined(value.prioritized_impacts)
-                            || value.prioritized_impacts.length === 0}
-                        emptyMessage={strings.prioritizedImpactsEmptyMessage}
-                        withCompactMessage
-                    >
-                        <ListView layout="block">
-                            {value?.prioritized_impacts?.map((impact, index) => (
-                                <PrioritisedImpactInput
-                                    key={impact.client_id}
-                                    index={index}
-                                    value={impact}
-                                    onChange={onPrioritizedChange}
-                                    onRemove={onPrioritizedRemove}
-                                    error={getErrorObject(error?.prioritized_impacts)}
-                                    disabled={disabled}
-                                    readOnly={readOnly}
+        <TabPage
+            sectionCriteriaHeading={strings.riskAnalysisSectionHeading}
+            sectionCriteriaContent={(
+                <ListView layout="block">
+                    <Label strong>
+                        {strings.riskSectionCriteriaIntroduction1}
+                    </Label>
+                    <ListView spacing="xs" layout="block">
+                        <Description>
+                            {strings.riskSectionCriteriaComment11}
+                        </Description>
+                        <Description>
+                            {strings.riskSectionCriteriaComment12}
+                        </Description>
+                        <Description>
+                            {strings.riskSectionCriteriaComment13}
+                        </Description>
+                        <Description>
+                            {strings.riskSectionCriteriaComment14}
+                        </Description>
+                    </ListView>
+                    <Label strong>
+                        {strings.riskSectionCriteriaIntroduction2}
+                    </Label>
+                    <ListView spacing="xs" layout="block">
+                        <Description>
+                            {strings.riskSectionCriteriaComment21}
+                        </Description>
+                        <Description>
+                            {strings.riskSectionCriteriaComment22}
+                        </Description>
+                    </ListView>
+                    <Label strong>
+                        {strings.riskSectionCriteriaIntroduction3}
+                    </Label>
+                    <ListView spacing="xs" layout="block">
+                        <Description>
+                            {strings.riskSectionCriteriaComment31}
+                        </Description>
+                        <Description>
+                            {strings.riskSectionCriteriaComment32}
+                        </Description>
+                    </ListView>
+                    <Label strong>
+                        {strings.riskSectionCriteriaIntroduction4}
+                    </Label>
+                    <ListView spacing="xs" layout="block">
+                        <Description>
+                            {strings.riskSectionCriteriaComment41}
+                        </Description>
+                        <Description>
+                            {strings.riskSectionCriteriaComment42}
+                        </Description>
+                    </ListView>
+                    <Label strong>
+                        {strings.riskSectionCriteriaIntroduction5}
+                    </Label>
+                    <Description>
+                        {strings.riskSectionCriteriaComment5}
+                    </Description>
+                    <Label strong>
+                        {strings.riskSectionCriteriaIntroduction6}
+                    </Label>
+                    <Description>
+                        <ol>
+                            <li>{strings.riskSectionCriteriaIntroduction61}</li>
+                            <li>{strings.riskSectionCriteriaIntroduction62}</li>
+                            <li>{strings.riskSectionCriteriaIntroduction63}</li>
+                        </ol>
+                    </Description>
+                    <ListView spacing="xs" layout="block">
+                        <Description>
+                            {strings.riskSectionCriteriaComment61}
+                        </Description>
+                        <Description>
+                            {strings.riskSectionCriteriaComment62}
+                        </Description>
+                        <Description>
+                            {strings.riskSectionCriteriaComment63}
+                        </Description>
+                        <Description>
+                            {strings.riskSectionCriteriaComment64}
+                        </Description>
+                    </ListView>
+                </ListView>
+            )}
+        >
+            <Container
+                heading={strings.riskAnalysisHeading}
+                variant="form"
+            >
+                <ListView layout="block" spacing="sm">
+                    <InputSection
+                        title={strings.hazardSelectionTitle}
+                        tooltip={(
+                            <ListView layout="block">
+                                <TextOutput
+                                    label={strings.riskExplanatoryNoteLabel}
+                                    strongLabel
+                                    value={strings.hazardSelectionExplanatoryNote}
                                 />
-                            ))}
-                        </ListView>
-                    </Container>
-                    <Button
-                        name={undefined}
-                        onClick={handlePrioritizedImpactAdd}
-                        disabled={disabled}
-                        before={<AddLineIcon />}
+                                <TextOutput
+                                    label={strings.riskRequiredPointsLabel}
+                                    strongLabel
+                                    value={(
+                                        <ul>
+                                            <li>
+                                                {strings.hazardSelectionRequiredPoint1}
+                                            </li>
+                                            <li>
+                                                {strings.hazardSelectionRequiredPoint2}
+                                            </li>
+                                            <li>
+                                                {strings.hazardSelectionRequiredPoint3}
+                                                <ul>
+                                                    <li>
+                                                        {strings.hazardSelectionRequiredPoint31}
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                {strings.hazardSelectionRequiredPoint4}
+                                            </li>
+                                        </ul>
+                                    )}
+                                />
+                            </ListView>
+                        )}
+                        description={(
+                            <ul>
+                                <li>{strings.hazardSelectionDescription1}</li>
+                                <li>{strings.hazardSelectionDescription2}</li>
+                                <li>{strings.hazardSelectionDescription3}</li>
+                                <li>{strings.hazardSelectionDescription4}</li>
+                            </ul>
+                        )}
+                        withAsteriskOnTitle
                     >
-                        {strings.addButtonLabel}
-                    </Button>
-                    <TextArea
-                        label={strings.riskDescriptionLabel}
-                        name="prioritized_impact"
-                        onChange={setFieldValue}
-                        value={value?.prioritized_impact}
-                        error={error?.prioritized_impact}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                    <MultiImageWithCaptionInput
-                        name="prioritized_impact_images"
-                        url="/api/v2/eap-file/multiple/"
-                        value={value?.prioritized_impact_images}
-                        onChange={setFieldValue}
-                        error={getErrorObject(error?.hazard_selection_images)}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        label={strings.attachFilesSelectImagesLabel}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        description={strings.riskAnalysisImagesCountLabel}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.attachFilesTitle}
-                    description={strings.attachFilesDescription}
-                >
-                    <GoMultiFileInput
-                        name="risk_analysis_relevant_files"
-                        accept=".pdf, .docx, .pptx"
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        onChange={setFieldValue}
-                        url="/api/v2/eap-file/multiple/"
-                        value={value.risk_analysis_relevant_files}
-                        error={getErrorString(error?.risk_analysis_relevant_files)}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        clearable
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        useCurrentLanguageForMutation
-                    >
-                        {strings.attachFilesUploadLabel}
-                    </GoMultiFileInput>
-                </InputSection>
-                <InputSection
-                    title={strings.sourceOfInformationTitle}
-                    description={strings.sourceOfInformationDescription}
-                >
-                    <NonFieldError
-                        error={getErrorObject(error?.risk_analysis_source_of_information)}
-                    />
-                    {value.risk_analysis_source_of_information?.map((source, index) => (
-                        <EAPSourceInformationInput
-                            key={source.client_id}
-                            index={index}
-                            value={source}
-                            onChange={onRiskSourceInformationChange}
-                            onRemove={onRiskSourceInformationRemove}
-                            error={getErrorObject(
-                                error?.risk_analysis_source_of_information,
-                            )}
+                        <TextArea
+                            label={strings.riskDescriptionLabel}
+                            name="hazard_selection"
+                            onChange={setFieldValue}
+                            value={value?.hazard_selection}
+                            error={error?.hazard_selection}
                             disabled={disabled}
                             readOnly={readOnly}
                         />
-                    ))}
-                    <Button
-                        name={undefined}
-                        onClick={handleSourceInformationAdd}
-                        disabled={disabled || readOnly}
-                        before={<AddLineIcon />}
+                        <MultiImageWithCaptionInput
+                            name="hazard_selection_images"
+                            url="/api/v2/eap-file/multiple/"
+                            value={value?.hazard_selection_images}
+                            onChange={setFieldValue}
+                            error={getErrorObject(error?.hazard_selection_images)}
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            label={strings.attachFilesSelectImagesLabel}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            description={strings.riskAnalysisImagesCountLabel}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.exposeElementTitle}
+                        tooltip={(
+                            <ListView layout="block">
+                                <TextOutput
+                                    label={strings.riskExplanatoryNoteLabel}
+                                    strongLabel
+                                    value={strings.exposeElementExplanatoryNote}
+                                />
+                                <TextOutput
+                                    label={strings.riskRequiredPointsLabel}
+                                    strongLabel
+                                    value={(
+                                        <ul>
+                                            <li>
+                                                {strings.exposeElementRequiredPoint1}
+                                            </li>
+                                            <li>
+                                                {strings.exposeElementRequiredPoint2}
+                                            </li>
+                                            <li>
+                                                {strings.exposeElementRequiredPoint3}
+                                            </li>
+                                            <li>
+                                                {strings.exposeElementRequiredPoint4}
+                                            </li>
+                                            <li>
+                                                {strings.exposeElementRequiredPoint5}
+                                            </li>
+                                        </ul>
+                                    )}
+                                />
+                            </ListView>
+                        )}
+                        description={(
+                            <ul>
+                                <li>{strings.exposeElementDescription1}</li>
+                                <li>{strings.exposeElementDescription2}</li>
+                                <li>{strings.exposeElementDescription3}</li>
+                                <li>{strings.exposeElementDescription4}</li>
+                                <li>{strings.exposeElementDescription5}</li>
+                            </ul>
+                        )}
+                        withAsteriskOnTitle
                     >
-                        {strings.addButtonLabel}
-                    </Button>
-                </InputSection>
-            </ListView>
-            {showQualityCriteria && (
-                <Modal
-                    onClose={setShowQualityCriteriaFalse}
-                    heading={strings.riskAnalysisSectionHeading}
-                >
-                    <ListView layout="block">
-                        <TextOutput
-                            label={strings.riskSectionCriteriaIntroduction1}
-                            value={strings.riskSectionCriteriaComment1}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
+                        <TextArea
+                            label={strings.riskDescriptionLabel}
+                            name="exposed_element_and_vulnerability_factor"
+                            onChange={setFieldValue}
+                            value={value?.exposed_element_and_vulnerability_factor}
+                            error={error?.exposed_element_and_vulnerability_factor}
+                            disabled={disabled}
+                            readOnly={readOnly}
                         />
-                        <TextOutput
-                            label={strings.riskSectionCriteriaIntroduction2}
-                            value={strings.riskSectionCriteriaComment2}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
+                        <MultiImageWithCaptionInput
+                            name="exposed_element_and_vulnerability_factor_images"
+                            url="/api/v2/eap-file/multiple/"
+                            value={value?.exposed_element_and_vulnerability_factor_images}
+                            onChange={setFieldValue}
+                            error={getErrorObject(error?.hazard_selection_images)}
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            label={strings.attachFilesSelectImagesLabel}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            description={strings.riskAnalysisImagesCountLabel}
                         />
-                        <TextOutput
-                            label={strings.riskSectionCriteriaIntroduction3}
-                            value={strings.riskSectionCriteriaComment3}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
-                        />
-                        <TextOutput
-                            label={strings.riskSectionCriteriaIntroduction4}
-                            value={strings.riskSectionCriteriaComment4}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
-                        />
-                        <TextOutput
-                            label={strings.riskSectionCriteriaIntroduction5}
-                            value={strings.riskSectionCriteriaComment5}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
-                        />
-                        <TextOutput
-                            label={(
-                                <>
-                                    {strings.riskSectionCriteriaIntroduction6}
-                                    <ol>
-                                        <li>{strings.riskSectionCriteriaIntroduction61}</li>
-                                        <li>{strings.riskSectionCriteriaIntroduction62}</li>
-                                        <li>{strings.riskSectionCriteriaIntroduction63}</li>
-                                    </ol>
-                                </>
+                    </InputSection>
+                    <InputSection
+                        title={strings.prioritisedImpactTitle}
+                        tooltip={(
+                            <TextOutput
+                                label={strings.riskExplanatoryNoteLabel}
+                                strongLabel
+                                value={strings.prioritisedImpactExplanatoryNote}
+                            />
+                        )}
+                        description={strings.prioritisedImpactDescription}
+                        withAsteriskOnTitle
+                    >
+                        <Container
+                            heading={strings.prioritisedImpactsLabel}
+                            headingLevel={6}
+                            headerDescription={(
+                                <NonFieldError
+                                    error={getErrorObject(error?.prioritized_impacts)}
+                                />
                             )}
-                            value={strings.riskSectionCriteriaComment6}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
+                            withPadding
+                            withBorder
+                            empty={isNotDefined(value.prioritized_impacts)
+                                || value.prioritized_impacts.length === 0}
+                            emptyMessage={strings.prioritizedImpactsEmptyMessage}
+                            withCompactMessage
+                        >
+                            <ListView layout="block">
+                                {value?.prioritized_impacts?.map((impact, index) => (
+                                    <PrioritisedImpactInput
+                                        key={impact.client_id}
+                                        index={index}
+                                        value={impact}
+                                        onChange={onPrioritizedChange}
+                                        onRemove={onPrioritizedRemove}
+                                        error={getErrorObject(error?.prioritized_impacts)}
+                                        disabled={disabled}
+                                        readOnly={readOnly}
+                                    />
+                                ))}
+                            </ListView>
+                        </Container>
+                        <Button
+                            name={undefined}
+                            onClick={handlePrioritizedImpactAdd}
+                            disabled={disabled}
+                            before={<AddLineIcon />}
+                        >
+                            {strings.addButtonLabel}
+                        </Button>
+                        <TextArea
+                            label={strings.riskDescriptionLabel}
+                            name="prioritized_impact"
+                            onChange={setFieldValue}
+                            value={value?.prioritized_impact}
+                            error={error?.prioritized_impact}
+                            disabled={disabled}
+                            readOnly={readOnly}
                         />
-                    </ListView>
-                </Modal>
-            )}
+                        <MultiImageWithCaptionInput
+                            name="prioritized_impact_images"
+                            url="/api/v2/eap-file/multiple/"
+                            value={value?.prioritized_impact_images}
+                            onChange={setFieldValue}
+                            error={getErrorObject(error?.hazard_selection_images)}
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            label={strings.attachFilesSelectImagesLabel}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            description={strings.riskAnalysisImagesCountLabel}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.attachFilesTitle}
+                        description={strings.attachFilesDescription}
+                    >
+                        <GoMultiFileInput
+                            name="risk_analysis_relevant_files"
+                            accept=".pdf, .docx, .pptx"
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            onChange={setFieldValue}
+                            url="/api/v2/eap-file/multiple/"
+                            value={value.risk_analysis_relevant_files}
+                            error={getErrorString(error?.risk_analysis_relevant_files)}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            clearable
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            useCurrentLanguageForMutation
+                        >
+                            {strings.attachFilesUploadLabel}
+                        </GoMultiFileInput>
+                    </InputSection>
+                    <InputSection
+                        title={strings.sourceOfInformationTitle}
+                        description={strings.sourceOfInformationDescription}
+                    >
+                        <NonFieldError
+                            error={getErrorObject(error?.risk_analysis_source_of_information)}
+                        />
+                        {value.risk_analysis_source_of_information?.map((source, index) => (
+                            <EAPSourceInformationInput
+                                key={source.client_id}
+                                index={index}
+                                value={source}
+                                onChange={onRiskSourceInformationChange}
+                                onRemove={onRiskSourceInformationRemove}
+                                error={getErrorObject(
+                                    error?.risk_analysis_source_of_information,
+                                )}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                            />
+                        ))}
+                        <Button
+                            name={undefined}
+                            onClick={handleSourceInformationAdd}
+                            disabled={disabled || readOnly}
+                            before={<AddLineIcon />}
+                        >
+                            {strings.addButtonLabel}
+                        </Button>
+                    </InputSection>
+                </ListView>
+            </Container>
         </TabPage>
     );
 }

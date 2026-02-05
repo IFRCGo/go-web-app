@@ -38,7 +38,6 @@
         "financeEapEndorsementExplanatoryNote": "It should be ensured that at the point of the trigger being reached no further permissions are needed. Thus, the EAP should have prior approval from all relevant stakeholders. The EAP must be endorsed by the leadership of the submitting NS. The EAP should also be endorsed by other key relevant stakeholders, such as the NHMS and the respective DRM authorities. If technical working groups have been created for FbF, their members should also endorse the final version of the EAP before submission.",
         "financeEapEndorsementDescription": "Describe by whom, how and when the EAP was agreed and endorsed.",
         "updatedChecklistTitle": "Updated checklist",
-        "financeCriteriaButtonLabel": "Section quality criteria",
         "financeSectionHeading": "Quality Criteria: Finance and logistics",
         "financeCriteriaIntroduction11": "The EAP includes a budget in the IFRC template, detailing the costs for the readiness activities, pre-positioning and trigger-based Early Action.",
         "financeCriteriaIntroduction12": "The budget upholds to the established percentages: A maximum of 65% of the EAP budget can be allocated for readiness activities and prepositioned stock.",

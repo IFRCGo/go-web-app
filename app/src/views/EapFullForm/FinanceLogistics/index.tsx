@@ -1,20 +1,15 @@
 import { useCallback } from 'react';
-import { CheckboxMultipleBlankFillIcon } from '@ifrc-go/icons';
 import {
-    Button,
-    Heading,
-    InlineLayout,
+    Container,
+    Description,
     InputSection,
+    Label,
     ListView,
-    Modal,
     NumberInput,
     TextArea,
     TextOutput,
 } from '@ifrc-go/ui';
-import {
-    useBooleanState,
-    useTranslation,
-} from '@ifrc-go/ui/hooks';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import { sumSafe } from '@ifrc-go/ui/utils';
 import {
     type EntriesAsList,
@@ -63,14 +58,6 @@ function FinanceLogistics(props: Props) {
     const error = getErrorObject(formError);
     const strings = useTranslation(i18n);
 
-    const [
-        showQualityCriteria,
-        {
-            setTrue: setShowQualityCriteriaTrue,
-            setFalse: setShowQualityCriteriaFalse,
-        },
-    ] = useBooleanState(false);
-
     const { response: templateUrl } = useRequest({
         url: '/api/v2/eap/global-files/{template_type}/',
         pathVariables: {
@@ -109,264 +96,296 @@ function FinanceLogistics(props: Props) {
     );
 
     return (
-        <TabPage spacingOffset={-6}>
-            <InlineLayout
-                after={(
-                    <Button
-                        name={undefined}
-                        onClick={setShowQualityCriteriaTrue}
-                        after={<CheckboxMultipleBlankFillIcon />}
+        <TabPage
+            spacingOffset={-6}
+            sectionCriteriaHeading={strings.financeSectionHeading}
+            sectionCriteriaContent={(
+                <ListView layout="block">
+                    <ListView spacing="xs" layout="block">
+                        <Label strong>
+                            {strings.financeCriteriaIntroduction11}
+                        </Label>
+                        <Label>
+                            {strings.financeCriteriaIntroduction12}
+                        </Label>
+                    </ListView>
+                    <Description>
+                        {strings.financeCriteriaComment1}
+                    </Description>
+                    <Label strong>
+                        {strings.financeCriteriaIntroduction2}
+                    </Label>
+                    <Description>
+                        {strings.financeCriteriaComment2}
+                    </Description>
+                    <ListView spacing="xs" layout="block">
+                        <Label strong>
+                            {strings.financeCriteriaIntroduction31}
+                        </Label>
+                        <Label>
+                            {strings.financeCriteriaIntroduction32}
+                        </Label>
+                    </ListView>
+                    <Description>
+                        {strings.financeCriteriaComment3}
+                    </Description>
+                </ListView>
+            )}
+        >
+            <Container
+                heading={strings.financeHeading}
+                variant="form"
+            >
+                <ListView layout="block" spacing="sm">
+                    <InputSection
+                        title={strings.financeBudgetTitle}
+                        tooltip={(
+                            <TextOutput
+                                strongLabel
+                                label={strings.financeExplanatoryNoteLabel}
+                                value={strings.financeExplanatoryNote}
+                            />
+                        )}
+                        description={(
+                            <ul>
+                                <li>{strings.financeBudgetDescription1}</li>
+                                <li>{strings.financeBudgetDescription2}</li>
+                                <li>{strings.financeBudgetDescription3}</li>
+                                <li>{strings.financeBudgetDescription4}</li>
+                            </ul>
+                        )}
+                        withAsteriskOnTitle
                     >
-                        {strings.financeCriteriaButtonLabel}
-                    </Button>
-                )}
-            />
-            <ListView layout="block" spacing="xs">
-                <Heading variant="form">{strings.financeHeading}</Heading>
-                <InputSection
-                    title={strings.financeBudgetTitle}
-                    tooltip={(
-                        <TextOutput
-                            strongLabel
-                            label={strings.financeExplanatoryNoteLabel}
-                            value={strings.financeExplanatoryNote}
+                        <NumberInput
+                            label={strings.financeTotalBudgetLabel}
+                            name="total_budget"
+                            value={value.total_budget}
+                            error={error?.total_budget}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            readOnly
+                            required
                         />
-                    )}
-                    description={(
-                        <ul>
-                            <li>{strings.financeBudgetDescription1}</li>
-                            <li>{strings.financeBudgetDescription2}</li>
-                            <li>{strings.financeBudgetDescription3}</li>
-                            <li>{strings.financeBudgetDescription4}</li>
-                        </ul>
-                    )}
-                    withAsteriskOnTitle
-                >
-                    <NumberInput
-                        label={strings.financeTotalBudgetLabel}
-                        name="total_budget"
-                        value={value.total_budget}
-                        error={error?.total_budget}
-                        onChange={setFieldValue}
-                        disabled={disabled}
-                        readOnly
-                        required
-                    />
-                    <TextArea
-                        label={strings.financeDescriptionLabel}
-                        name="budget_description"
-                        value={value?.budget_description}
-                        error={error?.budget_description}
-                        onChange={setFieldValue}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                </InputSection>
-                <InputSection
-                    description={(
-                        <Link external href={templateUrl?.url} withUnderline withLinkIcon>
-                            {strings.financeDownloadDescription}
-                        </Link>
-                    )}
-                >
-                    <GoSingleFileInput
-                        name="budget_file"
-                        accept=".xlsx, .xlsm"
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        onChange={setFieldValue}
-                        url="/api/v2/eap-file/"
-                        value={value?.budget_file}
-                        error={getErrorString(error?.budget_file)}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        required
-                        clearable
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        useCurrentLanguageForMutation
-                        label={strings.financeUploadBudgetLabel}
+                        <TextArea
+                            label={strings.financeDescriptionLabel}
+                            name="budget_description"
+                            value={value?.budget_description}
+                            error={error?.budget_description}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    </InputSection>
+                    <InputSection
+                        description={(
+                            <Link external href={templateUrl?.url} withUnderline withLinkIcon>
+                                {strings.financeDownloadDescription}
+                            </Link>
+                        )}
                     >
-                        {strings.financeUploadButtonLabel}
-                    </GoSingleFileInput>
-                </InputSection>
-                <InputSection
-                    title={strings.financeReadinessCostTitle}
-                    tooltip={(
-                        <ListView layout="block">
-                            <TextOutput
-                                strongLabel
-                                label={strings.financeExplanatoryNoteLabel}
-                                value={strings.financeReadinessCostExplanatoryNote}
-                            />
-                            <TextOutput
-                                strongLabel
-                                label={strings.financeRequiredPointsLabel}
-                                value={(
-                                    <ul>
-                                        <li>{strings.financeReadinessCostDescription1}</li>
-                                        <li>{strings.financeReadinessCostDescription2}</li>
-                                    </ul>
-                                )}
-                            />
-                        </ListView>
-                    )}
-                    description={(
-                        <ul>
-                            <li>{strings.financeReadinessCostDescription1}</li>
-                            <li>{strings.financeReadinessCostDescription2}</li>
-                        </ul>
-                    )}
-                    withAsteriskOnTitle
-                >
-                    <NumberInput
-                        label={strings.financeReadinessBudgetLabel}
-                        name="readiness_budget"
-                        value={value?.readiness_budget}
-                        error={error?.readiness_budget}
-                        onChange={setBudgetValue}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        required
-                    />
-                    <TextArea
-                        label={strings.financeDescriptionLabel}
-                        name="readiness_cost_description"
-                        value={value?.readiness_cost_description}
-                        error={error?.readiness_cost_description}
-                        onChange={setFieldValue}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.financePrePositioningTitle}
-                    tooltip={(
-                        <ListView layout="block">
-                            <TextOutput
-                                strongLabel
-                                label={strings.financeExplanatoryNoteLabel}
-                                value={strings.financePrePositioningExplanatoryNote}
-                            />
-                            <TextOutput
-                                strongLabel
-                                label={strings.financeRequiredPointsLabel}
-                                value={(
-                                    <ul>
-                                        <li>{strings.financePrePositioningDescription1}</li>
-                                        <li>{strings.financePrePositioningDescription2}</li>
-                                        <li>{strings.financePrePositioningDescription3}</li>
-                                    </ul>
-                                )}
-                            />
-                        </ListView>
-                    )}
-                    description={(
-                        <ul>
-                            <li>{strings.financePrePositioningDescription1}</li>
-                            <li>{strings.financePrePositioningDescription2}</li>
-                            <li>{strings.financePrePositioningDescription3}</li>
-                        </ul>
-                    )}
-                    withAsteriskOnTitle
-                >
-                    <NumberInput
-                        label={strings.financePrePositioningBudgetLabel}
-                        name="pre_positioning_budget"
-                        value={value?.pre_positioning_budget}
-                        error={error?.pre_positioning_budget}
-                        onChange={setBudgetValue}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        required
-                    />
-                    <TextArea
-                        label={strings.financeDescriptionLabel}
-                        name="prepositioning_cost_description"
-                        value={value?.prepositioning_cost_description}
-                        error={error?.prepositioning_cost_description}
-                        onChange={setFieldValue}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.financeEarlyActionCostTitle}
-                    tooltip={(
-                        <ListView layout="block">
-                            <TextOutput
-                                strongLabel
-                                label={strings.financeExplanatoryNoteLabel}
-                                value={strings.financeEarlyActionCostExplanatoryNote}
-                            />
-                            <TextOutput
-                                strongLabel
-                                label={strings.financeRequiredPointsLabel}
-                                value={(
-                                    <ul>
-                                        <li>{strings.financeEarlyActionCostDescription1}</li>
-                                        <li>{strings.financeEarlyActionCostDescription2}</li>
-                                        <li>{strings.financeEarlyActionCostDescription3}</li>
-                                        <li>{strings.financeEarlyActionCostDescription4}</li>
-                                    </ul>
-                                )}
-                            />
-                        </ListView>
-                    )}
-                    description={(
-                        <ul>
-                            <li>{strings.financeEarlyActionCostDescription1}</li>
-                            <li>{strings.financeEarlyActionCostDescription2}</li>
-                            <li>{strings.financeEarlyActionCostDescription3}</li>
-                            <li>{strings.financeEarlyActionCostDescription4}</li>
-                        </ul>
-                    )}
-                    withAsteriskOnTitle
-                >
-                    <NumberInput
-                        label={strings.financeEarlyActionBudgetLabel}
-                        name="early_action_budget"
-                        value={value?.early_action_budget}
-                        error={error?.early_action_budget}
-                        onChange={setBudgetValue}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        required
-                    />
-                    <TextArea
-                        label={strings.financeDescriptionLabel}
-                        name="early_action_cost_description"
-                        value={value?.early_action_cost_description}
-                        error={error?.early_action_cost_description}
-                        onChange={setFieldValue}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                </InputSection>
-            </ListView>
-            <ListView layout="block" spacing="xs">
-                <Heading variant="form">{strings.financeEapEndorsementHeading}</Heading>
-                <InputSection
-                    title={strings.financeEapEndorsementTitle}
-                    tooltip={(
-                        <TextOutput
-                            strongLabel
-                            label={strings.financeExplanatoryNoteLabel}
-                            value={strings.financeEapEndorsementExplanatoryNote}
+                        <GoSingleFileInput
+                            name="budget_file"
+                            accept=".xlsx, .xlsm"
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            onChange={setFieldValue}
+                            url="/api/v2/eap-file/"
+                            value={value?.budget_file}
+                            error={getErrorString(error?.budget_file)}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            required
+                            clearable
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            useCurrentLanguageForMutation
+                            label={strings.financeUploadBudgetLabel}
+                        >
+                            {strings.financeUploadButtonLabel}
+                        </GoSingleFileInput>
+                    </InputSection>
+                    <InputSection
+                        title={strings.financeReadinessCostTitle}
+                        tooltip={(
+                            <ListView layout="block">
+                                <TextOutput
+                                    strongLabel
+                                    label={strings.financeExplanatoryNoteLabel}
+                                    value={strings.financeReadinessCostExplanatoryNote}
+                                />
+                                <TextOutput
+                                    strongLabel
+                                    label={strings.financeRequiredPointsLabel}
+                                    value={(
+                                        <ul>
+                                            <li>{strings.financeReadinessCostDescription1}</li>
+                                            <li>{strings.financeReadinessCostDescription2}</li>
+                                        </ul>
+                                    )}
+                                />
+                            </ListView>
+                        )}
+                        description={(
+                            <ul>
+                                <li>{strings.financeReadinessCostDescription1}</li>
+                                <li>{strings.financeReadinessCostDescription2}</li>
+                            </ul>
+                        )}
+                        withAsteriskOnTitle
+                    >
+                        <NumberInput
+                            label={strings.financeReadinessBudgetLabel}
+                            name="readiness_budget"
+                            value={value?.readiness_budget}
+                            error={error?.readiness_budget}
+                            onChange={setBudgetValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            required
                         />
-                    )}
-                    description={strings.financeEapEndorsementDescription}
-                    withAsteriskOnTitle
-                >
-                    <TextArea
-                        label={strings.financeDescriptionLabel}
-                        name="eap_endorsement"
-                        value={value?.eap_endorsement}
-                        error={error?.eap_endorsement}
-                        onChange={setFieldValue}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                </InputSection>
-            </ListView>
+                        <TextArea
+                            label={strings.financeDescriptionLabel}
+                            name="readiness_cost_description"
+                            value={value?.readiness_cost_description}
+                            error={error?.readiness_cost_description}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.financePrePositioningTitle}
+                        tooltip={(
+                            <ListView layout="block">
+                                <TextOutput
+                                    strongLabel
+                                    label={strings.financeExplanatoryNoteLabel}
+                                    value={strings.financePrePositioningExplanatoryNote}
+                                />
+                                <TextOutput
+                                    strongLabel
+                                    label={strings.financeRequiredPointsLabel}
+                                    value={(
+                                        <ul>
+                                            <li>{strings.financePrePositioningDescription1}</li>
+                                            <li>{strings.financePrePositioningDescription2}</li>
+                                            <li>{strings.financePrePositioningDescription3}</li>
+                                        </ul>
+                                    )}
+                                />
+                            </ListView>
+                        )}
+                        description={(
+                            <ul>
+                                <li>{strings.financePrePositioningDescription1}</li>
+                                <li>{strings.financePrePositioningDescription2}</li>
+                                <li>{strings.financePrePositioningDescription3}</li>
+                            </ul>
+                        )}
+                        withAsteriskOnTitle
+                    >
+                        <NumberInput
+                            label={strings.financePrePositioningBudgetLabel}
+                            name="pre_positioning_budget"
+                            value={value?.pre_positioning_budget}
+                            error={error?.pre_positioning_budget}
+                            onChange={setBudgetValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            required
+                        />
+                        <TextArea
+                            label={strings.financeDescriptionLabel}
+                            name="prepositioning_cost_description"
+                            value={value?.prepositioning_cost_description}
+                            error={error?.prepositioning_cost_description}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.financeEarlyActionCostTitle}
+                        tooltip={(
+                            <ListView layout="block">
+                                <TextOutput
+                                    strongLabel
+                                    label={strings.financeExplanatoryNoteLabel}
+                                    value={strings.financeEarlyActionCostExplanatoryNote}
+                                />
+                                <TextOutput
+                                    strongLabel
+                                    label={strings.financeRequiredPointsLabel}
+                                    value={(
+                                        <ul>
+                                            <li>{strings.financeEarlyActionCostDescription1}</li>
+                                            <li>{strings.financeEarlyActionCostDescription2}</li>
+                                            <li>{strings.financeEarlyActionCostDescription3}</li>
+                                            <li>{strings.financeEarlyActionCostDescription4}</li>
+                                        </ul>
+                                    )}
+                                />
+                            </ListView>
+                        )}
+                        description={(
+                            <ul>
+                                <li>{strings.financeEarlyActionCostDescription1}</li>
+                                <li>{strings.financeEarlyActionCostDescription2}</li>
+                                <li>{strings.financeEarlyActionCostDescription3}</li>
+                                <li>{strings.financeEarlyActionCostDescription4}</li>
+                            </ul>
+                        )}
+                        withAsteriskOnTitle
+                    >
+                        <NumberInput
+                            label={strings.financeEarlyActionBudgetLabel}
+                            name="early_action_budget"
+                            value={value?.early_action_budget}
+                            error={error?.early_action_budget}
+                            onChange={setBudgetValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            required
+                        />
+                        <TextArea
+                            label={strings.financeDescriptionLabel}
+                            name="early_action_cost_description"
+                            value={value?.early_action_cost_description}
+                            error={error?.early_action_cost_description}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    </InputSection>
+                </ListView>
+            </Container>
+            <Container
+                heading={strings.financeEapEndorsementHeading}
+                variant="form"
+            >
+                <ListView layout="block" spacing="sm">
+                    <InputSection
+                        title={strings.financeEapEndorsementTitle}
+                        tooltip={(
+                            <TextOutput
+                                strongLabel
+                                label={strings.financeExplanatoryNoteLabel}
+                                value={strings.financeEapEndorsementExplanatoryNote}
+                            />
+                        )}
+                        description={strings.financeEapEndorsementDescription}
+                        withAsteriskOnTitle
+                    >
+                        <TextArea
+                            label={strings.financeDescriptionLabel}
+                            name="eap_endorsement"
+                            value={value?.eap_endorsement}
+                            error={error?.eap_endorsement}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    </InputSection>
+                </ListView>
+            </Container>
             {isRevision && (
                 <InputSection title={strings.updatedChecklistTitle}>
                     <GoSingleFileInput
@@ -385,48 +404,6 @@ function FinanceLogistics(props: Props) {
                         {strings.financeUploadButtonLabel}
                     </GoSingleFileInput>
                 </InputSection>
-            )}
-            {showQualityCriteria && (
-                <Modal
-                    onClose={setShowQualityCriteriaFalse}
-                    heading={strings.financeSectionHeading}
-                >
-                    <ListView layout="block">
-                        <TextOutput
-                            label={(
-                                <>
-                                    {strings.financeCriteriaIntroduction11}
-                                    <br />
-                                    {strings.financeCriteriaIntroduction12}
-                                </>
-                            )}
-                            value={strings.financeCriteriaComment1}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
-                        />
-                        <TextOutput
-                            label={strings.financeCriteriaIntroduction2}
-                            value={strings.financeCriteriaComment2}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
-                        />
-                        <TextOutput
-                            label={(
-                                <>
-                                    {strings.financeCriteriaIntroduction31}
-                                    <br />
-                                    {strings.financeCriteriaIntroduction32}
-                                </>
-                            )}
-                            value={strings.financeCriteriaComment3}
-                            strongLabel
-                            valueType="text"
-                            withoutLabelColon
-                        />
-                    </ListView>
-                </Modal>
             )}
         </TabPage>
     );
