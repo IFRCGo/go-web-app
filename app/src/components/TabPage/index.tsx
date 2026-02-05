@@ -4,6 +4,7 @@ import {
 } from '@ifrc-go/ui';
 import { isDefined } from '@togglecorp/fujs';
 
+import SectionQualityCriteria from '#components/domain/SectionQualityCriteria';
 import WikiLink from '#components/WikiLink';
 
 import styles from './styles.module.css';
@@ -26,6 +27,8 @@ interface Props {
     withCompactMessage?: boolean;
 
     spacingOffset?: number;
+    sectionCriteriaHeading?: string;
+    sectionCriteriaContent?: React.ReactNode;
 }
 
 function TabPage(props: Props) {
@@ -33,6 +36,9 @@ function TabPage(props: Props) {
         elementRef,
         children,
         wikiLinkPathName,
+
+        sectionCriteriaHeading,
+        sectionCriteriaContent,
 
         empty = false,
         filtered = false,
@@ -77,6 +83,12 @@ function TabPage(props: Props) {
                 <WikiLink
                     className={styles.wikiLink}
                     pathName={wikiLinkPathName}
+                />
+            )}
+            {isDefined(sectionCriteriaContent) && (
+                <SectionQualityCriteria
+                    heading={sectionCriteriaHeading}
+                    content={sectionCriteriaContent}
                 />
             )}
             <ListView

@@ -1,21 +1,17 @@
 import { useCallback } from 'react';
-import { CheckboxMultipleBlankFillIcon } from '@ifrc-go/icons';
 import {
-    Button,
+    Container,
+    Description,
     Heading,
     InfoPopup,
-    InlineLayout,
     InputSection,
+    Label,
     ListView,
-    Modal,
     NumberInput,
     TextArea,
     TextOutput,
 } from '@ifrc-go/ui';
-import {
-    useBooleanState,
-    useTranslation,
-} from '@ifrc-go/ui/hooks';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     resolveToComponent,
     sumSafe,
@@ -65,14 +61,6 @@ function DeliveryAndBudget(props: Props) {
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
 
-    const [
-        showQualityCriteria,
-        {
-            setTrue: setShowQualityCriteriaTrue,
-            setFalse: setShowQualityCriteriaFalse,
-        },
-    ] = useBooleanState(false);
-
     const {
         pending: globalFilesLoading,
         response: globalFilesResponse,
@@ -108,96 +96,142 @@ function DeliveryAndBudget(props: Props) {
     );
 
     return (
-        <TabPage spacingOffset={-6}>
-            <InlineLayout
-                after={(
-                    <Button
-                        name={undefined}
-                        onClick={setShowQualityCriteriaTrue}
-                        after={(<CheckboxMultipleBlankFillIcon />)}
+        <TabPage
+            spacingOffset={-2}
+            sectionCriteriaHeading={strings.deliverSectionHeading}
+            sectionCriteriaContent={(
+                <ListView layout="block">
+                    <Heading level={5}>
+                        {strings.nationalSocietySectionHeading}
+                    </Heading>
+                    <Label strong>
+                        {strings.deliverSectionCriteriaIntroduction1}
+                    </Label>
+                    <ListView spacing="xs" layout="block">
+                        <Description>
+                            {strings.deliverSectionCriteriaComment11}
+                        </Description>
+                        <Description>
+                            {strings.deliverSectionCriteriaComment12}
+                        </Description>
+                    </ListView>
+                    <Heading level={5}>
+                        {strings.budgetHeading}
+                    </Heading>
+                    <Label strong>
+                        {strings.deliverSectionCriteriaIntroduction2}
+                    </Label>
+                    <ListView spacing="xs" layout="block">
+                        <Description>
+                            {strings.deliverSectionCriteriaComment21}
+                        </Description>
+                        <Description>
+                            {strings.deliverSectionCriteriaComment22}
+                        </Description>
+                        <Description>
+                            {strings.deliverSectionCriteriaComment23}
+                        </Description>
+                    </ListView>
+                    <Label strong>
+                        {strings.deliverSectionCriteriaIntroduction3}
+                    </Label>
+                    <Description>
+                        {strings.deliverSectionCriteriaComment3}
+                    </Description>
+                    <Heading level={5}>
+                        {strings.coordinationSectionCriteriaHeading}
+                    </Heading>
+                    <Label strong>
+                        {strings.deliverSectionCriteriaIntroduction4}
+                    </Label>
+                    <ListView spacing="xs" layout="block">
+                        <Description>
+                            {strings.deliverSectionCriteriaComment41}
+                        </Description>
+                        <Description>
+                            {strings.deliverSectionCriteriaComment42}
+                        </Description>
+                    </ListView>
+                </ListView>
+            )}
+        >
+            <Container
+                heading={strings.deliverHeading}
+                variant="form"
+            >
+                <ListView
+                    layout="block"
+                    spacing="sm"
+                >
+                    <InputSection
+                        title={strings.deliverEarlyActions}
+                        description={strings.deliverEarlyActionsDescription}
+                        tooltip={strings.deliverEarlyActionsTooltip}
+                        withAsteriskOnTitle
                     >
-                        {strings.deliverSectionCriteriaButtonLabel}
-                    </Button>
-                )}
-            />
-            <ListView
-                layout="block"
-                spacing="sm"
-            >
-                <Heading variant="form">
-                    {strings.deliverHeading}
-                </Heading>
-                <InputSection
-                    title={strings.deliverEarlyActions}
-                    description={strings.deliverEarlyActionsDescription}
-                    tooltip={strings.deliverEarlyActionsTooltip}
-                    withAsteriskOnTitle
-                >
-                    <TextArea
-                        label={strings.deliverDescription}
-                        name="early_action_capability"
-                        value={value?.early_action_capability}
-                        onChange={setFieldValue}
-                        error={error?.early_action_capability}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.deliverInvolved}
-                    description={strings.deliverInvolvedDescription}
-                    tooltip={(
-                        <ListView
-                            layout="block"
-                            spacing="3xs"
-                        >
-                            {strings.deliverInvolvedTooltipDescriptionOne}
-                            <TextOutput
-                                strongLabel
-                                label={strings.deliverInvolvedTooltipDescriptionTwo}
-                                value={resolveToComponent(
-                                    strings.deliverInvolvedTooltipDescriptionThree,
-                                    {
-                                        guideLink: (
-                                            <Link
-                                                href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQn1ca51QIBCgok06lTQUFUBdmFAz3k28QkRMzbxMnRv1A?e=uBzYht"
-                                                styleVariant="action"
-                                                external
-                                                withLinkIcon
-                                            >
-                                                {strings.guideLink}
-                                            </Link>
-                                        ),
-                                    },
-                                )}
-                            />
-                            {strings.deliverInvolvedTooltipDescriptionFour}
-                            <ul>
-                                <li>{strings.deliverInvolvedTooltipListOne}</li>
-                                <li>{strings.deliverInvolvedTooltipListTwo}</li>
-                                <li>{strings.deliverInvolvedTooltipListThree}</li>
-                                <li>{strings.deliverInvolvedTooltipListFour}</li>
-                            </ul>
-                        </ListView>
-                    )}
-                    withAsteriskOnTitle
-                >
-                    <TextArea
-                        label={strings.deliverDescription}
-                        name="rcrc_movement_involvement"
-                        value={value?.rcrc_movement_involvement}
-                        onChange={setFieldValue}
-                        error={error?.rcrc_movement_involvement}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                </InputSection>
-            </ListView>
-            <ListView
-                layout="block"
-                spacing="sm"
-            >
-                <Heading variant="form">
+                        <TextArea
+                            label={strings.deliverDescription}
+                            name="early_action_capability"
+                            value={value?.early_action_capability}
+                            onChange={setFieldValue}
+                            error={error?.early_action_capability}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.deliverInvolved}
+                        description={strings.deliverInvolvedDescription}
+                        tooltip={(
+                            <ListView
+                                layout="block"
+                                spacing="3xs"
+                            >
+                                {strings.deliverInvolvedTooltipDescriptionOne}
+                                <TextOutput
+                                    strongLabel
+                                    label={strings.deliverInvolvedTooltipDescriptionTwo}
+                                    value={resolveToComponent(
+                                        strings.deliverInvolvedTooltipDescriptionThree,
+                                        {
+                                            guideLink: (
+                                                <Link
+                                                    href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQn1ca51QIBCgok06lTQUFUBdmFAz3k28QkRMzbxMnRv1A?e=uBzYht"
+                                                    styleVariant="action"
+                                                    external
+                                                    withLinkIcon
+                                                >
+                                                    {strings.guideLink}
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                />
+                                {strings.deliverInvolvedTooltipDescriptionFour}
+                                <ul>
+                                    <li>{strings.deliverInvolvedTooltipListOne}</li>
+                                    <li>{strings.deliverInvolvedTooltipListTwo}</li>
+                                    <li>{strings.deliverInvolvedTooltipListThree}</li>
+                                    <li>{strings.deliverInvolvedTooltipListFour}</li>
+                                </ul>
+                            </ListView>
+                        )}
+                        withAsteriskOnTitle
+                    >
+                        <TextArea
+                            label={strings.deliverDescription}
+                            name="rcrc_movement_involvement"
+                            value={value?.rcrc_movement_involvement}
+                            onChange={setFieldValue}
+                            error={error?.rcrc_movement_involvement}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    </InputSection>
+                </ListView>
+            </Container>
+            <Container
+                heading={(
                     <ListView
                         layout="inline"
                         spacing="sm"
@@ -259,101 +293,88 @@ function DeliveryAndBudget(props: Props) {
                             )}
                         />
                     </ListView>
-                </Heading>
-                <InputSection
-                    title={strings.deliverTotalBudget}
-                    description={strings.deliverTotalBudgetDescription}
-                    tooltip={strings.deliverTotalBudgetTooltip}
-                    withAsteriskOnTitle
+                )}
+                variant="form"
+            >
+                <ListView
+                    layout="block"
+                    spacing="sm"
                 >
-                    <ListView
-                        layout="grid"
-                        numPreferredGridColumns={4}
-                    >
-                        <NumberInput
-                            name="total_budget"
-                            label={strings.totalBudgetLabel}
-                            value={value?.total_budget}
-                            onChange={setFieldValue}
-                            error={error?.total_budget}
-                            disabled={disabled}
-                            readOnly
-                            required
-                        />
-                        <NumberInput
-                            label={strings.deliverReadinessLabel}
-                            name="readiness_budget"
-                            value={value?.readiness_budget}
-                            onChange={setBudgetValue}
-                            error={error?.readiness_budget}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                            required
-                        />
-                        <NumberInput
-                            label={strings.deliverPrepositioning}
-                            name="pre_positioning_budget"
-                            value={value?.pre_positioning_budget}
-                            onChange={setBudgetValue}
-                            error={error?.pre_positioning_budget}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                            required
-                        />
-                        <NumberInput
-                            label={strings.earlyAction}
-                            name="early_action_budget"
-                            value={value?.early_action_budget}
-                            onChange={setBudgetValue}
-                            error={error?.early_action_budget}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                            required
-                        />
-                    </ListView>
-                </InputSection>
-                <InputSection
-                    title={strings.deliverBudgetDetails}
-                    description={(
-                        <>
-                            {strings.deliverBudgetDetailsDescription}
-                            <Link
-                                href={globalFilesResponse?.url}
-                                withLinkIcon
-                                external
-                                disabled={globalFilesLoading || !globalFilesResponse?.url}
-                            >
-                                {strings.downloadBudgetTemplate}
-                            </Link>
-                        </>
-                    )}
-                    withAsteriskOnTitle
-                >
-                    <GoSingleFileInput
-                        name="budget_file"
-                        url="/api/v2/eap-file/"
-                        value={value?.budget_file}
-                        onChange={setFieldValue}
-                        error={getErrorString(error?.budget_file)}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    >
-                        {strings.upload}
-                    </GoSingleFileInput>
-                </InputSection>
-                {isRevision && (
                     <InputSection
-                        title={strings.updatedChecklistTitle}
+                        title={strings.deliverTotalBudget}
+                        description={strings.deliverTotalBudgetDescription}
+                        tooltip={strings.deliverTotalBudgetTooltip}
+                        withAsteriskOnTitle
+                    >
+                        <ListView
+                            layout="grid"
+                            numPreferredGridColumns={4}
+                        >
+                            <NumberInput
+                                name="total_budget"
+                                label={strings.totalBudgetLabel}
+                                value={value?.total_budget}
+                                onChange={setFieldValue}
+                                error={error?.total_budget}
+                                disabled={disabled}
+                                readOnly
+                                required
+                            />
+                            <NumberInput
+                                label={strings.deliverReadinessLabel}
+                                name="readiness_budget"
+                                value={value?.readiness_budget}
+                                onChange={setBudgetValue}
+                                error={error?.readiness_budget}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                                required
+                            />
+                            <NumberInput
+                                label={strings.deliverPrepositioning}
+                                name="pre_positioning_budget"
+                                value={value?.pre_positioning_budget}
+                                onChange={setBudgetValue}
+                                error={error?.pre_positioning_budget}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                                required
+                            />
+                            <NumberInput
+                                label={strings.earlyAction}
+                                name="early_action_budget"
+                                value={value?.early_action_budget}
+                                onChange={setBudgetValue}
+                                error={error?.early_action_budget}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                                required
+                            />
+                        </ListView>
+                    </InputSection>
+                    <InputSection
+                        title={strings.deliverBudgetDetails}
+                        description={(
+                            <>
+                                {strings.deliverBudgetDetailsDescription}
+                                <Link
+                                    href={globalFilesResponse?.url}
+                                    withLinkIcon
+                                    external
+                                    disabled={globalFilesLoading || !globalFilesResponse?.url}
+                                >
+                                    {strings.downloadBudgetTemplate}
+                                </Link>
+                            </>
+                        )}
                         withAsteriskOnTitle
                     >
                         <GoSingleFileInput
-                            name="updated_checklist_file"
+                            name="budget_file"
                             url="/api/v2/eap-file/"
-                            value={value?.updated_checklist_file}
+                            value={value?.budget_file}
                             onChange={setFieldValue}
-                            error={getErrorString(error?.updated_checklist_file)}
+                            error={getErrorString(error?.budget_file)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
@@ -362,70 +383,28 @@ function DeliveryAndBudget(props: Props) {
                             {strings.upload}
                         </GoSingleFileInput>
                     </InputSection>
-                )}
-            </ListView>
-            {showQualityCriteria && (
-                <Modal
-                    onClose={setShowQualityCriteriaFalse}
-                    heading={strings.deliverSectionHeading}
-                >
-                    <ListView layout="block">
-                        <Heading level={5}>
-                            {strings.nationalSocietySectionHeading}
-                        </Heading>
-                        <TextOutput
-                            label={strings.deliverSectionCriteriaIntroduction1}
-                            value={(
-                                <ul>
-                                    <li>{strings.deliverSectionCriteriaComment11}</li>
-                                    <li>{strings.deliverSectionCriteriaComment12}</li>
-                                </ul>
-                            )}
-                            strongLabel
-                            withoutLabelColon
-                        />
-                        <Heading level={5}>
-                            {strings.budgetHeading}
-                        </Heading>
-                        <TextOutput
-                            label={strings.deliverSectionCriteriaIntroduction2}
-                            value={(
-                                <ul>
-                                    <li>{strings.deliverSectionCriteriaComment21}</li>
-                                    <li>{strings.deliverSectionCriteriaComment22}</li>
-                                    <li>{strings.deliverSectionCriteriaComment23}</li>
-                                </ul>
-                            )}
-                            strongLabel
-                            withoutLabelColon
-                        />
-                        <TextOutput
-                            label={strings.deliverSectionCriteriaIntroduction3}
-                            value={(
-                                <ul>
-                                    <li>{strings.deliverSectionCriteriaComment3}</li>
-                                </ul>
-                            )}
-                            strongLabel
-                            withoutLabelColon
-                        />
-                        <Heading level={5}>
-                            {strings.coordinationSectionCriteriaHeading}
-                        </Heading>
-                        <TextOutput
-                            label={strings.deliverSectionCriteriaIntroduction4}
-                            value={(
-                                <ul>
-                                    <li>{strings.deliverSectionCriteriaComment41}</li>
-                                    <li>{strings.deliverSectionCriteriaComment42}</li>
-                                </ul>
-                            )}
-                            strongLabel
-                            withoutLabelColon
-                        />
-                    </ListView>
-                </Modal>
-            )}
+                    {isRevision && (
+                        <InputSection
+                            title={strings.updatedChecklistTitle}
+                            withAsteriskOnTitle
+                        >
+                            <GoSingleFileInput
+                                name="updated_checklist_file"
+                                url="/api/v2/eap-file/"
+                                value={value?.updated_checklist_file}
+                                onChange={setFieldValue}
+                                error={getErrorString(error?.updated_checklist_file)}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                            >
+                                {strings.upload}
+                            </GoSingleFileInput>
+                        </InputSection>
+                    )}
+                </ListView>
+            </Container>
         </TabPage>
     );
 }
