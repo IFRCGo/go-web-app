@@ -50,8 +50,8 @@ function Meal(props: Props) {
         <TabPage
             sectionCriteriaHeading={strings.mealSectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
-                    <ListView spacing="xs" layout="block">
+                <ListView layout="block" withSpacingOpticalCorrection>
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Label strong>
                             {strings.mealCriteriaIntroduction1}
                         </Label>

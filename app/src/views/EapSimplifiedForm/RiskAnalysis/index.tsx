@@ -52,14 +52,14 @@ function RiskAnalysis(props: Props) {
             spacingOffset={-2}
             sectionCriteriaHeading={strings.riskSectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
+                <ListView layout="block" withSpacingOpticalCorrection>
                     <Heading level={5}>
                         {strings.riskHeading}
                     </Heading>
                     <Label strong>
                         {strings.riskSectionCriteriaIntroduction1}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.riskSectionCriteriaComment11}
                         </Description>
@@ -82,7 +82,7 @@ function RiskAnalysis(props: Props) {
                     <Label strong>
                         {strings.riskSectionCriteriaIntroduction3}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.riskSectionCriteriaComment31}
                         </Description>

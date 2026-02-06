@@ -100,14 +100,14 @@ function DeliveryAndBudget(props: Props) {
             spacingOffset={-2}
             sectionCriteriaHeading={strings.deliverSectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
+                <ListView layout="block" withSpacingOpticalCorrection>
                     <Heading level={5}>
                         {strings.nationalSocietySectionHeading}
                     </Heading>
                     <Label strong>
                         {strings.deliverSectionCriteriaIntroduction1}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.deliverSectionCriteriaComment11}
                         </Description>
@@ -121,7 +121,7 @@ function DeliveryAndBudget(props: Props) {
                     <Label strong>
                         {strings.deliverSectionCriteriaIntroduction2}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.deliverSectionCriteriaComment21}
                         </Description>
@@ -144,7 +144,7 @@ function DeliveryAndBudget(props: Props) {
                     <Label strong>
                         {strings.deliverSectionCriteriaIntroduction4}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.deliverSectionCriteriaComment41}
                         </Description>

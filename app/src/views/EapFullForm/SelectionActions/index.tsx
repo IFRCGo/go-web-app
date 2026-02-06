@@ -244,7 +244,7 @@ function SelectionActions(props: Props) {
             spacingOffset={-2}
             sectionCriteriaHeading={strings.actionsStatementSectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
+                <ListView withSpacingOpticalCorrection layout="block">
                     <Label strong>
                         {strings.actionsSectionCriteriaIntroduction1}
                     </Label>
@@ -254,7 +254,7 @@ function SelectionActions(props: Props) {
                     <Label strong>
                         {strings.actionsSectionCriteriaIntroduction2}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.actionsSectionCriteriaComment21}
                         </Description>
@@ -265,7 +265,7 @@ function SelectionActions(props: Props) {
                     <Label strong>
                         {strings.actionsSectionCriteriaIntroduction3}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.actionsSectionCriteriaComment31}
                         </Description>
@@ -273,7 +273,7 @@ function SelectionActions(props: Props) {
                             {strings.actionsSectionCriteriaComment32}
                         </Description>
                     </ListView>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Label strong>
                             {strings.actionsSectionCriteriaIntroduction41}
                         </Label>
@@ -284,7 +284,7 @@ function SelectionActions(props: Props) {
                     <Description>
                         {strings.actionsSectionCriteriaComment4}
                     </Description>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Label strong>
                             {strings.actionsSectionCriteriaIntroduction51}
                         </Label>

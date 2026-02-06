@@ -109,11 +109,11 @@ function RiskAnalysis(props: Props) {
         <TabPage
             sectionCriteriaHeading={strings.riskAnalysisSectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
+                <ListView withSpacingOpticalCorrection layout="block">
                     <Label strong>
                         {strings.riskSectionCriteriaIntroduction1}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView withSpacingOpticalCorrection spacing="xs" layout="block">
                         <Description>
                             {strings.riskSectionCriteriaComment11}
                         </Description>
@@ -130,7 +130,7 @@ function RiskAnalysis(props: Props) {
                     <Label strong>
                         {strings.riskSectionCriteriaIntroduction2}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" withSpacingOpticalCorrection layout="block">
                         <Description>
                             {strings.riskSectionCriteriaComment21}
                         </Description>
@@ -141,7 +141,7 @@ function RiskAnalysis(props: Props) {
                     <Label strong>
                         {strings.riskSectionCriteriaIntroduction3}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" withSpacingOpticalCorrection layout="block">
                         <Description>
                             {strings.riskSectionCriteriaComment31}
                         </Description>
@@ -152,7 +152,7 @@ function RiskAnalysis(props: Props) {
                     <Label strong>
                         {strings.riskSectionCriteriaIntroduction4}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" withSpacingOpticalCorrection layout="block">
                         <Description>
                             {strings.riskSectionCriteriaComment41}
                         </Description>
@@ -176,7 +176,7 @@ function RiskAnalysis(props: Props) {
                             <li>{strings.riskSectionCriteriaIntroduction63}</li>
                         </ol>
                     </Description>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" withSpacingOpticalCorrection layout="block">
                         <Description>
                             {strings.riskSectionCriteriaComment61}
                         </Description>

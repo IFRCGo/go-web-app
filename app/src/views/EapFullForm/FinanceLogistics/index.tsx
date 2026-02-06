@@ -100,8 +100,8 @@ function FinanceLogistics(props: Props) {
             spacingOffset={-6}
             sectionCriteriaHeading={strings.financeSectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
-                    <ListView spacing="xs" layout="block">
+                <ListView layout="block" withSpacingOpticalCorrection>
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Label strong>
                             {strings.financeCriteriaIntroduction11}
                         </Label>
@@ -118,7 +118,7 @@ function FinanceLogistics(props: Props) {
                     <Description>
                         {strings.financeCriteriaComment2}
                     </Description>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Label strong>
                             {strings.financeCriteriaIntroduction31}
                         </Label>

@@ -125,11 +125,11 @@ function TriggerModel(props: Props) {
         <TabPage
             sectionCriteriaHeading={strings.triggerSectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
+                <ListView withSpacingOpticalCorrection layout="block">
                     <Label strong>
                         {strings.triggerSectionCriteriaIntroduction1}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.triggerSectionCriteriaComment11}
                         </Description>
@@ -146,7 +146,7 @@ function TriggerModel(props: Props) {
                     <Label strong>
                         {strings.triggerSectionCriteriaIntroduction2}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.triggerSectionCriteriaComment21}
                         </Description>
@@ -157,7 +157,7 @@ function TriggerModel(props: Props) {
                     <Label strong>
                         {strings.triggerSectionCriteriaIntroduction3}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.triggerSectionCriteriaComment31}
                         </Description>
@@ -168,7 +168,7 @@ function TriggerModel(props: Props) {
                     <Label strong>
                         {strings.triggerSectionCriteriaIntroduction4}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.triggerSectionCriteriaComment41}
                         </Description>
@@ -192,7 +192,7 @@ function TriggerModel(props: Props) {
                             <li>{strings.triggerSectionCriteriaIntroduction63}</li>
                         </ol>
                     </Description>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.triggerSectionCriteriaComment61}
                         </Description>

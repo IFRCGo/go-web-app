@@ -85,11 +85,11 @@ function EapActivationProcess(props: Props) {
         <TabPage
             sectionCriteriaHeading={strings.activationSectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
+                <ListView layout="block" withSpacingOpticalCorrection>
                     <Label strong>
                         {strings.activationSectionCriteriaIntroduction1}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.activationSectionCriteriaComment11}
                         </Description>
@@ -109,7 +109,7 @@ function EapActivationProcess(props: Props) {
                     <Label strong>
                         {strings.activationSectionCriteriaIntroduction3}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.activationSectionCriteriaComment31}
                         </Description>

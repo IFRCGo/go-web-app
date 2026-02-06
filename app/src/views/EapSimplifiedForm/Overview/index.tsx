@@ -92,8 +92,8 @@ function Overview(props: Props) {
             spacingOffset={-2}
             sectionCriteriaHeading={strings.overviewSectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
-                    <ListView spacing="xs" layout="block">
+                <ListView withSpacingOpticalCorrection layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Label strong>
                             {strings.sectionCriteriaIntroduction11}
                         </Label>
@@ -101,7 +101,7 @@ function Overview(props: Props) {
                             {strings.sectionCriteriaIntroduction12}
                         </Label>
                     </ListView>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.sectionCriteriaComment11}
                         </Description>

@@ -52,8 +52,8 @@ function NationalSocietyCapacity(props: Props) {
         <TabPage
             sectionCriteriaHeading={strings.capacitySectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
-                    <ListView spacing="xs" layout="block">
+                <ListView layout="block" withSpacingOpticalCorrection>
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Label strong>
                             {strings.capacityCriteriaIntroduction11}
                         </Label>

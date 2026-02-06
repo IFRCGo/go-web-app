@@ -105,14 +105,14 @@ function EnablingApproaches(props: Props) {
         <TabPage
             sectionCriteriaHeading={strings.enablingSectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
+                <ListView layout="block" withSpacingOpticalCorrection>
                     <Heading level={5}>
                         {strings.eapEnablingSectionHeading}
                     </Heading>
                     <Label strong>
                         {strings.enablingSectionCriteriaIntroduction1}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.enablingSectionCriteriaComment11}
                         </Description>
@@ -123,7 +123,7 @@ function EnablingApproaches(props: Props) {
                     <Label strong>
                         {strings.enablingSectionCriteriaIntroduction2}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.enablingSectionCriteriaComment21}
                         </Description>
@@ -140,7 +140,7 @@ function EnablingApproaches(props: Props) {
                     <Label strong>
                         {strings.enablingSectionCriteriaIntroduction3}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.enablingSectionCriteriaComment31}
                         </Description>

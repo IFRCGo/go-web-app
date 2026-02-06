@@ -123,7 +123,7 @@ function Overview(props: Props) {
             spacingOffset={-2}
             sectionCriteriaHeading={strings.overviewSectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
+                <ListView withSpacingOpticalCorrection layout="block">
                     <Description>
                         {strings.sectionCriteriaIntroduction1}
                     </Description>

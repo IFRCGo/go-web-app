@@ -103,14 +103,14 @@ function PlannedOperations(props: Props) {
         <TabPage
             sectionCriteriaHeading={strings.plannedSectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
+                <ListView layout="block" withSpacingOpticalCorrection>
                     <Heading level={5}>
                         {strings.eapPlannedSectionHeading}
                     </Heading>
                     <Label strong>
                         {strings.plannedSectionCriteriaIntroduction1}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.plannedSectionCriteriaComment11}
                         </Description>
@@ -121,7 +121,7 @@ function PlannedOperations(props: Props) {
                     <Label strong>
                         {strings.plannedSectionCriteriaIntroduction2}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.plannedSectionCriteriaComment21}
                         </Description>
@@ -138,7 +138,7 @@ function PlannedOperations(props: Props) {
                     <Label strong>
                         {strings.plannedSectionCriteriaIntroduction3}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.plannedSectionCriteriaComment31}
                         </Description>

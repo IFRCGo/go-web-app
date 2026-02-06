@@ -78,14 +78,14 @@ function EarlyAction(props: Props) {
         <TabPage
             sectionCriteriaHeading={strings.earlySectionHeading}
             sectionCriteriaContent={(
-                <ListView layout="block">
+                <ListView layout="block" withSpacingOpticalCorrection>
                     <Heading level={5}>
                         {strings.triggerModelSectionHeading}
                     </Heading>
                     <Label strong>
                         {strings.earlySectionCriteriaIntroduction1}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.earlySectionCriteriaComment11}
                         </Description>
@@ -105,7 +105,7 @@ function EarlyAction(props: Props) {
                     <Label strong>
                         {strings.earlySectionCriteriaIntroduction2}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.earlySectionCriteriaComment21}
                         </Description>
@@ -116,7 +116,7 @@ function EarlyAction(props: Props) {
                     <Label strong>
                         {strings.earlySectionCriteriaIntroduction3}
                     </Label>
-                    <ListView spacing="xs" layout="block">
+                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                         <Description>
                             {strings.earlySectionCriteriaComment31}
                         </Description>
