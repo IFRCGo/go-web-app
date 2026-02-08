@@ -1,0 +1,15 @@
+{
+    "namespace": "emailPreferences",
+    "strings": {
+        "heading": "Email Alert Subscriptions",
+        "emptyMessage": "No subscriptions",
+        "alertFrequencies": "Email Alert Frequency",
+        "unlimitedOption": "Unlimited",
+        "countries": "Countries",
+        "regions": "Regions",
+        "disasters": "Disasters",
+        "addSubscriptionLabel": "New Alert Subscription",
+        "editSubscriptionLabel": "Edit",
+        "editSubscriptionTitle": "Edit Alert Subscription"
+    }
+}

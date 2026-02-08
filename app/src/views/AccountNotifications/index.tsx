@@ -20,6 +20,7 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
+import EmailPreferences from './EmailPreferences';
 import SubscriptionPreferences from './SubscriptionPreferences';
 
 import i18n from './i18n.json';
@@ -72,6 +73,7 @@ export function Component() {
 
     return (
         <TabPage>
+            <EmailPreferences />
             <Container
                 className={styles.operationsFollowing}
                 heading={strings.operationFollowingHeading}
