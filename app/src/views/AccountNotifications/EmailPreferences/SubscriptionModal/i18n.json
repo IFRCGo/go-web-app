@@ -1,0 +1,33 @@
+
+{
+    "namespace": "subscriptionModal",
+    "strings": {
+        "addSubscriptionHeading": "Add a new subscription",
+        "editSubscriptionHeading": "Edit subscription",
+        "updateButtonLabel": "Save",
+        "cancelButtonLabel": "Cancel",
+        "subscriptionTitleLabel": "Title",
+        "subscriptionTitlePlaceholder": "Enter your subscription title",
+        "alertPerDayHeading": "Email Notifications per day",
+        "alertPerDayDescription": "Choose how many emails you wish to receive in a day.",
+        "alertPerDayLabel": "Alerts per day",
+        "alertPerDayPlaceholder": "Alerts per day",
+        "countriesHeading": "Country-level Notifications",
+        "countriesDescription": "Select one or more countries to receive notifications about.",
+        "countryLabel": "Select countries",
+        "countryPlaceholder": "Select countries",
+        "regionsHeading": "Regional Notifications",
+        "regionsDescription": "Select one or more regions to receive notifications about.",
+        "regionLabel": "Select regions",
+        "regionPlaceholder": "Select regions",
+        "hazardTypeHeading": "Disaster Types",
+        "hazardTypeDescription": "Get notified about new disasters in these categories.",
+        "hazardTypeLabel": "Select hazard types",
+        "hazardTypePlaceholder": "Select hazard types",
+        "updateFailureMessage": "Failed to update subscription.",
+        "updateSuccessMessage": "Successfully updated subscription.",
+        "createFailureMessage": "Failed to create subscription.",
+        "createSuccessMessage": "Successfully created subscription.",
+        "unlimitedOptionValue": "Unlimited"
+    }
+}
