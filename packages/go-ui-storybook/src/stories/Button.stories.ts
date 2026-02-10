@@ -7,7 +7,7 @@ import { fn } from '@storybook/test';
 import Button from './Button';
 
 const meta = {
-    title: 'Components/Button',
+    title: 'Action/Button',
     component: Button,
     parameters: {
         layout: 'centered',
@@ -30,8 +30,10 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
     args: {
         name: 'button',
-        variant: 'primary',
+        styleVariant: 'filled',
+        colorVariant: 'primary',
         children: 'Primary Button',
+        textSize: 'md',
     },
     parameters: {
         design: {
@@ -45,8 +47,9 @@ export const Primary: Story = {
 export const Secondary: Story = {
     args: {
         name: 'button',
-        variant: 'secondary',
         children: 'Secondary Button',
+        colorVariant: 'primary',
+        styleVariant: 'outline',
     },
     parameters: {
         design: {
@@ -57,11 +60,13 @@ export const Secondary: Story = {
     },
 };
 
-export const Tertiary: Story = {
+export const Action: Story = {
     args: {
         name: 'button',
-        variant: 'tertiary',
-        children: 'Tertiary Button',
+        children: 'Action Button',
+        colorVariant: 'primary',
+        styleVariant: 'action',
+        textSize: 'md',
     },
     parameters: {
         design: {
@@ -72,23 +77,35 @@ export const Tertiary: Story = {
     },
 };
 
-export const TertiaryOnDark: Story = {
+export const Disabled: Story = {
     args: {
         name: 'button',
-        variant: 'tertiary-on-dark',
-        children: 'Tertiary on Dark Button',
-    },
-    parameters: {
-        backgrounds: {
-            default: 'dark',
-        },
+        children: 'Disabled Button',
+        colorVariant: 'primary',
+        styleVariant: 'filled',
+        textSize: 'md',
+        disabled: true,
     },
 };
 
-export const DropdownItem: Story = {
+export const FullWidth: Story = {
     args: {
         name: 'button',
-        variant: 'dropdown-item',
-        children: 'Dropdown Item',
+        children: 'Full Width Button',
+        colorVariant: 'primary',
+        styleVariant: 'filled',
+        withFullWidth: true,
+        textSize: 'md',
+    },
+};
+
+export const WithoutPadding: Story = {
+    args: {
+        name: 'button',
+        children: 'No Padding Button',
+        colorVariant: 'primary',
+        styleVariant: 'filled',
+        withoutPadding: true,
+        textSize: 'md',
     },
 };

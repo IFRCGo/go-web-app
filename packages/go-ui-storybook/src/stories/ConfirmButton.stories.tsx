@@ -11,7 +11,7 @@ import ConfirmButton from './ConfirmButton';
 type Story = StoryObj<typeof ConfirmButton>;
 
 const meta: Meta<typeof ConfirmButton> = {
-    title: 'Components/ConfirmButton',
+    title: 'Action/ConfirmButton',
     component: ConfirmButton,
     parameters: {
         layout: 'centered',
@@ -56,19 +56,22 @@ function Template(args:Args) {
 
 export const Primary: Story = {
     render: Template,
+    args: {
+        styleVariant: 'filled',
+    },
 };
 
 export const Secondary: Story = {
     render: Template,
     args: {
-        variant: 'secondary',
+        styleVariant: 'outline',
     },
 };
 
-export const Tertiary: Story = {
+export const Translucent: Story = {
     render: Template,
     args: {
-        variant: 'tertiary',
+        styleVariant: 'translucent',
     },
 };
 

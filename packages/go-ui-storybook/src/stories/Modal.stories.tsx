@@ -69,6 +69,8 @@ function Template(args:Args) {
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...args}
                     onClose={handleClose}
+                    // eslint-disable-next-line react/no-children-prop
+                    children={undefined}
                 />
             )}
         </>
@@ -113,6 +115,6 @@ export const Default: Story = {
         closeOnEscape: false,
         withoutCloseButton: false,
         closeOnClickOutside: true,
-        size: 'md',
+        size: 'sm',
     },
 };
