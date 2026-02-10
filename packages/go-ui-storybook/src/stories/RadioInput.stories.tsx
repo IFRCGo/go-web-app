@@ -25,11 +25,11 @@ const options: Option[] = [
 const keySelector = (o: Option) => o.key;
 const labelSelector = (o: Option) => o.label;
 
-type RadioInputSpecificProps = RadioInputProps<string, Option, string, never, never>;
+type RadioInputSpecificProps = RadioInputProps<string, Option, string, never>;
 type Story = StoryObj<RadioInputSpecificProps>;
 
 const meta: Meta<typeof RadioInput> = {
-    title: 'Components/RadioInput',
+    title: 'Inputs/RadioInput',
     component: RadioInput,
     parameters: {
         layout: 'centered',

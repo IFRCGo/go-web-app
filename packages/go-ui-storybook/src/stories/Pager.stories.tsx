@@ -13,7 +13,7 @@ import Pager from './Pager';
 type Story = StoryObj<PagerProps>;
 
 const meta = {
-    title: 'Components/Pager',
+    title: 'Inputs/Pager',
     component: Pager,
     parameters: {
         layout: 'centered',

@@ -47,7 +47,7 @@ type SelectInputSpecificProps = SelectInputProps<OptionKey, string, Option, obje
 type Story = StoryObj<SelectInputSpecificProps>;
 
 const meta: Meta<typeof SelectInput> = {
-    title: 'Components/SelectInput',
+    title: 'Inputs/SelectInput',
     component: SelectInput,
     parameters: {
         layout: 'centered',

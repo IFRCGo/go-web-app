@@ -10,7 +10,7 @@ import PasswordInput from './PasswordInput';
 type Story = StoryObj<typeof PasswordInput>;
 
 const meta: Meta<typeof PasswordInput> = {
-    title: 'Components/PasswordInput',
+    title: 'Inputs/PasswordInput',
     component: PasswordInput,
     parameters: {
         layout: 'centered',

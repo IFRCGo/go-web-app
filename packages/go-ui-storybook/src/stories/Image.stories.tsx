@@ -9,7 +9,7 @@ import Image from './Image';
 type Story = StoryObj<ImageProps>;
 
 const meta: Meta<typeof Image> = {
-    title: 'Components/Image',
+    title: 'Inputs/Image',
     component: Image,
     parameters: {
         layout: 'centered',

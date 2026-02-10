@@ -59,7 +59,7 @@ const dataKeyToStyleMap: Record<
 const classNameSelector = (dataKey: DataKey) => dataKeyToStyleMap[dataKey];
 
 const meta: Meta<typeof TimeSeriesChart> = {
-    title: 'Components/TimeSeriesChart',
+    title: 'Visualization/TimeSeriesChart',
     component: TimeSeriesChart,
     parameters: {
         layout: 'centered',

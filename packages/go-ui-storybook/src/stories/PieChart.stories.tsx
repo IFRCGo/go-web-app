@@ -17,7 +17,7 @@ type PieChartSpecificProps = PieChartProps<Option>;
 type Story = StoryObj<PieChartSpecificProps>;
 
 const meta: Meta<typeof PieChart> = {
-    title: 'Components/PieChart',
+    title: 'Visualization/PieChart',
     component: PieChart,
     parameters: {
         layout: 'centered',

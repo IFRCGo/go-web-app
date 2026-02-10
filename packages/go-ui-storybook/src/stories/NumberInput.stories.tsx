@@ -7,7 +7,7 @@ import { fn } from '@storybook/test';
 import NumberInput from './NumberInput';
 
 const meta: Meta<typeof NumberInput> = {
-    title: 'Components/NumberInput',
+    title: 'Inputs/NumberInput',
     component: NumberInput,
     parameters: {
         layout: 'centered',

@@ -1,9 +1,9 @@
 import {
-    KeyFigure as PureKeyFigure,
-    KeyFigureProps,
+    KeyFigureView as PureKeyFigure,
+    KeyFigureViewProps,
 } from '@ifrc-go/ui';
 
-function KeyFigure(props: KeyFigureProps) {
+function KeyFigure(props: KeyFigureViewProps) {
     return (
         <PureKeyFigure {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );

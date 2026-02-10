@@ -11,7 +11,7 @@ import BooleanInput from './BooleanInput';
 type Story = StoryObj<typeof BooleanInput>;
 
 const meta: Meta<typeof BooleanInput> = {
-    title: 'Components/BooleanInput',
+    title: 'Inputs/BooleanInput',
     component: BooleanInput,
     parameters: {
         layout: 'centered',

@@ -14,7 +14,7 @@ type DateInputSpecificProps = DateInputProps<string>;
 type Story = StoryObj<DateInputSpecificProps>;
 
 const meta: Meta<typeof DateInput> = {
-    title: 'Components/DateInput',
+    title: 'Inputs/DateInput',
     component: DateInput,
     parameters: {
         layout: 'centered',

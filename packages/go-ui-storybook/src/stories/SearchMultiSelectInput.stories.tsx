@@ -48,7 +48,7 @@ SearchMultiSelectInputProps<OptionKey, string, Option, object, never>;
 type Story = StoryObj<SearchMultiSelectInputSpecificProps>;
 
 const meta: Meta<typeof SearchMultiSelectInput> = {
-    title: 'Components/SearchMultiSelectInput',
+    title: 'Inputs/SearchMultiSelectInput',
     component: SearchMultiSelectInput,
     parameters: {
         layout: 'centered',

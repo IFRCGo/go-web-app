@@ -11,7 +11,7 @@ type NumberOutputSpecificProps = NumberOutputProps;
 type Story = StoryObj< NumberOutputSpecificProps>;
 
 const meta: Meta<typeof NumberOutput> = {
-    title: 'Components/ NumberOutput',
+    title: 'Outputs/ NumberOutput',
     component: NumberOutput,
     parameters: {
         layout: 'centered',

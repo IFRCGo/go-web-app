@@ -14,7 +14,7 @@ type TextInputSpecificProps = TextInputProps<string>;
 type Story = StoryObj<TextInputSpecificProps>;
 
 const meta: Meta<typeof TextInput> = {
-    title: 'Components/TextInput',
+    title: 'Inputs/TextInput',
     component: TextInput,
     parameters: {
         layout: 'centered',

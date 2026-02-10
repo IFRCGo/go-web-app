@@ -17,7 +17,7 @@ type CheckboxSpecificProps = CheckboxProps<string>;
 type Story = StoryObj<CheckboxSpecificProps>;
 
 const meta: Meta<typeof CheckBox> = {
-    title: 'Components/CheckBox',
+    title: 'Inputs/CheckBox',
     component: CheckBox,
     parameters: {
         layout: 'centered',

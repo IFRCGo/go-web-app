@@ -11,7 +11,7 @@ import TextArea from './TextArea';
 type Story = StoryObj<typeof meta>;
 
 const meta: Meta<typeof TextArea> = {
-    title: 'Components/TextArea',
+    title: 'Inputs/TextArea',
     component: TextArea,
     parameters: {
         layout: 'centered',

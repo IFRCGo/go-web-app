@@ -9,7 +9,7 @@ import BooleanOutput from './BooleanOutput';
 type Story = StoryObj<BooleanOutputProps>;
 
 const meta: Meta<typeof BooleanOutput> = {
-    title: 'Components/BooleanOutput',
+    title: 'Outputs/BooleanOutput',
     component: BooleanOutput,
     parameters: {
         layout: 'centered',

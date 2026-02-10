@@ -44,7 +44,7 @@ type MultiSelectInputSpecificProps = MultiSelectInputProps<OptionKey, string[], 
 type Story = StoryObj<MultiSelectInputSpecificProps>;
 
 const meta: Meta<typeof MultiSelectInput> = {
-    title: 'Components/MultiSelectInput',
+    title: 'Inputs/MultiSelectInput',
     component: MultiSelectInput,
     parameters: {
         layout: 'centered',
