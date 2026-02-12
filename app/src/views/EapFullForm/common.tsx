@@ -19,6 +19,7 @@ export type TabKeys =
 
 const overviewTabFields: (keyof PartialEapFullFormType)[] = [
     'expected_submission_time',
+    'modified_at',
     'objective',
     'cover_image_file',
     'national_society_contact_name',

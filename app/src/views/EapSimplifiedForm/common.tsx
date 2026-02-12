@@ -13,6 +13,7 @@ type FormKeys = keyof PartialSimplifiedEapType;
 
 const overviewTabFields = [
     'cover_image_file',
+    'modified_at',
     'seap_timeframe',
     'national_society_contact_name',
     'national_society_contact_title',

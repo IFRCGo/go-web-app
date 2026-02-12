@@ -31,6 +31,7 @@ function maxOperationalTimeframeCondition(value: number | undefined) {
 
 type EapSimplifiedFormContext = {
     isRevision: boolean;
+    getIsSubmission: () => boolean;
 } | undefined;
 
 type EapSimplifiedRequestBody = PurgeNull<
@@ -293,6 +294,7 @@ function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY, requi
 
 export const formSchema: FormSchema = {
     fields: (_, __, context): FormSchemaFields => {
+        const isSubmit = context?.getIsSubmission();
         const defaultSchema: FormSchemaFields = {
             // Overview
 
@@ -306,12 +308,12 @@ export const formSchema: FormSchema = {
                     caption: {},
                     id: {
                         defaultValue: undefinedValue,
-                        required: true,
+                        required: isSubmit,
                     },
                 }),
             },
             seap_timeframe: {
-                required: true,
+                required: isSubmit,
             },
             partner_contacts: {
                 keySelector: (item) => item.client_id,
@@ -326,9 +328,9 @@ export const formSchema: FormSchema = {
                     }),
                 }),
             },
-            ...getContactSchema('national_society_contact', true),
-            ...getContactSchema('ifrc_delegation_focal_point', true),
-            ...getContactSchema('ifrc_head_of_delegation', true),
+            ...getContactSchema('national_society_contact', isSubmit),
+            ...getContactSchema('ifrc_delegation_focal_point', isSubmit),
+            ...getContactSchema('ifrc_head_of_delegation', isSubmit),
             ...getContactSchema('dref_focal_point'),
             ...getContactSchema('ifrc_regional_focal_point'),
             ...getContactSchema('ifrc_regional_ops_manager'),
@@ -338,7 +340,7 @@ export const formSchema: FormSchema = {
             // Risk Analysis
 
             prioritized_hazard_and_impact: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             hazard_impact_images: {
@@ -353,7 +355,7 @@ export const formSchema: FormSchema = {
                 validation: lessThanEqualToFiveImagesCondition,
             },
             risks_selected_protocols: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             risk_selected_protocols_images: {
@@ -368,7 +370,7 @@ export const formSchema: FormSchema = {
                 validation: lessThanEqualToFiveImagesCondition,
             },
             selected_early_actions: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             selected_early_actions_images: {
@@ -386,7 +388,7 @@ export const formSchema: FormSchema = {
             // Early Action Interventions
 
             overall_objective_intervention: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             // FIXME: add required condition
@@ -394,31 +396,31 @@ export const formSchema: FormSchema = {
                 defaultValue: [],
             },
             potential_geographical_high_risk_areas: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
-            people_targeted: { required: true },
+            people_targeted: { required: isSubmit },
             assisted_through_operation: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             selection_criteria: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             trigger_statement: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
-            seap_lead_time: { required: true },
-            seap_lead_timeframe_unit: { required: true },
+            seap_lead_time: { required: isSubmit },
+            seap_lead_timeframe_unit: { required: isSubmit },
             operational_timeframe: {
-                required: true,
+                required: isSubmit,
                 validations: [maxOperationalTimeframeCondition],
             },
             operational_timeframe_unit: {},
             trigger_threshold_justification: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             next_step_towards_full_eap: {},
@@ -431,9 +433,9 @@ export const formSchema: FormSchema = {
                     fields: (): PlannedOperationalFields => ({
                         id: { defaultValue: undefinedValue },
                         sector: {},
-                        people_targeted: { required: true },
-                        budget_per_sector: { required: true },
-                        ap_code: { required: true },
+                        people_targeted: { required: isSubmit },
+                        budget_per_sector: { required: isSubmit },
+                        ap_code: { required: isSubmit },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
                             member: () => indicatorSchema,
@@ -515,18 +517,18 @@ export const formSchema: FormSchema = {
             // Delivery & Budget
 
             early_action_capability: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             rcrc_movement_involvement: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
-            total_budget: { required: true },
-            readiness_budget: { required: true },
-            pre_positioning_budget: { required: true },
-            early_action_budget: { required: true },
-            budget_file: { required: true },
+            total_budget: { required: isSubmit },
+            readiness_budget: { required: isSubmit },
+            pre_positioning_budget: { required: isSubmit },
+            early_action_budget: { required: isSubmit },
+            budget_file: { required: isSubmit },
         };
 
         if (isNotDefined(context) || !context.isRevision) {
@@ -538,7 +540,7 @@ export const formSchema: FormSchema = {
 
             // Delivery & Budget
             updated_checklist_file: {
-                required: true,
+                required: isSubmit,
             },
         } satisfies FormSchemaFields;
     },
