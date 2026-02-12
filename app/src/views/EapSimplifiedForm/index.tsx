@@ -41,6 +41,7 @@ import {
     useForm,
 } from '@togglecorp/toggle-form';
 
+import EapObsoleteResolutionModal from '#components/domain/EapObsoleteResolutionModal';
 import EapShareModal from '#components/domain/EapShareModal';
 import Link from '#components/Link';
 import Page from '#components/Page';
@@ -119,7 +120,14 @@ export function Component() {
     const versionFromParams = searchParams.get('version') ?? undefined;
 
     const [shouldSubmit, setShouldSubmit] = useState(false);
+    const [
+        showObsoletePayloadModal,
+        setShowObsoletePayloadModal,
+    ] = useState(false);
+
     const tabListRef = useRef<HTMLDivElement>(null);
+    const lastModifiedAtRef = useRef<string | undefined>();
+    const shouldSubmitRef = useRef(false);
 
     const {
         pending: eapRegistrationPending,
@@ -157,6 +165,7 @@ export function Component() {
     });
 
     const isRevision = eapRegistrationResponse?.status === EAP_STATUS_NS_ADDRESSING_COMMENTS;
+    const getIsSubmission = useCallback(() => shouldSubmitRef.current, []);
     const {
         value,
         setFieldValue,
@@ -167,12 +176,16 @@ export function Component() {
     } = useForm(
         formSchema,
         { value: defaultFormValue },
-        { isRevision },
+        {
+            isRevision,
+            getIsSubmission,
+        },
     );
 
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
 
     const updateFileUrlMapping = useCallback((response: GetSimplifiedResponse) => {
+        lastModifiedAtRef.current = response?.modified_at;
         setFileIdToUrlMap((prevMap) => {
             const {
                 cover_image_file,
@@ -422,11 +435,12 @@ export function Component() {
         method: 'POST',
         url: '/api/v2/simplified-eap/',
         body: (body: EapSimplifiedRequestBody) => body,
-        onSuccess: () => {
+        onSuccess: (response) => {
             alert.show(
                 strings.createSuccessMessage,
                 { variant: 'success' },
             );
+            updateFormValueFromResponse(response);
         },
         onFailure: (err) => {
             const {
@@ -458,11 +472,12 @@ export function Component() {
             id: Number(latestSimplifiedEapId),
         },
         body: (formFields: EapSimplifiedRequestBody) => formFields,
-        onSuccess: () => {
+        onSuccess: (response) => {
             alert.show(
                 strings.updateSuccessMessage,
                 { variant: 'success' },
             );
+            updateFormValueFromResponse(response);
         },
         onFailure: (err) => {
             const {
@@ -473,6 +488,15 @@ export function Component() {
             } = err;
 
             processServerErrors(formErrors);
+
+            const modifiedAtError = formErrors.modified_at;
+
+            if (
+                (typeof modifiedAtError === 'string' && modifiedAtError === 'OBSOLETE_PAYLOAD')
+                || (Array.isArray(modifiedAtError) && modifiedAtError.includes('OBSOLETE_PAYLOAD'))
+            ) {
+                setShowObsoletePayloadModal(true);
+            }
 
             alert.show(
                 strings.updateFailureMessage,
@@ -503,11 +527,16 @@ export function Component() {
             navigate('accountMyFormsEap');
         },
         onFailure: (error) => {
+            const {
+                value: { formErrors, messageForNotification },
+            } = error;
+
+            processServerErrors(formErrors);
             alert.show(
                 strings.submitFailedSuccess,
                 {
                     variant: 'danger',
-                    description: error.value.messageForNotification,
+                    description: messageForNotification,
                 },
             );
         },
@@ -528,6 +557,7 @@ export function Component() {
             triggerUpdateSimplifiedEap({
                 ...validatedFormValue,
                 id: latestSimplifiedEapId,
+                modified_at: lastModifiedAtRef.current,
                 // FIXME: remove cast to unknown (need to make previous_id read-only)
             } as unknown as EapSimplifiedRequestBody);
         }
@@ -563,17 +593,28 @@ export function Component() {
         setError,
     ]);
 
+    const handleObsoletePayloadOverwriteButtonClick = useCallback(
+        (newModifiedAt: string | undefined) => {
+            lastModifiedAtRef.current = newModifiedAt;
+            setShowObsoletePayloadModal(false);
+            handleSave();
+        },
+        [handleSave],
+    );
     const handleRequestForApprovalButtonClick = useCallback(() => {
+        shouldSubmitRef.current = true;
         setShouldSubmit(true);
         handleSave();
     }, [handleSave]);
 
     const handleRequestForApprovalCancel = useCallback(() => {
+        shouldSubmitRef.current = false;
         setShouldSubmit(false);
     }, []);
 
     const handleSubmitForApprovalConfirm = useCallback(() => {
         triggerStatusUpdate(null);
+        shouldSubmitRef.current = false;
         setShouldSubmit(false);
     }, [triggerStatusUpdate]);
 
@@ -801,49 +842,56 @@ export function Component() {
                         )}
                     </ListView>
                 </InlineLayout>
-            </Page>
-            {shouldSubmit && (
-                <Modal
-                    heading={strings.submitConfirmHeading}
-                    onClose={handleRequestForApprovalCancel}
-                    pending={createSimplifiedEapPending || updateSimplifiedEapPending}
-                    pendingMessage={strings.savingPendingMessage}
-                    footerActions={(
-                        <Button
-                            name={undefined}
-                            disabled={hasFormErrors}
-                            onClick={handleSubmitForApprovalConfirm}
-                        >
-                            {strings.submitConfirmButtonLabel}
-                        </Button>
-                    )}
-                >
-                    <ListView
-                        layout="block"
-                        spacing="sm"
-                    >
-                        <div>
-                            {strings.submitConfirmMessage}
-                        </div>
-                        {hasFormErrors && (
-                            <Alert
-                                name="form-error-warning"
-                                title={strings.submitFormErrorMessage}
-                                type="warning"
-                                withLightBackground
-                                withoutShadow
-                            />
+                {shouldSubmit && (
+                    <Modal
+                        heading={strings.submitConfirmHeading}
+                        onClose={handleRequestForApprovalCancel}
+                        pending={createSimplifiedEapPending || updateSimplifiedEapPending}
+                        pendingMessage={strings.savingPendingMessage}
+                        footerActions={(
+                            <Button
+                                name={undefined}
+                                disabled={hasFormErrors}
+                                onClick={handleSubmitForApprovalConfirm}
+                            >
+                                {strings.submitConfirmButtonLabel}
+                            </Button>
                         )}
-                    </ListView>
-                </Modal>
-            )}
-            {showShareModal && isDefined(eapId) && (
-                <EapShareModal
-                    onCancel={setShowShareModalFalse}
-                    onSuccess={setShowShareModalFalse}
-                    eapId={Number(eapId)}
-                />
-            )}
+                    >
+                        <ListView
+                            layout="block"
+                            spacing="sm"
+                        >
+                            <div>
+                                {strings.submitConfirmMessage}
+                            </div>
+                            {hasFormErrors && (
+                                <Alert
+                                    name="form-error-warning"
+                                    title={strings.submitFormErrorMessage}
+                                    type="warning"
+                                    withLightBackground
+                                    withoutShadow
+                                />
+                            )}
+                        </ListView>
+                    </Modal>
+                )}
+                {showShareModal && isDefined(eapId) && (
+                    <EapShareModal
+                        onCancel={setShowShareModalFalse}
+                        onSuccess={setShowShareModalFalse}
+                        eapId={Number(eapId)}
+                    />
+                )}
+                {isDefined(latestSimplifiedEapId) && showObsoletePayloadModal && (
+                    <EapObsoleteResolutionModal
+                        simplifiedEapId={latestSimplifiedEapId}
+                        onOverwriteButtonClick={handleObsoletePayloadOverwriteButtonClick}
+                        onCancelButtonClick={setShowObsoletePayloadModal}
+                    />
+                )}
+            </Page>
         </Tabs>
     );
 }

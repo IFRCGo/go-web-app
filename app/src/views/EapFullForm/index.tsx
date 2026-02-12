@@ -42,6 +42,7 @@ import {
     useForm,
 } from '@togglecorp/toggle-form';
 
+import EapObsoleteResolutionModal from '#components/domain/EapObsoleteResolutionModal';
 import EapShareModal from '#components/domain/EapShareModal';
 import Link from '#components/Link';
 import Page from '#components/Page';
@@ -105,6 +106,8 @@ function getNextStep(current: TabKeys, direction: 1 | -1) {
     return tabKeyList[currentIndex + direction];
 }
 
+const defaultFormValue: PartialEapFullFormType = {};
+
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -113,12 +116,18 @@ export function Component() {
         {},
     );
     const [shouldSubmit, setShouldSubmit] = useState(false);
+    const [
+        showObsoletePayloadModal,
+        setShowObsoletePayloadModal,
+    ] = useState(false);
 
     const { eapId } = useParams<{ eapId: string }>();
     const [searchParams] = useSearchParams();
 
     const version = searchParams.get('version') ?? undefined;
     const tabListRef = useRef<ElementRef<'div'>>(null);
+    const shouldSubmitRef = useRef(false);
+    const lastModifiedAtRef = useRef<string | undefined>();
 
     const strings = useTranslation(i18n);
 
@@ -148,6 +157,7 @@ export function Component() {
 
     const currentFullEap = selectedFullEap ?? latestFullEap;
     const currentFullEapId = currentFullEap?.id;
+    const getIsSubmission = useCallback(() => shouldSubmitRef.current, []);
 
     const {
         value,
@@ -158,11 +168,15 @@ export function Component() {
         setError,
     } = useForm(
         formSchema,
-        { value: {} },
-        { isRevision },
+        { value: defaultFormValue },
+        {
+            isRevision,
+            getIsSubmission,
+        },
     );
 
     const updateFileUrlMapping = useCallback((response: GetFullEapResponse) => {
+        lastModifiedAtRef.current = response?.modified_at;
         setFileIdToUrlMap((prevMap) => {
             const {
                 cover_image_file,
@@ -568,19 +582,14 @@ export function Component() {
             : undefined,
     });
 
-    useEffect(() => {
-        if (isDefined(fullEapResponse)) {
-            loadResponseToFormValue(fullEapResponse);
-        }
-    }, [fullEapResponse, loadResponseToFormValue]);
-
     const { pending: createFullEapPending, trigger: triggerCreateFullEap } = useLazyRequest({
         method: 'POST',
         url: '/api/v2/full-eap/',
         body: (body: EapFullRequestBody) => body,
-        onSuccess: () => {
+        onSuccess: (response) => {
             const message = strings.successMessage;
             alert.show(message, { variant: 'success' });
+            loadResponseToFormValue(response);
         },
         onFailure: (err) => {
             const {
@@ -603,8 +612,9 @@ export function Component() {
             id: Number(latestFullEapId),
         },
         body: (formFields: EapFullRequestBody) => formFields,
-        onSuccess: () => {
+        onSuccess: (response) => {
             alert.show(strings.updateSuccess, { variant: 'success' });
+            loadResponseToFormValue(response);
         },
         onFailure: (err) => {
             const {
@@ -612,6 +622,15 @@ export function Component() {
             } = err;
 
             processServerErrors(formErrors);
+
+            const modifiedAtError = formErrors.modified_at;
+
+            if (
+                (typeof modifiedAtError === 'string' && modifiedAtError === 'OBSOLETE_PAYLOAD')
+                || (Array.isArray(modifiedAtError) && modifiedAtError.includes('OBSOLETE_PAYLOAD'))
+            ) {
+                setShowObsoletePayloadModal(true);
+            }
 
             alert.show(strings.updateFailure, {
                 variant: 'danger',
@@ -730,6 +749,7 @@ export function Component() {
                 triggerUpdateFullEap({
                     ...validatedFormValue,
                     id: latestFullEapId,
+                    modified_at: lastModifiedAtRef.current,
                 } as unknown as EapFullRequestBody);
             }
         },
@@ -758,16 +778,28 @@ export function Component() {
         [handleFormError, handleValidationSuccess, validate, setError],
     );
 
+    const handleObsoletePayloadOverwriteButtonClick = useCallback(
+        (newModifiedAt: string | undefined) => {
+            lastModifiedAtRef.current = newModifiedAt;
+            setShowObsoletePayloadModal(false);
+            handleSave();
+        },
+        [handleSave],
+    );
+
     const handleRequestForApprovalButtonClick = useCallback(() => {
+        shouldSubmitRef.current = true;
         setShouldSubmit(true);
         handleSave();
     }, [handleSave]);
 
     const handleRequestForApprovalCancel = useCallback(() => {
+        shouldSubmitRef.current = false;
         setShouldSubmit(false);
     }, []);
 
     const handleSubmitForApprovalConfirm = useCallback(() => {
+        shouldSubmitRef.current = false;
         triggerStatusUpdate(null);
         setShouldSubmit(false);
     }, [triggerStatusUpdate]);
@@ -1015,49 +1047,56 @@ export function Component() {
                         )}
                     </ListView>
                 </InlineLayout>
-            </Page>
-            {shouldSubmit && (
-                <Modal
-                    heading={strings.submitConfirmHeading}
-                    onClose={handleRequestForApprovalCancel}
-                    pending={createFullEapPending || updateFullFormPending}
-                    pendingMessage={strings.savingPendingMessage}
-                    footerActions={(
-                        <Button
-                            name={undefined}
-                            disabled={hasFormErrors}
-                            onClick={handleSubmitForApprovalConfirm}
-                        >
-                            {strings.submitConfirmButtonLabel}
-                        </Button>
-                    )}
-                >
-                    <ListView
-                        layout="block"
-                        spacing="sm"
-                    >
-                        <div>
-                            {strings.submitConfirmMessage}
-                        </div>
-                        {hasFormErrors && (
-                            <Alert
-                                name="form-error-warning"
-                                title={strings.submitFormErrorMessage}
-                                type="warning"
-                                withLightBackground
-                                withoutShadow
-                            />
+                {shouldSubmit && (
+                    <Modal
+                        heading={strings.submitConfirmHeading}
+                        onClose={handleRequestForApprovalCancel}
+                        pending={createFullEapPending || updateFullFormPending}
+                        pendingMessage={strings.savingPendingMessage}
+                        footerActions={(
+                            <Button
+                                name={undefined}
+                                disabled={hasFormErrors}
+                                onClick={handleSubmitForApprovalConfirm}
+                            >
+                                {strings.submitConfirmButtonLabel}
+                            </Button>
                         )}
-                    </ListView>
-                </Modal>
-            )}
-            {showShareModal && isDefined(eapId) && (
-                <EapShareModal
-                    onCancel={setShowShareModalFalse}
-                    onSuccess={setShowShareModalFalse}
-                    eapId={Number(eapId)}
-                />
-            )}
+                    >
+                        <ListView
+                            layout="block"
+                            spacing="sm"
+                        >
+                            <div>
+                                {strings.submitConfirmMessage}
+                            </div>
+                            {hasFormErrors && (
+                                <Alert
+                                    name="form-error-warning"
+                                    title={strings.submitFormErrorMessage}
+                                    type="warning"
+                                    withLightBackground
+                                    withoutShadow
+                                />
+                            )}
+                        </ListView>
+                    </Modal>
+                )}
+                {showShareModal && isDefined(eapId) && (
+                    <EapShareModal
+                        onCancel={setShowShareModalFalse}
+                        onSuccess={setShowShareModalFalse}
+                        eapId={Number(eapId)}
+                    />
+                )}
+                {isDefined(latestFullEapId) && showObsoletePayloadModal && (
+                    <EapObsoleteResolutionModal
+                        fullEapId={latestFullEapId}
+                        onOverwriteButtonClick={handleObsoletePayloadOverwriteButtonClick}
+                        onCancelButtonClick={setShowObsoletePayloadModal}
+                    />
+                )}
+            </Page>
         </Tabs>
     );
 }

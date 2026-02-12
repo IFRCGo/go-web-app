@@ -30,6 +30,7 @@ function lessThanEqualToFiveImagesCondition<T>(value: T[] | undefined) {
 type EapFullFormContext =
     | {
         isRevision: boolean;
+        getIsSubmission: () => boolean;
     }
     | undefined;
 
@@ -535,17 +536,18 @@ function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY, requi
 
 export const formSchema: EapFullFormSchema = {
     fields: (formValue, __, context): EapFullFormSchemaFields => {
+        const isSubmit = context?.getIsSubmission();
         let formFields: EapFullFormSchemaFields = {
             // ------------Overview-----------------
-            expected_submission_time: { required: true },
-            objective: { required: true },
+            expected_submission_time: { required: isSubmit },
+            objective: { required: isSubmit },
             cover_image_file: {
                 fields: (): CoverImageFileFormFields => ({
                     client_id: {},
                     caption: {},
                     id: {
                         defaultValue: undefinedValue,
-                        required: true,
+                        required: isSubmit,
                     },
                 }),
             },
@@ -563,9 +565,9 @@ export const formSchema: EapFullFormSchema = {
                 }),
             },
 
-            ...getContactSchema('national_society_contact', true),
-            ...getContactSchema('ifrc_delegation_focal_point', true),
-            ...getContactSchema('ifrc_head_of_delegation', true),
+            ...getContactSchema('national_society_contact', isSubmit),
+            ...getContactSchema('ifrc_delegation_focal_point', isSubmit),
+            ...getContactSchema('ifrc_head_of_delegation', isSubmit),
             ...getContactSchema('dref_focal_point'),
             ...getContactSchema('ifrc_regional_focal_point'),
             ...getContactSchema('ifrc_regional_ops_manager'),
@@ -573,9 +575,9 @@ export const formSchema: EapFullFormSchema = {
             ...getContactSchema('ifrc_global_ops_coordinator'),
 
             // Stakeholders
-            is_worked_with_government: { required: true },
+            is_worked_with_government: { required: isSubmit },
             worked_with_government_description: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
 
@@ -585,21 +587,21 @@ export const formSchema: EapFullFormSchema = {
                     fields: (): KeyActorsFormFields => ({
                         client_id: {},
                         id: { defaultValue: undefinedValue },
-                        description: { required: true },
-                        national_society: { required: true },
+                        description: { required: isSubmit },
+                        national_society: { required: isSubmit },
                     }),
                 }),
             },
 
-            is_technical_working_groups: { required: true },
+            is_technical_working_groups: { required: isSubmit },
             technical_working_groups_in_place_description: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
 
             // ------------Risk Analysis-----------------
             hazard_selection: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
 
@@ -616,7 +618,7 @@ export const formSchema: EapFullFormSchema = {
             },
 
             exposed_element_and_vulnerability_factor: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             exposed_element_and_vulnerability_factor_images: {
@@ -632,7 +634,7 @@ export const formSchema: EapFullFormSchema = {
             },
 
             prioritized_impact: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             prioritized_impact_images: {
@@ -653,7 +655,7 @@ export const formSchema: EapFullFormSchema = {
                         client_id: {},
                         id: { defaultValue: undefinedValue },
                         impact: {
-                            required: true,
+                            required: isSubmit,
                             requiredValidation: requiredStringCondition,
                         },
                     }),
@@ -668,11 +670,11 @@ export const formSchema: EapFullFormSchema = {
                         client_id: {},
                         id: { defaultValue: undefinedValue },
                         source_name: {
-                            required: true,
+                            required: isSubmit,
                             requiredValidation: requiredStringCondition,
                         },
                         source_link: {
-                            required: true,
+                            required: isSubmit,
                             validations: [urlCondition],
                         },
                     }),
@@ -681,7 +683,7 @@ export const formSchema: EapFullFormSchema = {
 
             // -------------Trigger Model--------------------
             trigger_statement: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             trigger_statement_source_of_information: {
@@ -691,20 +693,20 @@ export const formSchema: EapFullFormSchema = {
                         client_id: {},
                         id: { defaultValue: undefinedValue },
                         source_name: {
-                            required: true,
+                            required: isSubmit,
                             requiredValidation: requiredStringCondition,
                         },
                         source_link: {
-                            required: true,
+                            required: isSubmit,
                             validations: [urlCondition],
                         },
                     }),
                 }),
             },
-            lead_time: { required: true },
+            lead_time: { required: isSubmit },
 
             forecast_selection: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             forecast_selection_images: {
@@ -718,10 +720,10 @@ export const formSchema: EapFullFormSchema = {
                 }),
                 validation: lessThanEqualToFiveImagesCondition,
             },
-            forecast_table_file: { required: true },
+            forecast_table_file: { required: isSubmit },
 
             definition_and_justification_impact_level: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             definition_and_justification_impact_level_images: {
@@ -737,7 +739,7 @@ export const formSchema: EapFullFormSchema = {
             },
 
             identification_of_the_intervention_area: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             identification_of_the_intervention_area_images: {
@@ -763,11 +765,11 @@ export const formSchema: EapFullFormSchema = {
                         client_id: {},
                         id: { defaultValue: undefinedValue },
                         source_name: {
-                            required: true,
+                            required: isSubmit,
                             requiredValidation: requiredStringCondition,
                         },
                         source_link: {
-                            required: true,
+                            required: isSubmit,
                             validations: [urlCondition],
                         },
                     }),
@@ -781,12 +783,12 @@ export const formSchema: EapFullFormSchema = {
                     fields: (): EarlyActionsSelectionResponseFormFields => ({
                         client_id: {},
                         id: { defaultValue: undefinedValue },
-                        action: { required: true },
+                        action: { required: isSubmit },
                     }),
                 }),
             },
             early_action_selection_process: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             early_action_selection_process_images: {
@@ -800,10 +802,10 @@ export const formSchema: EapFullFormSchema = {
                 }),
                 validation: lessThanEqualToFiveImagesCondition,
             },
-            theory_of_change_table_file: { required: true },
+            theory_of_change_table_file: { required: isSubmit },
 
             evidence_base: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             evidence_base_source_of_information: {
@@ -813,11 +815,11 @@ export const formSchema: EapFullFormSchema = {
                         client_id: {},
                         id: { defaultValue: undefinedValue },
                         source_name: {
-                            required: true,
+                            required: isSubmit,
                             requiredValidation: requiredStringCondition,
                         },
                         source_link: {
-                            required: true,
+                            required: isSubmit,
                             validations: [urlCondition],
                         },
                     }),
@@ -846,7 +848,7 @@ export const formSchema: EapFullFormSchema = {
                             },
                         },
                         people_targeted: {
-                            required: true,
+                            required: isSubmit,
                             validations: [
                                 positiveIntegerCondition,
                             ],
@@ -866,7 +868,9 @@ export const formSchema: EapFullFormSchema = {
                     }),
                 }),
                 validation: (plannedOperations) => {
-                    if (isNotDefined(plannedOperations) || plannedOperations.length === 0) {
+                    if (isSubmit
+                        && (isNotDefined(plannedOperations)
+                        || plannedOperations.length === 0)) {
                         return 'This field is required';
                     }
 
@@ -910,7 +914,9 @@ export const formSchema: EapFullFormSchema = {
                     }),
                 }),
                 validation: (enablingApproaches) => {
-                    if (isNotDefined(enablingApproaches) || enablingApproaches.length === 0) {
+                    if (isSubmit
+                        && (isNotDefined(enablingApproaches)
+                        || enablingApproaches.length === 0)) {
                         return 'This field is required';
                     }
 
@@ -919,17 +925,17 @@ export const formSchema: EapFullFormSchema = {
             },
 
             usefulness_of_actions: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             feasibility: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
 
             // ----------EAP Activation Process---------
             early_action_implementation_process: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             early_action_implementation_images: {
@@ -945,7 +951,7 @@ export const formSchema: EapFullFormSchema = {
             },
 
             trigger_activation_system: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             trigger_activation_system_images: {
@@ -961,16 +967,16 @@ export const formSchema: EapFullFormSchema = {
             },
 
             people_targeted: {
-                required: true,
+                required: isSubmit,
                 validations: [
                     positiveIntegerCondition,
                 ],
             },
             selection_of_target_population: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
-            stop_mechanism: { required: true },
+            stop_mechanism: { required: isSubmit },
 
             activation_process_relevant_files: { defaultValue: [] },
             activation_process_source_of_information: {
@@ -981,11 +987,11 @@ export const formSchema: EapFullFormSchema = {
                             client_id: {},
                             id: { defaultValue: undefinedValue },
                             source_name: {
-                                required: true,
+                                required: isSubmit,
                                 requiredValidation: requiredStringCondition,
                             },
                             source_link: {
-                                required: true,
+                                required: isSubmit,
                                 validations: [urlCondition],
                             },
                         }),
@@ -994,69 +1000,69 @@ export const formSchema: EapFullFormSchema = {
 
             // --------------Meal-------------
             meal: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             meal_relevant_files: { defaultValue: [] },
 
             // -----------National Society Capacity-----------
             operational_administrative_capacity: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             strategies_and_plans: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             advance_financial_capacity: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             capacity_relevant_files: { defaultValue: [] },
 
             // ------------Finance and Logistics----------------
             total_budget: {
-                required: true,
+                required: isSubmit,
                 validations: [
                     positiveIntegerCondition,
                 ],
             },
             budget_description: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
-            budget_file: { required: true },
+            budget_file: { required: isSubmit },
             readiness_budget: {
-                required: true,
+                required: isSubmit,
                 validations: [
                     positiveIntegerCondition,
                 ],
             },
             readiness_cost_description: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             pre_positioning_budget: {
-                required: true,
+                required: isSubmit,
                 validations: [
                     positiveIntegerCondition,
                 ],
             },
             prepositioning_cost_description: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
             early_action_budget: {
-                required: true,
+                required: isSubmit,
                 validations: [
                     positiveIntegerCondition,
                 ],
             },
             early_action_cost_description: {
-                required: true,
+                required: isSubmit,
                 requiredValidation: requiredStringCondition,
             },
-            eap_endorsement: { required: true },
+            eap_endorsement: { required: isSubmit },
         };
 
         formFields = addCondition(
@@ -1067,9 +1073,9 @@ export const formSchema: EapFullFormSchema = {
             (val) => {
                 if (val?.is_technical_working_groups) {
                     return {
-                        technically_working_group_title: { required: true },
+                        technically_working_group_title: { required: isSubmit },
                         technical_working_groups_in_place_description: {
-                            required: true,
+                            required: isSubmit,
                             requiredValidation: requiredStringCondition,
                         },
                     };
@@ -1091,7 +1097,7 @@ export const formSchema: EapFullFormSchema = {
                 if (val?.is_worked_with_government) {
                     return {
                         worked_with_government_description: {
-                            required: true,
+                            required: isSubmit,
                             requiredValidation: requiredStringCondition,
                         },
                     };
@@ -1111,7 +1117,7 @@ export const formSchema: EapFullFormSchema = {
 
             // ------------Finance and Logistics----------------
             updated_checklist_file: {
-                required: true,
+                required: isSubmit,
             },
         } satisfies EapFullFormSchemaFields;
     },
