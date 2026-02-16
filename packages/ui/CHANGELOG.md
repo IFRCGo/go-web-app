@@ -1,5 +1,13 @@
 # @ifrc-go/ui
 
+## 2.0.1
+
+### Patch Changes
+
+- ea2e8de: Fix RadioInput
+
+  - Update double onChange callback
+
 ## 2.0.0
 
 ### Major Changes

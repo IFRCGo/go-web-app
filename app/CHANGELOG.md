@@ -1,5 +1,13 @@
 # go-web-app
 
+## 7.24.2
+
+### Patch Changes
+
+- ea2e8de: Fix Radio Inputs not allowing to clear the value
+- Updated dependencies [ea2e8de]
+  - @ifrc-go/ui@2.0.1
+
 ## 7.24.1
 
 ### Patch Changes
