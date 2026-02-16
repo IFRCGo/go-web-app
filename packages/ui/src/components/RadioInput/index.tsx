@@ -126,6 +126,7 @@ function RadioInput<
 
         if (otherOptions.clearable) {
             otherOptions.onChange(radioKey === value ? undefined : radioKey, name);
+            return;
         }
 
         if (isNotDefined(radioKey)) {
