@@ -51,7 +51,7 @@ function EapObsoleteResolutionModal(props: Props) {
     });
 
     const response = fullEapResponse ?? simplifiedEapResponse;
-    const pending = fullEapPending ?? simplifiedEapPending;
+    const pending = fullEapPending || simplifiedEapPending;
 
     return (
         <Modal
@@ -73,8 +73,7 @@ function EapObsoleteResolutionModal(props: Props) {
                 </ListView>
             )}
         >
-            {pending && <BlockLoading />}
-            {!pending && (
+            {pending ? <BlockLoading /> : (
                 <ListView layout="block">
                     <TextOutput
                         label={strings.conflictWhileSaving}

@@ -377,6 +377,7 @@ function DeliveryAndBudget(props: Props) {
                         <GoSingleFileInput
                             name="budget_file"
                             url="/api/v2/eap-file/"
+                            accept=".pdf, .docx, .pptx, .xlsx, .xlsm"
                             value={value?.budget_file}
                             onChange={setFieldValue}
                             error={getErrorString(error?.budget_file)}
@@ -396,6 +397,7 @@ function DeliveryAndBudget(props: Props) {
                             <GoSingleFileInput
                                 name="updated_checklist_file"
                                 url="/api/v2/eap-file/"
+                                accept=".pdf, .docx, .pptx, .xlsx, .xlsm"
                                 value={value?.updated_checklist_file}
                                 onChange={setFieldValue}
                                 error={getErrorString(error?.updated_checklist_file)}

@@ -462,7 +462,9 @@ export const formSchema: FormSchema = {
                     }),
                 }),
                 validation: (plannedOperations) => {
-                    if (isNotDefined(plannedOperations) || plannedOperations.length === 0) {
+                    if (isSubmit
+                        && (isNotDefined(plannedOperations)
+                        || plannedOperations.length === 0)) {
                         return 'This field is required';
                     }
 
@@ -506,7 +508,9 @@ export const formSchema: FormSchema = {
                     }),
                 }),
                 validation: (enablingApproaches) => {
-                    if (isNotDefined(enablingApproaches) || enablingApproaches.length === 0) {
+                    if (isSubmit
+                        && (isNotDefined(enablingApproaches)
+                        || enablingApproaches.length === 0)) {
                         return 'This field is required';
                     }
 

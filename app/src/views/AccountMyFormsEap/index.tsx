@@ -138,6 +138,8 @@ export function Component() {
                     status: row.status,
                     hasValidatedBudgetFile: isTruthyString(row.validated_budget_file),
                     onStatusUpdate: reloadEapList,
+                    eapType: row.eap_type,
+                    details: row,
                 }),
                 { columnClassName: styles.status },
             ),

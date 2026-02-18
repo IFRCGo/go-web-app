@@ -25,6 +25,7 @@ import {
 } from '@togglecorp/fujs';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
+import Link from '#components/Link';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
@@ -36,11 +37,16 @@ import {
     EAP_STATUS_TECHNICALLY_VALIDATED,
     EAP_STATUS_UNDER_DEVELOPMENT,
     EAP_STATUS_UNDER_REVIEW,
+    EAP_TYPE_FULL,
+    EAP_TYPE_SIMPLIFIED,
 } from '#utils/constants';
 import {
     type GoApiBody,
     useLazyRequest,
 } from '#utils/restRequest';
+import { type ResponseObjectError } from '#utils/restRequest/error';
+
+import { type EapListItem } from '../utils';
 
 import i18n from './i18n.json';
 
@@ -70,6 +76,7 @@ export interface Props {
     status: EapStatus;
     onStatusUpdate?: () => void;
     hasValidatedBudgetFile?: boolean;
+    details: EapListItem;
 }
 
 function EapStatus(props: Props) {
@@ -78,13 +85,18 @@ function EapStatus(props: Props) {
         status,
         onStatusUpdate,
         hasValidatedBudgetFile,
+        details,
     } = props;
+
+    const simplifiedEapDetails = details.simplified_eap_details;
+    const fullEapDetails = details.full_eap_details;
 
     const alert = useAlert();
 
     const { eap_eap_status: eapStatusOptions } = useGlobalEnums();
     const [newStatus, setNewStatus] = useState<EapStatus | undefined>();
     const [checklistFile, setChecklistFile] = useState<File | undefined>();
+    const [responseFormErrors, setResponseFormErrors] = useState<ResponseObjectError>();
 
     const strings = useTranslation(i18n);
 
@@ -114,11 +126,19 @@ function EapStatus(props: Props) {
         },
         formData: true,
         onFailure: (error) => {
+            const {
+                value: { formErrors, messageForNotification },
+            } = error;
+
+            if (isDefined(formErrors)) {
+                setResponseFormErrors(formErrors);
+            }
+
             alert.show(
                 strings.statusUpdateFailedAlert,
                 {
                     variant: 'danger',
-                    description: error.value.messageForNotification,
+                    description: messageForNotification,
                 },
             );
         },
@@ -140,6 +160,7 @@ function EapStatus(props: Props) {
     const confirmDisabled = (
         (newStatus === EAP_STATUS_NS_ADDRESSING_COMMENTS && isNotDefined(checklistFile))
             || (newStatus === EAP_STATUS_PENDING_PFA && !hasValidatedBudgetFile)
+        || isDefined(responseFormErrors)
     );
 
     return (
@@ -166,13 +187,45 @@ function EapStatus(props: Props) {
                     heading={strings.updateStatusHeading}
                     onClose={handleStatusUpdateCancel}
                     footerActions={(
-                        <Button
-                            name={requestBody}
-                            onClick={triggerStatusUpdate}
-                            disabled={confirmDisabled}
-                        >
-                            {strings.confirmStatusButtonLabel}
-                        </Button>
+                        <ListView>
+                            {details.eap_type === EAP_TYPE_SIMPLIFIED && responseFormErrors && (
+                                <Link
+                                    to="simplifiedEapForm"
+                                    urlParams={{ eapId }}
+                                    urlSearch={isDefined(simplifiedEapDetails[0]?.version)
+                                        ? `version=${simplifiedEapDetails[0].version}`
+                                        : undefined}
+                                    title={strings.editSimplifiedEapFormLinkLabel}
+                                    state={{ error: responseFormErrors }}
+                                    styleVariant="outline"
+                                    colorVariant="primary"
+                                >
+                                    {strings.editSimplifiedEapFormLinkLabel}
+                                </Link>
+                            )}
+                            {details.eap_type === EAP_TYPE_FULL && responseFormErrors && (
+                                <Link
+                                    to="eapFullExport"
+                                    urlParams={{ eapId }}
+                                    urlSearch={isDefined(fullEapDetails[0]?.version)
+                                        ? `version=${fullEapDetails[0].version}`
+                                        : undefined}
+                                    title={strings.editFullEapFormLinkLabel}
+                                    state={{ error: responseFormErrors }}
+                                    styleVariant="outline"
+                                    colorVariant="primary"
+                                >
+                                    {strings.editFullEapFormLinkLabel}
+                                </Link>
+                            )}
+                            <Button
+                                name={requestBody}
+                                onClick={triggerStatusUpdate}
+                                disabled={confirmDisabled}
+                            >
+                                {strings.confirmStatusButtonLabel}
+                            </Button>
+                        </ListView>
                     )}
                 >
                     <ListView
@@ -210,6 +263,15 @@ function EapStatus(props: Props) {
                                     {isDefined(checklistFile) && checklistFile.name}
                                 </Label>
                             </ListView>
+                        )}
+                        {isDefined(responseFormErrors) && (
+                            <Alert
+                                name="form-error-warning"
+                                type="warning"
+                                title={strings.submitFormErrorMessage}
+                                withLightBackground
+                                withoutShadow
+                            />
                         )}
                         {newStatus === EAP_STATUS_PENDING_PFA && !hasValidatedBudgetFile && (
                             <Alert

@@ -6,6 +6,7 @@ import {
     useState,
 } from 'react';
 import {
+    useLocation,
     useParams,
     useSearchParams,
 } from 'react-router-dom';
@@ -114,6 +115,7 @@ const defaultFormValue: PartialSimplifiedEapType = {};
 export function Component() {
     const strings = useTranslation(i18n);
     const { navigate } = useRouting();
+    const { state } = useLocation();
     const alert = useAlert();
     const { eapId } = useParams<{ eapId: string }>();
     const [searchParams] = useSearchParams();
@@ -152,18 +154,6 @@ export function Component() {
     const currentSimplifiedEap = selectedSimplifiedEap ?? latestSimplifiedEap;
     const currentSimplifiedEapId = currentSimplifiedEap?.id;
 
-    // FIXME: handle errors
-    const {
-        pending: simplifiedEapPending,
-        response: simplifiedEapResponse,
-    } = useRequest({
-        skip: isNotDefined(currentSimplifiedEapId),
-        url: '/api/v2/simplified-eap/{id}/',
-        pathVariables: isDefined(currentSimplifiedEapId) ? {
-            id: Number(currentSimplifiedEapId),
-        } : undefined,
-    });
-
     const isRevision = eapRegistrationResponse?.status === EAP_STATUS_NS_ADDRESSING_COMMENTS;
     const getIsSubmission = useCallback(() => shouldSubmitRef.current, []);
     const {
@@ -185,7 +175,6 @@ export function Component() {
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
 
     const updateFileUrlMapping = useCallback((response: GetSimplifiedResponse) => {
-        lastModifiedAtRef.current = response?.modified_at;
         setFileIdToUrlMap((prevMap) => {
             const {
                 cover_image_file,
@@ -239,6 +228,7 @@ export function Component() {
 
     const updateFormValueFromResponse = useCallback((response: GetSimplifiedResponse) => {
         updateFileUrlMapping(response);
+        lastModifiedAtRef.current = response?.modified_at;
 
         const {
             planned_operations,
@@ -282,96 +272,114 @@ export function Component() {
         });
     }, [updateFileUrlMapping, setValue]);
 
-    const processServerErrors = useCallback((errors: ResponseObjectError) => {
+    const processServerErrors = useCallback((
+        errors: ResponseObjectError,
+        formValue: PartialSimplifiedEapType,
+    ) => {
         setError(transformObjectError(
             errors,
             (locations) => {
                 let match = matchArray(locations, ['cover_image_file', NUM]);
                 if (isDefined(match)) {
-                    return value?.cover_image_file?.client_id;
+                    return formValue?.cover_image_file?.client_id;
                 }
 
                 match = matchArray(locations, ['partner_contacts', NUM]);
                 if (isDefined(match)) {
                     const [index] = match;
-                    return value?.partner_contacts?.[index!]?.client_id;
+                    return formValue?.partner_contacts?.[index!]?.client_id;
                 }
 
                 match = matchArray(locations, ['hazard_impact_images', NUM]);
                 if (isDefined(match)) {
                     const [index] = match;
-                    return value?.hazard_impact_images?.[index!]?.client_id;
+                    return formValue?.hazard_impact_images?.[index!]?.client_id;
                 }
 
                 match = matchArray(locations, ['risk_selected_protocols_images', NUM]);
                 if (isDefined(match)) {
                     const [index] = match;
-                    return value?.risk_selected_protocols_images?.[index!]?.client_id;
+                    return formValue?.risk_selected_protocols_images?.[index!]?.client_id;
                 }
 
                 match = matchArray(locations, ['selected_early_actions_images', NUM]);
                 if (isDefined(match)) {
                     const [index] = match;
-                    return value?.selected_early_actions_images?.[index!]?.client_id;
+                    return formValue?.selected_early_actions_images?.[index!]?.client_id;
                 }
 
                 match = matchArray(locations, ['planned_operations', NUM, 'early_action_activities', NUM]);
                 if (isDefined(match)) {
                     const [poIndex, index] = match;
-                    return value?.planned_operations?.[poIndex!]
+                    return formValue?.planned_operations?.[poIndex!]
                         ?.early_action_activities?.[index!]?.client_id;
                 }
                 match = matchArray(locations, ['planned_operations', NUM, 'readiness_activities', NUM]);
                 if (isDefined(match)) {
                     const [poIndex, index] = match;
-                    return value?.planned_operations?.[poIndex!]
+                    return formValue?.planned_operations?.[poIndex!]
                         ?.readiness_activities?.[index!]?.client_id;
                 }
                 match = matchArray(locations, ['planned_operations', NUM, 'prepositioning_activities', NUM]);
                 if (isDefined(match)) {
                     const [poIndex, index] = match;
-                    return value?.planned_operations?.[poIndex!]
+                    return formValue?.planned_operations?.[poIndex!]
                         ?.prepositioning_activities?.[index!]?.client_id;
                 }
                 match = matchArray(locations, ['planned_operations', NUM]);
                 if (isDefined(match)) {
                     const [poIndex] = match;
-                    return value?.planned_operations?.[poIndex!]?.sector;
+                    return formValue?.planned_operations?.[poIndex!]?.sector;
                 }
                 match = matchArray(locations, ['enabling_approaches', NUM, 'early_action_activities', NUM]);
                 if (isDefined(match)) {
                     const [eaIndex, index] = match;
-                    return value?.enabling_approaches?.[eaIndex!]
+                    return formValue?.enabling_approaches?.[eaIndex!]
                         ?.early_action_activities?.[index!]?.client_id;
                 }
                 match = matchArray(locations, ['enabling_approaches', NUM, 'readiness_activities', NUM]);
                 if (isDefined(match)) {
                     const [eaIndex, index] = match;
-                    return value?.enabling_approaches?.[eaIndex!]
+                    return formValue?.enabling_approaches?.[eaIndex!]
                         ?.readiness_activities?.[index!]?.client_id;
                 }
                 match = matchArray(locations, ['enabling_approaches', NUM, 'prepositioning_activities', NUM]);
                 if (isDefined(match)) {
                     const [eaIndex, index] = match;
-                    return value?.enabling_approaches?.[eaIndex!]
+                    return formValue?.enabling_approaches?.[eaIndex!]
                         ?.prepositioning_activities?.[index!]?.client_id;
                 }
                 match = matchArray(locations, ['enabling_approaches', NUM]);
                 if (isDefined(match)) {
                     const [eaIndex] = match;
-                    return value?.enabling_approaches?.[eaIndex!]?.approach;
+                    return formValue?.enabling_approaches?.[eaIndex!]?.approach;
                 }
 
                 return undefined;
             },
         ));
-    }, [value, setError]);
+    }, [setError]);
 
-    useEffect(() => {
-        if (isDefined(simplifiedEapResponse)) {
-            updateFormValueFromResponse(simplifiedEapResponse);
-        }
-    }, [updateFormValueFromResponse, simplifiedEapResponse]);
+    // FIXME: handle errors
+    const {
+        pending: simplifiedEapPending,
+        response: simplifiedEapResponse,
+    } = useRequest({
+        skip: isNotDefined(currentSimplifiedEapId),
+        url: '/api/v2/simplified-eap/{id}/',
+        pathVariables: isDefined(currentSimplifiedEapId) ? {
+            id: Number(currentSimplifiedEapId),
+        } : undefined,
+        onSuccess: (response) => {
+            updateFormValueFromResponse(response);
+            processServerErrors(state.error, value);
+
+            // NOTE state was used to pass error through navigation.
+            // and cleared here to prevent stale error from reappearing on page refresh
+            // "replace" avoids pushing a new entry to browser history stack
+            window.history.replaceState({}, '');
+        },
+    });
 
     useEffect(() => {
         if (isNotDefined(eapRegistrationResponse)) {
@@ -450,7 +458,7 @@ export function Component() {
                 },
             } = err;
 
-            processServerErrors(formErrors);
+            processServerErrors(formErrors, value);
 
             alert.show(
                 strings.createFailureMessage,
@@ -487,7 +495,7 @@ export function Component() {
                 },
             } = err;
 
-            processServerErrors(formErrors);
+            processServerErrors(formErrors, value);
 
             const modifiedAtError = formErrors.modified_at;
 
@@ -531,7 +539,7 @@ export function Component() {
                 value: { formErrors, messageForNotification },
             } = error;
 
-            processServerErrors(formErrors);
+            processServerErrors(formErrors, value);
             alert.show(
                 strings.submitFailedSuccess,
                 {
