@@ -1,47 +1,52 @@
 {
-    "name": "go-web-app-workspace",
-    "version": "1.0.0",
-    "type": "module",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/IFRCGo/go-web-app.git"
-    },
-    "private": true,
-    "scripts": {
-        "preinstall": "npx only-allow pnpm",
-        "lint:unused": "knip --tags=-knipignore",
-        "lint:js": "pnpm -r lint:js",
-        "lint:css": "pnpm -r lint:css",
-        "lint": "pnpm -r lint",
-        "lint:fix": "pnpm -r lint:fix",
-        "build:ui": "pnpm -F @ifrc-go/ui build",
-        "start:ui": "pnpm -F @ifrc-go/ui start",
-        "build": "pnpm -F go-web-app build",
-        "start": "pnpm -F go-web-app start",
-        "generate:type": "pnpm -F go-web-app generate:type",
-        "translatte:generate": "pnpm -F go-web-app translatte:generate",
-        "preview": "pnpm -F go-web-app preview",
-        "storybook": "pnpm -F go-ui-storybook storybook",
-        "build-storybook": "pnpm -F go-ui-storybook build-storybook",
-        "chromatic": "pnpm -F go-ui-storybook chromatic"
-    },
-    "engines": {
-        "node": "20",
-        "pnpm": "10.6.1"
-    },
-    "devDependencies": {
-        "@changesets/cli": "^2.27.10",
-        "knip": "^5.36.3"
-    },
-    "packageManager": "pnpm@10.6.1+sha512.40ee09af407fa9fbb5fbfb8e1cb40fbb74c0af0c3e10e9224d7b53c7658528615b2c92450e74cfad91e3a2dcafe3ce4050d80bda71d757756d2ce2b66213e9a3",
-    "pnpm": {
-        "patchedDependencies": {
-            "openapi-typescript@6.5.5": "patches/openapi-typescript@6.5.5.patch",
-            "@turf/buffer@6.5.0": "patches/@turf__buffer@6.5.0.patch",
-            "@turf/bbox@6.5.0": "patches/@turf__bbox@6.5.0.patch",
-            "@togglecorp/re-map@0.3.0": "patches/@togglecorp__re-map@0.3.0.patch",
-            "vite-plugin-webfont-dl@3.10.4": "patches/vite-plugin-webfont-dl@3.10.4.patch"
-        }
+  "name": "go-web-app-workspace",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IFRCGo/go-web-app.git"
+  },
+  "private": true,
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "lint:unused": "knip --tags=-knipignore",
+    "lint:js": "pnpm -r lint:js",
+    "lint:css": "pnpm -r lint:css",
+    "lint": "pnpm -r lint",
+    "lint:fix": "pnpm -r lint:fix",
+    "build:ui": "pnpm -F @ifrc-go/ui build",
+    "start:ui": "pnpm -F @ifrc-go/ui start",
+    "build": "pnpm -F go-web-app build",
+    "start": "pnpm -F go-web-app start",
+    "generate:type": "pnpm -F go-web-app generate:type",
+    "translatte:generate": "pnpm -F go-web-app translatte:generate",
+    "preview": "pnpm -F go-web-app preview",
+    "storybook": "pnpm -F go-ui-storybook storybook",
+    "build-storybook": "pnpm -F go-ui-storybook build-storybook",
+    "chromatic": "pnpm -F go-ui-storybook chromatic"
+  },
+  "engines": {
+    "node": "20",
+    "pnpm": "10.6.1"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.10",
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.3",
+    "knip": "^5.36.3"
+  },
+  "packageManager": "pnpm@10.6.1+sha512.40ee09af407fa9fbb5fbfb8e1cb40fbb74c0af0c3e10e9224d7b53c7658528615b2c92450e74cfad91e3a2dcafe3ce4050d80bda71d757756d2ce2b66213e9a3",
+  "pnpm": {
+    "patchedDependencies": {
+      "openapi-typescript@6.5.5": "patches/openapi-typescript@6.5.5.patch",
+      "@turf/buffer@6.5.0": "patches/@turf__buffer@6.5.0.patch",
+      "@turf/bbox@6.5.0": "patches/@turf__bbox@6.5.0.patch",
+      "@togglecorp/re-map@0.3.0": "patches/@togglecorp__re-map@0.3.0.patch",
+      "vite-plugin-webfont-dl@3.10.4": "patches/vite-plugin-webfont-dl@3.10.4.patch"
     }
+  },
+  "dependencies": {
+    "json5": "^2.2.3"
+  }
 }

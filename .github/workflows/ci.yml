@@ -55,7 +55,7 @@ jobs:
           path: packages/ui/dist
 
   test:
-    name: Run tests
+    name: Run tests (Unit + Playwright)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -78,8 +78,15 @@ jobs:
           name: ui-build
           path: packages/ui/dist
 
-      - name: Run test
-        run: pnpm test
+      - name: Build app
+        run: pnpm build
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Run Playwright tests
+        working-directory: packages/e2e-tests
+        run: pnpm exec playwright test
 
   translation:
     continue-on-error: true
