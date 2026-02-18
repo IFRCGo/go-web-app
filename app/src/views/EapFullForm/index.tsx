@@ -7,6 +7,7 @@ import {
     useState,
 } from 'react';
 import {
+    useLocation,
     useParams,
     useSearchParams,
 } from 'react-router-dom';
@@ -131,6 +132,7 @@ export function Component() {
 
     const strings = useTranslation(i18n);
 
+    const { state } = useLocation();
     const { navigate } = useRouting();
 
     const alert = useAlert();
@@ -176,7 +178,6 @@ export function Component() {
     );
 
     const updateFileUrlMapping = useCallback((response: GetFullEapResponse) => {
-        lastModifiedAtRef.current = response?.modified_at;
         setFileIdToUrlMap((prevMap) => {
             const {
                 cover_image_file,
@@ -236,6 +237,7 @@ export function Component() {
     const loadResponseToFormValue = useCallback(
         (response: GetFullEapResponse) => {
             updateFileUrlMapping(response);
+            lastModifiedAtRef.current = response?.modified_at;
 
             const {
                 planned_operations,
@@ -328,24 +330,24 @@ export function Component() {
     );
 
     const processServerErrors = useCallback(
-        (errors: ResponseObjectError) => {
+        (errors: ResponseObjectError, formValue: PartialEapFullFormType) => {
             setError(
                 transformObjectError(errors, (locations) => {
                     let match = matchArray(locations, ['cover_image_file', NUM]);
                     if (isDefined(match)) {
-                        return value?.cover_image_file?.client_id;
+                        return formValue?.cover_image_file?.client_id;
                     }
 
                     match = matchArray(locations, ['partner_contacts', NUM]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.partner_contacts?.[index!]?.client_id;
+                        return formValue?.partner_contacts?.[index!]?.client_id;
                     }
 
                     match = matchArray(locations, ['hazard_selection_images', NUM]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.hazard_selection_images?.[index!]?.client_id;
+                        return formValue?.hazard_selection_images?.[index!]?.client_id;
                     }
 
                     match = matchArray(locations, [
@@ -354,7 +356,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.exposed_element_and_vulnerability_factor_images?.[
+                        return formValue?.exposed_element_and_vulnerability_factor_images?.[
                             index!
                         ]?.client_id;
                     }
@@ -362,7 +364,7 @@ export function Component() {
                     match = matchArray(locations, ['prioritized_impact_images', NUM]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.prioritized_impact_images?.[index!]?.client_id;
+                        return formValue?.prioritized_impact_images?.[index!]?.client_id;
                     }
 
                     match = matchArray(locations, [
@@ -371,7 +373,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.risk_analysis_source_of_information?.[index!]
+                        return formValue?.risk_analysis_source_of_information?.[index!]
                             ?.client_id;
                     }
 
@@ -381,14 +383,14 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.trigger_statement_source_of_information?.[index!]
+                        return formValue?.trigger_statement_source_of_information?.[index!]
                             ?.client_id;
                     }
 
                     match = matchArray(locations, ['forecast_selection_images', NUM]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.forecast_selection_images?.[index!]?.client_id;
+                        return formValue?.forecast_selection_images?.[index!]?.client_id;
                     }
 
                     match = matchArray(locations, [
@@ -397,7 +399,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.definition_and_justification_impact_level_images?.[
+                        return formValue?.definition_and_justification_impact_level_images?.[
                             index!
                         ]?.client_id;
                     }
@@ -408,7 +410,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.identification_of_the_intervention_area_images?.[
+                        return formValue?.identification_of_the_intervention_area_images?.[
                             index!
                         ]?.client_id;
                     }
@@ -419,14 +421,14 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.trigger_model_source_of_information?.[index!]
+                        return formValue?.trigger_model_source_of_information?.[index!]
                             ?.client_id;
                     }
 
                     match = matchArray(locations, ['early_actions', NUM]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.early_actions?.[index!]?.client_id;
+                        return formValue?.early_actions?.[index!]?.client_id;
                     }
 
                     match = matchArray(locations, [
@@ -435,7 +437,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.early_action_selection_process_images?.[index!]
+                        return formValue?.early_action_selection_process_images?.[index!]
                             ?.client_id;
                     }
 
@@ -445,7 +447,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.early_action_selection_process_images?.[index!]
+                        return formValue?.early_action_selection_process_images?.[index!]
                             ?.client_id;
                     }
 
@@ -455,7 +457,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.evidence_base_source_of_information?.[index!]
+                        return formValue?.evidence_base_source_of_information?.[index!]
                             ?.client_id;
                     }
 
@@ -465,7 +467,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.early_action_implementation_images?.[index!]
+                        return formValue?.early_action_implementation_images?.[index!]
                             ?.client_id;
                     }
 
@@ -475,7 +477,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.trigger_activation_system_images?.[index!]?.client_id;
+                        return formValue?.trigger_activation_system_images?.[index!]?.client_id;
                     }
 
                     match = matchArray(locations, [
@@ -484,7 +486,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return value?.trigger_activation_system_images?.[index!]?.client_id;
+                        return formValue?.trigger_activation_system_images?.[index!]?.client_id;
                     }
                     match = matchArray(locations, [
                         'planned_operations',
@@ -494,7 +496,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [poIndex, index] = match;
-                        return value?.planned_operations?.[poIndex!]
+                        return formValue?.planned_operations?.[poIndex!]
                             ?.early_action_activities?.[index!]?.client_id;
                     }
                     match = matchArray(locations, [
@@ -505,7 +507,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [poIndex, index] = match;
-                        return value?.planned_operations?.[poIndex!]
+                        return formValue?.planned_operations?.[poIndex!]
                             ?.readiness_activities?.[index!]?.client_id;
                     }
                     match = matchArray(locations, [
@@ -516,13 +518,13 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [poIndex, index] = match;
-                        return value?.planned_operations?.[poIndex!]
+                        return formValue?.planned_operations?.[poIndex!]
                             ?.prepositioning_activities?.[index!]?.client_id;
                     }
                     match = matchArray(locations, ['planned_operations', NUM]);
                     if (isDefined(match)) {
                         const [poIndex] = match;
-                        return value?.planned_operations?.[poIndex!]?.sector;
+                        return formValue?.planned_operations?.[poIndex!]?.sector;
                     }
                     match = matchArray(locations, [
                         'enabling_approaches',
@@ -532,7 +534,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [eaIndex, index] = match;
-                        return value?.enabling_approaches?.[eaIndex!]
+                        return formValue?.enabling_approaches?.[eaIndex!]
                             ?.early_action_activities?.[index!]?.client_id;
                     }
                     match = matchArray(locations, [
@@ -543,7 +545,7 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [eaIndex, index] = match;
-                        return value?.enabling_approaches?.[eaIndex!]?.readiness_activities?.[
+                        return formValue?.enabling_approaches?.[eaIndex!]?.readiness_activities?.[
                             index!
                         ]?.client_id;
                     }
@@ -555,20 +557,20 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [eaIndex, index] = match;
-                        return value?.enabling_approaches?.[eaIndex!]
+                        return formValue?.enabling_approaches?.[eaIndex!]
                             ?.prepositioning_activities?.[index!]?.client_id;
                     }
                     match = matchArray(locations, ['enabling_approaches', NUM]);
                     if (isDefined(match)) {
                         const [eaIndex] = match;
-                        return value?.enabling_approaches?.[eaIndex!]?.approach;
+                        return formValue?.enabling_approaches?.[eaIndex!]?.approach;
                     }
 
                     return undefined;
                 }),
             );
         },
-        [value, setError],
+        [setError],
     );
 
     const {
@@ -580,6 +582,16 @@ export function Component() {
         pathVariables: isDefined(latestFullEapId)
             ? { id: latestFullEapId }
             : undefined,
+        onSuccess: (response) => {
+            loadResponseToFormValue(response);
+
+            processServerErrors(state.error, value);
+
+            // NOTE state was used to pass error through navigation.
+            // and cleared here to prevent stale error from reappearing on page refresh
+            // "replace" avoids pushing a new entry to browser history stack
+            window.history.replaceState({}, '');
+        },
     });
 
     const { pending: createFullEapPending, trigger: triggerCreateFullEap } = useLazyRequest({
@@ -596,7 +608,7 @@ export function Component() {
                 value: { formErrors, messageForNotification },
             } = err;
 
-            processServerErrors(formErrors);
+            processServerErrors(formErrors, value);
 
             alert.show(strings.failureMessage, {
                 variant: 'danger',
@@ -621,7 +633,7 @@ export function Component() {
                 value: { formErrors, messageForNotification },
             } = err;
 
-            processServerErrors(formErrors);
+            processServerErrors(formErrors, value);
 
             const modifiedAtError = formErrors.modified_at;
 
