@@ -6,6 +6,7 @@ import { extractInputContainerProps } from '#utils/inputs';
 
 import InputContainer, { Props as InputContainerProps } from '../InputContainer';
 import RawTextArea, { Props as RawTextAreaProps } from '../RawTextArea';
+import TextBadge from '../TextBadge';
 
 const BULLET = '•';
 const KEY_ENTER = 'Enter';
@@ -36,6 +37,7 @@ function TextArea<const N>(props: Props<N>) {
         withDiffView,
         value,
         prevValue,
+        maxLength,
         ...otherProps
     } = props;
 
@@ -78,20 +80,27 @@ function TextArea<const N>(props: Props<N>) {
             highlightMode={highlightMode}
             prevValue={prevValue}
             input={(
-                <RawTextArea
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...rawInputProps}
-                    value={value}
-                    className={inputClassName}
-                    disabled={disabled}
-                    readOnly={readOnly}
-                    required={required}
-                    onChange={onChange}
-                    name={name}
-                    onFocus={autoBullets ? handleInputFocus : undefined}
-                    onKeyUp={autoBullets ? handleKeyUp : undefined}
-                    rows={rows}
-                />
+                <>
+                    <RawTextArea
+                        // eslint-disable-next-line react/jsx-props-no-spreading
+                        {...rawInputProps}
+                        value={value}
+                        className={inputClassName}
+                        disabled={disabled}
+                        readOnly={readOnly}
+                        required={required}
+                        onChange={onChange}
+                        name={name}
+                        onFocus={autoBullets ? handleInputFocus : undefined}
+                        onKeyUp={autoBullets ? handleKeyUp : undefined}
+                        maxLength={maxLength}
+                        rows={rows}
+                    />
+                    <TextBadge
+                        length={value?.length}
+                        maxLength={maxLength}
+                    />
+                </>
             )}
         />
     );
