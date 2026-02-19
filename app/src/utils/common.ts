@@ -1,6 +1,7 @@
 import { type Language } from '@ifrc-go/ui/contexts';
 import { DEFAULT_INVALID_TEXT } from '@ifrc-go/ui/utils';
 import {
+    isDefined,
     isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
@@ -91,4 +92,12 @@ export function formatSourceLink(value: string | undefined): string | undefined 
     }
 
     return `https://${value}`;
+}
+
+export function lengthSmallerOrEqualToCondition(x?: number) {
+    return (value: string | undefined) => (
+        (isDefined(value) && isDefined(x)) && value.length > x
+            ? `Length must be smaller or equal to ${x}`
+            : undefined
+    );
 }

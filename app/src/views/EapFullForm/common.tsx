@@ -17,7 +17,9 @@ export type TabKeys =
     | 'nationalSocietyCapacity'
     | 'financeLogistics';
 
-const overviewTabFields: (keyof PartialEapFullFormType)[] = [
+type FormKeys = keyof PartialEapFullFormType;
+
+const overviewTabFields: (FormKeys)[] = [
     'expected_submission_time',
     'modified_at',
     'objective',
@@ -171,3 +173,32 @@ export function checkTabErrors(
 
     return hasErrorOnAnyField;
 }
+
+export const charLimits: { [key in FormKeys]?: number } = {
+    key_actors: 150,
+    technical_working_groups_in_place_description: 150,
+    hazard_selection: 1000,
+    exposed_element_and_vulnerability_factor: 1500,
+    prioritized_impact: 500,
+    trigger_statement: 200,
+    forecast_selection: 750,
+    definition_and_justification_impact_level: 750,
+    identification_of_the_intervention_area: 500,
+    early_action_selection_process: 2000,
+    evidence_base: 1200,
+    usefulness_of_actions: 500,
+    feasibility: 500,
+    early_action_implementation_process: 750,
+    trigger_activation_system: 500,
+    selection_of_target_population: 500,
+    stop_mechanism: 500,
+    meal: 1200,
+    operational_administrative_capacity: 1200,
+    strategies_and_plans: 500,
+    advance_financial_capacity: 300,
+    budget_description: 500,
+    readiness_cost_description: 500,
+    prepositioning_cost_description: 500,
+    early_action_cost_description: 500,
+    eap_endorsement: 300,
+};

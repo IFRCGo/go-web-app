@@ -182,6 +182,7 @@ function DeliveryAndBudget(props: Props) {
                             error={error?.early_action_capability}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={500}
                         />
                     </InputSection>
                     <InputSection
@@ -231,6 +232,7 @@ function DeliveryAndBudget(props: Props) {
                             error={error?.rcrc_movement_involvement}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={150}
                         />
                     </InputSection>
                 </ListView>

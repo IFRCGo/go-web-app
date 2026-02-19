@@ -259,6 +259,7 @@ function RiskAnalysis(props: Props) {
                             error={error?.hazard_selection}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={1000}
                         />
                         <MultiImageWithCaptionInput
                             name="hazard_selection_images"
@@ -327,6 +328,7 @@ function RiskAnalysis(props: Props) {
                             error={error?.exposed_element_and_vulnerability_factor}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={1500}
                         />
                         <MultiImageWithCaptionInput
                             name="exposed_element_and_vulnerability_factor_images"
@@ -400,6 +402,7 @@ function RiskAnalysis(props: Props) {
                             error={error?.prioritized_impact}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={500}
                         />
                         <MultiImageWithCaptionInput
                             name="prioritized_impact_images"

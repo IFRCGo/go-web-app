@@ -246,6 +246,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={200}
                         />
                     </InputSection>
                     <InputSection title={strings.triggerLeadTimeTitle} withAsteriskOnTitle>
@@ -324,6 +325,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={750}
                         />
                         <MultiImageWithCaptionInput
                             name="forecast_selection_images"
@@ -409,6 +411,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={750}
                         />
                         <MultiImageWithCaptionInput
                             name="definition_and_justification_impact_level_images"
@@ -471,6 +474,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={500}
                         />
                         <MultiImageWithCaptionInput
                             name="identification_of_the_intervention_area_images"

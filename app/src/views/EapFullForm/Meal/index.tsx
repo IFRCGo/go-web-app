@@ -163,6 +163,7 @@ function Meal(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={1200}
                         />
                     </InputSection>
                     <InputSection

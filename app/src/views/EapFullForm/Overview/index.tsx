@@ -538,6 +538,7 @@ function Overview(props: Props) {
                                                 ?.technical_working_groups_in_place_description}
                                             disabled={disabled}
                                             readOnly={readOnly}
+                                            maxLength={150}
                                         />
                                     </>
                                 )}

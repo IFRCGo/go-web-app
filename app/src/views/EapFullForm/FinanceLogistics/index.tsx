@@ -179,6 +179,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={500}
                         />
                     </InputSection>
                     <InputSection
@@ -254,6 +255,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={500}
                         />
                     </InputSection>
                     <InputSection
@@ -305,6 +307,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={500}
                         />
                     </InputSection>
                     <InputSection
@@ -358,6 +361,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={500}
                         />
                     </InputSection>
                 </ListView>
@@ -387,6 +391,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={300}
                         />
                     </InputSection>
                 </ListView>

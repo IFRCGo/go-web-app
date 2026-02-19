@@ -134,6 +134,7 @@ function NationalSocietyCapacity(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={1200}
                         />
                     </InputSection>
                     <InputSection
@@ -149,6 +150,7 @@ function NationalSocietyCapacity(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={500}
                         />
                     </InputSection>
                     <InputSection
@@ -182,6 +184,7 @@ function NationalSocietyCapacity(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={300}
                         />
                     </InputSection>
                     <InputSection

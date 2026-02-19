@@ -100,6 +100,7 @@ function KeyActorsInput(props: Props) {
                         value={value?.description}
                         onChange={onFieldChange}
                         required
+                        maxLength={150}
                     />
                 </ListView>
             </InlineLayout>

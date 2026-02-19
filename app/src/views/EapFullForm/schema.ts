@@ -18,8 +18,11 @@ import {
 
 import indicatorSchema from '#components/domain/EapIndicatorInput/schema';
 import operationActivitySchema from '#components/domain/EapOperationActivityInput/schema';
+import { lengthSmallerOrEqualToCondition } from '#utils/common';
 import { positiveIntegerCondition } from '#utils/form';
 import { type GoApiBody } from '#utils/restRequest';
+
+import { charLimits } from './common';
 
 function lessThanEqualToFiveImagesCondition<T>(value: T[] | undefined) {
     return isDefined(value) && Array.isArray(value) && value.length > 5
@@ -634,7 +637,11 @@ export const formSchema: EapFullFormSchema = {
                     fields: (): KeyActorsFormFields => ({
                         client_id: {},
                         id: { defaultValue: undefinedValue },
-                        description: { required: isSubmit },
+                        description: {
+                            required: isSubmit,
+                            requiredValidation: requiredStringCondition,
+                            validations: [lengthSmallerOrEqualToCondition(charLimits.key_actors)],
+                        },
                         national_society: { required: isSubmit },
                     }),
                 }),
@@ -644,12 +651,16 @@ export const formSchema: EapFullFormSchema = {
             technical_working_groups_in_place_description: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.technical_working_groups_in_place_description,
+                )],
             },
 
             // ------------Risk Analysis-----------------
             hazard_selection: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(charLimits.hazard_selection)],
             },
 
             hazard_selection_images: {
@@ -667,6 +678,9 @@ export const formSchema: EapFullFormSchema = {
             exposed_element_and_vulnerability_factor: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.exposed_element_and_vulnerability_factor,
+                )],
             },
             exposed_element_and_vulnerability_factor_images: {
                 keySelector: (item) => item.client_id,
@@ -683,6 +697,9 @@ export const formSchema: EapFullFormSchema = {
             prioritized_impact: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.prioritized_impact,
+                )],
             },
             prioritized_impact_images: {
                 keySelector: (item) => item.client_id,
@@ -732,6 +749,7 @@ export const formSchema: EapFullFormSchema = {
             trigger_statement: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(charLimits.trigger_statement)],
             },
             trigger_statement_source_of_information: {
                 keySelector: (item) => item.client_id,
@@ -755,6 +773,7 @@ export const formSchema: EapFullFormSchema = {
             forecast_selection: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(charLimits.forecast_selection)],
             },
             forecast_selection_images: {
                 keySelector: (item) => item.client_id,
@@ -772,6 +791,9 @@ export const formSchema: EapFullFormSchema = {
             definition_and_justification_impact_level: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.definition_and_justification_impact_level,
+                )],
             },
             definition_and_justification_impact_level_images: {
                 keySelector: (item) => item.client_id,
@@ -788,6 +810,9 @@ export const formSchema: EapFullFormSchema = {
             identification_of_the_intervention_area: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.identification_of_the_intervention_area,
+                )],
             },
             identification_of_the_intervention_area_images: {
                 keySelector: (item) => item.client_id,
@@ -837,6 +862,9 @@ export const formSchema: EapFullFormSchema = {
             early_action_selection_process: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.early_action_selection_process,
+                )],
             },
             early_action_selection_process_images: {
                 keySelector: (item) => item.client_id,
@@ -854,6 +882,9 @@ export const formSchema: EapFullFormSchema = {
             evidence_base: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.evidence_base,
+                )],
             },
             evidence_base_source_of_information: {
                 keySelector: (item) => item.client_id,
@@ -974,16 +1005,25 @@ export const formSchema: EapFullFormSchema = {
             usefulness_of_actions: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.usefulness_of_actions,
+                )],
             },
             feasibility: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.feasibility,
+                )],
             },
 
             // ----------EAP Activation Process---------
             early_action_implementation_process: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.early_action_implementation_process,
+                )],
             },
             early_action_implementation_images: {
                 keySelector: (item) => item.client_id,
@@ -1000,6 +1040,9 @@ export const formSchema: EapFullFormSchema = {
             trigger_activation_system: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.trigger_activation_system,
+                )],
             },
             trigger_activation_system_images: {
                 keySelector: (item) => item.client_id,
@@ -1022,8 +1065,17 @@ export const formSchema: EapFullFormSchema = {
             selection_of_target_population: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.selection_of_target_population,
+                )],
             },
-            stop_mechanism: { required: isSubmit },
+            stop_mechanism: {
+                required: isSubmit,
+                requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.stop_mechanism,
+                )],
+            },
 
             activation_process_relevant_files: { defaultValue: [] },
             activation_process_source_of_information: {
@@ -1049,6 +1101,9 @@ export const formSchema: EapFullFormSchema = {
             meal: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.meal,
+                )],
             },
             meal_relevant_files: { defaultValue: [] },
             meal_source_of_information: {
@@ -1073,14 +1128,23 @@ export const formSchema: EapFullFormSchema = {
             operational_administrative_capacity: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.operational_administrative_capacity,
+                )],
             },
             strategies_and_plans: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.strategies_and_plans,
+                )],
             },
             advance_financial_capacity: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.advance_financial_capacity,
+                )],
             },
             capacity_relevant_files: { defaultValue: [] },
             ns_capacity_source_of_information: {
@@ -1111,6 +1175,9 @@ export const formSchema: EapFullFormSchema = {
             budget_description: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.budget_description,
+                )],
             },
             budget_file: { required: isSubmit },
             readiness_budget: {
@@ -1122,6 +1189,9 @@ export const formSchema: EapFullFormSchema = {
             readiness_cost_description: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.readiness_cost_description,
+                )],
             },
             pre_positioning_budget: {
                 required: isSubmit,
@@ -1132,6 +1202,9 @@ export const formSchema: EapFullFormSchema = {
             prepositioning_cost_description: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.prepositioning_cost_description,
+                )],
             },
             early_action_budget: {
                 required: isSubmit,
@@ -1142,8 +1215,17 @@ export const formSchema: EapFullFormSchema = {
             early_action_cost_description: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.early_action_cost_description,
+                )],
             },
-            eap_endorsement: { required: isSubmit },
+            eap_endorsement: {
+                required: isSubmit,
+                requiredValidation: requiredStringCondition,
+                validations: [lengthSmallerOrEqualToCondition(
+                    charLimits.eap_endorsement,
+                )],
+            },
         };
 
         formFields = addCondition(

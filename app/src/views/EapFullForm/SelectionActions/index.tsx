@@ -394,6 +394,7 @@ function SelectionActions(props: Props) {
                             error={error?.early_action_selection_process}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={2000}
                         />
                         <MultiImageWithCaptionInput
                             name="early_action_selection_process_images"
@@ -459,6 +460,7 @@ function SelectionActions(props: Props) {
                             error={error?.evidence_base}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={1200}
                         />
                     </InputSection>
                     <InputSection
@@ -606,6 +608,7 @@ function SelectionActions(props: Props) {
                             error={error?.usefulness_of_actions}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={500}
                         />
                     </InputSection>
                     <InputSection
@@ -640,6 +643,7 @@ function SelectionActions(props: Props) {
                             error={error?.feasibility}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={500}
                         />
                     </InputSection>
                 </ListView>

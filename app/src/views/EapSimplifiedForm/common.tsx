@@ -178,3 +178,18 @@ export function checkTabErrors(
 
     return hasErrorOnAnyField;
 }
+
+export const charLimits: { [key in FormKeys]?: number } = {
+    prioritized_hazard_and_impact: 500,
+    risks_selected_protocols: 150,
+    selected_early_actions: 150,
+    overall_objective_intervention: 150,
+    potential_geographical_high_risk_areas: 100,
+    assisted_through_operation: 100,
+    selection_criteria: 100,
+    trigger_statement: 100,
+    trigger_threshold_justification: 100,
+    next_step_towards_full_eap: 100,
+    early_action_capability: 500,
+    rcrc_movement_involvement: 150,
+};

@@ -185,6 +185,7 @@ function EapActivationProcess(props: Props) {
                             error={error?.early_action_implementation_process}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={750}
                         />
                         <MultiImageWithCaptionInput
                             name="early_action_implementation_images"
@@ -239,6 +240,7 @@ function EapActivationProcess(props: Props) {
                             error={error?.trigger_activation_system}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={500}
                         />
                         <MultiImageWithCaptionInput
                             name="trigger_activation_system_images"
@@ -307,6 +309,7 @@ function EapActivationProcess(props: Props) {
                             error={error?.selection_of_target_population}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={500}
                         />
                     </InputSection>
                     <InputSection
@@ -348,6 +351,7 @@ function EapActivationProcess(props: Props) {
                             error={error?.stop_mechanism}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={500}
                         />
                     </InputSection>
                     <InputSection

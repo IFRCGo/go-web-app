@@ -175,6 +175,7 @@ function EarlyAction(props: Props) {
                             error={error?.overall_objective_intervention}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={150}
                         />
                     </InputSection>
                     <InputSection
@@ -215,6 +216,7 @@ function EarlyAction(props: Props) {
                             error={error?.potential_geographical_high_risk_areas}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={100}
                         />
                     </InputSection>
                     <InputSection
@@ -253,6 +255,7 @@ function EarlyAction(props: Props) {
                                 error={error?.assisted_through_operation}
                                 disabled={disabled}
                                 readOnly={readOnly}
+                                maxLength={100}
                             />
                         </InputSection>
                         <InputSection
@@ -277,6 +280,7 @@ function EarlyAction(props: Props) {
                                 error={error?.selection_criteria}
                                 disabled={disabled}
                                 readOnly={readOnly}
+                                maxLength={100}
                             />
                         </InputSection>
                     </ListView>
@@ -348,6 +352,7 @@ function EarlyAction(props: Props) {
                             error={error?.trigger_statement}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={100}
                         />
                     </InputSection>
                     <InputSection
@@ -431,6 +436,7 @@ function EarlyAction(props: Props) {
                             error={error?.trigger_threshold_justification}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={100}
                         />
                     </InputSection>
                     <InputSection
@@ -445,6 +451,7 @@ function EarlyAction(props: Props) {
                             error={error?.next_step_towards_full_eap}
                             disabled={disabled}
                             readOnly={readOnly}
+                            maxLength={100}
                         />
                     </InputSection>
                 </ListView>
