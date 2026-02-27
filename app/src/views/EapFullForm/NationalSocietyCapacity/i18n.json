@@ -22,6 +22,9 @@
         "capacitySectionHeading": "Quality Criteria: National Society Capacity",
         "capacityCriteriaIntroduction11": "The EAP describes the National Society operational (Cash, WASH, Food Security, Shelter etc.) and administrative (Finance, PMER, Human Resources) capacity and experience to implement the EAP.  If no capacity exists, the EAP describes how they plan to address this limitation in order to implement the EAP effectively and efficiently.",
         "capacityCriteriaIntroduction12": "The EAP describes its alignment with the National Society Disaster Risk Management strategy (e.g. the existing contingency plan, response plan, DRR plan etc.)",
-        "capacityCriteriaComment1": "In the mid-term the EAP should be integrated in the DRM strategy."
+        "capacityCriteriaComment1": "In the mid-term the EAP should be integrated in the DRM strategy.",
+        "capacitySourcesInformationTitle": "Sources of Information",
+        "capacitySourcesInformationDescription": "Add respective source(s) for the forecast and the link to the website, if applicable.",
+        "addNewCapacitySourceButtonLabel": "Add"
     }
 }

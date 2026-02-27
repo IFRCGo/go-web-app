@@ -261,6 +261,8 @@ export function Component() {
                 key_actors,
                 prioritized_impacts,
                 partner_contacts,
+                meal_source_of_information,
+                ns_capacity_source_of_information,
                 ...otherValues
             } = removeNull(response);
 
@@ -270,6 +272,9 @@ export function Component() {
                 partner_contacts: partner_contacts?.map(injectClientId),
                 activation_process_source_of_information:
                     activation_process_source_of_information?.map(injectClientId),
+                meal_source_of_information: meal_source_of_information?.map(injectClientId),
+                ns_capacity_source_of_information: ns_capacity_source_of_information
+                    ?.map(injectClientId),
                 risk_analysis_source_of_information:
                     risk_analysis_source_of_information?.map(injectClientId),
                 evidence_base_source_of_information:
@@ -386,7 +391,24 @@ export function Component() {
                         return formValue?.trigger_statement_source_of_information?.[index!]
                             ?.client_id;
                     }
-
+                    match = matchArray(locations, [
+                        'meal_source_of_information',
+                        NUM,
+                    ]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return formValue?.meal_source_of_information?.[index!]
+                            ?.client_id;
+                    }
+                    match = matchArray(locations, [
+                        'ns_capacity_source_of_information',
+                        NUM,
+                    ]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return formValue?.ns_capacity_source_of_information?.[index!]
+                            ?.client_id;
+                    }
                     match = matchArray(locations, ['forecast_selection_images', NUM]);
                     if (isDefined(match)) {
                         const [index] = match;

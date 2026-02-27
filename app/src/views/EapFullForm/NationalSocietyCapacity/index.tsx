@@ -1,4 +1,7 @@
+import { useCallback } from 'react';
+import { AddLineIcon } from '@ifrc-go/icons';
 import {
+    Button,
     Container,
     Description,
     InfoPopup,
@@ -9,16 +12,20 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { randomString } from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
     getErrorObject,
     getErrorString,
+    useFormArray,
 } from '@togglecorp/toggle-form';
 
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
+import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 
+import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
 
@@ -48,6 +55,28 @@ function NationalSocietyCapacity(props: Props) {
 
     const error = getErrorObject(formError);
     const strings = useTranslation(i18n);
+
+    const {
+        setValue: onSourceInformationChange,
+        removeValue: onSourceInformationRemove,
+    } = useFormArray<
+        'ns_capacity_source_of_information',
+        SourceInformationFormFields
+    >('ns_capacity_source_of_information', setFieldValue);
+
+    const handleSourcesInformationAdd = useCallback(() => {
+        const newSourceInformationItem: SourceInformationFormFields = {
+            client_id: randomString(),
+        };
+
+        setFieldValue(
+            (oldValue: SourceInformationFormFields[] | undefined) => [
+                ...(oldValue ?? []),
+                newSourceInformationItem,
+            ],
+            'ns_capacity_source_of_information' as const,
+        );
+    }, [setFieldValue]);
 
     return (
         <TabPage
@@ -175,6 +204,40 @@ function NationalSocietyCapacity(props: Props) {
                         >
                             {strings.capacityNationalRelevantFilesUploadLabel}
                         </GoMultiFileInput>
+                    </InputSection>
+                    <InputSection
+                        title={strings.capacitySourcesInformationTitle}
+                        description={strings.capacitySourcesInformationDescription}
+                    >
+                        <NonFieldError
+                            error={getErrorObject(
+                                error?.ns_capacity_source_of_information,
+                            )}
+                        />
+                        {value?.ns_capacity_source_of_information?.map(
+                            (source, index) => (
+                                <EAPSourceInformationInput
+                                    key={source.client_id}
+                                    index={index}
+                                    value={source}
+                                    onChange={onSourceInformationChange}
+                                    onRemove={onSourceInformationRemove}
+                                    error={getErrorObject(
+                                        error?.ns_capacity_source_of_information,
+                                    )}
+                                    disabled={disabled}
+                                    readOnly={readOnly}
+                                />
+                            ),
+                        )}
+                        <Button
+                            name={undefined}
+                            onClick={handleSourcesInformationAdd}
+                            disabled={disabled || readOnly}
+                            before={<AddLineIcon />}
+                        >
+                            {strings.addNewCapacitySourceButtonLabel}
+                        </Button>
                     </InputSection>
                 </ListView>
             </Container>

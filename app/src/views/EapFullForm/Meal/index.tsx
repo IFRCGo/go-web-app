@@ -1,4 +1,7 @@
+import { useCallback } from 'react';
+import { AddLineIcon } from '@ifrc-go/icons';
 import {
+    Button,
     Container,
     Description,
     InputSection,
@@ -8,16 +11,20 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { randomString } from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
     getErrorObject,
     getErrorString,
+    useFormArray,
 } from '@togglecorp/toggle-form';
 
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
+import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 
+import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
 
@@ -46,6 +53,28 @@ function Meal(props: Props) {
 
     const error = getErrorObject(formError);
     const strings = useTranslation(i18n);
+
+    const {
+        setValue: onSourceInformationChange,
+        removeValue: onSourceInformationRemove,
+    } = useFormArray<
+        'meal_source_of_information',
+        SourceInformationFormFields
+    >('meal_source_of_information', setFieldValue);
+
+    const handleSourcesInformationAdd = useCallback(() => {
+        const newSourceInformationItem: SourceInformationFormFields = {
+            client_id: randomString(),
+        };
+
+        setFieldValue(
+            (oldValue: SourceInformationFormFields[] | undefined) => [
+                ...(oldValue ?? []),
+                newSourceInformationItem,
+            ],
+            'meal_source_of_information' as const,
+        );
+    }, [setFieldValue]);
 
     return (
         <TabPage
@@ -156,6 +185,40 @@ function Meal(props: Props) {
                         >
                             {strings.mealAttachRelevantFilesUploadLabel}
                         </GoMultiFileInput>
+                    </InputSection>
+                    <InputSection
+                        title={strings.mealSourcesInformationTitle}
+                        description={strings.mealSourcesInformationDescription}
+                    >
+                        <NonFieldError
+                            error={getErrorObject(
+                                error?.meal_source_of_information,
+                            )}
+                        />
+                        {value?.meal_source_of_information?.map(
+                            (source, index) => (
+                                <EAPSourceInformationInput
+                                    key={source.client_id}
+                                    index={index}
+                                    value={source}
+                                    onChange={onSourceInformationChange}
+                                    onRemove={onSourceInformationRemove}
+                                    error={getErrorObject(
+                                        error?.meal_source_of_information,
+                                    )}
+                                    disabled={disabled}
+                                    readOnly={readOnly}
+                                />
+                            ),
+                        )}
+                        <Button
+                            name={undefined}
+                            onClick={handleSourcesInformationAdd}
+                            disabled={disabled || readOnly}
+                            before={<AddLineIcon />}
+                        >
+                            {strings.addNewMealButtonLabel}
+                        </Button>
                     </InputSection>
                 </ListView>
             </Container>

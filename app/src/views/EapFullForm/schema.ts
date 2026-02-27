@@ -109,6 +109,19 @@ type TriggerModelSourceOfInformationResponse = NonNullable<
 type TriggerModelSourceOfInformationResponseFields =
     TriggerModelSourceOfInformationResponse & { client_id: string };
 
+type MealSourceOfInformationResponse = NonNullable<
+    EapFullRequestBody['meal_source_of_information']
+>[number];
+type MealSourceOfInformationResponseFields = MealSourceOfInformationResponse & {
+    client_id: string;
+};
+
+type NSCapacitySourceOfInformationResponse = NonNullable<
+    EapFullRequestBody['ns_capacity_source_of_information']
+>[number];
+type NSCapacitySourceOfInformationResponseFields =
+    NSCapacitySourceOfInformationResponse & { client_id: string };
+
 type EarlyActionImplementationImagesResponse = NonNullable<
     EapFullRequestBody['early_action_implementation_images']
 >[number];
@@ -248,49 +261,67 @@ type FormFields = DeepReplace<
                                                                         DeepReplace<
                                                                             DeepReplace<
                                                                                 DeepReplace<
+                                                                                    DeepReplace<
+                                                                                        DeepReplace<
                                                                 // eslint-disable-next-line max-len
-                                                                                    EapFullRequestBody,
+                                                                                            EapFullRequestBody,
                                                                 // eslint-disable-next-line max-len
-                                                                                    KeyActorsResponse,
-                                                                                    KeyActorsFields
+                                                                                            KeyActorsResponse,
+                                                                // eslint-disable-next-line max-len
+                                                                                            KeyActorsFields
+                                                                                        >,
+                                                                // eslint-disable-next-line max-len
+                                                                                        CoverImageFileResponse,
+                                                                // eslint-disable-next-line max-len
+                                                                                        CoverImageFileFields
+                                                                                    >,
+                                                                // eslint-disable-next-line max-len
+                                                                                    HazardSelectionImagesResponse,
+                                                                // eslint-disable-next-line max-len
+                                                                                    HazardSelectionImagesFields
                                                                                 >,
                                                                 // eslint-disable-next-line max-len
-                                                                                CoverImageFileResponse,
-                                                                                CoverImageFileFields
+                                                                                ExposedElementAndVulnerabilityImagesResponse,
+                                                                // eslint-disable-next-line max-len
+                                                                                ExposedElementAndVulnerabilityFields
                                                                             >,
+                                                                            PartnerContactsResponse,
                                                                 // eslint-disable-next-line max-len
-                                                                            HazardSelectionImagesResponse,
-                                                                // eslint-disable-next-line max-len
-                                                                            HazardSelectionImagesFields
+                                                                            PartnerContactsFormFields
                                                                         >,
                                                                 // eslint-disable-next-line max-len
-                                                                        ExposedElementAndVulnerabilityImagesResponse,
+                                                                        PrioritizedImpactImagesResponse,
                                                                 // eslint-disable-next-line max-len
-                                                                        ExposedElementAndVulnerabilityFields
+                                                                        PrioritizedImpactImagesFields
                                                                     >,
-                                                                    PartnerContactsResponse,
-                                                                    PartnerContactsFormFields
+                                                                // eslint-disable-next-line max-len
+                                                                    RiskAnalysisSourceOfInformationResponse,
+                                                                // eslint-disable-next-line max-len
+                                                                    RiskAnalysisSourceOfInformationFields
                                                                 >,
-                                                                PrioritizedImpactImagesResponse,
-                                                                PrioritizedImpactImagesFields
+                                                                // eslint-disable-next-line max-len
+                                                                TriggerStatementSourceOfInformationResponse,
+                                                                // eslint-disable-next-line max-len
+                                                                TriggerStatementSourceOfInformationFields
                                                             >,
-                                                            RiskAnalysisSourceOfInformationResponse,
-                                                            RiskAnalysisSourceOfInformationFields
+                                                            ForecastSelectionImagesResponse,
+                                                            ForecastSelectionImagesResponseFields
                                                         >,
-                                                        TriggerStatementSourceOfInformationResponse,
-                                                        TriggerStatementSourceOfInformationFields
+                                                        DefinitionAndJustificationImagesResponse,
+                                                        // eslint-disable-next-line max-len
+                                                        DefinitionAndJustificationImagesResponseFields
                                                     >,
-                                                    ForecastSelectionImagesResponse,
-                                                    ForecastSelectionImagesResponseFields
+                                                    IdentificationInterventionImagesResponse,
+                                                    IdentificationInterventionImagesResponseFields
                                                 >,
-                                                DefinitionAndJustificationImagesResponse,
-                                                DefinitionAndJustificationImagesResponseFields
+                                                TriggerModelSourceOfInformationResponse,
+                                                TriggerModelSourceOfInformationResponseFields
                                             >,
-                                            IdentificationInterventionImagesResponse,
-                                            IdentificationInterventionImagesResponseFields
+                                            MealSourceOfInformationResponse,
+                                            MealSourceOfInformationResponseFields
                                         >,
-                                        TriggerModelSourceOfInformationResponse,
-                                        TriggerModelSourceOfInformationResponseFields
+                                        NSCapacitySourceOfInformationResponse,
+                                        NSCapacitySourceOfInformationResponseFields
                                     >,
                                     EarlyActionImplementationImagesResponse,
                                     EarlyActionImplementationImagesResponseFields
@@ -416,6 +447,22 @@ type TriggerModelSourceOfInformationResponseFormFields = ReturnType<
     ObjectSchema<
         NonNullable<
             PartialEapFullFormType['trigger_model_source_of_information']
+        >[number],
+        PartialEapFullFormType,
+        EapFullFormContext
+    >['fields']
+>;
+type MealSourceOfInformationResponseFormFields = ReturnType<
+    ObjectSchema<
+        NonNullable<PartialEapFullFormType['meal_source_of_information']>[number],
+        PartialEapFullFormType,
+        EapFullFormContext
+    >['fields']
+>;
+type NSCapacitySourceOfInformationResponseFormFields = ReturnType<
+    ObjectSchema<
+        NonNullable<
+            PartialEapFullFormType['ns_capacity_source_of_information']
         >[number],
         PartialEapFullFormType,
         EapFullFormContext
@@ -1004,6 +1051,23 @@ export const formSchema: EapFullFormSchema = {
                 requiredValidation: requiredStringCondition,
             },
             meal_relevant_files: { defaultValue: [] },
+            meal_source_of_information: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): MealSourceOfInformationResponseFormFields => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        source_name: {
+                            required: isSubmit,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        source_link: {
+                            required: isSubmit,
+                            validations: [urlCondition],
+                        },
+                    }),
+                }),
+            },
 
             // -----------National Society Capacity-----------
             operational_administrative_capacity: {
@@ -1019,6 +1083,23 @@ export const formSchema: EapFullFormSchema = {
                 requiredValidation: requiredStringCondition,
             },
             capacity_relevant_files: { defaultValue: [] },
+            ns_capacity_source_of_information: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): NSCapacitySourceOfInformationResponseFormFields => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        source_name: {
+                            required: isSubmit,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        source_link: {
+                            required: isSubmit,
+                            validations: [urlCondition],
+                        },
+                    }),
+                }),
+            },
 
             // ------------Finance and Logistics----------------
             total_budget: {
