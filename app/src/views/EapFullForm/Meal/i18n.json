@@ -22,6 +22,9 @@
         "mealCriteriaIntroduction11": "assess the impact of the early actions and the extreme event after each activation and",
         "mealCriteriaIntroduction12": "identify if all activities were carried out as planned and document how early actions were implemented",
         "mealCriteriaIntroduction13": "learn from the process to improve the system in the future.",
-        "mealCriteriaComment1": "Ideally, the M&E system should be set up in a way that the impact of the event in the community that received early actions is assessed by using data from comparison communities. Depending on the specific context of the hazard an impact evaluation might only be done several months after finishing the implementations of the actions."
+        "mealCriteriaComment1": "Ideally, the M&E system should be set up in a way that the impact of the event in the community that received early actions is assessed by using data from comparison communities. Depending on the specific context of the hazard an impact evaluation might only be done several months after finishing the implementations of the actions.",
+        "mealSourcesInformationTitle": "Sources of Information",
+        "mealSourcesInformationDescription": "Add respective source(s) for the forecast and the link to the website, if applicable.",
+        "addNewMealButtonLabel": "Add"
     }
 }
