@@ -32,6 +32,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { TIMEFRAME_YEAR } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
+import { charLimits } from '../common';
 import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
 
@@ -175,7 +176,7 @@ function EarlyAction(props: Props) {
                             error={error?.overall_objective_intervention}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={150}
+                            maxLength={charLimits.overall_objective_intervention}
                         />
                     </InputSection>
                     <InputSection
@@ -216,7 +217,7 @@ function EarlyAction(props: Props) {
                             error={error?.potential_geographical_high_risk_areas}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={100}
+                            maxLength={charLimits.potential_geographical_high_risk_areas}
                         />
                     </InputSection>
                     <InputSection
@@ -255,7 +256,7 @@ function EarlyAction(props: Props) {
                                 error={error?.assisted_through_operation}
                                 disabled={disabled}
                                 readOnly={readOnly}
-                                maxLength={100}
+                                maxLength={charLimits.assisted_through_operation}
                             />
                         </InputSection>
                         <InputSection
@@ -280,7 +281,7 @@ function EarlyAction(props: Props) {
                                 error={error?.selection_criteria}
                                 disabled={disabled}
                                 readOnly={readOnly}
-                                maxLength={100}
+                                maxLength={charLimits.selection_criteria}
                             />
                         </InputSection>
                     </ListView>
@@ -352,7 +353,7 @@ function EarlyAction(props: Props) {
                             error={error?.trigger_statement}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={100}
+                            maxLength={charLimits.trigger_statement}
                         />
                     </InputSection>
                     <InputSection
@@ -436,7 +437,7 @@ function EarlyAction(props: Props) {
                             error={error?.trigger_threshold_justification}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={100}
+                            maxLength={charLimits.trigger_threshold_justification}
                         />
                     </InputSection>
                     <InputSection
@@ -451,7 +452,7 @@ function EarlyAction(props: Props) {
                             error={error?.next_step_towards_full_eap}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={100}
+                            maxLength={charLimits.next_step_towards_full_eap}
                         />
                     </InputSection>
                 </ListView>

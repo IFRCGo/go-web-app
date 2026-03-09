@@ -25,6 +25,7 @@ import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 
+import { charLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
@@ -134,7 +135,7 @@ function NationalSocietyCapacity(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={1200}
+                            maxLength={charLimits.operational_administrative_capacity}
                         />
                     </InputSection>
                     <InputSection
@@ -150,7 +151,7 @@ function NationalSocietyCapacity(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.strategies_and_plans}
                         />
                     </InputSection>
                     <InputSection
@@ -184,7 +185,7 @@ function NationalSocietyCapacity(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={300}
+                            maxLength={charLimits.advance_financial_capacity}
                         />
                     </InputSection>
                     <InputSection

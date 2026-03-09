@@ -19,6 +19,7 @@ import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaption
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 
+import { charLimits } from '../common';
 import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
 
@@ -200,7 +201,7 @@ function RiskAnalysis(props: Props) {
                             error={error?.prioritized_hazard_and_impact}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.pre_positioning_budget}
                         />
                         <MultiImageWithCaptionInput
                             name="hazard_impact_images"
@@ -228,7 +229,7 @@ function RiskAnalysis(props: Props) {
                             error={error?.risks_selected_protocols}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={150}
+                            maxLength={charLimits.risks_selected_protocols}
                         />
                         <MultiImageWithCaptionInput
                             name="risk_selected_protocols_images"
@@ -307,7 +308,7 @@ function RiskAnalysis(props: Props) {
                             error={error?.selected_early_actions}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={150}
+                            maxLength={charLimits.selected_early_actions}
                         />
                         <MultiImageWithCaptionInput
                             name="selected_early_actions_images"

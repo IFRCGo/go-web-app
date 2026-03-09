@@ -24,6 +24,7 @@ import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 import { useRequest } from '#utils/restRequest';
 
+import { charLimits } from '../common';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
 
@@ -179,7 +180,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.budget_description}
                         />
                     </InputSection>
                     <InputSection
@@ -255,7 +256,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.readiness_cost_description}
                         />
                     </InputSection>
                     <InputSection
@@ -307,7 +308,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.prepositioning_cost_description}
                         />
                     </InputSection>
                     <InputSection
@@ -361,7 +362,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.early_action_cost_description}
                         />
                     </InputSection>
                 </ListView>
@@ -391,7 +392,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={300}
+                            maxLength={charLimits.eap_endorsement}
                         />
                     </InputSection>
                 </ListView>

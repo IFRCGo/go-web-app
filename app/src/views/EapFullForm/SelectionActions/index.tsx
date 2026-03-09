@@ -40,6 +40,7 @@ import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { useRequest } from '#utils/restRequest';
 
+import { charLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
@@ -394,7 +395,7 @@ function SelectionActions(props: Props) {
                             error={error?.early_action_selection_process}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={2000}
+                            maxLength={charLimits.early_action_selection_process}
                         />
                         <MultiImageWithCaptionInput
                             name="early_action_selection_process_images"
@@ -460,7 +461,7 @@ function SelectionActions(props: Props) {
                             error={error?.evidence_base}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={1200}
+                            maxLength={charLimits.evidence_base}
                         />
                     </InputSection>
                     <InputSection
@@ -608,7 +609,7 @@ function SelectionActions(props: Props) {
                             error={error?.usefulness_of_actions}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.usefulness_of_actions}
                         />
                     </InputSection>
                     <InputSection
@@ -643,7 +644,7 @@ function SelectionActions(props: Props) {
                             error={error?.feasibility}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.feasibility}
                         />
                     </InputSection>
                 </ListView>

@@ -29,6 +29,7 @@ import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 import { useRequest } from '#utils/restRequest';
 
+import { charLimits } from '../common';
 import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
 
@@ -182,7 +183,7 @@ function DeliveryAndBudget(props: Props) {
                             error={error?.early_action_capability}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.early_action_capability}
                         />
                     </InputSection>
                     <InputSection
@@ -232,7 +233,7 @@ function DeliveryAndBudget(props: Props) {
                             error={error?.rcrc_movement_involvement}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={150}
+                            maxLength={charLimits.rcrc_movement_involvement}
                         />
                     </InputSection>
                 </ListView>

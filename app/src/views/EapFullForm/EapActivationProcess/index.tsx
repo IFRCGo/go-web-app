@@ -27,6 +27,7 @@ import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaption
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 
+import { charLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
@@ -185,7 +186,7 @@ function EapActivationProcess(props: Props) {
                             error={error?.early_action_implementation_process}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={750}
+                            maxLength={charLimits.early_action_implementation_process}
                         />
                         <MultiImageWithCaptionInput
                             name="early_action_implementation_images"
@@ -240,7 +241,7 @@ function EapActivationProcess(props: Props) {
                             error={error?.trigger_activation_system}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.trigger_activation_system}
                         />
                         <MultiImageWithCaptionInput
                             name="trigger_activation_system_images"
@@ -309,7 +310,7 @@ function EapActivationProcess(props: Props) {
                             error={error?.selection_of_target_population}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.selection_of_target_population}
                         />
                     </InputSection>
                     <InputSection
@@ -351,7 +352,7 @@ function EapActivationProcess(props: Props) {
                             error={error?.stop_mechanism}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.stop_mechanism}
                         />
                     </InputSection>
                     <InputSection

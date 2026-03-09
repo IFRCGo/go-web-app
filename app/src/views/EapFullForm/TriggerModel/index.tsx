@@ -37,6 +37,7 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
+import { charLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
@@ -246,7 +247,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={200}
+                            maxLength={charLimits.trigger_statement}
                         />
                     </InputSection>
                     <InputSection title={strings.triggerLeadTimeTitle} withAsteriskOnTitle>
@@ -325,7 +326,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={750}
+                            maxLength={charLimits.forecast_selection}
                         />
                         <MultiImageWithCaptionInput
                             name="forecast_selection_images"
@@ -411,7 +412,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={750}
+                            maxLength={charLimits.definition_and_justification_impact_level}
                         />
                         <MultiImageWithCaptionInput
                             name="definition_and_justification_impact_level_images"
@@ -474,7 +475,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.identification_of_the_intervention_area}
                         />
                         <MultiImageWithCaptionInput
                             name="identification_of_the_intervention_area_images"

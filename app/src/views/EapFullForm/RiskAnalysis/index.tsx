@@ -28,6 +28,7 @@ import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaption
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 
+import { charLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
@@ -259,7 +260,7 @@ function RiskAnalysis(props: Props) {
                             error={error?.hazard_selection}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={1000}
+                            maxLength={charLimits.hazard_selection}
                         />
                         <MultiImageWithCaptionInput
                             name="hazard_selection_images"
@@ -328,7 +329,7 @@ function RiskAnalysis(props: Props) {
                             error={error?.exposed_element_and_vulnerability_factor}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={1500}
+                            maxLength={charLimits.exposed_element_and_vulnerability_factor}
                         />
                         <MultiImageWithCaptionInput
                             name="exposed_element_and_vulnerability_factor_images"
@@ -402,7 +403,7 @@ function RiskAnalysis(props: Props) {
                             error={error?.prioritized_impact}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={500}
+                            maxLength={charLimits.prioritized_impact}
                         />
                         <MultiImageWithCaptionInput
                             name="prioritized_impact_images"

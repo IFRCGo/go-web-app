@@ -31,6 +31,7 @@ import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type GoApiResponse } from '#utils/restRequest';
 
+import { charLimits } from '../common';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
 import KeyActorsInput from './KeyActorsInput';
@@ -538,7 +539,8 @@ function Overview(props: Props) {
                                                 ?.technical_working_groups_in_place_description}
                                             disabled={disabled}
                                             readOnly={readOnly}
-                                            maxLength={150}
+                                            maxLength={charLimits
+                                                .technical_working_groups_in_place_description}
                                         />
                                     </>
                                 )}
