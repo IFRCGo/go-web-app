@@ -1,0 +1,10 @@
+.container {
+    justify-content: center;
+    display: flex;
+    margin-top: 20px;
+}
+
+.map {
+    width: 95%;
+    height: 800px;
+}

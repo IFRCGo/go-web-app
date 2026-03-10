@@ -4,6 +4,10 @@ const {
     APP_API_ENDPOINT,
     APP_ADMIN_URL,
     APP_MAPBOX_ACCESS_TOKEN,
+    APP_MAPTILER_API_KEY,
+    APP_MAP_PG_TILESERV,
+    APP_MAP_PG_FEATURESERV,
+    APP_IBF_API_BACKEND,
     APP_TINY_API_KEY,
     APP_RISK_API_ENDPOINT,
     APP_SDT_URL,
@@ -16,6 +20,7 @@ const {
     APP_VERSION,
     APP_PACKAGE_NAME,
     APP_REPOSITORY_URL,
+    APP_RASTER_IMAGE_DIR,
 } = import.meta.env;
 
 export const environment = APP_ENVIRONMENT;
@@ -29,7 +34,12 @@ export const appRepositoryUrl = APP_REPOSITORY_URL;
 export const api = APP_API_ENDPOINT;
 export const adminUrl = APP_ADMIN_URL ?? `${api}admin/`;
 export const mbtoken = APP_MAPBOX_ACCESS_TOKEN;
+export const maptilerApiKey = APP_MAPTILER_API_KEY;
+export const pgTileserv = APP_MAP_PG_TILESERV;
+export const pgFeatureserv = APP_MAP_PG_FEATURESERV;
+export const ibfApiBackend = APP_IBF_API_BACKEND;
 export const riskApi = APP_RISK_API_ENDPOINT;
+export const rasterImageDir = APP_RASTER_IMAGE_DIR ?? '/debug_raster/';
 export const sdtUrl = APP_SDT_URL;
 export const powerBiReportId1 = APP_POWER_BI_REPORT_ID_1;
 

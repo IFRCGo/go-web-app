@@ -1,6 +1,6 @@
 # Readme addendum for IBF
 
-Some of the readme instructions don't work or are incomplete. Rather than writing over the original readme and risk PRs getting held up over comments on strings, use this as the troubleshooting addendum.
+Some of the [readme](./README.md) instructions don't work or are incomplete. Rather than writing over the original readme and risk PRs getting held up over comments on strings, use this as the troubleshooting addendum.
 
 ### Local Development
 
@@ -37,3 +37,20 @@ Note, if youre not running the backend, you can just run this from the app/ dir.
 
 In the `app/` dir, copy the `sample.env` file and rename the copy to `.env`.
 Adjust settings as needed, as per the comments in the file.
+
+5. Start the development server:
+
+   ```bash
+   pnpm start
+   ````
+
+Go to `https://localhost:3000/ibf`
+
+### Testing
+
+Currently there is a debug raster folder for showing raster data.
+This will either have a local set up later, or the app will call directly into our seed data repo.
+For now, the raster data image name is hardcoded, and is placed in the
+`APP_RASTER_IMAGE_DIR=/debug_raster/` dir as specified in the .env file with a meta data json file.
+
+See /app/src/utils/ibfMapHelpers.ts for the file name.

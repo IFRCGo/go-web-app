@@ -9,6 +9,7 @@ import {
 import { unstable_batchedUpdates } from 'react-dom';
 import {
     Outlet,
+    useLocation,
     useNavigation,
 } from 'react-router-dom';
 import { AlertInformationLineIcon } from '@ifrc-go/icons';
@@ -58,7 +59,12 @@ export function Component() {
     const { state } = useNavigation();
     const isLoading = state === 'loading';
     const isLoadingDebounced = useDebouncedValue(isLoading);
+
     const strings = useTranslation(i18n);
+
+    // Use location to hide navigation for specific pages
+    const location = useLocation();
+    const hideNavigation = location.pathname.startsWith('/ibf');
 
     const { isAuthenticated } = useAuth();
     const { removeUserAuth } = useContext(UserContext);
@@ -450,11 +456,11 @@ export function Component() {
                         )}
                     />
                 )}
-                <Navbar className={styles.navbar} />
+                {!hideNavigation && <Navbar className={styles.navbar} />}
                 <div className={styles.pageContent}>
                     <Outlet />
                 </div>
-                <GlobalFooter className={styles.footer} />
+                {!hideNavigation && <GlobalFooter className={styles.footer} />}
                 <AlertContainer />
                 {(isCookiesBannerVisible || environment !== 'production') && (
                     <div className={styles.bannersContainer}>
