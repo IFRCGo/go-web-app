@@ -3,15 +3,24 @@
     "strings": {
         "montandonPageTitle": "Montandon - The Global Crisis Data Bank",
         "montandonHeading": "Montandon - The Global Crisis Data Bank",
-        "montandonHeadingDescription": "Montandon is the world’s largest disaster database—a global public good with applications far beyond IFRC. Montandon integrates three key types of data: 1) forecasted and recorded natural hazards; 2) impact data on these hazards; and 3) operational response data (where available). Montandon contains more than 2 million of records about hazards and their impacts for hundreds of thousands of events.",
+        "montandonHeadingDescription": "Montandon is the world’s largest disaster database — a global public good with applications far beyond IFRC. Montandon integrates three key types of data: 1) forecasted and recorded natural hazards; 2) impact data on these hazards; and 3) operational response data (where available). Montandon contains more than 2 million of records about hazards and their impacts for hundreds of thousands of events.",
+
+        "sourcePopupTitle": "Source Data",
+        "stacIdLabel": "ID",
+        "stacIdValue": "stac-fastapi",
+        "stacVersionLabel": "STAC Version",
+        "stacVersionValue": "1.0.0",
+        "validLabel": "Valid",
+        "validValue": "Yes",
+        "stacLocationText": "The STAC metadata file is located at",
+
+        "sharePopupTitle": "Share",
+        "emailLabel": "Email",
+        "shareUrlLabel": "Share the URL of this page:",
 
         "videoTitle": "IFRC GO Platform: Mapping global crises' historical data with Montandon",
 
-        "resources": "Resources",
-        "visitGithub": "GitHub",
-        "goWiki": "GO Wiki",
-        "apiDescription": "OpenAPI service description",
-        "apiDocumentation": "OpenAPI service documentation",
+        "gettingStartedGuide": "Getting Started Guide",
 
         "blogPosts": "Blog Posts",
         "leveragingDataBlogPostTitle": "Leveraging data to learn from past disasters",
@@ -20,7 +29,18 @@
         "contact": "Contact",
         "contactText": "Please get in contact with the team in case interested to collaborate or learn more",
 
-        "accessAPILabel": "Access the Montandon API",
-        "exploreRadiantEarthLabel": "Explore data in STAC browser"
+        "exploreRadiantEarthLabel": "Explore data in STAC browser",
+
+        "guideGetYourToken": "1. Get your token.",
+        "guideVisitAccountPage": "Visit the {goAccountPageLink} (you must be logged in).",
+        "goAccountPageLinkButtonTitle": "GO Account Page",
+        "guideGenerateNewToken": "Generate a new token in the Montandon section.",
+        "guideSaveToken": "Copy and save the generated token, as you will not be able to view it again.",
+        "guideExploreData": "2. Explore data and use cases",
+        "guideMontandonNotebooks": "Access data and explore the API through {montandonNotebookLink}",
+        "montandonNotebooksLinkButtonTitle": "Montandon Notebooks",
+        "guideStacBrowser": "Browse data sources using the {montandonStacBrowserLink}",
+        "montandonStacBrowserLinkButtonTitle": "Montandon STAC browser"
+
     }
 }

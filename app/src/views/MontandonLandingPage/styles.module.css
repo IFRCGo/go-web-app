@@ -1,9 +1,0 @@
-.iframe {
-    margin: 0 auto;
-    border: none;
-    background-color: var(--go-ui-color-gray-30);
-    width: 100%;
-    max-width: 30rem;
-    height: 100vh;
-    max-height: 20rem;
-}
