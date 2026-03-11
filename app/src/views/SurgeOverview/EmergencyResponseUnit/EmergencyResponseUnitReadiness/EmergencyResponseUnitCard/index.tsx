@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import {
     Button,
     Container,
@@ -9,18 +10,28 @@ import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
+import {
+    isDefined,
+    isNotDefined,
+    listToGroupList,
+} from '@togglecorp/fujs';
 
+import {
+    NS_CONTRIBUTION_HOLDS_ERU,
+    NS_CONTRIBUTION_SUPPORTS_ERU,
+} from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
-import ReadinessIcon from '../ReadinessIcon';
+import EruReadinessList from '../EruReadinessList';
+import ReadinessIconList from '../ReadinessIconList';
 
 import i18n from './i18n.json';
 
-type GetEruReadinessResponse = GoApiResponse<'/api/v2/eru-readiness-type/'>;
+type EruReadinessTypeResponse = GoApiResponse<'/api/v2/eru-readiness-type/'>;
 
-export type ReadinessList = Array<NonNullable<NonNullable<GetEruReadinessResponse['results']>[0]> & {
-    eruOwner: NonNullable<NonNullable<NonNullable<GetEruReadinessResponse['results']>[0]>['eru_readiness']>[0]['eru_owner_details'];
-    updatedAt: NonNullable<NonNullable<NonNullable<GetEruReadinessResponse['results']>[0]>['eru_readiness']>[0]['updated_at'];
+export type ReadinessList = Array<NonNullable<NonNullable<EruReadinessTypeResponse['results']>[number]> & {
+    eruOwner: NonNullable<NonNullable<NonNullable<EruReadinessTypeResponse['results']>[number]>['eru_readiness']>[number]['eru_owner_details'];
+    updatedAt: NonNullable<NonNullable<NonNullable<EruReadinessTypeResponse['results']>[number]>['eru_readiness']>[number]['updated_at'];
 }>
 
 interface Props {
@@ -47,6 +58,13 @@ function EmergencyResponseUnitTypeCard(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
+
+    const groupedByNsContribution = useMemo(() => (
+        listToGroupList(
+            readinessList,
+            (eru) => eru.ns_contribution,
+        )
+    ), [readinessList]);
 
     const [
         showReadinessInfo,
@@ -96,17 +114,10 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                     numPreferredGridColumns={3}
                     minGridColumnSize="6rem"
                 >
-                    <ReadinessIcon
-                        readinessType={equipmentReadiness}
-                        label={strings.eruEquipmentReadiness}
-                    />
-                    <ReadinessIcon
-                        readinessType={peopleReadiness}
-                        label={strings.eruPeopleReadiness}
-                    />
-                    <ReadinessIcon
-                        readinessType={fundingReadiness}
-                        label={strings.eruFundingReadiness}
+                    <ReadinessIconList
+                        fundingReadiness={fundingReadiness}
+                        equipmentReadiness={equipmentReadiness}
+                        peopleReadiness={peopleReadiness}
                     />
                 </ListView>
             </ListView>
@@ -118,41 +129,64 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                     size="md"
                     withoutSpacingOpticalCorrection
                 >
-                    <ListView
-                        layout="block"
-                        spacing="2xs"
-                    >
-                        {readinessList?.map((readiness) => (
-                            <Container
-                                key={readiness.id}
-                                heading={
-                                    readiness.eruOwner.national_society_country_details.society_name
-                                }
-                                headingLevel={5}
-                                withDarkBackground
-                                withPadding
-                            >
-                                <ListView
-                                    layout="grid"
-                                    numPreferredGridColumns={3}
-                                    minGridColumnSize="6rem"
+                    {isNotDefined(groupedByNsContribution)
+                        && (strings.eruReadinessNoData)}
+                    {isDefined(groupedByNsContribution) && (
+                        <ListView
+                            layout="block"
+                        >
+                            {isDefined(groupedByNsContribution[NS_CONTRIBUTION_HOLDS_ERU]) && (
+                                <Container
+                                    headingLevel={5}
+                                    heading={strings.eruHoldingERUTitle}
                                 >
-                                    <ReadinessIcon
-                                        readinessType={readiness.equipment_readiness}
-                                        label={strings.eruEquipmentReadiness}
-                                    />
-                                    <ReadinessIcon
-                                        readinessType={readiness.people_readiness}
-                                        label={strings.eruPeopleReadiness}
-                                    />
-                                    <ReadinessIcon
-                                        readinessType={readiness.funding_readiness}
-                                        label={strings.eruFundingReadiness}
-                                    />
-                                </ListView>
-                            </Container>
-                        ))}
-                    </ListView>
+                                    <ListView
+                                        layout="block"
+                                        spacing="2xs"
+                                    >
+                                        {groupedByNsContribution[NS_CONTRIBUTION_HOLDS_ERU]
+                                            ?.map((readiness) => (
+                                                <EruReadinessList
+                                                    key={readiness.id}
+                                                    heading={readiness.eruOwner
+                                                        .national_society_country_details
+                                                        .society_name}
+                                                    fundingReadiness={readiness.funding_readiness}
+                                                    equipmentReadiness={readiness
+                                                        .equipment_readiness}
+                                                    peopleReadiness={readiness.people_readiness}
+                                                />
+                                            ))}
+                                    </ListView>
+                                </Container>
+                            )}
+                            {isDefined(groupedByNsContribution[NS_CONTRIBUTION_SUPPORTS_ERU]) && (
+                                <Container
+                                    headingLevel={5}
+                                    heading={strings.eruSupportERUTitle}
+                                >
+                                    <ListView
+                                        layout="block"
+                                        spacing="2xs"
+                                    >
+                                        {groupedByNsContribution[NS_CONTRIBUTION_SUPPORTS_ERU]
+                                            ?.map((readiness) => (
+                                                <EruReadinessList
+                                                    key={readiness.id}
+                                                    heading={readiness.eruOwner
+                                                        .national_society_country_details
+                                                        .society_name}
+                                                    fundingReadiness={readiness.funding_readiness}
+                                                    equipmentReadiness={readiness
+                                                        .equipment_readiness}
+                                                    peopleReadiness={readiness.people_readiness}
+                                                />
+                                            ))}
+                                    </ListView>
+                                </Container>
+                            )}
+                        </ListView>
+                    )}
                 </Modal>
             )}
         </Container>

@@ -176,6 +176,10 @@ export const SURGE_ALERT_STATUS_OPEN = 0 satisfies SurgeAlertTypeEnum;
 export const SURGE_ALERT_STATUS_STOOD_DOWN = 1 satisfies SurgeAlertTypeEnum;
 export const SURGE_ALERT_STATUS_CLOSED = 2 satisfies SurgeAlertTypeEnum;
 
+type TypeOfNsContributionEnum = components<'read'>['schemas']['DeploymentsEruReadinessNsContributionEnumKey'];
+export const NS_CONTRIBUTION_HOLDS_ERU = 1 satisfies TypeOfNsContributionEnum;
+export const NS_CONTRIBUTION_SUPPORTS_ERU = 2 satisfies TypeOfNsContributionEnum;
+
 export const NUM_X_AXIS_TICKS_MIN = 3;
 export const NUM_X_AXIS_TICKS_MAX = 12;
 
