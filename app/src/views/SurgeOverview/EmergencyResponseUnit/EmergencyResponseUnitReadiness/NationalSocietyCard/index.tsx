@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import {
     Button,
     Container,
@@ -9,11 +10,20 @@ import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
+import {
+    isDefined,
+    isNotDefined,
+    listToGroupList,
+} from '@togglecorp/fujs';
 
 import { joinStrings } from '#utils/common';
+import {
+    NS_CONTRIBUTION_HOLDS_ERU,
+    NS_CONTRIBUTION_SUPPORTS_ERU,
+} from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
-import ReadinessIcon from '../ReadinessIcon';
+import EruReadinessList from '../EruReadinessList';
 
 import i18n from './i18n.json';
 
@@ -25,7 +35,7 @@ interface Props {
     eruData: EruReadinessListItem;
 }
 
-function NationalSocietyTypeCard(props: Props) {
+function NationalSocietyCard(props: Props) {
     const {
         className,
         eruData,
@@ -42,6 +52,13 @@ function NationalSocietyTypeCard(props: Props) {
     ] = useBooleanState(false);
 
     const eruTypes = joinStrings(eruData.eru_types.map((eruType) => eruType.type_display));
+
+    const groupedByNsContribution = useMemo(() => (
+        listToGroupList(
+            eruData.eru_types,
+            (eru) => eru.ns_contribution,
+        )
+    ), [eruData]);
 
     return (
         <Container
@@ -87,40 +104,60 @@ function NationalSocietyTypeCard(props: Props) {
                     withContentWell
                     withoutSpacingOpticalCorrection
                 >
-                    <ListView layout="block">
-                        {eruData.eru_types.map((eruType) => (
-                            <Container
-                                key={eruType.id}
-                                heading={eruType.type_display}
-                                headingLevel={5}
-                                withBackground
-                                withPadding
-                            >
-                                <ListView
-                                    layout="grid"
-                                    minGridColumnSize="10rem"
-                                    numPreferredGridColumns={3}
+                    {isNotDefined(groupedByNsContribution)
+                        && (strings.nationalReadinessNoData)}
+                    {isDefined(groupedByNsContribution) && (
+                        <ListView layout="block">
+                            {isDefined(groupedByNsContribution[NS_CONTRIBUTION_HOLDS_ERU]) && (
+                                <Container
+                                    headingLevel={5}
+                                    heading={strings.emergencyHoldingERUTitle}
                                 >
-                                    <ReadinessIcon
-                                        readinessType={eruType.equipment_readiness}
-                                        label={strings.eruNSEquipmentReadiness}
-                                    />
-                                    <ReadinessIcon
-                                        readinessType={eruType.people_readiness}
-                                        label={strings.eruNSPeopleReadiness}
-                                    />
-                                    <ReadinessIcon
-                                        readinessType={eruType.funding_readiness}
-                                        label={strings.eruNSFundingReadiness}
-                                    />
-                                </ListView>
-                            </Container>
-                        ))}
-                    </ListView>
+                                    <ListView
+                                        layout="block"
+                                        spacing="2xs"
+                                    >
+                                        {groupedByNsContribution[NS_CONTRIBUTION_HOLDS_ERU]
+                                            ?.map((eruType) => (
+                                                <EruReadinessList
+                                                    key={eruType.id}
+                                                    heading={eruType.type_display}
+                                                    fundingReadiness={eruType.funding_readiness}
+                                                    equipmentReadiness={eruType.equipment_readiness}
+                                                    peopleReadiness={eruType.people_readiness}
+                                                />
+                                            ))}
+                                    </ListView>
+                                </Container>
+                            )}
+                            {isDefined(groupedByNsContribution[NS_CONTRIBUTION_SUPPORTS_ERU]) && (
+                                <Container
+                                    headingLevel={5}
+                                    heading={strings.emergencySupportERUTitle}
+                                >
+                                    <ListView
+                                        layout="block"
+                                        spacing="2xs"
+                                    >
+                                        {groupedByNsContribution[NS_CONTRIBUTION_SUPPORTS_ERU]
+                                            ?.map((eruType) => (
+                                                <EruReadinessList
+                                                    key={eruType.id}
+                                                    heading={eruType.type_display}
+                                                    fundingReadiness={eruType.funding_readiness}
+                                                    equipmentReadiness={eruType.equipment_readiness}
+                                                    peopleReadiness={eruType.people_readiness}
+                                                />
+                                            ))}
+                                    </ListView>
+                                </Container>
+                            )}
+                        </ListView>
+                    )}
                 </Modal>
             )}
         </Container>
     );
 }
 
-export default NationalSocietyTypeCard;
+export default NationalSocietyCard;

@@ -4,9 +4,9 @@
         "emergencyResponseUnitOwnerNSCardLastUpdated": "Last updated",
         "eruNSSeeReadinessInfoButton": "See readiness info",
         "eruTypesLabel": "ERU Type(s)",
-        "eruNSEquipmentReadiness": "Equipment",
-        "eruNSPeopleReadiness": "People",
-        "eruNSFundingReadiness": "Funding",
-        "eruNSReadinessInformationHeading": "Readiness Information by ERU Type"
+        "nationalReadinessNoData": "Data not available",
+        "eruNSReadinessInformationHeading": "Readiness Information by ERU Type",
+        "emergencyHoldingERUTitle": "NS Holding the ERU",
+        "emergencySupportERUTitle": "NS Supporting the ERU"
     }
 }

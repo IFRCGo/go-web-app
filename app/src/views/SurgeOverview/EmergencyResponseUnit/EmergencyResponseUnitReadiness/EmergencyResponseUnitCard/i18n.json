@@ -4,9 +4,9 @@
         "emergencyResponseUnitOwnerCardLastUpdated": "Last updated",
         "emergencyResponseUnitNationalSociety": "National Society",
         "eruSeeReadinessInfoButton": "See readiness info",
-        "eruEquipmentReadiness": "Equipment",
-        "eruPeopleReadiness": "People",
-        "eruFundingReadiness": "Funding",
-        "eruReadinessInformationHeading": "Readiness Information by National Society"
+        "eruReadinessInformationHeading": "Readiness Information by National Society",
+        "eruReadinessNoData": "Data not available",
+        "eruHoldingERUTitle": "NS Holding this ERU",
+        "eruSupportERUTitle": "NS Supporting this ERU"
     }
 }

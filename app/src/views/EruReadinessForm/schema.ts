@@ -59,6 +59,7 @@ const schema: FormSchema = {
                     equipment_readiness: { required: true },
                     people_readiness: { required: true },
                     funding_readiness: { required: true },
+                    ns_contribution: { required: true },
                     comment: {},
                 }),
             }),

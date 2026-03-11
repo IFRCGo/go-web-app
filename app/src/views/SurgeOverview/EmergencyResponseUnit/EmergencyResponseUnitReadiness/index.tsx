@@ -36,6 +36,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
 import { joinStrings } from '#utils/common';
+import { NS_CONTRIBUTION_HOLDS_ERU } from '#utils/constants';
 import { resolveUrl } from '#utils/resolveUrl';
 import {
     type GoApiResponse,
@@ -161,9 +162,11 @@ function EmergencyResponseUnitReadiness() {
         updatedAt: number | undefined;
     }) => ({
         typeDisplay: item.readinessList[0]!.type_display,
-        nationalSocieties: joinStrings(unique(item.readinessList.map((v) => (
-            v.eruOwner.national_society_country_details.society_name
-        ))).filter(isDefined)),
+        nationalSocieties: joinStrings(unique(
+            item.readinessList
+                .filter((v) => v.ns_contribution === NS_CONTRIBUTION_HOLDS_ERU)
+                .map((v) => v.eruOwner.national_society_country_details.society_name),
+        ).filter(isDefined)),
         fundingReadiness: minSafe(item.readinessList.map((v) => v.funding_readiness)),
         equipmentReadiness: minSafe(item.readinessList.map((v) => v.equipment_readiness)),
         peopleReadiness: minSafe(item.readinessList.map((v) => v.people_readiness)),
