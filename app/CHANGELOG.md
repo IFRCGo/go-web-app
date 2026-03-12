@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.24.3
+
+### Patch Changes
+
+- fdc65f9: Add user instructions to Montandon Landing Page
+
 ## 7.24.2
 
 ### Patch Changes
