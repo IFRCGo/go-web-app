@@ -1,0 +1,23 @@
+{
+    "namespace": "fieldReportEmergencyOverview",
+    "strings": {
+        "keyFiguresHeading": "Key Figures",
+        "injuredLabel": "Injured",
+        "deadLabel": "Dead",
+        "missingLabel": "Missing",
+        "affectedLabel": "Affected",
+        "displacedLabel": "Displaced",
+        "emergencyOverviewHeading": "Emergency Overview",
+        "countryLabel": "Country",
+        "startDateLabel": "Start Date",
+        "governmentRequestLabel": "Government Requests International Assistance",
+        "disasterTypeLabel": "Disaster Type",
+        "drefLabel": "DREF",
+        "nsRequestLabel": "NS Requests International Assistance",
+        "visibilityLabel": "Visibility",
+        "emergencyAppealLabel": "Emergency Appeal",
+        "contactHeading": "Contact",
+        "contactIFRCLabel": "IFRC",
+        "contactNsLabel": "National Societies"
+    }
+}

@@ -1,0 +1,25 @@
+.wildfire-chart {
+    height: 20rem;
+
+    .min-max-path {
+        fill: var(--go-ui-color-gray-20);
+    }
+
+    .path {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+    }
+
+    .point {
+        color: currentColor;
+    }
+
+    .average {
+        color: var(--go-ui-color-primary-blue);
+    }
+
+    .current-year {
+        color: var(--go-ui-color-primary-red);
+    }
+}

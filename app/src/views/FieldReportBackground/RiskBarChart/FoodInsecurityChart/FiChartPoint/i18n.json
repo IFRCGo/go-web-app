@@ -1,0 +1,8 @@
+{
+    "namespace": "fieldReportBackground",
+    "strings": {
+        "foodInsecurityChartAverage": "Average for",
+        "foodInsecurityAnalysisDate": "Analysis date",
+        "foodInsecurityPeopleExposed": "People Exposed"
+    }
+}

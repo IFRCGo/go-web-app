@@ -1,0 +1,10 @@
+{
+    "namespace": "fieldReportActionsSummary",
+    "strings": {
+        "actionsTakenHeader": "Actions Taken",
+        "actionsTakenByOthersHeading": "Actions Taken by Others",
+        "actionsTakenHeading": "Actions Taken by {organization}",
+        "notesLabel": "Notes",
+        "descriptionLabel": "Description"
+    }
+}

@@ -1080,9 +1080,12 @@ const fieldReportFormEdit = customWrapRoute({
     },
 });
 
+type DefaultFieldReportChild = 'overview';
+
 const fieldReportDetails = customWrapRoute({
     parent: rootLayout,
     path: 'field-reports/:fieldReportId',
+    forwardPath: 'overview' satisfies DefaultFieldReportChild,
     component: {
         render: () => import('#views/FieldReportDetails'),
         props: {},
@@ -1090,6 +1093,47 @@ const fieldReportDetails = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'Field Report Details',
+        visibility: 'anything',
+    },
+});
+
+const fieldReportEmergencyOverview = customWrapRoute({
+    parent: fieldReportDetails,
+    path: 'overview' satisfies DefaultFieldReportChild,
+    component: {
+        render: () => import('#views/FieldReportEmergencyOverview'),
+        props: {},
+    },
+    context: {
+        title: 'Field Report Emergency Overview',
+        visibility: 'anything',
+    },
+});
+
+const fieldReportBackground = customWrapRoute({
+    parent: fieldReportDetails,
+    path: 'background',
+    component: {
+        render: () => import('#views/FieldReportBackground'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Field Report Background',
+        visibility: 'anything',
+    },
+});
+
+const fieldReportActionsSummary = customWrapRoute({
+    parent: fieldReportDetails,
+    path: 'summary',
+    component: {
+        render: () => import('#views/FieldReportActionsSummary'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Field Report Actions Summary',
         visibility: 'anything',
     },
 });
@@ -1363,6 +1407,9 @@ const wrappedRoutes = {
     // Redirects
     preparednessOperationalLearning,
     obsoleteFieldReportDetails,
+    fieldReportEmergencyOverview,
+    fieldReportBackground,
+    fieldReportActionsSummary,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
