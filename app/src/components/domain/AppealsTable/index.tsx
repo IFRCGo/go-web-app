@@ -236,6 +236,10 @@ function AppealsTable(props: Props) {
                 ordering: orderingWithFallback,
                 atype: filter.appeal,
                 dtype: filter.displacement,
+                // NOTE: Filtering those appeals that has not been confirmed and does not
+                // contain event
+                has_event: true,
+                needs_confirmation: false,
                 district: hasSomeDefinedValue(filter.district) ? filter.district : undefined,
                 end_date__gt: withPastOperations ? undefined : now,
                 start_date__gte: filter.startDateAfter,
