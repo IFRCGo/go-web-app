@@ -1,0 +1,11 @@
+{
+    "namespace": "activeOperationMap",
+    "strings": {
+        "operationPopoverPeopleAffected": "People Targeted",
+        "operationPopoverAmountRequested": "Amount Requested (CHF)",
+        "operationPopoverAmountFunded": "Amount Funded (CHF)",
+        "operationPopoverEmpty": "No Current Operations",
+        "explanationBubbleScalePoints": "Scale points by",
+        "lastUpdateLabel": "Last update"
+    }
+}
