@@ -29,6 +29,7 @@ export function extractInputContainerProps<MIXED_PROPS extends Partial<InputCont
         withBackground: true,
         withDarkBackground: true,
         withPadding: true,
+        withoutInputSectionPadding: true,
     };
 
     const keys = Object.keys(keysToExtract) as (keyof typeof keysToExtract)[];

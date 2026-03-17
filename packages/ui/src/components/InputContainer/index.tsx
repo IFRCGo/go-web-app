@@ -44,6 +44,7 @@ export interface Props {
     withPadding?: boolean;
     withBackground?: boolean;
     withDarkBackground?: boolean;
+    withoutInputSectionPadding?: boolean;
 }
 
 function InputContainer(props: Props) {
@@ -70,13 +71,14 @@ function InputContainer(props: Props) {
         withPadding,
         withBackground,
         withDarkBackground,
+        withoutInputSectionPadding,
     } = props;
 
     const isRequired = withAsterisk ?? required;
     const paddingClassName = useSpacingToken({
         spacing,
         offset: variant === 'transparent' ? -2 : -3,
-        modes: ['padding-inline'],
+        modes: withoutInputSectionPadding ? [] : ['padding-inline'],
     });
 
     return (
