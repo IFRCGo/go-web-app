@@ -72,7 +72,7 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         !indeterminate && checked && styles.checked,
         withBackground && styles.withBackground,
         withDarkBackground && styles.withDarkBackground,
-        disabled && styles.disabledCheckbox,
+        disabled && styles.disabled,
         readOnly && styles.readOnly,
     );
 

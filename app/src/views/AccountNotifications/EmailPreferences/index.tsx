@@ -67,69 +67,82 @@ function EmailPreferences() {
     }, [setActiveSubscriptionId, showSubscriptionModal]);
 
     return (
-        <Container
-            heading={strings.heading}
-            pending={subscriptionListPending}
-            empty={isNotDefined(subscriptionList) || subscriptionList?.length === 0}
-            emptyMessage={strings.emptyMessage}
-            headerActions={(
-                <Button
-                    name={undefined}
-                    onClick={handleSubscriptionAddClick}
-                    title={strings.addSubscriptionLabel}
-                    before={<AddLineIcon />}
-                >
-                    {strings.addSubscriptionLabel}
-                </Button>
-            )}
-        >
-            <ListView
-                layout="grid"
-                spacing="sm"
-            >
-                {subscriptionList?.map((item) => (
-                    <Container
-                        key={item.id}
-                        heading={item.title}
-                        withBackground
-                        withPadding
-                        withShadow
-                        footerActions={(
-                            <Button
-                                name={item.id}
-                                onClick={handleSubscriptionEditClick}
-                                title={strings.editSubscriptionTitle}
-                                before={<PencilLineIcon />}
-                            >
-                                {strings.editSubscriptionLabel}
-                            </Button>
-                        )}
+        <>
+            <Container
+                heading={strings.heading}
+                pending={subscriptionListPending}
+                empty={isNotDefined(subscriptionList) || subscriptionList?.length === 0}
+                emptyMessage={strings.emptyMessage}
+                headerActions={(
+                    <Button
+                        name={undefined}
+                        onClick={handleSubscriptionAddClick}
+                        title={strings.addSubscriptionLabel}
+                        before={<AddLineIcon />}
                     >
-                        <TextOutput
-                            label={strings.alertFrequencies}
-                            value={isDefined(item.alert_per_day)
-                                ? item.alert_per_day_display
-                                : strings.unlimitedOption}
-                            strongLabel
-                        />
-                        <TextOutput
-                            label={strings.countries}
-                            value={item.countries_detail.map((c) => c.name).join(', ')}
-                            strongLabel
-                        />
-                        <TextOutput
-                            label={strings.regions}
-                            value={item.regions_detail.map((c) => c.name).join(', ')}
-                            strongLabel
-                        />
-                        <TextOutput
-                            label={strings.disasters}
-                            value={item.hazard_types_detail.map((c) => c.name).join(', ')}
-                            strongLabel
-                        />
-                    </Container>
-                ))}
-            </ListView>
+                        {strings.addSubscriptionLabel}
+                    </Button>
+                )}
+                withHeaderBorder
+            >
+                <ListView
+                    layout="block"
+                    spacing="2xs"
+                >
+                    {subscriptionList?.map((item) => (
+                        <Container
+                            key={item.id}
+                            heading={item.title}
+                            withDarkBackground
+                            withPadding
+                            headerActions={(
+                                <Button
+                                    name={item.id}
+                                    onClick={handleSubscriptionEditClick}
+                                    title={strings.editSubscriptionTitle}
+                                    before={<PencilLineIcon />}
+                                    styleVariant="action"
+                                    colorVariant="primary"
+                                >
+                                    {strings.editSubscriptionLabel}
+                                </Button>
+                            )}
+                            headingLevel={5}
+                            withHeaderBorder
+                            spacing="sm"
+                        >
+                            <ListView
+                                layout="grid"
+                                withSpacingOpticalCorrection
+                                spacing="xs"
+                            >
+                                <TextOutput
+                                    label={strings.alertFrequencies}
+                                    value={isDefined(item.alert_per_day)
+                                        ? item.alert_per_day_display
+                                        : strings.unlimitedOption}
+                                    strongLabel
+                                />
+                                <TextOutput
+                                    label={strings.regions}
+                                    value={item.regions_detail.map((c) => c.name).join(', ')}
+                                    strongLabel
+                                />
+                                <TextOutput
+                                    label={strings.countries}
+                                    value={item.countries_detail.map((c) => c.name).join(', ')}
+                                    strongLabel
+                                />
+                                <TextOutput
+                                    label={strings.disasters}
+                                    value={item.hazard_types_detail.map((c) => c.name).join(', ')}
+                                    strongLabel
+                                />
+                            </ListView>
+                        </Container>
+                    ))}
+                </ListView>
+            </Container>
             {subscriptionModalVisible && isDefined(user?.id) && (
                 <SubscriptionModal
                     onClose={handleSubscriptionModalClose}
@@ -137,7 +150,7 @@ function EmailPreferences() {
                     userId={user.id}
                 />
             )}
-        </Container>
+        </>
     );
 }
 
