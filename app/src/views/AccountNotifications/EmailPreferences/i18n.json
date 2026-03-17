@@ -3,8 +3,8 @@
     "strings": {
         "heading": "Email Alert Subscriptions",
         "emptyMessage": "No subscriptions",
-        "alertFrequencies": "Email Alert Frequency",
-        "unlimitedOption": "Unlimited",
+        "alertFrequencies": "Alert limit (per day)",
+        "unlimitedOption": "No limit",
         "countries": "Countries",
         "regions": "Regions",
         "disasters": "Disasters",

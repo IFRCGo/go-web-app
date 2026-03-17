@@ -62,15 +62,8 @@
         }
     }
 
-    &.disabled-checkbox {
-        display: flex;
-        align-items: flex-start;
+    &.disabled {
+        opacity: var(--go-ui-opacity-disabled-element);
         cursor: not-allowed;
-        gap: var(--go-ui-spacing-sm);
-        color: var(--go-ui-color-gray-40);
-
-        .checkmark {
-            color: var(--go-ui-color-gray-40);
-        }
     }
 }
