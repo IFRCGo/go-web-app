@@ -2,7 +2,7 @@
     display: flex;
     align-items: flex-start;
     cursor: pointer;
-    gap: var(--go-ui-spacing-sm);
+    gap: var(--go-ui-spacing-3xs);
 
     &.with-background {
         border-radius: var(--go-ui-border-radius-md);

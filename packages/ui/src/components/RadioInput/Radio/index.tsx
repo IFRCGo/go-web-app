@@ -66,7 +66,7 @@ function Radio<NAME>(props: Props<NAME>) {
                     <CheckboxBlankCircleLineIcon className={styles.blankIcon} />
                 )}
                 className={className}
-                spacingOffset={-3}
+                spacingOffset={-4}
                 spacing={spacing}
                 after={after}
                 withoutPadding

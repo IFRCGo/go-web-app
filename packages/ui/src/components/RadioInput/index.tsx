@@ -194,6 +194,7 @@ function RadioInput<
             withAsterisk={withAsterisk}
             errorOnTooltip={errorOnTooltip}
             variant="transparent"
+            withoutInputSectionPadding
             input={(
                 <>
                     {radioListLayout === 'inline' && (

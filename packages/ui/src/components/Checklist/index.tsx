@@ -164,6 +164,7 @@ function Checklist<
             withPrevValue={withPrevValue}
             errorOnTooltip={errorOnTooltip}
             variant="transparent"
+            withoutInputSectionPadding
             input={(
                 <>
                     {checkListLayout === 'inline' && (
