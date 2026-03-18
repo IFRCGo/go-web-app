@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
 import {
     InputSection,
+    ListView,
     RadioInput,
     TextArea,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { stringValueSelector } from '@ifrc-go/ui/utils';
 import { randomString } from '@togglecorp/fujs';
 import {
     type ArrayError,
@@ -19,18 +21,17 @@ import { type GoApiResponse } from '#utils/restRequest';
 import { type PartialEruItem } from '../schema';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 
 type ReadinessOption = NonNullable<GlobalEnumsResponse['deployments_eru_readiness_status']>[number];
+type ContributionOption = NonNullable<GlobalEnumsResponse['deployments_eru_readiness_ns_contribution']>[number];
 
 function readinessKeySelector(option: ReadinessOption) {
     return option.key;
 }
-
-function readinessLabelSelector(option: ReadinessOption) {
-    return option.value;
+function contributionKeySelector(option: ContributionOption) {
+    return option.key;
 }
 
 const defaultCollectionValue: PartialEruItem = {
@@ -57,6 +58,7 @@ function EruInputItem(props: Props) {
     const {
         deployments_eru_type: eruTypeOptions,
         deployments_eru_readiness_status,
+        deployments_eru_readiness_ns_contribution: nsContributionOptions,
     } = useGlobalEnums();
 
     const onFieldChange = useFormObject(
@@ -76,50 +78,65 @@ function EruInputItem(props: Props) {
     return (
         <InputSection
             title={title}
-            numPreferredColumns={4}
+            numPreferredColumns={2}
             withFullWidthContent
         >
-            <RadioInput
-                label={strings.eruEquipmentReadiness}
-                name="equipment_readiness"
-                value={value.equipment_readiness}
-                onChange={onFieldChange}
-                options={deployments_eru_readiness_status}
-                keySelector={readinessKeySelector}
-                labelSelector={readinessLabelSelector}
-                error={error?.equipment_readiness}
-                radioListLayout="block"
-            />
-            <RadioInput
-                label={strings.eruPeopleReadiness}
-                name="people_readiness"
-                value={value.people_readiness}
-                onChange={onFieldChange}
-                options={deployments_eru_readiness_status}
-                keySelector={readinessKeySelector}
-                labelSelector={readinessLabelSelector}
-                error={error?.people_readiness}
-                radioListLayout="block"
-            />
-            <RadioInput
-                label={strings.eruFundingReadiness}
-                name="funding_readiness"
-                value={value.funding_readiness}
-                onChange={onFieldChange}
-                options={deployments_eru_readiness_status}
-                keySelector={readinessKeySelector}
-                labelSelector={readinessLabelSelector}
-                error={error?.funding_readiness}
-                radioListLayout="block"
-            />
-            <TextArea
-                className={styles.commentInput}
-                label={strings.eruComments}
-                name="comment"
-                value={value?.comment}
-                onChange={onFieldChange}
-                error={error?.comment}
-            />
+            <ListView>
+                <RadioInput
+                    label={strings.eruEquipmentReadiness}
+                    name="equipment_readiness"
+                    value={value.equipment_readiness}
+                    onChange={onFieldChange}
+                    options={deployments_eru_readiness_status}
+                    keySelector={readinessKeySelector}
+                    labelSelector={stringValueSelector}
+                    error={error?.equipment_readiness}
+                    radioListLayout="block"
+                />
+                <RadioInput
+                    label={strings.eruPeopleReadiness}
+                    name="people_readiness"
+                    value={value.people_readiness}
+                    onChange={onFieldChange}
+                    options={deployments_eru_readiness_status}
+                    keySelector={readinessKeySelector}
+                    labelSelector={stringValueSelector}
+                    error={error?.people_readiness}
+                    radioListLayout="block"
+                />
+                <RadioInput
+                    label={strings.eruFundingReadiness}
+                    name="funding_readiness"
+                    value={value.funding_readiness}
+                    onChange={onFieldChange}
+                    options={deployments_eru_readiness_status}
+                    keySelector={readinessKeySelector}
+                    labelSelector={stringValueSelector}
+                    error={error?.funding_readiness}
+                    radioListLayout="block"
+                />
+            </ListView>
+            <ListView
+                layout="block"
+            >
+                <TextArea
+                    label={strings.eruComments}
+                    name="comment"
+                    value={value?.comment}
+                    onChange={onFieldChange}
+                    error={error?.comment}
+                />
+                <RadioInput
+                    name="ns_contribution"
+                    value={value?.ns_contribution}
+                    onChange={onFieldChange}
+                    options={nsContributionOptions}
+                    keySelector={contributionKeySelector}
+                    labelSelector={stringValueSelector}
+                    error={error?.ns_contribution}
+                    radioListLayout="block"
+                />
+            </ListView>
         </InputSection>
     );
 }
