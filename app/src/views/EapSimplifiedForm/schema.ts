@@ -5,6 +5,7 @@ import {
 } from '@togglecorp/fujs';
 import {
     emailCondition,
+    lessThanOrEqualToCondition,
     type LiteralSchema,
     type ObjectSchema,
     type PartialForm,
@@ -16,6 +17,7 @@ import {
 import indicatorSchema from '#components/domain/EapIndicatorInput/schema';
 import operationActivitySchema from '#components/domain/EapOperationActivityInput/schema';
 import { lengthSmallerOrEqualToCondition } from '#utils/common';
+import { positiveIntegerCondition } from '#utils/form';
 import { type GoApiBody } from '#utils/restRequest';
 
 import { charLimits } from './common';
@@ -417,7 +419,13 @@ export const formSchema: FormSchema = {
                     charLimits.potential_geographical_high_risk_areas,
                 )],
             },
-            people_targeted: { required: isSubmit },
+            people_targeted: {
+                required: isSubmit,
+                validations: [
+                    positiveIntegerCondition,
+                    lessThanOrEqualToCondition(2000),
+                ],
+            },
             assisted_through_operation: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,

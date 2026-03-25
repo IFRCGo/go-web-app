@@ -29,6 +29,7 @@ import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
 
 import i18n from './i18n.json';
+import NonFieldError from '#components/NonFieldError';
 
 interface Props {
     value: PartialEapFullFormType;
@@ -162,15 +163,14 @@ function FinanceLogistics(props: Props) {
                         )}
                         withAsteriskOnTitle
                     >
-                        <NumberInput
+                        <TextOutput
+                            valueType="number"
+                            strongLabel
                             label={strings.financeTotalBudgetLabel}
-                            name="total_budget"
                             value={value.total_budget}
+                        />
+                        <NonFieldError
                             error={error?.total_budget}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                            readOnly
-                            required
                         />
                         <TextArea
                             label={strings.financeDescriptionLabel}

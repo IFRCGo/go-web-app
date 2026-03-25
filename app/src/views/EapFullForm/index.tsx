@@ -343,6 +343,12 @@ export function Component() {
                         return formValue?.cover_image_file?.client_id;
                     }
 
+                    match = matchArray(locations, ['key_actors', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return formValue?.key_actors?.[index!]?.client_id;
+                    }
+
                     match = matchArray(locations, ['partner_contacts', NUM]);
                     if (isDefined(match)) {
                         const [index] = match;
@@ -1075,6 +1081,7 @@ export function Component() {
                                 name={undefined}
                                 onClick={handleRequestForApprovalButtonClick}
                                 disabled={readOnly}
+                                styleVariant="filled"
                             >
                                 {strings.submitButtonLabel}
                             </Button>

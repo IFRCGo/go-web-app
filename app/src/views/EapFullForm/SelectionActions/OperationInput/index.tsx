@@ -87,6 +87,7 @@ function OperationsInput(props: Props) {
                     numPreferredGridColumns={3}
                 >
                     <NumberInput
+                        required
                         label={strings.selectionActionsPlannedOperationPeopleTargeted}
                         name="people_targeted"
                         value={value?.people_targeted}
@@ -96,6 +97,7 @@ function OperationsInput(props: Props) {
                         readOnly={readOnly}
                     />
                     <NumberInput
+                        required
                         label={strings.selectionActionsPlannedOperationBudget}
                         name="budget_per_sector"
                         value={value?.budget_per_sector}
@@ -105,6 +107,7 @@ function OperationsInput(props: Props) {
                         readOnly={readOnly}
                     />
                     <NumberInput
+                        required
                         label={strings.selectionActionsPlannedOperationApCode}
                         name="ap_code"
                         value={value?.ap_code}

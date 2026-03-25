@@ -97,6 +97,7 @@ function KeyActorsInput(props: Props) {
                     />
                     <TextArea
                         label={strings.overviewKeyActorsDescriptionLabel}
+                        error={error?.description}
                         name="description"
                         value={value?.description}
                         onChange={onFieldChange}

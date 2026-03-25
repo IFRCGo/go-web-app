@@ -201,7 +201,7 @@ function RiskAnalysis(props: Props) {
                             error={error?.prioritized_hazard_and_impact}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.pre_positioning_budget}
+                            maxLength={charLimits.prioritized_hazard_and_impact}
                         />
                         <MultiImageWithCaptionInput
                             name="hazard_impact_images"

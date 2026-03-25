@@ -6,11 +6,13 @@ import {
 import {
     addCondition,
     emailCondition,
+    lessThanOrEqualToCondition,
     type LiteralSchema,
     nullValue,
     type ObjectSchema,
     type PartialForm,
     type PurgeNull,
+    requiredListCondition,
     requiredStringCondition,
     undefinedValue,
     urlCondition,
@@ -632,6 +634,8 @@ export const formSchema: EapFullFormSchema = {
             },
 
             key_actors: {
+                required: isSubmit,
+                validation: requiredListCondition,
                 keySelector: (item) => item.client_id,
                 member: () => ({
                     fields: (): KeyActorsFormFields => ({
@@ -911,8 +915,12 @@ export const formSchema: EapFullFormSchema = {
                     fields: (): PlannedOperationalFields => ({
                         id: { defaultValue: undefinedValue },
                         sector: {},
-                        budget_per_sector: {},
-                        ap_code: {},
+                        budget_per_sector: {
+                            required: isSubmit,
+                        },
+                        ap_code: {
+                            required: isSubmit,
+                        },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
                             member: () => indicatorSchema,
@@ -963,8 +971,12 @@ export const formSchema: EapFullFormSchema = {
                     fields: (): EnableApproachesFields => ({
                         id: { defaultValue: undefinedValue },
                         approach: {},
-                        budget_per_approach: {},
-                        ap_code: {},
+                        budget_per_approach: {
+                            required: isSubmit,
+                        },
+                        ap_code: {
+                            required: isSubmit,
+                        },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
                             member: () => indicatorSchema,
@@ -1059,6 +1071,7 @@ export const formSchema: EapFullFormSchema = {
             people_targeted: {
                 required: isSubmit,
                 validations: [
+                    lessThanOrEqualToCondition(10000),
                     positiveIntegerCondition,
                 ],
             },
