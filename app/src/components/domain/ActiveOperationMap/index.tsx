@@ -11,7 +11,6 @@ import {
     SelectInput,
     Tab,
     TabList,
-    TabPanel,
     Tabs,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -214,60 +213,49 @@ function ActiveOperationMap(props: Props) {
         [],
     );
 
-    const appealLegendOptions = useMemo(
-        () => [
+    const legendOptions = useMemo(() => {
+        if (activeTab === 'appeal') {
+            return ([
+                {
+                    value: APPEAL_TYPE_EMERGENCY,
+                    label: strings.explanationBubbleEmergencyAppeal,
+                    color: COLOR_EMERGENCY_APPEAL,
+                },
+                {
+                    value: APPEAL_TYPE_DREF,
+                    label: strings.explanationBubbleDref,
+                    color: COLOR_DREF,
+                },
+                {
+                    value: APPEAL_TYPE_MULTIPLE,
+                    label: strings.explanationBubbleMultiple,
+                    color: COLOR_MULTIPLE_TYPES,
+                },
+            ]);
+        }
+        return ([
             {
-                value: APPEAL_TYPE_EMERGENCY,
-                label: strings.explanationBubbleEmergencyAppeal,
-                color: COLOR_EMERGENCY_APPEAL,
+                value: DISASTER_CATEGORY_RED,
+                label: strings.crisisRedEmergency,
+                color: COLOR_RED_SEVERITY,
             },
             {
-                value: APPEAL_TYPE_DREF,
-                label: strings.explanationBubbleDref,
-                color: COLOR_DREF,
+                value: DISASTER_CATEGORY_ORANGE,
+                label: strings.crisisOrangeEmergency,
+                color: COLOR_ORANGE_SEVERITY,
             },
             {
-                value: APPEAL_TYPE_MULTIPLE,
-                label: strings.explanationBubbleMultiple,
-                color: COLOR_MULTIPLE_TYPES,
+                value: DISASTER_CATEGORY_YELLOW,
+                label: strings.crisisYellowEmergency,
+                color: COLOR_YELLOW_SEVERITY,
             },
-        ],
-        [
-            strings.explanationBubbleEmergencyAppeal,
-            strings.explanationBubbleDref,
-            // FIXME: string to be removed
-            // strings.explanationBubbleEAP,
-            strings.explanationBubbleMultiple,
-        ],
-    );
-
-    const crisisLegendOptions = useMemo(() => ([
-        {
-            value: DISASTER_CATEGORY_RED,
-            label: strings.crisisRedEmergency,
-            color: COLOR_RED_SEVERITY,
-        },
-        {
-            value: DISASTER_CATEGORY_ORANGE,
-            label: strings.crisisOrangeEmergency,
-            color: COLOR_ORANGE_SEVERITY,
-        },
-        {
-            value: DISASTER_CATEGORY_YELLOW,
-            label: strings.crisisYellowEmergency,
-            color: COLOR_YELLOW_SEVERITY,
-        },
-        {
-            value: DISASTER_UNCATEGORISED,
-            label: strings.crisisUncategorisedEmergency,
-            color: COLOR_BLACK,
-        },
-    ]), [
-        strings.crisisYellowEmergency,
-        strings.crisisOrangeEmergency,
-        strings.crisisRedEmergency,
-        strings.crisisUncategorisedEmergency,
-    ]);
+            {
+                value: DISASTER_UNCATEGORISED,
+                label: strings.crisisUncategorisedEmergency,
+                color: COLOR_BLACK,
+            },
+        ]);
+    }, [strings, activeTab]);
 
     const scaleOptions: ScaleOption[] = useMemo(
         () => [
@@ -383,40 +371,21 @@ function ActiveOperationMap(props: Props) {
                         </TabList>
                     )}
                 />
-                <TabPanel name="crisis">
-                    <OperationMapContainer
-                        variant="crisis"
-                        presentationModeAdditionalAfterContent={
-                            presentationModeAdditionalAfterContent
-                        }
-                        presentationModeAdditionalBeforeContent={
-                            presentationModeAdditionalBeforeContent
-                        }
-                        onPresentationModeChange={handlePresentationMode}
-                        mapTitle={mapTitle}
-                        bbox={bbox}
-                        appealResponse={appealResponse}
-                        scaleOptions={scaleOptions}
-                        legendOptions={crisisLegendOptions}
-                    />
-                </TabPanel>
-                <TabPanel name="appeal">
-                    <OperationMapContainer
-                        variant="appeal"
-                        presentationModeAdditionalAfterContent={
-                            presentationModeAdditionalAfterContent
-                        }
-                        presentationModeAdditionalBeforeContent={
-                            presentationModeAdditionalBeforeContent
-                        }
-                        onPresentationModeChange={handlePresentationMode}
-                        mapTitle={mapTitle}
-                        bbox={bbox}
-                        appealResponse={appealResponse}
-                        scaleOptions={scaleOptions}
-                        legendOptions={appealLegendOptions}
-                    />
-                </TabPanel>
+                <OperationMapContainer
+                    variant={activeTab}
+                    presentationModeAdditionalAfterContent={
+                        presentationModeAdditionalAfterContent
+                    }
+                    presentationModeAdditionalBeforeContent={
+                        presentationModeAdditionalBeforeContent
+                    }
+                    onPresentationModeChange={handlePresentationMode}
+                    mapTitle={mapTitle}
+                    bbox={bbox}
+                    appealResponse={appealResponse}
+                    scaleOptions={scaleOptions}
+                    legendOptions={legendOptions}
+                />
             </Container>
         </Tabs>
     );
