@@ -17,6 +17,7 @@ import {
     IconButton,
     InlineLayout,
     ListView,
+    Message,
     Modal,
     Tab,
     TabList,
@@ -52,6 +53,7 @@ import {
     EAP_STATUS_NS_ADDRESSING_COMMENTS,
     EAP_STATUS_UNDER_DEVELOPMENT,
     EAP_STATUS_UNDER_REVIEW,
+    EAP_TYPE_SIMPLIFIED,
 } from '#utils/constants';
 import {
     type GoApiBody,
@@ -364,6 +366,7 @@ export function Component() {
     const {
         pending: simplifiedEapPending,
         response: simplifiedEapResponse,
+        error: simplifiedEapResponseError,
     } = useRequest({
         skip: isNotDefined(currentSimplifiedEapId),
         url: '/api/v2/simplified-eap/{id}/',
@@ -429,6 +432,10 @@ export function Component() {
     }, [eapRegistrationResponse, simplifiedEapPending, simplifiedEapResponse, setValue]);
 
     const isLatestVersion = currentSimplifiedEapId === latestSimplifiedEapId;
+
+    const simplifiedEapFormAccess = (isNotDefined(eapRegistrationResponse?.eap_type)
+        || eapRegistrationResponse?.eap_type === EAP_TYPE_SIMPLIFIED)
+        && isNotDefined(simplifiedEapResponseError);
 
     const isEditable = isLatestVersion
         && (eapRegistrationResponse?.status === EAP_STATUS_UNDER_DEVELOPMENT
@@ -665,7 +672,7 @@ export function Component() {
                     </TopBanner>
                 )}
                 actions={
-                    isEditable ? (
+                    isEditable && simplifiedEapFormAccess ? (
                         <>
                             <Link
                                 to="accountMyFormsEap"
@@ -702,7 +709,7 @@ export function Component() {
                         </Link>
                     )
                 }
-                info={(
+                info={simplifiedEapFormAccess && (
                     <TabList elementRef={tabListRef}>
                         <Tab
                             name="overview"
@@ -750,154 +757,163 @@ export function Component() {
                 )}
                 withBackgroundColorInMainSection
             >
-                <TabPanel name="overview">
-                    <Overview
-                        value={value}
-                        setFieldValue={setFieldValue}
-                        error={formError}
-                        disabled={disabled}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        eapRegistrationDetail={eapRegistrationResponse}
-                        readOnly={readOnly}
+                {!simplifiedEapFormAccess ? (
+                    <Message
+                        variant="error"
+                        title={strings.formLoadErrorTitle}
+                        description={
+                            simplifiedEapResponseError?.value.messageForNotification
+                        }
+                        actions={strings.formLoadErrorHelpText}
                     />
-                </TabPanel>
-                <TabPanel name="riskAnalysis">
-                    <RiskAnalysis
-                        value={value}
-                        setFieldValue={setFieldValue}
-                        error={formError}
-                        disabled={disabled}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        readOnly={readOnly}
-                    />
-                </TabPanel>
-                <TabPanel name="earlyAction">
-                    <EarlyAction
-                        value={value}
-                        setFieldValue={setFieldValue}
-                        error={formError}
-                        disabled={disabled}
-                        eapRegistrationDetail={eapRegistrationResponse}
-                        readOnly={readOnly}
-                    />
-                </TabPanel>
-                <TabPanel name="plannedOperations">
-                    <PlannedOperations
-                        value={value}
-                        setFieldValue={setFieldValue}
-                        error={formError}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                </TabPanel>
-                <TabPanel name="enablingApproaches">
-                    <EnablingApproaches
-                        value={value}
-                        setFieldValue={setFieldValue}
-                        error={formError}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                </TabPanel>
-                <TabPanel name="deliveryAndBudget">
-                    <DeliveryAndBudget
-                        value={value}
-                        setValue={setValue}
-                        setFieldValue={setFieldValue}
-                        error={formError}
-                        disabled={disabled}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        readOnly={readOnly}
-                        isRevision={isRevision}
-                    />
-                </TabPanel>
-                <InlineLayout
-                    after={(
-                        <Button
-                            name={undefined}
-                            onClick={handleSave}
-                        >
-                            {strings.saveButtonLabel}
-                        </Button>
-                    )}
-                >
-                    <ListView withCenteredContents>
-                        <Button
-                            name={prevStep ?? activeTab}
-                            onClick={handleTabChange}
-                            disabled={isNotDefined(prevStep)}
-                        >
-                            {strings.backButtonLabel}
-                        </Button>
-                        {isDefined(nextStep) ? (
-                            <Button
-                                name={nextStep ?? activeTab}
-                                onClick={handleTabChange}
-                            >
-                                {strings.nextButtonLabel}
-                            </Button>
-                        ) : (
-                            <Button
-                                name={undefined}
-                                onClick={handleRequestForApprovalButtonClick}
-                                disabled={readOnly}
-                            >
-                                {strings.submitButtonLabel}
-                            </Button>
-                        )}
-                    </ListView>
-                </InlineLayout>
-                {shouldSubmit && (
-                    <Modal
-                        heading={strings.submitConfirmHeading}
-                        onClose={handleRequestForApprovalCancel}
-                        pending={createSimplifiedEapPending || updateSimplifiedEapPending}
-                        pendingMessage={strings.savingPendingMessage}
-                        footerActions={(
-                            <Button
-                                name={undefined}
-                                disabled={hasFormErrors}
-                                onClick={handleSubmitForApprovalConfirm}
-                            >
-                                {strings.submitConfirmButtonLabel}
-                            </Button>
-                        )}
-                    >
-                        <ListView
-                            layout="block"
-                            spacing="sm"
-                        >
-                            <div>
-                                {strings.submitConfirmMessage}
-                            </div>
-                            {hasFormErrors && (
-                                <Alert
-                                    name="form-error-warning"
-                                    title={strings.submitFormErrorMessage}
-                                    type="warning"
-                                    withLightBackground
-                                    withoutShadow
-                                />
+                ) : (
+                    <>
+                        <TabPanel name="overview">
+                            <Overview
+                                value={value}
+                                setFieldValue={setFieldValue}
+                                error={formError}
+                                disabled={disabled}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                eapRegistrationDetail={eapRegistrationResponse}
+                                readOnly={readOnly}
+                            />
+                        </TabPanel>
+                        <TabPanel name="riskAnalysis">
+                            <RiskAnalysis
+                                value={value}
+                                setFieldValue={setFieldValue}
+                                error={formError}
+                                disabled={disabled}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                readOnly={readOnly}
+                            />
+                        </TabPanel>
+                        <TabPanel name="earlyAction">
+                            <EarlyAction
+                                value={value}
+                                setFieldValue={setFieldValue}
+                                error={formError}
+                                disabled={disabled}
+                                eapRegistrationDetail={eapRegistrationResponse}
+                                readOnly={readOnly}
+                            />
+                        </TabPanel>
+                        <TabPanel name="plannedOperations">
+                            <PlannedOperations
+                                value={value}
+                                setFieldValue={setFieldValue}
+                                error={formError}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                            />
+                        </TabPanel>
+                        <TabPanel name="enablingApproaches">
+                            <EnablingApproaches
+                                value={value}
+                                setFieldValue={setFieldValue}
+                                error={formError}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                            />
+                        </TabPanel>
+                        <TabPanel name="deliveryAndBudget">
+                            <DeliveryAndBudget
+                                value={value}
+                                setValue={setValue}
+                                setFieldValue={setFieldValue}
+                                error={formError}
+                                disabled={disabled}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                readOnly={readOnly}
+                                isRevision={isRevision}
+                            />
+                        </TabPanel>
+                        <InlineLayout
+                            after={(
+                                <Button name={undefined} onClick={handleSave}>
+                                    {strings.saveButtonLabel}
+                                </Button>
                             )}
-                        </ListView>
-                    </Modal>
-                )}
-                {showShareModal && isDefined(eapId) && (
-                    <EapShareModal
-                        onCancel={setShowShareModalFalse}
-                        onSuccess={setShowShareModalFalse}
-                        eapId={Number(eapId)}
-                    />
-                )}
-                {isDefined(latestSimplifiedEapId) && showObsoletePayloadModal && (
-                    <EapObsoleteResolutionModal
-                        simplifiedEapId={latestSimplifiedEapId}
-                        onOverwriteButtonClick={handleObsoletePayloadOverwriteButtonClick}
-                        onCancelButtonClick={setShowObsoletePayloadModal}
-                    />
+                        >
+                            <ListView withCenteredContents>
+                                <Button
+                                    name={prevStep ?? activeTab}
+                                    onClick={handleTabChange}
+                                    disabled={isNotDefined(prevStep)}
+                                >
+                                    {strings.backButtonLabel}
+                                </Button>
+                                {isDefined(nextStep) ? (
+                                    <Button
+                                        name={nextStep ?? activeTab}
+                                        onClick={handleTabChange}
+                                    >
+                                        {strings.nextButtonLabel}
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        name={undefined}
+                                        onClick={handleRequestForApprovalButtonClick}
+                                        disabled={readOnly}
+                                    >
+                                        {strings.submitButtonLabel}
+                                    </Button>
+                                )}
+                            </ListView>
+                        </InlineLayout>
+                        {shouldSubmit && (
+                            <Modal
+                                heading={strings.submitConfirmHeading}
+                                onClose={handleRequestForApprovalCancel}
+                                pending={
+                                    createSimplifiedEapPending || updateSimplifiedEapPending
+                                }
+                                pendingMessage={strings.savingPendingMessage}
+                                footerActions={(
+                                    <Button
+                                        name={undefined}
+                                        disabled={hasFormErrors}
+                                        onClick={handleSubmitForApprovalConfirm}
+                                    >
+                                        {strings.submitConfirmButtonLabel}
+                                    </Button>
+                                )}
+                            >
+                                <ListView layout="block" spacing="sm">
+                                    <div>{strings.submitConfirmMessage}</div>
+                                    {hasFormErrors && (
+                                        <Alert
+                                            name="form-error-warning"
+                                            title={strings.submitFormErrorMessage}
+                                            type="warning"
+                                            withLightBackground
+                                            withoutShadow
+                                        />
+                                    )}
+                                </ListView>
+                            </Modal>
+                        )}
+                        {showShareModal && isDefined(eapId) && (
+                            <EapShareModal
+                                onCancel={setShowShareModalFalse}
+                                onSuccess={setShowShareModalFalse}
+                                eapId={Number(eapId)}
+                            />
+                        )}
+                        {isDefined(latestSimplifiedEapId) && showObsoletePayloadModal && (
+                            <EapObsoleteResolutionModal
+                                simplifiedEapId={latestSimplifiedEapId}
+                                onOverwriteButtonClick={
+                                    handleObsoletePayloadOverwriteButtonClick
+                                }
+                                onCancelButtonClick={setShowObsoletePayloadModal}
+                            />
+                        )}
+                    </>
                 )}
             </Page>
         </Tabs>

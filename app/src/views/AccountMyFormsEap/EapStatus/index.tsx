@@ -30,7 +30,6 @@ import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import {
-    EAP_STATUS_ACTIVATED,
     EAP_STATUS_APPROVED,
     EAP_STATUS_NS_ADDRESSING_COMMENTS,
     EAP_STATUS_PENDING_PFA,
@@ -67,8 +66,7 @@ const validStatusTransition: Record<EapStatus, EapStatus[]> = {
         EAP_STATUS_PENDING_PFA,
     ],
     [EAP_STATUS_PENDING_PFA]: [EAP_STATUS_APPROVED],
-    [EAP_STATUS_APPROVED]: [EAP_STATUS_ACTIVATED],
-    [EAP_STATUS_ACTIVATED]: [],
+    [EAP_STATUS_APPROVED]: [],
 };
 
 export interface Props {

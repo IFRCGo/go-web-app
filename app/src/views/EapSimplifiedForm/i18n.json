@@ -28,6 +28,8 @@
         "submitButtonLabel": "Submit for approval",
         "submitConfirmButtonLabel": "Confirm",
         "submitConfirmHeading": "Submit EAP for approval",
-        "submitConfirmMessage": "Are you sure you want to submit the EAP? Reviewers will be notified and you'll no longer be able to edit the form!"
+        "submitConfirmMessage": "Are you sure you want to submit the EAP? Reviewers will be notified and you'll no longer be able to edit the form!",
+        "formLoadErrorTitle": "Failed to load Simplified EAP form!",
+        "formLoadErrorHelpText": "Please make sure that the Simplified EAP form with given id exists and you have the permission to view it"
     }
 }

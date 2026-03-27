@@ -21,6 +21,7 @@ import {
 
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import Link from '#components/Link';
+import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { useRequest } from '#utils/restRequest';
 
@@ -29,7 +30,6 @@ import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
 
 import i18n from './i18n.json';
-import NonFieldError from '#components/NonFieldError';
 
 interface Props {
     value: PartialEapFullFormType;

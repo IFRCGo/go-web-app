@@ -242,4 +242,3 @@ export const EAP_STATUS_NS_ADDRESSING_COMMENTS = 30 satisfies EapStatus;
 export const EAP_STATUS_TECHNICALLY_VALIDATED = 40 satisfies EapStatus;
 export const EAP_STATUS_PENDING_PFA = 50 satisfies EapStatus;
 export const EAP_STATUS_APPROVED = 60 satisfies EapStatus;
-export const EAP_STATUS_ACTIVATED = 70 satisfies EapStatus;
