@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.25.1
+
+### Patch Changes
+
+- 0d224cb: Fix links in the PDF export
+
 ## 7.25.0
 
 ### Minor Changes
