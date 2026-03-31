@@ -132,7 +132,7 @@ async function generate(
     const selectedMigrationFilesAttrs = migrationFilesAttrs;
     console.info(`Found ${selectedMigrationFilesAttrs.length} migration files`);
     const selectedMigrations = await readMigrations(
-        selectedMigrationFilesAttrs.map((migration) => migration.filePath),
+        selectedMigrationFilesAttrs.map((migration) => migration.fileName),
     );
     const mergedMigrationActions = merge(
         selectedMigrations.map((migration) => migration.content),
@@ -170,7 +170,7 @@ async function generate(
     const lastMigration = migrationFilesAttrs[migrationFilesAttrs.length - 1];
 
     const migrationContent: MigrationFileContent = {
-        parent: lastMigration?.migrationFileName,
+        parent: lastMigration?.migrationName,
         actions: migrationActionItems,
     }
 

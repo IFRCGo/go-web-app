@@ -1,14 +1,8 @@
 import { Button } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import {
-    _cs,
-    isNotDefined,
-} from '@togglecorp/fujs';
+import { _cs } from '@togglecorp/fujs';
 
-import {
-    EXTERNALLY_MANAGED,
-    VALIDATED,
-} from '../common';
+import { VALIDATED } from '../common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -27,11 +21,7 @@ function LocalUnitValidateButton(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    if (isNotDefined(status)) {
-        return null;
-    }
-
-    const isValidated = status === VALIDATED || status === EXTERNALLY_MANAGED;
+    const isValidated = status === VALIDATED;
 
     if (isValidated || !hasValidatePermission) {
         return null;

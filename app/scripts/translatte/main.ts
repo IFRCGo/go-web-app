@@ -10,13 +10,10 @@ import mergeMigrations from './commands/mergeMigrations';
 import applyMigrations from './commands/applyMigrations';
 import generateMigration from './commands/generateMigration';
 import exportMigration from './commands/exportMigration';
+import pushMigration from './commands/pushMigration';
 import pushStringsFromExcel from './commands/pushStringsFromExcel';
 import exportServerStringsToExcel from './commands/exportServerStringsToExcel';
 import clearServerStrings from './commands/clearServerStrings';
-import pushMigrationsToIfrc from './commands/pushMigrationsToIfrc';
-import pushStringsFromExcelToIfrc from './commands/pushStringsFromExcelToIfrc';
-import lintMigrations from './commands/lintMigrations';
-import pushMigrationsToGo from './commands/pushMigrationsToGo';
 
 const currentDir = cwd();
 
@@ -43,22 +40,6 @@ yargs(hideBin(process.argv))
         },
         async (argv) => {
             await lint(currentDir, argv.TRANSLATION_FILE as string[], argv.fix as boolean | undefined);
-        },
-    )
-    .command(
-        'lint-migrations <MIGRATION_DIR_PATH>',
-        'Lint migration files for divirging migrations',
-        (yargs) => {
-            yargs.positional('MIGRATION_DIR_PATH', {
-                type: 'string',
-                describe: 'Read the files from TRANSLATION_FILE',
-            });
-        },
-        async (argv) => {
-            await lintMigrations(
-                currentDir,
-                argv.MIGRATION_DIR_PATH as string,
-            );
         },
     )
     .command(
@@ -212,6 +193,37 @@ yargs(hideBin(process.argv))
         },
     )
     .command(
+        'push-migration <MIGRATION_FILE_PATH>',
+        'Push migration file to the server',
+        (yargs) => {
+            yargs.positional('MIGRATION_FILE_PATH', {
+                type: 'string',
+                describe: 'Find the migration file on MIGRATION_FILE_PATH',
+            });
+            yargs.options({
+                'api-url': {
+                    type: 'string',
+                    describe: 'URL for the API server',
+                    require: true,
+                },
+                'auth-token': {
+                    type: 'string',
+                    describe: 'Authentication token to access the API server',
+                    require: true,
+                },
+            });
+        },
+        async (argv) => {
+            const migrationFilePath = (argv.MIGRATION_FILE_PATH as string);
+
+            await pushMigration(
+                migrationFilePath,
+                argv.apiUrl as string,
+                argv.authToken as string,
+            );
+        },
+    )
+    .command(
         'push-strings-from-excel <IMPORT_FILE_PATH>',
         'Import migration from excel file and push it to server',
         (yargs) => {
@@ -239,101 +251,6 @@ yargs(hideBin(process.argv))
                 importFilePath,
                 argv.apiUrl as string,
                 argv.authToken as string,
-            );
-        },
-    )
-    .command(
-        'push-strings-from-excel-to-ifrc <IMPORT_FILE_PATH>',
-        'Import migration from excel file and push it to server',
-        (yargs) => {
-            yargs.positional('IMPORT_FILE_PATH', {
-                type: 'string',
-                describe: 'Find the import file on IMPORT_FILE_PATH',
-            });
-            yargs.options({
-                'api-key': {
-                    type: 'string',
-                    describe: 'API key to access the API server',
-                    require: true,
-                },
-                'api-url': {
-                    type: 'string',
-                    describe: 'URL for the API server',
-                    require: true,
-                }
-            });
-        },
-        async (argv) => {
-            const importFilePath = (argv.IMPORT_FILE_PATH as string);
-
-            await pushStringsFromExcelToIfrc(
-                importFilePath,
-                argv.apiUrl as string,
-                argv.apiKey as string,
-            );
-        },
-    )
-    .command(
-        'push-migrations-to-go <MIGRATION_DIR_PATH>',
-        'Push migrations to GO API',
-        (yargs) => {
-            yargs.positional('MIGRATION_DIR_PATH', {
-                type: 'string',
-                describe: 'Find the import file on MIGRATION_DIR_PATH',
-            });
-            yargs.options({
-                'auth-token': {
-                    type: 'string',
-                    describe: 'Authentication token to access the API server',
-                    require: true,
-                },
-                'api-url': {
-                    type: 'string',
-                    describe: 'URL for the API server',
-                    require: true,
-                }
-            });
-        },
-        async (argv) => {
-            const migrationDirPath = (argv.MIGRATION_DIR_PATH as string);
-
-            await pushMigrationsToGo(
-                currentDir,
-                migrationDirPath,
-                argv.apiUrl as string,
-                argv.authToken as string,
-            );
-        },
-    )
-    .command(
-        'push-migrations-to-ifrc <MIGRATION_DIR_PATH>',
-        'Push migrations to IFRC translations service',
-        (yargs) => {
-            yargs.positional('MIGRATION_DIR_PATH', {
-                type: 'string',
-                describe: 'Find the import file on MIGRATION_DIR_PATH',
-            });
-            yargs.options({
-                'api-key': {
-                    type: 'string',
-                    describe: 'Authentication token to access the API server',
-                    require: true,
-                },
-                'api-url': {
-                    type: 'string',
-                    describe: 'URL for the API server',
-                    require: true,
-                }
-            });
-        },
-        async (argv) => {
-            const migrationDirPath = (argv.MIGRATION_DIR_PATH as string);
-
-            await pushMigrationsToIfrc(
-                currentDir,
-                migrationDirPath,
-                argv.apiUrl as string,
-                argv.apiKey as string,
             );
         },
     )

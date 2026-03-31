@@ -9,6 +9,8 @@ import type {
     VerifyColumn,
 } from '../types';
 
+import styles from './styles.module.css';
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface Props<DATUM, KEY extends string | number, COLUMN extends Column<DATUM, KEY, any, any>> {
     data: DATUM[] | undefined | null;
@@ -17,7 +19,6 @@ interface Props<DATUM, KEY extends string | number, COLUMN extends Column<DATUM,
     rowClassName?: string | ((key: KEY, datum: DATUM) => (string | undefined));
     cellClassName?: string | ((key: KEY, datum: DATUM, columnKey: string) => (string | undefined));
     rowModifier?: (rowOptions: RowOptions<DATUM, KEY>) => React.ReactNode;
-    expandedContent?: boolean;
 }
 
 function TableBodyContent<
@@ -33,7 +34,6 @@ function TableBodyContent<
         rowClassName,
         cellClassName,
         rowModifier,
-        expandedContent,
     } = props;
 
     return (
@@ -48,7 +48,6 @@ function TableBodyContent<
                         cellRendererClassName,
                         cellRendererParams,
                         cellContainerClassName,
-                        cellContainerRendererParams,
                     } = column;
 
                     const otherProps = cellRendererParams(key, datum, index, data);
@@ -60,27 +59,16 @@ function TableBodyContent<
                             name={id}
                         />
                     );
-
-                    const cellContainerAdditionalProps = cellContainerRendererParams?.(
-                        key,
-                        datum,
-                        index,
-                        data,
-                    ) ?? {};
-
                     return (
                         <TableData
                             key={id}
                             className={_cs(
+                                styles.cell,
                                 cellContainerClassName,
                                 typeof cellClassName === 'function'
                                     ? cellClassName(key, datum, id)
                                     : cellClassName,
                             )}
-                            // eslint-disable-next-line react/jsx-props-no-spreading
-                            {...cellContainerAdditionalProps}
-                            expandedContentCell={cellContainerAdditionalProps.expandedContentCell
-                                ?? expandedContent}
                         >
                             {children}
                         </TableData>
@@ -90,6 +78,7 @@ function TableBodyContent<
                 const row = (
                     <TableRow
                         className={_cs(
+                            styles.row,
                             typeof rowClassName === 'function'
                                 ? rowClassName(key, datum)
                                 : rowClassName,

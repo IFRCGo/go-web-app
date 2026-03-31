@@ -10,7 +10,7 @@ export interface Props {
     children?: React.ReactNode;
     description?: React.ReactNode;
     // contentSectionClassName?: string;
-    tooltip?: React.ReactNode;
+    tooltip?: string;
     withoutTitleSection?: boolean;
     withFullWidthContent?: boolean;
     withoutPadding?: boolean;
@@ -49,13 +49,15 @@ function InputSection(props: Props) {
                             )}
                         </>
                     )}
+                    // headingDescription={withAsteriskOnTitle && (
+                    //     <span aria-hidden className={styles.asterisk}>
+                    //         *
+                    //     </span>
+                    // )}
                     headerActions={tooltip && <InfoPopup description={tooltip} />}
                     headingLevel={6}
                 >
-                    <Description
-                        withLightText
-                        textSize="sm"
-                    >
+                    <Description withLightText>
                         <ListView
                             layout="block"
                             withSpacingOpticalCorrection

@@ -11,10 +11,9 @@ import {
 import {
     Button,
     Container,
-    InlineLayout,
     InputSection,
+    List,
     ListView,
-    RawList,
     SelectInput,
     TextArea,
     TextInput,
@@ -203,26 +202,23 @@ function Overview(props: Props) {
                         description={strings.drefOperationalShareApplicationDescription}
                         numPreferredColumns={1}
                     >
-                        <Container
-                            empty={isNotDefined(drefUsers) || drefUsers.length === 0}
+                        <List
+                            className={styles.userList}
+                            messageClassName={styles.message}
+                            data={drefUsers}
+                            renderer={UserItem}
+                            keySelector={userKeySelector}
+                            rendererParams={userRendererParams}
                             emptyMessage={strings.userListEmptyMessage}
-                        >
-                            <ListView
-                                withWrap
-                                spacing="xs"
-                            >
-                                <RawList
-                                    data={drefUsers}
-                                    renderer={UserItem}
-                                    keySelector={userKeySelector}
-                                    rendererParams={userRendererParams}
-                                />
-                            </ListView>
-                        </Container>
+                            errored={false}
+                            filtered={false}
+                            pending={false}
+                            compact
+                        />
                         <Button
                             name={undefined}
                             onClick={setShowShareModalTrue}
-                            disabled={isNotDefined(drefId)}
+                            disabled={isNotDefined(drefId) || readOnly}
                             before={<ShareLineIcon />}
                         >
                             {strings.formShareButtonLabel}
@@ -379,30 +375,29 @@ function Overview(props: Props) {
                         />
                     </InputSection>
                     <InputSection title={strings.drefFormTitle}>
-                        <InlineLayout
-                            after={(
-                                <Button
-                                    name={undefined}
-                                    onClick={handleGenerateTitleButtonClick}
-                                    disabled={disabled
-                                        || readOnly
-                                        || isNotDefined(value?.country)
-                                        || isNotDefined(value?.disaster_type)
-                                        || isNotDefined(disasterTypes)}
-                                >
-                                    {strings.drefFormGenerateTitle}
-                                </Button>
-                            )}
-                        >
+                        <div className={styles.titleContainer}>
                             <TextInput
                                 name="title"
+                                className={styles.titleInput}
                                 value={value?.title}
                                 onChange={setFieldValue}
                                 error={error?.title}
                                 disabled={disabled}
                                 readOnly={readOnly}
                             />
-                        </InlineLayout>
+                            <Button
+                                className={styles.generateTitleButton}
+                                name={undefined}
+                                onClick={handleGenerateTitleButtonClick}
+                                disabled={disabled
+                                    || readOnly
+                                    || isNotDefined(value?.country)
+                                    || isNotDefined(value?.disaster_type)
+                                    || isNotDefined(disasterTypes)}
+                            >
+                                {strings.drefFormGenerateTitle}
+                            </Button>
+                        </div>
                     </InputSection>
                     <InputSection
                         title={strings.drefFormUploadMap}

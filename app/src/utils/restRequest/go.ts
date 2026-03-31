@@ -9,7 +9,6 @@ import { type ContextInterface } from '@togglecorp/toggle-request';
 import {
     api,
     riskApi,
-    translationApi,
 } from '#config';
 import { type UserAuth } from '#contexts/user';
 import {
@@ -40,10 +39,8 @@ export interface TransformedError {
     debugMessage: string;
 }
 
-type ApiType = 'go' | 'risk' | 'translation';
-
 export interface AdditionalOptions {
-    apiType?: ApiType;
+    apiType?: 'go' | 'risk';
     formData?: boolean;
     isCsvRequest?: boolean;
     enforceEnglishForQuery?: boolean;
@@ -114,18 +111,6 @@ type GoContextInterface = ContextInterface<
     AdditionalOptions
 >;
 
-function getEndPoint(apiType: ApiType | undefined) {
-    if (apiType === 'risk') {
-        return riskApi;
-    }
-
-    if (apiType === 'translation') {
-        return translationApi;
-    }
-
-    return api;
-}
-
 export const processGoUrls: GoContextInterface['transformUrl'] = (url, _, additionalOptions) => {
     if (isFalsyString(url)) {
         return '';
@@ -138,12 +123,10 @@ export const processGoUrls: GoContextInterface['transformUrl'] = (url, _, additi
 
     const { apiType } = additionalOptions;
 
-    const resolvedUrl = resolveUrl(
-        getEndPoint(apiType),
+    return resolveUrl(
+        apiType === 'risk' ? riskApi : api,
         url,
     );
-
-    return resolvedUrl;
 };
 
 type Literal = string | number | boolean | File;
@@ -181,8 +164,6 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     } = requestOptions;
 
     const {
-        // FIXME: undefined type should only be applicable for the external requests
-        apiType = 'go',
         formData,
         isCsvRequest,
         isExcelRequest,
@@ -195,12 +176,9 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     const user = getFromStorage<UserAuth | undefined>(KEY_USER_STORAGE);
     const token = user?.token;
 
-    // FIXME: only inject on go apis
-    const defaultHeaders: HeadersInit = {};
-
-    if (apiType === 'go' && isDefined(token)) {
-        defaultHeaders.Authorization = `Token ${token}`;
-    }
+    const defaultHeaders: HeadersInit = {
+        Authorization: token ? `Token ${token}` : '',
+    };
 
     if (method === 'GET') {
         // Query

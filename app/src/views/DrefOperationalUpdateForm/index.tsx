@@ -41,13 +41,11 @@ import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage'
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
-import ViewOnlyModeBanner from '#components/ViewOnlyModeBanner';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useAlert from '#hooks/useAlert';
 import {
     DREF_STATUS_APPROVED,
     DREF_STATUS_DRAFT,
-    DREF_STATUS_FAILED,
     DREF_STATUS_FINALIZED,
 } from '#utils/constants';
 import {
@@ -125,7 +123,7 @@ export function Component() {
     const alert = useAlert();
     const strings = useTranslation(i18n);
 
-    const tabListRef = useRef<ElementRef<'div'>>(null);
+    const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [isPreviousImminent, setIsPreviousImminent] = useState(false);
@@ -424,7 +422,7 @@ export function Component() {
 
     const handleFormSubmit = useCallback(
         (modifiedAt?: string) => {
-            tabListRef.current?.scrollIntoView();
+            formContentRef.current?.scrollIntoView();
 
             // FIXME: use createSubmitHandler
             const result = validate();
@@ -439,7 +437,7 @@ export function Component() {
                 cover_image_file: isNotDefined(result.value.cover_image_file?.id)
                     ? null : result.value.cover_image_file,
                 event_map_file: isNotDefined(result.value.event_map_file?.id)
-                    ? null : result.value.event_map_file,
+                    ? null : result.value.cover_image_file,
             } as OpsUpdateRequestBody);
         },
         [validate, setError, updateOpsUpdate],
@@ -455,7 +453,7 @@ export function Component() {
     );
 
     const handleTabChange = useCallback((newTab: TabKeys) => {
-        tabListRef.current?.scrollIntoView({ behavior: 'smooth' });
+        formContentRef.current?.scrollIntoView();
         setActiveTab(newTab);
     }, []);
 
@@ -584,35 +582,13 @@ export function Component() {
         || fetchingDref
         || fetchingPrevOpsUpdate;
 
-    const languageMismatch = currentLanguage
-        !== opsUpdateResponse?.translation_module_original_language;
+    const languageMismatch = isDefined(opsUpdateId)
+        && isDefined(opsUpdateResponse)
+        && currentLanguage !== opsUpdateResponse?.translation_module_original_language;
 
-    const isEditable = useMemo(() => {
-        if (isNotDefined(drefId)) {
-            return false;
-        }
-
-        if (isNotDefined(opsUpdateResponse)) {
-            return false;
-        }
-
-        if (languageMismatch) {
-            return false;
-        }
-
-        const { status } = opsUpdateResponse;
-
-        if (status === DREF_STATUS_DRAFT
-            || status === DREF_STATUS_FINALIZED
-            || status === DREF_STATUS_FAILED
-        ) {
-            return true;
-        }
-
-        return false;
-    }, [languageMismatch, opsUpdateResponse, drefId]);
-
-    const readOnly = !isEditable;
+    const readOnly = languageMismatch
+        && (opsUpdateResponse?.status === DREF_STATUS_FINALIZED
+            || opsUpdateResponse?.status === DREF_STATUS_DRAFT);
 
     const shouldHideForm = fetchingOpsUpdate
         || isDefined(opsUpdateResponseError);
@@ -625,6 +601,7 @@ export function Component() {
             styleVariant="step"
         >
             <Page
+                elementRef={formContentRef}
                 className={styles.drefOperationalUpdateForm}
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
@@ -660,10 +637,7 @@ export function Component() {
                     </>
                 )}
                 info={!shouldHideForm && (
-                    <TabList
-                        elementRef={tabListRef}
-                        className={styles.tabList}
-                    >
+                    <TabList className={styles.tabList}>
                         <Tab
                             name="overview"
                             step={1}
@@ -707,9 +681,6 @@ export function Component() {
                 )}
                 withBackgroundColorInMainSection
                 mainSectionClassName={styles.content}
-                beforeHeaderContent={!fetchingOpsUpdate && readOnly && (
-                    <ViewOnlyModeBanner />
-                )}
             >
                 {fetchingOpsUpdate && (
                     <Message
@@ -717,10 +688,10 @@ export function Component() {
                         title={strings.formLoadingMessage}
                     />
                 )}
-                {!fetchingOpsUpdate && languageMismatch && (
+                {languageMismatch && (
                     <LanguageMismatchMessage
                         title={strings.formNotAvailableInSelectedLanguageMessage}
-                        originalLanguage={opsUpdateResponse?.translation_module_original_language}
+                        originalLanguage={opsUpdateResponse.translation_module_original_language}
                         selectedLanguage={currentLanguage}
                     />
                 )}

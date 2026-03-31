@@ -25,7 +25,6 @@ import {
     useFormObject,
 } from '@togglecorp/toggle-form';
 
-import CountrySelectInput from '#components/domain/CountrySelectInput';
 import NonFieldError from '#components/NonFieldError';
 import DomainContext from '#contexts/domain';
 import UserContext from '#contexts/user';
@@ -80,7 +79,6 @@ const formSchema: FormSchema = {
                     // FIXME: Server does not accept null as empty value
                     defaultValue: '' as never,
                 },
-                country: {},
                 city: {},
                 department: {},
                 position: {},
@@ -113,7 +111,6 @@ function EditAccountInfo(props: Props) {
         first_name: userDetails?.first_name,
         last_name: userDetails?.last_name,
         profile: {
-            country: userDetails?.profile?.country,
             city: userDetails?.profile?.city,
             // FIXME: The server sends empty string as org_type
             org_type: clearEmptyString(userDetails?.profile?.org_type),
@@ -259,14 +256,6 @@ function EditAccountInfo(props: Props) {
                     error={fieldError?.last_name}
                     disabled={updateAccountPending}
                     withAsterisk
-                />
-                <CountrySelectInput
-                    name="country"
-                    label={strings.countryInputLabel}
-                    value={formValue?.profile?.country}
-                    onChange={setProfileFieldValue}
-                    error={profileError?.country}
-                    disabled={updateAccountPending}
                 />
                 <TextInput
                     name="city"

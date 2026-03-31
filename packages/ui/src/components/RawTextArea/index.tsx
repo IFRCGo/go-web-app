@@ -25,7 +25,6 @@ function RawTextArea<N>(props: Props<N>) {
         elementRef,
         value,
         name,
-        maxLength,
         ...otherProps
     } = props;
 
@@ -46,7 +45,6 @@ function RawTextArea<N>(props: Props<N>) {
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
             ref={elementRef}
-            maxLength={maxLength}
             className={_cs(
                 styles.rawInput,
                 className,

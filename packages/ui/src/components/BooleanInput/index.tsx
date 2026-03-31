@@ -13,10 +13,7 @@ import i18n from './i18n.json';
 export type BooleanInputProps<NAME> = Omit<
 RadioInputProps<
     NAME,
-    {
-        value: boolean,
-        label: React.ReactNode,
-    },
+    { value: boolean, label: string},
     boolean,
     RadioProps<boolean>
 >, 'options' | 'keySelector' | 'labelSelector'> & ({

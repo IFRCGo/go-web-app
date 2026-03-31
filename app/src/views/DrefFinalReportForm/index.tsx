@@ -1,7 +1,6 @@
 import {
     type ElementRef,
     useCallback,
-    useMemo,
     useRef,
     useState,
 } from 'react';
@@ -38,12 +37,10 @@ import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage'
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
-import ViewOnlyModeBanner from '#components/ViewOnlyModeBanner';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useAlert from '#hooks/useAlert';
 import {
     DREF_STATUS_DRAFT,
-    DREF_STATUS_FAILED,
     DREF_STATUS_FINALIZED,
     DREF_TYPE_IMMINENT,
     type TypeOfDrefEnum,
@@ -118,7 +115,7 @@ export function Component() {
     const alert = useAlert();
     const strings = useTranslation(i18n);
 
-    const tabListRef = useRef<ElementRef<'div'>>(null);
+    const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [isPreviousImminent, setIsPreviousImminent] = useState(false);
@@ -369,7 +366,7 @@ export function Component() {
 
     const handleFormSubmit = useCallback(
         (modifiedAt?: string) => {
-            tabListRef.current?.scrollIntoView();
+            formContentRef.current?.scrollIntoView();
 
             // FIXME: use createSubmitHandler
             const result = validate();
@@ -384,7 +381,7 @@ export function Component() {
                 cover_image_file: isNotDefined(result.value.cover_image_file?.id)
                     ? null : result.value.cover_image_file,
                 event_map_file: isNotDefined(result.value.event_map_file?.id)
-                    ? null : result.value.event_map_file,
+                    ? null : result.value.cover_image_file,
             } as FinalReportRequestBody);
         },
         [validate, setError, updateFinalReport],
@@ -400,7 +397,7 @@ export function Component() {
     );
 
     const handleTabChange = useCallback((newTab: TabKeys) => {
-        tabListRef.current?.scrollIntoView({ behavior: 'smooth' });
+        formContentRef.current?.scrollIntoView();
         setActiveTab(newTab);
     }, []);
 
@@ -409,35 +406,13 @@ export function Component() {
     const saveFinalReportPending = updateFinalReportPending;
     const disabled = fetchingFinalReport || saveFinalReportPending;
 
-    const languageMismatch = currentLanguage
-        !== finalReportResponse?.translation_module_original_language;
+    const languageMismatch = isDefined(finalReportId)
+        && isDefined(finalReportResponse)
+        && currentLanguage !== finalReportResponse?.translation_module_original_language;
 
-    const isEditable = useMemo(() => {
-        if (isNotDefined(drefId)) {
-            return false;
-        }
-
-        if (isNotDefined(finalReportResponse)) {
-            return false;
-        }
-
-        if (languageMismatch) {
-            return false;
-        }
-
-        const { status } = finalReportResponse;
-
-        if (status === DREF_STATUS_DRAFT
-            || status === DREF_STATUS_FINALIZED
-            || status === DREF_STATUS_FAILED
-        ) {
-            return true;
-        }
-
-        return false;
-    }, [languageMismatch, finalReportResponse, drefId]);
-
-    const readOnly = !isEditable;
+    const readOnly = languageMismatch
+        && (finalReportResponse?.status === DREF_STATUS_FINALIZED
+            || finalReportResponse?.status === DREF_STATUS_DRAFT);
 
     const shouldHideForm = fetchingFinalReport
         || isDefined(finalReportResponseError);
@@ -464,6 +439,7 @@ export function Component() {
             styleVariant="step"
         >
             <Page
+                elementRef={formContentRef}
                 className={styles.drefFinalReportForm}
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
@@ -499,7 +475,7 @@ export function Component() {
                     </>
                 )}
                 info={!shouldHideForm && (
-                    <TabList elementRef={tabListRef}>
+                    <TabList>
                         {tabKeyList.map((tabKey, i) => (
                             <Tab
                                 key={tabKey}
@@ -514,9 +490,6 @@ export function Component() {
                 )}
                 withBackgroundColorInMainSection
                 mainSectionClassName={styles.content}
-                beforeHeaderContent={!fetchingFinalReport && readOnly && (
-                    <ViewOnlyModeBanner />
-                )}
             >
                 {fetchingFinalReport && (
                     <Message
@@ -524,14 +497,14 @@ export function Component() {
                         title={strings.formLoadingMessage}
                     />
                 )}
-                {!fetchingFinalReport && languageMismatch && (
+                {languageMismatch && (
                     <LanguageMismatchMessage
                         title={strings.formNotAvailableInSelectedLanguageMessage}
-                        originalLanguage={finalReportResponse?.translation_module_original_language}
+                        originalLanguage={finalReportResponse.translation_module_original_language}
                         selectedLanguage={currentLanguage}
                     />
                 )}
-                {!fetchingFinalReport && isDefined(finalReportResponseError) && (
+                {isDefined(finalReportResponseError) && (
                     <Message
                         variant="error"
                         title={strings.formLoadErrorTitle}

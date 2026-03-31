@@ -1,19 +1,14 @@
-import { useMemo } from 'react';
-
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import RawInput, { Props as RawInputProps } from '#components/RawInput';
-import { getHighlightMode } from '#utils/common';
 import { extractInputContainerProps } from '#utils/inputs';
 
-type InheritedProps<NAME> = Omit<InputContainerProps, 'input' | 'highlightMode'>
+type InheritedProps<NAME> = Omit<InputContainerProps, 'input'>
 & Omit<RawInputProps<NAME>, 'type' | 'className' | 'elementRef'>;
 
 export interface Props<NAME> extends InheritedProps<NAME> {
     inputElementRef?: React.RefObject<HTMLInputElement>;
     inputClassName?: string;
     type?: 'text' | 'password';
-    withDiffView?: boolean;
-    prevValue?: RawInputProps<NAME>['value'];
 }
 
 function TextInput<const NAME>(props: Props<NAME>) {
@@ -23,19 +18,11 @@ function TextInput<const NAME>(props: Props<NAME>) {
         readOnly,
         required,
         type = 'text',
-        withDiffView,
-        value,
-        prevValue,
         ...otherProps
     } = props;
 
     const [inputContainerProps, rawInputProps] = extractInputContainerProps(
         otherProps,
-    );
-
-    const highlightMode = useMemo(
-        () => getHighlightMode(value, prevValue, withDiffView),
-        [value, prevValue, withDiffView],
     );
 
     return (
@@ -45,13 +32,10 @@ function TextInput<const NAME>(props: Props<NAME>) {
             disabled={disabled}
             readOnly={readOnly}
             required={required}
-            highlightMode={highlightMode}
-            prevValue={prevValue}
             input={(
                 <RawInput
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...rawInputProps}
-                    value={value}
                     className={inputClassName}
                     disabled={disabled}
                     readOnly={readOnly}

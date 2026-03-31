@@ -9,6 +9,11 @@ export type ValidationOption = NonNullable<GlobalEnumsResponse['local_units_stat
 export type ValidationStatusKey = ValidationOption['key'];
 type RequestType = 'authenticated' | 'public';
 
+export type ManageResponse = Record<number, {
+    enabled: boolean | undefined,
+    externallyManagedId: number,
+}> | undefined;
+
 export const VALIDATED = 1 satisfies ValidationStatusKey;
 export const UNVALIDATED = 2 satisfies ValidationStatusKey;
 export const PENDING_VALIDATION = 3 satisfies ValidationStatusKey;

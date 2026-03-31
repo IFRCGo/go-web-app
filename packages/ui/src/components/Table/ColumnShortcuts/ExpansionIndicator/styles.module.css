@@ -19,11 +19,10 @@
 
     .indicator {
         flex-shrink: 0;
-        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-primary-red);
         border-radius: 50%;
         background-color: var(--go-ui-color-primary-red);
-        width: 0.8125rem;
-        height: 0.8125rem;
+        width: 0.8rem;
+        height: 0.8rem;
     }
 
     &.start {
@@ -42,13 +41,6 @@
         .end-border,
         .start-border {
             background-color: transparent;
-        }
-    }
-
-    &.disabled {
-        .indicator {
-            border-color: var(--go-ui-color-separator);
-            background-color: var(--go-ui-color-white);
         }
     }
 }

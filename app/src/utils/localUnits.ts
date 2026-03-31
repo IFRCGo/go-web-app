@@ -4,8 +4,7 @@ import {
 } from '@togglecorp/fujs';
 import { removeNull } from '@togglecorp/toggle-form';
 
-// FIXME: imports from views should not be allowed
-import { type PartialLocalUnits } from '#views/CountryNsOverviewContextAndStructure/NationalSocietyLocalUnits/LocalUnitsFormModal/schema';
+import { type PartialLocalUnits } from '#views/CountryNsOverviewContextAndStructure/NationalSocietyLocalUnits/LocalUnitsFormModal/LocalUnitsForm/schema';
 
 import { type GoApiResponse } from './restRequest';
 

@@ -33,8 +33,10 @@ import {
     type Point,
 } from 'mapbox-gl';
 
+import DiffWrapper from '#components/DiffWrapper';
 import BaseMap, { type Props as BaseMapProps } from '#components/domain/BaseMap';
 import useCountry from '#hooks/domain/useCountry';
+import { hasChanged } from '#utils/common';
 import {
     COLOR_LIGHT_GREY,
     COLOR_PRIMARY_RED,
@@ -76,7 +78,7 @@ interface Props<NAME> extends BaseMapProps {
     country?: number | undefined;
     name: NAME;
     value: Value | undefined | null;
-    prevValue?: Value | undefined | null;
+    previousValue?: Value | undefined | null;
     onChange: (newValue: Value | undefined, name: NAME) => void;
     onClick?: (feature: MapboxGeoJSONFeature, lngLat: LngLat, map: Map) => void;
     mapContainerClassName?: string;
@@ -84,8 +86,9 @@ interface Props<NAME> extends BaseMapProps {
     readOnly?: boolean;
     required?: boolean;
     error?: ObjectError<Value>;
-    withDiffView?: boolean;
-    withPrevValue?: boolean;
+    showChanges?: boolean;
+    showPreviousValue?: boolean;
+    diffWrapperClassName?: string;
 }
 
 function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
@@ -93,7 +96,7 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
         className,
         name,
         value,
-        prevValue,
+        previousValue,
         onChange,
         onClick,
         baseLayers,
@@ -105,8 +108,9 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
         country,
         required,
         error,
-        withDiffView = false,
-        withPrevValue = false,
+        showChanges = false,
+        showPreviousValue = false,
+        diffWrapperClassName,
         ...otherProps
     } = props;
 
@@ -227,31 +231,43 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
 
     return (
         <div className={_cs(styles.baseMapPointInput, className)}>
-            <ListView spacing="sm">
-                <NumberInput
-                    name="lat"
-                    label={strings.latitude}
+            <ListView spacing="xl">
+                <DiffWrapper
+                    diffViewEnabled={showChanges}
+                    showPreviousValue={showPreviousValue}
                     value={value?.lat}
-                    onChange={handleLatInputChange}
-                    readOnly={readOnly}
-                    error={error?.lat}
-                    required={required}
-                    prevValue={prevValue?.lat}
-                    withPrevValue={withPrevValue}
-                    withDiffView={withDiffView}
-                />
-                <NumberInput
-                    name="lng"
-                    label={strings.longitude}
+                    previousValue={previousValue?.lat}
+                    className={diffWrapperClassName}
+                >
+                    <NumberInput
+                        changed={showChanges && hasChanged(value?.lat, previousValue?.lat)}
+                        name="lat"
+                        label={strings.latitude}
+                        value={value?.lat}
+                        onChange={handleLatInputChange}
+                        readOnly={readOnly}
+                        error={error?.lat}
+                        required={required}
+                    />
+                </DiffWrapper>
+                <DiffWrapper
+                    diffViewEnabled={showChanges}
+                    showPreviousValue={showPreviousValue}
                     value={value?.lng}
-                    onChange={handleLngInputChange}
-                    readOnly={readOnly}
-                    error={error?.lng}
-                    required={required}
-                    prevValue={prevValue?.lng}
-                    withPrevValue={withPrevValue}
-                    withDiffView={withDiffView}
-                />
+                    previousValue={previousValue?.lng}
+                    className={diffWrapperClassName}
+                >
+                    <NumberInput
+                        changed={showChanges && hasChanged(value?.lng, previousValue?.lng)}
+                        name="lng"
+                        label={strings.longitude}
+                        value={value?.lng}
+                        onChange={handleLngInputChange}
+                        readOnly={readOnly}
+                        error={error?.lng}
+                        required={required}
+                    />
+                </DiffWrapper>
             </ListView>
             {isDefined(countryDetails) && (
                 <div className={styles.locationSearch}>
@@ -289,7 +305,7 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
                 )}
             >
                 <MapContainer
-                    className={_cs(styles.mapContainer, mapContainerClassName)}
+                    className={mapContainerClassName}
                 />
                 {isDefined(pointGeoJson) && (
                     <MapSource

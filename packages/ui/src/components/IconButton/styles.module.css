@@ -6,8 +6,8 @@
     --border-radius: var(--go-ui-border-radius-md);
     --text-transform: none;
     --cursor: default;
-    --spacing: var(--go-ui-spacing-4xs);
-    --padding: var(--spacing);
+    --spacing: var(--go-ui-spacing-2xs);
+    --padding: var(--go-ui-spacing-2xs);
 
     display: flex;
     position: relative;

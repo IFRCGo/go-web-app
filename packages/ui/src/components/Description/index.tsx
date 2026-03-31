@@ -7,7 +7,7 @@ export interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'ref'> {
     children?: React.ReactNode;
     withCenteredContent?: boolean;
     elementRef?: React.RefObject<HTMLDivElement>;
-    textSize?: 'xs' | 'sm' | 'md' | 'lg';
+    textSize?: 'sm' | 'md' | 'lg';
     withLightText?: boolean;
 }
 
@@ -30,7 +30,6 @@ function Description(props: Props) {
             className={_cs(
                 styles.description,
                 withCenteredContent && styles.withCenteredContent,
-                textSize === 'xs' && styles.textSizeExtraSmall,
                 textSize === 'sm' && styles.textSizeSmall,
                 textSize === 'md' && styles.textSizeMedium,
                 textSize === 'lg' && styles.textSizeLarge,

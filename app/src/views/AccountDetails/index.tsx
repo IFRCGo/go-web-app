@@ -23,7 +23,6 @@ import {
 
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
-import useCountry from '#hooks/domain/useCountry';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useUserMe from '#hooks/domain/useUserMe';
 import useFilterState from '#hooks/useFilterState';
@@ -59,9 +58,6 @@ export function Component() {
         api_profile_org_types,
         ({ key }) => key,
     );
-
-    // Resolve user's country name from numeric ID
-    const userCountry = useCountry({ id: meResponse?.profile?.country ?? -1 });
 
     const onEditProfileCancel = useCallback(() => {
         setShowEditProfileModal(false);
@@ -148,11 +144,6 @@ export function Component() {
                     />
                     <TextOutput
                         strongLabel
-                        label={strings.countryLabel}
-                        value={userCountry?.name}
-                    />
-                    <TextOutput
-                        strongLabel
                         label={strings.cityLabel}
                         value={meResponse?.profile?.city}
                     />
@@ -227,8 +218,6 @@ export function Component() {
                     withPadding
                     withDarkBackground
                     spacing="lg"
-                    empty={isNotDefined(montandonTokenResponse)
-                        || montandonTokenResponse.results.length === 0}
                 >
                     <ListView
                         layout="grid"

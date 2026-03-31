@@ -1,19 +1,11 @@
-import {
-    type ComponentType,
-    type ReactNode,
-    useCallback,
-    useMemo,
-} from 'react';
-import {
-    listToMap,
-    OptionKey,
-} from '@togglecorp/fujs';
+import React, { useCallback } from 'react';
 
 import Checkbox, { Props as CheckboxProps } from '#components/Checkbox';
-import InputContainer from '#components/InputContainer';
+import InputError from '#components/InputError';
+import InputHint from '#components/InputHint';
+import InputLabel from '#components/InputLabel';
 import ListView from '#components/ListView';
 import RawList, { type ListKey } from '#components/RawList';
-import { getHighlightMode } from '#utils/common';
 import { SpacingType } from '#utils/style';
 
 export interface Props<
@@ -27,10 +19,12 @@ export interface Props<
     error?: string;
     errorOnTooltip?: boolean;
     hint?: React.ReactNode;
+    hintContainerClassName?: string;
     keySelector: (option: OPTION) => KEY;
     label?: React.ReactNode;
+    labelContainerClassName?: string;
     labelSelector: (option: OPTION) => string;
-    descriptionSelector?: (option: OPTION) => ReactNode;
+    descriptionSelector?: (option: OPTION) => React.ReactNode;
     name: NAME;
     onChange: (newValue: KEY[], name: NAME) => void;
     options: OPTION[] | undefined;
@@ -38,21 +32,13 @@ export interface Props<
     value: KEY[] | undefined | null;
     checkListLayout?: 'inline' | 'block' | 'grid';
     checkListLayoutPreferredGridColumns?: number;
-    checkListLayoutMinGridColumnSize?: string;
     spacing?: SpacingType;
     withPadding?: boolean;
     withBackground?: boolean;
     withDarkBackground?: boolean;
-    renderer?: ComponentType<CheckboxProps<KEY>>
-    withoutOpticalSpacingCorrection?: boolean;
-
-    prevValue?: KEY[] | undefined | null;
-    withPrevValue?: boolean;
-    withDiffView?: boolean;
-    required?: boolean;
 }
 
-function Checklist<
+function CheckList<
     KEY extends ListKey,
     const NAME,
     OPTION extends object,
@@ -63,8 +49,10 @@ function Checklist<
         error,
         errorOnTooltip,
         hint,
+        hintContainerClassName,
         keySelector,
         label,
+        labelContainerClassName,
         labelSelector,
         descriptionSelector,
         checkboxClassName,
@@ -75,40 +63,11 @@ function Checklist<
         value,
         checkListLayout = 'inline',
         checkListLayoutPreferredGridColumns,
-        checkListLayoutMinGridColumnSize,
         spacing,
         withPadding,
         withBackground,
         withDarkBackground,
-
-        prevValue,
-        withDiffView,
-        withPrevValue,
-        required,
-        renderer = Checkbox<KEY>,
-        withoutOpticalSpacingCorrection,
     } = props;
-
-    const highlightMode = useMemo(
-        () => getHighlightMode(value, prevValue, withDiffView),
-        [value, prevValue, withDiffView],
-    );
-
-    const prevValueDisplay = useMemo(() => {
-        if (!withPrevValue) {
-            return null;
-        }
-
-        const labelMap = listToMap(
-            options ?? [],
-            (option) => keySelector(option) as OptionKey,
-            labelSelector,
-        );
-
-        return prevValue?.map((item) => (
-            labelMap?.[item as OptionKey]
-        )).join(', ');
-    }, [withPrevValue, prevValue, options, keySelector, labelSelector]);
 
     const handleCheck = useCallback((isSelected: boolean, key: KEY) => {
         if (isSelected) {
@@ -141,67 +100,71 @@ function Checklist<
         <RawList<OPTION, KEY, CheckboxProps<KEY>>
             data={options}
             keySelector={keySelector}
-            renderer={renderer}
+            renderer={Checkbox}
             rendererParams={optionListRendererParams}
         />
     );
 
-    const spacingOffset = -2;
-
     return (
-        <InputContainer
+        <ListView
+            layout="block"
             className={className}
+            withSpacingOpticalCorrection
+            spacing={spacing}
             withBackground={withBackground}
             withDarkBackground={withDarkBackground}
             withPadding={withPadding}
-            disabled={disabled}
-            required={required}
-            label={label}
-            error={error}
-            hint={hint}
-            highlightMode={highlightMode}
-            prevValue={prevValueDisplay}
-            withPrevValue={withPrevValue}
-            errorOnTooltip={errorOnTooltip}
-            variant="transparent"
-            input={(
-                <>
-                    {checkListLayout === 'inline' && (
-                        <ListView
-                            withWrap
-                            withSpacingOpticalCorrection={!withoutOpticalSpacingCorrection}
-                            spacing={spacing}
-                            spacingOffset={spacingOffset}
-                        >
-                            {checkList}
-                        </ListView>
-                    )}
-                    {checkListLayout === 'block' && (
-                        <ListView
-                            layout="block"
-                            withSpacingOpticalCorrection={!withoutOpticalSpacingCorrection}
-                            spacingOffset={spacingOffset}
-                            spacing={spacing}
-                        >
-                            {checkList}
-                        </ListView>
-                    )}
-                    {checkListLayout === 'grid' && (
-                        <ListView
-                            layout="grid"
-                            numPreferredGridColumns={checkListLayoutPreferredGridColumns}
-                            minGridColumnSize={checkListLayoutMinGridColumnSize}
-                            withSpacingOpticalCorrection={!withoutOpticalSpacingCorrection}
-                            spacingOffset={spacingOffset}
-                            spacing={spacing}
-                        >
-                            {checkList}
-                        </ListView>
-                    )}
-                </>
+        >
+            <InputLabel
+                className={labelContainerClassName}
+                disabled={disabled}
+            >
+                {label}
+            </InputLabel>
+            {checkListLayout === 'inline' && (
+                <ListView
+                    withWrap
+                    withSpacingOpticalCorrection
+                    spacing={spacing}
+                >
+                    {checkList}
+                </ListView>
             )}
-        />
+            {checkListLayout === 'block' && (
+                <ListView
+                    layout="block"
+                    withSpacingOpticalCorrection
+                    spacing={spacing}
+                >
+                    {checkList}
+                </ListView>
+            )}
+            {checkListLayout === 'grid' && (
+                <ListView
+                    layout="grid"
+                    numPreferredGridColumns={checkListLayoutPreferredGridColumns}
+                    withSpacingOpticalCorrection
+                    spacing={spacing}
+                >
+                    {checkList}
+                </ListView>
+            )}
+            {error && (
+                <InputError
+                    disabled={disabled}
+                    floating={errorOnTooltip}
+                >
+                    {error}
+                </InputError>
+            )}
+            {/* FIXME: Do we need to check for error here? */}
+            {!error && !errorOnTooltip && hint && (
+                <InputHint className={hintContainerClassName}>
+                    {hint}
+                </InputHint>
+            )}
+        </ListView>
     );
 }
 
-export default Checklist;
+export default CheckList;

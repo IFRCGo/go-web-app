@@ -61,7 +61,6 @@ function TabListLayout(props: Props) {
                     role="tablist"
                     spacing={styleVariant === 'vertical' ? 'none' : spacing}
                     withSpacingOpticalCorrection={styleVariant === 'vertical-compact'}
-                    spacingOffset={styleVariant === 'vertical-compact' ? -2 : 0}
                 >
                     {children}
                 </ListView>
@@ -76,7 +75,6 @@ function TabListLayout(props: Props) {
                     role="tablist"
                     withWrap={styleVariant === 'nav'}
                     withSpacingOpticalCorrection
-                    withStartAlignment={styleVariant === 'step'}
                 >
                     {children}
                 </ListView>

@@ -31,7 +31,6 @@ import {
     DISASTER_FIRE,
     DISASTER_FLASH_FLOOD,
     DISASTER_FLOOD,
-    EARLY_ACTION,
     INDIRECT_COST,
     SUB_TOTAL,
     SURGE_DEPLOYMENT_COST,
@@ -750,70 +749,34 @@ const schema: DrefFormSchema = {
                             requiredValidation: requiredListCondition,
                             keySelector: (action) => action.client_id,
                             member: () => ({
-                                fields: (proposedActionValue): ProposedActionsFields => {
-                                    const defaultProposedActionSchema = {
-                                        client_id: {},
-                                        id: { defaultValue: undefinedValue },
-                                        total_budget: {
-                                            required: true,
-                                            validations: [
-                                                positiveIntegerCondition,
-                                                lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                                            ],
-                                        },
-                                        proposed_type: {
-                                            required: true,
-                                        },
-                                        activities: {
-                                            keySelector: (activity) => activity.client_id,
-                                            member: () => ({
-                                                fields: (): ActivitiesFields => ({
-                                                    client_id: {},
-                                                    id: { defaultValue: undefinedValue },
-                                                    sector: { required: true },
-                                                    activity: {},
-                                                }),
+                                fields: (): ProposedActionsFields => ({
+                                    client_id: {},
+                                    id: { defaultValue: undefinedValue },
+                                    total_budget: {
+                                        required: true,
+                                        validations: [
+                                            positiveIntegerCondition,
+                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                                        ],
+                                    },
+                                    proposed_type: {
+                                        required: true,
+                                    },
+                                    activities: {
+                                        required: true,
+                                        requiredValidation: requiredListCondition,
+                                        keySelector: (activity) => activity.client_id,
+                                        member: () => ({
+                                            fields: (): ActivitiesFields => ({
+                                                client_id: {},
+                                                id: { defaultValue: undefinedValue },
+                                                sector: { required: true },
+                                                activity: {},
                                             }),
-                                        },
-                                    } satisfies ProposedActionsFields;
-
-                                    return addCondition(
-                                        defaultProposedActionSchema,
-                                        proposedActionValue,
-                                        ['total_budget'],
-                                        ['activities'],
-                                        (proposedValue) => {
-                                            if (proposedValue?.total_budget !== 0) {
-                                                return {
-                                                    activities: {
-                                                        ...defaultProposedActionSchema.activities,
-                                                        required: true,
-                                                        requiredValidation: requiredListCondition,
-                                                        validation: requiredListCondition,
-                                                    },
-                                                };
-                                            }
-
-                                            return {
-                                                activities: {
-                                                    ...defaultProposedActionSchema.activities,
-                                                    forceValue: [],
-                                                },
-                                            };
-                                        },
-                                    );
-                                },
-                                validation: (action) => {
-                                    if (!action || action.proposed_type !== EARLY_ACTION) {
-                                        return undefined;
-                                    }
-
-                                    if ((action.activities?.length ?? 0) > 0) {
-                                        return undefined;
-                                    }
-
-                                    return 'There must be at least one early action activity';
-                                },
+                                        }),
+                                        validation: requiredListCondition,
+                                    },
+                                }),
                             }),
                         },
                         sub_total_cost: {

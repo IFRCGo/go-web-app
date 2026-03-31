@@ -57,7 +57,6 @@ export default function Tab<NAME extends TabKey>(props: Props<NAME>) {
     const isLastTab = styleVariant === 'step' && step === numTabs;
 
     const disabled = disabledFromContext || disabledFromProps;
-
     return (
         <RawButton
             className={styles.tab}

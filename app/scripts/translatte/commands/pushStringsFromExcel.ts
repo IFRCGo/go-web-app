@@ -1,120 +1,25 @@
-import xlsx, { CellValue, Row } from 'exceljs';
+import xlsx from 'exceljs';
 import { Md5 } from 'ts-md5';
-import { encodeDate, isDefined, isFalsyString, isNotDefined, listToMap } from '@togglecorp/fujs';
+import { isDefined, isNotDefined, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
 
 import { Language, ServerActionItem } from '../types';
-import { postLanguageStrings, writeFilePromisify } from '../utils';
+import { postLanguageStrings } from '../utils';
 
-type Translation = {
-    key: string;
-    namespace: string;
-    en: string;
-    fr: string | undefined;
-    es: string | undefined;
-    ar: string | undefined;
-    hash: string;
-}
-
-function resolveCellValue(cellValue: CellValue) {
-    if (isNotDefined(cellValue)) {
-        return undefined;
-    }
-
-    if (
-        typeof cellValue === 'number'
-        || typeof cellValue === 'string'
-        || typeof cellValue === 'boolean'
-    ) {
-        return cellValue;
-    }
-
-    if (cellValue instanceof Date) {
-        return encodeDate(cellValue);
-    }
-
-    if ('error' in cellValue) {
-        return undefined;
-    }
-
-    if ('richText' in cellValue) {
-        return cellValue.richText.map(({ text }) => text).join('');
-    }
-
-    if ('hyperlink' in cellValue) {
-        const MAIL_IDENTIFIER = 'mailto:';
-        if (cellValue.hyperlink.startsWith(MAIL_IDENTIFIER)) {
-            return cellValue.hyperlink.substring(MAIL_IDENTIFIER.length);
-        }
-
-        return cellValue.hyperlink;
-    }
-
-    if (isNotDefined(cellValue.result)) {
-        return undefined;
-    }
-
-    if (typeof cellValue.result === 'object' && 'error' in cellValue.result) {
-        return undefined;
-    }
-
-    // Formula result
-    return resolveCellValue(cellValue.result);
-}
-
-function getStringValueFromCellValue(cellValue: CellValue | undefined) {
-    if (isNotDefined(cellValue)) {
-        return undefined;
-    }
-
-    const resolvedValue = resolveCellValue(cellValue);
-
-    if (isNotDefined(resolvedValue)) {
-        return undefined;
-    }
-
-    const stringValue = String(resolvedValue);
-
-    if (isFalsyString(stringValue.trim())) {
-        return undefined;
-    }
-
-    return stringValue;
-}
-
-function getCellValueFromRow(row: Row, columnIndex: number | undefined) {
-    if (isNotDefined(row) || isNotDefined(columnIndex)) {
-        return undefined;
-    }
-
-    const cellValue = row.getCell(columnIndex).value;
-
-    return getStringValueFromCellValue(cellValue);
-}
-
-async function getExcelTranslations(excelFilePath: string) {
+async function pushStringsFromExcel(importFilePath: string, apiUrl: string, accessToken: string) {
     const workbook = new xlsx.Workbook();
-    await workbook.xlsx.readFile(excelFilePath);
+
+    await workbook.xlsx.readFile(importFilePath);
 
     const firstSheet = workbook.worksheets[0];
-
-    const columns: {
-        key: string;
-        column: number | undefined;
-    }[] = [];
-
-    for (let i = 0; i < firstSheet.columnCount; i++) {
-        const column = firstSheet.columns[i];
-        const key = column.values?.[1]?.toString();
-
-        if (isNotDefined(key)) {
-            return;
+    const columns = firstSheet.columns.map(
+        (column) => {
+            const key = column.values?.[1]?.toString();
+            if (isNotDefined(key)) {
+                return undefined;
+            }
+            return { key, column: column.number }
         }
-
-        columns.push({
-            key: key.toLowerCase(),
-            column: column.number,
-        })
-    }
+    ).filter(isDefined);
 
     const columnMap = listToMap(
         columns,
@@ -122,116 +27,116 @@ async function getExcelTranslations(excelFilePath: string) {
         ({ column }) => column,
     );
 
-    // Remove header row
-    firstSheet.spliceRows(1, 1);
+    const strings: {
+        key: string;
+        namespace: string;
+        language: Language;
+        value: string;
+        hash: string;
+    }[] = [];
 
-    const KEY = 'key';
-    const NAMESPACE = 'namespace';
-    const EN = 'en';
-    const FR = 'fr';
-    const ES = 'es';
-    const AR = 'ar';
+    firstSheet.eachRow(
+        (row) => {
+            const keyColumn = columnMap['key'];
+            const key = isDefined(keyColumn) ? row.getCell(keyColumn).value?.toString() : undefined;
 
-    const translations: Translation[] = [];
+            const namespaceColumn = columnMap['namespace'];
+            const namespace = isDefined(namespaceColumn) ? row.getCell(namespaceColumn).value?.toString() : undefined;
 
-    firstSheet.eachRow((row) => {
-        const key = getCellValueFromRow(row, columnMap[KEY]);
-        const namespace = getCellValueFromRow(row, columnMap[NAMESPACE]);
-
-        if (isFalsyString(key) || isFalsyString(namespace)) {
-            return;
-        }
-
-        const en = getCellValueFromRow(row, columnMap[EN]);
-
-        if (isFalsyString(en)) {
-            return;
-        }
-
-        const fr = getCellValueFromRow(row, columnMap[FR]);
-        const es = getCellValueFromRow(row, columnMap[ES]);
-        const ar = getCellValueFromRow(row, columnMap[AR]);
-
-        const hash = Md5.hashStr(String(en));
-
-        translations.push({
-            key,
-            namespace,
-            en,
-            fr,
-            es,
-            ar,
-            hash,
-        });
-    });
-
-    return translations;
-}
-
-async function pushStringsFromExcel(importFilePath: string, apiUrl: string, accessToken: string) {
-    const translations = await getExcelTranslations(importFilePath);
-
-    if (isNotDefined(translations)) {
-        console.info('Could not process the given excel file', importFilePath);
-        return;
-    }
-
-    console.info(`Found ${translations.length} rows`);
-
-    const applicableLanguages: Language[] = ['en', 'fr', 'es', 'ar'];
-
-    const actionsByLanguage = listToMap(
-        applicableLanguages,
-        (lang) => lang,
-        (lang) => translations.map((translation) => {
-            const languageValue = translation[lang];
-
-            if (isNotDefined(languageValue)) {
-                return undefined;
+            if (isNotDefined(key) || isNotDefined(namespace)) {
+                return;
             }
 
-            return {
-                action: 'set',
-                key: translation.key,
-                page_name: translation.namespace,
-                value: languageValue,
-                hash: translation.hash,
-            } satisfies ServerActionItem;
-        }).filter(isDefined),
+            const enColumn = columnMap['en'];
+            const en = isDefined(enColumn) ? row.getCell(enColumn).value?.toString() : undefined;
+
+            const arColumn = columnMap['ar'];
+            const ar = isDefined(arColumn) ? row.getCell(arColumn).value?.toString() : undefined;
+
+            const frColumn = columnMap['fr'];
+            const fr = isDefined(frColumn) ? row.getCell(frColumn).value?.toString() : undefined;
+
+            const esColumn = columnMap['es'];
+            const es = isDefined(esColumn) ? row.getCell(esColumn).value?.toString() : undefined;
+
+            if (isNotDefined(en)) {
+                return;
+            }
+
+            const hash = Md5.hashStr(en);
+
+            strings.push({
+                key,
+                namespace,
+                language: 'en',
+                value: en,
+                hash,
+            });
+
+            if (isDefined(ar)) {
+                strings.push({
+                    key,
+                    namespace,
+                    language: 'ar',
+                    value: ar,
+                hash,
+                });
+            }
+
+            if (isDefined(fr)) {
+                strings.push({
+                    key,
+                    namespace,
+                    language: 'fr',
+                    value: fr,
+                    hash,
+                });
+            }
+
+            if (isDefined(es)) {
+                strings.push({
+                    key,
+                    namespace,
+                    language: 'es',
+                    value: es,
+                    hash,
+                });
+            }
+        }
     );
 
-    for (let i = 0; i < applicableLanguages.length; i++) {
-        const language = applicableLanguages[i];
-        const actions = actionsByLanguage[language];
+    const languageGroupedActions = mapToList(
+        listToGroupList(
+            strings,
+            ({ language }) => language,
+            (languageString) => {
+                const serverAction: ServerActionItem = {
+                    action: 'set',
+                    key: languageString.key,
+                    page_name: languageString.namespace,
+                    value: languageString.value,
+                    hash: languageString.hash,
+                }
 
-        if (actions.length > 0) {
-            console.log(`posting ${actions.length} ${language} actions...`);
-            const result = await postLanguageStrings(
-                language,
-                actions,
-                apiUrl,
-                accessToken,
-            );
+                return serverAction;
+            },
+        ),
+        (actions, language) => ({
+            language: language as Language,
+            actions,
+        })
+    );
 
-            try {
-                const resultJson = await result.json();
+    const postPromises = languageGroupedActions.map(
+        (languageStrings) => postLanguageStrings(
+            languageStrings.language,
+            languageStrings.actions,
+            apiUrl,
+            accessToken,
+        )
+    )
 
-                await writeFilePromisify(
-                    `/tmp/push-strings-from-excel-response-${language}.json`,
-                    JSON.stringify(resultJson, null, 2),
-                    'utf8',
-                );
-            } catch {
-                const resultText = await result.text();
-
-                await writeFilePromisify(
-                    `/tmp/push-strings-from-excel-response-${language}.log`,
-                    JSON.stringify(resultText, null, 2),
-                    'utf8',
-                );
-            }
-        }
-    }
+    await Promise.all(postPromises);
 }
 
 export default pushStringsFromExcel;

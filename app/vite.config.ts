@@ -70,6 +70,15 @@ export default defineConfig(({ mode }) => {
             port: 3000,
             allowedHosts: ["host.docker.internal"],
             strictPort: true,
+            // Proxy API requests in dev to the local backend to avoid CORS
+            // Only proxy `/api/v1` to avoid accidentally forwarding other prefixes.
+            proxy: {
+                '/api/v1': {
+                    target: 'http://localhost:8000',
+                    changeOrigin: true,
+                    secure: false,
+                },
+            },
         },
         build: {
             outDir: '../build',

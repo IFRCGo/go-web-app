@@ -1,72 +1,105 @@
-import { Container } from '@ifrc-go/ui';
+import { useState } from 'react';
 import {
-    isDefined,
-    isNotDefined,
-    isTruthyString,
-} from '@togglecorp/fujs';
+    Outlet,
+    useLocation,
+} from 'react-router-dom';
+import {
+    Tab,
+    TabList,
+    TabPanel,
+    Tabs,
+} from '@ifrc-go/ui';
 
-import SparkEmbed from '#components/domain/SparkEmbed';
 import Page from '#components/Page';
-import { powerBiReportId1 } from '#config';
-import { useRequest } from '#utils/restRequest';
+import useRouting from '#hooks/useRouting';
+import ProBonoServicesTable from '#views/SparkProBonoServices';
+import WarehouseStocksTable from '#views/SparkStockInventory/WarehouseStocksTable';
 
-// Backend returns snake_case keys
-type BackendPowerBiAuth = {
-    embed_url: string;
-    embed_token: string;
-    report_id?: string;
-    expires_at?: string; // new field for expiry (ISO string)
-};
+import styles from './styles.module.css';
 
-/** @knipignore */
+type SparkTabKey =
+    | 'warehouse-stocks'
+    | 'framework-agreements'
+    | 'pro-bono-services'
+    | 'custom-regulations';
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const {
-        response: authRaw,
-        pending,
-        error,
-    } = useRequest({
-        skip: !powerBiReportId1,
-        url: '/api/v2/auth-power-bi/',
-        preserveResponse: true,
-        query: powerBiReportId1 ? ({
-            report_id: powerBiReportId1,
-        }) : undefined,
-    });
+    const location = useLocation();
+    const { navigate } = useRouting();
 
-    // FIXME: the typings should be generated in the server
-    const auth = authRaw as BackendPowerBiAuth | undefined;
-    const embedUrl = auth?.embed_url;
-    const accessToken = auth?.embed_token;
-    const reportId = auth?.report_id;
+    const [localActiveTab, setLocalActiveTab] = useState<SparkTabKey>('warehouse-stocks');
 
-    const isValidEmbedUrl = isTruthyString(embedUrl) && embedUrl.length >= 12;
+    const isFrameworkAgreementsRoute = location.pathname.startsWith('/spark/framework-agreements');
+    const isCustomRegulationsRoute = location.pathname.startsWith('/spark/custom-regulations');
+    let activeTab: SparkTabKey = localActiveTab;
+    if (isFrameworkAgreementsRoute) {
+        activeTab = 'framework-agreements';
+    } else if (isCustomRegulationsRoute) {
+        activeTab = 'custom-regulations';
+    }
+
+    const handleTabChange = (nextTab: SparkTabKey) => {
+        if (nextTab === 'framework-agreements') {
+            navigate('sparkFrameworkAgreements');
+            return;
+        }
+        if (nextTab === 'custom-regulations') {
+            navigate('sparkCustomRegulations');
+            return;
+        }
+
+        navigate('globalLogistics');
+        setLocalActiveTab(nextTab);
+    };
 
     return (
         <Page
-            // FIXME: use strings
             title="SPARK"
-            // FIXME: use strings
             heading="SPARK"
+            description={(
+                'Centralised Platform for Enhancing Emergency Supply Chain '
+                + 'and Decision-Making'
+            )}
         >
-            <Container
-                pending={pending}
-                errored={!!error}
-                errorMessage={error?.value.messageForNotification}
-                empty={isNotDefined(powerBiReportId1)
-                    || !isValidEmbedUrl
-                    || isNotDefined(accessToken)}
-                // FIXME: use strings
-                emptyMessage="The dashboard is temporarily unavailable. Please try again later!"
-            >
-                {isValidEmbedUrl && isDefined(accessToken) && (
-                    <SparkEmbed
-                        embedUrl={embedUrl}
-                        accessToken={accessToken}
-                        reportId={reportId}
-                    />
-                )}
-            </Container>
+            <div className={styles.tabsContainer}>
+                <Tabs
+                    value={activeTab}
+                    onChange={handleTabChange}
+                    styleVariant="tab"
+                >
+                    <TabList>
+                        <Tab name="warehouse-stocks">Stock Inventory</Tab>
+                        <Tab name="framework-agreements">Framework Agreements</Tab>
+                        <Tab name="pro-bono-services">Pro Bono Services</Tab>
+                        <Tab name="custom-regulations">Custom Regulations</Tab>
+                    </TabList>
+
+                    <TabPanel name="warehouse-stocks">
+                        <div className={styles.tabContent}>
+                            <WarehouseStocksTable />
+                        </div>
+                    </TabPanel>
+
+                    <TabPanel name="framework-agreements">
+                        <div className={styles.tabContent}>
+                            <Outlet />
+                        </div>
+                    </TabPanel>
+
+                    <TabPanel name="pro-bono-services">
+                        <div className={styles.tabContent}>
+                            <ProBonoServicesTable />
+                        </div>
+                    </TabPanel>
+
+                    <TabPanel name="custom-regulations">
+                        <div className={styles.tabContent}>
+                            <Outlet />
+                        </div>
+                    </TabPanel>
+                </Tabs>
+            </div>
         </Page>
     );
 }

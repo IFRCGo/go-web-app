@@ -64,7 +64,13 @@ export function getSpacingValue(
         spacingTokens.length - 1,
     );
 
-    const spacingValue = spacingTokens[startIndex];
+    const spacingValue = spacingTokens[
+        bound(
+            startIndex,
+            0,
+            spacingTokens.length - 1,
+        )
+    ];
 
     return spacingValue;
 }

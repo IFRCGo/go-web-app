@@ -1,6 +1,6 @@
 [submodule "go-api"]
 	path = go-api
-	url = git@github.com:IFRCGo/go-api.git
+	url = https://github.com/Sadat154/COMP0016_2025_Team23_SparkIntegrationIntoGoBackend.git
 [submodule "go-risk-module-api"]
 	path = go-risk-module-api
-	url = git@github.com:IFRCGo/go-risk-module-api.git
+	url = https://github.com/Sadat154/go-risk-module-api.git

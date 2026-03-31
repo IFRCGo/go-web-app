@@ -9,7 +9,7 @@ import styles from './styles.module.css';
 
 export type ButtonColorVariant = 'text' | 'text-on-dark' | 'primary' | 'secondary' | 'success' | 'danger';
 export type ButtonStyleVariant = 'outline' | 'filled' | 'transparent' | 'action' | 'translucent';
-export type ButtonTextSize = 'xs' | 'sm' | 'md' | 'lg';
+export type ButtonTextSize = 'sm' | 'md' | 'lg';
 
 const colorVariantToClassName: Record<ButtonColorVariant, string> = {
     text: styles.colorVariantText,
@@ -29,7 +29,6 @@ const styleVariantToClassName: Record<ButtonStyleVariant, string> = {
 };
 
 const textSizeToClassName: Record<ButtonTextSize, string> = {
-    xs: styles.textSizeExtraSmall,
     sm: styles.textSizeSmall,
     md: styles.textSizeMedium,
     lg: styles.textSizeLarge,

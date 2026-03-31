@@ -722,60 +722,24 @@ const surgeCatalogueInformationManagementComposition = customWrapRoute({
 
 const surgeCatalogueInformationTechnology = customWrapRoute({
     parent: surgeCatalogueLayout,
-    path: 'digital-systems',
+    path: 'information-technology',
     component: {
         render: () => import('#views/SurgeCatalogueInformationTechnology'),
         props: {},
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Digital Systems, Tools and Information Technology',
-        visibility: 'anything',
-    },
-});
-
-const surgeCatalogueInformationTechnologyRedirect = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'information-technology',
-    component: {
-        eagerLoad: true,
-        render: Navigate,
-        props: {
-            to: surgeCatalogueInformationTechnology.absolutePath,
-            replace: true,
-        },
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Digital Systems, Tools and Information Technology',
+        title: 'Information Technology',
         visibility: 'anything',
     },
 });
 
 const surgeCatalogueInformationTechnologyEruItTelecom = customWrapRoute({
     parent: surgeCatalogueLayout,
-    path: 'digital-systems/eru-it-telecom',
+    path: 'information-technology/eru-it-telecom',
     component: {
         render: () => import('#views/SurgeCatalogueInformationTechnologyEruItTelecom'),
         props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Digital Systems, Tools and Information Technology Service',
-        visibility: 'anything',
-    },
-});
-
-const surgeCatalogueInformationTechnologyEruItTelecomRedirect = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'information-technology/eru-it-telecom',
-    component: {
-        eagerLoad: true,
-        render: Navigate,
-        props: {
-            to: surgeCatalogueInformationTechnologyEruItTelecom.absolutePath,
-            replace: true,
-        },
     },
     wrapperComponent: Auth,
     context: {
@@ -1694,10 +1658,10 @@ export default {
     surgeCatalogueInformationManagementGenevaSupport,
     surgeCatalogueInformationManagementComposition,
     surgeCatalogueInformationTechnology,
-    surgeCatalogueInformationTechnologyEruItTelecom,
     surgeCataloguePmer,
     surgeCataloguePmerEmergencyPlanAction,
     surgeCataloguePmerRealTimeEvaluation,
+    surgeCatalogueInformationTechnologyEruItTelecom,
     surgeCatalogueLivelihood,
     surgeCatalogueLivelihoodServices,
     surgeCatalogueSecurity,
@@ -1750,6 +1714,4 @@ export default {
     rapidResponsePersonnel,
     emergencyResponseUnit,
     eruReadinessForm,
-    surgeCatalogueInformationTechnologyEruItTelecomRedirect,
-    surgeCatalogueInformationTechnologyRedirect,
 };

@@ -19,7 +19,6 @@ import {
     sum,
 } from '@togglecorp/fujs';
 
-import { type Props as InputContainerProps } from '#components/InputContainer';
 import { type Language } from '#contexts/language';
 
 import {
@@ -810,52 +809,4 @@ export function getTemporalDiff(min: DateLike, max: DateLike) {
         month: monthsDiff,
         day: daysDiff,
     };
-}
-
-function isDefinedValue(value: unknown) {
-    if (isNotDefined(value)) {
-        return false;
-    }
-
-    if (value === '') {
-        return false;
-    }
-
-    return true;
-}
-
-function isNotDefinedValue(value: unknown) {
-    if (isNotDefined(value)) {
-        return true;
-    }
-
-    if (value === '') {
-        return true;
-    }
-
-    return false;
-}
-
-export function getHighlightMode<VALUE>(
-    value: VALUE | undefined | null,
-    prevValue: VALUE | undefined | null,
-    withDiffView?: boolean,
-): InputContainerProps['highlightMode'] {
-    if (!withDiffView) {
-        return undefined;
-    }
-
-    if (isNotDefinedValue(prevValue) && isDefinedValue(value)) {
-        return 'add';
-    }
-
-    if (isNotDefinedValue(value) && isDefinedValue(prevValue)) {
-        return 'remove';
-    }
-
-    if (value !== prevValue) {
-        return 'update';
-    }
-
-    return undefined;
 }

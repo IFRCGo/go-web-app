@@ -113,9 +113,9 @@ function DownloadImportTemplateModal(props: Props) {
                     value={typeOfDref}
                     onChange={setTypeOfDref}
                     // Only response type is available for now
-                    disabled
+                    readOnly
                 />
-                <Description>
+                <Description withLightText>
                     {strings.description}
                 </Description>
             </ListView>

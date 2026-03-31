@@ -36,7 +36,6 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref' | 'before' 
     withAfterSeparator?: boolean;
 
     withoutSpacingOpticalCorrection?: boolean;
-    withOverflow?: boolean;
 }
 
 function BlockView(props: Props) {
@@ -55,7 +54,6 @@ function BlockView(props: Props) {
         withBeforeSeparator,
         withAfterSeparator,
         withoutSpacingOpticalCorrection,
-        withOverflow,
 
         ...divProps
     } = props;
@@ -89,7 +87,6 @@ function BlockView(props: Props) {
             className={_cs(
                 styles.blockLayout,
                 spacingClassName,
-                withOverflow && styles.withOverflow,
                 className,
             )}
             ref={elementRef}

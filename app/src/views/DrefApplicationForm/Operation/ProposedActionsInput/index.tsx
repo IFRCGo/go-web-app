@@ -5,7 +5,6 @@ import {
 } from 'react';
 import {
     Button,
-    InlineLayout,
     InputSection,
     ListView,
     NumberInput,
@@ -32,11 +31,8 @@ import {
     type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
+import { EARLY_ACTION } from '#views/DrefApplicationForm/common';
 
-import {
-    EARLY_ACTION,
-    EARLY_RESPONSE,
-} from '../../common';
 import { type PartialDref } from '../../schema';
 import ActivitiesInput from './ActivitiesInput';
 
@@ -142,70 +138,50 @@ function ProposedActionsInput(props: Props) {
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
 
-    const isRequired = value.proposed_type === EARLY_ACTION;
-
-    const proposedActionType = useMemo<{ imgSrc: string, label: string } | undefined>(() => {
-        if (value.proposed_type === EARLY_ACTION) {
-            return {
-                imgSrc: earlyActionsLogo,
-                label: strings.drefFormProposedEarlyActionLabel,
-            };
-        }
-
-        if (value.proposed_type === EARLY_RESPONSE) {
-            return {
-                imgSrc: earlyResponseLogo,
-                label: strings.drefFormProposedEarlyResponseLabel,
-            };
-        }
-
-        return undefined;
-    }, [value, strings]);
-
-    if (!proposedActionType) {
-        return null;
-    }
-
     return (
         <InputSection
-            title={proposedActionType.label}
-            description={(
-                <img
-                    className={styles.proposedActionLogo}
-                    src={proposedActionType.imgSrc}
-                    alt={strings.drefFormProposedEarlyActionLabel}
-                />
-            )}
+            title={
+                value.proposed_type === EARLY_ACTION
+                    ? (
+                        <div className={styles.proposedAction}>
+                            <img
+                                className={styles.logo}
+                                src={earlyActionsLogo}
+                                alt={strings.drefFromProposedEarlyActionLabel}
+                            />
+                            <span>
+                                {strings.drefFromProposedEarlyActionLabel}
+                            </span>
+                        </div>
+                    )
+                    : (
+                        <div className={styles.proposedAction}>
+                            <img
+                                className={styles.logo}
+                                src={earlyResponseLogo}
+                                alt={strings.drefFromProposedEarlyResponseLabel}
+                            />
+                            {strings.drefFromProposedEarlyResponseLabel}
+                        </div>
+                    )
+            }
         >
             <NonFieldError error={error} />
-            <ListView layout="grid">
-                <NumberInput
-                    name="total_budget"
-                    value={value.total_budget}
-                    onChange={onProposedActionChange}
-                    error={error?.total_budget}
-                    label={strings.drefFormProposedActionBudgetLabel}
-                    readOnly={readOnly}
-                    disabled={disabled}
-                    required
-                />
-            </ListView>
-            <InlineLayout
-                after={(
-                    <Button
-                        name={undefined}
-                        onClick={handleActivityAddButtonClick}
-                        disabled={
-                            isNotDefined(selectedSector)
-                            || disabled
-                            || readOnly
-                        }
-                    >
-                        {strings.drefFormAddProposedActionLabel}
-                    </Button>
-                )}
-            >
+            <NumberInput
+                required
+                name="total_budget"
+                value={value.total_budget}
+                onChange={onProposedActionChange}
+                error={error?.total_budget}
+                label={strings.drefFormProposedActionBudgetLabel}
+                readOnly={readOnly}
+                disabled={disabled}
+            />
+            {/* NOTE: Empty div to preserve the layout */}
+            <div />
+            <div className={styles.content}>
                 <SelectInput
+                    className={styles.input}
                     name={undefined}
                     label={strings.drefFormProposedActionSectorLabel}
                     value={selectedSector}
@@ -215,13 +191,22 @@ function ProposedActionsInput(props: Props) {
                     options={activityFilteredOptions}
                     disabled={disabled || activityOptionPending}
                     readOnly={readOnly}
-                    required={isRequired}
+                    required
                 />
-            </InlineLayout>
-            <ListView
-                layout="block"
-                spacing="2xs"
-            >
+                <Button
+                    className={styles.action}
+                    name={undefined}
+                    onClick={handleActivityAddButtonClick}
+                    disabled={
+                        isNotDefined(selectedSector)
+                        || disabled
+                        || readOnly
+                    }
+                >
+                    {strings.drefFormAddProposedActionLabel}
+                </Button>
+            </div>
+            <ListView layout="block">
                 <NonFieldError error={getErrorObject(error?.activities)} />
                 {value.activities?.map((activity, i) => (
                     <ActivitiesInput

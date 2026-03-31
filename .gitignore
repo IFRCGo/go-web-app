@@ -27,6 +27,7 @@ build-ssr
 
 .env*
 !.env.example
+!.env-spark
 .eslintcache
 tsconfig.tsbuildinfo
 
@@ -41,3 +42,4 @@ storybook-static/
 
 # Helm
 .helm-charts/
+app/src/views/SparkFrameworkAgreements/FrameworkAgreementsTable/notes

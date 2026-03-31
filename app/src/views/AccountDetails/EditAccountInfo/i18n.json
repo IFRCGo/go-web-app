@@ -4,7 +4,6 @@
         "editUserProfileHeading": "Edit User Profile",
         "firstNameInputLabel": "First Name",
         "lastNameInputLabel": "Last Name",
-        "countryInputLabel": "Country",
         "cityInputLabel": "City",
         "organizationTypeInputLabel": "Organization Type",
         "organizationNameInputLabel": "Organization Name",

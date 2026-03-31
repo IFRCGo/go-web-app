@@ -1,5 +1,3 @@
-import { type TableDataAdditionalProps } from './TableData';
-
 export type SortDirection = 'asc' | 'dsc';
 
 export interface BaseHeader {
@@ -36,12 +34,6 @@ export interface Column<DATA, KEY, COMPONENT_PROPS, HEADER_PROPS> {
     cellRendererClassName?: string;
 
     cellContainerClassName?: string;
-    cellContainerRendererParams?: (
-        key: KEY,
-        datum: DATA,
-        index: number,
-        data: DATA[],
-    ) => TableDataAdditionalProps;
 }
 
 export type VerifyColumn<T, D, K> = unknown extends (

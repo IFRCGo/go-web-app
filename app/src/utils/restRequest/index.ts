@@ -5,10 +5,8 @@ import {
 } from '@togglecorp/toggle-request';
 
 import type { paths as riskApiPaths } from '#generated/riskTypes';
-import type { paths as translationApiPaths } from '#generated/translationTypes';
 import type { paths as goApiPaths } from '#generated/types';
 
-// import type { paths as translationApiPaths } from '#translationTypes';
 import type {
     ApiBody,
     ApiResponse,
@@ -27,30 +25,18 @@ export type GoApiUrlQuery<URL extends keyof goApiPaths, METHOD extends 'GET' | '
 export type GoApiBody<URL extends keyof goApiPaths, METHOD extends 'POST' | 'PUT' | 'PATCH'> = ApiBody<goApiPaths, URL, METHOD>
 
 export type RiskApiResponse<URL extends keyof riskApiPaths, METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' = 'GET'> = ApiResponse<riskApiPaths, URL, METHOD>;
+// type RiskApiUrlQuery<
+//     URL extends keyof riskApiPaths,
+//     METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET'
+// > = ApiUrlQuery<riskApiPaths, URL, METHOD>
+// type RiskApiBody<
+//     URL extends keyof riskApiPaths,
+//     METHOD extends 'POST' | 'PUT' | 'PATCH'
+// > = ApiBody<riskApiPaths, URL, METHOD>
 
 export type ListResponseItem<RESPONSE extends {
     results?: Array<unknown>
 } | undefined> = NonNullable<NonNullable<RESPONSE>['results']>[number];
-
-/*
-const useTranslationRequest = useRequest as <
-    PATH extends keyof translationApiPaths,
-    METHOD extends VALID_METHOD | undefined = 'GET',
->(
-    requestOptions: CustomRequestOptions<translationApiPaths, PATH, METHOD> & {
-        apiType: 'translation'
-    }
-) => CustomRequestReturn<translationApiPaths, PATH, METHOD>;
-*/
-
-// FIXME: identify a way to do this without a cast
-const useTranslationLazyRequest = useLazyRequest as <
-    PATH extends keyof translationApiPaths,
-    CONTEXT = unknown,
-    METHOD extends VALID_METHOD | undefined = 'GET',
->(
-    requestOptions: CustomLazyRequestOptions<translationApiPaths, PATH, METHOD, CONTEXT> & { apiType: 'translation' }
-) => CustomLazyRequestReturn<translationApiPaths, PATH, METHOD, CONTEXT>;
 
 // FIXME: identify a way to do this without a cast
 const useGoRequest = useRequest as <
@@ -97,6 +83,4 @@ export {
     useGoRequest as useRequest,
     useRiskLazyRequest,
     useRiskRequest,
-    useTranslationLazyRequest,
-    // useTranslationRequest,
 };

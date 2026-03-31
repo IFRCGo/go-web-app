@@ -1,10 +1,52 @@
-.country-dropdown {
-    .tab-list {
-        border-inline-end: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-        border-block-end: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+.dropdown {
+    display: flex;
+    flex-direction: row;
+    max-width: 64rem;
+    min-height: 16rem;
+    max-height: 70vh;
+    overflow: auto;
+
+    .region-list {
+        flex-basis: 9rem;
+        flex-shrink: 0;
+        padding: var(--go-ui-spacing-md) 0 0 var(--go-ui-spacing-md);
     }
 
-    .search-input {
-        width: 12rem;
+    .region-border {
+        flex-shrink: 0;
+        margin: 0;
+        border-right: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator)
+    }
+
+    .region-detail {
+        display: contents;
+
+        .region-detail-content {
+            flex-grow: 1;
+            overflow: auto;
+        }
+    }
+
+    @media screen and (max-width: 50rem) {
+        flex-direction: column;
+
+        .region-list {
+            flex-basis: unset;
+
+            .region-list-content {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: var(--go-ui-spacing-2xs) var(--go-ui-spacing-md);
+            }
+        }
+
+        .region-border {
+            border-right: unset;
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        }
+
+        .region-detail {
+            overflow: unset;
+        }
     }
 }

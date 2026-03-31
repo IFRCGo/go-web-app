@@ -1,14 +1,14 @@
 import {
     useCallback,
+    useMemo,
     useState,
 } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
-    DownloadTwoLineIcon,
     EpoaIcon,
     MoreTwoFillIcon,
     SettingsIcon,
-    UploadLineIcon,
+    UploadTwoFillIcon,
 } from '@ifrc-go/icons';
 import {
     Button,
@@ -27,20 +27,25 @@ import {
 import {
     _cs,
     isDefined,
+    listToMap,
 } from '@togglecorp/fujs';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
+import { environment } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import usePermissions from '#hooks/domain/usePermissions';
 import useFilterState from '#hooks/useFilterState';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { useRequest } from '#utils/restRequest';
+import {
+    useLazyRequest,
+    useRequest,
+} from '#utils/restRequest';
 
+import { type ManageResponse } from './common';
 import ConfigureLocalUnitsModal from './ConfigureLocalUnitsModal';
 import Filters, { type FilterValue } from './Filters';
 import LocalUnitImportHistoryModal from './LocalUnitImportHistoryModal';
 import LocalUnitImportModal from './LocalUnitImportModal';
-import LocalUnitsExportModal from './LocalUnitsExportModal';
 import LocalUnitsFormModal from './LocalUnitsFormModal';
 import LocalUnitsMap from './LocalUnitsMap';
 import LocalUnitsTable from './LocalUnitsTable';
@@ -71,14 +76,9 @@ function NationalSocietyLocalUnits(props: Props) {
     // NOTE: key is used to refresh the page when local unit data is updated
     const [localUnitUpdateKey, setLocalUnitUpdateKey] = useState(0);
 
-    const [showAddLocalUnitModal, {
-        setTrue: setShowAddLocalUnitModalTrue,
-        setFalse: setShowAdLocalUnitModalFalse,
-    }] = useBooleanState(false);
-
-    const [showExportLocalUnitsModal, {
-        setTrue: setShowExportLocalUnitsModalTrue,
-        setFalse: setShowExportLocalUnitsModalFalse,
+    const [showAddEditModal, {
+        setTrue: setShowAddEditModalTrue,
+        setFalse: setShowAddEditModalFalse,
     }] = useBooleanState(false);
 
     const [showBulkUploadModal, {
@@ -107,20 +107,77 @@ function NationalSocietyLocalUnits(props: Props) {
         pageSize: 9999,
     });
 
-    const { response: localUnitsOptions } = useRequest({
+    const {
+        response: localUnitsOptions,
+        pending: localUnitsOptionsPending,
+    } = useRequest({
         url: '/api/v2/local-units-options/',
     });
 
-    const handleLocalUnitsUpdate = useCallback(() => {
-        setLocalUnitUpdateKey(new Date().getTime());
-    }, []);
+    const {
+        trigger: manageLocalUnits,
+        response: manageLocalUnitsResponse,
+        pending: manageLocalUnitsPending,
+    } = useLazyRequest({
+        url: '/api/v2/externally-managed-local-unit/',
+        query: {
+            country__id: countryResponse?.id,
+        },
+    });
+
+    const manageResponse: ManageResponse = useMemo(() => {
+        if (isDefined(manageLocalUnitsResponse)) {
+            if (manageLocalUnitsResponse.results.length === 0) {
+                return undefined;
+            }
+            return listToMap(
+                manageLocalUnitsResponse?.results,
+                (res) => res.local_unit_type_details.id,
+                (res) => ({ enabled: res.enabled, externallyManagedId: res.id }),
+            );
+        }
+        return undefined;
+    }, [manageLocalUnitsResponse]);
+
+    const pending = localUnitsOptionsPending || manageLocalUnitsPending;
+
+    const handleLocalUnitsUpdate = useCallback(
+        () => {
+            manageLocalUnits({});
+        },
+        [manageLocalUnits],
+    );
+
+    const handleBulkUploadModalOpen = useCallback(
+        () => {
+            handleLocalUnitsUpdate();
+            setShowBulkUploadModalTrue();
+        },
+        [handleLocalUnitsUpdate, setShowBulkUploadModalTrue],
+    );
+
+    const handleLocalUnitAddEditModalOpen = useCallback(
+        () => {
+            handleLocalUnitsUpdate();
+            setShowAddEditModalTrue();
+        },
+        [handleLocalUnitsUpdate, setShowAddEditModalTrue],
+    );
+
+    const handleManageLocalUnitsModalOpen = useCallback(
+        () => {
+            handleLocalUnitsUpdate();
+            setShowManageLocalUnitModalTrue();
+        },
+        [handleLocalUnitsUpdate, setShowManageLocalUnitModalTrue],
+    );
 
     const handleLocalUnitFormModalClose = useCallback(
         () => {
-            setShowAdLocalUnitModalFalse();
+            setShowAddEditModalFalse();
             setLocalUnitUpdateKey(new Date().getTime());
         },
-        [setShowAdLocalUnitModalFalse],
+        [setShowAddEditModalFalse],
     );
 
     const handleTabChanges = useCallback(
@@ -154,11 +211,11 @@ function NationalSocietyLocalUnits(props: Props) {
                 className={_cs(styles.nationalSocietyLocalUnits, className)}
                 heading={strings.localUnitsTitle}
                 withHeaderBorder
-                headerActions={isAuthenticated && (
+                headerActions={isAuthenticated && (environment !== 'production') && (
                     <>
                         <Button
                             name={undefined}
-                            onClick={setShowAddLocalUnitModalTrue}
+                            onClick={handleLocalUnitAddEditModalOpen}
                         >
                             {strings.addLocalUnitLabel}
                         </Button>
@@ -167,13 +224,14 @@ function NationalSocietyLocalUnits(props: Props) {
                                 withoutDropdownIcon
                                 labelStyleVariant="action"
                                 label={<MoreTwoFillIcon className={styles.icon} />}
+                                // label="More options"
                                 persistent
                             >
                                 {isSuperUser && (
                                     <DropdownMenuItem
                                         type="button"
                                         name={undefined}
-                                        onClick={setShowManageLocalUnitModalTrue}
+                                        onClick={handleManageLocalUnitsModalOpen}
                                         before={<SettingsIcon className={styles.icon} />}
                                     >
                                         {strings.configureDropdownLabel}
@@ -184,16 +242,8 @@ function NationalSocietyLocalUnits(props: Props) {
                                         <DropdownMenuItem
                                             type="button"
                                             name={undefined}
-                                            onClick={setShowExportLocalUnitsModalTrue}
-                                            before={<DownloadTwoLineIcon className={styles.icon} />}
-                                        >
-                                            {strings.exportButtonLabel}
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem
-                                            type="button"
-                                            name={undefined}
-                                            onClick={setShowBulkUploadModalTrue}
-                                            before={<UploadLineIcon className={styles.icon} />}
+                                            onClick={handleBulkUploadModalOpen}
+                                            before={<UploadTwoFillIcon className={styles.icon} />}
                                         >
                                             {strings.importDropdownLabel}
                                         </DropdownMenuItem>
@@ -240,18 +290,20 @@ function NationalSocietyLocalUnits(props: Props) {
                 </TabPanel>
                 <TabPanel name="table">
                     <LocalUnitsTable
+                        manageResponse={manageResponse}
                         key={localUnitUpdateKey}
                         filter={filter}
                         filtered={filtered}
                     />
                 </TabPanel>
-                {showAddLocalUnitModal && (
+                {showAddEditModal && (
                     <LocalUnitsFormModal
                         onClose={handleLocalUnitFormModalClose}
                     />
                 )}
                 {showBulkUploadModal && (
                     <LocalUnitImportModal
+                        manageResponse={manageResponse}
                         onClose={setShowBulkUploadModalFalse}
                     />
                 )}
@@ -265,11 +317,10 @@ function NationalSocietyLocalUnits(props: Props) {
                 {showManageLocalUnitModal && (
                     <ConfigureLocalUnitsModal
                         onClose={setShowManageLocalUnitModalFalse}
+                        pending={pending}
                         onUpdate={handleLocalUnitsUpdate}
+                        manageResponse={manageResponse}
                     />
-                )}
-                {showExportLocalUnitsModal && (
-                    <LocalUnitsExportModal onClose={setShowExportLocalUnitsModalFalse} />
                 )}
             </Container>
         </Tabs>

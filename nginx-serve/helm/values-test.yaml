@@ -10,7 +10,6 @@ ingress:
 env:
   APP_ENVIRONMENT: alpha-1
   APP_API_ENDPOINT: https://alpha-1-api.test.com
-  APP_TRANSLATION_API_ENDPOINT: https://translation-1-api.test.com
   APP_MAPBOX_ACCESS_TOKEN: RANDOM_DUMMY_TOKEN
   APP_TINY_API_KEY: RANDOM_DUMMY_TOKEN
   APP_RISK_API_ENDPOINT: https://risk-1-api.test.com

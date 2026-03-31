@@ -28,11 +28,20 @@
                 "eslint-plugin-react-hooks",
                 "eslint-plugin-react-refresh",
                 "eslint-plugin-simple-import-sort",
-                // We are using this with dotenv and cross-var so we are getting a false positive
-                // "openapi-typescript",
                 // We are using this in eslint.config.ts but we are getting a false positive
                 "@typescript-eslint/parser",
-                "@typescript-eslint/eslint-plugin"
+                "@typescript-eslint/eslint-plugin",
+                // Keep for future Spark work
+                "d3",
+                "@types/d3",
+                "powerbi-client",
+                "mkdirp"
+            ],
+            "ignoreExports": [
+                "app/src/views/Spark/index.tsx:Component"
+            ],
+            "ignoreExports": [
+                "**/src/views/Spark/index.tsx:Component"
             ],
             "entry": [
                 "eslint.config.ts",

@@ -53,7 +53,6 @@ function LocalUnitImportSummary(props: Props) {
         <Container
             className={styles.bulkUploadStatus}
             pending={value?.status === BULK_UPLOAD_PENDING}
-            pendingMessage={strings.processingMessage}
             withPadding={withPadding}
             withBackground={withBackground}
         >

@@ -1,12 +1,7 @@
 import { Button } from '@ifrc-go/ui';
-import {
-    useBooleanState,
-    useTranslation,
-} from '@ifrc-go/ui/hooks';
+import { useBooleanState } from '@ifrc-go/ui/hooks';
 
 import DownloadImportTemplateModal from './DownloadImportTemplateModal';
-
-import i18n from './i18n.json';
 
 function DownloadImportTemplateButton() {
     const [
@@ -16,7 +11,6 @@ function DownloadImportTemplateButton() {
             setFalse: setShowDownloadImportTemplateFalse,
         },
     ] = useBooleanState(false);
-    const strings = useTranslation(i18n);
 
     return (
         <>
@@ -25,7 +19,7 @@ function DownloadImportTemplateButton() {
                 name={undefined}
                 disabled={showDownloadImportTemplateModal}
             >
-                {strings.downloadImportTemplateButtonLabel}
+                Download Import Template
             </Button>
             {showDownloadImportTemplateModal && (
                 <DownloadImportTemplateModal

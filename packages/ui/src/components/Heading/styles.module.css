@@ -12,14 +12,6 @@
         text-align: center;
     }
 
-    &.with-light-background {
-        background-color: var(--go-ui-color-foreground);
-    }
-
-    &.with-bottom-border {
-        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-    }
-
     &.level-one {
         --font-size: 2.5rem;
 
@@ -46,11 +38,11 @@
     }
 
     &.level-four {
-        --font-size: 1.125rem;
+        --font-size: 1rem;
     }
 
     &.level-five {
-        --font-size: 1rem;
+        --font-size: var(--go-ui-font-size-md);
     }
 
     &.level-six {

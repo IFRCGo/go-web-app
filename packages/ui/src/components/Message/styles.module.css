@@ -11,7 +11,6 @@
     gap: var(--go-ui-spacing-sm);
 
     .icon {
-        display: flex;
         line-height: 1;
         color: var(--go-ui-color-text-light);
         font-size: var(--go-ui-height-status-icon);
@@ -37,7 +36,6 @@
     &.compact {
         padding: var(--go-ui-spacing-sm);
         min-height: var(--go-ui-compact-content-min-height);
-        gap: var(--go-ui-spacing-3xs);
 
         .title {
             font-size: var(--go-ui-font-size-md);

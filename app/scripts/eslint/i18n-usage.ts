@@ -51,7 +51,7 @@ function getMemberKey(node: TSESTree.MemberExpression) {
 
     // strings['title']
     if (node.computed && node.property?.type === "Literal" && typeof node.property.value === "string") {
-        return node.property.value;
+        node.property.value;
     }
 
     return undefined;

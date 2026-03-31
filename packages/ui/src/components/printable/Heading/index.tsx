@@ -1,7 +1,5 @@
 import { _cs } from '@togglecorp/fujs';
 
-import { getSpacingValue } from '#utils/style';
-
 import styles from './styles.module.css';
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
@@ -29,13 +27,9 @@ function Heading(props: Props) {
     } = props;
 
     const HeadingEl = `h${level}` as React.ElementType;
-    const spacing = getSpacingValue('2xl', -level);
 
     return (
-        <HeadingEl
-            className={_cs(styles.heading, levelToClassName[level], className)}
-            style={{ marginBlockEnd: spacing }}
-        >
+        <HeadingEl className={_cs(styles.heading, levelToClassName[level], className)}>
             {children}
         </HeadingEl>
     );

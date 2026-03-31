@@ -3,7 +3,7 @@
     --go-ui-font-family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
     --go-ui-font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-    --go-ui-optical-correction-factor: 1.5;
+    --go-ui-optical-correction-factor: 1.25;
     --base-font-size: 0.875rem;
     --go-ui-font-size-export: 0.6875rem;
 
@@ -28,7 +28,7 @@
     --go-ui-line-height-none: 1;
     --go-ui-line-height-xs: 1.125;
     --go-ui-line-height-sm: 1.25;
-    --go-ui-line-height-md: 1.5;
+    --go-ui-line-height-md: 1.375;
 
     --go-ui-height-map-md: min(40rem, 70vh);
 
@@ -221,8 +221,6 @@
     /* 1280px + 1.5rem padding on both sides */
     --go-ui-page-width-max: 83rem;
     --mapbox-icon-width: 88px;
-
-    --go-ui-page-size-unit: calc(min(100vw, var(--go-ui-width-content-max)) / 100);
 
     --go-ui-export-page-margin: 10mm 10mm 16mm 10mm;
 

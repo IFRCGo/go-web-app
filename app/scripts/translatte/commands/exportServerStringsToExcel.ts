@@ -1,7 +1,7 @@
 import xlsx from 'exceljs';
 
 import { fetchServerState } from "../utils";
-import { isFalsyString, isTruthyString, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
+import { isFalsyString, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
 
 async function exportServerStringsToExcel(
     apiUrl: string,
@@ -35,7 +35,7 @@ async function exportServerStringsToExcel(
 
     const keyGroupedStrings = mapToList(
         listToGroupList(
-            serverStrings.filter(({ page_name, key }) => isTruthyString(page_name) && isTruthyString(key)),
+            serverStrings,
             ({ page_name, key }) => `${page_name}:${key}`,
         ),
         (list) => {

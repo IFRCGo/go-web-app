@@ -61,7 +61,7 @@ const adminZeroHighlightPaint: FillPaint = {
 interface Props extends BaseMapProps {
     adminZeroFillPaint?: mapboxgl.FillPaint,
     onAdminZeroFillHover?: (
-        hoveredFeatureProperties: AdminZeroFeatureProperties | undefined
+        hoveredFeature: MapboxGeoJSONFeature | undefined
     ) => void;
     onAdminZeroFillClick?: (
         clickedFeatureProperties: AdminZeroFeatureProperties,
@@ -81,14 +81,11 @@ function GlobalMap(props: Props) {
     const [hoveredCountryIso3, setHoveredCountryIso3] = useState<string | undefined>();
 
     const handleFeatureMouseEnter = (feature: MapboxGeoJSONFeature) => {
-        const hoveredFeatureProperties = feature.properties as (
-            AdminZeroFeatureProperties | undefined
-        );
-
-        setHoveredCountryIso3(hoveredFeatureProperties?.iso3);
+        const hoveredFeatProp = (feature.properties as AdminZeroFeatureProperties | undefined);
+        setHoveredCountryIso3(hoveredFeatProp?.iso3);
 
         if (onHover) {
-            onHover(hoveredFeatureProperties);
+            onHover(feature);
         }
     };
 

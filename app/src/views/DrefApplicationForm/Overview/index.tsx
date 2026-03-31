@@ -276,7 +276,7 @@ function Overview(props: Props) {
                                 name={undefined}
                                 onClick={setShowShareModalTrue}
                                 before={<ShareLineIcon />}
-                                disabled={isNotDefined(drefId)}
+                                disabled={isNotDefined(drefId) || readOnly}
                             >
                                 {strings.formShareButtonLabel}
                             </Button>

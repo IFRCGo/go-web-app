@@ -112,7 +112,7 @@ function usePermissions() {
                     || isNotDefined(userMe?.profile.org_type)) return false;
 
                 return (
-                    userMe?.profile.country === countryId
+                    userMe?.profile.country?.id === countryId
                     && canEditLocalUnitOrganization.includes(userMe?.profile.org_type)
                 );
             };

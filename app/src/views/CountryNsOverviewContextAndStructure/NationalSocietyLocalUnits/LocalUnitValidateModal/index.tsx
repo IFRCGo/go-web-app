@@ -106,8 +106,6 @@ function LocalUnitValidateModal(props: Props) {
                     debugMessage,
                 },
             );
-
-            onClose();
         },
     });
 
@@ -124,7 +122,6 @@ function LocalUnitValidateModal(props: Props) {
                 strings.revertChangesSuccessMessage,
                 { variant: 'success' },
             );
-
             if (isDefined(onActionSuccess)) {
                 onActionSuccess();
             }
@@ -179,15 +176,13 @@ function LocalUnitValidateModal(props: Props) {
                 </Button>
             )}
             withHeaderBorder
-            headingLevel={4}
         >
-            <ListView
-                layout="block"
-                spacing="lg"
-            >
+            <ListView layout="block">
                 <Container
                     heading={strings.requestedChangesTitle}
-                    headingLevel={5}
+                    headingLevel={4}
+                    withDarkBackground
+                    withPadding
                 >
                     <LocalUnitView
                         localUnitId={localUnitId}

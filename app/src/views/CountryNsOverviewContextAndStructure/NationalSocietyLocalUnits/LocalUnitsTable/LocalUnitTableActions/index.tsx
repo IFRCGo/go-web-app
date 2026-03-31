@@ -7,14 +7,17 @@ import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
+import { isDefined } from '@togglecorp/fujs';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
+import { environment } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import useCountry from '#hooks/domain/useCountry';
 import usePermissions from '#hooks/domain/usePermissions';
 
 import {
     EXTERNALLY_MANAGED,
+    type ManageResponse,
     VALIDATED,
 } from '../../common';
 import LocalUnitDeleteModal from '../../LocalUnitDeleteModal';
@@ -31,8 +34,9 @@ export interface Props {
     localUnitType: number;
     isBulkUploadLocalUnit: boolean;
     status: number | undefined;
-    onLocalUnitUpdate: () => void;
-    isExternallyManagedType?: boolean;
+    onDeleteActionSuccess: () => void;
+    onValidationActionSuccess: () => void;
+    manageResponse: ManageResponse;
 }
 
 function LocalUnitsTableActions(props: Props) {
@@ -43,8 +47,9 @@ function LocalUnitsTableActions(props: Props) {
         localUnitType,
         status,
         isBulkUploadLocalUnit,
-        onLocalUnitUpdate,
-        isExternallyManagedType,
+        onValidationActionSuccess,
+        onDeleteActionSuccess,
+        manageResponse,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -70,7 +75,9 @@ function LocalUnitsTableActions(props: Props) {
     const regionAdmin = isRegionAdmin(countryDetails?.region);
 
     const isExternallyManaged = status === EXTERNALLY_MANAGED
-        || isExternallyManagedType;
+        || (isDefined(localUnitType)
+            && isDefined(manageResponse)
+            && !!manageResponse[localUnitType]?.enabled);
 
     const hasValidatePermission = isAuthenticated
         && !isExternallyManaged
@@ -111,18 +118,18 @@ function LocalUnitsTableActions(props: Props) {
 
     const handleValidationSuccess = useCallback(() => {
         setShowValidateLocalUnitModalFalse();
-        onLocalUnitUpdate();
-    }, [onLocalUnitUpdate, setShowValidateLocalUnitModalFalse]);
+        onValidationActionSuccess();
+    }, [onValidationActionSuccess, setShowValidateLocalUnitModalFalse]);
 
     const handleLocalUnitsFormModalClose = useCallback(
         (shouldUpdate?: boolean) => {
             setShowLocalUnitModalFalse();
 
             if (shouldUpdate) {
-                onLocalUnitUpdate();
+                onDeleteActionSuccess();
             }
         },
-        [setShowLocalUnitModalFalse, onLocalUnitUpdate],
+        [setShowLocalUnitModalFalse, onDeleteActionSuccess],
     );
 
     const handleViewLocalUnitClick = useCallback(
@@ -152,7 +159,7 @@ function LocalUnitsTableActions(props: Props) {
         <>
             <TableActions
                 persistent
-                extraActions={(
+                extraActions={environment !== 'production' && (
                     <>
                         <DropdownMenuItem
                             type="button"
@@ -184,7 +191,7 @@ function LocalUnitsTableActions(props: Props) {
                     </>
                 )}
             >
-                {hasValidatePermission && (
+                {hasValidatePermission && (environment !== 'production') && (
                     <LocalUnitValidateButton
                         onClick={handleValidateLocalUnitClick}
                         status={status}
@@ -206,13 +213,14 @@ function LocalUnitsTableActions(props: Props) {
                     localUnitId={localUnitId}
                     readOnly={readOnlyLocalUnitModal}
                     setReadOnly={setReadOnlyLocalUnitModal}
+                    onDeleteActionSuccess={onDeleteActionSuccess}
                 />
             )}
             {showDeleteLocalUnitModal && (
                 <LocalUnitDeleteModal
                     onClose={setShowDeleteLocalUnitModalFalse}
                     localUnitName={localUnitName}
-                    onDeleteActionSuccess={onLocalUnitUpdate}
+                    onDeleteActionSuccess={onDeleteActionSuccess}
                     localUnitId={localUnitId}
                 />
             )}
