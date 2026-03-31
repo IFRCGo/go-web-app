@@ -521,9 +521,7 @@ export function Component() {
                                             </div>
                                         </DescriptionText>
                                         <DescriptionText className={styles.link}>
-                                            <Link
-                                                href={source.source_link}
-                                            >
+                                            <Link href={source.source_link}>
                                                 {source?.source_link}
                                             </Link>
                                         </DescriptionText>
