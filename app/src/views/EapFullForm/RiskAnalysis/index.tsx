@@ -8,7 +8,6 @@ import {
     Label,
     ListView,
     TextArea,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -25,6 +24,7 @@ import {
 
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 
@@ -208,39 +208,47 @@ function RiskAnalysis(props: Props) {
                 <ListView layout="block" spacing="sm">
                     <InputSection
                         title={strings.hazardSelectionTitle}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    label={strings.riskExplanatoryNoteLabel}
-                                    strongLabel
-                                    value={strings.hazardSelectionExplanatoryNote}
-                                />
-                                <TextOutput
-                                    label={strings.riskRequiredPointsLabel}
-                                    strongLabel
-                                    value={(
-                                        <ul>
-                                            <li>
-                                                {strings.hazardSelectionRequiredPoint1}
-                                            </li>
-                                            <li>
-                                                {strings.hazardSelectionRequiredPoint2}
-                                            </li>
-                                            <li>
-                                                {strings.hazardSelectionRequiredPoint3}
-                                                <ul>
-                                                    <li>
-                                                        {strings.hazardSelectionRequiredPoint31}
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                {strings.hazardSelectionRequiredPoint4}
-                                            </li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                ariaLabel={strings.hazardSelectionTitle}
+                                title={strings.hazardSelectionTitle}
+                                heading={strings.hazardSelectionTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <Label strong>
+                                            {strings.riskExplanatoryNoteLabel}
+                                        </Label>
+                                        <Description>
+                                            {strings.hazardSelectionExplanatoryNote}
+                                        </Description>
+                                        <Label strong>
+                                            {strings.riskRequiredPointsLabel}
+                                        </Label>
+                                        <Description>
+                                            <ul>
+                                                <li>
+                                                    {strings.hazardSelectionRequiredPoint1}
+                                                </li>
+                                                <li>
+                                                    {strings.hazardSelectionRequiredPoint2}
+                                                </li>
+                                                <li>
+                                                    {strings.hazardSelectionRequiredPoint3}
+                                                    <ul>
+                                                        <li>
+                                                            {strings
+                                                                .hazardSelectionRequiredPoint31}
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    {strings.hazardSelectionRequiredPoint4}
+                                                </li>
+                                            </ul>
+                                        </Description>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         description={(
                             <ul>
@@ -278,37 +286,44 @@ function RiskAnalysis(props: Props) {
                     </InputSection>
                     <InputSection
                         title={strings.exposeElementTitle}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    label={strings.riskExplanatoryNoteLabel}
-                                    strongLabel
-                                    value={strings.exposeElementExplanatoryNote}
-                                />
-                                <TextOutput
-                                    label={strings.riskRequiredPointsLabel}
-                                    strongLabel
-                                    value={(
-                                        <ul>
-                                            <li>
-                                                {strings.exposeElementRequiredPoint1}
-                                            </li>
-                                            <li>
-                                                {strings.exposeElementRequiredPoint2}
-                                            </li>
-                                            <li>
-                                                {strings.exposeElementRequiredPoint3}
-                                            </li>
-                                            <li>
-                                                {strings.exposeElementRequiredPoint4}
-                                            </li>
-                                            <li>
-                                                {strings.exposeElementRequiredPoint5}
-                                            </li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.exposeElementTitle}
+                                ariaLabel={strings.exposeElementTitle}
+                                title={strings.exposeElementTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <Label strong>
+                                            {strings.riskExplanatoryNoteLabel}
+                                        </Label>
+                                        <Description>
+                                            {strings.exposeElementExplanatoryNote}
+                                        </Description>
+                                        <Label strong>
+                                            {strings.riskRequiredPointsLabel}
+                                        </Label>
+                                        <Description>
+                                            <ul>
+                                                <li>
+                                                    {strings.exposeElementRequiredPoint1}
+                                                </li>
+                                                <li>
+                                                    {strings.exposeElementRequiredPoint2}
+                                                </li>
+                                                <li>
+                                                    {strings.exposeElementRequiredPoint3}
+                                                </li>
+                                                <li>
+                                                    {strings.exposeElementRequiredPoint4}
+                                                </li>
+                                                <li>
+                                                    {strings.exposeElementRequiredPoint5}
+                                                </li>
+                                            </ul>
+                                        </Description>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         description={(
                             <ul>
@@ -347,11 +362,21 @@ function RiskAnalysis(props: Props) {
                     </InputSection>
                     <InputSection
                         title={strings.prioritisedImpactTitle}
-                        tooltip={(
-                            <TextOutput
-                                label={strings.riskExplanatoryNoteLabel}
-                                strongLabel
-                                value={strings.prioritisedImpactExplanatoryNote}
+                        headerActions={(
+                            <ExplanatoryNote
+                                title={strings.prioritisedImpactTitle}
+                                heading={strings.prioritisedImpactTitle}
+                                ariaLabel={strings.prioritisedImpactTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <Label strong>
+                                            {strings.riskExplanatoryNoteLabel}
+                                        </Label>
+                                        <Description>
+                                            {strings.prioritisedImpactExplanatoryNote}
+                                        </Description>
+                                    </ListView>
+                                )}
                             />
                         )}
                         description={strings.prioritisedImpactDescription}

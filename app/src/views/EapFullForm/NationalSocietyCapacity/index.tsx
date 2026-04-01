@@ -4,12 +4,10 @@ import {
     Button,
     Container,
     Description,
-    InfoPopup,
     InputSection,
     Label,
     ListView,
     TextArea,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { randomString } from '@togglecorp/fujs';
@@ -22,6 +20,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
+import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 
@@ -106,7 +105,16 @@ function NationalSocietyCapacity(props: Props) {
                 heading={(
                     <ListView>
                         {strings.capacityHeading}
-                        <InfoPopup description={strings.capacityHeadingTooltip} />
+                        <ExplanatoryNote
+                            heading={strings.capacityHeading}
+                            ariaLabel={strings.capacityHeading}
+                            title={strings.capacityHeading}
+                            content={(
+                                <Description>
+                                    {strings.capacityHeadingTooltip}
+                                </Description>
+                            )}
+                        />
                     </ListView>
                 )}
                 variant="form"
@@ -156,25 +164,36 @@ function NationalSocietyCapacity(props: Props) {
                     </InputSection>
                     <InputSection
                         title={strings.capacityFinancialCapacityTitle}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.capacityExplanatoryNoteLabel}
-                                    value={strings.capacityExplanatoryNote}
-                                />
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.capacityRequiredPointsLabel}
-                                    value={(
-                                        <ul>
-                                            <li>{strings.capacityFinancialCapacityDescription}</li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.capacityFinancialCapacityTitle}
+                                ariaLabel={strings.capacityFinancialCapacityTitle}
+                                title={strings.capacityFinancialCapacityTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.capacityExplanatoryNoteLabel}
+                                            </Label>
+                                            <Description>
+                                                {strings.capacityExplanatoryNote}
+                                            </Description>
+                                        </ListView>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.capacityRequiredPointsLabel}
+                                            </Label>
+                                            <Description>
+                                                <ul>
+                                                    <li>{strings.capacityFinancialDescription}</li>
+                                                </ul>
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
-                        description={strings.capacityFinancialCapacityDescription}
+                        description={strings.capacityFinancialDescription}
                         withAsteriskOnTitle
                     >
                         <TextArea

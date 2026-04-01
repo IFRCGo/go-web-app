@@ -773,6 +773,7 @@ export const formSchema: EapFullFormSchema = {
                 }),
             },
             lead_time: { required: isSubmit },
+            lead_timeframe_unit: { required: isSubmit },
 
             forecast_selection: {
                 required: isSubmit,

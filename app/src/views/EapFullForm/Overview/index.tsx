@@ -7,10 +7,10 @@ import {
     DateInput,
     Description,
     InputSection,
+    Label,
     ListView,
     TextArea,
     TextInput,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
@@ -27,6 +27,7 @@ import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
+import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type GoApiResponse } from '#utils/restRequest';
@@ -393,11 +394,21 @@ function Overview(props: Props) {
                 >
                     <InputSection
                         title={strings.workWithGovernmentTitle}
-                        tooltip={(
-                            <TextOutput
-                                label={strings.overviewExplanatoryNoteLabel}
-                                strongLabel
-                                value={strings.workExplanatoryNote}
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.workWithGovernmentTitle}
+                                ariaLabel={strings.workWithGovernmentTitle}
+                                title={strings.workWithGovernmentTitle}
+                                content={(
+                                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                        <Label strong>
+                                            {strings.overviewExplanatoryNoteLabel}
+                                        </Label>
+                                        <Description>
+                                            {strings.workExplanatoryNote}
+                                        </Description>
+                                    </ListView>
+                                )}
                             />
                         )}
                         description={strings.workWithGovernmentDescription}
@@ -433,25 +444,36 @@ function Overview(props: Props) {
                     </InputSection>
                     <InputSection
                         title={strings.keyActorsTitle}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    label={strings.overviewExplanatoryNoteLabel}
-                                    strongLabel
-                                    value={strings.actorsExplanatoryNote}
-                                />
-                                <TextOutput
-                                    label={strings.overviewRequiredPointsLabel}
-                                    strongLabel
-                                    value={(
-                                        <ul>
-                                            <li>{strings.overviewRequiredPoint1}</li>
-                                            <li>{strings.overviewRequiredPoint2}</li>
-                                            <li>{strings.overviewRequiredPoint3}</li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.keyActorsTitle}
+                                ariaLabel={strings.keyActorsTitle}
+                                title={strings.keyActorsTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.overviewExplanatoryNoteLabel}
+                                            </Label>
+                                            <Description>
+                                                {strings.actorsExplanatoryNote}
+                                            </Description>
+                                        </ListView>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.overviewRequiredPointsLabel}
+                                            </Label>
+                                            <Description>
+                                                <ul>
+                                                    <li>{strings.overviewRequiredPoint1}</li>
+                                                    <li>{strings.overviewRequiredPoint2}</li>
+                                                    <li>{strings.overviewRequiredPoint3}</li>
+                                                </ul>
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         description={(
                             <>

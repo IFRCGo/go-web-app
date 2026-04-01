@@ -16,6 +16,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 
@@ -119,77 +120,83 @@ function RiskAnalysis(props: Props) {
                     <InputSection
                         title={strings.historicalImpact}
                         description={strings.riskDescription}
-                        tooltip={(
-                            <ListView
-                                layout="block"
-                                spacing="3xs"
-                            >
-                                {resolveToComponent(
-                                    strings.riskTooltipDescription,
-                                    {
-                                        drefOperationsLink: (
-                                            <Link
-                                                href="https://www.ifrc.org/appeals"
-                                                styleVariant="action"
-                                                external
-                                                withLinkIcon
-                                            >
-                                                {strings.drefOperationsLink}
-                                            </Link>
-                                        ),
-                                        goPlatformLink: (
-                                            <Link
-                                                href="https://go.ifrc.org/"
-                                                styleVariant="action"
-                                                external
-                                                withLinkIcon
-                                            >
-                                                {strings.goPlatformLink}
-                                            </Link>
-                                        ),
-                                        reliefwebLink: (
-                                            <Link
-                                                href="https://reliefweb.int/countries"
-                                                styleVariant="action"
-                                                external
-                                                withLinkIcon
-                                            >
-                                                {strings.reliefwebLink}
-                                            </Link>
-                                        ),
-                                        desinventarLink: (
-                                            <Link
-                                                href="https://www.desinventar.net/DesInventar/index.jsp"
-                                                styleVariant="action"
-                                                external
-                                                withLinkIcon
-                                            >
-                                                {strings.desinventarLink}
-                                            </Link>
-                                        ),
-                                        eMdATLink: (
-                                            <Link
-                                                href="https://public.emdat.be/"
-                                                styleVariant="action"
-                                                external
-                                                withLinkIcon
-                                            >
-                                                {strings.eMdATLink}
-                                            </Link>
-                                        ),
-                                        idmcLink: (
-                                            <Link
-                                                href="https://www.internal-displacement.org/"
-                                                styleVariant="action"
-                                                external
-                                                withLinkIcon
-                                            >
-                                                {strings.idmcLink}
-                                            </Link>
-                                        ),
-                                    },
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.historicalImpact}
+                                ariaLabel={strings.historicalImpact}
+                                title={strings.historicalImpact}
+                                content={(
+                                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                        <Description>
+                                            {resolveToComponent(
+                                                strings.riskTooltipDescription,
+                                                {
+                                                    drefOperationsLink: (
+                                                        <Link
+                                                            href="https://www.ifrc.org/appeals"
+                                                            styleVariant="action"
+                                                            external
+                                                            withLinkIcon
+                                                        >
+                                                            {strings.drefOperationsLink}
+                                                        </Link>
+                                                    ),
+                                                    goPlatformLink: (
+                                                        <Link
+                                                            href="https://go.ifrc.org/"
+                                                            styleVariant="action"
+                                                            external
+                                                            withLinkIcon
+                                                        >
+                                                            {strings.goPlatformLink}
+                                                        </Link>
+                                                    ),
+                                                    reliefwebLink: (
+                                                        <Link
+                                                            href="https://reliefweb.int/countries"
+                                                            styleVariant="action"
+                                                            external
+                                                            withLinkIcon
+                                                        >
+                                                            {strings.reliefwebLink}
+                                                        </Link>
+                                                    ),
+                                                    desinventarLink: (
+                                                        <Link
+                                                            href="https://www.desinventar.net/DesInventar/index.jsp"
+                                                            styleVariant="action"
+                                                            external
+                                                            withLinkIcon
+                                                        >
+                                                            {strings.desinventarLink}
+                                                        </Link>
+                                                    ),
+                                                    eMdATLink: (
+                                                        <Link
+                                                            href="https://public.emdat.be/"
+                                                            styleVariant="action"
+                                                            external
+                                                            withLinkIcon
+                                                        >
+                                                            {strings.eMdATLink}
+                                                        </Link>
+                                                    ),
+                                                    idmcLink: (
+                                                        <Link
+                                                            href="https://www.internal-displacement.org/"
+                                                            styleVariant="action"
+                                                            external
+                                                            withLinkIcon
+                                                        >
+                                                            {strings.idmcLink}
+                                                        </Link>
+                                                    ),
+                                                },
+                                            )}
+                                        </Description>
+                                    </ListView>
                                 )}
-                            </ListView>
+                            />
                         )}
                         withAsteriskOnTitle
                     >
@@ -257,46 +264,58 @@ function RiskAnalysis(props: Props) {
                     <InputSection
                         title={strings.selectedEarlyAction}
                         description={strings.selectedEarlyActionDescription}
-                        tooltip={(
-                            <ListView
-                                layout="block"
-                                spacing="3xs"
-                            >
-                                {resolveToComponent(
-                                    strings.selectedEarlyActionTooltipDescriptionOne,
-                                    {
-                                        earlyActionsLink: (
-                                            <Link
-                                                href="https://manual.forecast-based-financing.org/en/chapter/select-early-actions/"
-                                                styleVariant="action"
-                                                external
-                                                withLinkIcon
-                                            >
-                                                {strings.earlyActionsLink}
-                                            </Link>
-                                        ),
-                                    },
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.selectedEarlyAction}
+                                ariaLabel={strings.selectedEarlyAction}
+                                title={strings.selectedEarlyAction}
+                                content={(
+                                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                        <Description>
+                                            {resolveToComponent(
+                                                strings.selectedEarlyActionDescription1,
+                                                {
+                                                    earlyActionsLink: (
+                                                        <Link
+                                                            href="https://manual.forecast-based-financing.org/en/chapter/select-early-actions/"
+                                                            styleVariant="action"
+                                                            external
+                                                            withLinkIcon
+                                                        >
+                                                            {strings.earlyActionsLink}
+                                                        </Link>
+                                                    ),
+                                                },
+                                            )}
+                                        </Description>
+                                        <Description>
+                                            {strings.selectedEarlyActionDescription2}
+                                        </Description>
+                                        <Description>
+                                            <ul>
+                                                <li>
+                                                    {strings.selectedEarlyActionDescription21}
+                                                </li>
+                                                <li>
+                                                    {strings.selectedEarlyActionDescription22}
+                                                </li>
+                                                <li>
+                                                    {strings.selectedEarlyActionDescription23}
+                                                </li>
+                                                <li>
+                                                    {strings.selectedEarlyActionDescription24}
+                                                </li>
+                                                <li>
+                                                    {strings.selectedEarlyActionDescription25}
+                                                </li>
+                                            </ul>
+                                        </Description>
+                                        <Description>
+                                            {strings.selectedEarlyActionDescription3}
+                                        </Description>
+                                    </ListView>
                                 )}
-                                {strings.selectedEarlyActionTooltipDescriptionTwo}
-                                <ul>
-                                    <li>
-                                        {strings.selectedEarlyActionTooltipDescriptionListOne}
-                                    </li>
-                                    <li>
-                                        {strings.selectedEarlyActionTooltipDescriptionListTwo}
-                                    </li>
-                                    <li>
-                                        {strings.selectedEarlyActionTooltipDescriptionListThree}
-                                    </li>
-                                    <li>
-                                        {strings.selectedEarlyActionTooltipDescriptionListFour}
-                                    </li>
-                                    <li>
-                                        {strings.selectedEarlyActionTooltipDescriptionListFive}
-                                    </li>
-                                </ul>
-                                {strings.selectedEarlyActionTooltipDescriptionThree}
-                            </ListView>
+                            />
                         )}
                         withAsteriskOnTitle
                     >

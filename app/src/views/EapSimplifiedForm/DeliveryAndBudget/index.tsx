@@ -3,13 +3,11 @@ import {
     Container,
     Description,
     Heading,
-    InfoPopup,
     InputSection,
     Label,
     ListView,
     NumberInput,
     TextArea,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -25,6 +23,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
+import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 import { useRequest } from '#utils/restRequest';
@@ -172,7 +171,18 @@ function DeliveryAndBudget(props: Props) {
                     <InputSection
                         title={strings.deliverEarlyActions}
                         description={strings.deliverEarlyActionsDescription}
-                        tooltip={strings.deliverEarlyActionsTooltip}
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.deliverEarlyActions}
+                                ariaLabel={strings.deliverEarlyActions}
+                                title={strings.deliverEarlyActions}
+                                content={(
+                                    <Description>
+                                        {strings.deliverEarlyActionsTooltip}
+                                    </Description>
+                                )}
+                            />
+                        )}
                         withAsteriskOnTitle
                     >
                         <TextArea
@@ -189,39 +199,52 @@ function DeliveryAndBudget(props: Props) {
                     <InputSection
                         title={strings.deliverInvolved}
                         description={strings.deliverInvolvedDescription}
-                        tooltip={(
-                            <ListView
-                                layout="block"
-                                spacing="3xs"
-                            >
-                                {strings.deliverInvolvedTooltipDescriptionOne}
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.deliverInvolvedTooltipDescriptionTwo}
-                                    value={resolveToComponent(
-                                        strings.deliverInvolvedTooltipDescriptionThree,
-                                        {
-                                            guideLink: (
-                                                <Link
-                                                    href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQn1ca51QIBCgok06lTQUFUBdmFAz3k28QkRMzbxMnRv1A?e=uBzYht"
-                                                    styleVariant="action"
-                                                    external
-                                                    withLinkIcon
-                                                >
-                                                    {strings.guideLink}
-                                                </Link>
-                                            ),
-                                        },
-                                    )}
-                                />
-                                {strings.deliverInvolvedTooltipDescriptionFour}
-                                <ul>
-                                    <li>{strings.deliverInvolvedTooltipListOne}</li>
-                                    <li>{strings.deliverInvolvedTooltipListTwo}</li>
-                                    <li>{strings.deliverInvolvedTooltipListThree}</li>
-                                    <li>{strings.deliverInvolvedTooltipListFour}</li>
-                                </ul>
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.deliverInvolved}
+                                ariaLabel={strings.deliverInvolved}
+                                title={strings.deliverInvolved}
+                                content={(
+                                    <ListView layout="block">
+                                        <Description>
+                                            {strings.deliverInvolvedTooltipDescriptionOne}
+                                        </Description>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.deliverInvolvedTooltipDescriptionTwo}
+                                            </Label>
+                                            <Description>
+                                                {resolveToComponent(
+                                                    strings.deliverInvolvedTooltipDescriptionThree,
+                                                    {
+                                                        guideLink: (
+                                                            <Link
+                                                                href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQn1ca51QIBCgok06lTQUFUBdmFAz3k28QkRMzbxMnRv1A?e=uBzYht"
+                                                                styleVariant="action"
+                                                                external
+                                                                withLinkIcon
+                                                            >
+                                                                {strings.guideLink}
+                                                            </Link>
+                                                        ),
+                                                    },
+                                                )}
+                                            </Description>
+                                            <Description>
+                                                {strings.deliverInvolvedTooltipDescriptionFour}
+                                            </Description>
+                                            <Description>
+                                                <ul>
+                                                    <li>{strings.deliverInvolvedTooltip1}</li>
+                                                    <li>{strings.deliverInvolvedTooltip2}</li>
+                                                    <li>{strings.deliverInvolvedTooltip3}</li>
+                                                    <li>{strings.deliverInvolvedTooltip4}</li>
+                                                </ul>
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         withAsteriskOnTitle
                     >
@@ -245,13 +268,13 @@ function DeliveryAndBudget(props: Props) {
                         spacing="sm"
                     >
                         {strings.budgetHeading}
-                        <InfoPopup
-                            description={(
-                                <ListView
-                                    layout="block"
-                                    spacing="sm"
-                                >
-                                    <div>
+                        <ExplanatoryNote
+                            heading={strings.budgetHeading}
+                            ariaLabel={strings.budgetHeading}
+                            title={strings.budgetHeading}
+                            content={(
+                                <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                    <Description>
                                         {resolveToComponent(
                                             strings.deliverTotalBudgetTooltipDescription,
                                             {
@@ -267,36 +290,38 @@ function DeliveryAndBudget(props: Props) {
                                                 ),
                                             },
                                         )}
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListOne}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListTwo}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListThree}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListFour}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListFive}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListSix}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListSeven}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListEight}
-                                        </li>
-                                        <li>
-                                            {strings.deliverTotalBudgetTooltipListNine}
-                                        </li>
-                                    </ul>
+                                    </Description>
+                                    <Description>
+                                        <ul>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListOne}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListTwo}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListThree}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListFour}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListFive}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListSix}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListSeven}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListEight}
+                                            </li>
+                                            <li>
+                                                {strings.deliverTotalBudgetTooltipListNine}
+                                            </li>
+                                        </ul>
+                                    </Description>
                                 </ListView>
                             )}
                         />
@@ -311,7 +336,18 @@ function DeliveryAndBudget(props: Props) {
                     <InputSection
                         title={strings.deliverTotalBudget}
                         description={strings.deliverTotalBudgetDescription}
-                        tooltip={strings.deliverTotalBudgetTooltip}
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.deliverTotalBudget}
+                                ariaLabel={strings.deliverTotalBudget}
+                                title={strings.deliverTotalBudget}
+                                content={(
+                                    <Description>
+                                        {strings.deliverTotalBudgetTooltip}
+                                    </Description>
+                                )}
+                            />
+                        )}
                         withAsteriskOnTitle
                     >
                         <ListView

@@ -21,6 +21,7 @@ import {
     useFormArray,
 } from '@togglecorp/toggle-form';
 
+import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
@@ -167,7 +168,18 @@ function EnablingApproaches(props: Props) {
                     <InputSection
                         title={strings.enablingApproachesTitle}
                         description={strings.enablingApproachesDescription}
-                        tooltip={strings.enablingApproachesTooltip}
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.enablingApproachesTitle}
+                                ariaLabel={strings.enablingApproachesTitle}
+                                title={strings.enablingApproachesTitle}
+                                content={(
+                                    <Description>
+                                        {strings.enablingApproachesTooltip}
+                                    </Description>
+                                )}
+                            />
+                        )}
                         withAsteriskOnTitle
                     >
                         <NonFieldError error={getErrorObject(error?.enabling_approaches)} />

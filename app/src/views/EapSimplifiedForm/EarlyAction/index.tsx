@@ -2,7 +2,6 @@ import {
     Container,
     Description,
     Heading,
-    InfoPopup,
     InlineLayout,
     InputSection,
     Label,
@@ -10,7 +9,6 @@ import {
     NumberInput,
     SelectInput,
     TextArea,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -26,6 +24,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import Admin2Input from '#components/domain/Admin2Input';
+import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
@@ -147,24 +146,32 @@ function EarlyAction(props: Props) {
                     <InputSection
                         title={strings.intervention}
                         description={strings.interventionDescription}
-                        tooltip={(
-                            <ListView
-                                layout="block"
-                                spacing="3xs"
-                            >
-                                {strings.interventiontooltipDescription}
-                                <ul>
-                                    <li>
-                                        {strings.interventiontooltipDescriptionListOne}
-                                    </li>
-                                    <li>
-                                        {strings.interventiontooltipDescriptionListTwo}
-                                    </li>
-                                    <li>
-                                        {strings.interventiontooltipDescriptionListThree}
-                                    </li>
-                                </ul>
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.intervention}
+                                ariaLabel={strings.intervention}
+                                title={strings.intervention}
+                                content={(
+                                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                        <Description>
+                                            {strings.interventionTooltipDescription}
+                                        </Description>
+                                        <Description>
+                                            <ul>
+                                                <li>
+                                                    {strings.interventionTooltipDescription1}
+                                                </li>
+                                                <li>
+                                                    {strings.interventionTooltipDescription2}
+                                                </li>
+                                                <li>
+                                                    {strings.interventionTooltipDescription3}
+                                                </li>
+                                            </ul>
+                                        </Description>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         withAsteriskOnTitle
                     >
@@ -182,21 +189,32 @@ function EarlyAction(props: Props) {
                     <InputSection
                         title={strings.geographicalRiskArea}
                         description={strings.geographicalRiskAreaDescription}
-                        tooltip={(resolveToComponent(
-                            strings.geographicalRiskAreaTooltip,
-                            {
-                                practitionersManualLink: (
-                                    <Link
-                                        href="https://manual.forecast-based-financing.org/en/chapter/set-the-trigger/"
-                                        styleVariant="action"
-                                        external
-                                        withLinkIcon
-                                    >
-                                        {strings.practitionersManualLink}
-                                    </Link>
-                                ),
-                            },
-                        ))}
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.geographicalRiskArea}
+                                ariaLabel={strings.geographicalRiskArea}
+                                title={strings.geographicalRiskArea}
+                                content={(
+                                    <Description>
+                                        {resolveToComponent(
+                                            strings.geographicalRiskAreaTooltip,
+                                            {
+                                                practitionersManualLink: (
+                                                    <Link
+                                                        href="https://manual.forecast-based-financing.org/en/chapter/set-the-trigger/"
+                                                        styleVariant="action"
+                                                        external
+                                                        withLinkIcon
+                                                    >
+                                                        {strings.practitionersManualLink}
+                                                    </Link>
+                                                ),
+                                            },
+                                        )}
+                                    </Description>
+                                )}
+                            />
+                        )}
                         withAsteriskOnTitle
                     >
                         {isDefined(eapRegistrationDetail?.country) && (
@@ -223,7 +241,18 @@ function EarlyAction(props: Props) {
                     <InputSection
                         title={strings.actionPeopleTargeted}
                         description={strings.actionPeopleTargetedDescription}
-                        tooltip={strings.actionPeopleTargetedTooltip}
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.actionPeopleTargeted}
+                                ariaLabel={strings.actionPeopleTargeted}
+                                title={strings.actionPeopleTargeted}
+                                content={(
+                                    <Description>
+                                        {strings.actionPeopleTargetedTooltip}
+                                    </Description>
+                                )}
+                            />
+                        )}
                         withAsteriskOnTitle
                         numPreferredColumns={2}
                     >
@@ -244,7 +273,18 @@ function EarlyAction(props: Props) {
                         <InputSection
                             title={strings.actionOperation}
                             description={strings.actionOperationDescription}
-                            tooltip={strings.actionOperationTooltip}
+                            headerActions={(
+                                <ExplanatoryNote
+                                    heading={strings.actionOperation}
+                                    ariaLabel={strings.actionOperation}
+                                    title={strings.actionOperation}
+                                    content={(
+                                        <Description>
+                                            {strings.actionOperationTooltip}
+                                        </Description>
+                                    )}
+                                />
+                            )}
                             withAsteriskOnTitle
                             withoutBackground
                         >
@@ -263,8 +303,15 @@ function EarlyAction(props: Props) {
                             description={(
                                 <InlineLayout
                                     after={(
-                                        <InfoPopup
-                                            description={strings.actionCriteriaTooltip}
+                                        <ExplanatoryNote
+                                            heading={strings.actionCriteria}
+                                            ariaLabel={strings.actionCriteria}
+                                            title={strings.actionCriteria}
+                                            content={(
+                                                <Description>
+                                                    {strings.actionCriteriaTooltip}
+                                                </Description>
+                                            )}
                                         />
                                     )}
                                 >
@@ -288,60 +335,71 @@ function EarlyAction(props: Props) {
                     <InputSection
                         title={strings.actionsStatement}
                         description={strings.actionsStatementDescription}
-                        tooltip={(
-                            <ListView
-                                layout="block"
-                                spacing="3xs"
-                            >
-                                {strings.actionsStatementTooltipDescriptionOne}
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.actionsStatementTooltipDescriptionTwo}
-                                    value={strings.actionsStatementTooltipDescriptionThree}
-                                />
-                                <ul>
-                                    <li>
-                                        {strings.actionsStatementTooltipListOne}
-                                    </li>
-                                    <li>
-                                        {strings.actionsStatementTooltipListTwo}
-                                    </li>
-                                    <li>
-                                        {strings.actionsStatementTooltipListThree}
-                                    </li>
-                                    <li>
-                                        {strings.actionsStatementTooltipListFour}
-                                    </li>
-                                </ul>
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.actionsStatementTooltipDescriptionFour}
-                                    value={(
-                                        <ListView
-                                            layout="block"
-                                            spacing="3xs"
-                                        >
-                                            <p>{strings.actionsStatementTooltipDescriptionFive}</p>
-                                            <p>{strings.actionsStatementTooltipDescriptionSix}</p>
-                                            {resolveToComponent(
-                                                strings.actionsStatementTooltipDescriptionSeven,
-                                                {
-                                                    triggerDatabaseLink: (
-                                                        <Link
-                                                            href="https://www.anticipation-hub.org/experience/triggers/trigger-database/trigger-list"
-                                                            styleVariant="action"
-                                                            external
-                                                            withLinkIcon
-                                                        >
-                                                            {strings.triggerDatabaseLink}
-                                                        </Link>
-                                                    ),
-                                                },
-                                            )}
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.actionsStatement}
+                                ariaLabel={strings.actionsStatement}
+                                title={strings.actionsStatement}
+                                content={(
+                                    <ListView layout="block">
+                                        <Description>
+                                            {strings.actionsStatementTooltipDescriptionOne}
+                                        </Description>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.actionsStatementTooltipDescriptionTwo}
+                                            </Label>
+                                            <Description>
+                                                {strings.actionsStatementTooltipDescriptionThree}
+                                            </Description>
+                                            <Description>
+                                                <ul>
+                                                    <li>
+                                                        {strings.actionsStatementTooltipListOne}
+                                                    </li>
+                                                    <li>
+                                                        {strings.actionsStatementTooltipListTwo}
+                                                    </li>
+                                                    <li>
+                                                        {strings.actionsStatementTooltipListThree}
+                                                    </li>
+                                                    <li>
+                                                        {strings.actionsStatementTooltipListFour}
+                                                    </li>
+                                                </ul>
+                                            </Description>
                                         </ListView>
-                                    )}
-                                />
-                            </ListView>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.actionsStatementTooltipDescriptionFour}
+                                            </Label>
+                                            <Description>
+                                                {strings.actionsStatementTooltipDescriptionFive}
+                                            </Description>
+                                            <Description>
+                                                {strings.actionsStatementTooltipDescriptionSix}
+                                            </Description>
+                                            <Description>
+                                                {resolveToComponent(
+                                                    strings.actionsStatementTooltipDescriptionSeven,
+                                                    {
+                                                        triggerDatabaseLink: (
+                                                            <Link
+                                                                href="https://www.anticipation-hub.org/experience/triggers/trigger-database/trigger-list"
+                                                                styleVariant="action"
+                                                                external
+                                                                withLinkIcon
+                                                            >
+                                                                {strings.triggerDatabaseLink}
+                                                            </Link>
+                                                        ),
+                                                    },
+                                                )}
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         withAsteriskOnTitle
                     >
@@ -414,18 +472,27 @@ function EarlyAction(props: Props) {
                     <InputSection
                         title={strings.justification}
                         description={strings.justificationDescription}
-                        tooltip={(
-                            <ListView
-                                layout="block"
-                                spacing="3xs"
-                            >
-                                {strings.justificationTooltipDescriptionOne}
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.justificationTooltipDescriptionTwo}
-                                    value={strings.justificationTooltipDescriptionThree}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.justification}
+                                ariaLabel={strings.justification}
+                                title={strings.justification}
+                                content={(
+                                    <ListView layout="block">
+                                        <Description>
+                                            {strings.justificationTooltipDescriptionOne}
+                                        </Description>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.justificationTooltipDescriptionTwo}
+                                            </Label>
+                                            <Description>
+                                                {strings.justificationTooltipDescriptionThree}
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         withAsteriskOnTitle
                     >

@@ -21,6 +21,7 @@ import {
     useFormArray,
 } from '@togglecorp/toggle-form';
 
+import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
@@ -165,7 +166,18 @@ function PlannedOperations(props: Props) {
                     <InputSection
                         title={strings.plannedOperationsTitle}
                         description={strings.plannedOperationsDescription}
-                        tooltip={strings.plannedOperationsTooltipDescription}
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.plannedOperationsTitle}
+                                ariaLabel={strings.plannedOperationsTitle}
+                                title={strings.plannedOperationsTitle}
+                                content={(
+                                    <Description>
+                                        {strings.plannedOperationsTooltipDescription}
+                                    </Description>
+                                )}
+                            />
+                        )}
                         withAsteriskOnTitle
                     >
                         <NonFieldError error={getErrorObject(error?.planned_operations)} />

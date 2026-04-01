@@ -8,12 +8,10 @@ import {
     Checklist,
     Container,
     Description,
-    InfoPopup,
     InputSection,
     Label,
     ListView,
     TextArea,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
@@ -33,6 +31,7 @@ import {
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
@@ -308,7 +307,16 @@ function SelectionActions(props: Props) {
                 heading={(
                     <ListView spacing="sm">
                         {strings.selectionActionsHeading}
-                        <InfoPopup description={strings.selectionActionsTooltipDescription} />
+                        <ExplanatoryNote
+                            heading={strings.selectionActionsHeading}
+                            ariaLabel={strings.selectionActionsHeading}
+                            title={strings.selectionActionsHeading}
+                            content={(
+                                <Description>
+                                    {strings.selectionActionsTooltipDescription}
+                                </Description>
+                            )}
+                        />
                     </ListView>
                 )}
                 variant="form"
@@ -316,27 +324,48 @@ function SelectionActions(props: Props) {
                 <ListView layout="block">
                     <InputSection
                         title={strings.selectionProcessTitle}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    label={strings.selectionActionExplanatoryNoteLabel}
-                                    strongLabel
-                                    value={strings.selectionProcessExplanatoryNote}
-                                />
-                                <TextOutput
-                                    label={strings.selectionActionRequiredPointsLabel}
-                                    strongLabel
-                                    value={(
-                                        <ul>
-                                            <li>{strings.selectionProcessRequiredPoint1}</li>
-                                            <li>{strings.selectionProcessRequiredPoint2}</li>
-                                            <li>{strings.selectionProcessRequiredPoint3}</li>
-                                            <li>{strings.selectionProcessRequiredPoint4}</li>
-                                            <li>{strings.selectionProcessRequiredPoint5}</li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.selectionProcessTitle}
+                                ariaLabel={strings.selectionProcessTitle}
+                                title={strings.selectionProcessTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.selectionActionExplanatoryNoteLabel}
+                                            </Label>
+                                            <Description>
+                                                {strings.selectionProcessExplanatoryNote}
+                                            </Description>
+                                        </ListView>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.selectionActionRequiredPointsLabel}
+                                            </Label>
+                                            <Description>
+                                                <ul>
+                                                    <li>
+                                                        {strings.selectionProcessRequiredPoint1}
+                                                    </li>
+                                                    <li>
+                                                        {strings.selectionProcessRequiredPoint2}
+                                                    </li>
+                                                    <li>
+                                                        {strings.selectionProcessRequiredPoint3}
+                                                    </li>
+                                                    <li>
+                                                        {strings.selectionProcessRequiredPoint4}
+                                                    </li>
+                                                    <li>
+                                                        {strings.selectionProcessRequiredPoint5}
+                                                    </li>
+                                                </ul>
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         description={(
                             <ul>
@@ -443,11 +472,21 @@ function SelectionActions(props: Props) {
                     </InputSection>
                     <InputSection
                         title={strings.evidenceBaseTitle}
-                        tooltip={(
-                            <TextOutput
-                                label={strings.selectionActionExplanatoryNoteLabel}
-                                strongLabel
-                                value={strings.evidenceBaseExplanatoryNote}
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.evidenceBaseTitle}
+                                title={strings.evidenceBaseTitle}
+                                ariaLabel={strings.evidenceBaseTitle}
+                                content={(
+                                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                        <Label strong>
+                                            {strings.selectionActionExplanatoryNoteLabel}
+                                        </Label>
+                                        <Description>
+                                            {strings.evidenceBaseExplanatoryNote}
+                                        </Description>
+                                    </ListView>
+                                )}
                             />
                         )}
                         description={strings.evidenceBaseDescription}
@@ -590,14 +629,22 @@ function SelectionActions(props: Props) {
                     <InputSection
                         title={strings.useFulnessActionsTitle}
                         description={strings.useFulnessActionsDescription}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.selectionActionExplanatoryNoteLabel}
-                                    value={strings.useFulnessActionsExplanatoryNote}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.useFulnessActionsTitle}
+                                ariaLabel={strings.useFulnessActionsTitle}
+                                title={strings.useFulnessActionsTitle}
+                                content={(
+                                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                        <Label strong>
+                                            {strings.selectionActionExplanatoryNoteLabel}
+                                        </Label>
+                                        <Description>
+                                            {strings.useFulnessActionsExplanatoryNote}
+                                        </Description>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         withAsteriskOnTitle
                     >
@@ -615,24 +662,35 @@ function SelectionActions(props: Props) {
                     <InputSection
                         title={strings.feasibilityTitle}
                         description={strings.feasibilityDescription}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.selectionActionExplanatoryNoteLabel}
-                                    value={strings.feasibilityExplanatoryNote}
-                                />
-                                <TextOutput
-                                    label={strings.selectionActionRequiredPointsLabel}
-                                    strongLabel
-                                    value={(
-                                        <ul>
-                                            <li>{strings.feasibilityRequiredPoint1}</li>
-                                            <li>{strings.feasibilityRequiredPoint2}</li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.feasibilityTitle}
+                                ariaLabel={strings.feasibilityTitle}
+                                title={strings.feasibilityTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.selectionActionExplanatoryNoteLabel}
+                                            </Label>
+                                            <Description>
+                                                {strings.feasibilityExplanatoryNote}
+                                            </Description>
+                                        </ListView>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.selectionActionRequiredPointsLabel}
+                                            </Label>
+                                            <Description>
+                                                <ul>
+                                                    <li>{strings.feasibilityRequiredPoint1}</li>
+                                                    <li>{strings.feasibilityRequiredPoint2}</li>
+                                                </ul>
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         withAsteriskOnTitle
                     >
