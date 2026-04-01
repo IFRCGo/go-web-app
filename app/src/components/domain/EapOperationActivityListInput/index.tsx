@@ -6,7 +6,7 @@ import { AddLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
-    InfoPopup,
+    Description,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -24,6 +24,7 @@ import {
 
 import EapOperationActivityInput from '#components/domain/EapOperationActivityInput';
 import { type OperationActivityFormFields } from '#components/domain/EapOperationActivityInput/schema';
+import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 
@@ -123,9 +124,16 @@ function EapOperationActivityListInput<const NAME extends FormName>(props: Props
             heading={(
                 <ListView spacing="sm">
                     {title}
-                    {description && (
-                        <InfoPopup
-                            description={description}
+                    {(title && description) && (
+                        <ExplanatoryNote
+                            heading={title}
+                            ariaLabel={title}
+                            title={title}
+                            content={(
+                                <Description>
+                                    {description}
+                                </Description>
+                            )}
                         />
                     )}
                 </ListView>

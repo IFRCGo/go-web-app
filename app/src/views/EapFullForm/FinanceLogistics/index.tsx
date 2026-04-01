@@ -20,6 +20,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
+import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
@@ -146,11 +147,21 @@ function FinanceLogistics(props: Props) {
                 <ListView layout="block" spacing="sm">
                     <InputSection
                         title={strings.financeBudgetTitle}
-                        tooltip={(
-                            <TextOutput
-                                strongLabel
-                                label={strings.financeExplanatoryNoteLabel}
-                                value={strings.financeExplanatoryNote}
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.financeBudgetTitle}
+                                ariaLabel={strings.financeBudgetTitle}
+                                title={strings.financeBudgetTitle}
+                                content={(
+                                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                        <Label strong>
+                                            {strings.financeExplanatoryNoteLabel}
+                                        </Label>
+                                        <Description>
+                                            {strings.financeExplanatoryNote}
+                                        </Description>
+                                    </ListView>
+                                )}
                             />
                         )}
                         description={(
@@ -211,24 +222,39 @@ function FinanceLogistics(props: Props) {
                     </InputSection>
                     <InputSection
                         title={strings.financeReadinessCostTitle}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.financeExplanatoryNoteLabel}
-                                    value={strings.financeReadinessCostExplanatoryNote}
-                                />
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.financeRequiredPointsLabel}
-                                    value={(
-                                        <ul>
-                                            <li>{strings.financeReadinessCostDescription1}</li>
-                                            <li>{strings.financeReadinessCostDescription2}</li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.financeReadinessCostTitle}
+                                ariaLabel={strings.financeReadinessCostTitle}
+                                title={strings.financeReadinessCostTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.financeExplanatoryNoteLabel}
+                                            </Label>
+                                            <Description>
+                                                {strings.financeReadinessCostExplanatoryNote}
+                                            </Description>
+                                        </ListView>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.financeRequiredPointsLabel}
+                                            </Label>
+                                            <Description>
+                                                <ul>
+                                                    <li>
+                                                        {strings.financeReadinessCostDescription1}
+                                                    </li>
+                                                    <li>
+                                                        {strings.financeReadinessCostDescription2}
+                                                    </li>
+                                                </ul>
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         description={(
                             <ul>
@@ -261,25 +287,42 @@ function FinanceLogistics(props: Props) {
                     </InputSection>
                     <InputSection
                         title={strings.financePrePositioningTitle}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.financeExplanatoryNoteLabel}
-                                    value={strings.financePrePositioningExplanatoryNote}
-                                />
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.financeRequiredPointsLabel}
-                                    value={(
-                                        <ul>
-                                            <li>{strings.financePrePositioningDescription1}</li>
-                                            <li>{strings.financePrePositioningDescription2}</li>
-                                            <li>{strings.financePrePositioningDescription3}</li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.financePrePositioningTitle}
+                                ariaLabel={strings.financePrePositioningTitle}
+                                title={strings.financePrePositioningTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.financeExplanatoryNoteLabel}
+                                            </Label>
+                                            <Description>
+                                                {strings.financePrePositioningExplanatoryNote}
+                                            </Description>
+                                        </ListView>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.financeRequiredPointsLabel}
+                                            </Label>
+                                            <Description>
+                                                <ul>
+                                                    <li>
+                                                        {strings.financePrePositioningDescription1}
+                                                    </li>
+                                                    <li>
+                                                        {strings.financePrePositioningDescription2}
+                                                    </li>
+                                                    <li>
+                                                        {strings.financePrePositioningDescription3}
+                                                    </li>
+                                                </ul>
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         description={(
                             <ul>
@@ -313,26 +356,45 @@ function FinanceLogistics(props: Props) {
                     </InputSection>
                     <InputSection
                         title={strings.financeEarlyActionCostTitle}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.financeExplanatoryNoteLabel}
-                                    value={strings.financeEarlyActionCostExplanatoryNote}
-                                />
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.financeRequiredPointsLabel}
-                                    value={(
-                                        <ul>
-                                            <li>{strings.financeEarlyActionCostDescription1}</li>
-                                            <li>{strings.financeEarlyActionCostDescription2}</li>
-                                            <li>{strings.financeEarlyActionCostDescription3}</li>
-                                            <li>{strings.financeEarlyActionCostDescription4}</li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.financeEarlyActionCostTitle}
+                                ariaLabel={strings.financeEarlyActionCostTitle}
+                                title={strings.financeEarlyActionCostTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.financeExplanatoryNoteLabel}
+                                            </Label>
+                                            <Description>
+                                                {strings.financeEarlyActionCostExplanatoryNote}
+                                            </Description>
+                                        </ListView>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.financeRequiredPointsLabel}
+                                            </Label>
+                                            <Description>
+                                                <ul>
+                                                    <li>
+                                                        {strings.financeEarlyActionCostDescription1}
+                                                    </li>
+                                                    <li>
+                                                        {strings.financeEarlyActionCostDescription2}
+                                                    </li>
+                                                    <li>
+                                                        {strings.financeEarlyActionCostDescription3}
+                                                    </li>
+                                                    <li>
+                                                        {strings.financeEarlyActionCostDescription4}
+                                                    </li>
+                                                </ul>
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         description={(
                             <ul>
@@ -374,11 +436,21 @@ function FinanceLogistics(props: Props) {
                 <ListView layout="block" spacing="sm">
                     <InputSection
                         title={strings.financeEapEndorsementTitle}
-                        tooltip={(
-                            <TextOutput
-                                strongLabel
-                                label={strings.financeExplanatoryNoteLabel}
-                                value={strings.financeEapEndorsementExplanatoryNote}
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.financeEapEndorsementTitle}
+                                ariaLabel={strings.financeEapEndorsementTitle}
+                                title={strings.financeEapEndorsementTitle}
+                                content={(
+                                    <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                        <Label strong>
+                                            {strings.financeExplanatoryNoteLabel}
+                                        </Label>
+                                        <Description>
+                                            {strings.financeEapEndorsementExplanatoryNote}
+                                        </Description>
+                                    </ListView>
+                                )}
                             />
                         )}
                         description={strings.financeEapEndorsementDescription}

@@ -19,6 +19,7 @@ import {
 
 import EapExportModal from '#components/domain/EapExportModal';
 import Link from '#components/Link';
+import { environment } from '#config';
 import {
     EAP_STATUS_NS_ADDRESSING_COMMENTS,
     EAP_STATUS_PENDING_PFA,
@@ -151,7 +152,7 @@ function EapTableActions(props: Props) {
             )}
             {type === 'development' && (
                 <>
-                    {eap.eap_type === EAP_TYPE_SIMPLIFIED && isCreated && (
+                    {environment === 'testing' && eap.eap_type === EAP_TYPE_SIMPLIFIED && isCreated && (
                         <Link
                             to="eapSimplifiedExport"
                             urlParams={{ eapId: eap.id }}
@@ -164,7 +165,7 @@ function EapTableActions(props: Props) {
                             {strings.previewExportLinkLabel}
                         </Link>
                     )}
-                    {eap.eap_type === EAP_TYPE_FULL && isCreated && (
+                    {environment === 'testing' && eap.eap_type === EAP_TYPE_FULL && isCreated && (
                         <Link
                             to="eapFullExport"
                             urlParams={{ eapId: eap.id }}

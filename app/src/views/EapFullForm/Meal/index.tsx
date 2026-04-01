@@ -8,7 +8,6 @@ import {
     Label,
     ListView,
     TextArea,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { randomString } from '@togglecorp/fujs';
@@ -21,6 +20,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
+import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 
@@ -114,33 +114,42 @@ function Meal(props: Props) {
                 >
                     <InputSection
                         title={strings.mealTitle}
-                        tooltip={(
-                            <ListView
-                                layout="block"
-                            >
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.mealExplanatoryNoteLabel}
-                                    value={strings.mealExplanatoryNote}
-                                />
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.mealRequiredPointsLabel}
-                                    value={(
-                                        <ul>
-                                            <li>{strings.mealDescription1}</li>
-                                            <ul>
-                                                <li>{strings.mealDescription11}</li>
-                                                <li>{strings.mealDescription12}</li>
-                                                <li>{strings.mealDescription13}</li>
-                                                <li>{strings.mealDescription14}</li>
-                                            </ul>
-                                            <li>{strings.mealDescription2}</li>
-                                            <li>{strings.mealDescription3}</li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.mealTitle}
+                                ariaLabel={strings.mealTitle}
+                                title={strings.mealTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.mealExplanatoryNoteLabel}
+                                            </Label>
+                                            <Description>
+                                                {strings.mealExplanatoryNote}
+                                            </Description>
+                                        </ListView>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.mealRequiredPointsLabel}
+                                            </Label>
+                                            <Description>
+                                                <ul>
+                                                    <li>{strings.mealDescription1}</li>
+                                                    <ul>
+                                                        <li>{strings.mealDescription11}</li>
+                                                        <li>{strings.mealDescription12}</li>
+                                                        <li>{strings.mealDescription13}</li>
+                                                        <li>{strings.mealDescription14}</li>
+                                                    </ul>
+                                                    <li>{strings.mealDescription2}</li>
+                                                    <li>{strings.mealDescription3}</li>
+                                                </ul>
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         description={(
                             <ul>

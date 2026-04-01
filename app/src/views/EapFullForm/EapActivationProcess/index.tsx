@@ -4,13 +4,11 @@ import {
     Button,
     Container,
     Description,
-    InfoPopup,
     InputSection,
     Label,
     ListView,
     NumberInput,
     TextArea,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { randomString } from '@togglecorp/fujs';
@@ -24,6 +22,7 @@ import {
 
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 
@@ -130,7 +129,16 @@ function EapActivationProcess(props: Props) {
                 heading={(
                     <ListView spacing="sm">
                         {strings.activationProcessHeading}
-                        <InfoPopup description={strings.activationProcessTooltip} />
+                        <ExplanatoryNote
+                            heading={strings.activationProcessHeading}
+                            ariaLabel={strings.activationProcessHeading}
+                            title={strings.activationProcessHeading}
+                            content={(
+                                <Description>
+                                    {strings.activationProcessTooltip}
+                                </Description>
+                            )}
+                        />
                     </ListView>
                 )}
                 variant="form"
@@ -141,34 +149,45 @@ function EapActivationProcess(props: Props) {
                 >
                     <InputSection
                         title={strings.activationProcessTitle}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.activationProcessExplanatoryLabel}
-                                    value={strings.activationImplementationExplanatoryNote}
-                                />
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.activationProcessRequiredPointsLabel}
-                                    value={(
-                                        <ul>
-                                            <li>
-                                                {strings.activationImplementationRequiredPoint1}
-                                            </li>
-                                            <li>
-                                                {strings.activationImplementationRequiredPoint2}
-                                            </li>
-                                            <li>
-                                                {strings.activationImplementationRequiredPoint3}
-                                            </li>
-                                            <li>
-                                                {strings.activationImplementationRequiredPoint4}
-                                            </li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.activationProcessTitle}
+                                ariaLabel={strings.activationProcessTitle}
+                                title={strings.activationProcessTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.activationProcessExplanatoryLabel}
+                                            </Label>
+                                            <Description>
+                                                {strings.activationImplementationExplanatoryNote}
+                                            </Description>
+                                        </ListView>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.activationProcessRequiredPointsLabel}
+                                            </Label>
+                                            <Description>
+                                                <ul>
+                                                    <li>
+                                                        {strings.activationRequiredPoint1}
+                                                    </li>
+                                                    <li>
+                                                        {strings.activationRequiredPoint2}
+                                                    </li>
+                                                    <li>
+                                                        {strings.activationRequiredPoint3}
+                                                    </li>
+                                                    <li>
+                                                        {strings.activationRequiredPoint4}
+                                                    </li>
+                                                </ul>
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         description={(
                             <ul>
@@ -205,25 +224,42 @@ function EapActivationProcess(props: Props) {
                     <InputSection
                         withAsteriskOnTitle
                         title={strings.activationTriggerTitle}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.activationProcessExplanatoryLabel}
-                                    value={strings.activationTriggerExplanatoryNote}
-                                />
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.activationProcessRequiredPointsLabel}
-                                    value={(
-                                        <ul>
-                                            <li>{strings.activationTriggerRequiredPoint1}</li>
-                                            <li>{strings.activationTriggerRequiredPoint2}</li>
-                                            <li>{strings.activationTriggerRequiredPoint3}</li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.activationTriggerTitle}
+                                ariaLabel={strings.activationTriggerTitle}
+                                title={strings.activationTriggerTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.activationProcessExplanatoryLabel}
+                                            </Label>
+                                            <Description>
+                                                {strings.activationTriggerExplanatoryNote}
+                                            </Description>
+                                        </ListView>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.activationProcessRequiredPointsLabel}
+                                            </Label>
+                                            <Description>
+                                                <ul>
+                                                    <li>
+                                                        {strings.activationTriggerRequiredPoint1}
+                                                    </li>
+                                                    <li>
+                                                        {strings.activationTriggerRequiredPoint2}
+                                                    </li>
+                                                    <li>
+                                                        {strings.activationTriggerRequiredPoint3}
+                                                    </li>
+                                                </ul>
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         description={(
                             <ul>
@@ -274,25 +310,42 @@ function EapActivationProcess(props: Props) {
                     <InputSection
                         withAsteriskOnTitle
                         title={strings.activationSelectionPopulationTitle}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.activationProcessExplanatoryLabel}
-                                    value={strings.activationSelectionExplanatoryNote}
-                                />
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.activationProcessRequiredPointsLabel}
-                                    value={(
-                                        <ul>
-                                            <li>{strings.activationSelectionDescription1}</li>
-                                            <li>{strings.activationSelectionDescription2}</li>
-                                            <li>{strings.activationSelectionDescription3}</li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.activationSelectionPopulationTitle}
+                                ariaLabel={strings.activationSelectionPopulationTitle}
+                                title={strings.activationSelectionPopulationTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.activationProcessExplanatoryLabel}
+                                            </Label>
+                                            <Description>
+                                                {strings.activationSelectionExplanatoryNote}
+                                            </Description>
+                                        </ListView>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.activationProcessRequiredPointsLabel}
+                                            </Label>
+                                            <Description>
+                                                <ul>
+                                                    <li>
+                                                        {strings.activationSelectionDescription1}
+                                                    </li>
+                                                    <li>
+                                                        {strings.activationSelectionDescription2}
+                                                    </li>
+                                                    <li>
+                                                        {strings.activationSelectionDescription3}
+                                                    </li>
+                                                </ul>
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         description={(
                             <ul>
@@ -316,31 +369,42 @@ function EapActivationProcess(props: Props) {
                     <InputSection
                         withAsteriskOnTitle
                         title={strings.activationStopMechanismTitle}
-                        tooltip={(
-                            <ListView layout="block">
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.activationProcessExplanatoryLabel}
-                                    value={strings.activationStopMechanismExplanatoryNote}
-                                />
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.activationProcessRequiredPointsLabel}
-                                    value={(
-                                        <ul>
-                                            <li>{strings.activationStopMechanismDescription1}</li>
-                                            <li>{strings.activationStopMechanismDescription2}</li>
-                                            <li>{strings.activationStopMechanismDescription3}</li>
-                                        </ul>
-                                    )}
-                                />
-                            </ListView>
+                        headerActions={(
+                            <ExplanatoryNote
+                                heading={strings.activationStopMechanismTitle}
+                                ariaLabel={strings.activationStopMechanismTitle}
+                                title={strings.activationStopMechanismTitle}
+                                content={(
+                                    <ListView layout="block">
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.activationProcessExplanatoryLabel}
+                                            </Label>
+                                            <Description>
+                                                {strings.activationStopMechanismExplanatoryNote}
+                                            </Description>
+                                        </ListView>
+                                        <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                                            <Label strong>
+                                                {strings.activationProcessRequiredPointsLabel}
+                                            </Label>
+                                            <Description>
+                                                <ul>
+                                                    <li>{strings.activationStopDescription1}</li>
+                                                    <li>{strings.activationStopDescription2}</li>
+                                                    <li>{strings.activationStopDescription3}</li>
+                                                </ul>
+                                            </Description>
+                                        </ListView>
+                                    </ListView>
+                                )}
+                            />
                         )}
                         description={(
                             <ul>
-                                <li>{strings.activationStopMechanismDescription1}</li>
-                                <li>{strings.activationStopMechanismDescription2}</li>
-                                <li>{strings.activationStopMechanismDescription3}</li>
+                                <li>{strings.activationStopDescription1}</li>
+                                <li>{strings.activationStopDescription2}</li>
+                                <li>{strings.activationStopDescription3}</li>
                             </ul>
                         )}
                     >
