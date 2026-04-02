@@ -24,20 +24,26 @@ To begin, ensure you have network access. Then, you'll need the following
    gh repo clone IFRCGo/go-web-app #Github CLI
    ```
 
-2. Install the dependencies
+2. Initialize submodules
+
+   ```bash
+   git submodule update --init --recursive --remote
+   ```
+
+3. Install the dependencies
 
    ```bash
    pnpm install
    ```
 
-3. Create a `.env` file in the `app` directory and add variables from [env.ts](https://github.com/IFRCGo/go-web-app/blob/develop/app/env.ts). Any variables marked with `.optional()` are not mandatory for setup and can be skipped.
+4. Create a `.env` file in the `app` directory and add variables from [env.ts](https://github.com/IFRCGo/go-web-app/blob/develop/app/env.ts). Any variables marked with `.optional()` are not mandatory for setup and can be skipped.
 
    ```bash
    cd app
    touch .env
    ```
 
-4. Start the development server:
+5. Start the development server:
 
    ```bash
    pnpm start:app
@@ -46,7 +52,7 @@ To begin, ensure you have network access. Then, you'll need the following
 > \[!NOTE]\
 > To work on a specific development task, ensure you have the backend setup appropriately and configured properly.
 
-5. Create a new branch for your work.
+6. Create a new branch for your work.
    The stable branch for IFRC GO is `develop`, and all PRs for deployment should be merged into it.
 
    ```bash
@@ -60,7 +66,7 @@ To begin, ensure you have network access. Then, you'll need the following
    * Fix Branch: For bug fixes, create branches under `fix/issue-description`.
    * Chore Branch: For maintenance tasks, create branches under `chore/task-name`.
 
-6. Once you're happy with your changes, add and commit them to your branch.If your workflow requires changesets (e.g., when changes will impact versioning or are part of a release), create one before committing. Then push the branch to origin.
+7. Once you're happy with your changes, add and commit them to your branch. If your workflow requires changesets (e.g., when changes will impact versioning or are part of a release), create one before committing. Then push the branch to origin.
 
    ```bash
    # Stage all changes
@@ -81,7 +87,7 @@ To begin, ensure you have network access. Then, you'll need the following
 > \[!NOTE]\
 > Review the [Changesets documentation](./release.md#changesets) and the [versioning guidelines](./release.md#versioning-guidelines-for-ifrc-go-project) for more details on versioning and tracking changes.
 
-7. Create a Pull Request.
+8. Create a Pull Request.
    Please read the [Issues and Pull Requests](./issues-and-pull-requests.md) guide for further information.
 
 > \[!IMPORTANT]\
