@@ -12,6 +12,7 @@ export interface Props {
     parentRef: React.RefObject<HTMLElement | undefined>;
     children?: React.ReactNode;
     preferredWidth?: number;
+    role?: React.AriaRole;
 }
 
 function Popup(props: Props) {
@@ -22,6 +23,7 @@ function Popup(props: Props) {
         className,
         pointerClassName,
         preferredWidth,
+        role,
     } = props;
 
     const {
@@ -44,6 +46,7 @@ function Popup(props: Props) {
                     orientation.vertical === 'bottom' && styles.topOrientation,
                     className,
                 )}
+                role={role}
             >
                 {children}
             </div>

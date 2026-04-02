@@ -141,7 +141,6 @@ function TabLayout(props: Props) {
                     isFirstStep && styles.firstStep,
                     isLastStep && styles.lastStep,
                 )}
-                role="tab"
             >
                 <div className={styles.dotWrapper}>
                     <div className={styles.beforeLine} />

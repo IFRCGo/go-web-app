@@ -420,9 +420,6 @@ importers:
       '@togglecorp/fujs':
         specifier: ^2.1.1
         version: 2.2.0
-      jiti:
-        specifier: ^2.5.1
-        version: 2.5.1
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -502,6 +499,9 @@ importers:
       glob:
         specifier: ^10.3.10
         version: 10.4.5
+      jiti:
+        specifier: ^2.5.1
+        version: 2.5.1
       postcss:
         specifier: ^8.5.3
         version: 8.5.3

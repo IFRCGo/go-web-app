@@ -1,4 +1,7 @@
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useId,
+} from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import InputError from '../InputError';
@@ -64,6 +67,7 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         [name, onChange, invertedLogic],
     );
 
+    const inputId = useId();
     const checked = invertedLogic ? !value : value;
 
     const className = _cs(
@@ -77,12 +81,14 @@ function Checkbox<const NAME>(props: Props<NAME>) {
     );
 
     return (
-        <label // eslint-disable-line jsx-a11y/label-has-associated-control
+        <label
             className={className}
             title={tooltip}
+            htmlFor={inputId}
         >
             <div className={_cs(styles.checkmarkContainer, checkmarkContainerClassName)}>
                 <input
+                    id={inputId}
                     onChange={handleChange}
                     className={_cs(styles.input, inputClassName)}
                     type="checkbox"

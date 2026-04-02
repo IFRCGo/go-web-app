@@ -4,18 +4,18 @@
     --go-ui-font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
     --go-ui-optical-correction-factor: 1.5;
-    --base-font-size: 0.875rem;
+    --go-ui-base-font-size: 0.875rem;
     --go-ui-font-size-export: 0.6875rem;
 
-    --go-ui-font-size-2xs: calc(var(--base-font-size) * 0.64);
-    --go-ui-font-size-xs: calc(var(--base-font-size) * 0.714);
-    --go-ui-font-size-sm: calc(var(--base-font-size) * 0.857);
-    --go-ui-font-size-md: var(--base-font-size);
-    --go-ui-font-size-lg: calc(var(--base-font-size) * 1.12857);
-    --go-ui-font-size-xl: calc(var(--base-font-size) * 1.4285);
-    --go-ui-font-size-2xl: calc(var(--base-font-size) * 1.7142);
-    --go-ui-font-size-3xl: calc(var(--base-font-size) * 2.1428);
-    --go-ui-font-size-4xl: calc(var(--base-font-size) * 2.7142);
+    --go-ui-font-size-2xs: calc(var(--go-ui-base-font-size) * 0.64);
+    --go-ui-font-size-xs: calc(var(--go-ui-base-font-size) * 0.714);
+    --go-ui-font-size-sm: calc(var(--go-ui-base-font-size) * 0.857);
+    --go-ui-font-size-md: var(--go-ui-base-font-size);
+    --go-ui-font-size-lg: calc(var(--go-ui-base-font-size) * 1.12857);
+    --go-ui-font-size-xl: calc(var(--go-ui-base-font-size) * 1.4285);
+    --go-ui-font-size-2xl: calc(var(--go-ui-base-font-size) * 1.7142);
+    --go-ui-font-size-3xl: calc(var(--go-ui-base-font-size) * 2.1428);
+    --go-ui-font-size-4xl: calc(var(--go-ui-base-font-size) * 2.7142);
 
     --go-ui-height-icon-multiplier: 1.33em;
 
@@ -36,7 +36,7 @@
     --go-ui-font-weight-normal: 400;
     --go-ui-font-weight-medium: 500;
     --go-ui-font-weight-semibold: 600;
-    --go-ui-font-weight-bold: 600;
+    --go-ui-font-weight-bold: 700;
 
     --go-ui-width-screen-sm: 640px;
     --go-ui-width-screen-md: 768px;
@@ -44,38 +44,38 @@
     --go-ui-width-screen-xl: 1280px;
     --go-ui-width-screen-2xl: 1536px;
 
-    --base-spacing: 0.03125rem;
+    --go-ui-base-spacing: 0.03125rem;
 
-    --go-ui-spacing-5xs: calc(var(--base-spacing) * 3);
-    --go-ui-spacing-4xs: calc(var(--base-spacing) * 6);
-    --go-ui-spacing-3xs: calc(var(--base-spacing) * 10);
-    --go-ui-spacing-2xs: calc(var(--base-spacing) * 15);
-    --go-ui-spacing-xs: calc(var(--base-spacing) * 21);
-    --go-ui-spacing-sm: calc(var(--base-spacing) * 28);
-    --go-ui-spacing-md: calc(var(--base-spacing) * 36);
-    --go-ui-spacing-lg:  calc(var(--base-spacing) * 47);
-    --go-ui-spacing-xl:  calc(var(--base-spacing) * 62);
-    --go-ui-spacing-2xl: calc(var(--base-spacing) * 82);
-    --go-ui-spacing-3xl: calc(var(--base-spacing) * 110);
-    --go-ui-spacing-4xl: calc(var(--base-spacing) * 145);
-    --go-ui-spacing-5xl: calc(var(--base-spacing) * 195);
+    --go-ui-spacing-5xs: calc(var(--go-ui-base-spacing) * 3);
+    --go-ui-spacing-4xs: calc(var(--go-ui-base-spacing) * 6);
+    --go-ui-spacing-3xs: calc(var(--go-ui-base-spacing) * 10);
+    --go-ui-spacing-2xs: calc(var(--go-ui-base-spacing) * 15);
+    --go-ui-spacing-xs: calc(var(--go-ui-base-spacing) * 21);
+    --go-ui-spacing-sm: calc(var(--go-ui-base-spacing) * 28);
+    --go-ui-spacing-md: calc(var(--go-ui-base-spacing) * 36);
+    --go-ui-spacing-lg:  calc(var(--go-ui-base-spacing) * 47);
+    --go-ui-spacing-xl:  calc(var(--go-ui-base-spacing) * 62);
+    --go-ui-spacing-2xl: calc(var(--go-ui-base-spacing) * 82);
+    --go-ui-spacing-3xl: calc(var(--go-ui-base-spacing) * 110);
+    --go-ui-spacing-4xl: calc(var(--go-ui-base-spacing) * 145);
+    --go-ui-spacing-5xl: calc(var(--go-ui-base-spacing) * 195);
 
     @media screen and (max-width: 40rem) {
         --base-spacing: 0.0277777rem;
     }
 
-    --go-ui-width-separator-sm: 1pt;
-    --go-ui-width-separator-md: 2pt;
-    --go-ui-width-separator-lg: 4pt;
-    --go-ui-width-separator-xl: 8pt;
+    --go-ui-width-separator-sm: 1px;
+    --go-ui-width-separator-md: 2px;
+    --go-ui-width-separator-lg: 4px;
+    --go-ui-width-separator-xl: 8px;
 
-    --go-ui-width-separator-thin: 1pt;
-    --go-ui-width-separator-small: 2pt;
-    --go-ui-width-separator-thick: 4pt;
-    --go-ui-width-separator-medium: 6pt;
-    --go-ui-width-separator-large: 8pt;
-    --go-ui-width-separator-dense: 12pt;
-    --go-ui-width-separator-extra-dense: 14pt;
+    --go-ui-width-separator-thin: 1px;
+    --go-ui-width-separator-small: 2px;
+    --go-ui-width-separator-thick: 4px;
+    --go-ui-width-separator-medium: 6px;
+    --go-ui-width-separator-large: 8px;
+    --go-ui-width-separator-dense: 12px;
+    --go-ui-width-separator-extra-dense: 14px;
 
     --go-ui-border-radius-none: 0;
     --go-ui-border-radius-sm: 0.125rem;
@@ -86,13 +86,13 @@
     --go-ui-border-radius-3xl: 1.5rem;
     --go-ui-border-radius-full: 100vh;
 
-    --go-ui-box-shadow-xs: 0 1pt 2pt rgb(0 0 0 / 0.2);
-    --go-ui-box-shadow-sm: 0 1pt 4pt rgb(0 0 0 / 0.2);
-    --go-ui-box-shadow-md: 0 1pt 5pt -2pt rgb(0 0 0 / 0.375);
-    --go-ui-box-shadow-lg: 0 2pt 8pt -4pt rgb(0 0 0 / 0.5);
-    --go-ui-box-shadow-xl: 0 3pt 16pt -6pt rgb(0 0 0 / 0.5);
-    --go-ui-box-shadow-2xl: 0 4pt 16pt -6pt rgb(0 0 0 / 1);
-    --go-ui-box-shadow-inner: inset 0 2pt 4pt 0 rgb(0 0 0 / 0.375);
+    --go-ui-box-shadow-xs: 0 1px 2px rgb(0 0 0 / 0.2);
+    --go-ui-box-shadow-sm: 0 1px 4px rgb(0 0 0 / 0.2);
+    --go-ui-box-shadow-md: 0 1px 5px -2px rgb(0 0 0 / 0.375);
+    --go-ui-box-shadow-lg: 0 2px 8px -4px rgb(0 0 0 / 0.5);
+    --go-ui-box-shadow-xl: 0 3px 16px -6px rgb(0 0 0 / 0.5);
+    --go-ui-box-shadow-2xl: 0 4px 16px -6px rgb(0 0 0 / 1);
+    --go-ui-box-shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.375);
     --go-ui-box-shadow-none: 0 0 #0000;
 
     --go-ui-duration-transition-fast: .1s;
@@ -226,8 +226,8 @@
 
     --go-ui-export-page-margin: 10mm 10mm 16mm 10mm;
 
-    --go-ui-width-scrollbar: 4pt;
+    --go-ui-width-scrollbar: 4px;
     --go-ui-color-scrollbar-foreground: rgba(0, 0, 0, .2);
     --go-ui-color-scrollbar-background: rgba(0, 0, 0, .01);
-    --go-ui-radius-scrollbar-border: 2pt;
+    --go-ui-radius-scrollbar-border: 2px;
 }

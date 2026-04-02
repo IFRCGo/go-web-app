@@ -10,8 +10,8 @@ enum Keys {
     Tab = 9,
     Esc = 27,
     Enter = 13,
-    Down = 38,
-    Up = 40,
+    Up = 38,
+    Down = 40,
     Backspace = 8,
 }
 
@@ -100,12 +100,12 @@ function useKeyboard<T, Q extends OptionKey>(
             } else if (keyCode === Keys.Up) {
                 e.stopPropagation();
                 e.preventDefault();
-                const newFocusedKey = getNewKey(myKey, 1, options, keySelector);
+                const newFocusedKey = getNewKey(myKey, -1, options, keySelector);
                 onFocusChange(newFocusedKey ? { key: newFocusedKey } : undefined);
             } else if (keyCode === Keys.Down) {
                 e.stopPropagation();
                 e.preventDefault();
-                const newFocusedKey = getNewKey(myKey, -1, options, keySelector);
+                const newFocusedKey = getNewKey(myKey, 1, options, keySelector);
                 onFocusChange(newFocusedKey ? { key: newFocusedKey } : undefined);
             }
         },

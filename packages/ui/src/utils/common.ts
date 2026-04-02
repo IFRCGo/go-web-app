@@ -355,7 +355,7 @@ function getMaximumFractionDigits(value: number) {
 }
 
 interface FormatNumberOptions {
-    currency?: boolean;
+    currency?: Intl.NumberFormatOptions['currency'];
     unit?: Intl.NumberFormatOptions['unit'];
     maximumFractionDigits?: Intl.NumberFormatOptions['maximumFractionDigits'];
     compact?: boolean;
@@ -403,7 +403,8 @@ export function formatNumber(
         formattingOptions.unit = unit;
         formattingOptions.unitDisplay = 'short';
     }
-    if (currency) {
+    if (isTruthyString(currency)) {
+        formattingOptions.currency = currency;
         formattingOptions.currencyDisplay = 'narrowSymbol';
         formattingOptions.style = 'currency';
     }
@@ -689,7 +690,7 @@ export function addNumMonthsToDate(
     }
 
     const dateSafe = new Date(date);
-    if (Number.isNaN(dateSafe)) {
+    if (Number.isNaN(dateSafe.getTime())) {
         return undefined;
     }
 

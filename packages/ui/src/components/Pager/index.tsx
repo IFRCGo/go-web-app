@@ -233,7 +233,7 @@ function Pager(props: Props) {
                 onClick={onActivePageChange}
                 disabled={activePage >= numPages || disabled}
                 className={styles.pageButton}
-                title={`${strings.rawButtonGoToPage} ${activePage - 1}`}
+                title={`${strings.rawButtonGoToPage} ${activePage + 1}`}
             >
                 <ChevronRightLineIcon className={styles.icon} />
             </RawButton>
