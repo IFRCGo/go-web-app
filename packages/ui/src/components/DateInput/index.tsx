@@ -14,6 +14,7 @@ export interface Props<NAME> extends InheritedProps<NAME> {
     inputClassName?: string;
     withDiffView?: boolean;
     prevValue?: RawInputProps<NAME>['value'];
+    type?: 'date' | 'month';
 }
 
 function DateInput<const T>(props: Props<T>) {
@@ -25,6 +26,7 @@ function DateInput<const T>(props: Props<T>) {
         withDiffView,
         value,
         prevValue,
+        type = 'date',
         ...otherProps
     } = props;
 
@@ -59,7 +61,7 @@ function DateInput<const T>(props: Props<T>) {
                     readOnly={readOnly}
                     disabled={disabled}
                     className={inputClassName}
-                    type="date"
+                    type={type}
                 />
             )}
         />
