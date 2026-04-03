@@ -1,6 +1,7 @@
 import {
     useCallback,
     useEffect,
+    useId,
 } from 'react';
 import { FocusOn } from 'react-focus-on';
 import { CloseFillIcon } from '@ifrc-go/icons';
@@ -53,6 +54,7 @@ function Modal(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
+    const headingId = useId();
 
     useEffect(
         () => {
@@ -80,6 +82,8 @@ function Modal(props: Props) {
         }
     }, [onClose, closeOnEscape]);
 
+    const { heading, ...restContainerProps } = containerProps;
+
     return (
         <Portal>
             <div className={_cs(styles.overlay, overlayClassName)}>
@@ -88,11 +92,14 @@ function Modal(props: Props) {
                     onClickOutside={handleClickOutside}
                     onEscapeKey={handleEscape}
                     gapMode="padding"
-                    // gapMode={null}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby={heading ? headingId : undefined}
                 >
                     <Container
                         // eslint-disable-next-line react/jsx-props-no-spreading
-                        {...containerProps}
+                        {...restContainerProps}
+                        heading={heading ? <span id={headingId}>{heading}</span> : undefined}
                         withPadding
                         withoutWrapInHeader
                         withoutWrapInFooter

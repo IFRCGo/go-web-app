@@ -77,6 +77,10 @@ function ProgressBar(props: Props) {
                     && colorVariantToClassName[colorVariant],
                 className,
             )}
+            role="progressbar"
+            aria-valuenow={percentage}
+            aria-valuemin={0}
+            aria-valuemax={100}
         >
             {(title || showPercentageInTitle) && (
                 <div className={styles.title}>

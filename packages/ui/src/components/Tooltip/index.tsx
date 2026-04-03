@@ -37,11 +37,11 @@ function Tooltip(props: Props) {
 
     useEffect(
         () => {
-            const handleMouseEnter = () => {
+            const handleShow = () => {
                 setShowPopup(true);
             };
 
-            const handleMouseOut = () => {
+            const handleHide = () => {
                 setShowPopup(false);
             };
 
@@ -60,13 +60,17 @@ function Tooltip(props: Props) {
             }
 
             parentRef.current = parentNode as HTMLElement;
-            parentNode.addEventListener('mouseover', handleMouseEnter);
-            parentNode.addEventListener('mouseout', handleMouseOut);
+            parentNode.addEventListener('mouseover', handleShow);
+            parentNode.addEventListener('mouseout', handleHide);
+            parentNode.addEventListener('focusin', handleShow);
+            parentNode.addEventListener('focusout', handleHide);
             setHasParentRef(true);
 
             return () => {
-                parentNode.removeEventListener('mouseover', handleMouseEnter);
-                parentNode.removeEventListener('mouseout', handleMouseOut);
+                parentNode.removeEventListener('mouseover', handleShow);
+                parentNode.removeEventListener('mouseout', handleHide);
+                parentNode.removeEventListener('focusin', handleShow);
+                parentNode.removeEventListener('focusout', handleHide);
             };
         },
         [],
@@ -86,6 +90,7 @@ function Tooltip(props: Props) {
                     parentRef={parentRef as React.RefObject<HTMLElement>}
                     pointerClassName={styles.pointer}
                     preferredWidth={preferredWidth}
+                    role="tooltip"
                 >
                     <Container
                         heading={title}

@@ -136,6 +136,8 @@ function DropdownMenu(props: Props) {
                 colorVariant={labelColorVariant}
                 withoutPadding={labelWithoutPadding}
                 spacing={labelSpacing}
+                aria-expanded={showDropdown}
+                aria-haspopup="menu"
                 after={hasAfterContent ? (
                     <>
                         {labelAfter}
@@ -159,6 +161,7 @@ function DropdownMenu(props: Props) {
                     )}
                     parentRef={buttonRef}
                     preferredWidth={preferredPopupWidth}
+                    role="menu"
                 >
                     {children}
                 </Popup>

@@ -9,10 +9,9 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
-const ONE_REM = parseFloat(getComputedStyle(document.documentElement).fontSize);
-// px
-const MIN_WIDTH = 16 * ONE_REM;
-const VERTICAL_OFFSET = 0.5 * ONE_REM;
+// NOTE: ONE_REM, MIN_WIDTH, and VERTICAL_OFFSET are computed inside calculatePlacement
+// to avoid calling getComputedStyle at module scope (which crashes in SSR and produces
+// stale values if the root font-size changes at runtime).
 
 type Orientation = {
     vertical: 'top' | 'bottom';
@@ -71,6 +70,10 @@ function useFloatPlacement(
         if (isNotDefined(parentRef.current)) {
             return;
         }
+
+        const ONE_REM = parseFloat(getComputedStyle(document.documentElement).fontSize);
+        const MIN_WIDTH = 16 * ONE_REM;
+        const VERTICAL_OFFSET = 0.5 * ONE_REM;
 
         const parentBCR = parentRef.current.getBoundingClientRect();
         const {

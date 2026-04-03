@@ -65,6 +65,8 @@ export default function Tab<NAME extends TabKey>(props: Props<NAME>) {
             name={name}
             disabled={disabled}
             type="button"
+            role="tab"
+            aria-selected={isActive}
         >
             <TabLayout
                 // eslint-disable-next-line react/jsx-props-no-spreading
