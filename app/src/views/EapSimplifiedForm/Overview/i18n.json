@@ -12,6 +12,8 @@
         "uploadCoverImageDescription": "Upload a image for the cover page of the publicly published DREF application.",
         "timeframe": "sEAP Timeframe",
         "timeframeDescription": "A simplified EAP has a timeframe of two years (unless the early actions are activiated)",
+        "partnersInvolved": "Partners Involved",
+        "partnersInvolvedDescription": "Select from the list the partners involved in this process. Add as many as needed or select not applicable if no partners involved.",
         "contacts": "Contacts",
         "nationalHeader": "National",
         "delegationHeader": "Delegation",

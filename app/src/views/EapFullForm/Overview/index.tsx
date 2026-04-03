@@ -19,6 +19,7 @@ import {
     type EntriesAsList,
     type Error,
     getErrorObject,
+    getErrorString,
     useFormArray,
 } from '@togglecorp/toggle-form';
 
@@ -26,10 +27,15 @@ import ContactInputsSection from '#components/domain/ContactInputsSection';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
+import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
+import {
+    getFullDateFromYearMonth,
+    getYearMonthFromFullDate,
+} from '#utils/domain/eap';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import { charLimits } from '../common';
@@ -98,6 +104,13 @@ function Overview(props: Props) {
             ),
             'partner_contacts' as const,
         );
+    }, [setFieldValue]);
+
+    const onExpectedSubmissionTimeChange = useCallback((val: string | undefined) => {
+        if (!val) {
+            return;
+        }
+        setFieldValue(getFullDateFromYearMonth(val), 'expected_submission_time');
     }, [setFieldValue]);
 
     const { setValue: onKeyActorsChange, removeValue: onKeyActorsRemove } = useFormArray<'key_actors', KeyActorsFormFields>(
@@ -214,11 +227,12 @@ function Overview(props: Props) {
                     >
                         <DateInput
                             name="expected_submission_time"
-                            value={value?.expected_submission_time}
+                            value={getYearMonthFromFullDate(value?.expected_submission_time)}
                             error={error?.expected_submission_time}
-                            onChange={setFieldValue}
+                            onChange={onExpectedSubmissionTimeChange}
                             disabled={disabled}
                             readOnly={readOnly}
+                            type="month"
                         />
                     </InputSection>
                     <InputSection
@@ -234,6 +248,19 @@ function Overview(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.partnersInvolved}
+                        description={strings.partnersInvolvedDescription}
+                        withAsteriskOnTitle
+                    >
+                        <NationalSocietyMultiSelectInput
+                            name="partners"
+                            value={value.partners}
+                            error={getErrorString(error?.partners)}
+                            onChange={setFieldValue}
+                            disabled={disabled}
                         />
                     </InputSection>
                 </ListView>

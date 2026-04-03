@@ -195,11 +195,13 @@ function FinanceLogistics(props: Props) {
                         />
                     </InputSection>
                     <InputSection
+                        title={strings.financeBudgetDetails}
                         description={(
                             <Link external href={templateUrl?.url} withUnderline withLinkIcon>
                                 {strings.financeDownloadDescription}
                             </Link>
                         )}
+                        withAsteriskOnTitle
                     >
                         <GoSingleFileInput
                             name="budget_file"

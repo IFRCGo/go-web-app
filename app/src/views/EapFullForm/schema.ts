@@ -6,7 +6,7 @@ import {
 import {
     addCondition,
     emailCondition,
-    lessThanOrEqualToCondition,
+    greaterThanOrEqualToCondition,
     type LiteralSchema,
     nullValue,
     type ObjectSchema,
@@ -588,7 +588,7 @@ function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY, requi
 
 export const formSchema: EapFullFormSchema = {
     fields: (formValue, __, context): EapFullFormSchemaFields => {
-        const isSubmit = context?.getIsSubmission();
+        const isSubmit = context?.getIsSubmission() ?? false;
         let formFields: EapFullFormSchemaFields = {
             // ------------Overview-----------------
             expected_submission_time: { required: isSubmit },
@@ -602,6 +602,9 @@ export const formSchema: EapFullFormSchema = {
                         required: isSubmit,
                     },
                 }),
+            },
+            partners: {
+                required: isSubmit,
             },
             partner_contacts: {
                 keySelector: (item) => item.client_id,
@@ -919,15 +922,12 @@ export const formSchema: EapFullFormSchema = {
                         budget_per_sector: {
                             required: isSubmit,
                         },
-                        ap_code: {
-                            required: isSubmit,
-                        },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
-                            member: () => indicatorSchema,
+                            member: () => indicatorSchema(isSubmit),
                             validation: (indicators) => {
-                                if (isNotDefined(indicators)
-                                    || indicators.length === 0) {
+                                if (isSubmit && (isNotDefined(indicators)
+                                    || indicators.length === 0)) {
                                     return 'This field is required';
                                 }
 
@@ -942,15 +942,15 @@ export const formSchema: EapFullFormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit),
                         },
                     }),
                 }),
@@ -975,15 +975,12 @@ export const formSchema: EapFullFormSchema = {
                         budget_per_approach: {
                             required: isSubmit,
                         },
-                        ap_code: {
-                            required: isSubmit,
-                        },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
-                            member: () => indicatorSchema,
+                            member: () => indicatorSchema(isSubmit),
                             validation: (indicators) => {
-                                if (isNotDefined(indicators)
-                                    || indicators.length === 0) {
+                                if (isSubmit && (isNotDefined(indicators)
+                                    || indicators.length === 0)) {
                                     return 'This field is required';
                                 }
 
@@ -992,15 +989,15 @@ export const formSchema: EapFullFormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit),
                         },
                     }),
                 }),
@@ -1072,7 +1069,7 @@ export const formSchema: EapFullFormSchema = {
             people_targeted: {
                 required: isSubmit,
                 validations: [
-                    lessThanOrEqualToCondition(10000),
+                    greaterThanOrEqualToCondition(charLimits.people_targeted),
                     positiveIntegerCondition,
                 ],
             },

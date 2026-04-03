@@ -29,7 +29,10 @@ import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
-import { injectClientId } from '@ifrc-go/ui/utils';
+import {
+    injectClientId,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -310,6 +313,12 @@ export function Component() {
                     return formValue?.selected_early_actions_images?.[index!]?.client_id;
                 }
 
+                match = matchArray(locations, ['planned_operations', NUM, 'indicators', NUM]);
+                if (isDefined(match)) {
+                    const [poIndex, index] = match;
+                    return formValue?.planned_operations?.[poIndex!]
+                        ?.indicators?.[index!]?.client_id;
+                }
                 match = matchArray(locations, ['planned_operations', NUM, 'early_action_activities', NUM]);
                 if (isDefined(match)) {
                     const [poIndex, index] = match;
@@ -332,6 +341,12 @@ export function Component() {
                 if (isDefined(match)) {
                     const [poIndex] = match;
                     return formValue?.planned_operations?.[poIndex!]?.sector;
+                }
+                match = matchArray(locations, ['enabling_approaches', NUM, 'indicators', NUM]);
+                if (isDefined(match)) {
+                    const [eaIndex, index] = match;
+                    return formValue?.enabling_approaches?.[eaIndex!]
+                        ?.indicators?.[index!]?.client_id;
                 }
                 match = matchArray(locations, ['enabling_approaches', NUM, 'early_action_activities', NUM]);
                 if (isDefined(match)) {
@@ -410,10 +425,12 @@ export function Component() {
             ifrc_contact_title,
             ifrc_contact_email,
             ifrc_contact_phone_number,
+            partners,
         } = removeNull(eapRegistrationResponse);
 
         setValue((prevValue) => ({
             ...prevValue,
+            partners,
             national_society_contact_name,
             national_society_contact_title,
             national_society_contact_email,
@@ -557,6 +574,10 @@ export function Component() {
         },
     });
 
+    const { response: apCodeOptions } = useRequest({
+        url: '/api/v2/eap/options/',
+    });
+
     const disabled = createSimplifiedEapPending
         || eapRegistrationPending
         || updateSimplifiedEapPending;
@@ -664,7 +685,13 @@ export function Component() {
             styleVariant="step"
         >
             <Page
-                heading={strings.pageHeading}
+                heading={resolveToString(
+                    strings.pageHeading,
+                    {
+                        country: eapRegistrationResponse?.country_details?.name ?? '--',
+                        disaster: eapRegistrationResponse?.disaster_type_details?.name ?? '--',
+                    },
+                )}
                 description={strings.pageDescription}
                 beforeHeaderContent={readOnly && (
                     <TopBanner variant="warning">
@@ -808,6 +835,7 @@ export function Component() {
                                 error={formError}
                                 disabled={disabled}
                                 readOnly={readOnly}
+                                sectorApCodeOption={apCodeOptions?.sector_ap_codes}
                             />
                         </TabPanel>
                         <TabPanel name="enablingApproaches">
@@ -817,6 +845,7 @@ export function Component() {
                                 error={formError}
                                 disabled={disabled}
                                 readOnly={readOnly}
+                                approachApCodeOption={apCodeOptions?.approach_ap_codes}
                             />
                         </TabPanel>
                         <TabPanel name="deliveryAndBudget">

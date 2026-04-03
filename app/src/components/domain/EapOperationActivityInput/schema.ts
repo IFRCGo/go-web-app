@@ -15,18 +15,18 @@ export type OperationActivityFormFields = PartialForm<OperationActivity> & {
 
 type OperationActivitySchema = ObjectSchema<OperationActivityFormFields>;
 
-const schema: OperationActivitySchema = {
+const schema = (isSubmit: boolean): OperationActivitySchema => ({
     fields: (): ReturnType<OperationActivitySchema['fields']> => ({
         client_id: {},
         id: { defaultValue: undefinedValue },
         activity: {
             // FIXME: add validation for character limit
-            required: true,
+            required: isSubmit,
             requiredValidation: requiredStringCondition,
         },
         time_value: {},
         timeframe: {},
     }),
-};
+});
 
 export default schema;

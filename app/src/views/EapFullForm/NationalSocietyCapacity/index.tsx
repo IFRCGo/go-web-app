@@ -213,7 +213,7 @@ function NationalSocietyCapacity(props: Props) {
                     >
                         <GoMultiFileInput
                             name="capacity_relevant_files"
-                            accept=".pdf, .docx, .pptx"
+                            accept=".pdf, .docx, .pptx, image/*"
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFieldValue}
                             url="/api/v2/eap-file/multiple/"

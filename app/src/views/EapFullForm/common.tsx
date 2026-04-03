@@ -78,6 +78,7 @@ const riskAnalysisTabFields: (keyof PartialEapFullFormType)[] = [
 const triggerModelTabFields: (keyof PartialEapFullFormType)[] = [
     'trigger_statement',
     'lead_time',
+    'lead_timeframe_unit',
     'trigger_statement_source_of_information',
     'forecast_selection',
     'forecast_selection_images',
@@ -174,7 +175,7 @@ export function checkTabErrors(
     return hasErrorOnAnyField;
 }
 
-export const charLimits: { [key in FormKeys]?: number } = {
+export const charLimits = {
     key_actors: 150,
     technical_working_groups_in_place_description: 150,
     hazard_selection: 1000,
@@ -201,4 +202,5 @@ export const charLimits: { [key in FormKeys]?: number } = {
     prepositioning_cost_description: 500,
     early_action_cost_description: 500,
     eap_endorsement: 300,
-};
+    people_targeted: 10000,
+} satisfies { [key in FormKeys]?: number };

@@ -30,7 +30,10 @@ import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
-import { injectClientId } from '@ifrc-go/ui/utils';
+import {
+    injectClientId,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -125,6 +128,7 @@ export function Component() {
     ] = useState(false);
 
     const { eapId } = useParams<{ eapId: string }>();
+
     const [searchParams] = useSearchParams();
 
     const version = searchParams.get('version') ?? undefined;
@@ -193,7 +197,9 @@ export function Component() {
                 prioritized_impact_images,
                 early_action_implementation_images,
                 budget_file_details,
+                forecast_table_file_details,
                 updated_checklist_file_details,
+                theory_of_change_table_file_details,
             } = response;
             return {
                 ...prevMap,
@@ -210,7 +216,9 @@ export function Component() {
                         ...(prioritized_impact_images ?? []),
                         ...(early_action_implementation_images ?? []),
                         budget_file_details,
+                        forecast_table_file_details,
                         updated_checklist_file_details,
+                        theory_of_change_table_file_details,
                     ]
                         .map((eapFile) => {
                             if (isNotDefined(eapFile)) {
@@ -518,6 +526,16 @@ export function Component() {
                         const [index] = match;
                         return formValue?.trigger_activation_system_images?.[index!]?.client_id;
                     }
+                    match = matchArray(locations, ['planned_operations',
+                        NUM,
+                        'indicators',
+                        NUM,
+                    ]);
+                    if (isDefined(match)) {
+                        const [planned_intervention_index, index] = match;
+                        return formValue?.planned_operations?.[planned_intervention_index!]
+                            ?.indicators?.[index!]?.client_id;
+                    }
                     match = matchArray(locations, [
                         'planned_operations',
                         NUM,
@@ -555,6 +573,16 @@ export function Component() {
                     if (isDefined(match)) {
                         const [poIndex] = match;
                         return formValue?.planned_operations?.[poIndex!]?.sector;
+                    }
+                    match = matchArray(locations, ['enabling_approaches',
+                        NUM,
+                        'indicators',
+                        NUM,
+                    ]);
+                    if (isDefined(match)) {
+                        const [planned_intervention_index, index] = match;
+                        return formValue?.enabling_approaches?.[planned_intervention_index!]
+                            ?.indicators?.[index!]?.client_id;
                     }
                     match = matchArray(locations, [
                         'enabling_approaches',
@@ -608,15 +636,15 @@ export function Component() {
         response: fullEapResponse,
         error: fullEapResponseError,
     } = useRequest({
-        skip: isNotDefined(latestFullEapId),
+        skip: isNotDefined(currentFullEapId),
         url: '/api/v2/full-eap/{id}/',
-        pathVariables: isDefined(latestFullEapId)
-            ? { id: latestFullEapId }
+        pathVariables: isDefined(currentFullEapId)
+            ? { id: currentFullEapId }
             : undefined,
         onSuccess: (response) => {
             loadResponseToFormValue(response);
 
-            processServerErrors(state.error, value);
+            processServerErrors(state?.error, value);
 
             // NOTE state was used to pass error through navigation.
             // and cleared here to prevent stale error from reappearing on page refresh
@@ -726,6 +754,7 @@ export function Component() {
 
         const {
             expected_submission_time,
+            partners,
             national_society_contact_email,
             national_society_contact_name,
             national_society_contact_title,
@@ -754,6 +783,7 @@ export function Component() {
             ifrc_head_of_delegation_name: ifrc_contact_name,
             ifrc_head_of_delegation_title: ifrc_contact_title,
             ifrc_head_of_delegation_phone_number: ifrc_contact_phone_number,
+            partners,
         });
     }, [eapDetailResponse, fullEapPending, fullEapResponse, setValue]);
 
@@ -859,7 +889,13 @@ export function Component() {
     return (
         <Tabs value={activeTab} onChange={setActiveTab} styleVariant="step">
             <Page
-                heading={strings.mainHeading}
+                heading={resolveToString(
+                    strings.mainHeading,
+                    {
+                        country: eapDetailResponse?.country_details?.name ?? '--',
+                        disaster: eapDetailResponse?.disaster_type_details?.name ?? '--',
+                    },
+                )}
                 description={strings.mainDescription}
                 withBackgroundColorInMainSection
                 beforeHeaderContent={readOnly && (

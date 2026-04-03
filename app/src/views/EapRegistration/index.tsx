@@ -38,6 +38,10 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
+    getFullDateFromYearMonth,
+    getYearMonthFromFullDate,
+} from '#utils/domain/eap';
+import {
     type GoApiResponse,
     useLazyRequest,
 } from '#utils/restRequest';
@@ -115,12 +119,19 @@ export function Component() {
         },
     });
 
+    const onExpectedSubmissionTimeChange = useCallback((val: string | undefined) => {
+        if (!val) {
+            return;
+        }
+        setFieldValue(getFullDateFromYearMonth(val), 'expected_submission_time');
+    }, [setFieldValue]);
+
     const handleEapTypeNotSureClick = useCallback(() => {
-        setFieldValue(null, 'eap_type');
+        setFieldValue(undefined, 'eap_type');
     }, [setFieldValue]);
 
     const handleSubmissionTimeNotSureClick = useCallback(() => {
-        setFieldValue(null, 'expected_submission_time');
+        setFieldValue(undefined, 'expected_submission_time');
     }, [setFieldValue]);
 
     const handleRegisterFormValidation = useCallback((formValues: EapRegisterFormFields) => {
@@ -272,8 +283,9 @@ export function Component() {
                         >
                             <DateInput
                                 name="expected_submission_time"
-                                onChange={setFieldValue}
-                                value={value?.expected_submission_time}
+                                type="month"
+                                onChange={onExpectedSubmissionTimeChange}
+                                value={getYearMonthFromFullDate(value?.expected_submission_time)}
                                 error={error?.expected_submission_time}
                             />
                             <Radio
