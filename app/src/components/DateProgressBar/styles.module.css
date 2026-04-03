@@ -1,0 +1,58 @@
+.container {
+    background-color: var(--go-ui-color-white);
+    padding: var(--go-ui-spacing-xl);
+    width: auto;
+
+    .timeline-wrapper {
+        position: relative;
+        padding: var(--go-ui-spacing-xl) 0;
+        width: 100%;
+    
+        .svg {
+            display: block;
+            width: 100%;
+            overflow: visible;
+        }
+        
+        .track {
+            stroke: var(--go-ui-color-separator);
+            stroke-width: 2;
+        }
+        
+        .progress {
+            stroke: var(--go-ui-color-primary-red);
+            stroke-width: 3;
+            stroke-linecap: round;
+        }
+
+        .dashed-separator {
+            stroke: var(--go-ui-color-separator);
+            stroke-width: 1;
+            stroke-dasharray: 4 2;
+        }
+        
+        .point-outline {
+            color: var(--go-ui-color-primary-red);
+        }
+        
+        .title-start, .label-start {
+            position: absolute;
+            white-space: nowrap;
+        }
+
+        .title-end, .label-end {
+            position: absolute;
+            right: 0;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .title-start, .title-end {
+            top: 0;
+        }
+
+        .label-start, .label-end {
+            bottom: 0;
+        }
+    }
+}

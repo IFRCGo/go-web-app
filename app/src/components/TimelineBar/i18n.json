@@ -1,0 +1,9 @@
+{
+    "namespace": "timelineBar",
+    "strings": {
+        "startDateLabel": "Start of Imminent Ops",
+        "todayLabel": "Today",
+        "forecastLabel": "Forecast",
+        "operationEnd": "End of the Operation"
+    }
+}

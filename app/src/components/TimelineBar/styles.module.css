@@ -1,0 +1,65 @@
+.timeline-container {
+    position: relative;
+    box-shadow: var(--go-ui-box-shadow-xs);
+    width: 100%;
+    height: 20rem;
+
+    .main-line {
+        position: absolute;
+        top: 50%;
+        z-index: 1;
+        background-color: var(--go-ui-color-black);
+        width: 100%;
+        height: var(--go-ui-width-separator-thin);
+    }
+    
+    .today-indicator {
+        position: absolute;
+        top: 10%;
+        bottom: 10%;
+        z-index: 2;
+        background-color: var(--go-ui-color-black);
+        width: var(--go-ui-width-separator-thin);
+
+        .today-label {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: var(--go-ui-font-weight-medium);
+        }
+    }
+    
+    /* NOTE: Only camelCase is working here */
+    .startMilestone, .endMilestone, .forecastMilestone {
+        display: flex;
+        position: absolute;
+        flex-direction: column;
+        z-index: 3;
+    }
+    
+    .startMilestone, .endMilestone {
+        bottom: 50%;
+        align-items: flex-start;
+    }
+    
+    .endMilestone {
+        align-items: flex-end;
+    }
+    
+    .forecastMilestone {
+        top: 50%;
+        align-items: flex-start;
+    }
+    
+    .marker-top, .marker-bottom {
+        background-color: var(--go-ui-color-black);
+        width: var(--go-ui-width-separator-thin);
+        height: 5rem;
+    }
+    
+    .red-label {
+        color: var(--go-ui-color-red);
+        font-weight: var(--go-ui-font-weight-semibold);
+    }
+}

@@ -14,6 +14,8 @@
         "emergencies": "Emergencies",
         "emergencyEdit": "Edit Event",
         "emergencyFollow":"Follow",
-        "emergencyUnfollow":"Unfollow"
+        "emergencyUnfollow":"Unfollow",
+        "fundingRequirements": "Funding Requirements (CHF)",
+        "targetedPopulation": "Targeted Population"
     }
 }

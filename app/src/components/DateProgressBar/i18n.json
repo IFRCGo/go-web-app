@@ -1,0 +1,9 @@
+{
+    "namespace": "dateProgressBar",
+    "strings": {
+        "startDateLabel": "Start",
+        "endDateLabel": "End",
+        "operationTimelineLabel": "Operation Timeline",
+        "imminentDrefLabel": "Imminent DREF"
+    }
+}

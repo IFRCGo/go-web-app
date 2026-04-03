@@ -16,8 +16,12 @@ import {
     Breadcrumbs,
     Button,
     KeyFigureView,
+    Label,
     ListView,
     NavigationTabList,
+    NumberOutput,
+    ProgressBar,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -30,6 +34,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
+import DateProgressBar from '#components/DateProgressBar';
 import Link from '#components/Link';
 import NavigationTab from '#components/NavigationTab';
 import Page from '#components/Page';
@@ -274,26 +279,74 @@ export function Component() {
             )}
             heading={emergencyResponse?.name ?? '--'}
             description={(
-                <>
-                    <Link
-                        to="regionsLayout"
-                        urlParams={{
-                            regionId: region?.id,
-                        }}
-                        withLinkIcon
+                <ListView
+                    layout="block"
+                    spacing="md"
+                >
+                    <ListView
+                        layout="inline"
+                        spacing="sm"
+                        withCenteredContents
                     >
-                        {region?.region_name}
-                    </Link>
-                    <Link
-                        to="countriesLayout"
-                        urlParams={{
-                            countryId: country?.id,
-                        }}
-                        withLinkIcon
+                        <Link
+                            to="regionsLayout"
+                            urlParams={{
+                                regionId: region?.id,
+                            }}
+                            withLinkIcon
+                        >
+                            {region?.region_name}
+                        </Link>
+                        <Link
+                            to="countriesLayout"
+                            urlParams={{
+                                countryId: country?.id,
+                            }}
+                            withLinkIcon
+                        >
+                            {country?.name}
+                        </Link>
+                    </ListView>
+                    <ListView
+                        layout="inline"
                     >
-                        {country?.name}
-                    </Link>
-                </>
+                        {/* TODO: Add the value here */}
+                        <DateProgressBar
+                            startDate="2026-03-01"
+                            endDate="2026-04-30"
+                        />
+                        {/* TODO: Add the value here */}
+                        <ProgressBar
+                            colorVariant="secondary"
+                            value={100}
+                            description={5000}
+                            totalValue={100}
+                            title={(
+                                <ListView
+                                    spacing="xs"
+                                    withSpaceBetweenContents
+                                >
+                                    <Label>
+                                        {strings.fundingRequirements}
+                                    </Label>
+                                    {/* TODO: Add the value here */}
+                                    <NumberOutput
+                                        value={100}
+                                        suffix="%"
+                                    />
+                                </ListView>
+                            )}
+                        />
+                        {/* TODO: Add the value here */}
+                        <TextOutput
+                            label={strings.targetedPopulation}
+                            value="10000/40000"
+                            withoutLabelColon
+                            strongValue
+                            withBackground
+                        />
+                    </ListView>
+                </ListView>
             )}
             info={(
                 <ListView
