@@ -1,4 +1,7 @@
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useMemo,
+} from 'react';
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
     Checklist,
@@ -20,6 +23,7 @@ import {
 
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { TIMEFRAME_YEAR } from '#utils/constants';
 
 import { type OperationActivityFormFields } from './schema';
 import TimeSpanCheck from './TimeSpanCheck';
@@ -40,7 +44,7 @@ const timeValueKeySelector = (
     option: { key: number; value: string },
 ) => option.key;
 
-interface Props {
+interface Props<NAME> {
     value: OperationActivityFormFields;
     error: ArrayError<OperationActivityFormFields> | undefined;
     onChange: (value: SetValueArg<OperationActivityFormFields>, index: number) => void;
@@ -48,9 +52,11 @@ interface Props {
     index: number;
     disabled?: boolean;
     readOnly?: boolean;
+
+    name: NAME;
 }
 
-function EapOperationActivityInput(props: Props) {
+function EapOperationActivityInput<NAME>(props: Props<NAME>) {
     const {
         error: errorFromProps,
         onChange,
@@ -59,6 +65,7 @@ function EapOperationActivityInput(props: Props) {
         onRemove,
         disabled,
         readOnly,
+        name,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -75,6 +82,15 @@ function EapOperationActivityInput(props: Props) {
     const error = (value && value.client_id && errorFromProps)
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
+
+    const eapTimeframeOption = useMemo(() => {
+        if (name === 'early_action_activities') {
+            return eap_timeframe?.filter((item) => item.key !== TIMEFRAME_YEAR);
+        }
+        return eap_timeframe;
+    }, [eap_timeframe, name]);
+
+    const eapTimeFrameReadOnly = name === 'readiness_activities' || name === 'prepositioning_activities';
 
     const getTimeValueOptions = useCallback(
         (timeframe?: number) => {
@@ -143,10 +159,10 @@ function EapOperationActivityInput(props: Props) {
                         onChange={handleTimeframeChange}
                         keySelector={timeframeKeySelector}
                         labelSelector={stringValueSelector}
-                        options={eap_timeframe}
+                        options={eapTimeframeOption}
                         disabled={disabled}
                         error={error?.timeframe}
-                        readOnly={readOnly}
+                        readOnly={readOnly || eapTimeFrameReadOnly}
                     />
                     {value?.timeframe && (
                         <Checklist

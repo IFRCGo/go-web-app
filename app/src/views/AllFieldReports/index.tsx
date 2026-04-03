@@ -253,12 +253,14 @@ export function Component() {
                 filters={(
                     <>
                         <DateInput
+                            type="date"
                             name="createdDateAfter"
                             label={strings.allFieldReportsFilterCreatedDateAfter}
                             onChange={setFilterField}
                             value={rawFilter.createdDateAfter}
                         />
                         <DateInput
+                            type="date"
                             name="createdDateBefore"
                             label={strings.allFieldReportsFilterCreatedDateBefore}
                             onChange={setFilterField}

@@ -138,6 +138,7 @@ function AdditionalActionInput(props: Props) {
                     disabled={disabled}
                 />
                 <DateInput
+                    type="date"
                     label={strings.actionInputDueDateLabel}
                     name="due_date"
                     value={value?.due_date}

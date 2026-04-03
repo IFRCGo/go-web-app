@@ -380,12 +380,14 @@ export function Component() {
                 filters={(
                     <>
                         <DateInput
+                            type="date"
                             name="startDateAfter"
                             label={strings.allDeployedPersonnelFilterStartDateAfter}
                             onChange={setFilterField}
                             value={rawFilter.startDateAfter}
                         />
                         <DateInput
+                            type="date"
                             name="startDateBefore"
                             label={strings.allDeployedPersonnelFilterStartDateBefore}
                             onChange={setFilterField}

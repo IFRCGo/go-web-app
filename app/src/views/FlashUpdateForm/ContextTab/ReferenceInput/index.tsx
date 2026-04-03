@@ -60,6 +60,7 @@ function ReferenceInput(props: Props) {
             <NonFieldError error={error} />
             <div className={styles.firstColumn}>
                 <DateInput
+                    type="date"
                     className={styles.inputDate}
                     name="date"
                     value={value?.date}

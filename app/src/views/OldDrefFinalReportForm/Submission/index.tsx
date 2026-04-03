@@ -85,6 +85,7 @@ function Submission(props: Props) {
                     numPreferredColumns={2}
                 >
                     <DateInput
+                        type="date"
                         label={strings.finalReportStartOfOperation}
                         name="operation_start_date"
                         value={value.operation_start_date}
@@ -108,6 +109,7 @@ function Submission(props: Props) {
                     numPreferredColumns={2}
                 >
                     <DateInput
+                        type="date"
                         label={strings.finalReportEndOfOperation}
                         name="operation_end_date"
                         value={value.operation_end_date}
@@ -117,6 +119,7 @@ function Submission(props: Props) {
                         readOnly
                     />
                     <DateInput
+                        type="date"
                         label={strings.finalReportDateOfPublication}
                         name="date_of_publication"
                         value={value.date_of_publication}

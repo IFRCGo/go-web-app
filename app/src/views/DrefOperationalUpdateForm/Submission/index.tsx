@@ -90,6 +90,7 @@ function Submission(props: Props) {
                 >
                     {value.type_of_dref !== TYPE_LOAN && (
                         <DateInput
+                            type="date"
                             label={strings.drefOperationalUpdateTimeFrameDateOfEvent}
                             name="new_operational_start_date"
                             value={value.new_operational_start_date}
@@ -101,6 +102,7 @@ function Submission(props: Props) {
                     )}
                     {value.type_of_dref === TYPE_LOAN && (
                         <DateInput
+                            type="date"
                             label={strings.drefOperationalUpdateTimeFrameNationalSocietyLoanRequest}
                             name="ns_request_date"
                             value={value.ns_request_date}
@@ -129,6 +131,7 @@ function Submission(props: Props) {
                     </div>
                     {value.type_of_dref !== TYPE_LOAN && (
                         <DateInput
+                            type="date"
                             label={strings.drefOperationalUpdateTimeFrameExtensionRequestedIfYes}
                             name="new_operational_end_date"
                             value={value.new_operational_end_date}
@@ -140,6 +143,7 @@ function Submission(props: Props) {
                     )}
                     {value.type_of_dref === TYPE_LOAN && (
                         <DateInput
+                            type="date"
                             label={strings.drefOperationalDateOfApprovalOfLoan}
                             name="date_of_approval"
                             value={value.date_of_approval}
@@ -152,6 +156,7 @@ function Submission(props: Props) {
                     {value.type_of_dref !== TYPE_LOAN && (
                         <>
                             <DateInput
+                                type="date"
                                 // eslint-disable-next-line max-len
                                 label={strings.drefOperationalUpdateTimeFrameReportingTimeFrameStart}
                                 name="reporting_start_date"
@@ -162,6 +167,7 @@ function Submission(props: Props) {
                                 disabled={disabled}
                             />
                             <DateInput
+                                type="date"
                                 label={strings.drefOperationalUpdateTimeFrameReportingTimeFrameEnd}
                                 name="reporting_end_date"
                                 value={value.reporting_end_date}

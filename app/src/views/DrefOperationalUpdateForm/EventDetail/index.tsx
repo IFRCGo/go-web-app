@@ -265,6 +265,7 @@ function EventDetail(props: Props) {
                         numPreferredColumns={2}
                     >
                         <DateInput
+                            type="date"
                             name="event_date"
                             value={value.event_date}
                             onChange={setFieldValue}

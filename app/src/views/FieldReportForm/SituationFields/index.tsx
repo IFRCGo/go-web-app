@@ -161,6 +161,7 @@ function SituationFields(props: Props) {
                         numPreferredColumns={2}
                     >
                         <DateInput
+                            type="date"
                             name="sit_fields_date"
                             value={value.sit_fields_date}
                             onChange={onValueChange}
@@ -291,6 +292,7 @@ function SituationFields(props: Props) {
                     numPreferredColumns={2}
                 >
                     <DateInput
+                        type="date"
                         name="sit_fields_date"
                         value={value.sit_fields_date}
                         onChange={onValueChange}

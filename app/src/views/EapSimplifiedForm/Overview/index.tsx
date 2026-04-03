@@ -19,6 +19,7 @@ import {
     type Error,
     getErrorObject,
     useFormArray,
+    getErrorString,
 } from '@togglecorp/toggle-form';
 
 import ContactInputsSection from '#components/domain/ContactInputsSection';
@@ -35,6 +36,7 @@ import PartnerContactsInput from '../PartnerContactInput';
 import { type PartialSimplifiedEapType } from '../schema';
 
 import i18n from './i18n.json';
+import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 
 type EapRegistrationDetails = GoApiResponse<'/api/v2/eap-registration/{id}/'>;
 type PartnerContactFormFields = NonNullable<PartialSimplifiedEapType['partner_contacts']>[number];
@@ -197,7 +199,20 @@ function Overview(props: Props) {
                             onChange={setFieldValue}
                             error={error?.seap_timeframe}
                             disabled={disabled}
-                            readOnly={readOnly}
+                            readOnly
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.partnersInvolved}
+                        description={strings.partnersInvolvedDescription}
+                        withAsteriskOnTitle
+                    >
+                        <NationalSocietyMultiSelectInput
+                            name="partners"
+                            value={value.partners}
+                            error={getErrorString(error?.partners)}
+                            onChange={setFieldValue}
+                            disabled={disabled}
                         />
                     </InputSection>
                 </ListView>

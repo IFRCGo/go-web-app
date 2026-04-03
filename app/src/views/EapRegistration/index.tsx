@@ -272,6 +272,7 @@ export function Component() {
                         >
                             <DateInput
                                 name="expected_submission_time"
+                                type="month"
                                 onChange={setFieldValue}
                                 value={value?.expected_submission_time}
                                 error={error?.expected_submission_time}

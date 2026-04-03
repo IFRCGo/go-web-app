@@ -283,12 +283,14 @@ export function Component() {
                 filters={(
                     <>
                         <DateInput
+                            type="date"
                             name="startDateAfter"
                             label={strings.allEmergenciesTableFilterStartAfter}
                             onChange={setFilterField}
                             value={rawFilter.startDateAfter}
                         />
                         <DateInput
+                            type="date"
                             name="startDateBefore"
                             label={strings.allEmergenciesTableFilterStartBefore}
                             onChange={setFilterField}

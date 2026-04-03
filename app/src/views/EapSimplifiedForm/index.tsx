@@ -29,7 +29,7 @@ import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
-import { injectClientId } from '@ifrc-go/ui/utils';
+import { injectClientId, resolveToString } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -664,7 +664,13 @@ export function Component() {
             styleVariant="step"
         >
             <Page
-                heading={strings.pageHeading}
+                heading={resolveToString(
+                    strings.pageHeading,
+                    {
+                        country: eapRegistrationResponse?.country_details?.name,
+                        disaster: eapRegistrationResponse?.disaster_type_details?.name,
+                    },
+                )}
                 description={strings.pageDescription}
                 beforeHeaderContent={readOnly && (
                     <TopBanner variant="warning">

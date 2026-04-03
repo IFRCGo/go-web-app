@@ -151,12 +151,14 @@ function FieldReportsTable() {
             filters={(
                 <>
                     <DateInput
+                        type="date"
                         name="createdDateAfter"
                         label={strings.fieldReportsFilterCreatedDateAfter}
                         onChange={setFilterField}
                         value={rawFilter.createdDateAfter}
                     />
                     <DateInput
+                        type="date"
                         name="createdDateBefore"
                         label={strings.fieldReportsFilterCreatedDateBefore}
                         onChange={setFilterField}

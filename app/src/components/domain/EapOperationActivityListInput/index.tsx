@@ -27,6 +27,7 @@ import { type OperationActivityFormFields } from '#components/domain/EapOperatio
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
+import { TIMEFRAME_YEAR } from '#utils/constants';
 
 import i18n from './i18n.json';
 
@@ -65,8 +66,12 @@ function EapOperationActivityListInput<const NAME extends FormName>(props: Props
 
     const handleReadinessAddButtonClick = useCallback(
         () => {
+            const timeframeValue = name === 'readiness_activities' || name === 'prepositioning_activities'
+                ? TIMEFRAME_YEAR
+                : undefined;
             const newActionItem: OperationActivityFormFields = {
                 client_id: randomString(),
+                timeframe: timeframeValue,
             };
 
             onChange(
@@ -162,12 +167,13 @@ function EapOperationActivityListInput<const NAME extends FormName>(props: Props
             >
                 {value?.map((activity, i) => (
                     <EapOperationActivityInput
+                        name={name}
                         key={activity.client_id}
                         index={i}
                         value={activity}
                         onChange={onReadinessChange}
                         onRemove={onReadinessRemove}
-                        error={getErrorObject(error?.readiness_activities)}
+                        error={getErrorObject(error?.[name])}
                         disabled={disabled}
                         readOnly={readOnly}
                     />

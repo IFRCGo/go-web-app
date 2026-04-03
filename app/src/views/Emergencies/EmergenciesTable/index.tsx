@@ -164,12 +164,14 @@ function EventItemsTable() {
             filters={(
                 <>
                     <DateInput
+                        type="date"
                         name="startDateAfter"
                         label={strings.emergenciesTableFilterStartAfter}
                         onChange={setFilterField}
                         value={rawFilter.startDateAfter}
                     />
                     <DateInput
+                        type="date"
                         name="startDateBefore"
                         label={strings.emergenciesTableFilterStartBefore}
                         onChange={setFilterField}

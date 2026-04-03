@@ -466,7 +466,8 @@ function EarlyAction(props: Props) {
                             labelSelector={stringValueSelector}
                             options={eapTimeframeOption}
                             error={error?.operational_timeframe_unit}
-                            disabled
+                            disabled={disabled}
+                            readOnly
                         />
                     </InputSection>
                     <InputSection

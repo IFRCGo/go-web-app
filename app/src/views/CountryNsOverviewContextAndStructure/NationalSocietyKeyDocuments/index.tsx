@@ -108,12 +108,14 @@ function NationalSocietyKeyDocuments() {
                         icons={<SearchLineIcon />}
                     />
                     <DateInput
+                        type="date"
                         name="startDateAfter"
                         label="Start"
                         onChange={setFilterField}
                         value={rawFilter.startDateAfter}
                     />
                     <DateInput
+                        type="date"
                         name="startDateBefore"
                         label="End"
                         onChange={setFilterField}

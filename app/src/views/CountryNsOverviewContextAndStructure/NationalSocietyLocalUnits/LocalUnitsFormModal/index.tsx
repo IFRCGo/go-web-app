@@ -620,6 +620,7 @@ function LocalUnitsFormModal(props: Props) {
                     <ListView layout="grid">
                         <ListView layout="block">
                             <DateInput
+                                type="date"
                                 name="date_of_data"
                                 label={strings.dateOfUpdate}
                                 value={value.date_of_data}

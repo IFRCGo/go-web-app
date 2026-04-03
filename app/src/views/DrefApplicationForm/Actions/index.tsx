@@ -218,6 +218,7 @@ function Actions(props: Props) {
                             numPreferredColumns={2}
                         >
                             <DateInput
+                                type="date"
                                 name="ns_respond_date"
                                 readOnly={readOnly}
                                 value={value.ns_respond_date}

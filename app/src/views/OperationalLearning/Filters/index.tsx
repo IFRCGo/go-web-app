@@ -164,6 +164,7 @@ function Filters(props: Props) {
                 withSelectAll
             />
             <DateInput
+                type="date"
                 name="appealStartDateAfter"
                 label={strings.appealStartDate}
                 onChange={onChange}
@@ -171,6 +172,7 @@ function Filters(props: Props) {
                 disabled={disabled}
             />
             <DateInput
+                type="date"
                 name="appealStartDateBefore"
                 label={strings.appealEndDate}
                 onChange={onChange}

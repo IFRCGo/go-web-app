@@ -320,6 +320,9 @@ export const formSchema: FormSchema = {
             seap_timeframe: {
                 required: isSubmit,
             },
+            partners: {
+                required: isSubmit,
+            },
             partner_contacts: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -477,7 +480,6 @@ export const formSchema: FormSchema = {
                         sector: {},
                         people_targeted: { required: isSubmit },
                         budget_per_sector: { required: isSubmit },
-                        ap_code: { required: isSubmit },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
                             member: () => indicatorSchema,
@@ -523,7 +525,6 @@ export const formSchema: FormSchema = {
                         id: { defaultValue: undefinedValue },
                         approach: {},
                         budget_per_approach: {},
-                        ap_code: {},
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
                             member: () => indicatorSchema,

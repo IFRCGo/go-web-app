@@ -4,6 +4,7 @@ import {
     ExpandableContainer,
     ListView,
     NumberInput,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -15,6 +16,7 @@ import {
 
 import EapIndicatorListInput from '#components/domain/EapIndicatorListInput';
 import EapOperationActivityListInput from '#components/domain/EapOperationActivityListInput';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import { type PartialEapFullFormType } from '../../schema';
 
@@ -52,6 +54,10 @@ function ApproachesInput(props: Props) {
     const strings = useTranslation(i18n);
     const onFieldChange = useFormObject(index, onChange, defaultApproachValue);
 
+    const { eap_approach_apcode: sectorApcode } = useGlobalEnums();
+
+    const apcodeValue = sectorApcode?.find((apcode) => apcode.key === value.approach);
+
     const error = (value && value.approach && errorFromProps)
         ? getErrorObject(errorFromProps?.[value.approach])
         : undefined;
@@ -77,29 +83,20 @@ function ApproachesInput(props: Props) {
             // FIXME: add non field error and error indicator
         >
             <ListView layout="block">
-                <ListView
-                    layout="grid"
-                    numPreferredGridColumns={3}
-                >
-                    <NumberInput
-                        label={strings.approachBudget}
-                        name="budget_per_approach"
-                        value={value?.budget_per_approach}
-                        onChange={onFieldChange}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        error={error?.budget_per_approach}
-                    />
-                    <NumberInput
-                        label={strings.approachApCode}
-                        name="ap_code"
-                        value={value?.ap_code}
-                        onChange={onFieldChange}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                        error={error?.ap_code}
-                    />
-                </ListView>
+                <TextOutput
+                    label={strings.approachApCode}
+                    strongLabel
+                    value={apcodeValue?.value}
+                />
+                <NumberInput
+                    label={strings.approachBudget}
+                    name="budget_per_approach"
+                    value={value?.budget_per_approach}
+                    onChange={onFieldChange}
+                    disabled={disabled}
+                    readOnly={readOnly}
+                    error={error?.budget_per_approach}
+                />
                 <ListView
                     layout="block"
                     spacing="2xs"

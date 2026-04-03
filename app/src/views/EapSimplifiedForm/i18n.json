@@ -1,7 +1,7 @@
 {
     "namespace": "form",
     "strings": {
-        "pageHeading": "Simplified EAP form",
+        "pageHeading": "{country}: {disaster} - Simplified EAP",
         "pageDescription": "Use the following form to submit the details of your Simplified Early Action Protocols (sEAP) submission",
         "overviewTabLabel": "Overview",
         "riskAnalysisTabLabel": "Risk Analysis & Early Action Selection",

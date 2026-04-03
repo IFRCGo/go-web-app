@@ -288,12 +288,14 @@ function AppealsTable(props: Props) {
             filters={(
                 <>
                     <DateInput
+                        type="date"
                         name="startDateAfter"
                         label={strings.appealsTableStartDateAfter}
                         onChange={setFilterField}
                         value={rawFilter.startDateAfter}
                     />
                     <DateInput
+                        type="date"
                         name="startDateBefore"
                         label={strings.appealsTableStartDateBefore}
                         onChange={setFilterField}

@@ -441,6 +441,7 @@ function SelectionActions(props: Props) {
                         />
                     </InputSection>
                     <InputSection
+                        title={strings.theoryOfChangeTableTitle}
                         description={(
                             <Link
                                 external
@@ -451,6 +452,7 @@ function SelectionActions(props: Props) {
                                 {strings.downloadTableLabel}
                             </Link>
                         )}
+                        withAsteriskOnTitle
                     >
                         <GoSingleFileInput
                             name="theory_of_change_table_file"

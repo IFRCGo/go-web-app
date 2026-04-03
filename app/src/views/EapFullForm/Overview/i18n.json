@@ -15,6 +15,8 @@
         "formExpectedSubmissionTimeDescription": "Include the propose time of submission, accounting for the time it will take to deliver the application.",
         "objectiveTitle": "Objective",
         "objectiveDescription": "Please provide an objective statement that describes the main goal of the intervention.",
+        "partnersInvolved": "Partners Involved",
+        "partnersInvolvedDescription": "Select from the list the partners involved in this process. Add as many as needed or select not applicable if no partners involved.",
         "formContacts": "Contacts",
         "nationalHeader": "National",
         "delegationHeader": "Delegation",

@@ -293,6 +293,7 @@ function EventDetail(props: Props) {
                             )}
                         >
                             <DateInput
+                                type="date"
                                 name="event_date"
                                 value={value.event_date}
                                 onChange={setFieldValue}
@@ -525,6 +526,7 @@ function EventDetail(props: Props) {
                                 title={strings.drefHazardExpectedLabel}
                             >
                                 <DateInput
+                                    type="date"
                                     name="hazard_date"
                                     onChange={setFieldValue}
                                     value={value.hazard_date}

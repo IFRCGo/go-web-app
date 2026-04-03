@@ -30,7 +30,10 @@ import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
-import { injectClientId } from '@ifrc-go/ui/utils';
+import {
+    injectClientId,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -193,7 +196,9 @@ export function Component() {
                 prioritized_impact_images,
                 early_action_implementation_images,
                 budget_file_details,
+                forecast_table_file_details,
                 updated_checklist_file_details,
+                theory_of_change_table_file_details,
             } = response;
             return {
                 ...prevMap,
@@ -210,7 +215,9 @@ export function Component() {
                         ...(prioritized_impact_images ?? []),
                         ...(early_action_implementation_images ?? []),
                         budget_file_details,
+                        forecast_table_file_details,
                         updated_checklist_file_details,
+                        theory_of_change_table_file_details,
                     ]
                         .map((eapFile) => {
                             if (isNotDefined(eapFile)) {
@@ -616,7 +623,7 @@ export function Component() {
         onSuccess: (response) => {
             loadResponseToFormValue(response);
 
-            processServerErrors(state.error, value);
+            processServerErrors(state?.error, value);
 
             // NOTE state was used to pass error through navigation.
             // and cleared here to prevent stale error from reappearing on page refresh
@@ -726,6 +733,7 @@ export function Component() {
 
         const {
             expected_submission_time,
+            partners,
             national_society_contact_email,
             national_society_contact_name,
             national_society_contact_title,
@@ -754,6 +762,7 @@ export function Component() {
             ifrc_head_of_delegation_name: ifrc_contact_name,
             ifrc_head_of_delegation_title: ifrc_contact_title,
             ifrc_head_of_delegation_phone_number: ifrc_contact_phone_number,
+            partners,
         });
     }, [eapDetailResponse, fullEapPending, fullEapResponse, setValue]);
 
@@ -859,7 +868,13 @@ export function Component() {
     return (
         <Tabs value={activeTab} onChange={setActiveTab} styleVariant="step">
             <Page
-                heading={strings.mainHeading}
+                heading={resolveToString(
+                    strings.mainHeading,
+                    {
+                        country: eapDetailResponse?.country_details?.name,
+                        disaster: eapDetailResponse?.disaster_type_details?.name,
+                    },
+                )}
                 description={strings.mainDescription}
                 withBackgroundColorInMainSection
                 beforeHeaderContent={readOnly && (

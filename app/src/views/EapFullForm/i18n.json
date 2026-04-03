@@ -1,7 +1,7 @@
 {
     "namespace": "eapFullForm",
     "strings": {
-        "mainHeading": "Full EAP form",
+        "mainHeading": "{country}: {disaster} - Full EAP",
         "mainDescription": "Use the following form to submit the details of your Early Action Protocols (EAP) submission.",
         "overviewTabLabel": "Overview",
         "riskAnalysisTabLabel": "Risk Analysis",

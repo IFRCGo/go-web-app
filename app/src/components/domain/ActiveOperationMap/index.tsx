@@ -376,12 +376,14 @@ function ActiveOperationMap(props: Props) {
             filters={!presentationMode && (
                 <>
                     <DateInput
+                        type="date"
                         name="startDateAfter"
                         label={strings.mapStartDateAfter}
                         onChange={setFilterField}
                         value={rawFilter.startDateAfter}
                     />
                     <DateInput
+                        type="date"
                         name="startDateBefore"
                         label={strings.mapStartDateBefore}
                         onChange={setFilterField}

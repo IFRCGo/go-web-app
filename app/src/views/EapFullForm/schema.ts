@@ -603,6 +603,9 @@ export const formSchema: EapFullFormSchema = {
                     },
                 }),
             },
+            partners: {
+                required: isSubmit,
+            },
             partner_contacts: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -919,9 +922,6 @@ export const formSchema: EapFullFormSchema = {
                         budget_per_sector: {
                             required: isSubmit,
                         },
-                        ap_code: {
-                            required: isSubmit,
-                        },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
                             member: () => indicatorSchema,
@@ -973,9 +973,6 @@ export const formSchema: EapFullFormSchema = {
                         id: { defaultValue: undefinedValue },
                         approach: {},
                         budget_per_approach: {
-                            required: isSubmit,
-                        },
-                        ap_code: {
                             required: isSubmit,
                         },
                         indicators: {

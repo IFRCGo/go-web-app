@@ -96,6 +96,7 @@ function EventDetail(props: Props) {
                         )}
                     >
                         <DateInput
+                            type="date"
                             name="event_date"
                             value={value.event_date}
                             onChange={setFieldValue}

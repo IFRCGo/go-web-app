@@ -458,6 +458,7 @@ function RiskAnalysis(props: Props) {
                             error={getErrorString(error?.risk_analysis_relevant_files)}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             clearable
+                            required
                             disabled={disabled}
                             readOnly={readOnly}
                             useCurrentLanguageForMutation

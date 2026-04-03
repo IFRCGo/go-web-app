@@ -4,6 +4,7 @@ import {
     ExpandableContainer,
     ListView,
     NumberInput,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -19,6 +20,7 @@ import EapOperationActivityListInput from '#components/domain/EapOperationActivi
 import { type PartialEapFullFormType } from '../../schema';
 
 import i18n from './i18n.json';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 type PlannedOperationFormFields = NonNullable<
     PartialEapFullFormType['planned_operations']
@@ -57,6 +59,10 @@ function OperationsInput(props: Props) {
     const strings = useTranslation(i18n);
     const onFieldChange = useFormObject(index, onChange, defaultOperationValue);
 
+    const { eap_sector_apcode: sectorApcode } = useGlobalEnums();
+
+    const apcodeValue = sectorApcode?.find((apcode) => apcode.key === value.sector);
+
     const error = value && value.sector && errorFromProps
         ? getErrorObject(errorFromProps?.[value.sector])
         : undefined;
@@ -82,9 +88,14 @@ function OperationsInput(props: Props) {
             // FIXME: add non field error and error indicator
         >
             <ListView layout="block">
+                <TextOutput
+                    label={strings.selectionActionsPlannedOperationApCode}
+                    strongLabel
+                    value={apcodeValue?.value}
+                />
                 <ListView
                     layout="grid"
-                    numPreferredGridColumns={3}
+                    numPreferredGridColumns={2}
                 >
                     <NumberInput
                         required
@@ -104,16 +115,6 @@ function OperationsInput(props: Props) {
                         onChange={onFieldChange}
                         disabled={disabled}
                         error={error?.budget_per_sector}
-                        readOnly={readOnly}
-                    />
-                    <NumberInput
-                        required
-                        label={strings.selectionActionsPlannedOperationApCode}
-                        name="ap_code"
-                        value={value?.ap_code}
-                        onChange={onFieldChange}
-                        disabled={disabled}
-                        error={error?.ap_code}
                         readOnly={readOnly}
                     />
                 </ListView>

@@ -692,6 +692,7 @@ export function Component() {
                         numPreferredColumns={2}
                     >
                         <DateInput
+                            type="date"
                             name="start_date"
                             label={strings.startDateLabel}
                             value={value?.start_date}
@@ -701,6 +702,7 @@ export function Component() {
                             withAsterisk
                         />
                         <DateInput
+                            type="date"
                             name="end_date"
                             label={strings.endDateLabel}
                             value={value?.end_date}

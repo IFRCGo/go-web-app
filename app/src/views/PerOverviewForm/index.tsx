@@ -425,6 +425,7 @@ export function Component() {
                             withAsteriskOnTitle={isNotDefined(value?.date_of_assessment)}
                         >
                             <DateInput
+                                type="date"
                                 name="date_of_orientation"
                                 onChange={setFieldValue}
                                 value={value?.date_of_orientation}
@@ -463,6 +464,7 @@ export function Component() {
                             withAsteriskOnTitle={isNotDefined(value?.date_of_orientation)}
                         >
                             <DateInput
+                                type="date"
                                 name="date_of_assessment"
                                 onChange={setFieldValue}
                                 value={value?.date_of_assessment}
@@ -493,6 +495,7 @@ export function Component() {
                             numPreferredColumns={2}
                         >
                             <DateInput
+                                type="date"
                                 name="date_of_previous_assessment"
                                 onChange={setFieldValue}
                                 value={value?.date_of_previous_assessment}
@@ -617,6 +620,7 @@ export function Component() {
                             numPreferredColumns={2}
                         >
                             <DateInput
+                                type="date"
                                 name="workplan_development_date"
                                 value={value?.workplan_development_date}
                                 error={error?.workplan_development_date}
@@ -630,6 +634,7 @@ export function Component() {
                             numPreferredColumns={2}
                         >
                             <DateInput
+                                type="date"
                                 name="workplan_revision_date"
                                 onChange={setFieldValue}
                                 value={value?.workplan_revision_date}

@@ -125,6 +125,7 @@ function Submission(props: Props) {
                         numPreferredColumns={3}
                     >
                         <DateInput
+                            type="date"
                             label={strings.drefFormNsRequestDate}
                             name="ns_request_date"
                             value={value.ns_request_date}
@@ -134,6 +135,7 @@ function Submission(props: Props) {
                             readOnly={readOnly}
                         />
                         <DateInput
+                            type="date"
                             label={strings.drefFormDateSubmissionToGeneva}
                             name="submission_to_geneva"
                             value={value.submission_to_geneva}
@@ -144,6 +146,7 @@ function Submission(props: Props) {
                             disabled={disabled}
                         />
                         <DateInput
+                            type="date"
                             label={strings.drefFormDateOfApproval}
                             name="date_of_approval"
                             value={value.date_of_approval}
@@ -181,6 +184,7 @@ function Submission(props: Props) {
                         )}
                         {value?.type_of_dref !== TYPE_LOAN && (
                             <DateInput
+                                type="date"
                                 label={strings.drefFormSubmissionEndDate}
                                 hint={strings.drefFormSubmissionEndDateDescription}
                                 name="end_date"
@@ -193,6 +197,7 @@ function Submission(props: Props) {
                         )}
                         {value?.type_of_dref !== TYPE_LOAN && (
                             <DateInput
+                                type="date"
                                 label={strings.drefFormPublishingDate}
                                 name="publishing_date"
                                 value={value.publishing_date}

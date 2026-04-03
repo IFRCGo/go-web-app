@@ -349,8 +349,10 @@ export function Component() {
                             label={strings.allAppealsFilterStartDateAfter}
                             onChange={setFilterField}
                             value={rawFilter.startDateAfter}
+                            type="date"
                         />
                         <DateInput
+                            type="date"
                             name="startDateBefore"
                             label={strings.allAppealsFilterStartDateBefore}
                             onChange={setFilterField}

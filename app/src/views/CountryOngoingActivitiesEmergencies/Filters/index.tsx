@@ -52,12 +52,14 @@ function Filters(props: Props) {
     return (
         <>
             <DateInput
+                type="date"
                 name="startDateAfter"
                 label={strings.appealsStartDateAfter}
                 onChange={onChange}
                 value={value.startDateAfter}
             />
             <DateInput
+                type="date"
                 name="startDateBefore"
                 label={strings.appealsStartDateBefore}
                 onChange={onChange}

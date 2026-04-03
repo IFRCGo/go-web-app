@@ -276,6 +276,7 @@ function ContextFields(props: Props) {
                     withAsteriskOnTitle
                 >
                     <DateInput
+                        type="date"
                         name="start_date"
                         value={value.start_date}
                         onChange={onValueChange}
