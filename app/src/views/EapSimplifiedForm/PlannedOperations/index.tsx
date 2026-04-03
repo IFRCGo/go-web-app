@@ -26,6 +26,7 @@ import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
@@ -37,6 +38,8 @@ type EapSector = components['schemas']['EapSectorEnumKey'];
 type EapSectorOption = components['schemas']['EapSectorEnum'];
 
 type PlannedOperationFormFields = NonNullable<PartialSimplifiedEapType['planned_operations']>[number];
+type EapSectorApCodeOption = NonNullable<GoApiResponse<'/api/v2/eap/options/'>['sector_ap_codes']>;
+
 function sectorKeySelector(option: EapSectorOption) {
     return option.key;
 }
@@ -47,6 +50,7 @@ interface Props {
     disabled?: boolean;
     setFieldValue: (...entries: EntriesAsList<PartialSimplifiedEapType>) => void;
     readOnly?: boolean;
+    sectorApCodeOption?: EapSectorApCodeOption;
 }
 
 function PlannedOperations(props: Props) {
@@ -56,6 +60,7 @@ function PlannedOperations(props: Props) {
         disabled,
         setFieldValue,
         readOnly,
+        sectorApCodeOption,
     } = props;
 
     const error = getErrorObject(formError);
@@ -204,6 +209,7 @@ function PlannedOperations(props: Props) {
                             onChange={onOperationChange}
                             onRemove={onOperationRemove}
                             error={getErrorObject(error?.planned_operations)}
+                            sectorApCodeOption={sectorApCodeOption}
                             disabled={disabled}
                             readOnly={readOnly}
                         />

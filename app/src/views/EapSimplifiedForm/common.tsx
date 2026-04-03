@@ -19,6 +19,7 @@ const overviewTabFields = [
     'national_society_contact_title',
     'national_society_contact_email',
     'national_society_contact_phone_number',
+    'partners',
     'partner_contacts',
     'dref_focal_point_name',
     'dref_focal_point_email',
@@ -179,7 +180,7 @@ export function checkTabErrors(
     return hasErrorOnAnyField;
 }
 
-export const charLimits: { [key in FormKeys]?: number } = {
+export const charLimits = {
     prioritized_hazard_and_impact: 500,
     risks_selected_protocols: 150,
     selected_early_actions: 150,
@@ -192,4 +193,5 @@ export const charLimits: { [key in FormKeys]?: number } = {
     next_step_towards_full_eap: 100,
     early_action_capability: 500,
     rcrc_movement_involvement: 150,
-};
+    people_targeted: 2000,
+} satisfies { [key in FormKeys]?: number };

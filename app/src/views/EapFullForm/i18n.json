@@ -1,7 +1,7 @@
 {
     "namespace": "eapFullForm",
     "strings": {
-        "mainHeading": "Full EAP form",
+        "mainHeading": "{country}: {disaster} - Full EAP",
         "mainDescription": "Use the following form to submit the details of your Early Action Protocols (EAP) submission.",
         "overviewTabLabel": "Overview",
         "riskAnalysisTabLabel": "Risk Analysis",
@@ -27,9 +27,9 @@
         "validationErrorAlertMessage": "Please fix all the errors before continuing!",
         "savingPendingMessage": "Saving data...",
         "submitFormErrorMessage": "Please make sure you've filled in all the required details before proceeding!",
-        "submitButtonLabel": "Submit for approval",
+        "submitButtonLabel": "Submit for Approval",
         "submitConfirmButtonLabel": "Confirm",
-        "submitConfirmHeading": "Submit EAP for approval",
+        "submitConfirmHeading": "Submit EAP for Approval",
         "submitConfirmMessage": "Are you sure you want to submit the EAP? Reviewers will be notified and you'll no longer be able to edit the form!",
         "formLoadErrorTitle": "Failed to load Full EAP form!",
         "formLoadErrorHelpText": "Please make sure that the Full EAP form with given id exists and you have the permission to view it"

@@ -10,6 +10,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     type ArrayError,
     getErrorObject,
+    type LeafError,
     type PartialForm,
     type SetValueArg,
     useFormObject,
@@ -28,7 +29,7 @@ const defaultIndicatorValue: IndicatorFormFields = {
 
 interface Props {
     value: IndicatorFormFields;
-    error: ArrayError<IndicatorFormFields> | undefined;
+    error: ArrayError<IndicatorFormFields> | LeafError | undefined;
     onChange: (value: SetValueArg<IndicatorFormFields>, index: number) => void;
     onRemove: (index: number) => void;
     index: number;
@@ -52,7 +53,7 @@ function EapIndicatorInput(props: Props) {
     const onFieldChange = useFormObject(index, onChange, defaultIndicatorValue);
 
     const error = value && value.client_id && errorFromProps
-        ? getErrorObject(errorFromProps?.[value.client_id])
+        ? getErrorObject(getErrorObject(errorFromProps)?.[value.client_id])
         : undefined;
 
     return (

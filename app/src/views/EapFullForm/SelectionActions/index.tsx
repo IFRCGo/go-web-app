@@ -118,6 +118,10 @@ function SelectionActions(props: Props) {
         },
     });
 
+    const { response: apCodeOptions } = useRequest({
+        url: '/api/v2/eap/options/',
+    });
+
     const { setValue: onOperationChange, removeValue: onOperationRemove } = useFormArray<'planned_operations', PlannedOperationFormFields>(
         'planned_operations',
         setFieldValue,
@@ -441,6 +445,7 @@ function SelectionActions(props: Props) {
                         />
                     </InputSection>
                     <InputSection
+                        title={strings.theoryOfChangeTableTitle}
                         description={(
                             <Link
                                 external
@@ -451,6 +456,7 @@ function SelectionActions(props: Props) {
                                 {strings.downloadTableLabel}
                             </Link>
                         )}
+                        withAsteriskOnTitle
                     >
                         <GoSingleFileInput
                             name="theory_of_change_table_file"
@@ -509,7 +515,7 @@ function SelectionActions(props: Props) {
                     >
                         <GoMultiFileInput
                             name="evidence_base_relevant_files"
-                            accept=".pdf, .docx, .pptx"
+                            accept=".pdf, .docx, .pptx, image/*"
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFieldValue}
                             url="/api/v2/eap-file/multiple/"
@@ -592,6 +598,7 @@ function SelectionActions(props: Props) {
                             error={getErrorObject(error?.planned_operations)}
                             disabled={disabled}
                             readOnly={readOnly}
+                            sectorApCodeOption={apCodeOptions?.sector_ap_codes}
                         />
                     ))}
                     <InputSection
@@ -622,6 +629,7 @@ function SelectionActions(props: Props) {
                             onChange={onApproachChange}
                             onRemove={onApproachRemove}
                             error={getErrorObject(error?.enabling_approaches)}
+                            approachApCodeOption={apCodeOptions?.approach_ap_codes}
                             disabled={disabled}
                             readOnly={readOnly}
                         />

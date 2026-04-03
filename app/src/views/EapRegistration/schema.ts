@@ -2,11 +2,12 @@ import {
     emailCondition,
     type ObjectSchema,
     type PartialForm,
+    type PurgeNull,
 } from '@togglecorp/toggle-form';
 
 import { type GoApiBody } from '#utils/restRequest';
 
-export type EapRegisterRequestBody = GoApiBody<'/api/v2/eap-registration/', 'POST'>;
+export type EapRegisterRequestBody = PurgeNull<GoApiBody<'/api/v2/eap-registration/', 'POST'>>;
 
 export const defaultFormValue: EapRegisterFormFields = {
     eap_type: undefined,

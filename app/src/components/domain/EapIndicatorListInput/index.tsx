@@ -13,6 +13,7 @@ import {
 import {
     type ArrayError,
     getErrorObject,
+    type LeafError,
     type SetValueArg,
     useFormArray,
 } from '@togglecorp/toggle-form';
@@ -32,7 +33,7 @@ interface Props<NAME> {
     name: NAME,
     value: IndicatorFormFields[] | undefined;
     onChange: (newValue: SetValueArg<IndicatorFormFields[]>, name: NAME) => void;
-    error: ArrayError<IndicatorFormFields> | undefined;
+    error: ArrayError<IndicatorFormFields> | LeafError | undefined;
 }
 
 function EapIndicatorListInput<const NAME extends FormName>(props: Props<NAME>) {
@@ -113,7 +114,7 @@ function EapIndicatorListInput<const NAME extends FormName>(props: Props<NAME>) 
                         value={activity}
                         onChange={onReadinessChange}
                         onRemove={onReadinessRemove}
-                        error={getErrorObject(error?.readiness_activities)}
+                        error={getErrorObject(error)?.indicators}
                         disabled={disabled}
                         readOnly={readOnly}
                     />

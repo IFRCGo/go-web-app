@@ -97,6 +97,10 @@ export function Component() {
             : undefined,
     });
 
+    const { response: apCodeOptions } = useRequest({
+        url: '/api/v2/eap/options/',
+    });
+
     const { eap_sector, eap_approach } = useGlobalEnums();
 
     const eapSectorTitleMap = listToMap(
@@ -509,6 +513,14 @@ export function Component() {
                 {planned_operations?.map((operation) => {
                     const prevOperation = prevPlannedOperationMap?.[operation.sector];
 
+                    const apCodeSectorValue = apCodeOptions?.sector_ap_codes
+                        ?.[operation.sector]?.join(', ');
+
+                    const prevApCodeSectorValue = isDefined(prevOperation)
+                        ? apCodeOptions?.sector_ap_codes
+                            ?.[prevOperation?.sector]?.join(', ')
+                        : '-';
+
                     const prevOperationIndicatorMap = listToMap(
                         prevOperation?.indicators,
                         ({ id }) => id!,
@@ -557,9 +569,9 @@ export function Component() {
                                     />
                                     <PrintableDataDisplay
                                         label={strings.apCodeLabel}
-                                        value={operation.ap_code}
-                                        prevValue={prevOperation?.ap_code}
-                                        valueType="number"
+                                        value={apCodeSectorValue}
+                                        prevValue={prevApCodeSectorValue}
+                                        valueType="text"
                                         strongLabel
                                         withDiff={withDiff}
                                     />
@@ -685,6 +697,14 @@ export function Component() {
                 {enabling_approaches?.map((approach) => {
                     const prevApproach = prevEnablingApproachesMap?.[approach.approach];
 
+                    const apCodeApproachValue = apCodeOptions?.approach_ap_codes
+                        ?.[approach.approach]?.join(', ');
+
+                    const prevApCodeApproachValue = isDefined(prevApproach)
+                        ? apCodeOptions?.approach_ap_codes
+                            ?.[prevApproach.approach]?.join(', ')
+                        : '-';
+
                     const prevApproachIndicatorMap = listToMap(
                         prevApproach?.indicators,
                         ({ id }) => id!,
@@ -725,9 +745,9 @@ export function Component() {
                                     />
                                     <PrintableDataDisplay
                                         label={strings.apCodeLabel}
-                                        value={approach.ap_code}
-                                        prevValue={prevApproach?.ap_code}
-                                        valueType="number"
+                                        value={apCodeApproachValue}
+                                        prevValue={prevApCodeApproachValue}
+                                        valueType="text"
                                         strongLabel
                                         withDiff={withDiff}
                                     />

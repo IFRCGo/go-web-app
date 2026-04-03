@@ -286,6 +286,7 @@ function TriggerModel(props: Props) {
                         numPreferredColumns={2}
                     >
                         <NumberInput
+                            required
                             name="lead_time"
                             value={value?.lead_time}
                             error={error?.lead_time}
@@ -294,6 +295,7 @@ function TriggerModel(props: Props) {
                             readOnly={readOnly}
                         />
                         <SelectInput
+                            required
                             name="lead_timeframe_unit"
                             value={value?.lead_timeframe_unit}
                             error={error?.lead_timeframe_unit}
@@ -399,6 +401,7 @@ function TriggerModel(props: Props) {
                         />
                     </InputSection>
                     <InputSection
+                        title={strings.forecastTableDetails}
                         description={(
                             <Link
                                 external
@@ -409,19 +412,23 @@ function TriggerModel(props: Props) {
                                 {strings.downloadForecastTableLabel}
                             </Link>
                         )}
+                        withAsteriskOnTitle
                     >
                         <GoSingleFileInput
-                            accept=".docx"
                             name="forecast_table_file"
-                            value={value.forecast_table_file}
-                            url="/api/v2/eap-file/"
-                            error={error?.forecast_table_file}
-                            disabled={disabled}
-                            label={strings.attachRelevantFilesUploadLabel}
+                            accept=".docx"
                             fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
                             onChange={setFieldValue}
+                            url="/api/v2/eap-file/"
+                            value={value.forecast_table_file}
+                            error={getErrorString(error?.forecast_table_file)}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            required
+                            clearable
+                            disabled={disabled}
                             readOnly={readOnly}
+                            useCurrentLanguageForMutation
+                            label={strings.attachRelevantFilesUploadLabel}
                         >
                             {strings.triggerUploadTableLabel}
                         </GoSingleFileInput>
@@ -592,7 +599,7 @@ function TriggerModel(props: Props) {
                     >
                         <GoMultiFileInput
                             name="trigger_model_relevant_files"
-                            accept=".pdf, .docx, .pptx"
+                            accept=".pdf, .docx, .pptx, image/*"
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFieldValue}
                             url="/api/v2/eap-file/multiple/"

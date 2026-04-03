@@ -4,8 +4,10 @@ import {
     ExpandableContainer,
     ListView,
     NumberInput,
+    TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { noOp } from '@togglecorp/fujs';
 import {
     type ArrayError,
     getErrorObject,
@@ -15,6 +17,7 @@ import {
 
 import EapIndicatorListInput from '#components/domain/EapIndicatorListInput';
 import EapOperationActivityListInput from '#components/domain/EapOperationActivityListInput';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import { type PartialEapFullFormType } from '../../schema';
 
@@ -23,6 +26,8 @@ import i18n from './i18n.json';
 type PlannedOperationFormFields = NonNullable<
     PartialEapFullFormType['planned_operations']
 >[number];
+
+type EapSectorApCodeOption = NonNullable<GoApiResponse<'/api/v2/eap/options/'>['sector_ap_codes']>;
 
 const defaultOperationValue: PlannedOperationFormFields = {
     sector: 101,
@@ -40,6 +45,7 @@ interface Props {
     disabled?: boolean;
     operationTitle?: React.ReactNode;
     readOnly?: boolean;
+    sectorApCodeOption?: EapSectorApCodeOption;
 }
 
 function OperationsInput(props: Props) {
@@ -52,10 +58,13 @@ function OperationsInput(props: Props) {
         disabled,
         operationTitle,
         readOnly,
+        sectorApCodeOption,
     } = props;
 
     const strings = useTranslation(i18n);
     const onFieldChange = useFormObject(index, onChange, defaultOperationValue);
+
+    const apCodeValue = sectorApCodeOption?.[value.sector]?.join(', ');
 
     const error = value && value.sector && errorFromProps
         ? getErrorObject(errorFromProps?.[value.sector])
@@ -106,15 +115,12 @@ function OperationsInput(props: Props) {
                         error={error?.budget_per_sector}
                         readOnly={readOnly}
                     />
-                    <NumberInput
-                        required
+                    <TextInput
+                        name={undefined}
+                        onChange={noOp}
+                        readOnly
                         label={strings.selectionActionsPlannedOperationApCode}
-                        name="ap_code"
-                        value={value?.ap_code}
-                        onChange={onFieldChange}
-                        disabled={disabled}
-                        error={error?.ap_code}
-                        readOnly={readOnly}
+                        value={apCodeValue}
                     />
                 </ListView>
                 <ListView
@@ -125,25 +131,25 @@ function OperationsInput(props: Props) {
                         name="indicators"
                         value={value.indicators}
                         onChange={onFieldChange}
-                        error={getErrorObject(error?.indicators)}
+                        error={getErrorObject(error)?.indicators}
                     />
                     <EapOperationActivityListInput
                         name="readiness_activities"
                         value={value.readiness_activities}
                         onChange={onFieldChange}
-                        error={getErrorObject(error?.readiness_activities)}
+                        error={getErrorObject(error)?.readiness_activities}
                     />
                     <EapOperationActivityListInput
                         name="prepositioning_activities"
                         value={value.prepositioning_activities}
                         onChange={onFieldChange}
-                        error={getErrorObject(error?.prepositioning_activities)}
+                        error={getErrorObject(error)?.prepositioning_activities}
                     />
                     <EapOperationActivityListInput
                         name="early_action_activities"
                         value={value.early_action_activities}
                         onChange={onFieldChange}
-                        error={getErrorObject(error?.early_action_activities)}
+                        error={getErrorObject(error)?.early_action_activities}
                     />
                 </ListView>
             </ListView>

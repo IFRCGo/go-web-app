@@ -5,7 +5,7 @@ import {
 } from '@togglecorp/fujs';
 import {
     emailCondition,
-    lessThanOrEqualToCondition,
+    greaterThanOrEqualToCondition,
     type LiteralSchema,
     type ObjectSchema,
     type PartialForm,
@@ -299,7 +299,7 @@ function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY, requi
 
 export const formSchema: FormSchema = {
     fields: (_, __, context): FormSchemaFields => {
-        const isSubmit = context?.getIsSubmission();
+        const isSubmit = context?.getIsSubmission() ?? false;
         const defaultSchema: FormSchemaFields = {
             // Overview
 
@@ -318,6 +318,9 @@ export const formSchema: FormSchema = {
                 }),
             },
             seap_timeframe: {
+                required: isSubmit,
+            },
+            partners: {
                 required: isSubmit,
             },
             partner_contacts: {
@@ -423,7 +426,7 @@ export const formSchema: FormSchema = {
                 required: isSubmit,
                 validations: [
                     positiveIntegerCondition,
-                    lessThanOrEqualToCondition(2000),
+                    greaterThanOrEqualToCondition(charLimits.people_targeted),
                 ],
             },
             assisted_through_operation: {
@@ -462,6 +465,7 @@ export const formSchema: FormSchema = {
                 )],
             },
             next_step_towards_full_eap: {
+                required: isSubmit,
                 validations: [lengthSmallerOrEqualToCondition(
                     charLimits.next_step_towards_full_eap,
                 )],
@@ -477,12 +481,12 @@ export const formSchema: FormSchema = {
                         sector: {},
                         people_targeted: { required: isSubmit },
                         budget_per_sector: { required: isSubmit },
-                        ap_code: { required: isSubmit },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
-                            member: () => indicatorSchema,
+                            member: () => indicatorSchema(isSubmit),
                             validation: (indicators) => {
-                                if (isNotDefined(indicators) || indicators.length === 0) {
+                                if (isSubmit && (isNotDefined(indicators)
+                                    || indicators.length === 0)) {
                                     return 'This field is required';
                                 }
 
@@ -491,15 +495,15 @@ export const formSchema: FormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit),
                         },
                     }),
                 }),
@@ -522,13 +526,14 @@ export const formSchema: FormSchema = {
                     fields: (): EnableApproachesFields => ({
                         id: { defaultValue: undefinedValue },
                         approach: {},
-                        budget_per_approach: {},
-                        ap_code: {},
+                        budget_per_approach: { required: isSubmit },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
-                            member: () => indicatorSchema,
+                            member: () => indicatorSchema(isSubmit),
                             validation: (indicators) => {
-                                if (isNotDefined(indicators) || indicators.length === 0) {
+                                if (isSubmit
+                                    && (isNotDefined(indicators)
+                                        || indicators.length === 0)) {
                                     return 'This field is required';
                                 }
 
@@ -537,15 +542,15 @@ export const formSchema: FormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit),
                         },
                     }),
                 }),

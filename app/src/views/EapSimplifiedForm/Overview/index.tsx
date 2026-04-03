@@ -18,6 +18,7 @@ import {
     type EntriesAsList,
     type Error,
     getErrorObject,
+    getErrorString,
     useFormArray,
 } from '@togglecorp/toggle-form';
 
@@ -25,6 +26,7 @@ import ContactInputsSection from '#components/domain/ContactInputsSection';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
+import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
@@ -197,7 +199,20 @@ function Overview(props: Props) {
                             onChange={setFieldValue}
                             error={error?.seap_timeframe}
                             disabled={disabled}
-                            readOnly={readOnly}
+                            readOnly
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.partnersInvolved}
+                        description={strings.partnersInvolvedDescription}
+                        withAsteriskOnTitle
+                    >
+                        <NationalSocietyMultiSelectInput
+                            name="partners"
+                            value={value.partners}
+                            error={getErrorString(error?.partners)}
+                            onChange={setFieldValue}
+                            disabled={disabled}
                         />
                     </InputSection>
                 </ListView>

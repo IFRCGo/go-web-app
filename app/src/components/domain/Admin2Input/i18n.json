@@ -1,0 +1,8 @@
+{
+    "namespace": "admin2Input",
+    "strings": {
+        "heading": "Selected Areas",
+        "buttonLabel": "Select Areas",
+        "emptyMessage": "Admin Level 2 data is not available for this country."
+    }
+}

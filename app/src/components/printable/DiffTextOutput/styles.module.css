@@ -1,4 +1,6 @@
-.printable-label{
+.diff-text-output {
+    text-align: justify;
+    white-space: pre-wrap;
     overflow-wrap: break-word;
 
     &.with-diff-view {

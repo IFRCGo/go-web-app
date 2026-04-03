@@ -13,6 +13,7 @@
         "financeRequiredPointsLabel": "Required Points",
         "financeExplanatoryNote": "The EAP budget consists of all the costs linked to the activation of the EAP as well as readiness and pre-positioning costs. The budget cannot include costs for the development of the EAP and the setting up of the FbF system in a country (e.g. initial trainings of volunteers, etc.). This process should be financed by other sources of longer-term funding. The maximum amount of funding available for each EAP from the DREF is 500,000 Swiss francs. The budget will have to include the IFRC indirect costs of 6,5%. The National Society may include administrative costs as well in the EAP which should not be more than 5% of the early action budget. If the 5% rate is not used the National Society will need to list out the each of the admin cost individually. The M&E budget should be maximum 5% of overall the budget.",
         "financeUploadButtonLabel": "Upload",
+        "financeBudgetDetails": "Budget details",
         "financeDownloadDescription": "Download full budget template",
         "financeUploadBudgetLabel": "Upload Budget",
         "financeReadinessCostTitle": "Readiness Cost",

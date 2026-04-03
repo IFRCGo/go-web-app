@@ -18,19 +18,19 @@ import {
 import {
     type ArrayError,
     getErrorObject,
+    type LeafError,
     type SetValueArg,
     useFormArray,
 } from '@togglecorp/toggle-form';
 
-import EapOperationActivityInput from '#components/domain/EapOperationActivityInput';
+import EapOperationActivityInput, { type ActivityInputType } from '#components/domain/EapOperationActivityInput';
 import { type OperationActivityFormFields } from '#components/domain/EapOperationActivityInput/schema';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
+import { TIMEFRAME_YEAR } from '#utils/constants';
 
 import i18n from './i18n.json';
-
-type FormName = 'readiness_activities' | 'prepositioning_activities' | 'early_action_activities';
 
 interface Props<NAME> {
     disabled?: boolean;
@@ -39,10 +39,10 @@ interface Props<NAME> {
     name: NAME,
     value: OperationActivityFormFields[] | undefined;
     onChange: (newValue: SetValueArg<OperationActivityFormFields[]>, name: NAME) => void;
-    error: ArrayError<OperationActivityFormFields> | undefined;
+    error: ArrayError<OperationActivityFormFields> | LeafError | undefined;
 }
 
-function EapOperationActivityListInput<const NAME extends FormName>(props: Props<NAME>) {
+function EapOperationActivityListInput<const NAME extends ActivityInputType>(props: Props<NAME>) {
     const {
         disabled,
         readOnly,
@@ -65,8 +65,12 @@ function EapOperationActivityListInput<const NAME extends FormName>(props: Props
 
     const handleReadinessAddButtonClick = useCallback(
         () => {
+            const timeframeValue = name === 'readiness_activities' || name === 'prepositioning_activities'
+                ? TIMEFRAME_YEAR
+                : undefined;
             const newActionItem: OperationActivityFormFields = {
                 client_id: randomString(),
+                timeframe: timeframeValue,
             };
 
             onChange(
@@ -162,12 +166,13 @@ function EapOperationActivityListInput<const NAME extends FormName>(props: Props
             >
                 {value?.map((activity, i) => (
                     <EapOperationActivityInput
+                        name={name}
                         key={activity.client_id}
                         index={i}
                         value={activity}
                         onChange={onReadinessChange}
                         onRemove={onReadinessRemove}
-                        error={getErrorObject(error?.readiness_activities)}
+                        error={getErrorObject(error)?.[name]}
                         disabled={disabled}
                         readOnly={readOnly}
                     />
