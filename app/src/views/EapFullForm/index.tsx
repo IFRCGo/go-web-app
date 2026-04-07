@@ -525,6 +525,16 @@ export function Component() {
                         const [index] = match;
                         return formValue?.trigger_activation_system_images?.[index!]?.client_id;
                     }
+                    match = matchArray(locations, ['planned_operations',
+                        NUM,
+                        'indicators',
+                        NUM,
+                    ]);
+                    if (isDefined(match)) {
+                        const [planned_intervention_index, index] = match;
+                        return formValue?.planned_operations?.[planned_intervention_index!]
+                            ?.indicators?.[index!]?.client_id;
+                    }
                     match = matchArray(locations, [
                         'planned_operations',
                         NUM,
@@ -562,6 +572,16 @@ export function Component() {
                     if (isDefined(match)) {
                         const [poIndex] = match;
                         return formValue?.planned_operations?.[poIndex!]?.sector;
+                    }
+                    match = matchArray(locations, ['enabling_approaches',
+                        NUM,
+                        'indicators',
+                        NUM,
+                    ]);
+                    if (isDefined(match)) {
+                        const [planned_intervention_index, index] = match;
+                        return formValue?.enabling_approaches?.[planned_intervention_index!]
+                            ?.indicators?.[index!]?.client_id;
                     }
                     match = matchArray(locations, [
                         'enabling_approaches',

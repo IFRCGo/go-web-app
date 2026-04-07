@@ -4,9 +4,10 @@ import {
     ExpandableContainer,
     ListView,
     NumberInput,
-    TextOutput,
+    TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { noOp } from '@togglecorp/fujs';
 import {
     type ArrayError,
     getErrorObject,
@@ -16,15 +17,17 @@ import {
 
 import EapIndicatorListInput from '#components/domain/EapIndicatorListInput';
 import EapOperationActivityListInput from '#components/domain/EapOperationActivityListInput';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import { type PartialEapFullFormType } from '../../schema';
 
 import i18n from './i18n.json';
-import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 type PlannedOperationFormFields = NonNullable<
     PartialEapFullFormType['planned_operations']
 >[number];
+
+type EapSectorApCodeOption = NonNullable<GoApiResponse<'/api/v2/eap/options/'>['sector_ap_codes']>;
 
 const defaultOperationValue: PlannedOperationFormFields = {
     sector: 101,
@@ -42,6 +45,7 @@ interface Props {
     disabled?: boolean;
     operationTitle?: React.ReactNode;
     readOnly?: boolean;
+    sectorApCodeOption?: EapSectorApCodeOption;
 }
 
 function OperationsInput(props: Props) {
@@ -54,14 +58,13 @@ function OperationsInput(props: Props) {
         disabled,
         operationTitle,
         readOnly,
+        sectorApCodeOption,
     } = props;
 
     const strings = useTranslation(i18n);
     const onFieldChange = useFormObject(index, onChange, defaultOperationValue);
 
-    const { eap_sector_apcode: sectorApcode } = useGlobalEnums();
-
-    const apcodeValue = sectorApcode?.find((apcode) => apcode.key === value.sector);
+    const apCodeValue = sectorApCodeOption?.[value.sector]?.join(', ');
 
     const error = value && value.sector && errorFromProps
         ? getErrorObject(errorFromProps?.[value.sector])
@@ -88,14 +91,9 @@ function OperationsInput(props: Props) {
             // FIXME: add non field error and error indicator
         >
             <ListView layout="block">
-                <TextOutput
-                    label={strings.selectionActionsPlannedOperationApCode}
-                    strongLabel
-                    value={apcodeValue?.value}
-                />
                 <ListView
                     layout="grid"
-                    numPreferredGridColumns={2}
+                    numPreferredGridColumns={3}
                 >
                     <NumberInput
                         required
@@ -117,6 +115,13 @@ function OperationsInput(props: Props) {
                         error={error?.budget_per_sector}
                         readOnly={readOnly}
                     />
+                    <TextInput
+                        name={undefined}
+                        onChange={noOp}
+                        readOnly
+                        label={strings.selectionActionsPlannedOperationApCode}
+                        value={apCodeValue}
+                    />
                 </ListView>
                 <ListView
                     layout="block"
@@ -126,25 +131,25 @@ function OperationsInput(props: Props) {
                         name="indicators"
                         value={value.indicators}
                         onChange={onFieldChange}
-                        error={getErrorObject(error?.indicators)}
+                        error={getErrorObject(error)}
                     />
                     <EapOperationActivityListInput
                         name="readiness_activities"
                         value={value.readiness_activities}
                         onChange={onFieldChange}
-                        error={getErrorObject(error?.readiness_activities)}
+                        error={getErrorObject(error)}
                     />
                     <EapOperationActivityListInput
                         name="prepositioning_activities"
                         value={value.prepositioning_activities}
                         onChange={onFieldChange}
-                        error={getErrorObject(error?.prepositioning_activities)}
+                        error={getErrorObject(error)}
                     />
                     <EapOperationActivityListInput
                         name="early_action_activities"
                         value={value.early_action_activities}
                         onChange={onFieldChange}
-                        error={getErrorObject(error?.early_action_activities)}
+                        error={getErrorObject(error)}
                     />
                 </ListView>
             </ListView>

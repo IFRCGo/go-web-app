@@ -465,6 +465,7 @@ export const formSchema: FormSchema = {
                 )],
             },
             next_step_towards_full_eap: {
+                required: isSubmit,
                 validations: [lengthSmallerOrEqualToCondition(
                     charLimits.next_step_towards_full_eap,
                 )],
@@ -482,9 +483,10 @@ export const formSchema: FormSchema = {
                         budget_per_sector: { required: isSubmit },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
-                            member: () => indicatorSchema,
+                            member: () => indicatorSchema(isSubmit ?? false),
                             validation: (indicators) => {
-                                if (isNotDefined(indicators) || indicators.length === 0) {
+                                if (isSubmit && (isNotDefined(indicators)
+                                    || indicators.length === 0)) {
                                     return 'This field is required';
                                 }
 
@@ -493,15 +495,15 @@ export const formSchema: FormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit ?? false),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit ?? false),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit ?? false),
                         },
                     }),
                 }),
@@ -524,12 +526,14 @@ export const formSchema: FormSchema = {
                     fields: (): EnableApproachesFields => ({
                         id: { defaultValue: undefinedValue },
                         approach: {},
-                        budget_per_approach: {},
+                        budget_per_approach: { required: isSubmit },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
-                            member: () => indicatorSchema,
+                            member: () => indicatorSchema(isSubmit ?? false),
                             validation: (indicators) => {
-                                if (isNotDefined(indicators) || indicators.length === 0) {
+                                if (isSubmit
+                                    && (isNotDefined(indicators)
+                                        || indicators.length === 0)) {
                                     return 'This field is required';
                                 }
 
@@ -538,15 +542,15 @@ export const formSchema: FormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit ?? false),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit ?? false),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit ?? false),
                         },
                     }),
                 }),

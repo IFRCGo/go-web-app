@@ -511,8 +511,10 @@ function EarlyAction(props: Props) {
                     <InputSection
                         title={strings.fullEap}
                         description={strings.fullEapDescription}
+                        withAsteriskOnTitle
                     >
                         <TextArea
+                            required
                             label={strings.actionDescription}
                             name="next_step_towards_full_eap"
                             value={value?.next_step_towards_full_eap}

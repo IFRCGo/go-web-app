@@ -118,6 +118,10 @@ function SelectionActions(props: Props) {
         },
     });
 
+    const { response: apCodeOptions } = useRequest({
+        url: '/api/v2/eap/options/',
+    });
+
     const { setValue: onOperationChange, removeValue: onOperationRemove } = useFormArray<'planned_operations', PlannedOperationFormFields>(
         'planned_operations',
         setFieldValue,
@@ -594,6 +598,7 @@ function SelectionActions(props: Props) {
                             error={getErrorObject(error?.planned_operations)}
                             disabled={disabled}
                             readOnly={readOnly}
+                            sectorApCodeOption={apCodeOptions?.sector_ap_codes}
                         />
                     ))}
                     <InputSection
@@ -624,6 +629,7 @@ function SelectionActions(props: Props) {
                             onChange={onApproachChange}
                             onRemove={onApproachRemove}
                             error={getErrorObject(error?.enabling_approaches)}
+                            approachApCodeOption={apCodeOptions?.approach_ap_codes}
                             disabled={disabled}
                             readOnly={readOnly}
                         />

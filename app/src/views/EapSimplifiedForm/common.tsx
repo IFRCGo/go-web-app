@@ -19,6 +19,7 @@ const overviewTabFields = [
     'national_society_contact_title',
     'national_society_contact_email',
     'national_society_contact_phone_number',
+    'partners',
     'partner_contacts',
     'dref_focal_point_name',
     'dref_focal_point_email',

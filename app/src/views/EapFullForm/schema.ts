@@ -924,10 +924,10 @@ export const formSchema: EapFullFormSchema = {
                         },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
-                            member: () => indicatorSchema,
+                            member: () => indicatorSchema(isSubmit ?? false),
                             validation: (indicators) => {
-                                if (isNotDefined(indicators)
-                                    || indicators.length === 0) {
+                                if (isSubmit && (isNotDefined(indicators)
+                                    || indicators.length === 0)) {
                                     return 'This field is required';
                                 }
 
@@ -942,15 +942,15 @@ export const formSchema: EapFullFormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit ?? false),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit ?? false),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit ?? false),
                         },
                     }),
                 }),
@@ -977,10 +977,10 @@ export const formSchema: EapFullFormSchema = {
                         },
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
-                            member: () => indicatorSchema,
+                            member: () => indicatorSchema(isSubmit ?? false),
                             validation: (indicators) => {
-                                if (isNotDefined(indicators)
-                                    || indicators.length === 0) {
+                                if (isSubmit && (isNotDefined(indicators)
+                                    || indicators.length === 0)) {
                                     return 'This field is required';
                                 }
 
@@ -989,15 +989,15 @@ export const formSchema: EapFullFormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit ?? false),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit ?? false),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema,
+                            member: () => operationActivitySchema(isSubmit ?? false),
                         },
                     }),
                 }),

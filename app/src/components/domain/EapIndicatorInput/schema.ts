@@ -16,20 +16,20 @@ export type IndicatorFormFields = PartialForm<Indicator> & {
 
 type IndicatorSchema = ObjectSchema<IndicatorFormFields>;
 
-const schema: IndicatorSchema = {
+const schema = (isSubmit: boolean): IndicatorSchema => ({
     fields: (): ReturnType<IndicatorSchema['fields']> => ({
         client_id: {},
         id: { defaultValue: undefinedValue },
         title: {
             // FIXME: add validation for character limit
-            required: true,
+            required: isSubmit,
             requiredValidation: requiredStringCondition,
         },
         target: {
-            required: true,
+            required: isSubmit,
             validations: [positiveNumberCondition],
         },
     }),
-};
+});
 
 export default schema;

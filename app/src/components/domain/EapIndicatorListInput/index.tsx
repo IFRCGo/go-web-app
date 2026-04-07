@@ -113,7 +113,7 @@ function EapIndicatorListInput<const NAME extends FormName>(props: Props<NAME>) 
                         value={activity}
                         onChange={onReadinessChange}
                         onRemove={onReadinessRemove}
-                        error={getErrorObject(error?.readiness_activities)}
+                        error={getErrorObject(error?.indicators)}
                         disabled={disabled}
                         readOnly={readOnly}
                     />

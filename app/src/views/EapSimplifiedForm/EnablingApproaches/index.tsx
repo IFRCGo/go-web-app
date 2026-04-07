@@ -26,6 +26,7 @@ import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
@@ -37,6 +38,7 @@ type EapApproach = components['schemas']['EapApproachEnumKey'];
 type EapApproachOption = components['schemas']['EapApproachEnum'];
 
 type EnablingApproachesFormFields = NonNullable<PartialSimplifiedEapType['enabling_approaches']>[number];
+type EapApproachApCodeOption = NonNullable<GoApiResponse<'/api/v2/eap/options/'>['approach_ap_codes']>;
 
 interface Props {
     value: PartialSimplifiedEapType;
@@ -44,6 +46,7 @@ interface Props {
     disabled?: boolean;
     setFieldValue: (...entries: EntriesAsList<PartialSimplifiedEapType>) => void;
     readOnly?: boolean;
+    approachApCodeOption?: EapApproachApCodeOption;
 }
 
 function approachesKeySelector(option: EapApproachOption) {
@@ -57,6 +60,7 @@ function EnablingApproaches(props: Props) {
         disabled,
         setFieldValue,
         readOnly,
+        approachApCodeOption,
     } = props;
 
     const error = getErrorObject(formError);
@@ -207,6 +211,7 @@ function EnablingApproaches(props: Props) {
                             error={getErrorObject(error?.enabling_approaches)}
                             disabled={disabled}
                             readOnly={readOnly}
+                            approachApCodeOption={approachApCodeOption}
                         />
                     ))}
                 </ListView>
