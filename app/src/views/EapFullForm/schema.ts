@@ -6,7 +6,7 @@ import {
 import {
     addCondition,
     emailCondition,
-    lessThanOrEqualToCondition,
+    greaterThanOrEqualToCondition,
     type LiteralSchema,
     nullValue,
     type ObjectSchema,
@@ -1069,7 +1069,7 @@ export const formSchema: EapFullFormSchema = {
             people_targeted: {
                 required: isSubmit,
                 validations: [
-                    lessThanOrEqualToCondition(10000),
+                    greaterThanOrEqualToCondition(10000),
                     positiveIntegerCondition,
                 ],
             },

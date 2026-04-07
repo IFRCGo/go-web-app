@@ -13,7 +13,10 @@ import {
     ListView,
     Modal,
 } from '@ifrc-go/ui';
-import { useBooleanState } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import {
     isDefined,
     isNotDefined,
@@ -53,6 +56,8 @@ import {
 
 import BaseMap from '../BaseMap';
 
+import i18n from './i18n.json';
+
 interface Props<NAME> {
     name: NAME;
     value: number[] | null | undefined;
@@ -60,6 +65,7 @@ interface Props<NAME> {
     countryId: number;
     error?: React.ReactNode;
     readOnly?: boolean;
+    hasAdmin2?: boolean;
 }
 
 function Admin2Input<const NAME>(props: Props<NAME>) {
@@ -70,7 +76,10 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
         countryId,
         error,
         readOnly,
+        hasAdmin2,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const countryDetails = useCountry({ id: countryId });
     const iso3 = countryDetails?.iso3;
@@ -287,20 +296,20 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
     return (
         <ListView layout="block">
             <Container
-                heading="Selected areas"
+                heading={strings.heading}
                 headingLevel={6}
                 footer={(
                     <Button
                         name={undefined}
                         onClick={setShowModalTrue}
-                        disabled={readOnly}
-                        // FIXME: use label from props
+                        disabled={readOnly || !hasAdmin2}
                     >
-                        Select areas
+                        {strings.buttonLabel}
                     </Button>
                 )}
                 withCompactMessage
                 empty={!value || value.length === 0}
+                emptyMessage={!hasAdmin2 ? strings.emptyMessage : undefined}
                 withBorder
                 withPadding
             >

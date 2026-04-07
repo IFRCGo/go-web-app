@@ -5,7 +5,7 @@ import {
 } from '@togglecorp/fujs';
 import {
     emailCondition,
-    lessThanOrEqualToCondition,
+    greaterThanOrEqualToCondition,
     type LiteralSchema,
     type ObjectSchema,
     type PartialForm,
@@ -426,7 +426,7 @@ export const formSchema: FormSchema = {
                 required: isSubmit,
                 validations: [
                     positiveIntegerCondition,
-                    lessThanOrEqualToCondition(2000),
+                    greaterThanOrEqualToCondition(2000),
                 ],
             },
             assisted_through_operation: {

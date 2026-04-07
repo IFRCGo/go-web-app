@@ -1,9 +1,9 @@
 {
     "namespace": "eapFullForm",
     "strings": {
-        "selectionActionsHeading": "Selection of actions",
+        "selectionActionsHeading": "Selection of Actions",
         "selectionActionsTooltipDescription": "It is crucial to select early actions that have the most potential to reduce the identified risks(s) and are feasible to implement given the lead time of the forecast.  It is important to describe briefly: Who was involved? What data was consulted? Was research conducted? Were communities involved? For more guidance see FbF Manual, Chapter 4.2 Select Early Actions.",
-        "selectionProcessTitle": "Early action selection process",
+        "selectionProcessTitle": "Early Action Selection Process",
         "selectionProcessDescription1": "Add the list of early actions",
         "selectionProcessDescription2": "Based on the prioritized impacts/risks of section 3, provide a brief rationale (e.g. your criteria) for the selection of action(s), also indicating which actions were considered but not chosen.",
         "selectionProcessDescription3": "Describe the process used to select the actions: Who was consulted? Which assessments/research were carried out?",

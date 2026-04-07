@@ -597,7 +597,7 @@ function TriggerModel(props: Props) {
                     >
                         <GoMultiFileInput
                             name="trigger_model_relevant_files"
-                            accept=".pdf, .docx, .pptx"
+                            accept=".pdf, .docx, .pptx, image/*"
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFieldValue}
                             url="/api/v2/eap-file/multiple/"

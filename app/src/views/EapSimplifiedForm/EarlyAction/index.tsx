@@ -15,7 +15,10 @@ import {
     resolveToComponent,
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
-import { isDefined } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
@@ -29,7 +32,10 @@ import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { TIMEFRAME_YEAR } from '#utils/constants';
-import { type GoApiResponse } from '#utils/restRequest';
+import {
+    type GoApiResponse,
+    useRequest,
+} from '#utils/restRequest';
 
 import { charLimits } from '../common';
 import GuidanceSeap from '../GuidanceSeap';
@@ -66,6 +72,21 @@ function EarlyAction(props: Props) {
 
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
+
+    const {
+        response: admin2Response,
+        pending: admin2Pending,
+    } = useRequest({
+        skip: isNotDefined(eapRegistrationDetail?.country_details),
+        url: '/api/v2/admin2/',
+        query: {
+            admin1__country__iso3: eapRegistrationDetail?.country_details?.iso3 ?? undefined,
+        },
+    });
+
+    const hasAdmin2 = !admin2Pending
+        && isDefined(admin2Response)
+        && admin2Response?.results.length > 0;
 
     const {
         eap_timeframe,
@@ -224,6 +245,7 @@ function EarlyAction(props: Props) {
                                 value={value?.admin2}
                                 countryId={eapRegistrationDetail.country}
                                 error={getErrorString(error?.admin2)}
+                                hasAdmin2={hasAdmin2}
                                 readOnly={readOnly}
                             />
                         )}

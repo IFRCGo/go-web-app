@@ -5,15 +5,17 @@
         "startSimplifiedEapLinkLabel": "Start sEAP",
         "editFullEapLinkLabel": "Edit Full EAP",
         "viewFullEapLinkLabel": "View Full EAP",
-        "exportWithChangesButtonLabel": "Export with track changes",
+        "exportWithChangesButtonLabel": "Export v{version} PDF (with track changes)",
         "exportButtonLabel": "Export",
         "exportSummaryButtonLabel": "Export Summary",
-        "previewExportLinkLabel": "Preview export",
-        "previewSummaryExportLinkLabel": "Preview summary export",
-        "downloadReviewChecklistLinkLabel": "Download Review checklist",
-        "downloadUpdatedChecklistLinkLabel": "Download updated checklist",
+        "previewExportLinkLabel": "Preview Export",
+        "previewSummaryExportLinkLabel": "Preview Summary Export",
+        "downloadReviewChecklistLinkLabel": "Review Checklist v{version} (with IFRC comments)",
+        "downloadUpdatedChecklistLinkLabel": "Review Checklist v{version} (with NS comments)",
         "editSimplifiedEapLinkLabel": "Edit sEAP",
         "viewSimplifiedEapLinkLabel": "View sEAP",
-        "downloadValidatedBudgetLinkLabel": "Download validated budget"
+        "reviseEapLabel": "Revise EAP",
+        "reviseEapMessage": "Revising this EAP will create a new version. You can make any necessary changes in the new version.",
+        "downloadValidatedBudgetLinkLabel": "Download Validated Budget"
     }
 }
