@@ -18,14 +18,15 @@ import {
     type EntriesAsList,
     type Error,
     getErrorObject,
-    useFormArray,
     getErrorString,
+    useFormArray,
 } from '@togglecorp/toggle-form';
 
 import ContactInputsSection from '#components/domain/ContactInputsSection';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
+import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
@@ -36,7 +37,6 @@ import PartnerContactsInput from '../PartnerContactInput';
 import { type PartialSimplifiedEapType } from '../schema';
 
 import i18n from './i18n.json';
-import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 
 type EapRegistrationDetails = GoApiResponse<'/api/v2/eap-registration/{id}/'>;
 type PartnerContactFormFields = NonNullable<PartialSimplifiedEapType['partner_contacts']>[number];

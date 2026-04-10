@@ -26,10 +26,7 @@ import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import {
-    type GoApiResponse,
-    useRequest,
-} from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
