@@ -43,7 +43,7 @@ import {
     perBenchmarkColorSelector,
     perRatingColorSelector,
 } from '#utils/domain/per';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import PreviousAssessmentCharts from '../CountryPreparedness/PreviousAssessmentChart';
 import RatingByAreaChart from '../CountryPreparedness/RatingByAreaChart';
@@ -61,7 +61,7 @@ export function Component() {
     const {
         pending: perFetching,
         response: perResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isFalsyString(perId),
         url: '/api/v2/per-overview/{id}/',
         pathVariables: isDefined(perId) ? {
@@ -104,7 +104,7 @@ export function Component() {
     const {
         pending: perProcessStatusPending,
         response: processStatusResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-process-status/{id}/',
         pathVariables: isDefined(perId) ? {
@@ -115,7 +115,7 @@ export function Component() {
     const {
         pending: assessmentResponsePending,
         response: assessmentResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(processStatusResponse?.assessment),
         url: '/api/v2/per-assessment/{id}/',
         pathVariables: {
@@ -126,7 +126,7 @@ export function Component() {
     const {
         pending: formAnswerPending,
         response: formAnswerResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-formanswer/',
     });
@@ -134,7 +134,7 @@ export function Component() {
     const {
         pending: perOptionsPending,
         response: perOptionsResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-options/',
     });
@@ -142,7 +142,7 @@ export function Component() {
     const {
         pending: perFormAreaPending,
         response: perFormAreaResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/per-formarea/',
     });
 
@@ -150,7 +150,7 @@ export function Component() {
         pending: pendingPerStatsResponse,
         response: perStatsResponse,
         // error: perStatsResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/per-stats/',
         query: isDefined(countryId) && isDefined(perId) ? {

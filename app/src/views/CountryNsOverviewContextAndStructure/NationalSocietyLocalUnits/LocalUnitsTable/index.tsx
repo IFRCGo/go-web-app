@@ -27,7 +27,7 @@ import { MAX_PAGE_LIMIT } from '#utils/constants';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import type { FilterValue } from '../Filters';
@@ -94,7 +94,7 @@ function LocalUnitsTable(props: Props) {
     const {
         response: externallyManagedLocalUnitsResponse,
         pending: externallyManagedLocalUnitsPending,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/externally-managed-local-unit/',
         query: {
@@ -108,7 +108,7 @@ function LocalUnitsTable(props: Props) {
         error: localUnitsError,
         response: localUnitsResponse,
         retrigger: refetchLocalUnits,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryResponse?.iso3),
         url: '/api/v2/local-units/',
         preserveResponse: true,

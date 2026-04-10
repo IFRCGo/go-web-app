@@ -8,7 +8,6 @@ import type { paths as riskApiPaths } from '#generated/riskTypes';
 import type { paths as translationApiPaths } from '#generated/translationTypes';
 import type { paths as goApiPaths } from '#generated/types';
 
-// import type { paths as translationApiPaths } from '#translationTypes';
 import type {
     ApiBody,
     ApiResponse,
@@ -32,25 +31,26 @@ export type ListResponseItem<RESPONSE extends {
     results?: Array<unknown>
 } | undefined> = NonNullable<NonNullable<RESPONSE>['results']>[number];
 
-/*
-const useTranslationRequest = useRequest as <
-    PATH extends keyof translationApiPaths,
-    METHOD extends VALID_METHOD | undefined = 'GET',
->(
-    requestOptions: CustomRequestOptions<translationApiPaths, PATH, METHOD> & {
-        apiType: 'translation'
-    }
-) => CustomRequestReturn<translationApiPaths, PATH, METHOD>;
-*/
-
 // FIXME: identify a way to do this without a cast
-const useTranslationLazyRequest = useLazyRequest as <
+const useTranslationLazyRequestBase = useLazyRequest as <
     PATH extends keyof translationApiPaths,
     CONTEXT = unknown,
     METHOD extends VALID_METHOD | undefined = 'GET',
 >(
     requestOptions: CustomLazyRequestOptions<translationApiPaths, PATH, METHOD, CONTEXT> & { apiType: 'translation' }
 ) => CustomLazyRequestReturn<translationApiPaths, PATH, METHOD, CONTEXT>;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function useTranslationLazyRequest<
+    PATH extends keyof translationApiPaths,
+    CONTEXT = unknown,
+    METHOD extends VALID_METHOD | undefined = 'GET',
+>(
+    requestOptions: CustomLazyRequestOptions<translationApiPaths, PATH, METHOD, CONTEXT>,
+): CustomLazyRequestReturn<translationApiPaths, PATH, METHOD, CONTEXT> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return useTranslationLazyRequestBase({ ...(requestOptions as any), apiType: 'translation' });
+}
 
 // FIXME: identify a way to do this without a cast
 const useGoRequest = useRequest as <
@@ -70,21 +70,42 @@ const useGoLazyRequest = useLazyRequest as <
 ) => CustomLazyRequestReturn<goApiPaths, PATH, METHOD, CONTEXT>;
 
 // FIXME: identify a way to do this without a cast
-const useRiskRequest = useRequest as <
+const useRiskRequestBase = useRequest as <
     PATH extends keyof riskApiPaths,
     METHOD extends VALID_METHOD | undefined = 'GET',
 >(
     requestOptions: CustomRequestOptions<riskApiPaths, PATH, METHOD> & { apiType: 'risk' },
 ) => CustomRequestReturn<riskApiPaths, PATH, METHOD>;
 
+function useRiskRequest<
+    PATH extends keyof riskApiPaths,
+    METHOD extends VALID_METHOD | undefined = 'GET',
+>(
+    requestOptions: CustomRequestOptions<riskApiPaths, PATH, METHOD>,
+): CustomRequestReturn<riskApiPaths, PATH, METHOD> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return useRiskRequestBase({ ...(requestOptions as any), apiType: 'risk' });
+}
+
 // FIXME: identify a way to do this without a cast
-const useRiskLazyRequest = useLazyRequest as <
+const useRiskLazyRequestBase = useLazyRequest as <
     PATH extends keyof riskApiPaths,
     CONTEXT = unknown,
     METHOD extends VALID_METHOD | undefined = 'GET',
 >(
     requestOptions: CustomLazyRequestOptions<riskApiPaths, PATH, METHOD, CONTEXT> & { apiType: 'risk' }
 ) => CustomLazyRequestReturn<riskApiPaths, PATH, METHOD, CONTEXT>;
+
+function useRiskLazyRequest<
+    PATH extends keyof riskApiPaths,
+    CONTEXT = unknown,
+    METHOD extends VALID_METHOD | undefined = 'GET',
+>(
+    requestOptions: CustomLazyRequestOptions<riskApiPaths, PATH, METHOD, CONTEXT>,
+): CustomLazyRequestReturn<riskApiPaths, PATH, METHOD, CONTEXT> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return useRiskLazyRequestBase({ ...(requestOptions as any), apiType: 'risk' });
+}
 
 const useExternalRequest = useRequest as <RESPONSE>(
     requestOptions: ExternalRequestOptions<RESPONSE>,
@@ -94,9 +115,8 @@ export {
     RequestContext,
     useExternalRequest,
     useGoLazyRequest as useLazyRequest,
-    useGoRequest as useRequest,
+    useGoRequest,
     useRiskLazyRequest,
     useRiskRequest,
     useTranslationLazyRequest,
-    // useTranslationRequest,
 };

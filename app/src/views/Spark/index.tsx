@@ -8,7 +8,7 @@ import {
 import SparkEmbed from '#components/domain/SparkEmbed';
 import Page from '#components/Page';
 import { powerBiReportId1 } from '#config';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 // Backend returns snake_case keys
 type BackendPowerBiAuth = {
@@ -25,7 +25,7 @@ export function Component() {
         response: authRaw,
         pending,
         error,
-    } = useRequest({
+    } = useGoRequest({
         skip: !powerBiReportId1,
         url: '/api/v2/auth-power-bi/',
         preserveResponse: true,

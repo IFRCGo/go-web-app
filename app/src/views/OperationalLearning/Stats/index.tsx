@@ -28,7 +28,7 @@ import useAlert from '#hooks/useAlert';
 import {
     type GoApiResponse,
     type GoApiUrlQuery,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import OperationalLearningMap from './OperationalLearningMap';
@@ -110,7 +110,7 @@ function Stats(props: Props) {
     const {
         response: learningStatsResponse,
         pending: learningStatsPending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/ops-learning/stats/',
         query,
         onFailure: () => {

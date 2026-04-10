@@ -51,7 +51,7 @@ import {
     identifiedNeedsAndGapsOrder,
     plannedInterventionOrder,
 } from '#utils/domain/dref';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 import {
     EARLY_ACTION,
     EARLY_RESPONSE,
@@ -95,7 +95,7 @@ export function Component() {
 
     const {
         response: drefResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isFalsyString(finalReportId),
         url: '/api/v2/dref-final-report/{id}/',
         pathVariables: isDefined(finalReportId) ? {

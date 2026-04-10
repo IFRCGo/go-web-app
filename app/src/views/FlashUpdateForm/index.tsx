@@ -39,7 +39,7 @@ import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import {
     matchArray,
@@ -109,7 +109,7 @@ export function Component() {
         pending: fetchingFlashUpdate,
         response: flashUpdateResponse,
         error: flashUpdateResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isFalsyString(flashUpdateId),
         url: '/api/v2/flash-update/{id}/',
         pathVariables: isTruthyString(flashUpdateId) ? {

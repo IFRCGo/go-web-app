@@ -29,7 +29,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import hasDifferences, { getFormFields } from '#utils/localUnits';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import { injectClientIdToResponse } from '../common';
@@ -63,7 +63,7 @@ function LocalUnitView(props: Props) {
     const countries = useCountry();
     const {
         response: localUnitsOptions,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/local-units-options/',
     });
 
@@ -71,7 +71,7 @@ function LocalUnitView(props: Props) {
         response: localUnitResponse,
         pending: localUnitResponsePending,
         error: localUnitResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(localUnitId),
         url: '/api/v2/local-units/{id}/',
         pathVariables: isDefined(localUnitId) ? { id: localUnitId } : undefined,
@@ -80,7 +80,7 @@ function LocalUnitView(props: Props) {
     const {
         response: localUnitPreviousResponse,
         pending: localUnitPreviousResponsePending,
-    } = useRequest({
+    } = useGoRequest({
         skip: isDefined(locallyChangedValue) || isNotDefined(localUnitId),
         url: '/api/v2/local-units/{id}/latest-change-request/',
         pathVariables: isDefined(localUnitId) ? { id: localUnitId } : undefined,

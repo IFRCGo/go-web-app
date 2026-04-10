@@ -21,7 +21,7 @@ import {
     createLinkColumn,
 } from '#utils/domain/tableHelpers';
 import type { GoApiResponse } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import FlashUpdatesTableAction, { type Props as FlashUpdatesTableActions } from './FlashUpdatesTableActions';
 
@@ -115,7 +115,7 @@ function FlashUpdateTable() {
     const {
         pending: flashUpdatePending,
         response: flashUpdateResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/flash-update/',
         preserveResponse: true,
         query: {

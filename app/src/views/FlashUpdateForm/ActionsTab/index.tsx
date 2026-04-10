@@ -14,7 +14,7 @@ import {
 import NonFieldError from '#components/NonFieldError';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import {
@@ -46,7 +46,7 @@ function ActionsInput(props: Props) {
 
     const {
         response: actionsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/flash-update-action/',
         query: {
             limit: 9999,

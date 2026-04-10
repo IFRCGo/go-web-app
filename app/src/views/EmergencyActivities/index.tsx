@@ -40,7 +40,7 @@ import useFilterState from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import type { EmergencyOutletContext } from '#utils/outletContext';
 import { type GoApiResponse } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import ActivitiesMap from './ActivitiesMap';
 import ActivityActions, { type Props as ActivityActionsProps } from './ActivityActions';
@@ -153,7 +153,7 @@ export function Component() {
     const {
         response: emergencyProjectListResponse,
         pending: emergencyProjectListResponsePending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/emergency-project/',
         preserveResponse: true,
         skip: (isNotDefined(emergencyResponse?.id)),

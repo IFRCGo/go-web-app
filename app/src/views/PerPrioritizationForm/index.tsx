@@ -46,7 +46,7 @@ import { PER_PHASE_PRIORITIZATION } from '#utils/domain/per';
 import type { PerProcessOutletContext } from '#utils/outletContext';
 import {
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import {
     matchArray,
@@ -102,14 +102,14 @@ export function Component() {
 
     const {
         response: perOptionsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/per-options/',
     });
 
     const {
         pending: formComponentPending,
         response: formComponentResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/per-formcomponent/',
         query: {
             limit: 9999,
@@ -118,7 +118,7 @@ export function Component() {
 
     const {
         response: questionsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/per-formquestion/',
         query: {
             limit: 9999,
@@ -131,7 +131,7 @@ export function Component() {
     const {
         pending: fetchingPrioritization,
         error: prioritizationResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(prioritizationId),
         url: '/api/v2/per-prioritization/{id}/',
         pathVariables: {
@@ -145,7 +145,7 @@ export function Component() {
     const {
         pending: perAssessmentPending,
         response: perAssessmentResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(assessmentId),
         url: '/api/v2/per-assessment/{id}/',
         pathVariables: {

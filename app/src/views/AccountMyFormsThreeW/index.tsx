@@ -26,7 +26,7 @@ import useFilterState from '#hooks/useFilterState';
 import { createLinkColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import ThreeWTableActions, { type Props as ThreeWTableActionsProps } from './ThreeWTableActions';
@@ -138,7 +138,7 @@ export function Component(props: Props) {
     const {
         response: activityResponse,
         pending: activityResponsePending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/emergency-project/',
         preserveResponse: true,
         query: {

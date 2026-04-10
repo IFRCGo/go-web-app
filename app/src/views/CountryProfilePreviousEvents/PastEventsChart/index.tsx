@@ -27,7 +27,7 @@ import {
 
 import useTemporalChartData from '#hooks/useTemporalChartData';
 import { DEFAULT_Y_AXIS_WIDTH_WITH_LABEL } from '#utils/constants';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -124,7 +124,7 @@ function PastEventsChart(props: Props) {
         pending: historicalDisastersPending,
         response: historicalDisastersResponse,
         error: historicalDisastersError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId) || isNotDefined(selectedTimePeriod),
         url: '/api/v2/country/{id}/historical-disaster/',
         pathVariables: { id: countryId },

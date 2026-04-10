@@ -64,7 +64,7 @@ import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
     type GoApiUrlQuery,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import {
@@ -177,7 +177,7 @@ function LocalUnitsMap(props: Props) {
     const {
         response: publicLocalUnitsResponse,
         pending: publicLocalUnitsPending,
-    } = useRequest({
+    } = useGoRequest({
         skip: requestType !== PUBLIC || isNotDefined(countryResponse),
         url: '/api/v2/public-local-units/',
         query: urlQuery,
@@ -187,7 +187,7 @@ function LocalUnitsMap(props: Props) {
         response: localUnitsResponse,
         pending: localUnitsPending,
         retrigger: refetchLocalUnits,
-    } = useRequest({
+    } = useGoRequest({
         skip: requestType !== AUTHENTICATED || isNotDefined(countryResponse),
         url: '/api/v2/local-units/',
         query: urlQuery,
@@ -235,7 +235,7 @@ function LocalUnitsMap(props: Props) {
         response: publicLocalUnitDetailResponse,
         pending: publicLocalUnitDetailPending,
         error: publicLocalUnitDetailError,
-    } = useRequest({
+    } = useGoRequest({
         skip: requestType !== PUBLIC || isNotDefined(clickedPointProperties),
         url: '/api/v2/public-local-units/{id}/',
         pathVariables: isDefined(clickedPointProperties) ? ({
@@ -247,7 +247,7 @@ function LocalUnitsMap(props: Props) {
         response: superLocalUnitDetailResponse,
         pending: superLocalUnitDetailPending,
         error: superLocalUnitDetailError,
-    } = useRequest({
+    } = useGoRequest({
         skip: requestType !== AUTHENTICATED || isNotDefined(clickedPointProperties),
         url: '/api/v2/local-units/{id}/',
         pathVariables: isDefined(clickedPointProperties) ? ({

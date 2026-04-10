@@ -25,7 +25,7 @@ import {
 } from '#utils/constants';
 import {
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -135,7 +135,7 @@ function DrefExportModal(props: Props) {
         pending: exportStatusPending,
         response: exportStatusResponse,
         error: exportStatusError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(exportId),
         url: '/api/v2/pdf-export/{id}/',
         // FIXME: typings should be fixed in the server

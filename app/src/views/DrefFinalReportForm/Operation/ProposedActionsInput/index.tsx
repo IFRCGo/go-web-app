@@ -30,7 +30,7 @@ import earlyResponseLogo from '#assets/icons/early_response.svg';
 import NonFieldError from '#components/NonFieldError';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import {
     EARLY_ACTION,
@@ -85,7 +85,7 @@ function ProposedActionsInput(props: Props) {
     const {
         pending: activityOptionPending,
         response: activityOptionResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/primarysector',
     });
 

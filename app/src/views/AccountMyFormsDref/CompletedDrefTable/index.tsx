@@ -27,7 +27,7 @@ import {
 
 import useFilterState from '#hooks/useFilterState';
 import { type TypeOfDrefEnum } from '#utils/constants';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import DrefTableActions, { type Props as DrefTableActionsProps } from '../DrefTableActions';
 import Filters, { type FilterValue } from '../Filters';
@@ -66,7 +66,7 @@ function CompletedDrefTable(props: Props) {
     const {
         response: completedDrefResponse,
         pending: completedDrefResponsePending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/completed-dref/',
         query: {
             offset,

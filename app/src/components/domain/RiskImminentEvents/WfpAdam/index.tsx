@@ -104,7 +104,6 @@ function WfpAdam(props: Props) {
         pending: pendingCountryRiskResponse,
         response: countryRiskResponse,
     } = useRiskRequest({
-        apiType: 'risk',
         // eslint-disable-next-line react/destructuring-assignment
         skip: (variant === 'region' && isNotDefined(props.regionId))
         // eslint-disable-next-line react/destructuring-assignment
@@ -126,7 +125,6 @@ function WfpAdam(props: Props) {
     } = useRiskLazyRequest<'/api/v1/adam-exposure/{id}/exposure/', {
         eventId: number | string,
     }>({
-        apiType: 'risk',
         url: '/api/v1/adam-exposure/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
     });

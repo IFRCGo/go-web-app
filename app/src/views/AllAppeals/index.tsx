@@ -38,7 +38,7 @@ import { createLinkColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
     type GoApiUrlQuery,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -181,7 +181,7 @@ export function Component() {
     const {
         pending: appealsPending,
         response: appealsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/appeal/',
         preserveResponse: true,
         query,

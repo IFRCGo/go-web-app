@@ -8,7 +8,7 @@ import useDebouncedValue from '#hooks/useDebouncedValue';
 import {
     type GoApiResponse,
     type GoApiUrlQuery,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 type GetEventParams = GoApiUrlQuery<'/api/v2/event/mini/'>;
@@ -56,7 +56,7 @@ function EventSearchSelectInput<const NAME>(
     const {
         pending,
         response,
-    } = useRequest({
+    } = useGoRequest({
         skip: !opened,
         url: '/api/v2/event/mini/',
         query,

@@ -14,7 +14,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import NavigationTab from '#components/NavigationTab';
 import Page from '#components/Page';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -27,7 +27,7 @@ export function Component() {
     const {
         pending: surgeAggregatedResponsePending,
         response: aggregatedResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/deployment/aggregated',
     });
 

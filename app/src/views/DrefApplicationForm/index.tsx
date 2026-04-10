@@ -52,7 +52,7 @@ import {
 import {
     type GoApiResponse,
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import {
     matchArray,
@@ -371,7 +371,7 @@ export function Component() {
         pending: fetchingDref,
         response: drefResponse,
         error: drefResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isFalsyString(drefId),
         url: '/api/v2/dref/{id}/',
         pathVariables: isDefined(drefId) ? {

@@ -8,7 +8,7 @@ import useDebouncedValue from '#hooks/useDebouncedValue';
 import {
     type GoApiResponse,
     type GoApiUrlQuery,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 type GetFieldReportParams = GoApiUrlQuery<'/api/v2/field-report/'>;
@@ -50,7 +50,7 @@ function FieldReportSearchSelectInput<NAME>(
     const {
         pending,
         response,
-    } = useRequest({
+    } = useGoRequest({
         skip: !opened,
         url: '/api/v2/field-report/',
         query,

@@ -59,7 +59,6 @@ function Pdc(props: Props) {
         pending: pendingCountryRiskResponse,
         response: countryRiskResponse,
     } = useRiskRequest({
-        apiType: 'risk',
         // eslint-disable-next-line react/destructuring-assignment
         skip: (variant === 'region' && isNotDefined(props.regionId))
         // eslint-disable-next-line react/destructuring-assignment
@@ -81,7 +80,6 @@ function Pdc(props: Props) {
     } = useRiskLazyRequest<'/api/v1/pdc/{id}/exposure/', {
         eventId: number | string,
     }>({
-        apiType: 'risk',
         url: '/api/v1/pdc/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
     });

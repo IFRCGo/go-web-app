@@ -22,7 +22,7 @@ import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiBody,
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import SwitchWithConfirmation from './SwitchWithConfirmation';
@@ -52,7 +52,7 @@ function ConfigureLocalUnitsModal(props: Props) {
     const {
         response: localUnitsOptions,
         pending: localUnitsOptionsPending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/local-units-options/',
     });
 
@@ -60,7 +60,7 @@ function ConfigureLocalUnitsModal(props: Props) {
         response: externallyManagedResponse,
         pending: externallyManagedPending,
         retrigger: refetchExternallyManaged,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/externally-managed-local-unit/',
         query: {

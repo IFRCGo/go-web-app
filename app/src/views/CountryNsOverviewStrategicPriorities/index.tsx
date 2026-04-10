@@ -26,7 +26,7 @@ import useCountry from '#hooks/domain/useCountry';
 import usePermissions from '#hooks/domain/usePermissions';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import StrategicPrioritiesTable from './StrategicPrioritiesTable';
 
@@ -55,7 +55,7 @@ export function Component() {
     const {
         pending: publicPerStatsPending,
         response: publicPerStatsResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/public-per-stats/',
         query: isDefined(countryId) ? { country: [Number(countryId)] } : undefined,
@@ -67,7 +67,7 @@ export function Component() {
     const {
         pending: perProcessStatusPending,
         response: perProcessStatusResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/public-per-process-status/{id}/',
         pathVariables: {
@@ -78,7 +78,7 @@ export function Component() {
     const {
         pending: assessmentResponsePending,
         response: assessmentResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(perProcessStatusResponse?.assessment),
         url: '/api/v2/public-per-assessment/{id}/',
         pathVariables: {
@@ -153,7 +153,7 @@ export function Component() {
     const {
         pending: countryPlanPending,
         response: countryPlanResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId) || !countryResponse?.has_country_plan,
         url: '/api/v2/country-plan/{country}/',
         pathVariables: {
@@ -164,7 +164,7 @@ export function Component() {
     const {
         response: documentResponse,
         pending: documentResponsePending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/country-document/',
         skip: isNotDefined(countryId),
         query: {

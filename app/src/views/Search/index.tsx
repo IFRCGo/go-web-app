@@ -37,7 +37,7 @@ import {
     SEARCH_TEXT_LENGTH_MIN,
 } from '#utils/constants';
 import type { GoApiResponse } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import ResultList from './ResultList';
 import ResultTable from './ResultTable';
@@ -97,7 +97,7 @@ export function Component() {
     const {
         pending: searchPending,
         response: searchResponseRaw,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(urlSearchValue),
         url: '/api/v1/search/',
         query: { [KEY_URL_SEARCH]: urlSearchValue ?? '' },

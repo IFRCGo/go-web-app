@@ -18,7 +18,7 @@ import {
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import CountryNsCapacityStrengthening from './CountryNsCapacityStrengthening';
 
@@ -34,7 +34,7 @@ export function Component() {
     const {
         pending: countryPerProcessStatusPending,
         response: countryPerProcessStatusResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/public-per-process-status/',
         query: {

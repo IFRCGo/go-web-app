@@ -27,7 +27,7 @@ import useCountry from '#hooks/domain/useCountry';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useUserMe from '#hooks/domain/useUserMe';
 import useFilterState from '#hooks/useFilterState';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import ChangePasswordModal from './ChangePassword';
 import EditAccountInfo from './EditAccountInfo';
@@ -85,7 +85,7 @@ export function Component() {
         pending: montandonTokenPending,
         response: montandonTokenResponse,
         retrigger: refetchMontandonTokenList,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/external-token/',
         query: {
             limit,

@@ -40,7 +40,7 @@ import { countryIdToRegionIdMap } from '#utils/domain/country';
 import { createLinkColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -146,7 +146,7 @@ export function Component() {
         EventItem[] | undefined | null
     >([]);
 
-    useRequest({
+    useGoRequest({
         skip: isNotDefined(eventFilter)
             || (!!eventOptions?.find((event) => event.id === eventFilter)),
         url: '/api/v2/event/{id}/',
@@ -212,7 +212,7 @@ export function Component() {
     const {
         response: personnelResponse,
         pending: personnelPending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/personnel/',
         preserveResponse: true,
         query,

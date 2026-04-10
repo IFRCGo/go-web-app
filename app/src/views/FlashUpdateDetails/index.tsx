@@ -34,7 +34,7 @@ import {
 import DetailsFailedToLoadMessage from '#components/domain/DetailsFailedToLoadMessage';
 import Link from '#components/Link';
 import Page from '#components/Page';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import FlashUpdateExportModal from './FlashUpdateExportModal';
 import FlashUpdateShareModal from './FlashUpdateShareModal';
@@ -66,7 +66,7 @@ export function Component() {
         pending: fetchingFlashUpdate,
         response: flashUpdateResponse,
         error: flashUpdateResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(flashUpdateId),
         url: '/api/v2/flash-update/{id}/',
         pathVariables: isNotDefined(flashUpdateId) ? undefined : {

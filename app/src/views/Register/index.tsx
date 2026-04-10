@@ -43,7 +43,7 @@ import {
     type GoApiBody,
     type GoApiResponse,
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';
 
@@ -183,7 +183,7 @@ export function Component() {
     const {
         response: whiteListDomainResponse,
         pending: whiteListDomainPending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/domainwhitelist/',
         query: { limit: 9999 },
     });

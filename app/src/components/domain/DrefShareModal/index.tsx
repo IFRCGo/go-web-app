@@ -20,7 +20,7 @@ import useAlert from '#hooks/useAlert';
 import useInputState from '#hooks/useInputState';
 import {
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import UserItem from './UserItem';
@@ -70,7 +70,7 @@ function DrefShareModal(props: Props) {
     const {
         pending: getPending,
         // response: usersResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(drefId),
         url: '/api/v2/dref-share-user/{id}/',
         pathVariables: { id: drefId },

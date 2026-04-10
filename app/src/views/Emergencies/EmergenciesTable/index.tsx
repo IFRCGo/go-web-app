@@ -28,7 +28,7 @@ import type {
     GoApiResponse,
     GoApiUrlQuery,
 } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -152,7 +152,7 @@ function EventItemsTable() {
     const {
         pending: eventPending,
         response: eventResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/event/',
         preserveResponse: true,
         query,

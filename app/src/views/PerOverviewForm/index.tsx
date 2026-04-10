@@ -53,7 +53,7 @@ import type { PerProcessOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';
 
@@ -115,7 +115,7 @@ export function Component() {
     const {
         response: perOptionsResponse,
         pending: perOptionsPending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/per-options/',
     });
 
@@ -123,7 +123,7 @@ export function Component() {
         pending: fetchingPerOverview,
         // response: perOverviewResponse,
         error: perOverviewResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-overview/{id}/',
         pathVariables: {
@@ -150,7 +150,7 @@ export function Component() {
         },
     });
 
-    useRequest({
+    useGoRequest({
         url: '/api/v2/country/{id}/latest-per-overview/',
         skip: isNotDefined(value?.country) || isDefined(value?.is_draft),
         pathVariables: {

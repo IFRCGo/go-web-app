@@ -67,7 +67,7 @@ import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import { type GoApiResponse } from '#utils/restRequest';
 import {
@@ -178,7 +178,7 @@ export function Component() {
         DistrictItem[] | undefined | null
     >([]);
 
-    const { response: selectedEventDetail } = useRequest({
+    const { response: selectedEventDetail } = useGoRequest({
         skip: isNotDefined(value.event),
         url: '/api/v2/event/{id}/',
         pathVariables: isDefined(value.event) ? {
@@ -190,7 +190,7 @@ export function Component() {
         pending: fetchingActivity,
         response: activityResponse,
         error: activityResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isFalsyString(activityId),
         url: '/api/v2/emergency-project/{id}/',
         pathVariables: isTruthyString(activityId) ? {
@@ -253,7 +253,7 @@ export function Component() {
 
     const {
         response: erusResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/eru/',
         query: {
             limit: 9999,
@@ -263,7 +263,7 @@ export function Component() {
 
     const {
         response: optionsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/emergency-project/options/',
     });
     const alert = useAlert();

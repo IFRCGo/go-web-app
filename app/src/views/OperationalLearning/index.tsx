@@ -58,7 +58,7 @@ import { getFormattedComponentName } from '#utils/domain/per';
 import {
     type GoApiResponse,
     type GoApiUrlQuery,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import Filters, {
@@ -135,7 +135,7 @@ export function Component() {
     const secondarySectorOptions = useSecondarySector();
     const {
         response: perComponentsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/per-formcomponent/',
         query: {
             exclude_subcomponents: true,
@@ -153,7 +153,7 @@ export function Component() {
         pending: opsLearningSummaryPending,
         response: opsLearningSummaryResponse,
         error: opsLearningSummaryError,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/ops-learning/summary/',
         query,
         shouldPoll: (poll) => {
@@ -229,7 +229,7 @@ export function Component() {
     const {
         pending: opsLearningPending,
         response: opsLearningResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/ops-learning/',
         query: {
             ...query,
@@ -248,7 +248,7 @@ export function Component() {
     const {
         pending: opsLearningOrganizationTypePending,
         response: opsLearningOrganizationTypes,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/ops-learning/organization-type/',
         preserveResponse: true,
     });

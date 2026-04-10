@@ -29,7 +29,7 @@ import {
 } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -148,7 +148,7 @@ function EventItemsTable(props: Props) {
     const {
         pending: eventPending,
         response: eventResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/event/',
         preserveResponse: true,
         query: {

@@ -16,7 +16,7 @@ import useCountry from '#hooks/domain/useCountry';
 import useFilterState from '#hooks/useFilterState';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import Extract from './Extract';
@@ -59,7 +59,7 @@ function AllExtractsModal(props: Props) {
         pending: opsLearningPending,
         response: opsLearningResponse,
         error: opsLearningError,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/ops-learning/',
         query: {
             insight_component_id: summaryType === 'component' ? summaryId : undefined,

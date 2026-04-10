@@ -20,7 +20,7 @@ import {
 import Link from '#components/Link';
 import { type components } from '#generated/types';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
@@ -50,7 +50,7 @@ function NationalSocietyIncomeSourceBreakdown(props: Props) {
         response: countryIncomeResponse,
         pending: countryIncomeResponsePending,
         error: countryIncomeResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/country-income/',
         query: { country: countryId },

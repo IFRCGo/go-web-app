@@ -7,7 +7,7 @@ import {
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import { getUserName } from '#utils/domain/user';
 import type { GoApiResponse } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 type UserDetails = NonNullable<GoApiResponse<'/api/v2/user/'>['results']>[number];
 export type User = Pick<UserDetails, 'id' | 'first_name' | 'last_name' | 'username'>;
@@ -40,7 +40,7 @@ function UserSearchMultiSelectInput<const NAME>(
     const {
         pending,
         response,
-    } = useRequest({
+    } = useGoRequest({
         skip: (debouncedSearchText?.length ?? 0) < 1 || !dropdownShown,
         url: '/api/v2/users/',
         query: {

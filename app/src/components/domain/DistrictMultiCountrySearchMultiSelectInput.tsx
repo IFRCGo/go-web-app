@@ -7,7 +7,7 @@ import { isNotDefined } from '@togglecorp/fujs';
 
 import { type paths } from '#generated/types';
 import useDebouncedValue from '#hooks/useDebouncedValue';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 type GetDistrict = paths['/api/v2/district/']['get'];
 type GetDistrictParams = GetDistrict['parameters']['query'];
@@ -59,7 +59,7 @@ function MultiCountryDistrictSearchMultiSelectInput<const NAME>(
     const {
         pending,
         response,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryIds) || !opened,
         url: '/api/v2/district/',
         query,

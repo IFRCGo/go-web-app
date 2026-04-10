@@ -30,7 +30,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useFilterState from '#hooks/useFilterState';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import LocalUnitImportSummary from '../LocalUnitImportSummary';
@@ -82,7 +82,7 @@ function LocalUnitImportHistoryModal(props: Props) {
     const {
         response: uploadHistoryResponse,
         pending: uploadHistoryPending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/bulk-upload-local-unit/',
         query: {
             country__id: countryId,

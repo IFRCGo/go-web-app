@@ -18,7 +18,7 @@ import useInputState from '#hooks/useInputState';
 import {
     type GoApiBody,
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -45,14 +45,14 @@ function FlashUpdateShareModal(props: Props) {
     const {
         pending: donorResponsePending,
         response: donorResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/donor/',
     });
 
     const {
         pending: donorGroupResponsePending,
         response: donorGroupResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/donor-group/',
     });
 

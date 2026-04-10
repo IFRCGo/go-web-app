@@ -42,7 +42,7 @@ import {
     type ReportType,
 } from '#utils/constants';
 import { getUserName } from '#utils/domain/user';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import CovidNumericDetails from './CovidNumericDetails';
 import EarlyWarningNumericDetails from './EarlyWarningNumericDetails';
@@ -93,7 +93,7 @@ export function Component() {
         pending: fetchingFieldReport,
         response: fieldReportResponse,
         error: fieldReportResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(fieldReportId),
         url: '/api/v2/field-report/{id}/',
         pathVariables: {

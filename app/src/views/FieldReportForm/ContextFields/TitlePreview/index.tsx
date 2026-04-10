@@ -4,7 +4,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import useAlert from '#hooks/useAlert';
 import useDebouncedValue from '#hooks/useDebouncedValue';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
@@ -46,7 +46,7 @@ function TitlePreview(props: Props) {
 
     const {
         response: generateTitleResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/field-report/generate-title/',
         method: 'POST',
         useCurrentLanguageForMutation: true,

@@ -38,7 +38,7 @@ import {
 } from '#utils/domain/country';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { resolveUrl } from '#utils/resolveUrl';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
@@ -59,7 +59,7 @@ export function Component() {
         pending: countryResponsePending,
         response: countryResponse,
         error: countryResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId) || isRegion,
         url: '/api/v2/country/{id}/',
         pathVariables: {

@@ -57,7 +57,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useInputState from '#hooks/useInputState';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import {
@@ -190,7 +190,7 @@ function Overview(props: Props) {
 
     const {
         retrigger: getDrefUsers,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(drefId),
         url: '/api/v2/dref-share-user/{id}/',
         pathVariables: { id: Number(drefId) },

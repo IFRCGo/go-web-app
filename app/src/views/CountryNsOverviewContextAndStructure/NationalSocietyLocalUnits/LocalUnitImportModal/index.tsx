@@ -41,7 +41,7 @@ import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';
 
@@ -80,7 +80,7 @@ function LocalUnitBulkUploadModal(props: Props) {
     const {
         response: externallyManagedLocalUnitsResponse,
         pending: externallyManagedLocalUnitsPending,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/externally-managed-local-unit/',
         query: {
@@ -117,16 +117,16 @@ function LocalUnitBulkUploadModal(props: Props) {
         || isLocalUnitCountryValidatorByType(countryResponse?.id, selectedLocalUnitType)
         || isLocalUnitRegionValidatorByType(countryResponse?.region, selectedLocalUnitType);
 
-    const { response: localUnitsOptions } = useRequest({
+    const { response: localUnitsOptions } = useGoRequest({
         url: '/api/v2/local-units-options/',
     });
 
-    const { response: bulkUploadHealthTemplate } = useRequest({
+    const { response: bulkUploadHealthTemplate } = useGoRequest({
         url: '/api/v2/bulk-upload-local-unit/get-bulk-upload-template/',
         query: { bulk_upload_template: 'health_care' },
     });
 
-    const { response: bulkUploadDefaultTemplate } = useRequest({
+    const { response: bulkUploadDefaultTemplate } = useGoRequest({
         url: '/api/v2/bulk-upload-local-unit/get-bulk-upload-template/',
         query: { bulk_upload_template: 'local_unit' },
     });
@@ -146,7 +146,7 @@ function LocalUnitBulkUploadModal(props: Props) {
         },
     });
 
-    const { response: importSummaryResponse, pending: importSummaryPending } = useRequest({
+    const { response: importSummaryResponse, pending: importSummaryPending } = useGoRequest({
         url: '/api/v2/bulk-upload-local-unit/{id}/',
         skip: isNotDefined(bulkUploadResponse?.id),
         pathVariables: isDefined(bulkUploadResponse)

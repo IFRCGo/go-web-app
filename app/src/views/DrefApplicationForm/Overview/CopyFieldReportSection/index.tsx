@@ -27,7 +27,7 @@ import useAlert from '#hooks/useAlert';
 import useInputState from '#hooks/useInputState';
 import {
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import { type PartialDref } from '../../schema';
@@ -63,7 +63,7 @@ function CopyFieldReportSection(props: Props) {
         value?.field_report,
     );
 
-    useRequest({
+    useGoRequest({
         skip: isNotDefined(value.field_report),
         url: '/api/v2/field-report/{id}/',
         pathVariables: {

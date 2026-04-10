@@ -52,7 +52,7 @@ import {
 import {
     type GoApiResponse,
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import {
     matchArray,
@@ -232,7 +232,7 @@ export function Component() {
         pending: fetchingOpsUpdate,
         response: opsUpdateResponse,
         error: opsUpdateResponseError,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/dref-op-update/{id}/',
         skip: isFalsyString(opsUpdateId),
         pathVariables: isDefined(opsUpdateId) ? {
@@ -308,7 +308,7 @@ export function Component() {
     const {
         pending: fetchingDref,
         response: drefResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/dref/{id}/',
         pathVariables: isDefined(drefId) ? {
             id: String(drefId),
@@ -336,7 +336,7 @@ export function Component() {
     const {
         pending: fetchingPrevOpsUpdate,
         response: prevOpsUpdateResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/dref-op-update/{id}/',
         skip: isFalsyString(prevOperationalUpdateId),
         pathVariables: isDefined(prevOperationalUpdateId) ? {

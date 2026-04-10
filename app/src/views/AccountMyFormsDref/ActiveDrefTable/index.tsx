@@ -47,7 +47,7 @@ import {
     createCountryColumn,
     createTitleColumn,
 } from '#utils/domain/tableHelpers';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import DrefTableActions, { type Props as DrefTableActionsProps } from '../DrefTableActions';
 import Filters, { type FilterValue } from '../Filters';
@@ -89,7 +89,7 @@ function ActiveDrefTable(props: Props) {
         response: activeDrefResponse,
         pending: activeDrefResponsePending,
         retrigger: refetchActiveDref,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/active-dref/',
         preserveResponse: true,
         query: {

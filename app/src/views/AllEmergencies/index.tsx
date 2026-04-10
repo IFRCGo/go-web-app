@@ -41,7 +41,7 @@ import {
 import {
     type GoApiResponse,
     type GoApiUrlQuery,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -212,7 +212,7 @@ export function Component() {
     const {
         pending: eventPending,
         response: eventResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/event/',
         preserveResponse: true,
         query,

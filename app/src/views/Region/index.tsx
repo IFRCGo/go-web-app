@@ -19,7 +19,7 @@ import NavigationTab from '#components/NavigationTab';
 import Page from '#components/Page';
 import useRegion from '#hooks/domain/useRegion';
 import { type RegionOutletContext } from '#utils/outletContext';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
@@ -34,7 +34,7 @@ export function Component() {
     const {
         pending: regionPending,
         response: regionResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(regionId),
         url: '/api/v2/region/{id}/',
         pathVariables: {
@@ -45,7 +45,7 @@ export function Component() {
     const {
         pending: regionKeyFigurePending,
         response: regionKeyFigureResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(regionId),
         url: '/api/v2/region_key_figure/',
         query: { region: Number(regionId) },

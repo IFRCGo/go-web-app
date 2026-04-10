@@ -44,7 +44,7 @@ import {
 } from '#utils/domain/tableHelpers';
 import { type EmergencyOutletContext } from '#utils/outletContext';
 import { resolveUrl } from '#utils/resolveUrl';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -83,7 +83,7 @@ export function Component() {
 
     const {
         response: situationReportsResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(emergencyResponse),
         url: '/api/v2/situation_report/',
         query: isDefined(emergencyResponse) ? {
@@ -114,7 +114,7 @@ export function Component() {
     const {
         pending: appealDocumentsPending,
         response: appealDocumentsResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(emergencyResponse?.appeals)
            || ((isDefined(emergencyResponse)
             && isDefined(emergencyResponse.appeals)

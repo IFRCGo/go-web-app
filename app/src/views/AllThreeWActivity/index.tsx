@@ -32,7 +32,7 @@ import useUrlSearchState from '#hooks/useUrlSearchState';
 import { createLinkColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import ThreeWActivityTableActions, { type Props as ThreeWActivityTableActionsProps } from './AllThreeWProjectTableActions';
@@ -158,7 +158,7 @@ export function Component() {
     const {
         response: projectResponse,
         pending: projectResponsePending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/emergency-project/',
         preserveResponse: true,
         query,

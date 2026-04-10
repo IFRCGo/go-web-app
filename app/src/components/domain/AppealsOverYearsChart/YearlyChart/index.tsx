@@ -21,7 +21,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import PointDetails from '../PointDetails';
 
@@ -84,7 +84,7 @@ function YearlyChart(props: Props) {
         pending: monthlyEmergencyAppealPending,
         response: monthlyEmergencyAppealResponse,
         error: appealResponseError,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v1/aggregate/',
         query: {
             filter_atype: APPEAL_TYPE_EMERGENCY,
@@ -97,7 +97,7 @@ function YearlyChart(props: Props) {
         response: monthlyDrefResponse,
         pending: monthlyDrefPending,
         error: monthlyDrefError,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v1/aggregate/',
         query: {
             filter_atype: APPEAL_TYPE_DREF,

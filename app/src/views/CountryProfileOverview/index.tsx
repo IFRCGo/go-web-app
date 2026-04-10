@@ -27,7 +27,7 @@ import TabPage from '#components/TabPage';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import ClimateChart from './ClimateChart';
@@ -126,7 +126,7 @@ export function Component() {
         pending: databankResponsePending,
         response: databankResponse,
         error: databankResponseError,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/country/{id}/databank/',
         skip: isNotDefined(countryId),
         pathVariables: isDefined(countryId) ? {

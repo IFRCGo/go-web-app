@@ -43,7 +43,7 @@ import { type EmergencyOutletContext } from '#utils/outletContext';
 import { resolveUrl } from '#utils/resolveUrl';
 import {
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -64,7 +64,7 @@ export function Component() {
     const {
         response: emergencyResponse,
         pending: emergencyPending,
-    } = useRequest({
+    } = useGoRequest({
         // FIXME: need to check if emergencyId can be ''
         skip: isNotDefined(emergencyId),
         url: '/api/v2/event/{id}/',
@@ -76,7 +76,7 @@ export function Component() {
     const {
         response: emergencySnippetResponse,
         pending: emergencySnippetPending,
-    } = useRequest({
+    } = useGoRequest({
         // FIXME: need to check if emergencyId can be ''
         skip: isNotDefined(emergencyId),
         url: '/api/v2/event_snippet/',
@@ -89,7 +89,7 @@ export function Component() {
     // This could be done by adding surge alert count to the emergency instance API in future
     const {
         response: surgeAlertsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/surge_alert/',
         preserveResponse: true,
         query: {

@@ -18,7 +18,7 @@ import {
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 import { getFormattedComponentName } from '#utils/domain/per';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
@@ -30,7 +30,7 @@ function PublicCountryPreparedness() {
     const {
         pending: perStatsResponsePending,
         response: perStatsResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/public-per-stats/',
         query: isDefined(countryId) && isDefined(perId) ? {
@@ -42,7 +42,7 @@ function PublicCountryPreparedness() {
     const {
         pending: processStatusPending,
         response: processStatusResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/public-per-process-status/{id}/',
         pathVariables: {
@@ -52,7 +52,7 @@ function PublicCountryPreparedness() {
     const {
         pending: assessmentResponsePending,
         response: assessmentResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(processStatusResponse?.assessment),
         url: '/api/v2/public-per-assessment/{id}/',
         pathVariables: {
@@ -63,7 +63,7 @@ function PublicCountryPreparedness() {
     const {
         pending: prioritizationResponsePending,
         response: prioritizationResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(processStatusResponse?.prioritization),
         url: '/api/v2/public-per-prioritization/{id}/',
         pathVariables: {

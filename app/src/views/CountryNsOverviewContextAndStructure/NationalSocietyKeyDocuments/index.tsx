@@ -23,7 +23,7 @@ import useFilterState from '#hooks/useFilterState';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import DocumentListCard from './DocumentListCard';
@@ -62,7 +62,7 @@ function NationalSocietyKeyDocuments() {
         response: documentsResponse,
         pending: documentResponsePending,
         error: documentResponseError,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/country-document/',
         skip: isNotDefined(countryId),
         query: {

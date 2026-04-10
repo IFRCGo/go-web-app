@@ -42,7 +42,7 @@ import MapPopup from '#components/MapPopup';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
 import useInputState from '#hooks/useInputState';
 import { MAX_PAGE_LIMIT } from '#utils/constants';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import {
     basePointLayerOptions,
@@ -103,7 +103,7 @@ function SurgeMap(props: Props) {
 
     const {
         response: eruResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/eru/',
         query: {
             end_date__gt: now,
@@ -115,7 +115,7 @@ function SurgeMap(props: Props) {
 
     const {
         response: personnelResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/personnel/',
         query: {
             end_date__gt: now,

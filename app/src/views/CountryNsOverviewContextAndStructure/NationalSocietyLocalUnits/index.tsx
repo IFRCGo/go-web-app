@@ -34,7 +34,7 @@ import useAuth from '#hooks/domain/useAuth';
 import usePermissions from '#hooks/domain/usePermissions';
 import useFilterState from '#hooks/useFilterState';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import ConfigureLocalUnitsModal from './ConfigureLocalUnitsModal';
 import Filters, { type FilterValue } from './Filters';
@@ -107,7 +107,7 @@ function NationalSocietyLocalUnits(props: Props) {
         pageSize: 9999,
     });
 
-    const { response: localUnitsOptions } = useRequest({
+    const { response: localUnitsOptions } = useGoRequest({
         url: '/api/v2/local-units-options/',
     });
 

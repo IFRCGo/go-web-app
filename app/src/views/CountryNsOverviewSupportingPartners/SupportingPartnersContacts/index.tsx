@@ -22,7 +22,7 @@ import { createLinkColumn } from '#utils/domain/tableHelpers';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -44,7 +44,7 @@ function SupportingPartnersContacts(props: Props) {
     const {
         pending: supportingPartnerPending,
         response: supportingPartnerResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/country-supporting-partner/',
         skip: isNotDefined(countryId),
         query: {

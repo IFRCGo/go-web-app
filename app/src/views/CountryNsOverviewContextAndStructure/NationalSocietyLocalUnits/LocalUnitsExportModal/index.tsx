@@ -26,7 +26,7 @@ import { downloadFile } from '#utils/common';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -48,7 +48,7 @@ function LocalUnitsExportModal(props: Props) {
 
     const [selectedLocalUnitType, setSelectedLocalUnitType] = useState<number>();
 
-    const { response: localUnitsOptions } = useRequest({
+    const { response: localUnitsOptions } = useGoRequest({
         url: '/api/v2/local-units-options/',
     });
 

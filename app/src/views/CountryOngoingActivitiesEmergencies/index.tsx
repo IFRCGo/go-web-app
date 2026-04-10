@@ -85,7 +85,7 @@ import type {
     GoApiResponse,
     GoApiUrlQuery,
 } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import CountryKeyFigures from './CountryKeyFigures';
 import Filters from './Filters';
@@ -185,7 +185,7 @@ export function Component() {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
         error: aggregatedAppealError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/appeal/aggregated',
         query: { country: Number(countryId) },
@@ -195,7 +195,7 @@ export function Component() {
         pending: appealsPending,
         response: appealsResponse,
         error: appealsResponseError,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/appeal/',
         preserveResponse: true,
         query,

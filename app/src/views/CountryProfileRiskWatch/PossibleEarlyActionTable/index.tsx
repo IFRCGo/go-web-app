@@ -129,7 +129,6 @@ function PossibleEarlyActionTable(props: Props) {
     const {
         response: earlyActionsOptionsResponse,
     } = useRiskRequest({
-        apiType: 'risk',
         url: '/api/v1/early-actions/options/',
     });
 
@@ -138,7 +137,6 @@ function PossibleEarlyActionTable(props: Props) {
         response: possibleEarlyActionResponse,
     } = useRiskRequest({
         skip: isNotDefined(countryId),
-        apiType: 'risk',
         url: '/api/v1/early-actions/',
         query: {
             limit,

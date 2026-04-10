@@ -43,7 +43,7 @@ import UserContext from '#contexts/user';
 import useAuth from '#hooks/domain/useAuth';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import {
-    useRequest,
+    useGoRequest,
     useTranslationLazyRequest,
 } from '#utils/restRequest';
 
@@ -97,7 +97,6 @@ export function Component() {
     const {
         trigger: fetchLanguage,
     } = useTranslationLazyRequest<'/strings', { pages: string[] }>({
-        apiType: 'translation',
         url: '/strings',
         // FIXME: fix typing in server (medium priority)
         query: ({ pages }) => ({
@@ -227,7 +226,7 @@ export function Component() {
         response: globalEnums,
         pending: globalEnumsPending,
         retrigger: globalEnumsTrigger,
-    } = useRequest({
+    } = useGoRequest({
         skip: !fetchDomainData['global-enums'],
         url: '/api/v2/global-enums/',
         preserveResponse: true,
@@ -237,7 +236,7 @@ export function Component() {
         response: countries,
         pending: countriesPending,
         retrigger: countriesTrigger,
-    } = useRequest({
+    } = useGoRequest({
         skip: !fetchDomainData.country,
         url: '/api/v2/country/',
         query: { limit: 9999 },
@@ -248,7 +247,7 @@ export function Component() {
         response: regions,
         pending: regionsPending,
         retrigger: regionsTrigger,
-    } = useRequest({
+    } = useGoRequest({
         skip: !fetchDomainData.region,
         url: '/api/v2/region/',
         query: { limit: 9999 },
@@ -259,7 +258,7 @@ export function Component() {
         response: disasterTypes,
         pending: disasterTypesPending,
         retrigger: disasterTypesTrigger,
-    } = useRequest({
+    } = useGoRequest({
         skip: !fetchDomainData['disaster-type'],
         url: '/api/v2/disaster_type/',
         query: { limit: 9999 },
@@ -270,7 +269,7 @@ export function Component() {
         pending: secondarySectorsPending,
         response: secondarySectors,
         retrigger: secondarySectorsTrigger,
-    } = useRequest({
+    } = useGoRequest({
         skip: !fetchDomainData['secondary-sector'],
         url: '/api/v2/secondarysector',
         preserveResponse: true,
@@ -280,7 +279,7 @@ export function Component() {
         pending: primarySectorsPending,
         response: primarySectors,
         retrigger: primarySectorsTrigger,
-    } = useRequest({
+    } = useGoRequest({
         skip: !fetchDomainData['primary-sector'],
         url: '/api/v2/primarysector',
         preserveResponse: true,
@@ -290,7 +289,7 @@ export function Component() {
         pending: perComponentsPending,
         response: perComponents,
         retrigger: perFormComponentsTrigger,
-    } = useRequest({
+    } = useGoRequest({
         skip: !fetchDomainData['per-components'],
         url: '/api/v2/per-formcomponent/',
         preserveResponse: true,
@@ -303,7 +302,7 @@ export function Component() {
         response: userMe,
         pending: userMePending,
         retrigger: userMeTrigger,
-    } = useRequest({
+    } = useGoRequest({
         // FIXME: check if the value is cleared when skip is called
         skip: userSkip,
         url: '/api/v2/user/me/',

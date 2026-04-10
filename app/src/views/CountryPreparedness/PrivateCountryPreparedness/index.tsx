@@ -60,7 +60,7 @@ import {
 } from '#utils/domain/per';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import DocumentCard from '../DocumentCard';
@@ -86,7 +86,7 @@ function PrivateCountryPreparedness() {
     const {
         pending: pendingPerStatsResponse,
         response: perStatsResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/per-stats/',
         query: isDefined(countryId) && isDefined(perId) ? {
@@ -101,7 +101,7 @@ function PrivateCountryPreparedness() {
     const {
         pending: formAnswerPending,
         response: formAnswerResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-formanswer/',
     });
@@ -109,7 +109,7 @@ function PrivateCountryPreparedness() {
     const {
         pending: perOptionsPending,
         response: perOptionsResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-options/',
     });
@@ -117,14 +117,14 @@ function PrivateCountryPreparedness() {
     const {
         pending: perFormAreaPending,
         response: perFormAreaResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/per-formarea/',
     });
 
     const {
         pending: perProcessStatusPending,
         response: processStatusResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-process-status/{id}/',
         pathVariables: isDefined(perId) ? {
@@ -135,7 +135,7 @@ function PrivateCountryPreparedness() {
     const {
         pending: assessmentResponsePending,
         response: assessmentResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(processStatusResponse?.assessment),
         url: '/api/v2/per-assessment/{id}/',
         pathVariables: {
@@ -146,7 +146,7 @@ function PrivateCountryPreparedness() {
     const {
         pending: prioritizationResponsePending,
         response: prioritizationResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(processStatusResponse?.prioritization),
         url: '/api/v2/per-prioritization/{id}/',
         pathVariables: {
@@ -159,7 +159,7 @@ function PrivateCountryPreparedness() {
         error: perDocumentsError,
         response: perDocumentsResponse,
         retrigger: refetchDocuments,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId) || isNotDefined(perId),
         url: '/api/v2/per-document-upload/',
         query: {

@@ -19,7 +19,7 @@ import {
 import useFilterState from '#hooks/useFilterState';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import AllExtractsModal from './AllExtractsModal';
@@ -66,7 +66,7 @@ function Sources(props: Props) {
         pending: appealDocumentPending,
         response: appealDocumentResponse,
         error: appealDocumentError,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/appeal_document/',
         query: {
             insight_component_id: summaryType === 'component' ? summaryId : undefined,

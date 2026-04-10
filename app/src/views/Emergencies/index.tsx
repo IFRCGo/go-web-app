@@ -35,7 +35,7 @@ import {
 import Link from '#components/Link';
 import Page from '#components/Page';
 import usePermissions from '#hooks/domain/usePermissions';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import EmergenciesTable from './EmergenciesTable';
 import FieldReportTable from './FieldReportsTable';
@@ -88,7 +88,7 @@ export function Component() {
     const {
         pending: eventsPending,
         response: eventsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/event/',
         query: {
             limit: 9999,
@@ -99,14 +99,14 @@ export function Component() {
 
     const {
         response: regionResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/region/',
     });
 
     const {
         // pending: aggregateEventPending,
         response: aggregateEventResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v1/aggregate/',
         // FIXME: fix typing in server (low priority)
         query: {

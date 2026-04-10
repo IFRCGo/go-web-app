@@ -23,7 +23,7 @@ import swissLogo from '#assets/icons/swiss.svg';
 import usAidLogo from '#assets/icons/us_aid.svg';
 import Link from '#components/Link';
 import Page from '#components/Page';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import VideoList from './VideoList';
 
@@ -34,7 +34,7 @@ import styles from './styles.module.css';
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { response: contactsResponse } = useRequest({
+    const { response: contactsResponse } = useGoRequest({
         url: '/api/v2/main_contact/',
     });
 

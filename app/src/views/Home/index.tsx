@@ -19,7 +19,7 @@ import AppealsOverYearsChart from '#components/domain/AppealsOverYearsChart';
 import AppealsTable from '#components/domain/AppealsTable';
 import HighlightedOperations from '#components/domain/HighlightedOperations';
 import Page from '#components/Page';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
@@ -31,7 +31,7 @@ export function Component() {
     const {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/appeal/aggregated',
     });
 

@@ -17,7 +17,7 @@ import TabPage from '#components/TabPage';
 import useFilterState from '#hooks/useFilterState';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import SubscriptionPreferences from './SubscriptionPreferences';
@@ -47,7 +47,7 @@ export function Component() {
         response: subscribedEventsResponse,
         pending: subscribedEventsResponsePending,
         retrigger: updateSubscribedEventsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/event/',
         query: {
             limit,

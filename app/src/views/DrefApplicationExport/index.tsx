@@ -52,7 +52,7 @@ import {
     nsActionsOrder,
     plannedInterventionOrder,
 } from '#utils/domain/dref';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 import {
     calculateProposedActionsCost,
     EARLY_ACTION,
@@ -89,7 +89,7 @@ export function Component() {
 
     const {
         response: drefResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isFalsyString(drefId),
         url: '/api/v2/dref/{id}/',
         pathVariables: isDefined(drefId) ? {

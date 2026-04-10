@@ -10,7 +10,7 @@ import {
 } from '@togglecorp/fujs';
 
 import { getUserName } from '#utils/domain/user';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -33,7 +33,7 @@ function ObsoletePayloadResolutionModal(props: Props) {
     const {
         pending: finalReportPending,
         response: finalReportResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(finalReportId),
         url: '/api/v2/dref-final-report/{id}/',
         pathVariables: isDefined(finalReportId) ? {

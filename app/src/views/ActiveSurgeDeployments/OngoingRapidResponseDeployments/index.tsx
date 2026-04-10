@@ -34,7 +34,7 @@ import { getRapidResponseEventDates } from '#utils/domain/eru';
 import { createLinkColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -69,7 +69,7 @@ function OngoingRapidResponseDeployments() {
     const {
         pending: rapidResponsePending,
         response: rapidResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/personnel_by_event/',
         preserveResponse: true,
         query: {

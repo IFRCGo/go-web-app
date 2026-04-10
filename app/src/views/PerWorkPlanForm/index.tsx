@@ -38,7 +38,7 @@ import { PER_PHASE_WORKPLAN } from '#utils/domain/per';
 import { type PerProcessOutletContext } from '#utils/outletContext';
 import {
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import {
     matchArray,
@@ -92,7 +92,7 @@ export function Component() {
     const {
         pending: prioritizationPending,
         response: prioritizationResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(prioritizationId),
         url: '/api/v2/per-prioritization/{id}/',
         pathVariables: {
@@ -104,7 +104,7 @@ export function Component() {
         pending: fetchingWorkPlan,
         response: workPlanResponse,
         error: workPlanResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(workplanId),
         url: '/api/v2/per-work-plan/{id}/',
         pathVariables: {

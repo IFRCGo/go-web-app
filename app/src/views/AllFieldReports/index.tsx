@@ -36,7 +36,7 @@ import {
 } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -181,7 +181,7 @@ export function Component() {
     const {
         pending: fieldReportPending,
         response: fieldReportResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/field-report/',
         preserveResponse: true,
         query,

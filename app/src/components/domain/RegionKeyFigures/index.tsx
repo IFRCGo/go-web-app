@@ -16,7 +16,7 @@ import { getPercentage } from '@ifrc-go/ui/utils';
 import { isNotDefined } from '@togglecorp/fujs';
 
 import type { GoApiResponse } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
@@ -38,7 +38,7 @@ function RegionKeyFigures(props: Props) {
     const {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(regionId),
         url: '/api/v2/appeal/aggregated',
         query: { region: Number(regionId) },

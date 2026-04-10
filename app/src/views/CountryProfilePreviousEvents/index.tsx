@@ -23,7 +23,7 @@ import TabPage from '#components/TabPage';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import CountryHistoricalKeyFigures from './CountryHistoricalKeyFigures';
@@ -117,7 +117,7 @@ export function Component() {
         pending: disasterCountPending,
         response: disasterCountResponse,
         error: disasterCountError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId) || isNotDefined(selectedTimePeriod),
         url: '/api/v2/country/{id}/disaster-count/',
         pathVariables: { id: countryId },
@@ -131,7 +131,7 @@ export function Component() {
         pending: figureResponsePending,
         response: figureResponse,
         // error: figureResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId) || isNotDefined(selectedTimePeriod),
         url: '/api/v2/country/{id}/figure/',
         pathVariables: { id: Number(countryId) },

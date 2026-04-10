@@ -18,7 +18,7 @@ import useUserMe from '#hooks/domain/useUserMe';
 import {
     type GoApiResponse,
     type GoApiUrlQuery,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import OperationCard from './OperationCard';
@@ -95,7 +95,7 @@ function HighlightedOperations(props: Props) {
         error: featuredEmergencyResponseError,
         pending: featuredEmergencyPending,
         response: featuredEmergencyResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/event/',
         query,
     });

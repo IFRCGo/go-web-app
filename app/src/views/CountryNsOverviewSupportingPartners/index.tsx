@@ -3,7 +3,7 @@ import { isNotDefined } from '@togglecorp/fujs';
 
 import TabPage from '#components/TabPage';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import MembershipCoordinationTable from './MembershipCoordinationTable';
 import Presence from './Presence';
@@ -20,7 +20,7 @@ export function Component() {
     const {
         pending: countryPlanPending,
         response: countryPlanResponse,
-    } = useRequest({
+    } = useGoRequest({
         // FIXME: need to check if countryId can be ''
         skip: isNotDefined(countryId) || !countryResponse?.has_country_plan,
         url: '/api/v2/country-plan/{country}/',

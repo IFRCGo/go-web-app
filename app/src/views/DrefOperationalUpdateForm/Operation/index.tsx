@@ -39,7 +39,7 @@ import NonFieldError from '#components/NonFieldError';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import {
@@ -101,7 +101,7 @@ function Operation(props: Props) {
 
     const {
         response: globalFilesResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/dref/global-files/',
     });
 

@@ -36,7 +36,7 @@ import useFilterState from '#hooks/useFilterState';
 import { createCountryColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import PerTableActions, { type Props as PerTableActionsProps } from './PerTableActions';
@@ -76,7 +76,7 @@ export function Component() {
     const {
         pending: aggregatedStatusPending,
         response: aggregatedStatusResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/aggregated-per-process-status/',
         preserveResponse: true,
         query: {
@@ -91,7 +91,7 @@ export function Component() {
     const {
         // pending: countryStatusPending,
         response: countryStatusResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(expandedRow),
         url: '/api/v2/per-process-status/',
         query: {

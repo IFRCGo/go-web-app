@@ -39,7 +39,7 @@ import useRouting from '#hooks/useRouting';
 import {
     type GoApiResponse,
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';
 
@@ -196,7 +196,7 @@ export function Component() {
     const {
         response: eruOwnerResponse,
         pending: eruOwnerPending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/eru_owner/mini/',
         preserveResponse: true,
         onFailure: () => {

@@ -14,7 +14,7 @@ import {
 
 import Link from '#components/Link';
 import { type components } from '#generated/types';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
@@ -53,7 +53,7 @@ function PerExportModal(props: Props) {
     const {
         pending: pendingExportTrigger,
         error: exportTriggerError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isDefined(exportId) || isNotDefined(perId),
         method: 'POST',
         useCurrentLanguageForMutation: true,
@@ -70,7 +70,7 @@ function PerExportModal(props: Props) {
         pending: pendingExportStatus,
         response: exportStatusResponse,
         error: exportStatusError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(exportId),
         url: '/api/v2/pdf-export/{id}/',
         // FIXME: typings should be fixed in the server

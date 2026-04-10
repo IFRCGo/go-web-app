@@ -56,7 +56,6 @@ export function Component() {
         pending: pendingCountryRiskResponse,
         response: countryRiskResponse,
     } = useRiskRequest({
-        apiType: 'risk',
         url: '/api/v1/country-seasonal/',
         query: {
             // FIXME: why do we need to use lowercase?
@@ -68,7 +67,6 @@ export function Component() {
         pending: pendingImminentEventCounts,
         response: imminentEventCountsResponse,
     } = useRiskRequest({
-        apiType: 'risk',
         url: '/api/v1/country-imminent-counts/',
         query: {
             iso3: countryResponse?.iso3?.toLowerCase(),

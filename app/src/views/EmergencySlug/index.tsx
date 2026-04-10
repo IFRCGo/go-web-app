@@ -9,7 +9,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
@@ -22,7 +22,7 @@ export function Component() {
         pending,
         response: emergencyResponse,
         error,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(slug),
         url: '/api/v2/event/{slug}',
         pathVariables: isDefined(slug) ? {

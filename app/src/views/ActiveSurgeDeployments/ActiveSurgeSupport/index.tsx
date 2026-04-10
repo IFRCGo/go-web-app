@@ -11,7 +11,7 @@ import { isDefined } from '@togglecorp/fujs';
 import useFilterState from '#hooks/useFilterState';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import SurgeCard from './SurgeCard';
@@ -44,7 +44,7 @@ function ActiveSurgeSupport() {
         pending: aggregatedSurgePending,
         response: aggregatedSurgeResponse,
         error: aggregatedSurgeResponseError,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/aggregated-eru-and-rapid-response/',
         query: {
             limit,

@@ -40,7 +40,7 @@ import { getEruEventDates } from '#utils/domain/eru';
 import { createLinkColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -86,7 +86,7 @@ function OngoingEruDeployments() {
     const {
         pending: deployedEruResponsePending,
         response: deployedEruResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/deployed_eru_by_event/',
         preserveResponse: true,
         query: {

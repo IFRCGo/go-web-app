@@ -52,7 +52,7 @@ import {
 } from '#utils/constants';
 import {
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import {
     matchArray,
@@ -160,28 +160,28 @@ export function Component() {
 
     const {
         response: actionsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/action/',
         query: { limit: 9999 },
     });
 
     const {
         response: externalPartnersResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/external_partner/',
         query: { limit: 9999 },
     });
 
     const {
         response: supportedActivitiesResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/supported_activity/',
         query: { limit: 9999 },
     });
 
     const {
         response: reviewCountryResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/review-country/',
     });
 
@@ -189,7 +189,7 @@ export function Component() {
         pending: fieldReportPending,
         error: fieldReportResponseError,
         response: fieldReportResponse,
-    } = useRequest({
+    } = useGoRequest({
         // FIXME: need to check if fieldReportId can be ''
         url: '/api/v2/field-report/{id}/',
         skip: isNotDefined(fieldReportId),

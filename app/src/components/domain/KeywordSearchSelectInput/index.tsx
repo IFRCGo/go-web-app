@@ -21,7 +21,7 @@ import { KEY_URL_SEARCH } from '#utils/constants';
 import {
     type GoApiResponse,
     type GoApiUrlQuery,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import { type WrappedRoutes } from '../../../App/routes';
@@ -134,7 +134,7 @@ function KeywordSearchSelectInput() {
     const {
         pending,
         response,
-    } = useRequest({
+    } = useGoRequest({
         skip: !opened || isNotDefined(trimmedSearchText) || trimmedSearchText.length === 0,
         url: '/api/v1/search/',
         query,

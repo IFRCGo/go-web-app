@@ -29,7 +29,7 @@ import {
 } from '#utils/outletContext';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -48,7 +48,7 @@ export function Component() {
     const {
         pending: countrySnippetPending,
         response: countrySnippetResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/country_snippet/',
         query: { country: Number(countryId) },

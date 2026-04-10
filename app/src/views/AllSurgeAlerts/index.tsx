@@ -40,7 +40,7 @@ import { SURGE_ALERT_STATUS_CLOSED } from '#utils/constants';
 import { createLinkColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -144,7 +144,7 @@ export function Component() {
         (keywords) => keywords ?? undefined,
     );
 
-    useRequest({
+    useGoRequest({
         skip: isNotDefined(eventFilter)
             || (!!eventOptions?.find((event) => event.id === eventFilter)),
         url: '/api/v2/event/{id}/',
@@ -187,7 +187,7 @@ export function Component() {
     const {
         response: surgeResponse,
         pending: surgeResponsePending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/surge_alert/',
         preserveResponse: true,
         query: {

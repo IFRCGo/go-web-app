@@ -10,7 +10,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isNotDefined } from '@togglecorp/fujs';
 
 import useTemporalChartData from '#hooks/useTemporalChartData';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -33,7 +33,7 @@ function EmergenciesOverMonth(props: Props) {
     const {
         // pending: disasterMonthlyCountPending,
         response: disasterMonthlyCountResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId)
             || isNotDefined(startDate)
             || isNotDefined(endDate),

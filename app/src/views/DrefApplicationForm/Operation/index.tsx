@@ -44,7 +44,7 @@ import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { type GoApiResponse } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import {
     calculateProposedActionsCost,
@@ -136,7 +136,7 @@ function Operation(props: Props) {
 
     const {
         response: globalFilesResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/dref/global-files/',
     });
 

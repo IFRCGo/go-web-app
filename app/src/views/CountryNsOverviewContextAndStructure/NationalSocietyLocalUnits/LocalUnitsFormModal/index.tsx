@@ -57,7 +57,7 @@ import {
     type GoApiBody,
     type GoApiResponse,
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';
 
@@ -245,7 +245,7 @@ function LocalUnitsFormModal(props: Props) {
         pending: localUnitDetailsPending,
         error: localUnitDetailsError,
         retrigger: refetchLocalUnitDetails,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(localUnitId),
         url: '/api/v2/local-units/{id}/',
         pathVariables: isDefined(localUnitId)
@@ -263,7 +263,7 @@ function LocalUnitsFormModal(props: Props) {
     const {
         response: localUnitsOptions,
         pending: localUnitsOptionsPending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/local-units-options/',
         onSuccess: (response) => {
             if (isNotDefined(localUnitId)) {
@@ -287,7 +287,7 @@ function LocalUnitsFormModal(props: Props) {
     const {
         response: localUnitPreviousResponse,
         pending: localUnitPreviousResponsePending,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(localUnitId) || !shouldFetchChangeRequest,
         url: '/api/v2/local-units/{id}/latest-change-request/',
         pathVariables: isDefined(localUnitId) ? { id: localUnitId } : undefined,
@@ -296,7 +296,7 @@ function LocalUnitsFormModal(props: Props) {
     const {
         response: externallyManagedLocalUnitsResponse,
         pending: externallyManagedResponsePending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/externally-managed-local-unit/',
         query: {
             country__id: countryResponse?.id,

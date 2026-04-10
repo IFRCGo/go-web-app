@@ -48,7 +48,7 @@ import { type PerProcessOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import {
     matchArray,
@@ -111,14 +111,14 @@ export function Component() {
     const {
         pending: perOptionsPending,
         response: perOptionsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/per-options/',
     });
 
     const {
         pending: questionsPending,
         response: questionsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/per-formquestion/',
         query: {
             limit: 9999,
@@ -142,7 +142,7 @@ export function Component() {
     const {
         pending: componentPending,
         response: componentResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/per-formcomponent/',
         query: { limit: 9999 },
     });
@@ -150,7 +150,7 @@ export function Component() {
     const {
         pending: questionGroupPending,
         response: questionGroupResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/per-formquestion-group/',
         query: {
             limit: 9999,
@@ -175,7 +175,7 @@ export function Component() {
 
     const {
         response: perOverviewResponse,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(id),
         url: '/api/v2/per-overview/{id}/',
         pathVariables: {
@@ -186,7 +186,7 @@ export function Component() {
     const {
         pending: fetchingPerAssessment,
         error: perAssessmentResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(assessmentId),
         url: '/api/v2/per-assessment/{id}/',
         pathVariables: {

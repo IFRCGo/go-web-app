@@ -26,7 +26,7 @@ import Page from '#components/Page';
 import { getUserName } from '#utils/domain/user';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import ActivityListItem, { type Props as ActivityListItemProps } from './ActivityListItem';
@@ -50,7 +50,7 @@ export function Component() {
         pending: fetchingActivity,
         response: activityResponse,
         error: activityResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(activityId),
         url: '/api/v2/emergency-project/{id}/',
         pathVariables: isDefined(activityId) ? {
@@ -60,7 +60,7 @@ export function Component() {
 
     const {
         response: optionsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/emergency-project/options/',
     });
 

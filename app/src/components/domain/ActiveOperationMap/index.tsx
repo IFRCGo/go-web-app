@@ -50,7 +50,7 @@ import type {
     GoApiResponse,
     GoApiUrlQuery,
 } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import GlobalMap, { type AdminZeroFeatureProperties } from '../GlobalMap';
 import {
@@ -182,7 +182,7 @@ function ActiveOperationMap(props: Props) {
         response: appealResponse,
         pending: appealPending,
         error: appealError,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/appeal/',
         query,
     });

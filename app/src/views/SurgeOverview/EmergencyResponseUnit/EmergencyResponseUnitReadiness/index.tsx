@@ -39,7 +39,7 @@ import { joinStrings } from '#utils/common';
 import { resolveUrl } from '#utils/resolveUrl';
 import {
     type GoApiResponse,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import EmergencyResponseUnitCard, { type ReadinessList } from './EmergencyResponseUnitCard';
@@ -83,7 +83,7 @@ function EmergencyResponseUnitReadiness() {
         error: eruOwnersError,
         response: eruOwnersResponse,
         pending: eruOwnersPending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/eru_owner/mini/',
         preserveResponse: true,
     });
@@ -92,7 +92,7 @@ function EmergencyResponseUnitReadiness() {
         error: eruReadinessError,
         response: eruReadinessResponse,
         pending: eruReadinessPending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/eru-readiness/',
         preserveResponse: true,
         query: {
@@ -112,7 +112,7 @@ function EmergencyResponseUnitReadiness() {
         error: eruReadinessTypeError,
         response: eruReadinessTypeResponse,
         pending: eruReadinessTypePending,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/eru-readiness-type/',
         preserveResponse: true,
         query: {

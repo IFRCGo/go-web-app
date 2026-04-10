@@ -10,7 +10,7 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import TabPage from '#components/TabPage';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import DeployedErusTable from './DeployedErusTable';
 import RapidResponsePersonnelTable from './RapidResponsePersonnelTable';
@@ -27,7 +27,7 @@ export function Component() {
 
     const {
         response: deploymentResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/deployment/aggregated',
         preserveResponse: true,
         // FIXME: fix typings in server (low priority)

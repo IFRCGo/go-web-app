@@ -22,7 +22,7 @@ import {
     createLinkColumn,
 } from '#utils/domain/tableHelpers';
 import type { GoApiResponse } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -117,7 +117,7 @@ function FieldReportsTable() {
     const {
         pending: fieldReportPending,
         response: fieldReportResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/field-report/',
         preserveResponse: true,
         query: {

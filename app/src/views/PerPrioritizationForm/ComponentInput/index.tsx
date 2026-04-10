@@ -29,7 +29,7 @@ import {
 
 import NonFieldError from '#components/NonFieldError';
 import type { GoApiResponse } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import type { PartialPrioritization } from '../schema';
 import QuestionOutput from './QuestionOutput';
@@ -76,7 +76,7 @@ function ComponentInput(props: Props) {
     const {
         pending: formQuestionsPending,
         response: formQuestions,
-    } = useRequest({
+    } = useGoRequest({
         skip: !expanded,
         url: '/api/v2/per-formquestion/',
         query: {

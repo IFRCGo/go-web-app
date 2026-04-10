@@ -126,7 +126,6 @@ function RiskSeasonalMap(props: Props) {
         pending: seasonalResponsePending,
     } = useRiskRequest({
         skip: variant === 'region' && isNotDefined(regionId),
-        apiType: 'risk',
         url: '/api/v1/seasonal/',
         query: variant === 'region'
             ? { region: regionId }
@@ -155,7 +154,6 @@ function RiskSeasonalMap(props: Props) {
         pending: riskScoreResponsePending,
     } = useRiskRequest({
         skip: variant === 'region' && isNotDefined(regionId),
-        apiType: 'risk',
         url: '/api/v1/risk-score/',
         query: variant === 'region'
             ? {

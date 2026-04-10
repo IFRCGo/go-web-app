@@ -19,7 +19,7 @@ import {
     type GoApiResponse,
     type GoApiUrlQuery,
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -75,7 +75,7 @@ function DistrictSearchMultiSelectInput<const NAME>(
     const {
         pending,
         response,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId) || !opened,
         url: '/api/v2/district/',
         query,

@@ -41,7 +41,7 @@ import type {
     GoApiResponse,
     GoApiUrlQuery,
 } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import {
     APPEAL_TYPE_DREF,
@@ -267,7 +267,7 @@ function AppealsTable(props: Props) {
     const {
         pending: appealsPending,
         response: appealsResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/appeal/',
         preserveResponse: true,
         query,

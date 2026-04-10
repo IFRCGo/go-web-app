@@ -50,7 +50,7 @@ import {
 import {
     type GoApiResponse,
     useLazyRequest,
-    useRequest,
+    useGoRequest,
 } from '#utils/restRequest';
 import {
     matchArray,
@@ -222,7 +222,7 @@ export function Component() {
         pending: fetchingFinalReport,
         response: finalReportResponse,
         error: finalReportResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isFalsyString(finalReportId),
         url: '/api/v2/dref-final-report/{id}/',
         pathVariables: isDefined(finalReportId) ? {

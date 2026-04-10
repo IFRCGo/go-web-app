@@ -16,7 +16,7 @@ import {
 } from '@ifrc-go/ui/utils';
 
 import TabPage from '#components/TabPage';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 import { type GoApiResponse } from '#utils/restRequest';
 import ActiveRapidResponseTable from '#views/ActiveSurgeDeployments/ActiveRapidResponseTable';
 import OngoingRapidResponseDeployments from '#views/ActiveSurgeDeployments/OngoingRapidResponseDeployments';
@@ -64,14 +64,14 @@ export function Component() {
     const {
         pending: deploymentByNationalSocietyPending,
         response: deploymentsByNationalSocietyResponse,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/deployment/aggregated_by_ns',
     });
 
     const {
         pending: deploymentsByMonthPending,
         response: deploymentsByMonth,
-    } = useRequest({
+    } = useGoRequest({
         url: '/api/v2/deployment/aggregated_by_month',
     });
 

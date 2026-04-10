@@ -19,7 +19,7 @@ import {
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { useRequest } from '#utils/restRequest';
+import { useGoRequest } from '#utils/restRequest';
 
 import NationalSocietyContacts from './NationalSocietyContacts';
 import NationalSocietyDirectory from './NationalSocietyDirectory';
@@ -45,7 +45,7 @@ export function Component() {
         response: databankResponse,
         pending: databankResponsePending,
         error: databankResponseError,
-    } = useRequest({
+    } = useGoRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/country/{id}/databank/',
         pathVariables: isDefined(countryId) ? { id: Number(countryId) } : undefined,
