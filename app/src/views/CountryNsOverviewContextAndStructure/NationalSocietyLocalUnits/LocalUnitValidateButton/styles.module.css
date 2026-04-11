@@ -1,6 +1,6 @@
 .local-unit-validate-button {
     .icon {
-        font-size: var(--go-ui-height-icon-multiplier);
+        font-size: 1.33em;
     }
 }
 
@@ -9,6 +9,6 @@
     background-color: var(--go-ui-color-gray-40);
 
     .icon {
-        font-size: var(--go-ui-height-icon-multiplier);
+        font-size: 1.33em;
     }
 }

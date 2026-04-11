@@ -2,7 +2,7 @@
     --color-border: transparent;
     --color-text: transparent;
     --color-background: transparent;
-    --font-size: var(--go-ui-height-icon-multiplier);
+    --font-size: 1.33em;
     --border-radius: var(--go-ui-border-radius-md);
     --text-transform: none;
     --cursor: default;

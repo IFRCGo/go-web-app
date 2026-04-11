@@ -23,9 +23,9 @@
         "generate:type:risk-api": "openapi-typescript ../go-risk-module-api/openapi-schema.yaml -o ./generated/riskTypes.ts --alphabetize",
         "generate:type:translations": "openapi-typescript ../cacheppuccino/openapi.json -o ./generated/translationTypes.ts --alphabetize",
         "prestart": "pnpm initialize:type",
-        "start": "pnpm -F @ifrc-go/ui build && vite",
+        "start": "pnpm -F @ifrc-go/ui build && pnpm -F @ifrc-go/icons build && vite",
         "prebuild": "pnpm initialize:type",
-        "build": "pnpm -F @ifrc-go/ui build && vite build",
+        "build": "pnpm -F @ifrc-go/ui build && pnpm -F @ifrc-go/icons build && vite build",
         "preview": "vite preview",
         "pretypecheck": "pnpm initialize:type",
         "typecheck": "tsc",
@@ -41,7 +41,7 @@
         "surge:teardown": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); surge teardown https://ifrc-go-$branch.surge.sh"
     },
     "dependencies": {
-        "@ifrc-go/icons": "^2.0.1",
+        "@ifrc-go/icons": "workspace:^",
         "@ifrc-go/ui": "workspace:^",
         "@sentry/react": "^10.0.0",
         "@tinymce/tinymce-react": "^6.0.0",

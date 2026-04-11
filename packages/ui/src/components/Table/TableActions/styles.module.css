@@ -5,6 +5,6 @@
     min-width: max-content;
 
     .more-icon {
-        font-size: var(--go-ui-height-icon-multiplier);
+        font-size: 1.33em;
     }
 }

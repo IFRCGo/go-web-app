@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="4 4 16 16" fill="currentColor">
+    <path d="M4 4h6v1H4V4Z"/>
+    <path d="M5 4v6H4V4h1ZM4 20h6v-1H4v1Z"/>
+    <path d="M5 20v-6H4v6h1ZM20 4h-6v1h6V4Z"/>
+    <path d="M19 4v6h1V4h-1Zm1 16h-6v-1h6v1Z"/>
+    <path d="M19 20v-6h1v6h-1Z"/>
+</svg>
