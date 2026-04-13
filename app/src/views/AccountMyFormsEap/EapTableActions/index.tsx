@@ -152,7 +152,7 @@ function EapTableActions(props: Props) {
             )}
             {type === 'development' && (
                 <>
-                    {environment === 'testing' && eap.eap_type === EAP_TYPE_SIMPLIFIED && isCreated && (
+                    {environment === 'development' && eap.eap_type === EAP_TYPE_SIMPLIFIED && isCreated && (
                         <Link
                             to="eapSimplifiedExport"
                             urlParams={{ eapId: eap.id }}
@@ -165,7 +165,7 @@ function EapTableActions(props: Props) {
                             {strings.previewExportLinkLabel}
                         </Link>
                     )}
-                    {environment === 'testing' && eap.eap_type === EAP_TYPE_FULL && isCreated && (
+                    {environment === 'development' && eap.eap_type === EAP_TYPE_FULL && isCreated && (
                         <Link
                             to="eapFullExport"
                             urlParams={{ eapId: eap.id }}

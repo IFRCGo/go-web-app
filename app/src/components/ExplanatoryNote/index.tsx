@@ -24,7 +24,7 @@ function ExplanatoryNote(props: Props) {
             name={undefined}
             heading={heading}
             modalContent={content}
-            icon={(<InformationLineIcon className={styles.icon} />)}
+            icon={<InformationLineIcon className={styles.icon} />}
             ariaLabel={ariaLabel}
             title={title}
         />
