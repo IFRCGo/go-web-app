@@ -128,6 +128,7 @@ export function Component() {
     ] = useState(false);
 
     const { eapId } = useParams<{ eapId: string }>();
+
     const [searchParams] = useSearchParams();
 
     const version = searchParams.get('version') ?? undefined;
@@ -635,10 +636,10 @@ export function Component() {
         response: fullEapResponse,
         error: fullEapResponseError,
     } = useRequest({
-        skip: isNotDefined(latestFullEapId),
+        skip: isNotDefined(currentFullEapId),
         url: '/api/v2/full-eap/{id}/',
-        pathVariables: isDefined(latestFullEapId)
-            ? { id: latestFullEapId }
+        pathVariables: isDefined(currentFullEapId)
+            ? { id: currentFullEapId }
             : undefined,
         onSuccess: (response) => {
             loadResponseToFormValue(response);

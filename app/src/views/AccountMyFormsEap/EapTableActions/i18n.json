@@ -12,10 +12,18 @@
         "previewSummaryExportLinkLabel": "Preview Summary Export",
         "downloadReviewChecklistLinkLabel": "Review Checklist v{version} (with IFRC comments)",
         "downloadUpdatedChecklistLinkLabel": "Review Checklist v{version} (with NS comments)",
+        "downloadBudgetFileLabel": "Budget v{version}",
         "editSimplifiedEapLinkLabel": "Edit sEAP",
         "viewSimplifiedEapLinkLabel": "View sEAP",
         "reviseEapLabel": "Revise EAP",
         "reviseEapMessage": "Revising this EAP will create a new version. You can make any necessary changes in the new version.",
-        "downloadValidatedBudgetLinkLabel": "Download Validated Budget"
+        "downloadValidatedBudgetLinkLabel": "Download Validated Budget",
+        "additionalFilesButtonLabel": "Additional Attachments",
+        "theoryOfChangeTableLinkLabel": "Theory of Change Table",
+        "fullReviseSuccessAlert": "Full EAP revised successfully",
+        "fullReviseFailedAlert": "Full EAP revision failed",
+        "simplifiedReviseSuccessAlert": "Simplified EAP revised successfully",
+        "simplifiedReviseFailedAlert": "Simplified EAP revision failed",
+        "forecastTableLinkLabel": "Forecast Table"
     }
 }

@@ -102,6 +102,13 @@ function Overview(props: Props) {
         );
     }, [setFieldValue]);
 
+    const onExpectedSubmissionTimeChange = useCallback((val: string | undefined) => {
+        if (!val) {
+            return;
+        }
+        setFieldValue(`${val}-01`, 'expected_submission_time');
+    }, [setFieldValue]);
+
     const { setValue: onKeyActorsChange, removeValue: onKeyActorsRemove } = useFormArray<'key_actors', KeyActorsFormFields>(
         'key_actors',
         setFieldValue,
@@ -216,9 +223,9 @@ function Overview(props: Props) {
                     >
                         <DateInput
                             name="expected_submission_time"
-                            value={value?.expected_submission_time}
+                            value={value?.expected_submission_time?.slice(0, 7)}
                             error={error?.expected_submission_time}
-                            onChange={setFieldValue}
+                            onChange={onExpectedSubmissionTimeChange}
                             disabled={disabled}
                             readOnly={readOnly}
                             type="month"

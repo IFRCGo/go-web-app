@@ -11,8 +11,12 @@ import {
     Button,
     ConfirmButton,
     ListView,
+    Modal,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -59,6 +63,13 @@ function EapTableActions(props: Props) {
     const [exportWithDiffView, setExportWithDiffView] = useState(false);
     const [summaryExport, setSummaryExport] = useState(false);
     const [showExportModal, setShowExportModal] = useState(false);
+    const [
+        showAdditionalFileModal,
+        {
+            setTrue: setShowAdditionalFileModalTrue,
+            setFalse: setShowAdditionalFileModalFalse,
+        },
+    ] = useBooleanState(false);
 
     const alert = useAlert();
     const { navigate } = useRouting();
@@ -101,7 +112,7 @@ function EapTableActions(props: Props) {
         body: () => ({} as never),
         onSuccess: () => {
             alert.show(
-                'title',
+                strings.simplifiedReviseSuccessAlert,
                 { variant: 'success' },
             );
             navigate(
@@ -113,7 +124,7 @@ function EapTableActions(props: Props) {
             value: { messageForNotification },
         }) => {
             alert.show(
-                'Failure',
+                strings.simplifiedReviseFailedAlert,
                 {
                     description: messageForNotification,
                     variant: 'danger',
@@ -132,18 +143,19 @@ function EapTableActions(props: Props) {
         body: () => ({} as never),
         onSuccess: () => {
             alert.show(
-                'title',
+                strings.fullReviseSuccessAlert,
                 { variant: 'success' },
             );
-            // if (onPublishSuccess) {
-            //     onPublishSuccess();
-            // }
+            navigate(
+                'fullEapForm',
+                { params: { eapId: eap.id } },
+            );
         },
         onFailure: ({
             value: { messageForNotification },
         }) => {
             alert.show(
-                'Failure',
+                strings.fullReviseFailedAlert,
                 {
                     description: messageForNotification,
                     variant: 'danger',
@@ -276,6 +288,21 @@ function EapTableActions(props: Props) {
                             {strings.previewExportLinkLabel}
                         </Link>
                     )}
+                    {details?.eapType === EAP_TYPE_FULL
+                        && (isDefined(details?.data.theory_of_change_table_file_details)
+                        && isDefined(details?.data.forecast_table_file_details))
+                        && (
+                            <Button
+                                name={undefined}
+                                onClick={setShowAdditionalFileModalTrue}
+                                colorVariant="text"
+                                styleVariant="transparent"
+                                before={<DownloadTwoLineIcon />}
+                                withoutPadding
+                            >
+                                {strings.additionalFilesButtonLabel}
+                            </Button>
+                        )}
                     {isDefined(details?.data.version)
                         && details.data.version > 1
                         && (
@@ -318,6 +345,20 @@ function EapTableActions(props: Props) {
                                 strings.downloadUpdatedChecklistLinkLabel,
                                 {
                                     version: details.data.version - 1,
+                                },
+                            )}
+                        </Link>
+                    )}
+                    {isDefined(details?.data.budget_file_details) && (
+                        <Link
+                            external
+                            href={details?.data.budget_file_details.file}
+                            before={<DownloadTwoLineIcon />}
+                        >
+                            {resolveToString(
+                                strings.downloadBudgetFileLabel,
+                                {
+                                    version: details.data.version,
                                 },
                             )}
                         </Link>
@@ -447,6 +488,33 @@ function EapTableActions(props: Props) {
                     diff={exportWithDiffView}
                     summary={summaryExport}
                 />
+            )}
+            {showAdditionalFileModal && details?.eapType === EAP_TYPE_FULL && (
+                <Modal
+                    heading={strings.additionalFilesButtonLabel}
+                    onClose={setShowAdditionalFileModalFalse}
+                >
+                    <ListView layout="block">
+                        {isDefined(details?.data.theory_of_change_table_file_details) && (
+                            <Link
+                                external
+                                href={details?.data.theory_of_change_table_file_details.file}
+                                before={<DownloadTwoLineIcon />}
+                            >
+                                {strings.theoryOfChangeTableLinkLabel}
+                            </Link>
+                        )}
+                        {isDefined(details?.data.forecast_table_file_details) && (
+                            <Link
+                                external
+                                href={details?.data.forecast_table_file_details.file}
+                                before={<DownloadTwoLineIcon />}
+                            >
+                                {strings.forecastTableLinkLabel}
+                            </Link>
+                        )}
+                    </ListView>
+                </Modal>
             )}
         </ListView>
     );

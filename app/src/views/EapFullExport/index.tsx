@@ -1265,7 +1265,7 @@ export function Component() {
                         ?.[operation.sector]?.join(', ');
 
                     const prevApCodeSectorValue = apCodeOptions?.sector_ap_codes
-                        ?.[prevOperation.sector]?.join(', ');
+                        ?.[prevOperation?.sector]?.join(', ');
 
                     const prevOperationIndicatorMap = listToMap(
                         prevOperation?.indicators,

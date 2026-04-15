@@ -115,6 +115,13 @@ export function Component() {
         },
     });
 
+    const onExpectedSubmissionTimeChange = useCallback((val: string | undefined) => {
+        if (!val) {
+            return;
+        }
+        setFieldValue(`${val}-01`, 'expected_submission_time');
+    }, [setFieldValue]);
+
     const handleEapTypeNotSureClick = useCallback(() => {
         setFieldValue(null, 'eap_type');
     }, [setFieldValue]);
@@ -273,8 +280,8 @@ export function Component() {
                             <DateInput
                                 name="expected_submission_time"
                                 type="month"
-                                onChange={setFieldValue}
-                                value={value?.expected_submission_time}
+                                onChange={onExpectedSubmissionTimeChange}
+                                value={value?.expected_submission_time?.slice(0, 7)}
                                 error={error?.expected_submission_time}
                             />
                             <Radio
