@@ -20,7 +20,7 @@ import {
 } from '#utils/ibfMapHelpers';
 
 import IbfControlPanel from './IbfControlPanel';
-import { IbfDataPanel } from './IbfDataPanel';
+import IbfDataPanel from './IbfDataPanel';
 import IbfLayerPanel from './IbfLayerPanel';
 import OlDataMap from './OlDataMap';
 import useIbfDataLoader from './useIbfDataLoader';
