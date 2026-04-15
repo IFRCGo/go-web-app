@@ -148,3 +148,12 @@ export enum EventDataSources {
   Ibf = "ibf",
   Mrw = "mrw",
 }
+
+// Details needed by the map when an event is selected
+// This is derived from EventOverviewData and passed to the map component
+export interface SelectedEventMapDetails {
+  eventId: string;
+  centroid: [number, number];
+  // Admin area codes affected by this event, keyed by admin level
+  exposedRegionsByLevel: Map<number, string[]>;
+}

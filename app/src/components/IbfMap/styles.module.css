@@ -1,3 +1,23 @@
 .container {
     margin: 20px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 40px);
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+}
+
+.control-panel-column {
+    width: 300px;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+.map-column {
+    flex: 1;
+    min-width: 0;
 }

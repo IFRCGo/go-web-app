@@ -1,92 +1,159 @@
-import { useCallback, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import BaseLayer from 'ol/layer/Base';
 import 'ol/ol.css';
-import { styleSelectedCountryOverlay } from '#utils/ibfMapStyles';
-import { OlDataMap } from './OlDataMap';
-import { IbfControlPanel } from './IbfControlPanel';
+
+import {
+    useEffect,
+    useMemo,
+    useState,
+} from 'react';
+import { useSearchParams } from 'react-router-dom';
+
+import useAlert from '#hooks/useAlert';
+import {
+    countryParamsKey,
+    eventIdParamsKey,
+    noCountrySelectedValue,
+} from '#utils/ibfMap';
+import {
+    getCurrentCountryEventData,
+    getEventDetails,
+    getSelectedEventMapDetails,
+} from '#utils/ibfMapHelpers';
+
+import IbfControlPanel from './IbfControlPanel';
 import { IbfDataPanel } from './IbfDataPanel';
-import { OlGlobalMap } from './OlGlobalMap';
+import IbfLayerPanel from './IbfLayerPanel';
+import OlDataMap from './OlDataMap';
+import useIbfDataLoader from './useIbfDataLoader';
+
 import styles from './styles.module.css';
-import { countrySearchParamsKey, mapUrlCountryVectorTiles, mapUrlSimpleStyleJson, noCountrySelectedValue } from '#utils/ibfMap';
-import { debug_testImageName, makeMvtLayerAsync, makeStaticImageLayer } from '#utils/ibfMapHelpers';
 
 /**
- * Base map component for IBF data maps * 
- * This component manages multiple nested components including for map data fetching, display, and control. * 
+ * Base map component for IBF data maps
+ * This component manages multiple nested components including for map data fetching,
+ * display, and control.
  * @returns A standalone component
  */
-export function IbfMapContainer() {
+export default function IbfMapContainer() {
+    const alert = useAlert();
+
+    // Search params are used to create a shareable URL to a specific view.
+    // TODO: add more data to the params, and also handle scrubbing the values
+    // to prevent injection attacks (if needed)
+    // See task: https://dev.azure.com/redcrossnl/IBF/_workitems/edit/40917
     const [searchParams, setSearchParams] = useSearchParams();
 
-    // Initialize state directly from URL to avoid race condition
-    const initialCountryCode = searchParams.get(countrySearchParamsKey)?.toUpperCase() || noCountrySelectedValue;
-    const [selectedCountry, setSelectedCountry] = useState<string>(initialCountryCode);
-    const [isImageLayerVisible, setIsImageLayerVisible] = useState(false);
+    // Load the view details from the search params
+    // This is only done once at page load
+    const selectedCountry = searchParams.get(countryParamsKey)?.toUpperCase()
+    || noCountrySelectedValue;
+    const selectedEventId = searchParams.get(eventIdParamsKey) || '';
 
-    // Stored add-layer function from OlDataMap
-    const addLayerRef = useRef<((layer: BaseLayer) => void) | null>(null);
+    // Check if a country is in the search params
+    if (selectedCountry === noCountrySelectedValue) {
+    // TODO: Redirect to NRW landing page or show some error since we can't load the portal.
+    // This is pending design.
+        console.error('No country selected. Cannot load the portal.');
+    }
 
-    // Cache the loaded image layer
-    // When we support more data layers, we'll need one for each data layer we want to toggle.
-    const imageLayerRef = useRef<BaseLayer | null>(null);
+    // Event data is loaded once on page load, then only updated via the refresh function
+    const initialEventData = selectedEventId
+        ? getEventDetails(selectedEventId)
+        : getCurrentCountryEventData(selectedCountry);
 
-    const addDataLayer = useCallback((addLayer: (layer: BaseLayer) => void) => {
-        addLayerRef.current = addLayer;
-    }, []);
+    const [selectedAdminPlaceCode, setSelectedAdminPlaceCode] = useState<
+    string | null
+  >(null);
 
-    const handleToggleImageLayer = useCallback(() => {
-        // If layer is already loaded, just toggle visibility
-        if (imageLayerRef.current) {
-            const newVisibility = !isImageLayerVisible;
-            imageLayerRef.current.setVisible(newVisibility);
-            setIsImageLayerVisible(newVisibility);
-            return;
+    // Data loader hook - manages layer loading, caching, and shared event state
+    const {
+        eventData,
+        setEventData,
+        selectedEventId: activeEventId,
+        selectEvent,
+        deselectEvent,
+        selectedEventLayers,
+        registerMapAddLayer,
+        toggleMapLayer,
+        hideAllLayers,
+    } = useIbfDataLoader(selectedCountry, initialEventData, selectedEventId);
+
+    // Derive map details for the selected event (centroid, affected regions)
+    const selectedEventMapDetails = useMemo(
+        () => getSelectedEventMapDetails(eventData, activeEventId),
+        [eventData, activeEventId],
+    );
+
+    // Show alert when no exposed regions found in a selected event
+    useEffect(() => {
+        if (selectedEventMapDetails && selectedEventMapDetails.exposedRegionsByLevel.size === 0) {
+            alert.show('No exposed regions', {
+                variant: 'danger',
+                description: `No exposed regions found for event "${activeEventId}".`,
+            });
         }
+    }, [selectedEventMapDetails, activeEventId, alert]);
 
-        // First time: load the layer
-        if (!addLayerRef.current) {
-            console.error('Map not ready yet');
-            return;
-        }
+    // Refresh page and put in a default start state
+    const handleRefreshAll = () => {
+    // Clear search params except for the country
+        setSearchParams({
+            [countryParamsKey]: selectedCountry,
+        });
 
-        makeStaticImageLayer(debug_testImageName)
-            .then(imageLayer => {
-                imageLayerRef.current = imageLayer;
-                addLayerRef.current?.(imageLayer);
-                setIsImageLayerVisible(true);
-            })
-            .catch(error => {
-                console.error('Error loading static image layer:', error);
-            })
-    }, [isImageLayerVisible]);
+        // Deselect current event and admin areas
+        deselectEvent();
 
-    const handleCountrySelect = useCallback((country: string) => {
-        setSelectedCountry(country);
+        // Reload event data and set it
+        setEventData(getCurrentCountryEventData(selectedCountry));
+    };
 
-        if (country) {
-            setSearchParams({ [countrySearchParamsKey]: country });
-        } else {
-            setSearchParams({});
-        }
+    // Handle event selection from control panel
+    const handleEventClick = (eventId: string) => {
+        selectEvent(eventId);
+        // Set search params for URL sharing only - does not reload data
+        setSearchParams({
+            [countryParamsKey]: selectedCountry,
+            [eventIdParamsKey]: eventId,
+        });
+    };
 
-    }, [setSearchParams]);
+    // Callback to update search params based on user interactions.
+    const handleMapItemSelected = (placeCode: string) => {
+    // TODO: pass what is clicked on to the data panel and UI panel.
+        setSelectedAdminPlaceCode(placeCode);
+        console.debug(`TODO: [IbfMap] Admin area selected: ${placeCode}`);
+    };
 
     return (
         <div className={styles.container}>
-            <OlDataMap
-                selectedCountry={selectedCountry}
-                mapStyleJsonUrl={mapUrlSimpleStyleJson}
-                additionalVectorLayer={makeMvtLayerAsync(selectedCountry, mapUrlCountryVectorTiles, styleSelectedCountryOverlay)}
-                addLayerFunction={addDataLayer}
-            />
-            <IbfControlPanel
-                onToggleImageLayer={handleToggleImageLayer}
-                isLayerVisible={isImageLayerVisible}
-            />
             <IbfDataPanel selectedCountry={selectedCountry} />
-
-            <OlGlobalMap adminLevels={0} onSelect={handleCountrySelect} />
+            <div className={styles.mainContent}>
+                <div className={styles.controlPanelColumn}>
+                    <IbfLayerPanel
+                        eventLayers={selectedEventLayers}
+                        countryCode={selectedCountry}
+                        onToggleMapLayer={toggleMapLayer}
+                        onHideAllLayers={hideAllLayers}
+                    />
+                    <IbfControlPanel
+                        eventData={eventData}
+                        activeEventId={activeEventId}
+                        onEventClick={handleEventClick}
+                        onRefreshAll={handleRefreshAll}
+                        onDeselectEvent={deselectEvent}
+                        countryCode={selectedCountry}
+                        selectedAdminPlaceCode={selectedAdminPlaceCode}
+                    />
+                </div>
+                <div className={styles.mapColumn}>
+                    <OlDataMap
+                        selectedCountry={selectedCountry}
+                        selectedEventDetails={selectedEventMapDetails}
+                        addLayerFunction={registerMapAddLayer}
+                        onSelect={handleMapItemSelected}
+                    />
+                </div>
+            </div>
         </div>
     );
 }

@@ -45,12 +45,3 @@ Adjust settings as needed, as per the comments in the file.
    ````
 
 Go to `https://localhost:3000/ibf`
-
-### Testing
-
-Currently there is a debug raster folder for showing raster data.
-This will either have a local set up later, or the app will call directly into our seed data repo.
-For now, the raster data image name is hardcoded, and is placed in the
-`APP_RASTER_IMAGE_DIR=/debug_raster/` dir as specified in the .env file with a meta data json file.
-
-See /app/src/utils/ibfMapHelpers.ts for the file name.

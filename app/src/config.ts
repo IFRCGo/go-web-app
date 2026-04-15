@@ -20,7 +20,7 @@ const {
     APP_VERSION,
     APP_PACKAGE_NAME,
     APP_REPOSITORY_URL,
-    APP_RASTER_IMAGE_DIR,
+    APP_SEED_DATA_REPO,
 } = import.meta.env;
 
 export const environment = APP_ENVIRONMENT;
@@ -39,7 +39,7 @@ export const pgTileserv = APP_MAP_PG_TILESERV;
 export const pgFeatureserv = APP_MAP_PG_FEATURESERV;
 export const ibfApiBackend = APP_IBF_API_BACKEND;
 export const riskApi = APP_RISK_API_ENDPOINT;
-export const rasterImageDir = APP_RASTER_IMAGE_DIR ?? '/debug_raster/';
+export const seedDataRepo = APP_SEED_DATA_REPO ?? 'https://raw.githubusercontent.com/rodekruis/IBF-seed-data/main/';
 export const sdtUrl = APP_SDT_URL;
 export const powerBiReportId1 = APP_POWER_BI_REPORT_ID_1;
 

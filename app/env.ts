@@ -30,7 +30,7 @@ export default defineConfig({
 
     // FIXME this should be number
     APP_HOTJAR_ID: Schema.string.optional(),
-    APP_RASTER_IMAGE_DIR: Schema.string.optional(),
+    APP_SEED_DATA_REPO: Schema.string.optional(),
     APP_MAPTILER_API_KEY: Schema.string(),
     APP_MAP_PG_TILESERV: Schema.string({ format: 'url', protocol: true, tld: false }),
     APP_MAP_PG_FEATURESERV: Schema.string({ format: 'url', protocol: true, tld: false }),

@@ -53,6 +53,8 @@ const appConfigs = compat.config({
     rules: {
         'react-refresh/only-export-components': 'warn',
 
+        'no-console': ['warn', { allow: ['error'] }],
+
         'no-unused-vars': 0,
         '@typescript-eslint/no-unused-vars': 1,
 

@@ -26,6 +26,8 @@ interface OlGlobalMapProps {
 
 /**
  * Map designed for a global view with country selection. *
+ * TODO: redo this for the new way to handle clicks and admin boundaries.
+ * See task https://dev.azure.com/redcrossnl/IBF/_workitems/edit/41662
  * @returns A standalone component.
  */
 export function OlGlobalMap({ adminLevels: adminLayers, onSelect }: OlGlobalMapProps) {

@@ -1,3 +1,6 @@
+// TODO: Find a better differentiation between ibfMap.ts and ibfMapHelpers.ts and simplify
+// Task: https://dev.azure.com/redcrossnl/IBF/_workitems/edit/41662
+
 import { maptilerApiKey } from '#config';
 
 // Map property strings
@@ -5,7 +8,12 @@ export const isoA2CountryNameProperty = 'iso_a2';
 export const noCountrySelectedValue = 'None';
 
 // URL search parameter keys
-export const countrySearchParamsKey = 'c';
+export const countryParamsKey = 'c';
+export const eventIdParamsKey = 'e';
+
+// Data constants
+export const COUNTRY_FIELD_KEY = "country";
+export const PLACE_CODE_FIELD_KEY = "code";
 
 // Map URLs
 const maptilerBaseUrl = `https://api.maptiler.com`
@@ -39,10 +47,10 @@ export interface CountryData {
     safeExtents: [number, number, number, number];
 }
 
-// The country data is indexed on ISO_A2, since the maptiler data has this value on all admin boundaries.
-// TODO: the extents were LLM generated and are not the best.
-// TODO: Get the extents from Montandon, and cache them here: https://goadmin.ifrc.org/api/v2/country/?limit=9999
-// TODO: Safe extents are easy to calculate, so instead of storing them, just calculate them from a function.
+// TODO: Try to switch to ISO3 in the data, so we can avoid ISO2 -> ISO3 mapping.
+// If not, simplify this.
+// See task https://dev.azure.com/redcrossnl/IBF/_workitems/edit/41656
+// Extent and zoom should also be calculated on the fly, to allow for clusters of selected admin areas.
 export const CountryData: Map<string, CountryData> = new Map([
     ["AF", { name_en: "Afghanistan", iso_a3: "AFG", ibfSupported: false, initialZoom: 6, latlon: [33.94, 67.71], extents3857: [6612067, 3385918, 8294920, 4559121], safeExtents: [6012067, 2785918, 8894920, 5159121] }],
     ["AL", { name_en: "Albania", iso_a3: "ALB", ibfSupported: false, initialZoom: 7, latlon: [41.15, 20.17], extents3857: [2190731, 4837257, 2346426, 5139428], safeExtents: [1590731, 4237257, 2946426, 5739428] }],

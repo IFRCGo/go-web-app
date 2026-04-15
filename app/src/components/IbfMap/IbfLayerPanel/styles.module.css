@@ -1,0 +1,29 @@
+.container {
+    background-color: #e0f7f7;
+    padding: 16px;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.section-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 8px;
+    margin-top: 12px;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hide-all-button {
+    margin-top: 12px;
+}
