@@ -3,55 +3,55 @@
 // Do not change any values without first checking with the IBF backend team.
 
 export enum HazardType {
-  Flood = "flood",
-  Drought = "drought",
+  Flood = 'flood',
+  Drought = 'drought',
 }
 
 // Enum to identify alert classes
 // These then point to the color/style/localized string in the front end.
 // A given country may support only a subset of these.
 export enum AlertClassType {
-  High = "high",
-  Medium = "medium",  
-  Low = "low",
+  High = 'high',
+  Medium = 'medium',
+  Low = 'low',
 }
 
 // Units for labelling values in the UI
 export enum MeasurementUnits {
-  Km = "km",
-  Buildings = "buildings",
-  People = "people",
-  Locations = "locations",
-  None = "",
+  Km = 'km',
+  Buildings = 'buildings',
+  People = 'people',
+  Locations = 'locations',
+  None = '',
 }
 
 // The types of items with exposure data
 export enum ExposedItemType {
-  Population = "population",
-  Buildings = "buildings",
-  Roads = "roads",
-  Schools = "schools",
-  Clinics = "clinics",
+  Population = 'population',
+  Buildings = 'buildings',
+  Roads = 'roads',
+  Schools = 'schools',
+  Clinics = 'clinics',
 }
 
 // Key to identify the type of map layer info being shown.
 // This is used to style/label it on the frontend.
 export enum MapLayerInfoType {
-  Population = "population",
-  EventExtent = "event_extent",
-  RedCrossBranches = "red_cross_branches",
-  Clinics = "clinics",
+  Population = 'population',
+  EventExtent = 'event_extent',
+  RedCrossBranches = 'red_cross_branches',
+  Clinics = 'clinics',
 }
 
 export enum MapLayerDisplayType {
   // Image data, i.e. PNGs
-  Raster = "raster",
+  Raster = 'raster',
   // Vector shape data for lines and polygons, including admin areas
-  Shape = "shape",
+  Shape = 'shape',
   // Vector point data, such as for glofas locations
-  Point = "point",
+  Point = 'point',
   // Vector tiles, used for dense vector information such as many buildings and roads
-  VectorTile = "vector_tile",
+  VectorTile = 'vector_tile',
 }
 
 // Data for showing exposure of a given ExposedItemType
@@ -70,7 +70,7 @@ export interface MapLayerDetails {
   // The type of data on this layer
   // This can be used to label the layer in the UI, style it, etc.
   dataType: MapLayerInfoType;
-  
+
   // The way this data will be displayed
   displayType: MapLayerDisplayType;
 }
@@ -95,7 +95,7 @@ export interface EventOverviewData {
   centroid: [number, number];
 
   // Event time range, as ISO date strings with hours
-  startTime: string; 
+  startTime: string;
   endTime: string;
   reachesPeakAlertClassTime: string;
 
@@ -103,7 +103,8 @@ export interface EventOverviewData {
   firstIssuedAt: string;
   lastUpdatedAt: string;
 
-  // List of lists of details for each exposed admin area. The first index is the admin level (0, 1, 2...)
+  // List of lists of details for each exposed admin area.
+  // The first index is the admin level (0, 1, 2...)
   exposedAdminAreas: EventAdminAreaData[][];
 
   // Other data layers that can be added to the map for this event
@@ -116,8 +117,8 @@ export interface EventOverviewData {
 
 // Sources for the data used in events, map layers, etc.
 export enum DataSourceType {
-  Glofas = "glofas",
-  Other = "other",
+  Glofas = 'glofas',
+  Other = 'other',
 }
 
 // Event data specific to an admin area. Each admin area with exposure has one of these.
@@ -132,7 +133,8 @@ export interface EventAdminAreaData {
 export type AllEventsData = Record<string, EventOverviewData>;
 
 // Country-level non-event data
-// This is a work in progress still and will either have more data added to it, or merged into some other source.
+// This is a work in progress still and will either have more data added to it,
+// or merged into some other source.
 export interface CountryMapData {
   // Available map layers for the country that can be added
   availableLayers: MapLayerDetails[];
@@ -145,8 +147,8 @@ export interface CountryMapData {
 
 // Supported event data sources for a country.
 export enum EventDataSources {
-  Ibf = "ibf",
-  Mrw = "mrw",
+  Ibf = 'ibf',
+  Mrw = 'mrw',
 }
 
 // Details needed by the map when an event is selected

@@ -1,16 +1,27 @@
-import { useEffect, useRef } from 'react';
-import Map from 'ol/Map.js';
-import styles from './styles.module.css';
+import 'ol/ol.css';
+
+import {
+    useEffect,
+    useRef,
+} from 'react';
 import { View } from 'ol';
-import { fromLonLat } from 'ol/proj';
-import VectorTile from 'ol/source/VectorTile';
-import VectorTileLayer from 'ol/layer/VectorTile';
 import Attribution from 'ol/control/Attribution.js';
 import { defaults as defaultControls } from 'ol/control/defaults.js';
 import MVT from 'ol/format/MVT';
-import 'ol/ol.css';
-import { CountryData, isoA2CountryNameProperty, mapUrlCountryVectorTiles, noCountrySelectedValue } from '#utils/ibfMap';
+import VectorTileLayer from 'ol/layer/VectorTile';
+import Map from 'ol/Map.js';
+import { fromLonLat } from 'ol/proj';
+import VectorTile from 'ol/source/VectorTile';
+
+import {
+    CountryData,
+    isoA2CountryNameProperty,
+    mapUrlCountryVectorTiles,
+    noCountrySelectedValue,
+} from '#utils/ibfMap';
 import { styleMvtGreyWorldMap } from '#utils/ibfMapStyles';
+
+import styles from './styles.module.css';
 
 // Initial zoom/focus of map
 const center = [0, 0];
@@ -30,7 +41,7 @@ interface OlGlobalMapProps {
  * See task https://dev.azure.com/redcrossnl/IBF/_workitems/edit/41662
  * @returns A standalone component.
  */
-export function OlGlobalMap({ adminLevels: adminLayers, onSelect }: OlGlobalMapProps) {
+export default function OlGlobalMap({ adminLevels: adminLayers, onSelect }: OlGlobalMapProps) {
     const mapRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<Map | null>(null);
     const adminLayersRef = useRef<VectorTileLayer | null>(null);
