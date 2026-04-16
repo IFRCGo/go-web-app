@@ -78,6 +78,7 @@ const riskAnalysisTabFields: (keyof PartialEapFullFormType)[] = [
 const triggerModelTabFields: (keyof PartialEapFullFormType)[] = [
     'trigger_statement',
     'lead_time',
+    'lead_timeframe_unit',
     'trigger_statement_source_of_information',
     'forecast_selection',
     'forecast_selection_images',

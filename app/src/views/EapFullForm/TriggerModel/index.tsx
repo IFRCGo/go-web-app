@@ -286,6 +286,7 @@ function TriggerModel(props: Props) {
                         numPreferredColumns={2}
                     >
                         <NumberInput
+                            required
                             name="lead_time"
                             value={value?.lead_time}
                             error={error?.lead_time}
@@ -294,6 +295,7 @@ function TriggerModel(props: Props) {
                             readOnly={readOnly}
                         />
                         <SelectInput
+                            required
                             name="lead_timeframe_unit"
                             value={value?.lead_timeframe_unit}
                             error={error?.lead_timeframe_unit}
