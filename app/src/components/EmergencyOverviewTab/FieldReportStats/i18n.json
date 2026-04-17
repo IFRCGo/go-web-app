@@ -1,5 +1,5 @@
 {
-    "namespace": "emergencyDetails",
+    "namespace": "common",
     "strings": {
         "potentiallyAffected": "Potentially Affected",
         "highestRisk": "Highest Risk",

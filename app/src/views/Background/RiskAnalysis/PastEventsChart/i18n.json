@@ -1,0 +1,11 @@
+{
+    "namespace": "fieldReportBackground",
+    "strings": {
+        "pastEventsChartEvents": "Previous Similar Emergencies",
+        "pastEventsTargetedPopulation": "Targeted population",
+        "pastEventsAmountRequested": "Amount requested",
+        "pastEventsAmountFunded": "Amount funded",
+        "pastEventsLastFiveYearsLabel": "Last 5 years",
+        "pastEventsLastTenYearsLabel": "Last 10 years"
+    }
+}

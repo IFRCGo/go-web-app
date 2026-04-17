@@ -1,0 +1,11 @@
+{
+    "namespace": "fieldReportKeyFigure",
+    "strings": {
+        "keyFiguresHeading": "Key Figures",
+        "injuredLabel": "Injured",
+        "deadLabel": "Dead",
+        "missingLabel": "Missing",
+        "affectedLabel": "Affected",
+        "displacedLabel": "Displaced"
+    }
+}

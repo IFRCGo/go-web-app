@@ -1,5 +1,5 @@
 {
-    "namespace": "emergencyDetails",
+    "namespace": "common",
     "strings": {
         "emergencyKeyFiguresTitle": "Key Figures",
         "emergencyOverviewTitle": "Emergency Overview",
@@ -12,7 +12,6 @@
         "assistanceRequestedByNS": "NS Requests International Assistance",
         "assistanceRequestedByGovernment": "Government Requests International Assistance",
         "situationalOverviewTitle": "Situational Overview",
-        "linksTitle": "Links",
         "emergencyMapTitle": "Affected Provinces",
         "severityLevelUpdateDateLabel": "Last update",
         "contactsTitle": "Contacts",

@@ -222,6 +222,32 @@ const emergencyDetails = customWrapRoute({
     },
 });
 
+const background = customWrapRoute({
+    parent: emergenciesLayout,
+    path: 'background',
+    component: {
+        render: () => import('#views/Background'),
+        props: {},
+    },
+    context: {
+        title: 'Emergency Background',
+        visibility: 'anything',
+    },
+});
+
+const actionsSummary = customWrapRoute({
+    parent: emergenciesLayout,
+    path: 'actions-summary',
+    component: {
+        render: () => import('#views/ActionsSummary'),
+        props: {},
+    },
+    context: {
+        title: 'Emergency Actions Summary',
+        visibility: 'anything',
+    },
+});
+
 const emergencyReportsAndDocuments = customWrapRoute({
     parent: emergenciesLayout,
     path: 'reports',
@@ -1363,6 +1389,8 @@ const wrappedRoutes = {
     // Redirects
     preparednessOperationalLearning,
     obsoleteFieldReportDetails,
+    background,
+    actionsSummary,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

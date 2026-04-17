@@ -1,0 +1,20 @@
+.risk-bar-chart {
+    .fi-filters {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-md);
+        grid-column: span 2;
+
+        @media screen and (max-width: 40rem) {
+            grid-column: unset;
+        }
+    }
+
+    .legend {
+        display: flex;
+        gap: var(--go-ui-spacing-md);
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+    }
+}

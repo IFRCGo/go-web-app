@@ -1,0 +1,11 @@
+{
+    "namespace": "fieldReportBackground",
+    "strings": {
+        "riskBarChartVeryLowLabel": "Very low",
+        "riskBarChartLowLabel": "Low",
+        "riskBarChartMediumLabel": "Medium",
+        "riskBarChartHighLabel": "High",
+        "riskVeryHighLabel": "Very high",
+        "riskScoreLabel": "Risk score"
+    }
+}

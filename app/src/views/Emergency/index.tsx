@@ -345,6 +345,20 @@ export function Component() {
                 >
                     {strings.emergencyTabReports}
                 </NavigationTab>
+                {/* TODO: Add if there is fieldReport in emergencyResponse */}
+                <NavigationTab
+                    to="actionsSummary"
+                    urlParams={{ emergencyId }}
+                >
+                    {strings.actionsSummary}
+                </NavigationTab>
+                {/* TODO: Add if there is fieldReport in emergencyResponse */}
+                <NavigationTab
+                    to="background"
+                    urlParams={{ emergencyId }}
+                >
+                    {strings.background}
+                </NavigationTab>
                 {(emergencyResponse?.response_activity_count ?? 0) > 0 && (
                     <NavigationTab
                         to="emergencyActivities"
