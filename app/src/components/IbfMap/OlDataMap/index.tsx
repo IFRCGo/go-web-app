@@ -58,6 +58,10 @@ interface OlDataMapProps {
 
   // Callback for when a map feature is selected.
   onSelect: (placeCode: string) => void;
+
+  // Callback when the map instance is ready
+  // This is needed to pass references of the map for exporting to PDF
+  onMapReady?: (map: MapOl) => void;
 }
 
 /**
@@ -73,6 +77,7 @@ export default function OlDataMap({
     selectedEventDetails,
     addLayerFunction,
     onSelect,
+    onMapReady,
 }: OlDataMapProps) {
     const mapRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<MapOl | null>(null);
@@ -163,6 +168,11 @@ export default function OlDataMap({
 
             state.mapInstance = mapInstanceRef.current;
             addAdminLayer(1, selectedCountry);
+
+            // Notify parent that map is ready
+            if (onMapReady && mapInstanceRef.current) {
+                onMapReady(mapInstanceRef.current);
+            }
 
             // Change cursor on hover
             mapInstanceRef.current.on('pointermove', (evt) => {

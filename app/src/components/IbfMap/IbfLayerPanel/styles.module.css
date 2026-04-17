@@ -10,14 +10,6 @@
     color: #333;
 }
 
-.section-title {
-    font-size: 12px;
-    font-weight: 500;
-    color: #666;
-    margin-bottom: 8px;
-    margin-top: 12px;
-}
-
 .button-group {
     display: flex;
     flex-direction: column;
@@ -25,5 +17,11 @@
 }
 
 .hide-all-button {
+    margin-top: 12px;
+}
+
+.export-button-row {
+    display: flex;
+    justify-content: flex-end;
     margin-top: 12px;
 }

@@ -166,6 +166,7 @@ const makeStaticImageLayer = async (baseUri: string, name: string) => {
             projection: 'EPSG:3857',
             interpolate: false,
             imageExtent: extents,
+            crossOrigin: 'anonymous',
         }),
     });
 };

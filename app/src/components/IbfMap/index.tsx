@@ -3,9 +3,11 @@ import 'ol/ol.css';
 import {
     useEffect,
     useMemo,
+    useRef,
     useState,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import type MapOl from 'ol/Map';
 
 import useAlert from '#hooks/useAlert';
 import {
@@ -18,6 +20,7 @@ import {
     getEventDetails,
     getSelectedEventMapDetails,
 } from '#utils/ibfMapHelpers';
+import { PrintElementId } from '#utils/nrwMapToPdfExporter';
 
 import IbfControlPanel from './IbfControlPanel';
 import IbfDataPanel from './IbfDataPanel';
@@ -64,6 +67,9 @@ export default function IbfMapContainer() {
     string | null
   >(null);
 
+    // Store map instance for PDF export
+    const mapRef = useRef<MapOl | null>(null);
+
     // Data loader hook - manages layer loading, caching, and shared event state
     const {
         eventData,
@@ -82,6 +88,15 @@ export default function IbfMapContainer() {
         () => getSelectedEventMapDetails(eventData, activeEventId),
         [eventData, activeEventId],
     );
+
+    // Derive peak day for the selected event (for PDF export filename)
+    const selectedEventPeakDay = useMemo(() => {
+        if (!activeEventId || !eventData[activeEventId]) {
+            return undefined;
+        }
+        const peakTime = eventData[activeEventId].reachesPeakAlertClassTime;
+        return peakTime ? peakTime.split('T')[0] : undefined;
+    }, [eventData, activeEventId]);
 
     // Show alert when no exposed regions found in a selected event
     useEffect(() => {
@@ -126,31 +141,41 @@ export default function IbfMapContainer() {
 
     return (
         <div className={styles.container}>
-            <IbfDataPanel selectedCountry={selectedCountry} />
+            <div id={PrintElementId.DataPanel}>
+                <IbfDataPanel selectedCountry={selectedCountry} />
+            </div>
             <div className={styles.mainContent}>
                 <div className={styles.controlPanelColumn}>
-                    <IbfLayerPanel
-                        eventLayers={selectedEventLayers}
-                        countryCode={selectedCountry}
-                        onToggleMapLayer={toggleMapLayer}
-                        onHideAllLayers={hideAllLayers}
-                    />
-                    <IbfControlPanel
-                        eventData={eventData}
-                        activeEventId={activeEventId}
-                        onEventClick={handleEventClick}
-                        onRefreshAll={handleRefreshAll}
-                        onDeselectEvent={deselectEvent}
-                        countryCode={selectedCountry}
-                        selectedAdminPlaceCode={selectedAdminPlaceCode}
-                    />
+                    <div id={PrintElementId.LayerPanel}>
+                        <IbfLayerPanel
+                            eventLayers={selectedEventLayers}
+                            countryCode={selectedCountry}
+                            onToggleMapLayer={toggleMapLayer}
+                            onHideAllLayers={hideAllLayers}
+                            mapRef={mapRef}
+                            eventId={activeEventId ?? undefined}
+                            peakDay={selectedEventPeakDay}
+                        />
+                    </div>
+                    <div id={PrintElementId.ControlPanel}>
+                        <IbfControlPanel
+                            eventData={eventData}
+                            activeEventId={activeEventId}
+                            onEventClick={handleEventClick}
+                            onRefreshAll={handleRefreshAll}
+                            onDeselectEvent={deselectEvent}
+                            countryCode={selectedCountry}
+                            selectedAdminPlaceCode={selectedAdminPlaceCode}
+                        />
+                    </div>
                 </div>
-                <div className={styles.mapColumn}>
+                <div className={styles.mapColumn} id={PrintElementId.Map}>
                     <OlDataMap
                         selectedCountry={selectedCountry}
                         selectedEventDetails={selectedEventMapDetails}
                         addLayerFunction={registerMapAddLayer}
                         onSelect={handleMapItemSelected}
+                        onMapReady={(map: MapOl) => { mapRef.current = map; }}
                     />
                 </div>
             </div>
