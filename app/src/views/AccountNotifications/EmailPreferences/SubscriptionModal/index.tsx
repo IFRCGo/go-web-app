@@ -122,7 +122,12 @@ function SubscriptionModal(props: Props) {
                 }),
             );
         },
-        // TODO: handle failure
+        onFailure: () => {
+            alert.show(
+                strings.updateFailureMessage,
+                { variant: 'danger' },
+            );
+        },
     });
 
     const {
