@@ -139,6 +139,7 @@ export function Component() {
     const {
         pending: eapRegistrationPending,
         response: eapRegistrationResponse,
+        retrigger: eapRegistrationRetrigger,
     } = useRequest({
         skip: isNotDefined(eapId),
         url: '/api/v2/eap-registration/{id}/',
@@ -475,6 +476,7 @@ export function Component() {
                 strings.createSuccessMessage,
                 { variant: 'success' },
             );
+            eapRegistrationRetrigger();
             updateFormValueFromResponse(response);
         },
         onFailure: (err) => {

@@ -144,7 +144,11 @@ export function Component() {
 
     const alert = useAlert();
 
-    const { pending: fetchingEap, response: eapDetailResponse } = useRequest({
+    const {
+        pending: fetchingEap,
+        response: eapDetailResponse,
+        retrigger: eapDetailRetrigger,
+    } = useRequest({
         skip: isNotDefined(eapId),
         url: '/api/v2/eap-registration/{id}/',
         pathVariables: isTruthyString(eapId)
@@ -712,6 +716,7 @@ export function Component() {
         onSuccess: (response) => {
             const message = strings.successMessage;
             alert.show(message, { variant: 'success' });
+            eapDetailRetrigger();
             loadResponseToFormValue(response);
         },
         onFailure: (err) => {
