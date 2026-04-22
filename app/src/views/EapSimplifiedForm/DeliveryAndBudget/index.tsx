@@ -8,6 +8,7 @@ import {
     ListView,
     NumberInput,
     TextArea,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -350,20 +351,16 @@ function DeliveryAndBudget(props: Props) {
                         )}
                         withAsteriskOnTitle
                     >
+                        <TextOutput
+                            valueType="number"
+                            strongLabel
+                            label={strings.totalBudgetLabel}
+                            value={value?.total_budget}
+                        />
                         <ListView
                             layout="grid"
-                            numPreferredGridColumns={4}
+                            numPreferredGridColumns={3}
                         >
-                            <NumberInput
-                                name="total_budget"
-                                label={strings.totalBudgetLabel}
-                                value={value?.total_budget}
-                                onChange={setFieldValue}
-                                error={error?.total_budget}
-                                disabled={disabled}
-                                readOnly
-                                required
-                            />
                             <NumberInput
                                 label={strings.deliverReadinessLabel}
                                 name="readiness_budget"

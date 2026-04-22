@@ -385,9 +385,9 @@ export function Component() {
     } = useRequest({
         skip: isNotDefined(currentSimplifiedEapId),
         url: '/api/v2/simplified-eap/{id}/',
-        pathVariables: isDefined(currentSimplifiedEapId) ? {
-            id: Number(currentSimplifiedEapId),
-        } : undefined,
+        pathVariables: isDefined(currentSimplifiedEapId)
+            ? { id: currentSimplifiedEapId }
+            : undefined,
         onSuccess: (response) => {
             updateFormValueFromResponse(response);
             processServerErrors(state.error, value);
@@ -454,7 +454,10 @@ export function Component() {
         || eapRegistrationResponse?.eap_type === EAP_TYPE_SIMPLIFIED)
         && isNotDefined(simplifiedEapResponseError);
 
+    const isLocked = currentSimplifiedEap?.is_locked;
+
     const isEditable = isLatestVersion
+        && !isLocked
         && (eapRegistrationResponse?.status === EAP_STATUS_UNDER_DEVELOPMENT
             || eapRegistrationResponse?.status === EAP_STATUS_NS_ADDRESSING_COMMENTS);
 
@@ -862,7 +865,7 @@ export function Component() {
                             />
                         </TabPanel>
                         <InlineLayout
-                            after={(
+                            after={isEditable && simplifiedEapFormAccess && (
                                 <Button name={undefined} onClick={handleSave}>
                                     {strings.saveButtonLabel}
                                 </Button>

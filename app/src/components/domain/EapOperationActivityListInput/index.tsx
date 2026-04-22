@@ -172,7 +172,7 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
                         value={activity}
                         onChange={onReadinessChange}
                         onRemove={onReadinessRemove}
-                        error={getErrorObject(error)?.[name]}
+                        error={getErrorObject(error)}
                         disabled={disabled}
                         readOnly={readOnly}
                     />

@@ -58,6 +58,7 @@ import {
     EAP_STATUS_UNDER_DEVELOPMENT,
     EAP_STATUS_UNDER_REVIEW,
     EAP_TYPE_FULL,
+    TIMEFRAME_DAYS,
 } from '#utils/constants';
 import {
     type GoApiBody,
@@ -276,7 +277,8 @@ export function Component() {
                 ...otherValues
             } = removeNull(response);
 
-            setValue({
+            setValue((oldValue) => ({
+                ...oldValue,
                 ...otherValues,
 
                 partner_contacts: partner_contacts?.map(injectClientId),
@@ -339,7 +341,7 @@ export function Component() {
                     prepositioning_activities:
                         approach.prepositioning_activities?.map(injectClientId),
                 })),
-            });
+            }));
         },
         [updateFileUrlMapping, setValue],
     );
@@ -653,6 +655,56 @@ export function Component() {
         },
     });
 
+    useEffect(() => {
+        if (isNotDefined(eapDetailResponse)) {
+            return;
+        }
+
+        if (fullEapPending) {
+            return;
+        }
+
+        if (isDefined(fullEapResponse)) {
+            return;
+        }
+
+        const {
+            expected_submission_time,
+            partners,
+            national_society_contact_email,
+            national_society_contact_name,
+            national_society_contact_title,
+            national_society_contact_phone_number,
+            dref_focal_point_name,
+            dref_focal_point_title,
+            dref_focal_point_phone_number,
+            dref_focal_point_email,
+            ifrc_contact_name,
+            ifrc_contact_email,
+            ifrc_contact_title,
+            ifrc_contact_phone_number,
+        } = removeNull(eapDetailResponse);
+
+        setValue((prevValue) => ({
+            ...prevValue,
+            expected_submission_time,
+            national_society_contact_email,
+            national_society_contact_name,
+            national_society_contact_title,
+            national_society_contact_phone_number,
+            dref_focal_point_name,
+            dref_focal_point_title,
+            dref_focal_point_phone_number,
+            dref_focal_point_email,
+            ifrc_head_of_delegation_email: ifrc_contact_email,
+            ifrc_head_of_delegation_name: ifrc_contact_name,
+            ifrc_head_of_delegation_title: ifrc_contact_title,
+            ifrc_head_of_delegation_phone_number: ifrc_contact_phone_number,
+            lead_timeframe_unit: TIMEFRAME_DAYS,
+            partners,
+        }));
+    }, [eapDetailResponse, fullEapPending, fullEapResponse, setValue]);
+
     const { pending: createFullEapPending, trigger: triggerCreateFullEap } = useLazyRequest({
         method: 'POST',
         url: '/api/v2/full-eap/',
@@ -739,61 +791,16 @@ export function Component() {
         },
     });
 
-    useEffect(() => {
-        if (isNotDefined(eapDetailResponse)) {
-            return;
-        }
-
-        if (fullEapPending) {
-            return;
-        }
-
-        if (isDefined(fullEapResponse)) {
-            return;
-        }
-
-        const {
-            expected_submission_time,
-            partners,
-            national_society_contact_email,
-            national_society_contact_name,
-            national_society_contact_title,
-            national_society_contact_phone_number,
-            dref_focal_point_name,
-            dref_focal_point_title,
-            dref_focal_point_phone_number,
-            dref_focal_point_email,
-            ifrc_contact_name,
-            ifrc_contact_email,
-            ifrc_contact_title,
-            ifrc_contact_phone_number,
-        } = removeNull(eapDetailResponse);
-
-        setValue({
-            expected_submission_time,
-            national_society_contact_email,
-            national_society_contact_name,
-            national_society_contact_title,
-            national_society_contact_phone_number,
-            dref_focal_point_name,
-            dref_focal_point_title,
-            dref_focal_point_phone_number,
-            dref_focal_point_email,
-            ifrc_head_of_delegation_email: ifrc_contact_email,
-            ifrc_head_of_delegation_name: ifrc_contact_name,
-            ifrc_head_of_delegation_title: ifrc_contact_title,
-            ifrc_head_of_delegation_phone_number: ifrc_contact_phone_number,
-            partners,
-        });
-    }, [eapDetailResponse, fullEapPending, fullEapResponse, setValue]);
-
     const isLatestVersion = currentFullEapId === latestFullEapId;
 
     const fullEapFormAccess = (isNotDefined(eapDetailResponse?.eap_type)
         || eapDetailResponse?.eap_type === EAP_TYPE_FULL)
         && isNotDefined(fullEapResponseError);
 
+    const isLocked = currentFullEap?.is_locked;
+
     const isEditable = isLatestVersion
+        && !isLocked
         && (eapDetailResponse?.status === EAP_STATUS_UNDER_DEVELOPMENT
             || eapDetailResponse?.status === EAP_STATUS_NS_ADDRESSING_COMMENTS);
 
@@ -1104,11 +1111,12 @@ export function Component() {
                             />
                         </TabPanel>
                         <InlineLayout
-                            after={(
-                                <Button name={undefined} onClick={handleSave}>
-                                    {strings.saveButton}
-                                </Button>
-                            )}
+                            after={isEditable && fullEapFormAccess
+                                    && (
+                                        <Button name={undefined} onClick={handleSave}>
+                                            {strings.saveButton}
+                                        </Button>
+                                    )}
                         >
                             <ListView withCenteredContents>
                                 <Button

@@ -59,10 +59,18 @@ export function Component() {
         (fullEap) => String(fullEap.version) === String(version),
     );
 
+    const latestFullEapId = eapRegistrationResponse?.latest_full_eap ?? undefined;
+    const latestFullEap = eapRegistrationResponse?.full_eap_details?.find(
+        (fullEap) => fullEap.id === latestFullEapId,
+    );
+
+    const currentFullEap = selectedFullEap ?? latestFullEap;
+    const currentFullEapId = currentFullEap?.id;
+
     const { pending: fullEapPending, response: fullEapResponse } = useRequest({
-        skip: isNotDefined(selectedFullEap?.id),
+        skip: isNotDefined(currentFullEapId),
         url: '/api/v2/full-eap/{id}/',
-        pathVariables: isDefined(selectedFullEap?.id)
+        pathVariables: isDefined(currentFullEapId)
             ? {
                 id: Number(selectedFullEap?.id),
             }

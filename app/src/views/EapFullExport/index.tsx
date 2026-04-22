@@ -60,9 +60,9 @@ export function Component() {
         (fullEap) => String(fullEap.version) === String(version),
     );
 
-    const latestFullEapVersion = eapRegistrationResponse?.latest_full_eap;
+    const latestFullEapId = eapRegistrationResponse?.latest_full_eap;
     const latestFullEap = eapRegistrationResponse?.full_eap_details?.find(
-        (fullEap) => fullEap.version === latestFullEapVersion,
+        (fullEap) => fullEap.id === latestFullEapId,
     );
 
     const currentFullEap = selectedFullEap ?? latestFullEap;
@@ -397,7 +397,8 @@ export function Component() {
                                         <PrintableDescription
                                             value={impact.impact}
                                             prevValue={
-                                                prevPrioritizedImpactsMapping[impact.id!]?.impact
+                                                prevPrioritizedImpactsMapping[impact.previous_id!]
+                                                    ?.impact
                                             }
                                             withDiff={withDiff}
                                         />
@@ -416,10 +417,11 @@ export function Component() {
                         value={(
                             <ol>
                                 {early_actions?.map((action) => (
-                                    <li key={action.id}>
+                                    <li key={action.previous_id}>
                                         <PrintableDescription
                                             value={action.action}
-                                            prevValue={prevEarlyActionsMapping[action.id!]?.action}
+                                            prevValue={prevEarlyActionsMapping[action.previous_id!]
+                                                ?.action}
                                             withDiff={withDiff}
                                         />
                                     </li>
@@ -460,7 +462,7 @@ export function Component() {
                             <PrintableLabel
                                 value={trigger.source_name}
                                 prevValue={prevTriggerStatementSourceInformationMapping[
-                                    trigger.id!]?.source_name}
+                                    trigger.previous_id!]?.source_name}
                                 withDiff={withDiff}
                             />
                         ))}
@@ -587,7 +589,8 @@ export function Component() {
                             headingLevel={6}
                         >
                             {partner_contacts?.map((partner) => {
-                                const prevPartner = prevPartnerContactsMapping[partner.id!];
+                                const prevPartner = prevPartnerContactsMapping[partner
+                                    .previous_id!];
                                 return (
                                     <PrintableDescription
                                         key={partner.id}
@@ -826,7 +829,8 @@ export function Component() {
                                     <PrintableDescription
                                         value={impact.impact}
                                         prevValue={
-                                            prevPrioritizedImpactsMapping[impact.id!]?.impact
+                                            prevPrioritizedImpactsMapping[impact.previous_id!]
+                                                ?.impact
                                         }
                                         withDiff={withDiff}
                                     />
@@ -876,8 +880,8 @@ export function Component() {
                                         <PrintableDescription
                                             value={source.source_name}
                                             prevValue={
-                                                prevRiskSourceInformationMapping[source.id!]
-                                                    ?.source_name
+                                                prevRiskSourceInformationMapping[source
+                                                    .previous_id!]?.source_name
                                             }
                                             withDiff={withDiff}
                                         />
@@ -894,8 +898,8 @@ export function Component() {
                                         <PrintableDescription
                                             value={source.source_link}
                                             prevValue={
-                                                prevRiskSourceInformationMapping[source.id!]
-                                                    ?.source_link
+                                                prevRiskSourceInformationMapping[source
+                                                    .previous_id!]?.source_link
                                             }
                                             withDiff={withDiff}
                                         />
@@ -953,7 +957,7 @@ export function Component() {
                                         <PrintableDescription
                                             value={trigger.source_name}
                                             prevValue={prevTriggerStatementSourceInformationMapping[
-                                                trigger.id!]?.source_name}
+                                                trigger.previous_id!]?.source_name}
                                             withDiff={withDiff}
                                         />
                                     )}
@@ -969,7 +973,7 @@ export function Component() {
                                         <PrintableDescription
                                             value={trigger.source_link}
                                             prevValue={prevTriggerStatementSourceInformationMapping[
-                                                trigger.id!]?.source_link}
+                                                trigger.previous_id!]?.source_link}
                                             withDiff={withDiff}
                                         />
                                     )}
@@ -1070,7 +1074,7 @@ export function Component() {
                                         <PrintableDescription
                                             value={trigger.source_name}
                                             prevValue={prevTriggerModelSourceInformationMapping[
-                                                trigger.id!]?.source_name}
+                                                trigger.previous_id!]?.source_name}
                                             withDiff={withDiff}
                                         />
                                     )}
@@ -1086,7 +1090,7 @@ export function Component() {
                                         <PrintableDescription
                                             value={trigger.source_link}
                                             prevValue={prevTriggerModelSourceInformationMapping[
-                                                trigger.id!]?.source_link}
+                                                trigger.previous_id!]?.source_link}
                                             withDiff={withDiff}
                                         />
                                     )}
@@ -1115,10 +1119,11 @@ export function Component() {
                     >
                         <ol>
                             {early_actions?.map((action) => (
-                                <li key={action.id}>
+                                <li key={action.previous_id}>
                                     <PrintableDescription
                                         value={action.action}
-                                        prevValue={prevEarlyActionsMapping[action.id!]?.action}
+                                        prevValue={prevEarlyActionsMapping[action.previous_id!]
+                                            ?.action}
                                         withDiff={withDiff}
                                     />
                                 </li>
@@ -1187,7 +1192,7 @@ export function Component() {
                                         <PrintableDescription
                                             value={trigger.source_name}
                                             prevValue={prevEvidenceBaseSourceInformationMapping[
-                                                trigger.id!]?.source_name}
+                                                trigger.previous_id!]?.source_name}
                                             withDiff={withDiff}
                                         />
                                     )}
@@ -1335,10 +1340,8 @@ export function Component() {
                                         value={strings.indicatorTargetLabel}
                                     />
                                     {operation.indicators.map((indicator) => {
-                                        const prevIndicator = isDefined(indicator.previous_id)
-                                            ? prevOperationIndicatorMap?.[indicator.previous_id]
-                                            : undefined;
-
+                                        const prevIndicator = prevOperationIndicatorMap
+                                            ?.[indicator.previous_id!];
                                         return (
                                             <PrintableDataDisplay
                                                 key={indicator.id}
@@ -1368,10 +1371,8 @@ export function Component() {
                             >
                                 <div className={styles.activityItems}>
                                     {operation.readiness_activities.map((activity, index) => {
-                                        const prevActivity = isDefined(activity.previous_id)
-                                            ? prevReadinessActivitiesMap?.[activity.previous_id]
-                                            : undefined;
-
+                                        const prevActivity = prevReadinessActivitiesMap
+                                            ?.[activity.previous_id!];
                                         return (
                                             <PrintableActivityOutput
                                                 key={activity.id}
@@ -1392,7 +1393,7 @@ export function Component() {
                                     {operation.prepositioning_activities.map(
                                         (activity, index) => {
                                             const prevActivity = prevPrepositioningActivitiesMap
-                                                ?.[activity.id!];
+                                                ?.[activity.previous_id!];
                                             return (
                                                 <PrintableActivityOutput
                                                     key={activity.id}
@@ -1412,10 +1413,8 @@ export function Component() {
                             >
                                 <div className={styles.activityItems}>
                                     {operation.early_action_activities.map((activity, index) => {
-                                        const prevActivity = isDefined(activity.previous_id)
-                                            ? prevEarlyActionActivitiesMap?.[activity.previous_id]
-                                            : undefined;
-
+                                        const prevActivity = prevEarlyActionActivitiesMap
+                                            ?.[activity.previous_id!];
                                         return (
                                             <PrintableActivityOutput
                                                 key={activity.id}
@@ -1507,10 +1506,8 @@ export function Component() {
                                         value={strings.indicatorTargetLabel}
                                     />
                                     {approach.indicators.map((indicator) => {
-                                        const prevIndicator = isDefined(indicator.previous_id)
-                                            ? prevApproachIndicatorMap?.[indicator.previous_id]
-                                            : undefined;
-
+                                        const prevIndicator = prevApproachIndicatorMap
+                                            ?.[indicator.previous_id!];
                                         return (
                                             <PrintableDataDisplay
                                                 key={indicator.id}
@@ -1540,10 +1537,8 @@ export function Component() {
                             >
                                 <div className={styles.activityItems}>
                                     {approach.readiness_activities.map((activity, index) => {
-                                        const prevActivity = isDefined(activity.previous_id)
-                                            ? prevReadinessActivitiesMap?.[activity.previous_id]
-                                            : undefined;
-
+                                        const prevActivity = prevReadinessActivitiesMap
+                                            ?.[activity.previous_id!];
                                         return (
                                             <PrintableActivityOutput
                                                 key={activity.id}
@@ -1562,11 +1557,8 @@ export function Component() {
                             >
                                 <div className={styles.activityItems}>
                                     {approach.prepositioning_activities.map((activity, index) => {
-                                        const prevActivity = isDefined(activity.previous_id)
-                                            ? prevPrepositioningActivitiesMap
-                                                ?.[activity.previous_id]
-                                            : undefined;
-
+                                        const prevActivity = prevPrepositioningActivitiesMap
+                                            ?.[activity.previous_id!];
                                         return (
                                             <PrintableActivityOutput
                                                 key={activity.id}
@@ -1585,10 +1577,8 @@ export function Component() {
                             >
                                 <div className={styles.activityItems}>
                                     {approach.early_action_activities.map((activity, index) => {
-                                        const prevActivity = isDefined(activity.previous_id)
-                                            ? prevEarlyActionActivitiesMap?.[activity.previous_id]
-                                            : undefined;
-
+                                        const prevActivity = prevEarlyActionActivitiesMap
+                                            ?.[activity.previous_id!];
                                         return (
                                             <PrintableActivityOutput
                                                 key={activity.id}
@@ -1723,7 +1713,7 @@ export function Component() {
                                         <PrintableDescription
                                             value={source.source_name}
                                             prevValue={prevActivationSourceInformationMapping[
-                                                source.id!]?.source_name}
+                                                source.previous_id!]?.source_name}
                                             withDiff={withDiff}
                                         />
                                     )}
@@ -1739,7 +1729,7 @@ export function Component() {
                                         <PrintableDescription
                                             value={source.source_link}
                                             prevValue={prevActivationSourceInformationMapping[
-                                                source.id!]?.source_link}
+                                                source.previous_id!]?.source_link}
                                             withDiff={withDiff}
                                         />
                                     )}

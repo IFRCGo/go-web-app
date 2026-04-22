@@ -6,6 +6,7 @@
         "editFullEapLinkLabel": "Edit Full EAP",
         "viewFullEapLinkLabel": "View Full EAP",
         "exportWithChangesButtonLabel": "Export v{version} PDF (with track changes)",
+        "previewExportWithChangesButtonLabel": "Preview Export v{version} PDF (with track changes)",
         "exportButtonLabel": "Export",
         "exportSummaryButtonLabel": "Export Summary",
         "previewExportLinkLabel": "Preview Export",

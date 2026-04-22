@@ -76,13 +76,17 @@ function EapTableActions(props: Props) {
 
     const strings = useTranslation(i18n);
 
+    const setShowSummaryExportTrue = useCallback(() => {
+        setSummaryExport(true);
+        setExportWithDiffView(false);
+        setShowExportModal(true);
+    }, []);
+
     const setShowExportModalTrue = useCallback((withDiff?: boolean) => {
-        if (type === 'pending-pfa') {
-            setSummaryExport(true);
-        }
+        setSummaryExport(false);
         setExportWithDiffView(!!withDiff);
         setShowExportModal(true);
-    }, [type]);
+    }, []);
 
     const setShowExportModalFalse = useCallback(() => {
         setSummaryExport(false);
@@ -262,35 +266,9 @@ function EapTableActions(props: Props) {
             )}
             {type === 'development' && (
                 <>
-                    {environment === 'development' && eap.eap_type === EAP_TYPE_SIMPLIFIED && isCreated && (
-                        <Link
-                            to="eapSimplifiedExport"
-                            urlParams={{ eapId: eap.id }}
-                            urlSearch={isDefined(details?.data.version)
-                                ? `version=${details.data.version}`
-                                : undefined}
-                            title={strings.previewExportLinkLabel}
-                            before={<DocumentPdfLineIcon fontSize={18} />}
-                        >
-                            {strings.previewExportLinkLabel}
-                        </Link>
-                    )}
-                    {environment === 'development' && eap.eap_type === EAP_TYPE_FULL && isCreated && (
-                        <Link
-                            to="eapFullExport"
-                            urlParams={{ eapId: eap.id }}
-                            urlSearch={isDefined(details?.data.version)
-                                ? `version=${details.data.version}`
-                                : undefined}
-                            title={strings.previewExportLinkLabel}
-                            before={<DocumentPdfLineIcon fontSize={18} />}
-                        >
-                            {strings.previewExportLinkLabel}
-                        </Link>
-                    )}
                     {details?.eapType === EAP_TYPE_FULL
                         && (isDefined(details?.data.theory_of_change_table_file_details)
-                        && isDefined(details?.data.forecast_table_file_details))
+                        || isDefined(details?.data.forecast_table_file_details))
                         && (
                             <Button
                                 name={undefined}
@@ -306,19 +284,61 @@ function EapTableActions(props: Props) {
                     {isDefined(details?.data.version)
                         && details.data.version > 1
                         && (
-                            <Button
-                                name
-                                onClick={setShowExportModalTrue}
-                                before={<DownloadTwoLineIcon />}
-                                styleVariant="action"
-                            >
-                                {resolveToString(
-                                    strings.exportWithChangesButtonLabel,
-                                    {
-                                        version: details.data.version,
-                                    },
+                            <>
+                                <Button
+                                    name
+                                    onClick={setShowExportModalTrue}
+                                    before={<DownloadTwoLineIcon />}
+                                    styleVariant="action"
+                                >
+                                    {resolveToString(
+                                        strings.exportWithChangesButtonLabel,
+                                        {
+                                            version: details.data.version,
+                                        },
+                                    )}
+                                </Button>
+                                {environment === 'development' && (
+                                    <>
+                                        {(eap.eap_type === EAP_TYPE_SIMPLIFIED && (
+                                            <Link
+                                                to="eapSimplifiedExport"
+                                                urlParams={{ eapId: eap.id }}
+                                                urlSearch={isDefined(details?.data.version)
+                                                    ? `version=${details.data.version}&diff=true`
+                                                    : 'diff=true'}
+                                                title={strings.previewExportLinkLabel}
+                                                before={<DocumentPdfLineIcon fontSize={18} />}
+                                            >
+                                                {resolveToString(
+                                                    strings.previewExportWithChangesButtonLabel,
+                                                    {
+                                                        version: details.data.version,
+                                                    },
+                                                )}
+                                            </Link>
+                                        ))}
+                                        {(eap.eap_type === EAP_TYPE_FULL && (
+                                            <Link
+                                                to="eapFullExport"
+                                                urlParams={{ eapId: eap.id }}
+                                                urlSearch={isDefined(details?.data.version)
+                                                    ? `version=${details.data.version}&diff=true`
+                                                    : 'diff=true'}
+                                                title={strings.previewExportLinkLabel}
+                                                before={<DocumentPdfLineIcon fontSize={18} />}
+                                            >
+                                                {resolveToString(
+                                                    strings.previewExportWithChangesButtonLabel,
+                                                    {
+                                                        version: details.data.version,
+                                                    },
+                                                )}
+                                            </Link>
+                                        ))}
+                                    </>
                                 )}
-                            </Button>
+                            </>
                         )}
                     {isDefined(details?.data?.review_checklist_file) && (
                         <Link
@@ -452,22 +472,50 @@ function EapTableActions(props: Props) {
                     >
                         {strings.exportButtonLabel}
                     </Button>
+                    {environment === 'development' && eap.eap_type === EAP_TYPE_SIMPLIFIED && isCreated && (
+                        <Link
+                            to="eapSimplifiedExport"
+                            urlParams={{ eapId: eap.id }}
+                            urlSearch={isDefined(details?.data.version)
+                                ? `version=${details.data.version}`
+                                : undefined}
+                            title={strings.previewExportLinkLabel}
+                            before={<DocumentPdfLineIcon fontSize={18} />}
+                        >
+                            {strings.previewExportLinkLabel}
+                        </Link>
+                    )}
                     {eap.eap_type === EAP_TYPE_FULL && (
                         <>
-                            <Link
-                                to="eapSummaryExport"
-                                urlParams={{ eapId: eap.id }}
-                                urlSearch={isDefined(latestVersion)
-                                    ? `version=${latestVersion}`
-                                    : undefined}
-                                title={strings.previewExportLinkLabel}
-                                before={<DocumentPdfLineIcon fontSize={18} />}
-                            >
-                                {strings.previewSummaryExportLinkLabel}
-                            </Link>
+                            {environment === 'development' && isCreated && (
+                                <ListView>
+                                    <Link
+                                        to="eapSummaryExport"
+                                        urlParams={{ eapId: eap.id }}
+                                        urlSearch={isDefined(latestVersion)
+                                            ? `version=${latestVersion}`
+                                            : undefined}
+                                        title={strings.previewExportLinkLabel}
+                                        before={<DocumentPdfLineIcon fontSize={18} />}
+                                    >
+                                        {strings.previewSummaryExportLinkLabel}
+                                    </Link>
+                                    <Link
+                                        to="eapFullExport"
+                                        urlParams={{ eapId: eap.id }}
+                                        urlSearch={isDefined(details?.data.version)
+                                            ? `version=${details.data.version}`
+                                            : undefined}
+                                        title={strings.previewExportLinkLabel}
+                                        before={<DocumentPdfLineIcon fontSize={18} />}
+                                    >
+                                        {strings.previewExportLinkLabel}
+                                    </Link>
+                                </ListView>
+                            )}
                             <Button
                                 name={false}
-                                onClick={setShowExportModalTrue}
+                                onClick={setShowSummaryExportTrue}
                                 before={<DownloadTwoLineIcon />}
                                 styleVariant="action"
                             >

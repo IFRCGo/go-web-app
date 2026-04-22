@@ -123,7 +123,7 @@ function EapOperationActivityInput(props: Props) {
     const handleTimeframeChange = useCallback(
         (newTimeframe: TimeframeOption['key'] | undefined) => {
             onFieldChange(newTimeframe, 'timeframe');
-            onFieldChange([], 'time_value');
+            onFieldChange(undefined, 'time_value');
         },
         [onFieldChange],
     );

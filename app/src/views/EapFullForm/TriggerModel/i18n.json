@@ -15,7 +15,7 @@
         "sourcesForecastDescription": "Add respective source(s) for the forecast and the link to the website, if applicable.",
         "forecastExplanatoryNote": "In order for the DREF to approve funding when a trigger occurs, there must be a certain probability the extreme event will take place. To safeguard this, it is crucial to select those forecasts that have a certain “skill” level (certain level of confidence). If observations are used, these can also be included in the table. Note that this information does not need to be calculated by the National Society but can be obtained by working with hydro-meteorological services, research institutions, experts etc.",
         "forecastSelectionTitle": "Forecast Selection",
-        "forecastTableDetails": "Forecast Table Details",
+        "forecastTableDetails": "Menu of Forecast Details",
         "downloadForecastTableLabel": "Download Menu of Forecast",
         "forecastRequiredPoint1": "State clearly which forecast(s) and observations will be used and why they were chosen.",
         "forecastRequiredPoint2": "Include a table with all available forecasts for your hazard. The table must include: Name of forecast, Lead time, Source, False Alarm Ratio, Number of times the forecast has been issued for this hazard in the last 10 years ",

@@ -92,10 +92,10 @@ function EnablingApproaches(props: Props) {
             );
 
             return approaches?.map((approach) => {
-                const prevapproachValue = previousValueMapping?.[approach];
+                const prevApproachValue = previousValueMapping?.[approach];
 
-                if (prevapproachValue) {
-                    return prevapproachValue;
+                if (prevApproachValue) {
+                    return prevApproachValue;
                 }
 
                 return {
