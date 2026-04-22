@@ -66,6 +66,7 @@ function RiskAnalysis(props: Props) {
     const strings = useTranslation(i18n);
 
     const error = getErrorObject(formError);
+
     const {
         setValue: onRiskSourceInformationChange,
         removeValue: onRiskSourceInformationRemove,

@@ -488,7 +488,7 @@ function EapTableActions(props: Props) {
                     {eap.eap_type === EAP_TYPE_FULL && (
                         <>
                             {environment === 'development' && isCreated && (
-                                <ListView>
+                                <ListView layout="block">
                                     <Link
                                         to="eapSummaryExport"
                                         urlParams={{ eapId: eap.id }}

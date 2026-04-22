@@ -232,7 +232,7 @@ export function Component() {
                 <PrintableContainer>
                     <Image
                         src={cover_image_file.file}
-                        alt=""
+                        alt={cover_image_file.caption ?? '--'}
                         caption={cover_image_file.caption}
                     />
                 </PrintableContainer>

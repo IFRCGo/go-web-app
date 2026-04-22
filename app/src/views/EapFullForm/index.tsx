@@ -388,6 +388,12 @@ export function Component() {
                         ]?.client_id;
                     }
 
+                    match = matchArray(locations, ['prioritized_impacts', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return formValue?.prioritized_impacts?.[index!]?.client_id;
+                    }
+
                     match = matchArray(locations, ['prioritized_impact_images', NUM]);
                     if (isDefined(match)) {
                         const [index] = match;
@@ -402,6 +408,12 @@ export function Component() {
                         const [index] = match;
                         return formValue?.risk_analysis_source_of_information?.[index!]
                             ?.client_id;
+                    }
+
+                    match = matchArray(locations, ['early_actions', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return formValue?.early_actions?.[index!]?.client_id;
                     }
 
                     match = matchArray(locations, [
@@ -786,13 +798,17 @@ export function Component() {
             navigate('accountMyFormsEap');
         },
         onFailure: (error) => {
+            const {
+                value: { formErrors, messageForNotification },
+            } = error;
             alert.show(
                 strings.submitFailedSuccess,
                 {
                     variant: 'danger',
-                    description: error.value.messageForNotification,
+                    description: messageForNotification,
                 },
             );
+            processServerErrors(formErrors, value);
         },
     });
 
