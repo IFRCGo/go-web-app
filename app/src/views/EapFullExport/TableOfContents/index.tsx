@@ -1,7 +1,6 @@
 import {
     type RefObject,
-    useEffect,
-    useState,
+    useMemo,
 } from 'react';
 import { randomString } from '@togglecorp/fujs';
 
@@ -15,18 +14,21 @@ type HeadingData = {
 }
 
 interface Props {
-    mainRef: RefObject<HTMLDivElement>;
+    mainRef: RefObject<HTMLDivElement | null>;
 }
 
 function TableOfContents(props: Props) {
     const { mainRef } = props;
-    const [headings, setHeadings] = useState<HeadingData[]>([]);
 
-    useEffect(() => {
+    const headings = useMemo(() => {
         const contentElement = mainRef.current;
 
-        if (!contentElement) return;
+        /* eslint-disable-next-line react-hooks/refs */
+        if (!contentElement) return undefined;
 
+        /* FIXME(shreeyash07): contentElement.querySelectorAll read in render to
+         * heading level h2 and h3 */
+        /* eslint-disable-next-line react-hooks/refs */
         const elements = Array.from(contentElement.querySelectorAll('h2, h3'));
 
         const headingList: HeadingData[] = [];
@@ -56,12 +58,12 @@ function TableOfContents(props: Props) {
             }
         });
 
-        setHeadings(headingList);
+        return headingList;
     }, [mainRef]);
 
     return (
         <ol className={styles.tableOfContents}>
-            {headings.map((heading) => (
+            {headings?.map((heading) => (
                 <li key={heading.id}>
                     {heading.text}
                     {heading.children && (

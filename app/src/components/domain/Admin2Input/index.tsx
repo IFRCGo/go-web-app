@@ -27,7 +27,6 @@ import {
     MapLayer,
     MapSource,
 } from '@togglecorp/re-map';
-import turfBbox from '@turf/bbox';
 import {
     type FillLayer,
     type LineLayer,
@@ -49,6 +48,7 @@ import {
     DURATION_MAP_ZOOM,
     MAX_PAGE_LIMIT,
 } from '#utils/constants';
+import { getGeoJsonBounds } from '#utils/geo';
 import {
     useLazyRequest,
     useRequest,
@@ -158,7 +158,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
             return undefined;
         }
 
-        return turfBbox(countryDetails.bbox);
+        return getGeoJsonBounds(countryDetails.bbox);
     }, [
         countryDetails,
     ]);

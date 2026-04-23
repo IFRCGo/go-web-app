@@ -1,5 +1,4 @@
 import {
-    type ElementRef,
     useCallback,
     useEffect,
     useMemo,
@@ -133,9 +132,9 @@ export function Component() {
     const [searchParams] = useSearchParams();
 
     const version = searchParams.get('version') ?? undefined;
-    const tabListRef = useRef<ElementRef<'div'>>(null);
+    const tabListRef = useRef<HTMLDivElement>(null);
     const shouldSubmitRef = useRef(false);
-    const lastModifiedAtRef = useRef<string | undefined>();
+    const lastModifiedAtRef = useRef<string | undefined>(null);
 
     const strings = useTranslation(i18n);
 
@@ -170,7 +169,7 @@ export function Component() {
 
     const currentFullEap = selectedFullEap ?? latestFullEap;
     const currentFullEapId = currentFullEap?.id;
-    const getIsSubmission = useCallback(() => shouldSubmitRef.current, []);
+    const getIsSubmission = () => shouldSubmitRef.current;
 
     const {
         value,
@@ -843,44 +842,41 @@ export function Component() {
     const nextStep = getNextStep(activeTab, 1);
     const prevStep = getNextStep(activeTab, -1);
 
-    const handleValidationSuccess = useCallback(
-        (validatedFormValue: PartialEapFullFormType) => {
-            if (isNotDefined(latestFullEapId)) {
-                triggerCreateFullEap({
-                    ...(validatedFormValue as unknown as EapFullRequestBody),
-                    eap_registration: Number(eapId),
-                });
-            } else {
-                triggerUpdateFullEap({
-                    ...validatedFormValue,
-                    id: latestFullEapId,
-                    modified_at: lastModifiedAtRef.current,
-                } as unknown as EapFullRequestBody);
-            }
-        },
-        [eapId, triggerCreateFullEap, latestFullEapId, triggerUpdateFullEap],
-    );
+    const handleValidationSuccess = (validatedFormValue: PartialEapFullFormType) => {
+        if (isNotDefined(latestFullEapId)) {
+            triggerCreateFullEap({
+                ...(validatedFormValue as unknown as EapFullRequestBody),
+                eap_registration: Number(eapId),
+            });
+        } else {
+            triggerUpdateFullEap({
+                ...validatedFormValue,
+                id: latestFullEapId,
+                modified_at: lastModifiedAtRef.current,
+            } as unknown as EapFullRequestBody);
+        }
+    };
 
     const handleTabChange = useCallback((newTab: TabKeys) => {
         setActiveTab(newTab);
         tabListRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, []);
 
-    const handleFormError = useCallback(() => {
+    const handleFormError = () => {
         alert.show(
             strings.validationErrorAlertMessage,
             { variant: 'warning' },
         );
-    }, [alert, strings.validationErrorAlertMessage]);
+    };
 
-    const handleSave = useMemo(
-        () => createSubmitHandler(
-            validate,
-            setError,
-            handleValidationSuccess,
-            handleFormError,
-        ),
-        [handleFormError, handleValidationSuccess, validate, setError],
+    const handleSave = createSubmitHandler(
+        validate,
+        setError,
+        /* FIXME(shreeyash07): lastModifiedAtRef.current read in render to
+         * handle obsolete payload while submitting form */
+        /* eslint-disable-next-line react-hooks/refs */
+        handleValidationSuccess,
+        handleFormError,
     );
 
     const handleObsoletePayloadOverwriteButtonClick = useCallback(
