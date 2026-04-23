@@ -15,7 +15,7 @@ interface Props {
     heading: React.ReactNode;
     description: React.ReactNode;
     dataReady?: boolean;
-    mainRef: React.RefObject<HTMLDivElement>;
+    mainRef: React.RefObject<HTMLDivElement | null>;
 }
 
 function PrintablePage(props: Props) {

@@ -126,24 +126,28 @@ function OperationsBySectorInput(props: Props) {
                         name="indicators"
                         value={value.indicators}
                         onChange={onFieldChange}
+                        readOnly={readOnly}
                         error={getErrorObject(error)?.indicators}
                     />
                     <EapOperationActivityListInput
                         name="readiness_activities"
                         value={value.readiness_activities}
                         onChange={onFieldChange}
+                        readOnly={readOnly}
                         error={getErrorObject(error)?.readiness_activities}
                     />
                     <EapOperationActivityListInput
                         name="prepositioning_activities"
                         value={value.prepositioning_activities}
                         onChange={onFieldChange}
+                        readOnly={readOnly}
                         error={getErrorObject(error)?.prepositioning_activities}
                     />
                     <EapOperationActivityListInput
                         name="early_action_activities"
                         value={value.early_action_activities}
                         onChange={onFieldChange}
+                        readOnly={readOnly}
                         error={getErrorObject(error)?.early_action_activities}
                     />
                 </ListView>

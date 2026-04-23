@@ -5,14 +5,14 @@
 
     .meta-children-items {
         display: grid;
-        grid-gap: var(--go-ui-width-separator-md);
+        gap: var(--go-ui-width-separator-md);
         grid-template-columns: 1fr 1fr 1fr;
     }
 }
 
 .indicator-items {
     display: grid;
-    grid-gap: var(--go-ui-width-separator-md);
+    gap: var(--go-ui-width-separator-md);
     grid-template-columns: 2fr 1fr;
 }
 

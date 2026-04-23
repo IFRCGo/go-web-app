@@ -25,6 +25,7 @@ import PrintableDescription from '#components/printable/PrintableDescription';
 import PrintableLabel from '#components/printable/PrintableLabel';
 import PrintablePage from '#components/printable/PrintablePage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useDebouncedValue from '#hooks/useDebouncedValue';
 import { useRequest } from '#utils/restRequest';
 
 import PrintableContactOutput from './PrintableContactOutput';
@@ -345,6 +346,9 @@ export function Component() {
 
     const previewReady = !eapRegistrationPending && !fullEapPending && !prevFullEapPending;
 
+    // NOTE: We render Table of Content after preview is ready so adding additional delay
+    const dataReady = useDebouncedValue(previewReady);
+
     return (
         <PrintablePage
             mainRef={mainRef}
@@ -356,7 +360,7 @@ export function Component() {
                 </>
             )}
             description={eapTitle ?? '--'}
-            dataReady={previewReady}
+            dataReady={dataReady}
         >
             <PrintableContainer
                 heading={strings.summaryPageTitle}
@@ -460,6 +464,7 @@ export function Component() {
                         label={strings.sourceForecastLabel}
                         value={trigger_statement_source_of_information?.map((trigger) => (
                             <PrintableLabel
+                                key={trigger.previous_id}
                                 value={trigger.source_name}
                                 prevValue={prevTriggerStatementSourceInformationMapping[
                                     trigger.previous_id!]?.source_name}
@@ -489,9 +494,11 @@ export function Component() {
                     />
                 </div>
             </PrintableContainer>
-            <PrintableContainer breakAfter>
-                <TableOfContents mainRef={mainRef} />
-            </PrintableContainer>
+            {previewReady && (
+                <PrintableContainer breakAfter>
+                    <TableOfContents mainRef={mainRef} />
+                </PrintableContainer>
+            )}
             <PrintableContainer
                 heading={strings.overviewHeading}
                 headingLevel={2}

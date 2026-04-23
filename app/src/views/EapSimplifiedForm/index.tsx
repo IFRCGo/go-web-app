@@ -133,7 +133,7 @@ export function Component() {
     ] = useState(false);
 
     const tabListRef = useRef<HTMLDivElement>(null);
-    const lastModifiedAtRef = useRef<string | undefined>();
+    const lastModifiedAtRef = useRef<string | undefined>(undefined);
     const shouldSubmitRef = useRef(false);
 
     const {
@@ -620,19 +620,15 @@ export function Component() {
         // setShouldSubmit(false);
     }, [alert, strings.validationErrorAlertMessage]);
 
-    const handleSave = useMemo(() => (
-        createSubmitHandler(
-            validate,
-            setError,
-            handleValidationSuccess,
-            handleFormError,
-        )
-    ), [
-        handleFormError,
-        handleValidationSuccess,
+    const handleSave = createSubmitHandler(
         validate,
         setError,
-    ]);
+        /* FIXME(shreeyash07): lastModifiedAtRef.current read in render to
+         * handle obsolete payload while submitting form */
+        /* eslint-disable-next-line react-hooks/refs */
+        handleValidationSuccess,
+        handleFormError,
+    );
 
     const handleObsoletePayloadOverwriteButtonClick = useCallback(
         (newModifiedAt: string | undefined) => {
