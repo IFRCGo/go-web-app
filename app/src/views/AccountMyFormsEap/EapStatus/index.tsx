@@ -89,6 +89,9 @@ function EapStatus(props: Props) {
     const simplifiedEapDetails = details.simplified_eap_details;
     const fullEapDetails = details.full_eap_details;
 
+    const isSimplifiedEapLocked = simplifiedEapDetails[0]?.is_locked;
+    const isFullEapLocked = fullEapDetails[0]?.is_locked;
+
     const alert = useAlert();
 
     const { eap_eap_status: eapStatusOptions } = useGlobalEnums();
@@ -186,36 +189,42 @@ function EapStatus(props: Props) {
                     onClose={handleStatusUpdateCancel}
                     footerActions={(
                         <ListView>
-                            {details.eap_type === EAP_TYPE_SIMPLIFIED && responseFormErrors && (
-                                <Link
-                                    to="simplifiedEapForm"
-                                    urlParams={{ eapId }}
-                                    urlSearch={isDefined(simplifiedEapDetails[0]?.version)
-                                        ? `version=${simplifiedEapDetails[0].version}`
-                                        : undefined}
-                                    title={strings.editSimplifiedEapFormLinkLabel}
-                                    state={{ error: responseFormErrors }}
-                                    styleVariant="outline"
-                                    colorVariant="primary"
-                                >
-                                    {strings.editSimplifiedEapFormLinkLabel}
-                                </Link>
-                            )}
-                            {details.eap_type === EAP_TYPE_FULL && responseFormErrors && (
-                                <Link
-                                    to="eapFullExport"
-                                    urlParams={{ eapId }}
-                                    urlSearch={isDefined(fullEapDetails[0]?.version)
-                                        ? `version=${fullEapDetails[0].version}`
-                                        : undefined}
-                                    title={strings.editFullEapFormLinkLabel}
-                                    state={{ error: responseFormErrors }}
-                                    styleVariant="outline"
-                                    colorVariant="primary"
-                                >
-                                    {strings.editFullEapFormLinkLabel}
-                                </Link>
-                            )}
+                            {!isSimplifiedEapLocked
+                                && details.eap_type === EAP_TYPE_SIMPLIFIED
+                                && responseFormErrors
+                                && (
+                                    <Link
+                                        to="simplifiedEapForm"
+                                        urlParams={{ eapId }}
+                                        urlSearch={isDefined(simplifiedEapDetails[0]?.version)
+                                            ? `version=${simplifiedEapDetails[0].version}`
+                                            : undefined}
+                                        title={strings.editSimplifiedEapFormLinkLabel}
+                                        state={{ error: responseFormErrors }}
+                                        styleVariant="outline"
+                                        colorVariant="primary"
+                                    >
+                                        {strings.editSimplifiedEapFormLinkLabel}
+                                    </Link>
+                                )}
+                            {!isFullEapLocked
+                                && details.eap_type === EAP_TYPE_FULL
+                                && responseFormErrors
+                                && (
+                                    <Link
+                                        to="eapFullExport"
+                                        urlParams={{ eapId }}
+                                        urlSearch={isDefined(fullEapDetails[0]?.version)
+                                            ? `version=${fullEapDetails[0].version}`
+                                            : undefined}
+                                        title={strings.editFullEapFormLinkLabel}
+                                        state={{ error: responseFormErrors }}
+                                        styleVariant="outline"
+                                        colorVariant="primary"
+                                    >
+                                        {strings.editFullEapFormLinkLabel}
+                                    </Link>
+                                )}
                             <Button
                                 name={requestBody}
                                 onClick={triggerStatusUpdate}
@@ -262,15 +271,26 @@ function EapStatus(props: Props) {
                                 </Label>
                             </ListView>
                         )}
-                        {isDefined(responseFormErrors) && (
+                        {(isSimplifiedEapLocked || isFullEapLocked) && (
                             <Alert
-                                name="form-error-warning"
+                                name="revise-error-warning"
                                 type="warning"
-                                title={strings.submitFormErrorMessage}
+                                title={strings.reviseFormErrorMessage}
                                 withLightBackground
                                 withoutShadow
                             />
                         )}
+                        {!(isSimplifiedEapLocked || isFullEapLocked)
+                            && isDefined(responseFormErrors)
+                            && (
+                                <Alert
+                                    name="form-error-warning"
+                                    type="warning"
+                                    title={strings.submitFormErrorMessage}
+                                    withLightBackground
+                                    withoutShadow
+                                />
+                            )}
                         {newStatus === EAP_STATUS_PENDING_PFA && !hasValidatedBudgetFile && (
                             <Alert
                                 name="no-budget-file-warning"

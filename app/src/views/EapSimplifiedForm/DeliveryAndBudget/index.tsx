@@ -356,6 +356,7 @@ function DeliveryAndBudget(props: Props) {
                             strongLabel
                             label={strings.totalBudgetLabel}
                             value={value?.total_budget}
+                            suffix="CHF"
                         />
                         <ListView
                             layout="grid"

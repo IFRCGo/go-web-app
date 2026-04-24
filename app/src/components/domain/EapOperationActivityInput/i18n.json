@@ -1,8 +1,8 @@
 {
     "namespace": "eapOperationActivityInput",
     "strings": {
-        "operationPriorityActionLabel": "Priority action",
-        "operationTimeFrameLabel": "Time Frame",
-        "operationTimeValueLabel": "Time Value"
+        "operationPriorityActionLabel": "Priority Action",
+        "operationTimeFrameLabel": "Timeframe",
+        "operationTimeValueLabel": "Activity Time Span"
     }
 }

@@ -11,6 +11,7 @@
         "editFullEapFormLinkLabel": "Edit Full EAP",
         "reviewChecklistInputLabel": "Select review checklist file",
         "submitFormErrorMessage": "Please make sure you've filled in all the required details before proceeding!",
+        "reviseFormErrorMessage": "Please make sure all comments in the review checklist are resolved before proceeding!",
         "noBudgetAlertTitle": "Please attach the validated budget file before proceeding!"
     }
 }
