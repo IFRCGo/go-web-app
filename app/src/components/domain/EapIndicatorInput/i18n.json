@@ -3,6 +3,6 @@
     "strings": {
         "removeButtonTitle": "Remove",
         "titleInputLabel": "Title",
-        "targetInputLabel": "Target"
+        "targetInputLabel": "Indicator Target"
     }
 }

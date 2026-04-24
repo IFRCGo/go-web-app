@@ -222,17 +222,17 @@ type LocalUnitAffiliationOptions = NonNullable<NonNullable<GoApiResponse<'/api/v
 
 export const OTHER_AFFILIATION = 9 satisfies LocalUnitAffiliationOptions;
 
-// FIXME these need to satisfy some enum
-export const EAP_TYPE_SIMPLIFIED = 20;
-export const EAP_TYPE_FULL = 10;
+type EapTypeEnumKey = components['schemas']['EapEapTypeEnumKey'];
+export const EAP_TYPE_SIMPLIFIED = 20 satisfies EapTypeEnumKey;
+export const EAP_TYPE_FULL = 10 satisfies EapTypeEnumKey;
 
 // Timeframe
+type TimeFrameEnumKey = components['schemas']['EapTimeframeEnumKey'];
 
-// FIXME these need to satisfy some enum
-export const TIMEFRAME_YEAR = 10;
-export const TIMEFRAME_DAYS = 30;
-// export const TIMEFRAME_MONTHS = 20;
-// export const TIMEFRAME_HOURS = 40;
+export const TIMEFRAME_YEAR = 10 satisfies TimeFrameEnumKey;
+export const TIMEFRAME_DAYS = 30 satisfies TimeFrameEnumKey;
+export const TIMEFRAME_MONTHS = 20 satisfies TimeFrameEnumKey;
+export const TIMEFRAME_HOURS = 40 satisfies TimeFrameEnumKey;
 
 type EapStatus = components['schemas']['EapEapStatusEnumKey'];
 
