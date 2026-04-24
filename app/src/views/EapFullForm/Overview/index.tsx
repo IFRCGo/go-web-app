@@ -216,6 +216,7 @@ function Overview(props: Props) {
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             label={strings.formUploadAnImageLabel}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -261,6 +262,7 @@ function Overview(props: Props) {
                             error={getErrorString(error?.partners)}
                             onChange={setFieldValue}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                 </ListView>

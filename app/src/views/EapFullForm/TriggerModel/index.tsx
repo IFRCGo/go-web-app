@@ -590,6 +590,7 @@ function TriggerModel(props: Props) {
                                 value={value?.admin2}
                                 countryId={eapRegistrationDetail.country}
                                 error={getErrorString(error?.admin2)}
+                                readOnly={readOnly}
                             />
                         )}
                     </InputSection>

@@ -416,7 +416,7 @@ function RiskAnalysis(props: Props) {
                         <Button
                             name={undefined}
                             onClick={handlePrioritizedImpactAdd}
-                            disabled={disabled}
+                            disabled={disabled || readOnly}
                             before={<AddLineIcon />}
                         >
                             {strings.addButtonLabel}

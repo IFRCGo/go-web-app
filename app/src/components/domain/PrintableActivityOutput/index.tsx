@@ -1,4 +1,7 @@
-import { useMemo } from 'react';
+import {
+    useCallback,
+    useMemo,
+} from 'react';
 import {
     compareNumber,
     isDefined,
@@ -15,6 +18,7 @@ import {
     TIMEFRAME_HOURS,
     TIMEFRAME_MONTHS,
     TIMEFRAME_YEAR,
+    type TimeFrameEnumKey,
 } from '#utils/constants';
 
 type OperationActivity = components['schemas']['OperationActivity'];
@@ -61,16 +65,11 @@ interface Props {
 
 function PrintableActivityOutput(props: Props) {
     const {
-        activity: activityFromProps,
-        prevActivity,
+        activity: currentActivity,
+        prevActivity: previousActivity,
         withDiff,
         index,
     } = props;
-
-    const {
-        time_value,
-        timeframe,
-    } = activityFromProps;
 
     const {
         eap_years_timeframe_value,
@@ -111,27 +110,27 @@ function PrintableActivityOutput(props: Props) {
         )
     ), [eap_years_timeframe_value]);
 
-    const timeValue = useMemo(() => {
-        const sortedTimeValue = time_value.toSorted(compareNumber);
+    const timeValue = useCallback((timeArray: number[], timeframeKey: TimeFrameEnumKey) => {
+        const sortedTimeValue = timeArray.toSorted(compareNumber);
 
-        if (timeframe === TIMEFRAME_HOURS && isDefined(hoursTimeframeMap)) {
+        if (timeframeKey === TIMEFRAME_HOURS && isDefined(hoursTimeframeMap)) {
             return sortedTimeValue.map(
                 (hour) => hoursTimeframeMap?.[hour as HoursTimeFrameKey],
             ).filter(isDefined);
         }
-        if (timeframe === TIMEFRAME_DAYS && isDefined(daysTimeframeMap)) {
+        if (timeframeKey === TIMEFRAME_DAYS && isDefined(daysTimeframeMap)) {
             return sortedTimeValue.map(
                 (day) => daysTimeframeMap?.[day as DaysTimeFrameKey],
             ).filter(isDefined);
         }
 
-        if (timeframe === TIMEFRAME_MONTHS && isDefined(monthsTimeframeMap)) {
+        if (timeframeKey === TIMEFRAME_MONTHS && isDefined(monthsTimeframeMap)) {
             return sortedTimeValue.map(
                 (month) => monthsTimeframeMap?.[month as MonthsTimeFrameKey],
             ).filter(isDefined);
         }
 
-        if (timeframe === TIMEFRAME_YEAR && isDefined(yearsTimeframeMap)) {
+        if (timeframeKey === TIMEFRAME_YEAR && isDefined(yearsTimeframeMap)) {
             return sortedTimeValue.map(
                 (year) => yearsTimeframeMap?.[year as YearsTimeFrameKey],
             ).filter(isDefined);
@@ -143,14 +142,17 @@ function PrintableActivityOutput(props: Props) {
         daysTimeframeMap,
         monthsTimeframeMap,
         yearsTimeframeMap,
-        timeframe,
-        time_value,
     ]);
 
     const activity = {
-        ...activityFromProps,
-        time_value: timeValue,
+        ...currentActivity,
+        time_value: timeValue(currentActivity.time_value, currentActivity.timeframe),
     };
+
+    const prevActivity = isDefined(previousActivity) ? {
+        ...previousActivity,
+        time_value: timeValue(previousActivity?.time_value, previousActivity?.timeframe),
+    } : previousActivity;
 
     return (
         <PrintableDataDisplay

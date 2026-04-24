@@ -72,7 +72,7 @@ export function Component() {
         url: '/api/v2/full-eap/{id}/',
         pathVariables: isDefined(currentFullEapId)
             ? {
-                id: Number(selectedFullEap?.id),
+                id: Number(currentFullEapId),
             }
             : undefined,
     });

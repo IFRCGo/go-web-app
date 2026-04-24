@@ -227,7 +227,7 @@ export const EAP_TYPE_SIMPLIFIED = 20 satisfies EapTypeEnumKey;
 export const EAP_TYPE_FULL = 10 satisfies EapTypeEnumKey;
 
 // Timeframe
-type TimeFrameEnumKey = components['schemas']['EapTimeframeEnumKey'];
+export type TimeFrameEnumKey = components['schemas']['EapTimeframeEnumKey'];
 
 export const TIMEFRAME_YEAR = 10 satisfies TimeFrameEnumKey;
 export const TIMEFRAME_DAYS = 30 satisfies TimeFrameEnumKey;

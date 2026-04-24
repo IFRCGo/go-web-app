@@ -157,7 +157,6 @@ export function Component() {
             : undefined,
     });
 
-    const isRevision = eapDetailResponse?.status === EAP_STATUS_NS_ADDRESSING_COMMENTS;
     const selectedFullEap = eapDetailResponse?.full_eap_details?.find(
         (fullEap) => String(fullEap.version) === String(version),
     );
@@ -170,6 +169,11 @@ export function Component() {
     const currentFullEap = selectedFullEap ?? latestFullEap;
     const currentFullEapId = currentFullEap?.id;
     const getIsSubmission = () => shouldSubmitRef.current;
+
+    const isLocked = currentFullEap?.is_locked;
+    const isRevision = eapDetailResponse?.status === EAP_STATUS_NS_ADDRESSING_COMMENTS
+        && (isDefined(currentFullEap?.version) && currentFullEap?.version > 1)
+        && !isLocked;
 
     const {
         value,
@@ -816,8 +820,6 @@ export function Component() {
     const fullEapFormAccess = (isNotDefined(eapDetailResponse?.eap_type)
         || eapDetailResponse?.eap_type === EAP_TYPE_FULL)
         && isNotDefined(fullEapResponseError);
-
-    const isLocked = currentFullEap?.is_locked;
 
     const isEditable = isLatestVersion
         && !isLocked

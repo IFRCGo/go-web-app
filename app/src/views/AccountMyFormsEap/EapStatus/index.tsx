@@ -86,11 +86,25 @@ function EapStatus(props: Props) {
         details,
     } = props;
 
-    const simplifiedEapDetails = details.simplified_eap_details;
-    const fullEapDetails = details.full_eap_details;
+    const latestId = useMemo(() => {
+        if (details.eap_type === EAP_TYPE_SIMPLIFIED) {
+            return details.latest_simplified_eap ?? undefined;
+        }
 
-    const isSimplifiedEapLocked = simplifiedEapDetails[0]?.is_locked;
-    const isFullEapLocked = fullEapDetails[0]?.is_locked;
+        if (details.eap_type === EAP_TYPE_FULL) {
+            return details.latest_full_eap ?? undefined;
+        }
+
+        return undefined;
+    }, [details]);
+
+    const latestSimplifiedEap = details.eap_type === EAP_TYPE_SIMPLIFIED
+        ? details.simplified_eap_details.find(({ id }) => latestId === id)
+        : undefined;
+
+    const latestFullEap = details.eap_type === EAP_TYPE_FULL
+        ? details.full_eap_details.find(({ id }) => latestId === id)
+        : undefined;
 
     const alert = useAlert();
 
@@ -158,10 +172,16 @@ function EapStatus(props: Props) {
         setNewStatus(undefined);
     }, []);
 
+    const isSimplifiedEapLocked = status === EAP_STATUS_NS_ADDRESSING_COMMENTS
+        && latestSimplifiedEap?.is_locked;
+    const isFullEapLocked = status === EAP_STATUS_NS_ADDRESSING_COMMENTS
+        && latestFullEap?.is_locked;
+
     const confirmDisabled = (
         (newStatus === EAP_STATUS_NS_ADDRESSING_COMMENTS && isNotDefined(checklistFile))
             || (newStatus === EAP_STATUS_PENDING_PFA && !hasValidatedBudgetFile)
         || isDefined(responseFormErrors)
+        || isSimplifiedEapLocked || isFullEapLocked
     );
 
     return (
@@ -176,7 +196,8 @@ function EapStatus(props: Props) {
                         key={option.key}
                         type="button"
                         name={option.key}
-                        disabled={!validStatusTransition[status].includes(option.key)}
+                        disabled={!validStatusTransition[status].includes(option.key)
+                            || isNotDefined(latestId)}
                         onClick={setNewStatus}
                     >
                         {option.value}
@@ -196,8 +217,8 @@ function EapStatus(props: Props) {
                                     <Link
                                         to="simplifiedEapForm"
                                         urlParams={{ eapId }}
-                                        urlSearch={isDefined(simplifiedEapDetails[0]?.version)
-                                            ? `version=${simplifiedEapDetails[0].version}`
+                                        urlSearch={isDefined(latestSimplifiedEap?.version)
+                                            ? `version=${latestSimplifiedEap.version}`
                                             : undefined}
                                         title={strings.editSimplifiedEapFormLinkLabel}
                                         state={{ error: responseFormErrors }}
@@ -214,8 +235,8 @@ function EapStatus(props: Props) {
                                     <Link
                                         to="eapFullExport"
                                         urlParams={{ eapId }}
-                                        urlSearch={isDefined(fullEapDetails[0]?.version)
-                                            ? `version=${fullEapDetails[0].version}`
+                                        urlSearch={isDefined(latestFullEap?.version)
+                                            ? `version=${latestFullEap.version}`
                                             : undefined}
                                         title={strings.editFullEapFormLinkLabel}
                                         state={{ error: responseFormErrors }}

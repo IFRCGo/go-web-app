@@ -490,17 +490,6 @@ function EapTableActions(props: Props) {
                             {environment === 'development' && isCreated && (
                                 <ListView layout="block">
                                     <Link
-                                        to="eapSummaryExport"
-                                        urlParams={{ eapId: eap.id }}
-                                        urlSearch={isDefined(latestVersion)
-                                            ? `version=${latestVersion}`
-                                            : undefined}
-                                        title={strings.previewExportLinkLabel}
-                                        before={<DocumentPdfLineIcon fontSize={18} />}
-                                    >
-                                        {strings.previewSummaryExportLinkLabel}
-                                    </Link>
-                                    <Link
                                         to="eapFullExport"
                                         urlParams={{ eapId: eap.id }}
                                         urlSearch={isDefined(details?.data.version)
@@ -510,6 +499,17 @@ function EapTableActions(props: Props) {
                                         before={<DocumentPdfLineIcon fontSize={18} />}
                                     >
                                         {strings.previewExportLinkLabel}
+                                    </Link>
+                                    <Link
+                                        to="eapSummaryExport"
+                                        urlParams={{ eapId: eap.id }}
+                                        urlSearch={isDefined(latestVersion)
+                                            ? `version=${latestVersion}`
+                                            : undefined}
+                                        title={strings.previewExportLinkLabel}
+                                        before={<DocumentPdfLineIcon fontSize={18} />}
+                                    >
+                                        {strings.previewSummaryExportLinkLabel}
                                     </Link>
                                 </ListView>
                             )}

@@ -322,7 +322,7 @@ export function Component() {
     );
 
     const prevEnableApproachesMapping = useMemo(
-        () => listToMap(prev_enabling_approaches ?? [], (approach) => approach.id!),
+        () => listToMap(prev_enabling_approaches ?? [], (approach) => approach.approach!),
         [prev_enabling_approaches],
     );
 
@@ -1215,7 +1215,7 @@ export function Component() {
                                         <PrintableDescription
                                             value={trigger.source_link}
                                             prevValue={prevEvidenceBaseSourceInformationMapping[
-                                                trigger.id!]?.source_link}
+                                                trigger.previous_id!]?.source_link}
                                             withDiff={withDiff}
                                         />
                                     )}

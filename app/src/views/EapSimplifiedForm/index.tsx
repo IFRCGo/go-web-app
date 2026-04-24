@@ -160,7 +160,11 @@ export function Component() {
     const currentSimplifiedEap = selectedSimplifiedEap ?? latestSimplifiedEap;
     const currentSimplifiedEapId = currentSimplifiedEap?.id;
 
-    const isRevision = eapRegistrationResponse?.status === EAP_STATUS_NS_ADDRESSING_COMMENTS;
+    const isLocked = currentSimplifiedEap?.is_locked;
+    const isRevision = eapRegistrationResponse?.status === EAP_STATUS_NS_ADDRESSING_COMMENTS
+        && (isDefined(currentSimplifiedEap?.version) && currentSimplifiedEap?.version > 1)
+        && !isLocked;
+
     const getIsSubmission = useCallback(() => shouldSubmitRef.current, []);
     const {
         value,
@@ -454,8 +458,6 @@ export function Component() {
     const simplifiedEapFormAccess = (isNotDefined(eapRegistrationResponse?.eap_type)
         || eapRegistrationResponse?.eap_type === EAP_TYPE_SIMPLIFIED)
         && isNotDefined(simplifiedEapResponseError);
-
-    const isLocked = currentSimplifiedEap?.is_locked;
 
     const isEditable = isLatestVersion
         && !isLocked

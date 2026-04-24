@@ -20,6 +20,8 @@ interface Props {
     prevValue?: string | null;
 }
 
+const diffMatch = new DiffMatchPatch();
+
 function DiffTextOutput(props: Props) {
     const {
         className,
@@ -32,8 +34,10 @@ function DiffTextOutput(props: Props) {
         if (!withDiff) {
             return undefined;
         }
-        const diffMatch = new DiffMatchPatch();
-        return diffMatch.diff_main(prevValue ?? '', value ?? '');
+        const diffs = diffMatch.diff_main(prevValue ?? '', value ?? '');
+        diffMatch.diff_cleanupSemantic(diffs);
+
+        return diffs;
     }, [withDiff, value, prevValue]);
 
     if (isNotDefined(diff)) {

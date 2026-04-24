@@ -69,6 +69,7 @@ const riskAnalysisTabFields: (keyof PartialEapFullFormType)[] = [
     'hazard_selection',
     'exposed_element_and_vulnerability_factor',
     'exposed_element_and_vulnerability_factor_images',
+    'prioritized_impact',
     'prioritized_impacts',
     'prioritized_impact_images',
     'risk_analysis_relevant_files',

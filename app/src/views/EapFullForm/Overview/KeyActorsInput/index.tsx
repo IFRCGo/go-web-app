@@ -103,6 +103,7 @@ function KeyActorsInput(props: Props) {
                         onChange={onFieldChange}
                         required
                         maxLength={charLimits.key_actors}
+                        readOnly={readOnly}
                     />
                 </ListView>
             </InlineLayout>

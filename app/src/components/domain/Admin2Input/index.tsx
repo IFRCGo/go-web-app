@@ -343,11 +343,13 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                                     onClick={removeSelection}
                                     styleVariant="action"
                                     readOnly
+                                    disabled={readOnly}
                                 >
                                     <CloseLineIcon />
                                 </Button>
                             )}
                             readOnly
+                            disabled={readOnly}
                         >
                             {admin2NameMap?.[admin2Id] ?? admin2Id}
                         </ButtonLayout>

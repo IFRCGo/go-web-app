@@ -213,6 +213,7 @@ function Overview(props: Props) {
                             error={getErrorString(error?.partners)}
                             onChange={setFieldValue}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                 </ListView>

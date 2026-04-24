@@ -73,7 +73,7 @@ function OperationsBySectorInput(props: Props) {
                     onClick={onRemove}
                     styleVariant="action"
                     title={strings.approachRemoveButton}
-                    disabled={disabled}
+                    disabled={disabled || readOnly}
                 >
                     <DeleteBinTwoLineIcon />
                 </Button>
