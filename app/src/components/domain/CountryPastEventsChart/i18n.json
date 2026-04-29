@@ -1,5 +1,5 @@
 {
-    "namespace": "countryProfilePreviousEvents",
+    "namespace": "countryPastEventsChart",
     "strings": {
         "pastEventsChartEvents": "Past events",
         "pastEventsTargetedPopulation": "Targeted population",

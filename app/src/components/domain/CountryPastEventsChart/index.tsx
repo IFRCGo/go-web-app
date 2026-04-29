@@ -46,12 +46,14 @@ function eventMetricKeySelector({ key }: { key: EventMetricKey }) {
 interface Props {
     className?: string;
     countryId: string | undefined;
+    disasterType?: number | null;
 }
 
-function PastEventsChart(props: Props) {
+function CountryPastEventsChart(props: Props) {
     const {
         className,
         countryId,
+        disasterType,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -131,6 +133,7 @@ function PastEventsChart(props: Props) {
         query: isDefined(selectedTimePeriod) ? {
             start_date_from: encodeDate(selectedTimePeriod.startDate),
             start_date_to: encodeDate(selectedTimePeriod.endDate),
+            dtype: disasterType ?? undefined,
         } : undefined,
     });
 
@@ -153,7 +156,7 @@ function PastEventsChart(props: Props) {
     return (
         <Container
             heading={strings.pastEventsChartEvents}
-            className={_cs(styles.pastEventsChart, className)}
+            className={_cs(styles.countryPastEventsChart, className)}
             withHeaderBorder
             pending={historicalDisastersPending}
             errored={isDefined(historicalDisastersError)}
@@ -233,4 +236,4 @@ function PastEventsChart(props: Props) {
     );
 }
 
-export default PastEventsChart;
+export default CountryPastEventsChart;
