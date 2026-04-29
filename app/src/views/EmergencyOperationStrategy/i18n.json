@@ -1,0 +1,9 @@
+{
+    "namespace": "emergencyOperationStrategy",
+    "strings": {
+        "plannedOperationHeading": "Planned Operations",
+        "plannedOperationBudgetLabel": "Budget(CHF)",
+        "plannedOperationPeopleTargetedLabel": "People Targeted",
+        "plannedOperationPeopleReachedLabel": "People Reached"
+    }
+}

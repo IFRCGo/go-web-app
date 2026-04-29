@@ -246,7 +246,7 @@ function OperationCard(props: Props) {
                     value={amountRequested}
                     label={(
                         <Link
-                            to="emergencyReportsAndDocuments"
+                            to="emergencyDocuments"
                             urlParams={{ emergencyId: id }}
                             colorVariant="text"
                         >

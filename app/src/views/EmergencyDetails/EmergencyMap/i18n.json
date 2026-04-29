@@ -1,7 +1,0 @@
-{
-    "namespace": "emergencyDetails",
-    "strings": {
-        "affectedCountry": "Affected Country",
-        "affectedProvince": "Affected Province"
-    }
-}

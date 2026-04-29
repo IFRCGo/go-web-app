@@ -1,4 +1,16 @@
 .page-container {
+    position: relative;
+    isolation: isolate;
+
+    .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+    }
+
     .content {
         margin: 0 auto;
         padding: var(--go-ui-spacing-lg);

@@ -6,24 +6,20 @@ import {
     Outlet,
     useParams,
 } from 'react-router-dom';
-import {
-    FundingCoverageIcon,
-    FundingIcon,
-    PencilFillIcon,
-    TargetedPopulationIcon,
-} from '@ifrc-go/icons';
+import { PencilFillIcon } from '@ifrc-go/icons';
 import {
     Breadcrumbs,
     Button,
-    KeyFigureView,
+    Container,
+    KeyFigure,
+    Label,
     ListView,
+    Message,
     NavigationTabList,
+    ProgressBar,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import {
-    resolveToString,
-    sumSafe,
-} from '@ifrc-go/ui/utils';
+import { resolveToString } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -39,12 +35,23 @@ import useAuth from '#hooks/domain/useAuth';
 import usePermissions from '#hooks/domain/usePermissions';
 import useRegion from '#hooks/domain/useRegion';
 import useUserMe from '#hooks/domain/useUserMe';
+import { DREF_TYPE_IMMINENT } from '#utils/constants';
+import {
+    getEmergencyMeta,
+    STAGE_DREF_APPLICATION,
+    STAGE_EMERGENCY_APPEAL,
+    STAGE_FIELD_REPORT,
+    STAGE_FINAL_REPORT,
+    STAGE_OPERATIONAL_UPDATE,
+} from '#utils/domain/emergency';
 import { type EmergencyOutletContext } from '#utils/outletContext';
 import { resolveUrl } from '#utils/resolveUrl';
 import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
+
+import TimelineProgressBar from './TimelineProgressBar';
 
 import i18n from './i18n.json';
 
@@ -63,16 +70,18 @@ export function Component() {
 
     const {
         response: emergencyResponse,
+        error: emergencyResponseError,
         pending: emergencyPending,
     } = useRequest({
         // FIXME: need to check if emergencyId can be ''
         skip: isNotDefined(emergencyId),
-        url: '/api/v2/event/{id}/',
+        url: '/api/v2/emergency/{id}/',
         pathVariables: {
             id: Number(emergencyId),
         },
     });
 
+    // FIXME: this can be moved to EmergencySnippet component
     const {
         response: emergencySnippetResponse,
         pending: emergencySnippetPending,
@@ -81,19 +90,6 @@ export function Component() {
         skip: isNotDefined(emergencyId),
         url: '/api/v2/event_snippet/',
         query: {
-            event: Number(emergencyId),
-        },
-    });
-
-    // FIXME: show surge tab for the emergency if there is surge alerts to it
-    // This could be done by adding surge alert count to the emergency instance API in future
-    const {
-        response: surgeAlertsResponse,
-    } = useRequest({
-        url: '/api/v2/surge_alert/',
-        preserveResponse: true,
-        query: {
-            limit: 5,
             event: Number(emergencyId),
         },
     });
@@ -148,23 +144,6 @@ export function Component() {
     const country = emergencyResponse?.countries[0];
     const region = useRegion({ id: Number(country?.region) });
 
-    const peopleTargeted = sumSafe(
-        emergencyResponse?.appeals.map(
-            (appeal) => appeal.num_beneficiaries,
-        ),
-    );
-    const fundingRequirements = sumSafe(
-        emergencyResponse?.appeals.map(
-            (appeal) => appeal.amount_requested,
-        ),
-    );
-
-    const funding = sumSafe(
-        emergencyResponse?.appeals.map(
-            (appeal) => appeal.amount_funded,
-        ),
-    );
-
     const emergencyAdditionalTabs = useMemo(() => {
         if (
             isNotDefined(emergencyResponse)
@@ -213,22 +192,66 @@ export function Component() {
         ].filter((tabInfo) => tabInfo.snippets.length > 0);
     }, [emergencyResponse, emergencySnippetResponse]);
 
-    const outletContext = useMemo<EmergencyOutletContext>(
-        () => ({
-            emergencyResponse,
-            emergencyAdditionalTabs,
-        }),
-        [emergencyResponse, emergencyAdditionalTabs],
-    );
-
-    const showSurgeTab = (surgeAlertsResponse?.count ?? 0) > 0
-        || (emergencyResponse?.active_deployments ?? 0) > 0;
+    const showSurgeTab = (emergencyResponse?.surge_alerts_count ?? 0) > 0
+        || (emergencyResponse?.active_deployments_count ?? 0) > 0;
 
     const pageTitle = (isDefined(emergencyResponse) && isDefined(emergencyResponse.name))
         ? resolveToString(
             strings.emergencyPageTitle,
             { emergencyName: emergencyResponse.name },
         ) : strings.emergencyPageTitleFallback;
+
+    /*
+    const isDref = emergencyResponse?.stage === STAGE_FINAL_REPORT
+        || emergencyResponse?.stage === STAGE_OPERATIONAL_UPDATE
+        || emergencyResponse?.stage === STAGE_DREF_APPLICATION;
+    */
+
+    /*
+    const isImminentDref = emergencyResponse?.stage === STAGE_DREF_APPLICATION
+        && emergencyResponse.dref.type_of_dref === DREF_TYPE_IMMINENT;
+    */
+
+    const meta = useMemo(() => (
+        getEmergencyMeta(emergencyResponse)
+    ), [emergencyResponse]);
+
+    const outletContext = useMemo<EmergencyOutletContext>(
+        () => ({
+            emergencyResponse,
+            emergencyAdditionalTabs,
+            emergencyResponsePending: emergencyPending,
+        }),
+        [
+            emergencyResponse,
+            emergencyAdditionalTabs,
+            emergencyPending,
+        ],
+    );
+
+    const peopleTargeted = emergencyResponse?.appeal?.num_beneficiaries;
+
+    const hasResponseActivity = isDefined(emergencyResponse?.response_activity_count)
+        && emergencyResponse.response_activity_count > 0;
+
+    if (isDefined(emergencyResponseError)) {
+        // FIXME: we need to implement error display in Page itself
+        return (
+            <Page title={pageTitle}>
+                <Message
+                    errored
+                    // FIXME: use translations
+                    erroredTitle="Failed to load the Emergency details."
+                    erroredDescription={emergencyResponseError.value.messageForNotification}
+                />
+            </Page>
+        );
+    }
+
+    // FIXME: use translations
+    const stageDisplay = (emergencyResponse?.stage === STAGE_DREF_APPLICATION
+        && emergencyResponse.dref.type_of_dref === DREF_TYPE_IMMINENT
+    ) ? 'Imminent DREF' : emergencyResponse?.stage_display;
 
     return (
         <Page
@@ -242,7 +265,7 @@ export function Component() {
                         {strings.emergencies}
                     </Link>
                     <Link
-                        to="emergencyDetails"
+                        to="emergencyOverview"
                         urlParams={{ emergencyId }}
                     >
                         {emergencyResponse?.name}
@@ -295,57 +318,121 @@ export function Component() {
                     </Link>
                 </>
             )}
-            info={(
-                <ListView
-                    layout="grid"
-                    numPreferredGridColumns={3}
-                >
-                    {isDefined(peopleTargeted) && (
-                        <KeyFigureView
-                            icon={<TargetedPopulationIcon />}
-                            value={peopleTargeted}
-                            valueType="number"
-                            valueOptions={{ compact: true }}
-                            label={strings.emergencyPeopleTargetedLabel}
-                        />
-                    )}
-                    {isDefined(fundingRequirements) && (
-                        <KeyFigureView
-                            icon={<FundingIcon />}
-                            value={fundingRequirements}
-                            valueType="number"
-                            valueOptions={{ compact: true }}
-                            label={strings.emergencyFundingRequirementsLabel}
-                        />
-
-                    )}
-                    {isDefined(funding) && (
-                        <KeyFigureView
-                            icon={<FundingCoverageIcon />}
-                            value={funding}
-                            valueType="number"
-                            valueOptions={{ compact: true }}
-                            label={strings.emergencyFundingLabel}
-                        />
-                    )}
-                </ListView>
-            )}
+            info={isDefined(emergencyResponse?.stage)
+                && emergencyResponse.stage !== STAGE_FIELD_REPORT
+                && (
+                    <ListView
+                        layout="grid"
+                        numPreferredGridColumns={3}
+                    >
+                        <Container
+                            withPadding
+                            withShadow
+                            withBackground
+                        >
+                            <ListView withSpaceBetweenContents>
+                                <Label>
+                                    {strings.operationTimelineLabel}
+                                </Label>
+                                <Label strong>
+                                    {stageDisplay}
+                                </Label>
+                            </ListView>
+                            <TimelineProgressBar
+                                startDate={meta?.startDate}
+                                endDate={meta?.endDate}
+                            />
+                        </Container>
+                        <Container
+                            withPadding
+                            withShadow
+                            withBackground
+                        >
+                            <Label>
+                                {strings.emergencyFundingRequirementsLabel}
+                            </Label>
+                            <ProgressBar
+                                totalValue={meta?.amountRequested}
+                                value={meta?.amountFunded}
+                            />
+                            <ListView withCenteredContents>
+                                <KeyFigure
+                                    value={meta?.amountRequested}
+                                    valueType="number"
+                                    valueOptions={{ compact: true }}
+                                />
+                            </ListView>
+                        </Container>
+                        <Container
+                            withPadding
+                            withShadow
+                            withBackground
+                        >
+                            <Label>
+                                {strings.emergencyPeopleTargetedLabel}
+                            </Label>
+                            <ListView withCenteredContents>
+                                <KeyFigure
+                                    value={peopleTargeted}
+                                    valueType="number"
+                                    valueOptions={{ compact: true }}
+                                />
+                            </ListView>
+                        </Container>
+                    </ListView>
+                )}
             contentOriginalLanguage={emergencyResponse?.translation_module_original_language}
+            headerBackgroundUrl={
+                emergencyResponse?.dref?.final_report_details?.cover_image_file?.file
+                    ?? emergencyResponse?.dref?.operational_update_details?.cover_image_file?.file
+                    ?? emergencyResponse?.dref?.cover_image_file?.file
+            }
         >
             <NavigationTabList>
                 <NavigationTab
-                    to="emergencyDetails"
+                    to="emergencyOverview"
                     urlParams={{ emergencyId }}
                 >
                     {strings.emergencyTabDetails}
                 </NavigationTab>
-                <NavigationTab
-                    to="emergencyReportsAndDocuments"
-                    urlParams={{ emergencyId }}
-                >
-                    {strings.emergencyTabReports}
-                </NavigationTab>
-                {(emergencyResponse?.response_activity_count ?? 0) > 0 && (
+                {emergencyResponse?.stage === STAGE_FIELD_REPORT && (
+                    <NavigationTab
+                        to="emergencyActionsSummary"
+                        urlParams={{ emergencyId }}
+                    >
+                        {strings.emergencyTabActionsSummary}
+                    </NavigationTab>
+                )}
+                {(emergencyResponse?.stage === STAGE_DREF_APPLICATION
+                    || emergencyResponse?.stage === STAGE_OPERATIONAL_UPDATE
+                    || emergencyResponse?.stage === STAGE_FINAL_REPORT
+                ) && (
+                    <NavigationTab
+                        to="emergencyOperationStrategy"
+                        urlParams={{ emergencyId }}
+                    >
+                        {strings.emergencyTabOperationStrategy}
+                    </NavigationTab>
+                )}
+                {isDefined(emergencyResponse) && emergencyResponse.stage !== STAGE_FIELD_REPORT && (
+                    <>
+                        <NavigationTab
+                            to="emergencyDocuments"
+                            urlParams={{ emergencyId }}
+                        >
+                            {strings.emergencyTabReports}
+                        </NavigationTab>
+                        {showSurgeTab && (
+                            <NavigationTab
+                                to="emergencySurge"
+                                urlParams={{ emergencyId }}
+                            >
+                                {strings.emergencyTabSurge}
+                            </NavigationTab>
+                        )}
+                    </>
+                )}
+                {emergencyResponse?.stage === STAGE_EMERGENCY_APPEAL && hasResponseActivity && (
                     <NavigationTab
                         to="emergencyActivities"
                         urlParams={{ emergencyId }}
@@ -353,14 +440,12 @@ export function Component() {
                         {strings.emergencyTabActivities}
                     </NavigationTab>
                 )}
-                {(showSurgeTab) && (
-                    <NavigationTab
-                        to="emergencySurge"
-                        urlParams={{ emergencyId }}
-                    >
-                        {strings.emergencyTabSurge}
-                    </NavigationTab>
-                )}
+                <NavigationTab
+                    to="emergencyBackground"
+                    urlParams={{ emergencyId }}
+                >
+                    {strings.emergencyTabBackground}
+                </NavigationTab>
                 {emergencyAdditionalTabs.map((tab) => (
                     <NavigationTab
                         key={tab.tabId}
@@ -375,9 +460,7 @@ export function Component() {
                     </NavigationTab>
                 ))}
             </NavigationTabList>
-            <Outlet
-                context={outletContext}
-            />
+            <Outlet context={outletContext} />
         </Page>
     );
 }

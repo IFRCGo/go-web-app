@@ -1,0 +1,10 @@
+{
+    "namespace": "emergencyActionsSummary",
+    "strings": {
+        "actionsTakenSectionTitle": "Actions Taken",
+        "nationalSocietyTitle": "Actions Taken by National Society",
+        "ifrcTitle": "Actions Taken by IFRC",
+        "otherRCRCActorsTitle": "Actions Taken by Other RCRC Actors",
+        "govTitle": "Actions Taken by Government"
+    }
+}

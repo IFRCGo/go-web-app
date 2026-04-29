@@ -242,3 +242,7 @@ export const EAP_STATUS_NS_ADDRESSING_COMMENTS = 30 satisfies EapStatus;
 export const EAP_STATUS_TECHNICALLY_VALIDATED = 40 satisfies EapStatus;
 export const EAP_STATUS_PENDING_PFA = 50 satisfies EapStatus;
 export const EAP_STATUS_APPROVED = 60 satisfies EapStatus;
+
+type PerLearningTypeEnumKey = components['schemas']['PerLearningTypeEnumKey'];
+
+export const PER_LEARNING_LESSONS_LEARNED = 1 satisfies PerLearningTypeEnumKey;

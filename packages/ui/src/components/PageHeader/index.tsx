@@ -17,6 +17,7 @@ export interface Props {
     breadCrumbs?: React.ReactNode;
     info?: React.ReactNode;
     wikiLink?: React.ReactNode;
+    background?: React.ReactNode;
 }
 
 function PageHeader(props: Props) {
@@ -28,6 +29,7 @@ function PageHeader(props: Props) {
         breadCrumbs,
         info,
         wikiLink,
+        background,
     } = props;
 
     if (!(actions || breadCrumbs || info || description || heading)) {
@@ -41,6 +43,7 @@ function PageHeader(props: Props) {
                 styles.pageHeader,
                 className,
             )}
+            background={background}
         >
             <ListView
                 layout="block"

@@ -1,0 +1,31 @@
+{
+    "namespace": "emergencyOverview",
+    "strings": {
+        "keyFigureInjuredLabel": "Injured",
+        "keyFigureDeadLabel": "Dead",
+        "keyFigureMissingLabel": "Missing",
+        "keyFigureAffectedLabel": "Affected",
+        "keyFigureDisplacedLabel": "Displaced",
+        "keyFigurePotentiallyAffectedLabel": "Potentially Affected",
+        "keyFigureHighestRiskLabel": "People at Highest Risk",
+        "emergencyKeyFiguresTitle": "Key Figures",
+        "emergencyOverviewTitle": "Emergency Overview",
+        "operationalTimelineTitle": "Operational Timeline",
+        "overviewCountryLabel": "Country",
+        "overviewEmergencyAppealLabel": "Emergency Appeal",
+        "overviewOperationTypeLabel": "Operation Type",
+        "overviewDREFLabel": "DREF",
+        "disasterCategorization": "Disaster Categorization",
+        "disasterType": "Disaster Type",
+        "GLIDENumber": "GLIDE Number",
+        "startDate": "Start Date",
+        "visibility": "Visibility",
+        "MDRCode": "MDR Code",
+        "assistanceRequestedByNS": "NS Requests International Assistance",
+        "assistanceRequestedByGovernment": "Government Requests International Assistance",
+        "situationalOverviewTitle": "Situational Overview",
+        "linksTitle": "Links",
+        "severityLevelUpdateDateLabel": "Last update",
+        "contactsTitle": "Contacts"
+    }
+}
