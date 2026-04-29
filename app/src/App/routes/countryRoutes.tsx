@@ -15,7 +15,7 @@ import {
     customWrapRoute,
     rootLayout,
 } from './common';
-import regionRoutes from './RegionRoutes';
+import regionRoutes from './regionRoutes';
 import SmartNavigate from './SmartNavigate';
 
 type DefaultCountriesChild = 'ongoing-activities';
