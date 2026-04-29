@@ -54,6 +54,9 @@ export function Component() {
             <Container
                 heading={strings.actionsTakenSectionTitle}
                 withHeaderBorder
+                empty={isNotDefined(latestFieldReport)
+                    || isNotDefined(latestFieldReport.actions_taken)
+                    || latestFieldReport.actions_taken.length === 0}
             >
                 <ListView layout="block">
                     {latestFieldReport?.actions_taken?.map((actionTaken) => (
