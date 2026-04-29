@@ -42,7 +42,6 @@ import GlobalMap, { type AdminZeroFeatureProperties } from '../../GlobalMap';
 import {
     APPEAL_TYPE_MULTIPLE,
     basePointLayerOptions,
-    DISASTER_UNCATEGORISED,
     optionKeySelector,
     optionLabelSelector,
     outerCircleLayerOptionsForFinancialRequirements,
@@ -138,7 +137,7 @@ function OperationMapContainer(props: Props) {
                         ));
                         return highestSeverity[0];
                     }
-                    if (uniqueEventList.length === 0) return DISASTER_UNCATEGORISED;
+                    if (uniqueEventList.length === 0) return undefined;
                     return uniqueEventList[0];
                 });
 
