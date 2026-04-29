@@ -247,8 +247,9 @@ export function Component() {
             emergencyResponse,
             emergencyAdditionalTabs,
             emergencyStage,
+            emergencyResponsePending: emergencyPending,
         }),
-        [emergencyResponse, emergencyAdditionalTabs, emergencyStage],
+        [emergencyResponse, emergencyAdditionalTabs, emergencyStage, emergencyPending],
     );
 
     const peopleTargeted = sumSafe(

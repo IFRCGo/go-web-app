@@ -7,10 +7,10 @@ import {
     InfoPopup,
     KeyFigureView,
     ListView,
+    Message,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { resolveToString } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -26,12 +26,13 @@ import useDisasterType from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
     getFirstFieldReport,
+    getLatestAppeal,
     getLatestFieldReport,
 } from '#utils/domain/emergency';
 import { type EmergencyOutletContext } from '#utils/outletContext';
+import { useRequest } from '#utils/restRequest';
 
 import EmergencyMap from './EmergencyMap';
-import FieldReportStats from './FieldReportStats';
 
 import i18n from './i18n.json';
 
@@ -40,8 +41,15 @@ import i18n from './i18n.json';
 export function Component() {
     const strings = useTranslation(i18n);
     const disasterTypes = useDisasterType();
-    const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
-    const { api_visibility_choices } = useGlobalEnums();
+    const {
+        emergencyResponse,
+        emergencyResponsePending,
+        emergencyStage,
+    } = useOutletContext<EmergencyOutletContext>();
+    const {
+        api_request_choices,
+        api_visibility_choices,
+    } = useGlobalEnums();
 
     const visibilityMap = useMemo(
         () => listToMap(
@@ -52,8 +60,14 @@ export function Component() {
         [api_visibility_choices],
     );
 
-    const hasKeyFigures = isDefined(emergencyResponse)
-        && emergencyResponse.key_figures.length !== 0;
+    const requestMap = useMemo(
+        () => listToMap(
+            api_request_choices,
+            ({ key }) => key,
+            ({ value }) => value,
+        ),
+        [api_request_choices],
+    );
 
     const disasterType = disasterTypes?.find(
         (typeOfDisaster) => typeOfDisaster.id === emergencyResponse?.dtype,
@@ -64,14 +78,21 @@ export function Component() {
         && emergencyResponse.appeals.length > 0
         ? emergencyResponse?.appeals[0]?.code : undefined;
 
-    const hasFieldReports = isDefined(emergencyResponse)
-        && isDefined(emergencyResponse?.field_reports)
-        && emergencyResponse?.field_reports.length > 0;
-
     const firstFieldReport = getFirstFieldReport(emergencyResponse?.field_reports);
     const assistanceIsRequestedByNS = firstFieldReport?.ns_request_assistance;
     const assistanceIsRequestedByCountry = firstFieldReport?.request_assistance;
     const latestFieldReport = getLatestFieldReport(emergencyResponse?.field_reports);
+
+    const {
+        pending: latestFullFieldReportPending,
+        response: latestFullFieldReport,
+    } = useRequest({
+        skip: isNotDefined(latestFieldReport),
+        url: '/api/v2/field-report/{id}/',
+        pathVariables: isDefined(latestFieldReport?.id) ? ({
+            id: latestFieldReport.id,
+        }) : undefined,
+    });
 
     const emergencyContacts = emergencyResponse?.contacts;
 
@@ -111,92 +132,70 @@ export function Component() {
         [emergencyContacts, latestFieldReport],
     );
 
+    if (isNotDefined(emergencyResponse)) {
+        return (
+            <Message
+                pending={emergencyResponsePending}
+            />
+        );
+    }
+
     return (
-        <TabPage>
-            {hasKeyFigures && (
-                <Container
-                    heading={strings.emergencyKeyFiguresTitle}
-                    withHeaderBorder
+        <TabPage pending={latestFullFieldReportPending}>
+            <Container
+                heading={strings.emergencyKeyFiguresTitle}
+                withHeaderBorder
+            >
+                <ListView
+                    layout="grid"
+                    numPreferredGridColumns={5}
+                    spacing="sm"
                 >
-                    <ListView
-                        layout="grid"
-                        numPreferredGridColumns={4}
-                    >
-                        {emergencyResponse?.key_figures.map(
-                            (keyFigure) => (
-                                <KeyFigureView
-                                    key={keyFigure.id}
-                                    // FIXME: fix typing in server (medium priority)
-                                    // FIXME: Rounding this because it was previously rounded
-                                    value={Math.round(
-                                        Number.parseInt(
-                                            // Removing commas from the value
-                                            keyFigure.number.replace(/[^\d.-]/g, ''),
-                                            10,
-                                        ),
-                                    )}
-                                    valueType="number"
-                                    label={(
-                                        <ListView
-                                            layout="block"
-                                            spacing="sm"
-                                        >
-                                            <div>
-                                                {keyFigure.deck}
-                                            </div>
-                                            <div>
-                                                {resolveToString(
-                                                    strings.sourceLabel,
-                                                    { source: keyFigure.source },
-                                                )}
-                                            </div>
-                                        </ListView>
-                                    )}
-                                    withShadow
-                                />
-                            ),
-                        )}
-                    </ListView>
-                </Container>
-            )}
-            {isDefined(emergencyResponse) && (
-                <Container
-                    heading={strings.emergencyOverviewTitle}
-                    withHeaderBorder
+                    <KeyFigureView
+                        label={strings.keyFigureInjuredLabel}
+                        value={latestFieldReport?.num_injured}
+                        valueType="number"
+                        withShadow
+                    />
+                    <KeyFigureView
+                        label={strings.keyFigureDeadLabel}
+                        value={latestFieldReport?.num_dead}
+                        valueType="number"
+                        withShadow
+                    />
+                    <KeyFigureView
+                        label={strings.keyFigureMissingLabel}
+                        value={latestFieldReport?.num_missing}
+                        valueType="number"
+                        withShadow
+                    />
+                    <KeyFigureView
+                        label={strings.keyFigureAffectedLabel}
+                        value={latestFieldReport?.num_affected}
+                        valueType="number"
+                        withShadow
+                    />
+                    <KeyFigureView
+                        label={strings.keyFigureDisplacedLabel}
+                        value={latestFieldReport?.num_displaced}
+                        valueType="number"
+                        withShadow
+                    />
+                </ListView>
+            </Container>
+            <Container
+                heading={strings.emergencyOverviewTitle}
+                withHeaderBorder
+            >
+                <ListView
+                    layout="grid"
+                    withSpacingOpticalCorrection
+                    numPreferredGridColumns={3}
                 >
-                    <ListView
-                        layout="grid"
-                        withSpacingOpticalCorrection
-                        numPreferredGridColumns={3}
-                    >
+                    <ListView layout="block">
                         <TextOutput
-                            label={strings.disasterCategorization}
-                            value={(
-                                <ListView
-                                    withWrap
-                                    withSpacingOpticalCorrection
-                                    spacing="sm"
-                                >
-                                    {emergencyResponse.ifrc_severity_level_display}
-                                    <SeverityIndicator
-                                        level={emergencyResponse.ifrc_severity_level}
-                                    />
-                                    {emergencyResponse.ifrc_severity_level_update_date && (
-                                        <InfoPopup
-                                            description={(
-                                                <TextOutput
-                                                    label={strings.severityLevelUpdateDateLabel}
-                                                    value={
-                                                        emergencyResponse
-                                                            .ifrc_severity_level_update_date
-                                                    }
-                                                    valueType="date"
-                                                />
-                                            )}
-                                        />
-                                    )}
-                                </ListView>
-                            )}
+                            label={strings.overviewCountryLabel}
+                            value={emergencyResponse.countries[0]?.name}
                             strongValue
                         />
                         <TextOutput
@@ -204,12 +203,82 @@ export function Component() {
                             value={disasterType?.name}
                             strongValue
                         />
+                        {emergencyStage === 'emergency-appeal' && (
+                            <>
+                                <TextOutput
+                                    label={strings.overviewOperationTypeLabel}
+                                    value={getLatestAppeal(emergencyResponse.appeals)
+                                        ?.atype_display}
+                                />
+                                <TextOutput
+                                    label={strings.MDRCode}
+                                    value={mdrCode}
+                                    strongValue
+                                />
+                                <TextOutput
+                                    label={strings.GLIDENumber}
+                                    value={emergencyResponse?.glide}
+                                    strongValue
+                                />
+                                <TextOutput
+                                    label={strings.disasterCategorization}
+                                    value={(
+                                        <ListView
+                                            withWrap
+                                            withSpacingOpticalCorrection
+                                            spacing="sm"
+                                        >
+                                            {emergencyResponse.ifrc_severity_level_display}
+                                            <SeverityIndicator
+                                                level={emergencyResponse.ifrc_severity_level}
+                                            />
+                                            {emergencyResponse.ifrc_severity_level_update_date && (
+                                                <InfoPopup
+                                                    description={(
+                                                        <TextOutput
+                                                            label={strings
+                                                                .severityLevelUpdateDateLabel}
+                                                            value={
+                                                                emergencyResponse
+                                                                    .ifrc_severity_level_update_date
+                                                            }
+                                                            valueType="date"
+                                                        />
+                                                    )}
+                                                />
+                                            )}
+                                        </ListView>
+                                    )}
+                                    strongValue
+                                />
+                            </>
+                        )}
+                    </ListView>
+                    <ListView layout="block">
                         <TextOutput
                             label={strings.startDate}
                             valueType="date"
                             value={emergencyResponse?.disaster_start_date}
                             strongValue
                         />
+                        {emergencyStage === 'field-report' && isDefined(latestFullFieldReport) && (
+                            <>
+                                <TextOutput
+                                    label={strings.overviewDREFLabel}
+                                    value={isDefined(latestFullFieldReport.dref)
+                                        ? requestMap?.[latestFullFieldReport.dref]
+                                        : undefined}
+                                    strongValue
+                                />
+                                <TextOutput
+                                    label={strings.overviewEmergencyAppealLabel}
+                                    value={isDefined(latestFullFieldReport.appeal)
+                                        ? requestMap?.[latestFullFieldReport.appeal]
+                                        : undefined}
+                                    strongValue
+                                />
+                            </>
+                        )}
                         <TextOutput
                             label={strings.visibility}
                             value={isDefined(emergencyResponse.visibility)
@@ -217,14 +286,12 @@ export function Component() {
                                 : '--'}
                             strongValue
                         />
+                    </ListView>
+                    <ListView layout="block">
                         <TextOutput
-                            label={strings.MDRCode}
-                            value={mdrCode}
-                            strongValue
-                        />
-                        <TextOutput
-                            label={strings.GLIDENumber}
-                            value={emergencyResponse?.glide}
+                            label={strings.assistanceRequestedByGovernment}
+                            valueType="boolean"
+                            value={assistanceIsRequestedByCountry}
                             strongValue
                         />
                         <TextOutput
@@ -233,30 +300,29 @@ export function Component() {
                             value={assistanceIsRequestedByNS}
                             strongValue
                         />
-                        <TextOutput
-                            label={strings.assistanceRequestedByGovernment}
-                            valueType="boolean"
-                            value={assistanceIsRequestedByCountry}
-                            strongValue
-                        />
                     </ListView>
-                </Container>
-            )}
-            {isDefined(emergencyResponse)
-                && isDefined(emergencyResponse?.summary)
-                && isTruthyString(emergencyResponse.summary)
-                && (
-                    <Container
-                        heading={strings.situationalOverviewTitle}
-                        withHeaderBorder
-                    >
-                        <HtmlOutput
-                            value={emergencyResponse.summary}
-                        />
-                    </Container>
-                )}
-            {isDefined(emergencyResponse)
-                && isDefined(emergencyResponse?.links)
+                </ListView>
+            </Container>
+            <Container
+                heading={strings.situationalOverviewTitle}
+                withHeaderBorder
+            >
+                {/* FIXME(frozenhelium): handle condition where there is no summary */}
+                <ListView layout="grid">
+                    <HtmlOutput
+                        value={emergencyResponse.summary}
+                    />
+                    <EmergencyMap event={emergencyResponse} />
+                </ListView>
+            </Container>
+            <Container
+                heading="Lessons learned from previous operations"
+                withHeaderBorder
+                empty
+            >
+                {null}
+            </Container>
+            {isDefined(emergencyResponse?.links)
                 && emergencyResponse.links.length > 0
                 && (
                     <Container
@@ -292,32 +358,6 @@ export function Component() {
                         </ListView>
                     </Container>
                 )}
-            <ListView
-                layout="grid"
-                withSidebar
-            >
-                {emergencyResponse && !emergencyResponse.hide_field_report_map && (
-                    <Container
-                        heading={strings.emergencyMapTitle}
-                        withHeaderBorder
-                    >
-                        <EmergencyMap event={emergencyResponse} />
-                    </Container>
-                )}
-                {hasFieldReports
-                    && isDefined(latestFieldReport)
-                    && !emergencyResponse.hide_attached_field_reports && (
-                    <Container
-                        heading={strings.emergencyKeyFiguresTitle}
-                        withHeaderBorder
-                    >
-                        <FieldReportStats
-                            report={latestFieldReport}
-                            disasterType={emergencyResponse.dtype}
-                        />
-                    </Container>
-                )}
-            </ListView>
             {isDefined(groupedContacts) && Object.keys(groupedContacts).length > 0
                 && (
                     <Container

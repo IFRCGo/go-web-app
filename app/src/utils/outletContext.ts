@@ -17,6 +17,7 @@ interface EmergencyAdditionalTabs {
 
 export interface EmergencyOutletContext {
     emergencyResponse: EmergencyResponse | undefined;
+    emergencyResponsePending: boolean;
     emergencyAdditionalTabs: EmergencyAdditionalTabs[] | undefined;
     emergencyStage: 'field-report' | 'dref' | 'emergency-appeal' | undefined;
 }
