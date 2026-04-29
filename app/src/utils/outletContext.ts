@@ -18,6 +18,7 @@ interface EmergencyAdditionalTabs {
 export interface EmergencyOutletContext {
     emergencyResponse: EmergencyResponse | undefined;
     emergencyAdditionalTabs: EmergencyAdditionalTabs[] | undefined;
+    emergencyStage: 'field-report' | 'dref' | 'emergency-appeal' | undefined;
 }
 
 export type CountryResponse = GoApiResponse<'/api/v2/country/{id}/'>

@@ -12,7 +12,6 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
 import {
-    compareDate,
     isDefined,
     isNotDefined,
     isTruthyString,
@@ -25,46 +24,16 @@ import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 import useDisasterType from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import {
+    getFirstFieldReport,
+    getLatestFieldReport,
+} from '#utils/domain/emergency';
 import { type EmergencyOutletContext } from '#utils/outletContext';
-import { type GoApiResponse } from '#utils/restRequest';
 
 import EmergencyMap from './EmergencyMap';
 import FieldReportStats from './FieldReportStats';
 
 import i18n from './i18n.json';
-
-type EventItem = GoApiResponse<'/api/v2/event/{id}'>;
-type FieldReport = EventItem['field_reports'][number];
-
-function getFieldReport(
-    reports: FieldReport[],
-    compareFunction: (
-        a?: string,
-        b?: string,
-        direction?: number
-    ) => number,
-    direction?: number,
-): FieldReport | undefined {
-    if (reports.length === 0) {
-        return undefined;
-    }
-
-    // FIXME: use max function
-    return reports.reduce((
-        selectedReport: FieldReport | undefined,
-        currentReport: FieldReport | undefined,
-    ) => {
-        if (isNotDefined(selectedReport)
-            || compareFunction(
-                currentReport?.updated_at,
-                selectedReport.updated_at,
-                direction,
-            ) > 0) {
-            return currentReport;
-        }
-        return selectedReport;
-    }, undefined);
-}
 
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
@@ -99,12 +68,10 @@ export function Component() {
         && isDefined(emergencyResponse?.field_reports)
         && emergencyResponse?.field_reports.length > 0;
 
-    const firstFieldReport = hasFieldReports
-        ? getFieldReport(emergencyResponse.field_reports, compareDate, -1) : undefined;
+    const firstFieldReport = getFirstFieldReport(emergencyResponse?.field_reports);
     const assistanceIsRequestedByNS = firstFieldReport?.ns_request_assistance;
     const assistanceIsRequestedByCountry = firstFieldReport?.request_assistance;
-    const latestFieldReport = hasFieldReports
-        ? getFieldReport(emergencyResponse.field_reports, compareDate) : undefined;
+    const latestFieldReport = getLatestFieldReport(emergencyResponse?.field_reports);
 
     const emergencyContacts = emergencyResponse?.contacts;
 

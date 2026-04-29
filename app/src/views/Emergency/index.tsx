@@ -30,6 +30,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
+import { APPEAL_TYPE_DREF } from '#components/domain/ActiveOperationMap/utils';
 import Link from '#components/Link';
 import NavigationTab from '#components/NavigationTab';
 import Page from '#components/Page';
@@ -39,6 +40,7 @@ import useAuth from '#hooks/domain/useAuth';
 import usePermissions from '#hooks/domain/usePermissions';
 import useRegion from '#hooks/domain/useRegion';
 import useUserMe from '#hooks/domain/useUserMe';
+import { getLatestAppeal } from '#utils/domain/emergency';
 import { type EmergencyOutletContext } from '#utils/outletContext';
 import { resolveUrl } from '#utils/resolveUrl';
 import {
@@ -148,23 +150,6 @@ export function Component() {
     const country = emergencyResponse?.countries[0];
     const region = useRegion({ id: Number(country?.region) });
 
-    const peopleTargeted = sumSafe(
-        emergencyResponse?.appeals.map(
-            (appeal) => appeal.num_beneficiaries,
-        ),
-    );
-    const fundingRequirements = sumSafe(
-        emergencyResponse?.appeals.map(
-            (appeal) => appeal.amount_requested,
-        ),
-    );
-
-    const funding = sumSafe(
-        emergencyResponse?.appeals.map(
-            (appeal) => appeal.amount_funded,
-        ),
-    );
-
     const emergencyAdditionalTabs = useMemo(() => {
         if (
             isNotDefined(emergencyResponse)
@@ -213,14 +198,6 @@ export function Component() {
         ].filter((tabInfo) => tabInfo.snippets.length > 0);
     }, [emergencyResponse, emergencySnippetResponse]);
 
-    const outletContext = useMemo<EmergencyOutletContext>(
-        () => ({
-            emergencyResponse,
-            emergencyAdditionalTabs,
-        }),
-        [emergencyResponse, emergencyAdditionalTabs],
-    );
-
     const showSurgeTab = (surgeAlertsResponse?.count ?? 0) > 0
         || (emergencyResponse?.active_deployments ?? 0) > 0;
 
@@ -229,6 +206,70 @@ export function Component() {
             strings.emergencyPageTitle,
             { emergencyName: emergencyResponse.name },
         ) : strings.emergencyPageTitleFallback;
+
+    const emergencyStage = useMemo(() => {
+        if (!emergencyResponse) {
+            return undefined;
+        }
+
+        const {
+            appeals,
+            field_reports,
+        } = emergencyResponse;
+
+        const hasAppeals = isDefined(appeals) && appeals.length !== 0;
+
+        const hasFieldReports = isDefined(field_reports) && field_reports.length !== 0;
+
+        if (!hasAppeals && !hasFieldReports) {
+            return undefined;
+        }
+
+        if (!hasAppeals) {
+            return 'field-report';
+        }
+
+        const latestAppeal = getLatestAppeal(appeals);
+        if (isNotDefined(latestAppeal)) {
+            return undefined;
+        }
+
+        // FIXME(frozenhelium): add more stages
+        if (latestAppeal?.atype === APPEAL_TYPE_DREF) {
+            return 'dref';
+        }
+
+        return 'emergency-appeal';
+    }, [emergencyResponse]);
+
+    const outletContext = useMemo<EmergencyOutletContext>(
+        () => ({
+            emergencyResponse,
+            emergencyAdditionalTabs,
+            emergencyStage,
+        }),
+        [emergencyResponse, emergencyAdditionalTabs, emergencyStage],
+    );
+
+    const peopleTargeted = sumSafe(
+        emergencyResponse?.appeals.map(
+            (appeal) => appeal.num_beneficiaries,
+        ),
+    );
+    const fundingRequirements = sumSafe(
+        emergencyResponse?.appeals.map(
+            (appeal) => appeal.amount_requested,
+        ),
+    );
+
+    const funding = sumSafe(
+        emergencyResponse?.appeals.map(
+            (appeal) => appeal.amount_funded,
+        ),
+    );
+
+    const hasResponseActivity = isDefined(emergencyResponse?.response_activity_count)
+        && emergencyResponse.response_activity_count > 0;
 
     return (
         <Page
@@ -339,13 +380,41 @@ export function Component() {
                 >
                     {strings.emergencyTabDetails}
                 </NavigationTab>
-                <NavigationTab
-                    to="emergencyReportsAndDocuments"
-                    urlParams={{ emergencyId }}
-                >
-                    {strings.emergencyTabReports}
-                </NavigationTab>
-                {(emergencyResponse?.response_activity_count ?? 0) > 0 && (
+                {emergencyStage === 'field-report' && (
+                    <NavigationTab
+                        to="emergencyActionsSummary"
+                        urlParams={{ emergencyId }}
+                    >
+                        {strings.emergencyTabActionsSummary}
+                    </NavigationTab>
+                )}
+                {emergencyStage === 'dref' && (
+                    <NavigationTab
+                        to="emergencyOperationStrategy"
+                        urlParams={{ emergencyId }}
+                    >
+                        {strings.emergencyTabOperationStrategy}
+                    </NavigationTab>
+                )}
+                {(emergencyStage === 'emergency-appeal' || emergencyStage === 'dref') && (
+                    <>
+                        <NavigationTab
+                            to="emergencyReportsAndDocuments"
+                            urlParams={{ emergencyId }}
+                        >
+                            {strings.emergencyTabReports}
+                        </NavigationTab>
+                        {showSurgeTab && (
+                            <NavigationTab
+                                to="emergencySurge"
+                                urlParams={{ emergencyId }}
+                            >
+                                {strings.emergencyTabSurge}
+                            </NavigationTab>
+                        )}
+                    </>
+                )}
+                {emergencyStage === 'emergency-appeal' && hasResponseActivity && (
                     <NavigationTab
                         to="emergencyActivities"
                         urlParams={{ emergencyId }}
@@ -353,14 +422,12 @@ export function Component() {
                         {strings.emergencyTabActivities}
                     </NavigationTab>
                 )}
-                {(showSurgeTab) && (
-                    <NavigationTab
-                        to="emergencySurge"
-                        urlParams={{ emergencyId }}
-                    >
-                        {strings.emergencyTabSurge}
-                    </NavigationTab>
-                )}
+                <NavigationTab
+                    to="emergencyBackground"
+                    urlParams={{ emergencyId }}
+                >
+                    {strings.emergencyTabBackground}
+                </NavigationTab>
                 {emergencyAdditionalTabs.map((tab) => (
                     <NavigationTab
                         key={tab.tabId}
