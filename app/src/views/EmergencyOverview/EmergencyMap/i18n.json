@@ -1,0 +1,8 @@
+{
+    "namespace": "emergencyOverview",
+    "strings": {
+        "mapTitle": "Emergency Map",
+        "affectedCountry": "Affected Country",
+        "affectedProvince": "Affected Province"
+    }
+}

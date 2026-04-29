@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import {
     Button,
     Container,
@@ -5,6 +6,7 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
+import DomainContext from '#contexts/domain';
 import {
     type GoApiResponse,
     useLazyRequest,
@@ -33,6 +35,7 @@ function OperationInfoCard(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
+    const { invalidate } = useContext(DomainContext);
 
     const {
         pending: removeSubscriptionPending,
@@ -43,7 +46,10 @@ function OperationInfoCard(props: Props) {
             value: eventId,
         }]),
         url: '/api/v2/del_subscription/',
-        onSuccess: updateSubscribedEvents,
+        onSuccess: () => {
+            updateSubscribedEvents();
+            invalidate('user-me');
+        },
     });
 
     const subscriptionPending = removeSubscriptionPending;

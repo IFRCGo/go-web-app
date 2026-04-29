@@ -3,6 +3,7 @@ import {
     useEffect,
 } from 'react';
 import {
+    type HeadingProps,
     ListView,
     PageContainer,
     PageHeader,
@@ -44,6 +45,8 @@ interface Props {
     blockingContent?: React.ReactNode;
     contentOriginalLanguage?: TranslationModuleOriginalLanguageEnum;
     beforeHeaderContent?: React.ReactNode;
+    headerBackground?: React.ReactNode;
+    headingColorVariant?: HeadingProps['colorVariant'];
 }
 
 function Page(props: Props) {
@@ -64,6 +67,8 @@ function Page(props: Props) {
         blockingContent,
         contentOriginalLanguage,
         beforeHeaderContent,
+        headerBackground,
+        headingColorVariant,
     } = props;
 
     const currentLanguage = useCurrentLanguage();
@@ -120,6 +125,8 @@ function Page(props: Props) {
                     heading={heading}
                     description={description}
                     info={info}
+                    background={headerBackground}
+                    headingColorVariant={headingColorVariant}
                 />
             )}
             {isNotDefined(blockingContent) && (

@@ -1,0 +1,13 @@
+{
+    "namespace": "countrySeasonalCalendar",
+    "strings": {
+        "seasonalCalendarHeading": "Seasonal Calendar",
+        "seasonalCalendarTooltipEventLabel": "Event",
+        "seasonalCalendarTooltipEventTypeLabel": "Event type",
+        "seasonalCalendarTooltipMonthsLabel": "Months",
+        "seasonalCalendarTooltipSourceLabel": "Source",
+        "seasonalCalenderDataNotAvailable": "Data is not available!",
+        "source": "Source",
+        "acaps": "ACAPS"
+    }
+}

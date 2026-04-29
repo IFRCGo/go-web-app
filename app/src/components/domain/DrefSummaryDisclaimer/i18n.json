@@ -1,0 +1,7 @@
+{
+    "namespace": "drefSummaryDisclaimer",
+    "strings": {
+        "single": "The text above has been created with the help of AI models, aggregating the summary of the submitted information.",
+        "multiple": "The texts above have been created with the help of AI models, aggregating the summary of the submitted information."
+    }
+}

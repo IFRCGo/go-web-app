@@ -1,0 +1,25 @@
+{
+    "namespace": "emergencyOperationStrategy",
+    "strings": {
+        "summaryOfUpdatesHeading": "Summary of updates (DREF Ops Update {date})",
+        "summaryOfUpdatesHeadingWithoutDate": "Summary of updates",
+        "plannedOperationHeading": "Planned Operations",
+        "operationStrategyHeading": "Operation Strategy",
+        "operationStrategySource": "Objectives/Rationale",
+        "peopleCentredApproachHeading": "People-centred approach",
+        "peopleCentredApproachSource": "Targeting",
+        "proposedActionActivityHeading": "Proposed Actions",
+        "proposedActionExpenditureLabel": "Expenditure",
+        "plannedOperationBudgetLabel": "Budget(CHF)",
+        "plannedOperationPeopleTargetedLabel": "People Targeted",
+        "plannedOperationPeopleReachedLabel": "People Reached",
+        "plannedOperationIndicatorsLabel": "Indicators",
+        "plannedOperationTargetedLabel": "Targeted",
+        "plannedOperationActualsLabel": "Actuals",
+        "plannedOperationNeedsHeading": "Needs",
+        "plannedOperationPriorityActionsHeading": "Priority Actions",
+        "plannedOperationActivitiesHeading": "Activities",
+        "plannedOperationProgressSoFarHeading": "Progress so far",
+        "plannedOperationAchievementsHeading": "Achievements"
+    }
+}

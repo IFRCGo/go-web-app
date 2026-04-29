@@ -1,0 +1,9 @@
+{
+    "namespace": "opsLearningSources",
+    "strings": {
+        "allExtractsModalHeading": "Operational Learning Extracts",
+        "allExtractsModalEmptyMessage": "No extracts",
+        "allExtractsModalExtractCount": "{count} extract",
+        "allExtractsModalExtractsCount": "{count} extracts"
+    }
+}

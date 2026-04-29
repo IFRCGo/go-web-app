@@ -251,3 +251,7 @@ export const EAP_STATUS_TECHNICALLY_VALIDATED = 40 satisfies EapStatus;
 export const EAP_STATUS_APPROVED = 50 satisfies EapStatus;
 export const EAP_STATUS_PROJECT_AGREEMENT_SIGNED = 60 satisfies EapStatus;
 export const EAP_ACCEPTED_FILE_FORMATS = '.pdf, .docx, .pptx, .xlsx, image/*';
+
+type PerLearningTypeEnumKey = components['schemas']['PerLearningTypeEnumKey'];
+
+export const PER_LEARNING_LESSONS_LEARNED = 1 satisfies PerLearningTypeEnumKey;

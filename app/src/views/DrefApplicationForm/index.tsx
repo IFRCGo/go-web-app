@@ -37,7 +37,7 @@ import {
 
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import DrefExportModal from '#components/domain/DrefExportModal';
-import { type FieldReportItem as FieldReportSearchItem } from '#components/domain/FieldReportSearchSelectInput';
+import { type EventItem as EventSearchItem } from '#components/domain/EventSearchSelectInput';
 import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import Link from '#components/Link';
@@ -155,6 +155,21 @@ export function Component() {
         ? (navigationState as PartialDref | null)
         : undefined;
 
+    // set by the Emergency page's "Create DREF Application" action
+    const prefilledEventId = useMemo(
+        () => {
+            if (isDefined(drefId)) {
+                return undefined;
+            }
+
+            const eventIdFromState = Number(navigationState?.event);
+            return Number.isFinite(eventIdFromState) && eventIdFromState > 0
+                ? eventIdFromState
+                : undefined;
+        },
+        [drefId, navigationState],
+    );
+
     const alert = useAlert();
     const { navigate } = useRouting();
     const strings = useTranslation(i18n);
@@ -179,8 +194,8 @@ export function Component() {
     const [districtOptions, setDistrictOptions] = useState<
         DistrictItem[] | undefined | null
     >([]);
-    const [fieldReportOptions, setFieldReportOptions] = useState<
-        FieldReportSearchItem[] | undefined | null
+    const [eventOptions, setEventOptions] = useState<
+        EventSearchItem[] | undefined | null
     >([]);
 
     const {
@@ -212,6 +227,7 @@ export function Component() {
                         },
                     ],
                 } : undefined),
+                ...(isDefined(prefilledEventId) ? { event: prefilledEventId } : undefined),
             },
         },
     );
@@ -837,8 +853,8 @@ export function Component() {
                                 disabled={disabled}
                                 districtOptions={districtOptions}
                                 setDistrictOptions={setDistrictOptions}
-                                fieldReportOptions={fieldReportOptions}
-                                setFieldReportOptions={setFieldReportOptions}
+                                eventOptions={eventOptions}
+                                setEventOptions={setEventOptions}
                             />
                         </TabPanel>
                         <TabPanel name="eventDetail">

@@ -1,0 +1,33 @@
+.sector-image {
+    height: 2rem;
+    aspect-ratio: 1;
+}
+
+.sector-icon {
+    font-size: var(--go-ui-height-icon-multiplier);
+}
+
+.planned-operations {
+    /* an odd trailing box would otherwise sit in one track of a two-column
+       row, leaving dead space beside it */
+    .full-width-box {
+        grid-column: 1 / -1;
+    }
+
+    .indicator-table {
+        display: grid;
+        align-items: stretch;
+        grid-template-columns: 2fr 1fr;
+        gap: var(--go-ui-spacing-xs);
+
+        &.with-actual {
+            grid-template-columns: 2fr 1fr 1fr;
+        }
+
+        .cell {
+            border-radius: var(--go-ui-border-radius-lg);
+            background-color: var(--go-ui-color-background);
+            padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-sm);
+        }
+    }
+}

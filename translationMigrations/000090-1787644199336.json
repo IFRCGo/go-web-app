@@ -1,0 +1,1133 @@
+{
+    "parent": "000089-1787634374191.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "drefAllocatedFromAnticipatoryPillar",
+            "namespace": "accountMyFormsDref",
+            "value": "Anticipatory Pillar"
+        },
+        {
+            "action": "add",
+            "key": "drefAllocatedFromResponsePillar",
+            "namespace": "accountMyFormsDref",
+            "value": "Response Pillar"
+        },
+        {
+            "action": "add",
+            "key": "drefAllocationForDrefOperation",
+            "namespace": "accountMyFormsDref",
+            "value": "DREF Operation"
+        },
+        {
+            "action": "add",
+            "key": "drefAllocationForEmergencyAppeal",
+            "namespace": "accountMyFormsDref",
+            "value": "Emergency Appeal"
+        },
+        {
+            "action": "add",
+            "key": "drefApplicationHasEventMessage",
+            "namespace": "accountMyFormsDref",
+            "value": "You are about to approve this DREF Application with the following Emergency selected: {emergency}"
+        },
+        {
+            "action": "add",
+            "key": "drefApplicationNoEventApprovalWarningMessage",
+            "namespace": "accountMyFormsDref",
+            "value": "This DREF application isn't linked to an Emergency yet. Choose an option below to create a new one or link an existing Emergency"
+        },
+        {
+            "action": "add",
+            "key": "drefApprovalConfirmHeading",
+            "namespace": "accountMyFormsDref",
+            "value": "Confirm Approval"
+        },
+        {
+            "action": "add",
+            "key": "drefApprovalLinkEmergencyPlaceholder",
+            "namespace": "accountMyFormsDref",
+            "value": "Click here to link to an existing Emergency"
+        },
+        {
+            "action": "add",
+            "key": "drefApprovalSureMessage",
+            "namespace": "accountMyFormsDref",
+            "value": "Are you sure you want to continue?"
+        },
+        {
+            "action": "add",
+            "key": "drefImplementationPeriodDays",
+            "namespace": "accountMyFormsDref",
+            "value": "{count} days"
+        },
+        {
+            "action": "add",
+            "key": "drefImplementationPeriodMonths",
+            "namespace": "accountMyFormsDref",
+            "value": "{count} months"
+        },
+        {
+            "action": "add",
+            "key": "drefResponseTypeImminentCrisis",
+            "namespace": "accountMyFormsDref",
+            "value": "Imminent Crisis"
+        },
+        {
+            "action": "add",
+            "key": "linkEmergencyCreateNewDescription",
+            "namespace": "accountMyFormsDref",
+            "value": "A new emergency will be automatically created and linked using the details of the current DREF"
+        },
+        {
+            "action": "add",
+            "key": "linkEmergencyCreateNewLabel",
+            "namespace": "accountMyFormsDref",
+            "value": "Create a new Emergency"
+        },
+        {
+            "action": "add",
+            "key": "linkEmergencySelectExistingLabel",
+            "namespace": "accountMyFormsDref",
+            "value": "Select from existing Emergency"
+        },
+        {
+            "action": "add",
+            "key": "clampedContentSeeLess",
+            "namespace": "common",
+            "value": "See less"
+        },
+        {
+            "action": "add",
+            "key": "clampedContentSeeMore",
+            "namespace": "common",
+            "value": "See more"
+        },
+        {
+            "action": "add",
+            "key": "todayMarkerLabel",
+            "namespace": "common",
+            "value": "Today"
+        },
+        {
+            "action": "update",
+            "key": "acaps",
+            "namespace": "countryProfileOverview",
+            "newNamespace": "countrySeasonalCalendar"
+        },
+        {
+            "action": "update",
+            "key": "seasonalCalendarHeading",
+            "namespace": "countryProfileOverview",
+            "newNamespace": "countrySeasonalCalendar"
+        },
+        {
+            "action": "update",
+            "key": "seasonalCalendarTooltipEventLabel",
+            "namespace": "countryProfileOverview",
+            "newNamespace": "countrySeasonalCalendar"
+        },
+        {
+            "action": "update",
+            "key": "seasonalCalendarTooltipEventTypeLabel",
+            "namespace": "countryProfileOverview",
+            "newNamespace": "countrySeasonalCalendar"
+        },
+        {
+            "action": "update",
+            "key": "seasonalCalendarTooltipMonthsLabel",
+            "namespace": "countryProfileOverview",
+            "newNamespace": "countrySeasonalCalendar"
+        },
+        {
+            "action": "update",
+            "key": "seasonalCalendarTooltipSourceLabel",
+            "namespace": "countryProfileOverview",
+            "newNamespace": "countrySeasonalCalendar"
+        },
+        {
+            "action": "update",
+            "key": "seasonalCalenderDataNotAvailable",
+            "namespace": "countryProfileOverview",
+            "newNamespace": "countrySeasonalCalendar"
+        },
+        {
+            "action": "update",
+            "key": "source",
+            "namespace": "countryProfileOverview",
+            "newNamespace": "countrySeasonalCalendar"
+        },
+        {
+            "action": "update",
+            "key": "pastEventsAmountFunded",
+            "namespace": "countryProfilePreviousEvents",
+            "newNamespace": "countryPastEventsChart"
+        },
+        {
+            "action": "update",
+            "key": "pastEventsAmountRequested",
+            "namespace": "countryProfilePreviousEvents",
+            "newNamespace": "countryPastEventsChart"
+        },
+        {
+            "action": "update",
+            "key": "pastEventsChartEvents",
+            "namespace": "countryProfilePreviousEvents",
+            "newNamespace": "countryPastEventsChart"
+        },
+        {
+            "action": "update",
+            "key": "pastEventsLastFiveYearsLabel",
+            "namespace": "countryProfilePreviousEvents",
+            "newNamespace": "countryPastEventsChart"
+        },
+        {
+            "action": "update",
+            "key": "pastEventsLastTenYearsLabel",
+            "namespace": "countryProfilePreviousEvents",
+            "newNamespace": "countryPastEventsChart"
+        },
+        {
+            "action": "update",
+            "key": "pastEventsTargetedPopulation",
+            "namespace": "countryProfilePreviousEvents",
+            "newNamespace": "countryPastEventsChart"
+        },
+        {
+            "action": "add",
+            "key": "noEventDetailsWarningMessage",
+            "namespace": "drefApplicationForm",
+            "value": "The selected Emergency does not contain enough details to be copied over."
+        },
+        {
+            "action": "update",
+            "key": "drefFormCopyButtonLabel",
+            "namespace": "drefApplicationForm",
+            "newValue": "Copy details"
+        },
+        {
+            "action": "update",
+            "key": "drefFormCopyFRSuccessMessage",
+            "namespace": "drefApplicationForm",
+            "newValue": "Successfully copied some data from the selected emergency"
+        },
+        {
+            "action": "update",
+            "key": "drefFormEventDescription",
+            "namespace": "drefApplicationForm",
+            "newValue": "Please check for, and link to an existing emergency if available. You can use it to pre-fill matching fields in this request. To do so, select the relevant emergency from the drop-down list and click “Copy details”."
+        },
+        {
+            "action": "update",
+            "key": "drefFormEventDetailsTitle",
+            "namespace": "drefApplicationForm",
+            "newValue": "Link with an emergency"
+        },
+        {
+            "action": "update",
+            "key": "drefFormSelectFieldReportPlaceholder",
+            "namespace": "drefApplicationForm",
+            "newValue": "Select an emergency"
+        },
+        {
+            "action": "add",
+            "key": "multiple",
+            "namespace": "drefSummaryDisclaimer",
+            "value": "The texts above have been created with the help of AI models, aggregating the summary of the submitted information."
+        },
+        {
+            "action": "add",
+            "key": "single",
+            "namespace": "drefSummaryDisclaimer",
+            "value": "The text above has been created with the help of AI models, aggregating the summary of the submitted information."
+        },
+        {
+            "action": "add",
+            "key": "sourceApplication",
+            "namespace": "drefSummarySourceLabel",
+            "value": "DREF Application"
+        },
+        {
+            "action": "add",
+            "key": "sourceFinalReport",
+            "namespace": "drefSummarySourceLabel",
+            "value": "DREF Final Report"
+        },
+        {
+            "action": "add",
+            "key": "sourceOperationalUpdate",
+            "namespace": "drefSummarySourceLabel",
+            "value": "DREF Operational Update"
+        },
+        {
+            "action": "add",
+            "key": "template",
+            "namespace": "drefSummarySourceLabel",
+            "value": "From {source}: {section}"
+        },
+        {
+            "action": "add",
+            "key": "emergencyLoadFailureTitle",
+            "namespace": "emergency",
+            "value": "Failed to load the Emergency details."
+        },
+        {
+            "action": "add",
+            "key": "emergencyOperationEnded",
+            "namespace": "emergency",
+            "value": "Operation Ended"
+        },
+        {
+            "action": "add",
+            "key": "emergencyTabActionsSummary",
+            "namespace": "emergency",
+            "value": "Actions Summary"
+        },
+        {
+            "action": "add",
+            "key": "emergencyTabBackground",
+            "namespace": "emergency",
+            "value": "Background"
+        },
+        {
+            "action": "add",
+            "key": "emergencyTabOperationStrategy",
+            "namespace": "emergency",
+            "value": "Operation Strategy"
+        },
+        {
+            "action": "add",
+            "key": "operationTimelineLabel",
+            "namespace": "emergency",
+            "value": "Operation Timeline"
+        },
+        {
+            "action": "update",
+            "key": "emergencyPeopleTargetedLabel",
+            "namespace": "emergency",
+            "newValue": "Targeted Population"
+        },
+        {
+            "action": "update",
+            "key": "emergencyTabDetails",
+            "namespace": "emergency",
+            "newValue": "Emergency Overview"
+        },
+        {
+            "action": "update",
+            "key": "emergencyTabReports",
+            "namespace": "emergency",
+            "newValue": "Documents"
+        },
+        {
+            "action": "add",
+            "key": "actionsTakenSectionTitle",
+            "namespace": "emergencyActionsSummary",
+            "value": "Actions Taken"
+        },
+        {
+            "action": "add",
+            "key": "govTitle",
+            "namespace": "emergencyActionsSummary",
+            "value": "Actions Taken by Government"
+        },
+        {
+            "action": "add",
+            "key": "ifrcTitle",
+            "namespace": "emergencyActionsSummary",
+            "value": "Actions Taken by IFRC"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyTitle",
+            "namespace": "emergencyActionsSummary",
+            "value": "Actions Taken by National Society"
+        },
+        {
+            "action": "add",
+            "key": "otherRCRCActorsTitle",
+            "namespace": "emergencyActionsSummary",
+            "value": "Actions Taken by Other RCRC Actors"
+        },
+        {
+            "action": "add",
+            "key": "seeMoreOnCountryPageLink",
+            "namespace": "emergencyBackground",
+            "value": "See more on the country page"
+        },
+        {
+            "action": "remove",
+            "key": "affected",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "affectedPopCenters",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "assisted",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "assistedByGovernment",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "assistedByRCRC",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "cases",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "confirmedCases",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "dead",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "delegates",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "disasterCategorisation",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "displaced",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "emergencyMapTitle",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "epiSource",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "highestRisk",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "injured",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "localStaff",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "missing",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "numberOfDead",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "potentiallyAffected",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "probableCases",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "source",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "sourceLabel",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "suspectedCases",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "remove",
+            "key": "volunteers",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "update",
+            "key": "affectedCountry",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "affectedProvince",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "assistanceRequestedByGovernment",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "assistanceRequestedByNS",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "contactsTitle",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "disasterType",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "emergencyKeyFiguresTitle",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "emergencyOverviewTitle",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "GLIDENumber",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "linksTitle",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "MDRCode",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "severityLevelUpdateDateLabel",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "situationalOverviewTitle",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "startDate",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "update",
+            "key": "visibility",
+            "namespace": "emergencyDetails",
+            "newNamespace": "emergencyOverview"
+        },
+        {
+            "action": "add",
+            "key": "emptyMessage",
+            "namespace": "emergencyLessonsLearnedFromPreviousOperations",
+            "value": "At this moment we do not have any available learnings for this country in our dataset. Please visit the {link} where you can still find relevant learnings for similar hazards or regions."
+        },
+        {
+            "action": "add",
+            "key": "emptyMessageLinkLabel",
+            "namespace": "emergencyLessonsLearnedFromPreviousOperations",
+            "value": "Operational Learning"
+        },
+        {
+            "action": "add",
+            "key": "heading",
+            "namespace": "emergencyLessonsLearnedFromPreviousOperations",
+            "value": "Lessons learned from previous operations"
+        },
+        {
+            "action": "add",
+            "key": "operationStrategyHeading",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Operation Strategy"
+        },
+        {
+            "action": "add",
+            "key": "operationStrategySource",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Objectives/Rationale"
+        },
+        {
+            "action": "add",
+            "key": "peopleCentredApproachHeading",
+            "namespace": "emergencyOperationStrategy",
+            "value": "People-centred approach"
+        },
+        {
+            "action": "add",
+            "key": "peopleCentredApproachSource",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Targeting"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationAchievementsHeading",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Achievements"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationActivitiesHeading",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Activities"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationActualsLabel",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Actuals"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationBudgetLabel",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Budget(CHF)"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationHeading",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Planned Operations"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationIndicatorsLabel",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Indicators"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationNeedsHeading",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Needs"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationPeopleReachedLabel",
+            "namespace": "emergencyOperationStrategy",
+            "value": "People Reached"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationPeopleTargetedLabel",
+            "namespace": "emergencyOperationStrategy",
+            "value": "People Targeted"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationPriorityActionsHeading",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Priority Actions"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationProgressSoFarHeading",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Progress so far"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationTargetedLabel",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Targeted"
+        },
+        {
+            "action": "add",
+            "key": "proposedActionActivityHeading",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Proposed Actions"
+        },
+        {
+            "action": "add",
+            "key": "proposedActionExpenditureLabel",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Expenditure"
+        },
+        {
+            "action": "add",
+            "key": "summaryOfUpdatesHeading",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Summary of updates (DREF Ops Update {date})"
+        },
+        {
+            "action": "add",
+            "key": "summaryOfUpdatesHeadingWithoutDate",
+            "namespace": "emergencyOperationStrategy",
+            "value": "Summary of updates"
+        },
+        {
+            "action": "add",
+            "key": "emergencyAppeal",
+            "namespace": "emergencyOperationType",
+            "value": "Emergency Appeal"
+        },
+        {
+            "action": "add",
+            "key": "imminentDref",
+            "namespace": "emergencyOperationType",
+            "value": "Imminent DREF"
+        },
+        {
+            "action": "add",
+            "key": "responseDref",
+            "namespace": "emergencyOperationType",
+            "value": "Response DREF"
+        },
+        {
+            "action": "add",
+            "key": "challengesIdentifiedHeading",
+            "namespace": "emergencyOverview",
+            "value": "Challenges Identified"
+        },
+        {
+            "action": "add",
+            "key": "createDrefApplicationLink",
+            "namespace": "emergencyOverview",
+            "value": "Create DREF Application"
+        },
+        {
+            "action": "add",
+            "key": "disasterCategorization",
+            "namespace": "emergencyOverview",
+            "value": "Disaster Categorization"
+        },
+        {
+            "action": "add",
+            "key": "endDate",
+            "namespace": "emergencyOverview",
+            "value": "End Date"
+        },
+        {
+            "action": "add",
+            "key": "keyFigureAffectedLabel",
+            "namespace": "emergencyOverview",
+            "value": "Affected"
+        },
+        {
+            "action": "add",
+            "key": "keyFigureDeadLabel",
+            "namespace": "emergencyOverview",
+            "value": "Dead"
+        },
+        {
+            "action": "add",
+            "key": "keyFigureDisplacedLabel",
+            "namespace": "emergencyOverview",
+            "value": "Displaced"
+        },
+        {
+            "action": "add",
+            "key": "keyFigureHighestRiskLabel",
+            "namespace": "emergencyOverview",
+            "value": "People at Highest Risk"
+        },
+        {
+            "action": "add",
+            "key": "keyFigureInjuredLabel",
+            "namespace": "emergencyOverview",
+            "value": "Injured"
+        },
+        {
+            "action": "add",
+            "key": "keyFigureMissingLabel",
+            "namespace": "emergencyOverview",
+            "value": "Missing"
+        },
+        {
+            "action": "add",
+            "key": "keyFigurePotentiallyAffectedLabel",
+            "namespace": "emergencyOverview",
+            "value": "Potentially Affected"
+        },
+        {
+            "action": "add",
+            "key": "learningsFromOperationTitle",
+            "namespace": "emergencyOverview",
+            "value": "Learnings from this Operation"
+        },
+        {
+            "action": "add",
+            "key": "lessonsLearnedHeading",
+            "namespace": "emergencyOverview",
+            "value": "Lessons Learned"
+        },
+        {
+            "action": "add",
+            "key": "mapTitle",
+            "namespace": "emergencyOverview",
+            "value": "Emergency Map"
+        },
+        {
+            "action": "add",
+            "key": "operationalTimelineTitle",
+            "namespace": "emergencyOverview",
+            "value": "Operational Timeline"
+        },
+        {
+            "action": "add",
+            "key": "overviewCountryLabel",
+            "namespace": "emergencyOverview",
+            "value": "Country"
+        },
+        {
+            "action": "add",
+            "key": "overviewDREFLabel",
+            "namespace": "emergencyOverview",
+            "value": "DREF"
+        },
+        {
+            "action": "add",
+            "key": "overviewEmergencyAppealLabel",
+            "namespace": "emergencyOverview",
+            "value": "Emergency Appeal"
+        },
+        {
+            "action": "add",
+            "key": "overviewLastUpdateLabel",
+            "namespace": "emergencyOverview",
+            "value": "Last update"
+        },
+        {
+            "action": "add",
+            "key": "overviewOperationTypeLabel",
+            "namespace": "emergencyOverview",
+            "value": "Operation Type"
+        },
+        {
+            "action": "add",
+            "key": "situationalOverviewSource",
+            "namespace": "emergencyOverview",
+            "value": "What happened, when, and where / Scope and scale"
+        },
+        {
+            "action": "add",
+            "key": "situationalOverviewSourceImminent",
+            "namespace": "emergencyOverview",
+            "value": "From Imminent DREF: When & where the hazard is expected to happen"
+        },
+        {
+            "action": "add",
+            "key": "timelineDisasterStart",
+            "namespace": "emergencyOverview",
+            "value": "Beginning of the Disaster"
+        },
+        {
+            "action": "add",
+            "key": "timelineDrefApplication",
+            "namespace": "emergencyOverview",
+            "value": "DREF Application"
+        },
+        {
+            "action": "add",
+            "key": "timelineDrefFinalReport",
+            "namespace": "emergencyOverview",
+            "value": "DREF Final Report"
+        },
+        {
+            "action": "add",
+            "key": "timelineDrefFinalReportDownload",
+            "namespace": "emergencyOverview",
+            "value": "Final Report"
+        },
+        {
+            "action": "add",
+            "key": "timelineDrefFinalReportPopupHeading",
+            "namespace": "emergencyOverview",
+            "value": "DREF Final Report ({date})"
+        },
+        {
+            "action": "add",
+            "key": "timelineFieldReport",
+            "namespace": "emergencyOverview",
+            "value": "Field Report #{fieldReportNumber}"
+        },
+        {
+            "action": "add",
+            "key": "timelineForecastedEvent",
+            "namespace": "emergencyOverview",
+            "value": "Forecasted event"
+        },
+        {
+            "action": "add",
+            "key": "timelineFundingRequirementsLabel",
+            "namespace": "emergencyOverview",
+            "value": "Funding Requirements"
+        },
+        {
+            "action": "add",
+            "key": "timelineImminentDrefStart",
+            "namespace": "emergencyOverview",
+            "value": "Start of Imminent DREF"
+        },
+        {
+            "action": "add",
+            "key": "timelineOperationalUpdate",
+            "namespace": "emergencyOverview",
+            "value": "Operational Update #{updateNumber}"
+        },
+        {
+            "action": "add",
+            "key": "timelineOperationalUpdateDownload",
+            "namespace": "emergencyOverview",
+            "value": "DREF Ops Update #{updateNumber}"
+        },
+        {
+            "action": "add",
+            "key": "timelineOperationalUpdatePopupHeading",
+            "namespace": "emergencyOverview",
+            "value": "Operational Update #{updateNumber} ({date})"
+        },
+        {
+            "action": "add",
+            "key": "timelineOperationEnd",
+            "namespace": "emergencyOverview",
+            "value": "End of Operation"
+        },
+        {
+            "action": "add",
+            "key": "timelineOperationStart",
+            "namespace": "emergencyOverview",
+            "value": "Start of Operation"
+        },
+        {
+            "action": "add",
+            "key": "timelineTargetedPopulationLabel",
+            "namespace": "emergencyOverview",
+            "value": "Targeted Population"
+        },
+        {
+            "action": "add",
+            "key": "timelineViewFieldReport",
+            "namespace": "emergencyOverview",
+            "value": "View report"
+        },
+        {
+            "action": "update",
+            "key": "addAReportLink",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "appealDocumentCode",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "appealDocumentDate",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "appealDocumentDescription",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "appealDocumentLink",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "appealDocuments",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "appealDocumentType",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "emergencyReportAndDocumentImageAlt",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "featuredDocuments",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "fieldReports",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "fieldReportsTableCountry",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "fieldReportsTableCreatedAt",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "fieldReportsTableName",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "fieldReportsTableRegion",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "responseDocuments",
+            "namespace": "emergencyReportAndDocument",
+            "newNamespace": "emergencyDocuments"
+        },
+        {
+            "action": "add",
+            "key": "endLabel",
+            "namespace": "emergencyTimelineProgressBar",
+            "value": "End"
+        },
+        {
+            "action": "add",
+            "key": "startLabel",
+            "namespace": "emergencyTimelineProgressBar",
+            "value": "Start"
+        },
+        {
+            "action": "update",
+            "key": "allExtractsModalExtractCount",
+            "namespace": "operationalLearning",
+            "newNamespace": "opsLearningSources"
+        },
+        {
+            "action": "update",
+            "key": "allExtractsModalExtractsCount",
+            "namespace": "operationalLearning",
+            "newNamespace": "opsLearningSources"
+        },
+        {
+            "action": "update",
+            "key": "allExtractsModalHeading",
+            "namespace": "operationalLearning",
+            "newNamespace": "opsLearningSources"
+        },
+        {
+            "action": "update",
+            "key": "dateOfOperation",
+            "namespace": "operationalLearning",
+            "newNamespace": "opsLearningSources"
+        },
+        {
+            "action": "update",
+            "key": "keyInsightsCloseSources",
+            "namespace": "operationalLearning",
+            "newNamespace": "opsLearningKeyInsights"
+        },
+        {
+            "action": "update",
+            "key": "keyInsightsDisclaimer",
+            "namespace": "operationalLearning",
+            "newNamespace": "opsLearningKeyInsights"
+        },
+        {
+            "action": "update",
+            "key": "keyInsightsReportIssue",
+            "namespace": "operationalLearning",
+            "newNamespace": "opsLearningKeyInsights"
+        },
+        {
+            "action": "update",
+            "key": "keyInsightsSeeSources",
+            "namespace": "operationalLearning",
+            "newNamespace": "opsLearningKeyInsights"
+        },
+        {
+            "action": "update",
+            "key": "methodologyLinkLabel",
+            "namespace": "operationalLearning",
+            "newNamespace": "opsLearningKeyInsights"
+        },
+        {
+            "action": "update",
+            "key": "noSources",
+            "namespace": "operationalLearning",
+            "newNamespace": "opsLearningSources"
+        },
+        {
+            "action": "update",
+            "key": "source",
+            "namespace": "operationalLearning",
+            "newNamespace": "opsLearningSources"
+        },
+        {
+            "action": "update",
+            "key": "viewAllExtracts",
+            "namespace": "operationalLearning",
+            "newNamespace": "opsLearningSources"
+        },
+        {
+            "action": "add",
+            "key": "allExtractsModalEmptyMessage",
+            "namespace": "opsLearningSources",
+            "value": "No extracts"
+        }
+    ]
+}

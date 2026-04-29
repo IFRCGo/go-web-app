@@ -406,6 +406,11 @@ function Overview(props: Props) {
                         }
                         numPreferredColumns={2}
                     >
+                        {/* NOTE: the operation country comes from the DREF
+                        application; changing it mid-operation would detach
+                        the operational update from the linked emergency */}
+                        {/* FIXME(frozenhelium): go-api, the server should
+                        also reject a country change on operational updates */}
                         <CountrySelectInput
                             name="country"
                             label={strings.drefFormAddCountry}
@@ -413,7 +418,7 @@ function Overview(props: Props) {
                             onChange={handleCountryChange}
                             error={error?.country}
                             disabled={disabled}
-                            readOnly={readOnly}
+                            readOnly
                         />
                         <div>
                             <DistrictSearchMultiSelectInput

@@ -26,6 +26,21 @@
         "dropdownActionNewFinalReportLanguageSelectLanguageMessage": "Please select the language to create the DREF Final Report.",
         "dropdownActionImminentNewOpsUpdateConfirmationHeading": "Confirm addition of Operational Update",
         "dropdownActionNewFinalReportConfirmationHeading": "Confirm addition of Final Report",
-        "dropdownActionImminentNewOpsUpdateConfirmationMessage": "The DREF type will be changed to Response (from Imminent) for the Operational Update. Once created, you'll be able to change it to other types except Imminent. Are you sure you want to add an Operational Update?"
+        "dropdownActionImminentNewOpsUpdateConfirmationMessage": "The DREF type will be changed to Response (from Imminent) for the Operational Update. Once created, you'll be able to change it to other types except Imminent. Are you sure you want to add an Operational Update?",
+        "drefApplicationNoEventApprovalWarningMessage": "This DREF application isn't linked to an Emergency yet. Choose an option below to create a new one or link an existing Emergency",
+        "drefApplicationHasEventMessage": "You are about to approve this DREF Application with the following Emergency selected: {emergency}",
+        "drefApprovalSureMessage": "Are you sure you want to continue?",
+        "linkEmergencyCreateNewLabel": "Create a new Emergency",
+        "linkEmergencyCreateNewDescription": "A new emergency will be automatically created and linked using the details of the current DREF",
+        "linkEmergencySelectExistingLabel": "Select from existing Emergency",
+        "drefApprovalConfirmHeading": "Confirm Approval",
+        "drefApprovalLinkEmergencyPlaceholder": "Click here to link to an existing Emergency",
+        "drefAllocationForEmergencyAppeal": "Emergency Appeal",
+        "drefAllocationForDrefOperation": "DREF Operation",
+        "drefResponseTypeImminentCrisis": "Imminent Crisis",
+        "drefAllocatedFromAnticipatoryPillar": "Anticipatory Pillar",
+        "drefAllocatedFromResponsePillar": "Response Pillar",
+        "drefImplementationPeriodDays": "{count} days",
+        "drefImplementationPeriodMonths": "{count} months"
     }
 }
