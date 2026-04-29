@@ -22,7 +22,6 @@
         "crisisRedEmergency": "Red Emergency",
         "crisisOrangeEmergency": "Orange Emergency",
         "crisisYellowEmergency": "Yellow Emergency",
-        "crisisUncategorisedEmergency": "Uncategorised",
         "explanationBubblePopulationLabel": "# of people targeted",
         "explanationBubbleAmountLabel": "IFRC financial requirements"
     }

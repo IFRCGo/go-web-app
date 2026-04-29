@@ -27,7 +27,6 @@ import Link from '#components/Link';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useFilterState from '#hooks/useFilterState';
 import {
-    COLOR_BLACK,
     DISASTER_CATEGORY_ORANGE,
     DISASTER_CATEGORY_RED,
     DISASTER_CATEGORY_YELLOW,
@@ -49,7 +48,6 @@ import {
     COLOR_ORANGE_SEVERITY,
     COLOR_RED_SEVERITY,
     COLOR_YELLOW_SEVERITY,
-    DISASTER_UNCATEGORISED,
     type ScaleOption,
 } from './utils';
 
@@ -130,6 +128,10 @@ function ActiveOperationMap(props: Props) {
                 dtype: filter.displacement,
                 district: hasSomeDefinedValue(filter.district) ? filter.district : undefined,
                 end_date__gt: now,
+                // NOTE: Filtering only those appeals that has not been confirmed
+                // and does not contain event
+                has_event: true,
+                needs_confirmation: false,
                 start_date__gte: filter.startDateAfter,
                 start_date__lte: filter.startDateBefore,
                 limit,
@@ -248,11 +250,6 @@ function ActiveOperationMap(props: Props) {
                 value: DISASTER_CATEGORY_YELLOW,
                 label: strings.crisisYellowEmergency,
                 color: COLOR_YELLOW_SEVERITY,
-            },
-            {
-                value: DISASTER_UNCATEGORISED,
-                label: strings.crisisUncategorisedEmergency,
-                color: COLOR_BLACK,
             },
         ]);
     }, [strings, activeTab]);

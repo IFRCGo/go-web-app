@@ -4,12 +4,11 @@ import type {
 } from 'mapbox-gl';
 
 import {
-    COLOR_BLACK,
     COLOR_BLUE,
+    COLOR_DREF_YELLOW,
     COLOR_LIGHT_GREY,
     COLOR_ORANGE,
     COLOR_RED,
-    COLOR_YELLOW,
     DISASTER_CATEGORY_ORANGE,
     DISASTER_CATEGORY_RED,
     DISASTER_CATEGORY_YELLOW,
@@ -17,11 +16,11 @@ import {
 } from '#utils/constants';
 
 export const COLOR_EMERGENCY_APPEAL = COLOR_RED;
-export const COLOR_DREF = COLOR_YELLOW;
+export const COLOR_DREF = COLOR_DREF_YELLOW;
 export const COLOR_EAP = COLOR_BLUE;
 export const COLOR_MULTIPLE_TYPES = COLOR_ORANGE;
 
-export const COLOR_YELLOW_SEVERITY = COLOR_YELLOW;
+export const COLOR_YELLOW_SEVERITY = COLOR_DREF_YELLOW;
 export const COLOR_ORANGE_SEVERITY = COLOR_ORANGE;
 export const COLOR_RED_SEVERITY = COLOR_RED;
 
@@ -31,7 +30,6 @@ export const APPEAL_TYPE_EMERGENCY = 1;
 // const APPEAL_TYPE_INTERNATIONAL = 2; // TODO: we are not showing this?
 export const APPEAL_TYPE_EAP = 3;
 export const APPEAL_TYPE_MULTIPLE = -1;
-export const DISASTER_UNCATEGORISED = -1;
 
 export const severityOrderMapping: Record<DisasterCategory, number> = {
     [DISASTER_CATEGORY_RED]: 1,
@@ -66,8 +64,6 @@ const circleColor: CirclePaint['circle-color'] = [
         COLOR_RED_SEVERITY,
         DISASTER_CATEGORY_YELLOW,
         COLOR_YELLOW_SEVERITY,
-        DISASTER_UNCATEGORISED,
-        COLOR_BLACK,
         COLOR_LIGHT_GREY,
     ],
     COLOR_LIGHT_GREY,
