@@ -1,8 +1,17 @@
 {
     "namespace": "emergencyDetails",
     "strings": {
+        "keyFigureInjuredLabel": "Injured",
+        "keyFigureDeadLabel": "Dead",
+        "keyFigureMissingLabel": "Missing",
+        "keyFigureAffectedLabel": "Affected",
+        "keyFigureDisplacedLabel": "Displaced",
         "emergencyKeyFiguresTitle": "Key Figures",
         "emergencyOverviewTitle": "Emergency Overview",
+        "overviewCountryLabel": "Country",
+        "overviewEmergencyAppealLabel": "Emergency Appeal",
+        "overviewOperationTypeLabel": "Operation Type",
+        "overviewDREFLabel": "DREF",
         "disasterCategorization": "Disaster Categorization",
         "disasterType": "Disaster Type",
         "GLIDENumber": "GLIDE Number",
@@ -13,9 +22,7 @@
         "assistanceRequestedByGovernment": "Government Requests International Assistance",
         "situationalOverviewTitle": "Situational Overview",
         "linksTitle": "Links",
-        "emergencyMapTitle": "Affected Provinces",
         "severityLevelUpdateDateLabel": "Last update",
-        "contactsTitle": "Contacts",
-        "sourceLabel": "Source {source}"
+        "contactsTitle": "Contacts"
     }
 }
