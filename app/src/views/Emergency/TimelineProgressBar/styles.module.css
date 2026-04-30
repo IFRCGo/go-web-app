@@ -1,0 +1,37 @@
+.timeline-progress-bar {
+    .end-border,
+    .start-border {
+        align-self: stretch;
+        border-left: var(--go-ui-width-separator-thin) dashed var(--go-ui-color-gray-40);
+    }
+
+    .progress-section {
+        flex-grow: 1;
+
+        .bar-track {
+            position: relative;
+            background-color: var(--go-ui-color-gray-30);
+            height: 0.25rem;
+
+            .progress {
+                background-color: var(--go-ui-color-primary-red);
+                height: 100%;
+            }
+
+            .thumb {
+                position: absolute;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                aspect-ratio: 1;
+                border: var(--go-ui-width-separator-md) solid var(--go-ui-color-primary-red);
+                border-radius: 50%;
+                background-color: var(--go-ui-color-foreground);
+                width: 1rem;
+            }
+        }
+    }
+
+    .end-label {
+        text-align: end;
+    }
+}
