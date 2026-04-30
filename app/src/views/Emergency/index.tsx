@@ -6,18 +6,16 @@ import {
     Outlet,
     useParams,
 } from 'react-router-dom';
-import {
-    FundingCoverageIcon,
-    FundingIcon,
-    PencilFillIcon,
-    TargetedPopulationIcon,
-} from '@ifrc-go/icons';
+import { PencilFillIcon } from '@ifrc-go/icons';
 import {
     Breadcrumbs,
     Button,
-    KeyFigureView,
+    Container,
+    KeyFigure,
+    Label,
     ListView,
     NavigationTabList,
+    ProgressBar,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -47,6 +45,8 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
+
+import TimelineProgressBar from './TimelineProgressBar';
 
 import i18n from './i18n.json';
 
@@ -207,6 +207,8 @@ export function Component() {
             { emergencyName: emergencyResponse.name },
         ) : strings.emergencyPageTitleFallback;
 
+    const latestAppeal = getLatestAppeal(emergencyResponse?.appeals);
+
     const emergencyStage = useMemo(() => {
         if (!emergencyResponse) {
             return undefined;
@@ -229,7 +231,6 @@ export function Component() {
             return 'field-report';
         }
 
-        const latestAppeal = getLatestAppeal(appeals);
         if (isNotDefined(latestAppeal)) {
             return undefined;
         }
@@ -240,7 +241,7 @@ export function Component() {
         }
 
         return 'emergency-appeal';
-    }, [emergencyResponse]);
+    }, [emergencyResponse, latestAppeal]);
 
     const outletContext = useMemo<EmergencyOutletContext>(
         () => ({
@@ -337,39 +338,66 @@ export function Component() {
                     </Link>
                 </>
             )}
-            info={(
+            info={emergencyStage !== 'field-report' && (
                 <ListView
                     layout="grid"
                     numPreferredGridColumns={3}
                 >
-                    {isDefined(peopleTargeted) && (
-                        <KeyFigureView
-                            icon={<TargetedPopulationIcon />}
-                            value={peopleTargeted}
-                            valueType="number"
-                            valueOptions={{ compact: true }}
-                            label={strings.emergencyPeopleTargetedLabel}
+                    <Container
+                        withPadding
+                        withShadow
+                        withBackground
+                    >
+                        <ListView withSpaceBetweenContents>
+                            <Label>
+                                {strings.operationTimelineLabel}
+                            </Label>
+                            <Label strong>
+                                {latestAppeal?.atype_display}
+                            </Label>
+                        </ListView>
+                        <TimelineProgressBar
+                            startDate={latestAppeal?.start_date}
+                            endDate={latestAppeal?.end_date}
                         />
-                    )}
-                    {isDefined(fundingRequirements) && (
-                        <KeyFigureView
-                            icon={<FundingIcon />}
-                            value={fundingRequirements}
-                            valueType="number"
-                            valueOptions={{ compact: true }}
-                            label={strings.emergencyFundingRequirementsLabel}
-                        />
-
-                    )}
-                    {isDefined(funding) && (
-                        <KeyFigureView
-                            icon={<FundingCoverageIcon />}
+                    </Container>
+                    <Container
+                        withPadding
+                        withShadow
+                        withBackground
+                    >
+                        <Label>
+                            {strings.emergencyFundingRequirementsLabel}
+                        </Label>
+                        <ProgressBar
+                            totalValue={fundingRequirements}
                             value={funding}
-                            valueType="number"
-                            valueOptions={{ compact: true }}
-                            label={strings.emergencyFundingLabel}
                         />
-                    )}
+                        <ListView withCenteredContents>
+                            <KeyFigure
+                                value={fundingRequirements}
+                                valueType="number"
+                                valueOptions={{ compact: true }}
+                            />
+                        </ListView>
+                    </Container>
+                    <Container
+                        withPadding
+                        withShadow
+                        withBackground
+                        // FIXME: use translations
+                    >
+                        <Label>
+                            {strings.emergencyPeopleTargetedLabel}
+                        </Label>
+                        <ListView withCenteredContents>
+                            <KeyFigure
+                                value={peopleTargeted}
+                                valueType="number"
+                                valueOptions={{ compact: true }}
+                            />
+                        </ListView>
+                    </Container>
                 </ListView>
             )}
             contentOriginalLanguage={emergencyResponse?.translation_module_original_language}
