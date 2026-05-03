@@ -435,4 +435,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'EmergencyReportAndDocument';
+Component.displayName = 'EmergencyDocuments';

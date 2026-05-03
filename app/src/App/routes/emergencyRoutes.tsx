@@ -139,15 +139,46 @@ const emergencyDetails = customWrapRoute({
     },
 });
 
+const emergencyDocuments = customWrapRoute({
+    parent: emergenciesLayout,
+    path: 'documents',
+    component: {
+        render: () => import('#views/EmergencyDocuments'),
+        props: {},
+    },
+    context: {
+        title: 'Emergency Documents',
+        visibility: 'anything',
+    },
+});
+
+// eslint-disable-next-line react-refresh/only-export-components
+function EmergencyNavigateToDocuments() {
+    const params = useParams<{ emergencyId: string }>();
+
+    const emergencyId = isTruthyString(params.emergencyId)
+        ? parseInt(params.emergencyId, 10)
+        : undefined;
+
+    return (
+        <Navigate
+            to={generatePath(emergencyDocuments.absoluteForwardPath, { emergencyId })}
+            replace
+        />
+    );
+}
+
+// NOTE: redirect from reports to documents
 const emergencyReportsAndDocuments = customWrapRoute({
     parent: emergenciesLayout,
     path: 'reports',
     component: {
-        render: () => import('#views/EmergencyReportAndDocument'),
+        eagerLoad: true,
+        render: EmergencyNavigateToDocuments,
         props: {},
     },
     context: {
-        title: 'Emergency Reports and Documents',
+        title: 'Emergency Documents',
         visibility: 'anything',
     },
 });
@@ -284,6 +315,7 @@ export default {
     emergencyOverview,
     emergencyIndex,
     emergencyReportsAndDocuments,
+    emergencyDocuments,
     emergencyActivities,
     emergencyActionsSummary,
     emergencyBackground,

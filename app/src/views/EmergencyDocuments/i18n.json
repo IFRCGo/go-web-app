@@ -1,5 +1,5 @@
 {
-    "namespace": "emergencyReportAndDocument",
+    "namespace": "emergencyDocuments",
     "strings": {
         "featuredDocuments": "Featured Documents",
         "responseDocuments": "Response Documents",
