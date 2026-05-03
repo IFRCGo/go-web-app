@@ -522,7 +522,7 @@ export function Component() {
                 {(emergencyStage === 'emergency-appeal' || emergencyStage === 'dref') && (
                     <>
                         <NavigationTab
-                            to="emergencyReportsAndDocuments"
+                            to="emergencyDocuments"
                             urlParams={{ emergencyId }}
                         >
                             {strings.emergencyTabReports}
