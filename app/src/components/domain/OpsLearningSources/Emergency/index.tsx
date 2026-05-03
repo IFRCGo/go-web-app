@@ -31,7 +31,7 @@ function Emergency(props: Props) {
                 withSpacingOpticalCorrection
             >
                 <Link
-                    to="emergencyDetails"
+                    to="emergencyOverview"
                     urlParams={{
                         emergencyId,
                     }}

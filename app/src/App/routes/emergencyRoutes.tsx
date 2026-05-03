@@ -1,3 +1,10 @@
+import {
+    generatePath,
+    Navigate,
+    useParams,
+} from 'react-router-dom';
+import { isTruthyString } from '@togglecorp/fujs';
+
 import Auth from '../Auth';
 import {
     customWrapRoute,
@@ -19,11 +26,11 @@ const emergencies = customWrapRoute({
     },
 });
 
-type DefaultEmergenciesChild = 'details';
+type DefaultEmergenciesChild = 'overview';
 const emergenciesLayout = customWrapRoute({
     parent: rootLayout,
     path: 'emergencies/:emergencyId',
-    forwardPath: 'details' satisfies DefaultEmergenciesChild,
+    forwardPath: 'overview' satisfies DefaultEmergenciesChild,
     component: {
         render: () => import('#views/Emergency'),
         props: {},
@@ -70,7 +77,7 @@ const emergencyIndex = customWrapRoute({
         eagerLoad: true,
         render: SmartNavigate,
         props: {
-            to: 'details' satisfies DefaultEmergenciesChild,
+            to: 'overview' satisfies DefaultEmergenciesChild,
             replace: true,
             hashToRouteMap: {
                 '#details': 'details',
@@ -88,11 +95,42 @@ const emergencyIndex = customWrapRoute({
     },
 });
 
+const emergencyOverview = customWrapRoute({
+    parent: emergenciesLayout,
+    path: 'overview' satisfies DefaultEmergenciesChild,
+    component: {
+        render: () => import('#views/EmergencyOverview'),
+        props: {},
+    },
+    context: {
+        title: 'Emergency Details',
+        visibility: 'anything',
+    },
+});
+
+// eslint-disable-next-line react-refresh/only-export-components
+function EmergencyNavigateToOverview() {
+    const params = useParams<{ emergencyId: string }>();
+
+    const emergencyId = isTruthyString(params.emergencyId)
+        ? parseInt(params.emergencyId, 10)
+        : undefined;
+
+    return (
+        <Navigate
+            to={generatePath(emergencyOverview.absoluteForwardPath, { emergencyId })}
+            replace
+        />
+    );
+}
+
+// NOTE: redirect from details to overview
 const emergencyDetails = customWrapRoute({
     parent: emergenciesLayout,
-    path: 'details' satisfies DefaultEmergenciesChild,
+    path: 'details',
     component: {
-        render: () => import('#views/EmergencyDetails'),
+        eagerLoad: true,
+        render: EmergencyNavigateToOverview,
         props: {},
     },
     context: {
@@ -243,6 +281,7 @@ export default {
     emergencyFollow,
     emergenciesLayout,
     emergencyDetails,
+    emergencyOverview,
     emergencyIndex,
     emergencyReportsAndDocuments,
     emergencyActivities,

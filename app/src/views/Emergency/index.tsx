@@ -380,7 +380,7 @@ export function Component() {
                         {strings.emergencies}
                     </Link>
                     <Link
-                        to="emergencyDetails"
+                        to="emergencyOverview"
                         urlParams={{ emergencyId }}
                     >
                         {emergencyResponse?.name}
@@ -498,7 +498,7 @@ export function Component() {
         >
             <NavigationTabList>
                 <NavigationTab
-                    to="emergencyDetails"
+                    to="emergencyOverview"
                     urlParams={{ emergencyId }}
                 >
                     {strings.emergencyTabDetails}
