@@ -38,7 +38,7 @@ interface Props {
     summaryId: number;
 }
 
-function Sources(props: Props) {
+function OpsLearningSources(props: Props) {
     const {
         summaryId,
         summaryType,
@@ -139,4 +139,4 @@ function Sources(props: Props) {
     );
 }
 
-export default Sources;
+export default OpsLearningSources;

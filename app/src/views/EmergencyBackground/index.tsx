@@ -6,6 +6,7 @@ import {
 
 import CountryPastEventsChart from '#components/domain/CountryPastEventsChart';
 import CountrySeasonalCalendar from '#components/domain/CountrySeasonalCalendar';
+import EmergencyLessonsLearnedFromPreviousOperations from '#components/domain/EmergencyLessonsLearnedFromPreviousOperations';
 import TabPage from '#components/TabPage';
 import { type EmergencyOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
@@ -16,6 +17,7 @@ export function Component() {
     const {
         emergencyResponse,
         emergencyResponsePending,
+        emergencyStage,
     } = useOutletContext<EmergencyOutletContext>();
 
     const countryId = emergencyResponse?.countries[0]?.id;
@@ -32,8 +34,19 @@ export function Component() {
         } : undefined,
     });
 
+    const country = emergencyResponse?.countries?.[0];
+
     return (
         <TabPage pending={emergencyResponsePending || databankResponsePending}>
+            {emergencyStage !== 'field-report'
+                && isDefined(emergencyResponse)
+                && isDefined(emergencyResponse.dtype)
+                && isDefined(country) && (
+                <EmergencyLessonsLearnedFromPreviousOperations
+                    disasterType={emergencyResponse.dtype}
+                    country={country.id}
+                />
+            )}
             <CountryPastEventsChart
                 countryId={String(countryId)}
                 disasterType={emergencyResponse?.dtype}

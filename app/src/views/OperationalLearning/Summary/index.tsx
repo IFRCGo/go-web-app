@@ -5,7 +5,7 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
 
-import Sources from '../Sources';
+import OpsLearningSources from '#components/domain/OpsLearningSources';
 
 import i18n from './i18n.json';
 
@@ -55,7 +55,7 @@ function Summary(props: Props) {
             toggleButtonLabel={[strings.seeSources, strings.closeSources]}
             spacing="lg"
         >
-            <Sources
+            <OpsLearningSources
                 summaryId={id}
                 summaryType={summaryType}
             />

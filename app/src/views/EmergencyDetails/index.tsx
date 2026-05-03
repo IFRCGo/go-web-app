@@ -25,6 +25,7 @@ import {
     APPEAL_TYPE_DREF,
     APPEAL_TYPE_EMERGENCY,
 } from '#components/domain/ActiveOperationMap/utils';
+import EmergencyLessonsLearnedFromPreviousOperations from '#components/domain/EmergencyLessonsLearnedFromPreviousOperations';
 import SeverityIndicator from '#components/domain/SeverityIndicator';
 import EventTimeline, { type EventTimelineItem } from '#components/EventTimeline';
 import Link from '#components/Link';
@@ -302,6 +303,8 @@ export function Component() {
         ],
     );
 
+    const country = emergencyResponse?.countries?.[0];
+
     if (isNotDefined(emergencyResponse)) {
         return (
             <Message
@@ -388,7 +391,7 @@ export function Component() {
                     <ListView layout="block">
                         <TextOutput
                             label={strings.overviewCountryLabel}
-                            value={emergencyResponse.countries[0]?.name}
+                            value={country?.name}
                             strongValue
                         />
                         <TextOutput
@@ -523,14 +526,15 @@ export function Component() {
                     <EmergencyMap event={emergencyResponse} />
                 </ListView>
             </Container>
-            <Container
-                // TODO(frozenhelium): use separate component, use translations
-                heading="Lessons learned from previous operations"
-                withHeaderBorder
-                empty
-            >
-                {null}
-            </Container>
+            {emergencyStage === 'field-report'
+                && isDefined(emergencyResponse)
+                && isDefined(emergencyResponse.dtype)
+                && isDefined(country) && (
+                <EmergencyLessonsLearnedFromPreviousOperations
+                    disasterType={emergencyResponse.dtype}
+                    country={country.id}
+                />
+            )}
             {isDefined(emergencyResponse?.links)
                 && emergencyResponse.links.length > 0
                 && (
