@@ -1,0 +1,16 @@
+.planned-operations {
+    .sector-icon {
+        height: 2rem;
+        aspect-ratio: 1;
+    }
+
+    .operation-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr max-content;
+        align-items: center;
+
+        &.application-stage {
+            grid-template-columns: 3fr 1fr 1fr max-content;
+        }
+    }
+}
