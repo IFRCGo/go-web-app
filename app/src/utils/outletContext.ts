@@ -15,11 +15,21 @@ interface EmergencyAdditionalTabs {
     snippets: Snippets;
 }
 
+type DrefApplicationResponse = GoApiResponse<'/api/v2/dref/{id}/'>
+type DrefOpsUpdateResponse = GoApiResponse<'/api/v2/dref-op-update/{id}/'>
+type DrefFinalReportResponse = GoApiResponse<'/api/v2/dref-final-report/{id}/'>
+type ActiveDrefResponse = GoApiResponse<'/api/v2/active-dref/'>['results'][number];
+
 export interface EmergencyOutletContext {
     emergencyResponse: EmergencyResponse | undefined;
     emergencyResponsePending: boolean;
     emergencyAdditionalTabs: EmergencyAdditionalTabs[] | undefined;
     emergencyStage: 'field-report' | 'dref' | 'emergency-appeal' | undefined;
+    activeDrefOperation: ActiveDrefResponse | undefined;
+    drefStage: 'application' | 'ops-update' | 'final-report' | undefined;
+    drefApplication: DrefApplicationResponse | undefined;
+    drefOpsUpdate: DrefOpsUpdateResponse | undefined;
+    drefFinalReport: DrefFinalReportResponse | undefined;
 }
 
 export type CountryResponse = GoApiResponse<'/api/v2/country/{id}/'>

@@ -38,6 +38,7 @@ import useAuth from '#hooks/domain/useAuth';
 import usePermissions from '#hooks/domain/usePermissions';
 import useRegion from '#hooks/domain/useRegion';
 import useUserMe from '#hooks/domain/useUserMe';
+import { DREF_TYPE_IMMINENT } from '#utils/constants';
 import { getLatestAppeal } from '#utils/domain/emergency';
 import { type EmergencyOutletContext } from '#utils/outletContext';
 import { resolveUrl } from '#utils/resolveUrl';
@@ -243,14 +244,84 @@ export function Component() {
         return 'emergency-appeal';
     }, [emergencyResponse, latestAppeal]);
 
+    const { response: activeDrefResponse } = useRequest({
+        skip: emergencyStage !== 'dref' || isNotDefined(latestAppeal?.code),
+        url: '/api/v2/active-dref/',
+        query: isDefined(latestAppeal?.code) ? ({
+            appeal_code: latestAppeal.code,
+        }) : undefined,
+    });
+
+    const currentDref = activeDrefResponse?.results?.[0];
+    const drefStage = useMemo(() => {
+        if (isNotDefined(currentDref)) {
+            return undefined;
+        }
+
+        if (currentDref.has_final_report) {
+            return 'final-report';
+        }
+
+        if (currentDref.has_ops_update) {
+            return 'ops-update';
+        }
+
+        return 'application';
+    }, [currentDref]);
+
+    const { response: drefApplicationResponse } = useRequest({
+        skip: isNotDefined(currentDref?.id),
+        url: '/api/v2/dref/{id}/',
+        pathVariables: isDefined(currentDref?.id) ? ({
+            id: String(currentDref.id),
+        }) : undefined,
+    });
+
+    // FIXME(frozenhelium): verify this logic
+    const latestOpsUpdate = currentDref?.operational_update_details?.[0];
+
+    const { response: drefOpsUpdateResponse } = useRequest({
+        skip: isNotDefined(currentDref?.id) || drefStage === 'application' || isNotDefined(latestOpsUpdate?.id),
+        url: '/api/v2/dref-op-update/{id}/',
+        pathVariables: isDefined(latestOpsUpdate?.id) ? ({
+            id: String(latestOpsUpdate.id),
+        }) : undefined,
+    });
+
+    const finalReport = currentDref?.final_report_details;
+    const { response: drefFinalReportResponse } = useRequest({
+        skip: isNotDefined(currentDref?.id)
+            || drefStage !== 'final-report'
+            || isNotDefined(finalReport?.id),
+        url: '/api/v2/dref-final-report/{id}/',
+        pathVariables: isDefined(finalReport?.id) ? ({
+            id: String(finalReport.id),
+        }) : undefined,
+    });
+
     const outletContext = useMemo<EmergencyOutletContext>(
         () => ({
             emergencyResponse,
             emergencyAdditionalTabs,
             emergencyStage,
             emergencyResponsePending: emergencyPending,
+            activeDrefOperation: currentDref,
+            drefStage,
+            drefApplication: drefApplicationResponse,
+            drefOpsUpdate: drefOpsUpdateResponse,
+            drefFinalReport: drefFinalReportResponse,
         }),
-        [emergencyResponse, emergencyAdditionalTabs, emergencyStage, emergencyPending],
+        [
+            emergencyResponse,
+            emergencyAdditionalTabs,
+            emergencyStage,
+            emergencyPending,
+            currentDref,
+            drefStage,
+            drefApplicationResponse,
+            drefOpsUpdateResponse,
+            drefFinalReportResponse,
+        ],
     );
 
     const peopleTargeted = sumSafe(
@@ -272,6 +343,30 @@ export function Component() {
 
     const hasResponseActivity = isDefined(emergencyResponse?.response_activity_count)
         && emergencyResponse.response_activity_count > 0;
+
+    const operationTypeLabel = useMemo(() => {
+        if (latestAppeal?.atype !== APPEAL_TYPE_DREF) {
+            return latestAppeal?.atype_display;
+        }
+
+        if (drefStage === 'application') {
+            if (drefApplicationResponse?.type_of_dref === DREF_TYPE_IMMINENT) {
+                return strings.operationLabelImminentDref;
+            }
+
+            return strings.operationLabelDref;
+        }
+
+        if (drefStage === 'ops-update') {
+            return strings.operationLabelOpsUpdate;
+        }
+
+        if (drefStage === 'final-report') {
+            return strings.operationLabelFinalReport;
+        }
+
+        return '--';
+    }, [latestAppeal, drefStage, drefApplicationResponse, strings]);
 
     return (
         <Page
@@ -353,7 +448,7 @@ export function Component() {
                                 {strings.operationTimelineLabel}
                             </Label>
                             <Label strong>
-                                {latestAppeal?.atype_display}
+                                {operationTypeLabel}
                             </Label>
                         </ListView>
                         <TimelineProgressBar
@@ -385,7 +480,6 @@ export function Component() {
                         withPadding
                         withShadow
                         withBackground
-                        // FIXME: use translations
                     >
                         <Label>
                             {strings.emergencyPeopleTargetedLabel}
@@ -471,9 +565,7 @@ export function Component() {
                     </NavigationTab>
                 ))}
             </NavigationTabList>
-            <Outlet
-                context={outletContext}
-            />
+            <Outlet context={outletContext} />
         </Page>
     );
 }

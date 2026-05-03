@@ -57,8 +57,8 @@ function getFieldReport(
     ) => {
         if (isNotDefined(selectedReport)
             || compareFunction(
-                currentReport?.updated_at,
-                selectedReport.updated_at,
+                currentReport?.report_date ?? currentReport?.created_at,
+                selectedReport.report_date ?? selectedReport.created_at,
                 direction,
             ) > 0) {
             return currentReport;
