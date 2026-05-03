@@ -3,7 +3,7 @@
     "strings": {
         "emergencyPageTitle": "IFRC GO - Emergency - {emergencyName}",
         "emergencyPageTitleFallback": "IFRC GO - Emergency",
-        "emergencyTabDetails":"Emergency Details",
+        "emergencyTabDetails":"Emergency Overview",
         "emergencyTabActionsSummary": "Actions Summary",
         "emergencyTabOperationStrategy": "Operation Strategy",
         "emergencyTabBackground": "Background",

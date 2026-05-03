@@ -1,5 +1,5 @@
 {
-    "namespace": "emergencyDetails",
+    "namespace": "emergencyOverview",
     "strings": {
         "keyFigureInjuredLabel": "Injured",
         "keyFigureDeadLabel": "Dead",

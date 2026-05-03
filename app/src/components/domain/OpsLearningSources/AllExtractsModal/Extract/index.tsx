@@ -34,7 +34,7 @@ function Extract(props: Props) {
             headingLevel={5}
             headerDescription={(
                 <Link
-                    to="emergencyDetails"
+                    to="emergencyOverview"
                     urlParams={{
                         emergencyId,
                     }}

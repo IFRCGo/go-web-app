@@ -1,5 +1,5 @@
 {
-    "namespace": "emergencyDetails",
+    "namespace": "emergencyOverview",
     "strings": {
         "affectedCountry": "Affected Country",
         "affectedProvince": "Affected Province"

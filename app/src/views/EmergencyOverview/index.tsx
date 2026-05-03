@@ -655,4 +655,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'EmergencyDetails';
+Component.displayName = 'EmergencyOverview';

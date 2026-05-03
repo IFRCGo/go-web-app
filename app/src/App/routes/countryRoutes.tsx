@@ -34,12 +34,12 @@ const countriesLayout = customWrapRoute({
     },
 });
 
-interface Props {
+interface CountryNavigateProps {
     to?: string;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-function CountryNavigate(props: Props) {
+function CountryNavigate(props: CountryNavigateProps) {
     // FIXME: this function might not be necessary anymore
     const { to } = props;
 
