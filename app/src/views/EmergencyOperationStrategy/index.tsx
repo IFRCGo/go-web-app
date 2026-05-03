@@ -16,12 +16,17 @@ import {
     NumberOutput,
     TextOutput,
 } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import { DescriptionText } from '@ifrc-go/ui/printable';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
 import TabPage from '#components/TabPage';
 import { type EmergencyOutletContext } from '#utils/outletContext';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface InterventionProps {
@@ -34,6 +39,8 @@ function Intervention(props: InterventionProps) {
         data: intervention,
         stage,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const [showDetails, setShowDetails] = useState(false);
 
@@ -60,22 +67,19 @@ function Intervention(props: InterventionProps) {
                     </Label>
                 </ListView>
                 <TextOutput
-                    // FIXME: use strings
-                    label="Budget (CHF)"
+                    label={strings.plannedOperationBudgetLabel}
                     value={intervention.budget}
                     valueType="number"
                     strongValue
                 />
                 <TextOutput
-                    // FIXME: use strings
-                    label="People Targeted"
+                    label={strings.plannedOperationPeopleTargetedLabel}
                     value={intervention.person_targeted}
                     valueType="number"
                     strongValue
                 />
                 <TextOutput
-                    // FIXME: use strings
-                    label="People Reached"
+                    label={strings.plannedOperationPeopleReachedLabel}
                     value={intervention.person_assisted}
                     valueType="number"
                     strongValue
@@ -167,6 +171,8 @@ export function Component() {
         drefOpsUpdate,
     } = useOutletContext<EmergencyOutletContext>();
 
+    const strings = useTranslation(i18n);
+
     const drefDetails = useMemo(() => {
         if (drefStage === 'final-report') {
             return drefFinalReport;
@@ -182,9 +188,11 @@ export function Component() {
     return (
         <TabPage>
             <Container
-                heading="Planned Operations"
+                heading={strings.plannedOperationHeading}
                 className={styles.plannedOperations}
                 withHeaderBorder
+                empty={isNotDefined(drefDetails?.planned_interventions)
+                    || drefDetails?.planned_interventions?.length === 0}
             >
                 {drefDetails?.planned_interventions?.map((intervention) => (
                     <Intervention
