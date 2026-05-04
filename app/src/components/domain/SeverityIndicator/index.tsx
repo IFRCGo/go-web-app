@@ -4,6 +4,12 @@ import {
 } from '@ifrc-go/ui';
 import { isNotDefined } from '@togglecorp/fujs';
 
+import {
+    COLOR_ORANGE_SEVERITY,
+    COLOR_RED_SEVERITY,
+    COLOR_YELLOW_SEVERITY,
+} from '../ActiveOperationMap/utils';
+
 interface Props extends Omit<ColorPreviewProps, 'value'> {
     level: number | undefined | null;
     title?: string;
@@ -17,9 +23,9 @@ function SeverityIndicator(props: Props) {
     } = props;
 
     const colorMap: Record<number, string | undefined> = {
-        0: 'var(--go-ui-color-yellow)',
-        1: 'var(--go-ui-color-orange)',
-        2: 'var(--go-ui-color-red)',
+        0: COLOR_YELLOW_SEVERITY,
+        1: COLOR_ORANGE_SEVERITY,
+        2: COLOR_RED_SEVERITY,
     };
 
     if (isNotDefined(level)) {
