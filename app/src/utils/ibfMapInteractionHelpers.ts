@@ -6,16 +6,15 @@ import GeoJSON from 'ol/format/GeoJSON';
 import type BaseLayer from 'ol/layer/Base';
 import VectorLayer from 'ol/layer/Vector';
 import type MapOl from 'ol/Map.js';
+import { toLonLat } from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 
-import {
-    noCountrySelectedValue,
-    PLACE_CODE_FIELD_KEY,
-} from './ibfMap';
 import {
     getAdminAreaZIndex,
     getAdminRegionUrl,
     getNestedAdminUrl,
+    noCountrySelectedValue,
+    PLACE_CODE_FIELD_KEY,
 } from './ibfMapHelpers';
 import {
     styleAdmin1region,
@@ -47,6 +46,37 @@ export interface MapViewState {
   exposedRegionsByLevel: Map<number, string[]>;
 
   isEventSelected(): boolean;
+}
+
+export interface MapSelectionView {
+    zoom: number;
+    center: {
+        lon: number;
+        lat: number;
+    };
+}
+
+function getCurrentMapSelectionView(state: MapViewState): MapSelectionView | undefined {
+    const view = state.mapInstance?.getView();
+    const center = view?.getCenter();
+    const zoom = view?.getZoom();
+
+    if (!center || zoom === undefined) {
+        return undefined;
+    }
+
+    const [lon, lat] = toLonLat(center);
+    if (!Number.isFinite(lon) || !Number.isFinite(lat)) {
+        return undefined;
+    }
+
+    return {
+        zoom,
+        center: {
+            lon,
+            lat,
+        },
+    };
 }
 
 // Create a VectorLayer for the given admin level.
@@ -106,7 +136,7 @@ export function handleFeatureClick(
     feature: FeatureLike,
     layer: BaseLayer,
     adminLayers: Map<number, VectorLayer>,
-    onSelect: (placeCode: string) => void,
+    onSelect: (placeCode: string, mapView?: MapSelectionView) => void,
 ): {
   showChildLevel: 2 | 3;
   parentCode: string;
@@ -132,7 +162,7 @@ export function handleFeatureClick(
 
     // Clicked on admin3 layer
     if (processAdmin3Clicks) {
-        onSelect(newSelectedRegionCode);
+        onSelect(newSelectedRegionCode, getCurrentMapSelectionView(state));
         state.selectedAdminCodes.set(3, newSelectedRegionCode);
         adminLayers.forEach((adminLayer) => adminLayer.changed());
 
@@ -159,7 +189,7 @@ export function handleFeatureClick(
         }
 
         if (selectedLayer) {
-            onSelect(newSelectedRegionCode);
+            onSelect(newSelectedRegionCode, getCurrentMapSelectionView(state));
             state.selectedAdminCodes.set(level, newSelectedRegionCode);
             selectedLayer.changed();
             fitToFeature(state, feature);

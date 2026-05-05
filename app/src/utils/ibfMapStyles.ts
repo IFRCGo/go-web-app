@@ -1,15 +1,12 @@
 import { type FeatureLike } from 'ol/Feature';
 import {
+    Circle,
     Fill,
     Stroke,
     Style,
 } from 'ol/style';
-import Circle from 'ol/style/Circle';
 
-import {
-    CountryData,
-    isoA2CountryNameProperty,
-} from './ibfMap';
+import { COUNTRY_FIELD_KEY } from './ibfMapHelpers';
 
 export type MvtStyleCreator = (feature: FeatureLike, selected: string) => Style;
 const deselectedColor = 'rgba(0, 0, 0, 0.07)';
@@ -17,30 +14,37 @@ const deselectedColor = 'rgba(0, 0, 0, 0.07)';
 // TODO: review the styling for perf in terms of what to render, and how to reduce
 // the number of features that must be looped through when styling
 
-// Debug style
-// Fix later
-//
-// Style for vector tile (MVT) maps
-export const styleMvtGreyWorldMap: MvtStyleCreator = (
+export const styleAdmin0 = (
     feature: FeatureLike,
-    selected: string,
+    selectedCountry: string,
 ) => {
-    const iso_a2 = feature.get(isoA2CountryNameProperty);
-    const isSelected = iso_a2 === selected;
-    const countryInfo = CountryData.get(iso_a2);
-    const isIbfSupported = countryInfo?.ibfSupported ?? false;
-
-    let fillColor = '#000000';
-
-    if (isIbfSupported) {
-        fillColor = isSelected ? '#f98cc2' : '#f8bbd9';
-    } else {
-        fillColor = isSelected ? '#ababab' : '#e0e0e0';
-    }
-
+    const country = feature.get(COUNTRY_FIELD_KEY);
+    const isSelected = country === selectedCountry;
     return new Style({
-        fill: new Fill({ color: fillColor }),
-        stroke: new Stroke({ color: '#a4a4a4', width: 1 }),
+        fill: new Fill({
+            color: isSelected ? 'rgba(112, 119, 93, 0.55)' : 'rgba(0, 0, 0, 0.07)',
+        }),
+        stroke: new Stroke({
+            color: '#8d8d8d',
+            width: 1,
+        }),
+    });
+};
+
+export const styleAdmin1 = (
+    feature: FeatureLike,
+    selectedCountry: string,
+) => {
+    const country = feature.get(COUNTRY_FIELD_KEY);
+    const isSelectedCountry = country === selectedCountry;
+    return new Style({
+        fill: new Fill({
+            color: isSelectedCountry ? 'rgba(87, 152, 227, 0.35)' : 'rgba(87, 152, 227, 0.2)',
+        }),
+        stroke: new Stroke({
+            color: 'rgba(35, 113, 203, 0.84)',
+            width: 1,
+        }),
     });
 };
 
@@ -168,17 +172,28 @@ export const styleAdmin1region = (
     });
 };
 
-// Event centroids, marking the center of one or more events
-// TODO: use this when event layer added back in
-export const EventCentroidStyle = new Style({
+export const styleRcBranchPoint = new Style({
     image: new Circle({
-        radius: 10,
+        radius: 6,
         fill: new Fill({
-            color: 'rgba(235, 96, 96, 0.8)',
+            color: '#cc1111',
         }),
         stroke: new Stroke({
-            color: '#8b0000',
-            width: 1,
+            color: '#ffffff',
+            width: 2,
+        }),
+    }),
+});
+
+export const styleClinicPoint = new Style({
+    image: new Circle({
+        radius: 6,
+        fill: new Fill({
+            color: '#6a1b9a',
+        }),
+        stroke: new Stroke({
+            color: '#ffffff',
+            width: 2,
         }),
     }),
 });

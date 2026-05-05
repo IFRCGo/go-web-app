@@ -7,19 +7,23 @@ import {
 import { View } from 'ol';
 import Attribution from 'ol/control/Attribution.js';
 import { defaults as defaultControls } from 'ol/control/defaults.js';
-import MVT from 'ol/format/MVT';
-import VectorTileLayer from 'ol/layer/VectorTile';
+import GeoJSON from 'ol/format/GeoJSON';
+import VectorLayer from 'ol/layer/Vector';
 import Map from 'ol/Map.js';
-import { fromLonLat } from 'ol/proj';
-import VectorTile from 'ol/source/VectorTile';
+import VectorSource from 'ol/source/Vector';
 
 import {
-    CountryData,
-    isoA2CountryNameProperty,
-    mapUrlCountryVectorTiles,
+    COUNTRY_FIELD_KEY,
+    getAdminAreaZIndex,
+    getAdminRegionUrl,
+    getExtentForVectorData,
+    getGlobalAdmin0Url,
     noCountrySelectedValue,
-} from '#utils/ibfMap';
-import { styleMvtGreyWorldMap } from '#utils/ibfMapStyles';
+} from '#utils/ibfMapHelpers';
+import {
+    styleAdmin0,
+    styleAdmin1,
+} from '#utils/ibfMapStyles';
 
 import styles from './styles.module.css';
 
@@ -28,50 +32,116 @@ const center = [0, 0];
 const zoom = 2;
 
 interface OlGlobalMapProps {
-    // What admin levels are visible. 0: country. 1: country and admin level 1.
-    adminLevels: 0 | 1;
-
     // Callback for when a country is selected.
     onSelect: (country: string) => void;
 }
 
 /**
- * Map designed for a global view with country selection. *
- * TODO: redo this for the new way to handle clicks and admin boundaries.
- * See task https://dev.azure.com/redcrossnl/IBF/_workitems/edit/41662
+ * Global map for country selection, with a callback to know what was selected.
+ * This component is a proof of concept to show how OpenLayers could replace general maps in GO.
+ * As of April 2026, there is no set UX design for it, so modify it as needed.
+ * It's added to make sure our systems can always support this use case.
  * @returns A standalone component.
  */
-export default function OlGlobalMap({ adminLevels: adminLayers, onSelect }: OlGlobalMapProps) {
+export default function OlGlobalMap({ onSelect }: OlGlobalMapProps) {
     const mapRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<Map | null>(null);
-    const adminLayersRef = useRef<VectorTileLayer | null>(null);
+    const admin0LayerRef = useRef<VectorLayer | null>(null);
+    const admin1LayerRef = useRef<VectorLayer | null>(null);
+    const selectedCountryRef = useRef(noCountrySelectedValue);
 
-    let selectedCountry = noCountrySelectedValue;
+    const refreshLayerStyles = () => {
+        admin0LayerRef.current?.changed();
+        admin1LayerRef.current?.changed();
+    };
 
-    // By setting the max zoom of the vector tiles layer, we can control what vectors are drawn.
-    // It supports all countries at admin0 (at zoom 1) and admin1 (at zoom 2+).
-    const countryLayerMaxZoom = adminLayers + 1;
+    const removeAdmin1Layer = () => {
+        const existingLayer = admin1LayerRef.current;
+        if (existingLayer && mapInstanceRef.current) {
+            mapInstanceRef.current.removeLayer(existingLayer);
+        }
+        admin1LayerRef.current = null;
+    };
+
+    const fitToLoadedAdmin1 = (admin1Source: VectorSource) => {
+        const map = mapInstanceRef.current;
+        if (!map) {
+            return;
+        }
+
+        const extent = getExtentForVectorData(admin1Source);
+        if (!extent) {
+            return;
+        }
+
+        map.getView().fit(extent, {
+            duration: 500,
+            padding: [50, 50, 50, 50],
+        });
+    };
+
+    const loadAdmin1LayerForCountry = (country: string) => {
+        removeAdmin1Layer();
+
+        if (country === noCountrySelectedValue || !mapInstanceRef.current) {
+            return;
+        }
+
+        const admin1Source = new VectorSource({
+            url: getAdminRegionUrl(country, 1),
+            format: new GeoJSON(),
+        });
+
+        const admin1Layer = new VectorLayer({
+            source: admin1Source,
+            style: (feature) => styleAdmin1(feature, selectedCountryRef.current),
+        });
+        admin1Layer.setZIndex(getAdminAreaZIndex(1));
+        mapInstanceRef.current.addLayer(admin1Layer);
+        admin1LayerRef.current = admin1Layer;
+
+        // Fit the map to the admin 1 content when loaded
+        admin1Source.once('featuresloadend', () => {
+            if (selectedCountryRef.current === country) {
+                fitToLoadedAdmin1(admin1Source);
+            }
+        });
+    };
+
+    const updateSelectedCountry = (country: string) => {
+        onSelect(country);
+        selectedCountryRef.current = country;
+
+        if (country === noCountrySelectedValue) {
+            removeAdmin1Layer();
+        } else {
+            loadAdmin1LayerForCountry(country);
+        }
+
+        refreshLayerStyles();
+    };
 
     // Map init called once
     useEffect(() => {
         if (mapRef.current && !mapInstanceRef.current) {
             const attribution = new Attribution({ collapsible: false });
+            const admin0Url = getGlobalAdmin0Url();
 
-            // Create vector tile layer for admin boundaries
-            adminLayersRef.current = new VectorTileLayer({
-                source: new VectorTile({
-                    url: mapUrlCountryVectorTiles,
-                    format: new MVT(),
-                    maxZoom: countryLayerMaxZoom,
+            // Create admin0 layer for all countries
+            admin0LayerRef.current = new VectorLayer({
+                source: new VectorSource({
+                    url: admin0Url,
+                    format: new GeoJSON(),
                 }),
-                style: (feature) => styleMvtGreyWorldMap(feature, selectedCountry),
+                style: (feature) => styleAdmin0(feature, selectedCountryRef.current),
             });
+            admin0LayerRef.current.setZIndex(getAdminAreaZIndex(0));
 
             // Create map and add the boundaries
             mapInstanceRef.current = new Map({
                 target: mapRef.current,
                 controls: defaultControls({ attribution: false }).extend([attribution]),
-                layers: [adminLayersRef.current],
+                layers: [admin0LayerRef.current],
                 view: new View({
                     constrainResolution: true,
                     center,
@@ -79,42 +149,30 @@ export default function OlGlobalMap({ adminLevels: adminLayers, onSelect }: OlGl
                     maxZoom: 6,
                 }),
             });
+            const map = mapInstanceRef.current;
 
             // Change cursor on hover
-            mapInstanceRef.current.on('pointermove', (evt) => {
-                const pixel = mapInstanceRef.current!.getEventPixel(evt.originalEvent);
-                const hit = mapInstanceRef.current!.hasFeatureAtPixel(pixel);
-                mapInstanceRef.current!.getTargetElement().style.cursor = hit ? 'pointer' : '';
+            map.on('pointermove', (evt) => {
+                const pixel = map.getEventPixel(evt.originalEvent);
+                const hit = map.hasFeatureAtPixel(pixel);
+                map.getTargetElement().style.cursor = hit ? 'pointer' : '';
             });
 
             // Click handler
-            mapInstanceRef.current.on('click', (evt) => {
-                mapInstanceRef.current!.forEachFeatureAtPixel(evt.pixel, (feature) => {
+            map.on('click', (evt) => {
+                map.forEachFeatureAtPixel(evt.pixel, (feature) => {
                     const properties = feature.getProperties();
-                    const newSelectedCountry = properties[isoA2CountryNameProperty] || noCountrySelectedValue;
+                    const clickedCountry = properties[COUNTRY_FIELD_KEY]
+                    || noCountrySelectedValue;
+                    const isSameCountrySelected = selectedCountryRef.current === clickedCountry;
 
-                    if (selectedCountry !== newSelectedCountry) {
-                        onSelect(newSelectedCountry);
-
-                        // Zoom to country
-                        const countryInfo = CountryData.get(newSelectedCountry);
-                        if (countryInfo) {
-                            const [lat, lon] = countryInfo.latlon;
-                            mapInstanceRef.current!.getView().animate({
-                                center: fromLonLat([lon, lat]),
-                                zoom: countryInfo.initialZoom,
-                                duration: 500, // pan/zoom animation in ms
-                            });
-                        }
+                    if (isSameCountrySelected) {
+                        // If the same country is clicked again, deselect it.
+                        // This is debug behavior since the design on this map is not yet decided
+                        updateSelectedCountry(noCountrySelectedValue);
                     } else {
-                        // deselect country
-                        // This is only hit if you click on the same country twice
-                        // This is debug behavior though and will be changed.
-                        onSelect(noCountrySelectedValue);
+                        updateSelectedCountry(clickedCountry);
                     }
-
-                    selectedCountry = newSelectedCountry;
-                    adminLayersRef.current!.setStyle((feature) => styleMvtGreyWorldMap(feature, selectedCountry));
 
                     return true;
                 });
@@ -122,12 +180,16 @@ export default function OlGlobalMap({ adminLevels: adminLayers, onSelect }: OlGl
         }
 
         return () => {
+            removeAdmin1Layer();
+            admin0LayerRef.current = null;
+
             // Clean up map ref
             if (mapInstanceRef.current) {
                 mapInstanceRef.current.setTarget(undefined);
                 mapInstanceRef.current = null;
             }
         };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

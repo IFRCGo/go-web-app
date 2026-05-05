@@ -12,14 +12,22 @@ import type MapOl from 'ol/Map';
 import useAlert from '#hooks/useAlert';
 import {
     countryParamsKey,
+    defaultMapZoom,
     eventIdParamsKey,
-    noCountrySelectedValue,
-} from '#utils/ibfMap';
-import {
     getCurrentCountryEventData,
     getEventDetails,
     getSelectedEventMapDetails,
+    mapCenterLatParamsKey,
+    mapCenterLonParamsKey,
+    mapZoomParamsKey,
+    noCountrySelectedValue,
+    sanitizeCountryCode,
+    sanitizeIdParam,
+    sanitizeMapLatitudeParam,
+    sanitizeMapLongitudeParam,
+    sanitizeMapZoomParam,
 } from '#utils/ibfMapHelpers';
+import type { MapSelectionView } from '#utils/ibfMapInteractionHelpers';
 import { PrintElementId } from '#utils/nrwMapToPdfExporter';
 
 import IbfControlPanel from './IbfControlPanel';
@@ -39,17 +47,34 @@ import styles from './styles.module.css';
 export default function IbfMapContainer() {
     const alert = useAlert();
 
-    // Search params are used to create a shareable URL to a specific view.
-    // TODO: add more data to the params, and also handle scrubbing the values
-    // to prevent injection attacks (if needed)
-    // See task: https://dev.azure.com/redcrossnl/IBF/_workitems/edit/40917
+    // Search params used for deeplinking
     const [searchParams, setSearchParams] = useSearchParams();
 
     // Load the view details from the search params
     // This is only done once at page load
-    const selectedCountry = searchParams.get(countryParamsKey)?.toUpperCase()
-    || noCountrySelectedValue;
-    const selectedEventId = searchParams.get(eventIdParamsKey) || '';
+    const selectedCountry = sanitizeCountryCode(searchParams.get(countryParamsKey));
+    const selectedEventId = sanitizeIdParam(searchParams.get(eventIdParamsKey));
+    const selectedMapZoom = sanitizeMapZoomParam(searchParams.get(mapZoomParamsKey));
+    const selectedMapLat = sanitizeMapLatitudeParam(searchParams.get(mapCenterLatParamsKey));
+    const selectedMapLon = sanitizeMapLongitudeParam(searchParams.get(mapCenterLonParamsKey));
+
+    // If these are valid latlon values, return an initial map view
+    const initialMapView = () => {
+        if (selectedMapLat !== null && selectedMapLon !== null) {
+            let mapZoom = defaultMapZoom;
+            if (selectedMapZoom) {
+                mapZoom = selectedMapZoom;
+            }
+            return {
+                zoom: mapZoom,
+                center: {
+                    lat: selectedMapLat,
+                    lon: selectedMapLon,
+                },
+            };
+        }
+        return null;
+    };
 
     // Check if a country is in the search params
     if (selectedCountry === noCountrySelectedValue) {
@@ -125,18 +150,46 @@ export default function IbfMapContainer() {
     // Handle event selection from control panel
     const handleEventClick = (eventId: string) => {
         selectEvent(eventId);
+        const cleanedEventId = sanitizeIdParam(eventId);
         // Set search params for URL sharing only - does not reload data
         setSearchParams({
             [countryParamsKey]: selectedCountry,
-            [eventIdParamsKey]: eventId,
+            [eventIdParamsKey]: cleanedEventId,
         });
     };
 
+    const updateSearchParamsWithMapView = (mapView?: MapSelectionView) => {
+        const nextSearchParams: Record<string, string> = {
+            [countryParamsKey]: selectedCountry,
+        };
+
+        if (activeEventId) {
+            nextSearchParams[eventIdParamsKey] = sanitizeIdParam(activeEventId);
+        }
+
+        if (mapView) {
+            nextSearchParams[mapZoomParamsKey] = mapView.zoom.toFixed(2);
+            nextSearchParams[mapCenterLonParamsKey] = mapView.center.lon.toFixed(6);
+            nextSearchParams[mapCenterLatParamsKey] = mapView.center.lat.toFixed(6);
+        }
+
+        // Update searchParams, but replace existing entry to not fill up the back button stack.
+        setSearchParams(nextSearchParams, { replace: true });
+    };
+
     // Callback to update search params based on user interactions.
-    const handleMapItemSelected = (placeCode: string) => {
-    // TODO: pass what is clicked on to the data panel and UI panel.
+    const handleMapItemSelected = (
+        placeCode: string,
+        mapView?: MapSelectionView,
+    ) => {
+        // TODO: pass what is clicked on to the data panel and UI panel.
         setSelectedAdminPlaceCode(placeCode);
         console.debug(`TODO: [IbfMap] Admin area selected: ${placeCode}`);
+        updateSearchParamsWithMapView(mapView);
+    };
+
+    const handleMapViewChanged = (mapView: MapSelectionView) => {
+        updateSearchParamsWithMapView(mapView);
     };
 
     return (
@@ -173,8 +226,10 @@ export default function IbfMapContainer() {
                     <OlDataMap
                         selectedCountry={selectedCountry}
                         selectedEventDetails={selectedEventMapDetails}
+                        initialMapView={initialMapView()}
                         addLayerFunction={registerMapAddLayer}
                         onSelect={handleMapItemSelected}
+                        onViewChange={handleMapViewChanged}
                         onMapReady={(map: MapOl) => { mapRef.current = map; }}
                     />
                 </div>

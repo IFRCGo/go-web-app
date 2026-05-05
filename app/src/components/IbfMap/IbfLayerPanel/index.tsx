@@ -72,7 +72,7 @@ export default function IbfLayerPanel({
     }, [mapRef, countryCode, eventId, peakDay, alert]);
 
     // TODO: use real data instead of mock. Pending IBF API
-    const countryLayers = mockCountryLayers[countryCode] ?? [];
+    const countryLayers = mockCountryLayers[countryCode]?.availableLayers ?? [];
 
     const hasAnyLayers = eventLayers.length > 0 || countryLayers.length > 0;
 

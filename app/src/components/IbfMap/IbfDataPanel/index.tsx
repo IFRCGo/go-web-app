@@ -1,5 +1,3 @@
-import { CountryData } from '#utils/ibfMap';
-
 import styles from './styles.module.css';
 
 interface IbfDataPanelProps {
@@ -9,25 +7,23 @@ interface IbfDataPanelProps {
 /**
  * Debug component for showing country data. *
  * This will change once we have a design. *
- * @param selectedCountry - ISO_A2 code of the selected country
+ * @param selectedCountry - ISO_A3 code of the selected country
  * @returns A component that is intended to be nested within a IbfMapContainer.
  */
 export default function IbfDataPanel({ selectedCountry }: IbfDataPanelProps) {
-    const countryInfo = selectedCountry ? CountryData.get(selectedCountry) : null;
-
     return (
         <div className={styles.dataContainer}>
-            { countryInfo ? (
+            { selectedCountry ? (
                 <div>
                     <p>
                         <strong>
                             wwww:
-                            {countryInfo.name_en}
+                            {selectedCountry}
+
                         </strong>
                     </p>
                     <p>
-                        wwww: IBF Supported:
-                        {countryInfo.ibfSupported ? 'Yes' : 'No'}
+                        wwww: Some_more_info_here
                     </p>
                 </div>
             )

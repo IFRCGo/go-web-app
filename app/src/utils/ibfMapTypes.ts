@@ -140,14 +140,14 @@ export interface CountryMapData {
   availableLayers: MapLayerDetails[];
 
   // The event data sources for forecasted events.
-  // This can differentiate between supported event types as well as MRW/IBF data sources.
+  // This can differentiate between supported event types as well as MRW/NRW data sources.
   // If this is empty, then the country is not supported for NRW.
   supportedEventDataSources: EventDataSources[];
 }
 
 // Supported event data sources for a country.
 export enum EventDataSources {
-  Ibf = 'ibf',
+  Nrw = 'nrw',
   Mrw = 'mrw',
 }
 

@@ -29,7 +29,7 @@ export const mockAllEventsData_MW: AllEventsData = {
             // ADM0 - Country (sum of all ADM3)
             [
                 {
-                    placeCode: 'MW',
+                    placeCode: 'MWI',
                     adminLevel: 0,
                     name: 'Malawi',
                     exposure: [
@@ -210,7 +210,7 @@ export const mockAllEventsData_MW: AllEventsData = {
             // ADM0 - Country (sum of all ADM3)
             [
                 {
-                    placeCode: 'MW',
+                    placeCode: 'MWI',
                     adminLevel: 0,
                     name: 'Malawi',
                     exposure: [
@@ -372,7 +372,7 @@ export const mockAllEventsData_MW: AllEventsData = {
             // ADM0 - Country (sum of all ADM3)
             [
                 {
-                    placeCode: 'MW',
+                    placeCode: 'MWI',
                     adminLevel: 0,
                     name: 'Malawi',
                     exposure: [
@@ -576,7 +576,7 @@ export const mockAllEventsData_ZM: AllEventsData = {
             // ADM0 - Country (sum of all ADM3)
             [
                 {
-                    placeCode: 'ZM',
+                    placeCode: 'ZMB',
                     adminLevel: 0,
                     name: 'Zambia',
                     exposure: [
@@ -700,7 +700,7 @@ export const mockAllEventsData_ZM: AllEventsData = {
             // ADM0 - Country (sum of all ADM3)
             [
                 {
-                    placeCode: 'ZM',
+                    placeCode: 'ZMB',
                     adminLevel: 0,
                     name: 'Zambia',
                     exposure: [
