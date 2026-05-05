@@ -203,7 +203,7 @@ export function Component() {
                         numPreferredGridColumns={3}
                     >
                         <TextOutput
-                            label={strings.disasterCategorization}
+                            label={strings.disasterCategorisation}
                             value={(
                                 <ListView
                                     withWrap
