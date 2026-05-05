@@ -23,7 +23,7 @@
             "action": "add",
             "key": "crisisTabName",
             "namespace": "activeOperationMap",
-            "value": "Crisis Categorization"
+            "value": "Crisis Categorisation"
         },
         {
             "action": "add",
@@ -36,6 +36,17 @@
             "key": "lastUpdateLabel",
             "namespace": "activeOperationMap",
             "value": "Last update"
+        },
+        {
+            "action": "add",
+            "key": "disasterCategorisation",
+            "namespace": "emergencyDetails",
+            "value": "Disaster Categorisation"
+        },
+        {
+            "action": "remove",
+            "key": "disasterCategorization",
+            "namespace": "emergencyDetails"
         },
         {
             "action": "add",
