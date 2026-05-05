@@ -78,12 +78,14 @@ function Intervention(props: InterventionProps) {
                     valueType="number"
                     strongValue
                 />
-                <TextOutput
-                    label={strings.plannedOperationPeopleReachedLabel}
-                    value={intervention.person_assisted}
-                    valueType="number"
-                    strongValue
-                />
+                {stage !== 'application' && (
+                    <TextOutput
+                        label={strings.plannedOperationPeopleReachedLabel}
+                        value={intervention.person_assisted}
+                        valueType="number"
+                        strongValue
+                    />
+                )}
                 <Button
                     name={!showDetails}
                     styleVariant="action"

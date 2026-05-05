@@ -495,6 +495,7 @@ export function Component() {
                 </ListView>
             )}
             contentOriginalLanguage={emergencyResponse?.translation_module_original_language}
+            headerBackgroundUrl={drefApplicationResponse?.cover_image_file?.file}
         >
             <NavigationTabList>
                 <NavigationTab

@@ -1,11 +1,13 @@
 import { Container } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import OpsLearningKeyInsights from '#components/domain/OpsLearningKeyInsights';
 import { PER_LEARNING_LESSONS_LEARNED } from '#utils/constants';
 import {
     SUMMARY_NO_EXTRACT_AVAILABLE,
     SUMMARY_STATUS_FAILED,
+    SUMMARY_STATUS_PENDING,
     SUMMARY_STATUS_SUCCESS,
 } from '#utils/domain/opsLearning';
 import { useRequest } from '#utils/restRequest';
@@ -49,24 +51,18 @@ function EmergencyLessonsLearnedFromPreviousOperations(props: Props) {
 
             return 5000;
         },
-        preserveResponse: true,
-        onFailure: () => {
-            // TODO(frozenhelium): add proper message
-            /*
-            alert.show(
-                strings.failedToFetchSummary,
-                { variant: 'danger' },
-            );
-            */
-        },
     });
 
     return (
         <Container
             heading={strings.heading}
             withHeaderBorder
-            pending={summaryPending}
-            // TODO(frozenhelium): show proper message for SUMMARY_STATUS_PENDING
+            pending={summaryPending || summaryResponse?.status === SUMMARY_STATUS_PENDING}
+            errored={summaryResponse?.status === SUMMARY_STATUS_FAILED}
+            // FIXME(frozenhelium): it should be enough to only check insight 1
+            empty={isNotDefined(summaryResponse?.insights1_title)
+                && isNotDefined(summaryResponse?.insights2_title)
+                && isNotDefined(summaryResponse?.insights3_title)}
         >
             <OpsLearningKeyInsights
                 opsLearningSummaryResponse={summaryResponse}
