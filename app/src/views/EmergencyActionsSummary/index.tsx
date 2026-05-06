@@ -70,7 +70,10 @@ export function Component() {
                                 layout="block"
                                 spacing="sm"
                             >
-                                <ListView spacing="sm">
+                                <ListView
+                                    spacing="sm"
+                                    withWrap
+                                >
                                     {actionTaken.actions_details?.map((action) => (
                                         <ButtonLayout
                                             // FIXME: use appropriate component

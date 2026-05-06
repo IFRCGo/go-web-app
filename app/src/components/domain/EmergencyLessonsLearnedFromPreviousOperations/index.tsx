@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Container } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isNotDefined } from '@togglecorp/fujs';
@@ -10,9 +11,14 @@ import {
     SUMMARY_STATUS_PENDING,
     SUMMARY_STATUS_SUCCESS,
 } from '#utils/domain/opsLearning';
-import { useRequest } from '#utils/restRequest';
+import {
+    type GoApiResponse,
+    useRequest,
+} from '#utils/restRequest';
 
 import i18n from './i18n.json';
+
+type OpsLearningSummaryResponse = GoApiResponse<'/api/v2/ops-learning/summary/'>;
 
 interface Props {
     disasterType: number;
@@ -27,8 +33,12 @@ function EmergencyLessonsLearnedFromPreviousOperations(props: Props) {
 
     const strings = useTranslation(i18n);
 
+    const [tmpResponse, setTmpResponse] = useState<OpsLearningSummaryResponse | undefined>(
+        undefined,
+    );
+
     const {
-        response: summaryResponse,
+        response: summaryResponse = tmpResponse,
         pending: summaryPending,
     } = useRequest({
         url: '/api/v2/ops-learning/summary/',
@@ -46,11 +56,13 @@ function EmergencyLessonsLearnedFromPreviousOperations(props: Props) {
                 || value?.status === SUMMARY_NO_EXTRACT_AVAILABLE;
 
             if (stopPolling) {
+                setTmpResponse(value as OpsLearningSummaryResponse);
                 return -1;
             }
 
             return 5000;
         },
+        preserveResponse: true,
     });
 
     return (

@@ -150,6 +150,10 @@ export function Component() {
 
     const timelineEvents = useMemo(
         () => {
+            if (emergencyStage === 'field-report') {
+                return undefined;
+            }
+
             const events: EventTimelineItem[] = [];
 
             if (isDefined(firstFieldReport)
