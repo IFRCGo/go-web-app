@@ -10,7 +10,7 @@ import {
     MapLayerDisplayType,
     MapLayerInfoType,
     MeasurementUnits,
-} from './ibfMapTypes';
+} from './nrwMapTypes';
 
 // Mock data for testing - populations are made up, summed up the hierarchy
 export const mockAllEventsData_MW: AllEventsData = {

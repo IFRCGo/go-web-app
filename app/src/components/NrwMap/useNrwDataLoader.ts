@@ -8,23 +8,25 @@ import type BaseLayer from 'ol/layer/Base';
 import useAlert from '#hooks/useAlert';
 import {
     makeClinicPointLayer,
+    makeRcBranchesPointLayer,
+} from '#utils/nrw/nrwDataFetchHelpers';
+import {
     makeEventImageLayer,
     makePopulationImageLayer,
-    makeRcBranchesPointLayer,
-} from '#utils/ibfMapHelpers';
+} from '#utils/nrw/nrwMapHelpers';
 import {
     styleClinicPoint,
     styleRcBranchPoint,
-} from '#utils/ibfMapStyles';
+} from '#utils/nrw/nrwMapStyles';
 import {
     type AllEventsData,
     type MapLayerDetails,
     MapLayerDisplayType,
     MapLayerInfoType,
-} from '#utils/ibfMapTypes';
+} from '#utils/nrw/nrwMapTypes';
 
 /**
- * Hook used to manage and share data for the IBF map components.
+ * Hook used to manage and share data for the NRW map components.
  *
  * Responsibilities:
  * - Load and cache data
@@ -32,10 +34,11 @@ import {
  *
  * @param selectedCountry - ISO_A3 country code for country-specific layers
  */
-export default function useIbfDataLoader(
+export default function useNrwDataLoader(
     selectedCountry: string,
     initialEventData: AllEventsData,
     initialEventId: string,
+    initialLayerIds: string[],
 ) {
     const alert = useAlert();
 
@@ -44,6 +47,14 @@ export default function useIbfDataLoader(
     const [selectedEventId, setSelectedEventId] = useState<string | null>(
         initialEventId || null,
     );
+
+    // Resource IDs of currently visible layers (population, event extent, etc.)
+    // The starting value is any layer IDs in the deeplink.
+    const [activeLayerIds, setActiveLayerIds] = useState<string[]>(initialLayerIds);
+
+    // If the base map setup is complete.
+    // This must be awaited before any layers can be added to the map.
+    const [isMapReady, setIsMapReady] = useState(false);
 
     // Reference to the function (passed in by the map component) for adding layers to the map.
     const addLayerToMapFunction = useRef<(
@@ -54,8 +65,6 @@ export default function useIbfDataLoader(
     // Cache of all loaded layers.
     // The key is fixed based on the layer details.
     const layersCache = useRef(new Map<string, BaseLayer>());
-
-    // Note: The resource ID may be empty for non-event layers, such as population.
     const getLayerKey = (layerDetails: MapLayerDetails): string => `${layerDetails.dataType}_${selectedCountry}_${layerDetails.resourceId}`;
 
     // Register the map's addLayer function.
@@ -63,9 +72,28 @@ export default function useIbfDataLoader(
     const registerMapAddLayer = useCallback(
         (addLayer: (layer: BaseLayer, layerInfo: MapLayerDetails) => void) => {
             addLayerToMapFunction.current = addLayer;
+            setIsMapReady(true);
         },
         [],
     );
+
+    // Update the active layer ids
+    // Run this whenever a layer's visibility changes.
+    const updateActiveLayerIds = (resourceId: string, isVisible: boolean) => {
+        if (!resourceId) {
+            return;
+        }
+        setActiveLayerIds((prev) => {
+            const has = prev.includes(resourceId);
+            if (isVisible && !has) {
+                return [...prev, resourceId];
+            }
+            if (!isVisible && has) {
+                return prev.filter((id) => id !== resourceId);
+            }
+            return prev;
+        });
+    };
 
     // Internal function for handling layer toggling logic
     // If there is a cached layer, toggle its visibility.
@@ -76,13 +104,15 @@ export default function useIbfDataLoader(
         loadLayer: () => Promise<BaseLayer>,
     ) => {
         if (!addLayerToMapFunction.current) {
-            console.error('[useIbfDataLoader] Map not ready');
+            console.error('[useNrwDataLoader] Map not ready');
             return;
         }
 
         const existing = layersCache.current.get(key);
         if (existing) {
-            existing.setVisible(!existing.getVisible());
+            const nextVisible = !existing.getVisible();
+            existing.setVisible(nextVisible);
+            updateActiveLayerIds(layerDetails.resourceId, nextVisible);
             return;
         }
 
@@ -90,8 +120,9 @@ export default function useIbfDataLoader(
             const layer = await loadLayer();
             layersCache.current.set(key, layer);
             addLayerToMapFunction.current(layer, layerDetails);
+            updateActiveLayerIds(layerDetails.resourceId, layer.getVisible());
         } catch (error) {
-            console.error(`[useIbfDataLoader] Failed to load layer ${key}:`, error);
+            console.error(`[useNrwDataLoader] Failed to load layer ${key}:`, error);
             alert.show('Failed to load map layer', {
                 variant: 'danger',
                 description: 'The map layer could not be loaded. Please try again.',
@@ -123,7 +154,7 @@ export default function useIbfDataLoader(
                         break;
                     default:
                         console.error(
-                            `[useIbfDataLoader] Unsupported raster layer type: ${dataType}`,
+                            `[useNrwDataLoader] Unsupported raster layer type: ${dataType}`,
                         );
                 }
                 break;
@@ -145,14 +176,14 @@ export default function useIbfDataLoader(
                         break;
                     default:
                         console.error(
-                            `[useIbfDataLoader] Unsupported point layer type: ${dataType}`,
+                            `[useNrwDataLoader] Unsupported point layer type: ${dataType}`,
                         );
                 }
                 break;
             default:
                 // TODO: Handle other display types (Shape, VectorTile)
                 console.error(
-                    `[useIbfDataLoader] Unsupported display type: ${displayType}`,
+                    `[useNrwDataLoader] Unsupported display type: ${displayType}`,
                 );
         }
     };
@@ -162,6 +193,7 @@ export default function useIbfDataLoader(
         layersCache.current.forEach((layer) => {
             layer.setVisible(false);
         });
+        setActiveLayerIds([]);
     };
 
     // Select an event by ID
@@ -190,5 +222,8 @@ export default function useIbfDataLoader(
         registerMapAddLayer,
         toggleMapLayer,
         hideAllLayers,
+        activeLayerIds,
+        isMapReady,
+        initialLayerIds,
     };
 }

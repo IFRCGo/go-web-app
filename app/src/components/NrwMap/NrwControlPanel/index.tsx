@@ -17,7 +17,7 @@ import {
     type EventOverviewData,
     ExposedItemType,
     type ExposureCategory,
-} from '#utils/ibfMapTypes';
+} from '#utils/nrw/nrwMapTypes';
 
 import styles from './styles.module.css';
 
@@ -341,7 +341,7 @@ function EventButton({ event, onEventClick }: EventButtonProps) {
     );
 }
 
-interface IbfControlPanelProps {
+interface NrwControlPanelProps {
   eventData: AllEventsData;
   activeEventId: string | null;
   onEventClick: (eventId: string) => void;
@@ -355,7 +355,7 @@ interface IbfControlPanelProps {
  * Control panel showing upcoming events for the selected country.
  * Each event displays affected admin1 regions and total population.
  */
-export default function IbfControlPanel({
+export default function NrwControlPanel({
     eventData,
     activeEventId,
     onEventClick,
@@ -363,7 +363,7 @@ export default function IbfControlPanel({
     onDeselectEvent,
     countryCode,
     selectedAdminPlaceCode,
-}: IbfControlPanelProps) {
+}: NrwControlPanelProps) {
     const events = Object.values(eventData);
     const selectedEvent = activeEventId ? eventData[activeEventId] : null;
 
@@ -374,7 +374,7 @@ export default function IbfControlPanel({
     if (selectedAdminPlaceCode) {
     // TODO: change the view based on this
         console.debug(
-            `TODO: [IbfControlPanel] Selected admin area: ${selectedAdminPlaceCode}`,
+            `TODO: [NrwControlPanel] Selected admin area: ${selectedAdminPlaceCode}`,
         );
     }
 

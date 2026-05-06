@@ -502,16 +502,16 @@ const threeWActivityEdit = customWrapRoute({
     },
 });
 
-const ibfIndex = customWrapRoute({
+const nrwIndex = customWrapRoute({
     parent: rootLayout,
-    path: 'ibf',
+    path: 'nrw',
     component: {
-        render: () => import('#views/IbfGlobal'),
+        render: () => import('#views/NrwGlobal'),
         props: {},
     },
     wrapperComponent: Auth,
     context: {
-        title: 'IBF',
+        title: 'NRW',
         visibility: 'anything',
     },
 });
@@ -1353,7 +1353,7 @@ const wrappedRoutes = {
     flashUpdateFormNew,
     flashUpdateFormDetails,
     flashUpdateFormEdit,
-    ibfIndex,
+    nrwIndex,
     riskWatchLayout,
     riskWatchIndex,
     riskWatchImminent,

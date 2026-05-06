@@ -14,16 +14,20 @@ import VectorSource from 'ol/source/Vector';
 
 import {
     COUNTRY_FIELD_KEY,
-    getAdminAreaZIndex,
-    getAdminRegionUrl,
-    getExtentForVectorData,
-    getGlobalAdmin0Url,
     noCountrySelectedValue,
-} from '#utils/ibfMapHelpers';
+} from '#utils/nrw/nrwConstants';
+import {
+    getAdminAreaZIndex,
+    getExtentForVectorData,
+} from '#utils/nrw/nrwMapHelpers';
 import {
     styleAdmin0,
     styleAdmin1,
-} from '#utils/ibfMapStyles';
+} from '#utils/nrw/nrwMapStyles';
+import {
+    getAdminRegionUrl,
+    getGlobalAdmin0Url,
+} from '#utils/nrw/nrwUrls';
 
 import styles from './styles.module.css';
 

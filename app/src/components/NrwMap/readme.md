@@ -1,20 +1,20 @@
-# IBF Map Component
+# NRW Map Component
 
 (Note: this readme is here while this component is in dev. The goal is to enable anyone to setup and test the changes. The content here should be reworked or moved to another readme as dev wraps up on this.)
 
 This component will be the shared NRW map component.
 
-The "Ibf..." prefix naming of the files and components is to help tell the new changes apart from existing GO components. More general components will be derived from these after working more with the TC team.
+The "Nrw..." prefix naming of the files and components is to help tell the new changes apart from existing GO components. More general components will be derived from these after working more with the TC team.
 
 The "Ol..." prefix stands for OpenLayers (the mapping front library used), and this naming is also subject to change (once we work with the TC team more).
 
 ## Basic Architecture
 
-- The `IbfMap` component is the main container for all the NRW mapping components.
-- The `useIbfDataLoader` hook is the shared object used for loading/caching all data. This joins the UI logic of loading/selecting data between the UI components and the data map component.
+- The `NrwMap` component is the main container for all the NRW mapping components.
+- The `useNrwDataLoader` hook is the shared object used for loading/caching all data. This joins the UI logic of loading/selecting data between the UI components and the data map component.
 - `OlDataMap` is the NRW map component. It handles admin area rendering/selection, and can have any data layer added to it.
 - `OlGlobalMap` is a general global view component that can be used for global map interaction.
-- `IbfControlPanel` and `IbfLayerPanel` are the UI interaction layers.
+- `NrwControlPanel` and `NrwLayerPanel` are the UI interaction layers.
 
 ## Running Locally
 

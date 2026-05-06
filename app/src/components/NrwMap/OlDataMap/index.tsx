@@ -15,25 +15,26 @@ import {
 } from 'ol/proj';
 import { apply } from 'ol-mapbox-style';
 
+import { fetchAdminAreaDetails } from '#utils/nrw/nrwDataFetchHelpers';
 import {
     getExtentForVectorData,
     getZIndexOffset,
     initializeMapView,
-    mapUrlSimpleStyleJson,
-} from '#utils/ibfMapHelpers';
+} from '#utils/nrw/nrwMapHelpers';
 import {
     createAdminLayer,
     handleFeatureClick,
     type MapSelectionView,
     type MapViewState,
-} from '#utils/ibfMapInteractionHelpers';
+} from '#utils/nrw/nrwMapInteractionHelpers';
 import type {
     MapLayerDetails,
     SelectedEventMapDetails,
-} from '#utils/ibfMapTypes';
-import { MapLayerDisplayType } from '#utils/ibfMapTypes';
+} from '#utils/nrw/nrwMapTypes';
+import { MapLayerDisplayType } from '#utils/nrw/nrwMapTypes';
+import { mapUrlSimpleStyleJson } from '#utils/nrw/nrwUrls';
 
-import { createMapPopupPanel } from '../MapPopupPanel';
+import { createMapPopupPanel } from '../NrwMapPopupPanel';
 
 import styles from './styles.module.css';
 
@@ -61,6 +62,10 @@ interface OlDataMapProps {
   // Initial map view from URL search params, if available
   initialMapView?: MapSelectionView | null;
 
+  // Initial admin code from URL search params, if available
+  // When set, the map will fetch the admin area details and select it along with its parents
+  initialAdminCode?: string | null;
+
   // Callback when the map instance is ready
   // This is needed to pass references of the map for exporting to PDF
   onMapReady?: (map: MapOl) => void;
@@ -69,17 +74,18 @@ interface OlDataMapProps {
 type AddAdminLayerFunction = (level: 1 | 2 | 3, country?: string, parentCode?: string) => void;
 
 /**
- * OpenLayers map component for IBF data maps
+ * OpenLayers map component for NRW data maps
  * This mainly handles interactivity of the map, with additional data layers added via the
  * exposed addLayerFunction.
  * Admin areas are the main interactive feature of the map, so they need to be added and
  * managed by this component.
- * @returns A component that can be either standalone, or nested in a IbfMapContainer.
+ * @returns A component that can be either standalone, or nested in a NrwMapContainer.
  */
 export default function OlDataMap({
     selectedCountry,
     selectedEventDetails,
     initialMapView,
+    initialAdminCode,
     addLayerFunction,
     onSelect,
     onViewChange,
@@ -93,6 +99,8 @@ export default function OlDataMap({
     // Store addAdminLayer function to call from event selection effect
     const addAdminLayerFunctionRef = useRef<AddAdminLayerFunction | null>(null);
     const shouldApplyInitialMapViewRef = useRef(Boolean(initialMapView));
+    // Track whether initial admin selection has been applied
+    const shouldApplyInitialAdminRef = useRef(Boolean(initialAdminCode));
     // Store event handler keys for cleanup
     const eventKeysRef = useRef<EventsKey[]>([]);
     // Callbacks tracked by refs in case they change
@@ -116,6 +124,7 @@ export default function OlDataMap({
                 [1, null],
                 [2, null],
                 [3, null],
+                [4, null],
             ]),
             selectedEventId: selectedEventDetails?.eventId ?? '',
             exposedRegionsByLevel:
@@ -142,12 +151,12 @@ export default function OlDataMap({
         }
 
         function addAdminLayer(
-            level: 1 | 2 | 3,
+            level: 1 | 2 | 3 | 4,
             country?: string,
             parentCode?: string,
         ) {
             // Remove layers at this level and below
-            for (let l = 3; l >= level; l -= 1) {
+            for (let l = 4; l >= level; l -= 1) {
                 const existing = adminLayers.get(l);
                 if (existing) {
                     mapInstanceRef.current?.removeLayer(existing);
@@ -159,11 +168,53 @@ export default function OlDataMap({
             const newLayer = createAdminLayer(state, level, country, parentCode);
             mapInstanceRef.current?.addLayer(newLayer);
             adminLayers.set(level, newLayer);
+            return newLayer;
+        }
 
-            // For admin level 1
-            // This is only done at first load of the country, so this handles setting
-            // the inital map focus and panning extents (which are based on admin level 1)
-            if (level === 1 && mapInstanceRef.current) {
+        // Init the admin map layers based on the initial map view from the search params
+        function initMapAdminLayers(
+            country?: string,
+        ) {
+            const newLayer = addAdminLayer(1, country);
+
+            // get initial admin selection from URL params
+            if (initialAdminCode && shouldApplyInitialAdminRef.current) {
+                fetchAdminAreaDetails(country ?? '', initialAdminCode).then((details) => {
+                    // Use refs to avoid stale closure issues with async callback
+                    const currentState = stateRef.current;
+                    const currentAddAdminLayer = addAdminLayerFunctionRef.current;
+                    if (!currentState || !currentAddAdminLayer) return;
+
+                    if (details) {
+                        // Add layers based on current admin level selection
+                        if (details.adminLevel === 1) {
+                            currentAddAdminLayer(2, country, details.code);
+                        } else if (details.adminLevel === 2 && details.admin1Pcode) {
+                            currentAddAdminLayer(2, country, details.admin1Pcode);
+                            currentAddAdminLayer(3, country, details.code);
+                        } else if (details.adminLevel === 3
+                            && details.admin1Pcode
+                            && details.admin2Pcode) {
+                            currentAddAdminLayer(2, country, details.admin1Pcode);
+                            currentAddAdminLayer(3, country, details.admin2Pcode);
+                            // TODO: add support for admin level 4
+                            // See task: https://dev.azure.com/redcrossnl/IBF/_workitems/edit/41768
+                        }
+
+                        // Set the map view state
+                        // This must be done after the above layers were added
+                        currentState.selectedAdminCodes.set(1, details.admin1Pcode);
+                        currentState.selectedAdminCodes.set(2, details.admin2Pcode);
+                        currentState.selectedAdminCodes.set(3, details.admin3Pcode);
+                        currentState.selectedAdminCodes.set(details.adminLevel, details.code);
+                    }
+
+                    shouldApplyInitialAdminRef.current = false;
+                });
+            }
+
+            // Set initial zoom/pan
+            if (mapInstanceRef.current) {
                 const map = mapInstanceRef.current;
                 const source = newLayer.getSource();
                 if (source) {
@@ -182,6 +233,7 @@ export default function OlDataMap({
                 }
             }
         }
+
         // Store ref for use in event selection effect
         addAdminLayerFunctionRef.current = addAdminLayer;
 
@@ -211,7 +263,7 @@ export default function OlDataMap({
             }
 
             state.mapInstance = mapInstanceRef.current;
-            addAdminLayer(1, selectedCountry, undefined);
+            initMapAdminLayers(selectedCountry);
 
             // Notify parent that map is ready
             if (onMapReady && mapInstanceRef.current) {
@@ -276,7 +328,8 @@ export default function OlDataMap({
 
                 const [lon, lat] = toLonLat(center);
 
-                if (!Number.isFinite(lon) || !Number.isFinite(lat)) {
+                if (lon === undefined || lat === undefined
+                    || !Number.isFinite(lon) || !Number.isFinite(lat)) {
                     return;
                 }
 
@@ -359,8 +412,16 @@ export default function OlDataMap({
             }
         } else {
             // No event selected: reset admin layers back to level 1 only
-            // and fit view to country extent
-            addAdminLayer(1, selectedCountry);
+            for (let l = 4; l > 1; l -= 1) {
+                const existing = adminLayersRef.current.get(l);
+                if (existing) {
+                    map.removeLayer(existing);
+                    adminLayersRef.current.delete(l);
+                    state.selectedAdminCodes.set(l as 2 | 3 | 4, null);
+                }
+            }
+            // Layer 1 remains, but clear any admin area selection on it
+            state.selectedAdminCodes.set(1, null);
         }
 
         // Trigger re-render of admin layers to apply new styling

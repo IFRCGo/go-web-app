@@ -4,17 +4,22 @@
 // The functions/callbacks passed in and calling out are planned to be kept though,
 // so those can be reviewed.
 
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+} from 'react';
 import { Button } from '@ifrc-go/ui';
 import type MapOl from 'ol/Map';
 
 import useAlert from '#hooks/useAlert';
+import { exportMapToPdf } from '#utils/nrw/nrwMapToPdfExporter';
 import {
     type MapLayerDetails,
     MapLayerInfoType,
-} from '#utils/ibfMapTypes';
-import mockCountryLayers from '#utils/ibfMockCountryData_debug';
-import { exportMapToPdf } from '#utils/nrwMapToPdfExporter';
+} from '#utils/nrw/nrwMapTypes';
+import mockCountryLayers from '#utils/nrw/nrwMockCountryData_debug';
 
 import styles from './styles.module.css';
 
@@ -29,7 +34,7 @@ function getLayerLabel(layer: MapLayerDetails): string {
     return labels[layer.dataType] ?? layer.dataType;
 }
 
-interface IbfLayerPanelProps {
+interface NrwLayerPanelProps {
   eventLayers: MapLayerDetails[];
   countryCode: string;
   onToggleMapLayer: (layerDetails: MapLayerDetails) => void;
@@ -37,12 +42,16 @@ interface IbfLayerPanelProps {
   mapRef: React.RefObject<MapOl | null>;
   eventId?: string;
   peakDay?: string;
+  // Resource IDs of layers that should be on on initial view
+  initialLayerIds: string[];
+  // Is the map setup complete
+  isMapReady: boolean;
 }
 
 /**
  * Control panel showing layers that can be toggled for the selected country and event.
  */
-export default function IbfLayerPanel({
+export default function NrwLayerPanel({
     eventLayers,
     countryCode,
     onToggleMapLayer,
@@ -50,10 +59,59 @@ export default function IbfLayerPanel({
     mapRef,
     eventId,
     peakDay,
-}: IbfLayerPanelProps) {
+    initialLayerIds,
+    isMapReady,
+}: NrwLayerPanelProps) {
     const alert = useAlert();
 
+    // Whether the panel is still in its initial state (no user interaction yet).
+    const isInitialStateRef = useRef(true);
+
+    // Track which initial layer IDs still need to be auto-toggled on.
+    // Layers are removed from this set as they are toggled, so we never toggle
+    // the same layer twice.
+    const pendingInitialIdsRef = useRef<Set<string>>(new Set(initialLayerIds));
+
+    // Get the list of country-level layers available for a country
+    // TODO: use real data instead of mock. Pending IBF API
+    const countryLayers = useMemo(
+        () => mockCountryLayers[countryCode]?.availableLayers ?? [],
+        [countryCode],
+    );
+
+    // Toggle on any layer with a matching resource ID
+    // This only makes changes if the panel is still in its initial state
+    useEffect(() => {
+        if (!isInitialStateRef.current || !isMapReady) {
+            return;
+        }
+        if (pendingInitialIdsRef.current.size === 0) {
+            return;
+        }
+        const allLayers = [...eventLayers, ...countryLayers];
+        allLayers.forEach((layer) => {
+            if (pendingInitialIdsRef.current.has(layer.resourceId)) {
+                // Remove the layer id from the pending layer list, and toggle it on
+                pendingInitialIdsRef.current.delete(layer.resourceId);
+                onToggleMapLayer(layer);
+            }
+        });
+    }, [isMapReady, eventLayers, countryLayers, onToggleMapLayer]);
+
+    // Wrapper for the toggle callback that was passed in as a component prop
+    const handleToggleClick = useCallback((layer: MapLayerDetails) => {
+        isInitialStateRef.current = false;
+        onToggleMapLayer(layer);
+    }, [onToggleMapLayer]);
+
+    // Wrapper for the hide all callback that was passed in as a component prop
+    const handleHideAllClick = useCallback(() => {
+        isInitialStateRef.current = false;
+        onHideAllLayers();
+    }, [onHideAllLayers]);
+
     const handleExportMapClick = useCallback(async () => {
+        isInitialStateRef.current = false;
         if (mapRef.current) {
             const filenameParts = [countryCode];
             if (eventId) {
@@ -70,9 +128,6 @@ export default function IbfLayerPanel({
             }
         }
     }, [mapRef, countryCode, eventId, peakDay, alert]);
-
-    // TODO: use real data instead of mock. Pending IBF API
-    const countryLayers = mockCountryLayers[countryCode]?.availableLayers ?? [];
 
     const hasAnyLayers = eventLayers.length > 0 || countryLayers.length > 0;
 
@@ -111,7 +166,7 @@ export default function IbfLayerPanel({
                         <Button
                             key={`${layer.dataType}_${layer.resourceId}`}
                             name={`toggle_${layer.dataType}_${layer.resourceId}`}
-                            onClick={() => onToggleMapLayer(layer)}
+                            onClick={() => handleToggleClick(layer)}
                         >
                             Toggle
                             {' '}
@@ -127,7 +182,7 @@ export default function IbfLayerPanel({
                         <Button
                             key={`${layer.dataType}_${layer.resourceId}`}
                             name={`toggle_country_${layer.dataType}`}
-                            onClick={() => onToggleMapLayer(layer)}
+                            onClick={() => handleToggleClick(layer)}
                         >
                             Toggle
                             {' '}
@@ -138,7 +193,7 @@ export default function IbfLayerPanel({
             )}
 
             <div className={styles.hideAllButton}>
-                <Button name="hide-all-layers" onClick={onHideAllLayers}>
+                <Button name="hide-all-layers" onClick={handleHideAllClick}>
                     Hide All Layers
                 </Button>
             </div>

@@ -6,7 +6,7 @@ import {
     Style,
 } from 'ol/style';
 
-import { COUNTRY_FIELD_KEY } from './ibfMapHelpers';
+import { COUNTRY_FIELD_KEY } from './nrwConstants';
 
 export type MvtStyleCreator = (feature: FeatureLike, selected: string) => Style;
 const deselectedColor = 'rgba(0, 0, 0, 0.07)';

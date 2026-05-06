@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-interface IbfDataPanelProps {
+interface NrwDataPanelProps {
     selectedCountry: string;
 }
 
@@ -8,9 +8,9 @@ interface IbfDataPanelProps {
  * Debug component for showing country data. *
  * This will change once we have a design. *
  * @param selectedCountry - ISO_A3 code of the selected country
- * @returns A component that is intended to be nested within a IbfMapContainer.
+ * @returns A component that is intended to be nested within a NrwMapContainer.
  */
-export default function IbfDataPanel({ selectedCountry }: IbfDataPanelProps) {
+export default function NrwDataPanel({ selectedCountry }: NrwDataPanelProps) {
     return (
         <div className={styles.dataContainer}>
             { selectedCountry ? (

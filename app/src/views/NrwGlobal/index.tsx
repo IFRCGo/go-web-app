@@ -1,13 +1,13 @@
-import IbfMapContainer from '#components/IbfMap';
+import NrwMapContainer from '#components/NrwMap';
 
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     return (
         <div>
-            <IbfMapContainer />
+            <NrwMapContainer />
         </div>
     );
 }
 
-Component.displayName = 'IbfGlobal';
+Component.displayName = 'NrwGlobal';
