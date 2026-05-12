@@ -7,19 +7,19 @@
 import {
     useCallback,
     useEffect,
-    useMemo,
     useRef,
+    useState,
 } from 'react';
 import { Button } from '@ifrc-go/ui';
 import type MapOl from 'ol/Map';
 
 import useAlert from '#hooks/useAlert';
+import { getCountryMapData } from '#utils/nrw/nrwDataFetchHelpers';
 import { exportMapToPdf } from '#utils/nrw/nrwMapToPdfExporter';
 import {
     type MapLayerDetails,
     MapLayerInfoType,
 } from '#utils/nrw/nrwMapTypes';
-import mockCountryLayers from '#utils/nrw/nrwMockCountryData_debug';
 
 import styles from './styles.module.css';
 
@@ -74,10 +74,16 @@ export default function NrwLayerPanel({
 
     // Get the list of country-level layers available for a country
     // TODO: use real data instead of mock. Pending IBF API
-    const countryLayers = useMemo(
-        () => mockCountryLayers[countryCode]?.availableLayers ?? [],
-        [countryCode],
-    );
+    const [countryLayers, setCountryLayers] = useState<MapLayerDetails[]>([]);
+
+    useEffect(() => {
+        const loadCountryLayers = async () => {
+            const data = await getCountryMapData();
+            setCountryLayers(data[countryCode]?.availableLayers ?? []);
+        };
+        loadCountryLayers();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // Toggle on any layer with a matching resource ID
     // This only makes changes if the panel is still in its initial state

@@ -25,6 +25,10 @@ export const mapUrlSimpleStyleJson = `${maptilerBaseUrl}${maptilerSimpleStylePat
 export const seedRepoEventDataUrl = `${seedDataRepo}raster-data/mock-events/rgba/`;
 export const seedRepoPopDataUrl = `${seedDataRepo}raster-data/population/rgba/`;
 
+// Mock backend JSON data from the seed repo
+export const seedRepoMockCountryDataUrl = `${seedDataRepo}mock-backend/country/nrwMockCountryData.json`;
+export const getSeedRepoMockEventDataUrl = (countryIso3: string) => `${seedDataRepo}mock-backend/events/nrwMockData_${countryIso3}.json`;
+
 // GO API URLs for local units data
 // TODO: Revisit these sources as part of this task:
 // https://dev.azure.com/redcrossnl/IBF/_workitems/edit/42046

@@ -12,15 +12,16 @@ import {
     isValidCoordinatePair,
     makePointLayerFromFeatures,
 } from './nrwMapHelpers';
-import { type AllEventsData } from './nrwMapTypes';
 import {
-    mockAllEventsData_MW as mockAllEventsData_MWI,
-    mockAllEventsData_ZM as mockAllEventsData_ZMB,
-} from './nrwMockData_debug';
+    type AllEventsData,
+    type CountryMapData,
+} from './nrwMapTypes';
 import {
     getAdminAreaDetailsNoGeoUrl,
     getHealthLocsApiUrl,
     getRcLocsApiUrl,
+    getSeedRepoMockEventDataUrl,
+    seedRepoMockCountryDataUrl,
 } from './nrwUrls';
 
 // Format of GO API result for Red Cross locations
@@ -120,29 +121,39 @@ export async function fetchAdminAreaDetails(
     }
 }
 
-// Fetch upcoming or ongoing event data for a country
-export function getCurrentCountryEventData(country: string): AllEventsData {
+// Load mock event data JSON for a given country from the seed data repo
+async function loadMockEventData(country: string): Promise<AllEventsData> {
+    const url = getSeedRepoMockEventDataUrl(country);
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            return {} as AllEventsData;
+        }
+        return await response.json() as AllEventsData;
+    } catch {
+        return {} as AllEventsData;
+    }
+}
+
+// Fetch upcoming or ongoing events data for a country
+export async function getCurrentCountryEventData(country: string): Promise<AllEventsData> {
     // TODO: Use the API for fetching this for any country, and only use mock data
     // if set to do so in the env file.
-    if (country === 'MWI') {
-        return mockAllEventsData_MWI;
-    } if (country === 'ZMB') {
-        return mockAllEventsData_ZMB;
-    } return {} as AllEventsData;
+    return loadMockEventData(country);
 }
 
 // Fetch a specific event's details, and only return that event
-export function getEventDetails(eventId: string): AllEventsData {
+export async function getEventDetails(eventId: string): Promise<AllEventsData> {
     // TODO: Use the API for fetching this for any country, and only use mock data
     // if set to do so in the env file.
-    // For mock data, look for the event data with the matching eventId, and only return that event.
-    const allMockData: AllEventsData[] = [
-        mockAllEventsData_MWI,
-        mockAllEventsData_ZMB,
-    ];
-    for (let i = 0; i < allMockData.length; i += 1) {
-        const countryEvents = allMockData[i];
-        if (countryEvents) {
+    // For mock data, look for the event data with the matching eventId across all countries.
+    // TODO: When the API is available, this will be a single call to the API.
+    const countries = ['MWI', 'ZMB'];
+    for (let i = 0; i < countries.length; i += 1) {
+        const country = countries[i];
+        if (country) {
+            // eslint-disable-next-line no-await-in-loop
+            const countryEvents = await loadMockEventData(country);
             const eventData = countryEvents[eventId];
             if (eventData) {
                 return { [eventId]: eventData };
@@ -150,6 +161,20 @@ export function getEventDetails(eventId: string): AllEventsData {
         }
     }
     return {} as AllEventsData;
+}
+
+// Fetch country-level map layer data
+// TODO: Use the API instead of mock data. Pending IBF API
+export async function getCountryMapData(): Promise<Record<string, CountryMapData>> {
+    try {
+        const response = await fetch(seedRepoMockCountryDataUrl);
+        if (!response.ok) {
+            return {} as Record<string, CountryMapData>;
+        }
+        return await response.json() as Record<string, CountryMapData>;
+    } catch {
+        return {} as Record<string, CountryMapData>;
+    }
 }
 
 export const makeRcBranchesPointLayer = async (

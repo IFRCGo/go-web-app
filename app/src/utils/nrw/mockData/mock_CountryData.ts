@@ -5,7 +5,7 @@ import {
     MapLayerInfoType,
 } from '#utils/nrw/nrwMapTypes';
 
-// Mock country map data for countries. This will be moved to the backend in the future.
+// Mock country map data for countries.
 export default {
     MWI: {
         availableLayers: [

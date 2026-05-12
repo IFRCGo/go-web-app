@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-// NOTE: debug file to be moved to seed data repo.
 
 import {
     AlertClassType,
@@ -10,7 +9,7 @@ import {
     MapLayerDisplayType,
     MapLayerInfoType,
     MeasurementUnits,
-} from './nrwMapTypes';
+} from '../nrwMapTypes';
 
 // Mock data for testing - populations are made up, summed up the hierarchy
 export const mockAllEventsData_MW: AllEventsData = {

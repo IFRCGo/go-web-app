@@ -20,6 +20,7 @@ import {
 import { getSelectedEventMapDetails } from '#utils/nrw/nrwMapHelpers';
 import type { MapSelectionView } from '#utils/nrw/nrwMapInteractionHelpers';
 import { PrintElementId } from '#utils/nrw/nrwMapToPdfExporter';
+import type { AllEventsData } from '#utils/nrw/nrwMapTypes';
 
 import NrwControlPanel from './NrwControlPanel';
 import NrwDataPanel from './NrwDataPanel';
@@ -81,18 +82,6 @@ export default function NrwMapContainer() {
         console.error('No country selected. Cannot load the portal.');
     }
 
-    // Event data is loaded once on page load, then only updated via the refresh function
-    const initialEventData = selectedEventId
-        ? getEventDetails(selectedEventId)
-        : getCurrentCountryEventData(selectedCountry);
-
-    const [selectedAdminPlaceCode, setSelectedAdminPlaceCode] = useState<
-    string | null
-    >(initialAdminCode);
-
-    // Store map instance for PDF export
-    const mapRef = useRef<MapOl | null>(null);
-
     // Data loader hook - manages layer loading, caching, and shared event state
     const {
         eventData,
@@ -106,7 +95,26 @@ export default function NrwMapContainer() {
         hideAllLayers,
         activeLayerIds,
         isMapReady,
-    } = useNrwDataLoader(selectedCountry, initialEventData, selectedEventId, initialLayerIds);
+    } = useNrwDataLoader(selectedCountry, {} as AllEventsData, selectedEventId, initialLayerIds);
+
+    const [selectedAdminPlaceCode, setSelectedAdminPlaceCode] = useState<
+    string | null
+    >(initialAdminCode);
+
+    // Store map instance for PDF export
+    const mapRef = useRef<MapOl | null>(null);
+
+    // Load initial event data asynchronously on mount
+    useEffect(() => {
+        const loadInitialData = async () => {
+            const data = selectedEventId
+                ? await getEventDetails(selectedEventId)
+                : await getCurrentCountryEventData(selectedCountry);
+            setEventData(data);
+        };
+        loadInitialData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // Derive map details for the selected event (centroid, affected regions)
     const selectedEventMapDetails = useMemo(
@@ -139,7 +147,7 @@ export default function NrwMapContainer() {
     }, [activeLayerIds, syncLayerIds]);
 
     // Refresh page and put in a default start state
-    const handleRefreshAll = () => {
+    const handleRefreshAll = async () => {
         resetToCountry(selectedCountry);
 
         // Deselect current event and admin areas
@@ -147,7 +155,8 @@ export default function NrwMapContainer() {
         setSelectedAdminPlaceCode(null);
 
         // Reload event data and set it
-        setEventData(getCurrentCountryEventData(selectedCountry));
+        const data = await getCurrentCountryEventData(selectedCountry);
+        setEventData(data);
     };
 
     // Handle event deselection (e.g. user goes back to all events view)

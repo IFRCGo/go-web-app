@@ -64,7 +64,7 @@ export function Component() {
 
     // Use location to hide navigation for specific pages
     const location = useLocation();
-    const hideNavigation = location.pathname.startsWith('/ibf');
+    const hideNavigation = location.pathname.startsWith('/nrw');
 
     const { isAuthenticated } = useAuth();
     const { removeUserAuth } = useContext(UserContext);
