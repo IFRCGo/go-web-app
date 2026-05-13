@@ -27,21 +27,15 @@ Some of the [readme](./README.md) instructions don't work or are incomplete. Rat
 
 3. Install the dependencies:
 
-   ```bash
-   pnpm install
-   ```
+Added note: If youre not running the backend, you can just run this from the app/ dir.
 
-Note, if youre not running the backend, you can just run this from the app/ dir.
-
-4. Setup .env file.
+4. Setup .env file:
 
 In the `app/` dir, copy the `sample.env` file and rename the copy to `.env`.
 Adjust settings as needed, as per the comments in the file.
 
-5. Start the development server:
+### NRW Portal
 
-   ```bash
-   pnpm start
-   ````
+For running the NRW portal, see [the NRW readme.](app/src/components/NrwMap/readme.md)
 
-Go to `https://localhost:3000/ibf`
+

@@ -20,16 +20,15 @@ The "Ol..." prefix stands for OpenLayers (the mapping front library used), and t
 
 (Note: This is the temporary setup process and will change as dev progresses)
 
-This requires some IBF setup to run. To run locally, do the following:
+The NRW frontend can be launched either from this project, or from the [standalone NRW project in the IBF repo](https://github.com/rodekruis/IBF/blob/main/portal/nrw-standalone/README.md). For launching from this repo, see the setup steps below:
 
 1. Launch the [IBF back-end services](https://github.com/rodekruis/IBF/blob/main/services/docker-compose.yml). See [README](https://github.com/rodekruis/IBF/blob/main/README.md).
 2. Populate the admin areas with the [upload_admin_areas.py script](https://github.com/rodekruis/IBF/blob/main/data/data_management/data_upload/upload_admin_areas.py). This requires a local copy of the seed-data-repo, so you'll need to clone that as well. See the [IBF data readme](https://github.com/rodekruis/IBF/blob/main/data/README.md) for more info.
 3. Set up this repo to run, following the readme in the base directory. Be sure to recopy `sample.env` into `.env` each time there were any changes in example.env.
 4. Launch with `pnpm start` from `/go-web-app/app`.
-5. Navigate to http://localhost:3000/ibf?c=mw
-6. Linking directly to an event is supported, if it is in the mock data. For instance http://localhost:3000/ibf?c=MW&e=event1
+5. Navigate to `localhost:3000/nrw?c=<valid ISO_A3 country code>`, such as http://localhost:3000/nrw?c=mwi
 
 ## Testing
 
-- Unit testing will be added once we get to the stage of generalized components.
+- Unit testing is under development, but will be added as part of this repo.
 - End-to-end testing for IBF backend integration will be carried out in the [IBF repo](https://github.com/rodekruis/IBF).
