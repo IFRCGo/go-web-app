@@ -11,6 +11,7 @@ import {
 import {
     Button,
     Container,
+    Description,
     Label,
     ListView,
     NumberOutput,
@@ -21,17 +22,28 @@ import { DescriptionText } from '@ifrc-go/ui/printable';
 import {
     _cs,
     isNotDefined,
+    listToMap,
 } from '@togglecorp/fujs';
 
 import TabPage from '#components/TabPage';
+import { type components } from '#generated/types';
+import { DREF_TYPE_IMMINENT } from '#utils/constants';
+import {
+    STAGE_DREF_APPLICATION,
+    STAGE_FINAL_REPORT,
+    STAGE_OPERATIONAL_UPDATE,
+} from '#utils/domain/emergency';
 import { type EmergencyOutletContext } from '#utils/outletContext';
+import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type PlannedIntervention = components<'read'>['schemas']['PlannedIntervention'];
+
 interface InterventionProps {
-    data: NonNullable<NonNullable<EmergencyOutletContext['drefApplication']>['planned_interventions']>[number];
-    stage: NonNullable<EmergencyOutletContext['drefStage']> | undefined;
+    data: PlannedIntervention;
+    stage: number | undefined;
 }
 
 function Intervention(props: InterventionProps) {
@@ -53,7 +65,7 @@ function Intervention(props: InterventionProps) {
             <div
                 className={_cs(
                     styles.operationRow,
-                    stage === 'application' && styles.applicationStage,
+                    stage === STAGE_DREF_APPLICATION && styles.applicationStage,
                 )}
             >
                 <ListView spacing="sm">
@@ -78,7 +90,7 @@ function Intervention(props: InterventionProps) {
                     valueType="number"
                     strongValue
                 />
-                {stage !== 'application' && (
+                {stage !== STAGE_DREF_APPLICATION && (
                     <TextOutput
                         label={strings.plannedOperationPeopleReachedLabel}
                         value={intervention.person_assisted}
@@ -167,43 +179,74 @@ function Intervention(props: InterventionProps) {
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const {
-        drefStage,
-        drefApplication,
-        drefFinalReport,
-        drefOpsUpdate,
+        emergencyResponse,
+        emergencyResponsePending,
     } = useOutletContext<EmergencyOutletContext>();
+    const {
+        pending: sectorsPending,
+        response: sectorsResponse,
+    } = useRequest({
+        url: '/api/v2/primarysector',
+    });
 
+    const sectorMap = listToMap(sectorsResponse, ({ key }) => key);
     const strings = useTranslation(i18n);
 
     const drefDetails = useMemo(() => {
-        if (drefStage === 'final-report') {
-            return drefFinalReport;
+        if (emergencyResponse?.stage === STAGE_FINAL_REPORT) {
+            return emergencyResponse.dref.final_report_details;
         }
 
-        if (drefStage === 'ops-update') {
-            return drefOpsUpdate;
+        if (emergencyResponse?.stage === STAGE_OPERATIONAL_UPDATE) {
+            return emergencyResponse?.dref.operational_update_details;
         }
 
-        return drefApplication;
-    }, [drefStage, drefApplication, drefOpsUpdate, drefFinalReport]);
+        return emergencyResponse?.dref;
+    }, [emergencyResponse]);
+
+    const isImminent = emergencyResponse?.dref.type_of_dref === DREF_TYPE_IMMINENT
+        && emergencyResponse?.stage === STAGE_DREF_APPLICATION;
 
     return (
-        <TabPage>
-            <Container
-                heading={strings.plannedOperationHeading}
-                className={styles.plannedOperations}
-                withHeaderBorder
-                empty={isNotDefined(drefDetails?.planned_interventions)
-                    || drefDetails?.planned_interventions?.length === 0}
-            >
-                {drefDetails?.planned_interventions?.map((intervention) => (
-                    <Intervention
-                        key={intervention.id}
-                        data={intervention}
-                        stage={drefStage}
-                    />
-                ))}
-            </Container>
+        <TabPage
+            pending={sectorsPending || emergencyResponsePending}
+            empty={isImminent && isNotDefined(emergencyResponse?.dref.proposed_action)}
+        >
+            {isImminent && emergencyResponse?.dref.proposed_action.map((action) => (
+                <Container
+                    key={action.id}
+                    heading={action.proposed_type_display}
+                    withHeaderBorder
+                >
+                    {action.activities?.map((activity) => (
+                        <div key={activity.id}>
+                            <Label strong>
+                                {sectorMap?.[activity.sector]?.label}
+                            </Label>
+                            <Description>
+                                {activity.activity}
+                            </Description>
+                        </div>
+                    ))}
+                </Container>
+            ))}
+            {!isImminent && (
+                <Container
+                    heading={strings.plannedOperationHeading}
+                    className={styles.plannedOperations}
+                    withHeaderBorder
+                    empty={isNotDefined(drefDetails?.planned_interventions)
+                        || drefDetails?.planned_interventions?.length === 0}
+                >
+                    {drefDetails?.planned_interventions?.map((intervention) => (
+                        <Intervention
+                            key={intervention.id}
+                            data={intervention}
+                            stage={emergencyResponse?.stage}
+                        />
+                    ))}
+                </Container>
+            )}
         </TabPage>
     );
 }

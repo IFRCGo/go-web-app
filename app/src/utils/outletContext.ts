@@ -2,7 +2,7 @@ import type { GoApiResponse } from '#utils/restRequest';
 
 // FIXME: move this to context
 
-type EmergencyResponse = GoApiResponse<'/api/v2/event/{id}/'>;
+type EmergencyResponse = GoApiResponse<'/api/v2/emergency/{id}/'>;
 
 type EmergencySnippetsResponse = GoApiResponse<'/api/v2/event_snippet/'>;
 type Snippets = EmergencySnippetsResponse['results'];
@@ -15,21 +15,10 @@ interface EmergencyAdditionalTabs {
     snippets: Snippets;
 }
 
-type DrefApplicationResponse = GoApiResponse<'/api/v2/dref/{id}/'>
-type DrefOpsUpdateResponse = GoApiResponse<'/api/v2/dref-op-update/{id}/'>
-type DrefFinalReportResponse = GoApiResponse<'/api/v2/dref-final-report/{id}/'>
-type ActiveDrefResponse = GoApiResponse<'/api/v2/active-dref/'>['results'][number];
-
 export interface EmergencyOutletContext {
     emergencyResponse: EmergencyResponse | undefined;
     emergencyResponsePending: boolean;
     emergencyAdditionalTabs: EmergencyAdditionalTabs[] | undefined;
-    emergencyStage: 'field-report' | 'dref' | 'emergency-appeal' | undefined;
-    activeDrefOperation: ActiveDrefResponse | undefined;
-    drefStage: 'application' | 'ops-update' | 'final-report' | undefined;
-    drefApplication: DrefApplicationResponse | undefined;
-    drefOpsUpdate: DrefOpsUpdateResponse | undefined;
-    drefFinalReport: DrefFinalReportResponse | undefined;
 }
 
 export type CountryResponse = GoApiResponse<'/api/v2/country/{id}/'>

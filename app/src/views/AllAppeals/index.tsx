@@ -137,6 +137,12 @@ export function Component() {
         (country) => country,
     );
 
+    const [filterHasEvent] = useUrlSearchState<boolean | undefined>(
+        'has_event',
+        (value) => value?.toLowerCase() === 'true',
+        (value) => (value ? String(value) : undefined),
+    );
+
     const defaultOrdering = '-start_date';
     const orderingWithFallback = useMemo(() => {
         if (isNotDefined(ordering)) {
@@ -166,8 +172,11 @@ export function Component() {
             region: isDefined(filterRegion) ? [filterRegion] : undefined,
             start_date__gte: filter.startDateAfter,
             start_date__lte: filter.startDateBefore,
+            has_event: filterHasEvent,
+            needs_confirmation: filterHasEvent ? false : undefined,
         }),
         [
+            filterHasEvent,
             limit,
             offset,
             orderingWithFallback,

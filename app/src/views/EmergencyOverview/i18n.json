@@ -6,6 +6,8 @@
         "keyFigureMissingLabel": "Missing",
         "keyFigureAffectedLabel": "Affected",
         "keyFigureDisplacedLabel": "Displaced",
+        "keyFigurePotentiallyAffectedLabel": "Potentially Affected",
+        "keyFigureHighestRiskLabel": "People at Highest Risk",
         "emergencyKeyFiguresTitle": "Key Figures",
         "emergencyOverviewTitle": "Emergency Overview",
         "operationalTimelineTitle": "Operational Timeline",

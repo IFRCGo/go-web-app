@@ -69,10 +69,12 @@ function EventTimeline(props: Props) {
         );
     }
 
+    const numEvents = timelineRenderEvents.length;
+
     return (
         <div className={styles.eventTimeline}>
             <div className={styles.eventsContainer}>
-                {timelineRenderEvents.map((event) => {
+                {timelineRenderEvents.map((event, i) => {
                     if (event.data.isMarker) {
                         return (
                             <div
@@ -91,7 +93,7 @@ function EventTimeline(props: Props) {
                         <div
                             key={event.data.key}
                             className={styles.event}
-                            style={{ left: `${event.relativePosition}%` }}
+                            style={{ left: `min(${100 - 40 * ((numEvents - i) / numEvents)}%,  max(${40 * (i / numEvents)}%, ${event.relativePosition}%))` }}
                         >
                             <div className={styles.border}>
                                 <div className={styles.highlight} />
@@ -100,7 +102,7 @@ function EventTimeline(props: Props) {
                                 className={styles.content}
                                 layout="block"
                                 withSpacingOpticalCorrection
-                                spacing="2xs"
+                                spacing="xs"
                                 withPadding
                             >
                                 <DateOutput

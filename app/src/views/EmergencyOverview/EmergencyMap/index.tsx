@@ -29,7 +29,7 @@ import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
-type EventItem = GoApiResponse<'/api/v2/event/{id}'>;
+type EventItem = GoApiResponse<'/api/v2/emergency/{id}/'>;
 
 interface Props {
     event: EventItem;

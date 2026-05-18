@@ -2,7 +2,7 @@ import {
     useCallback,
     useMemo,
 } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { DownloadFillIcon } from '@ifrc-go/icons';
 import {
     Container,
@@ -42,15 +42,17 @@ import {
     createRegionListColumn,
     createTitleColumn,
 } from '#utils/domain/tableHelpers';
-import { type EmergencyOutletContext } from '#utils/outletContext';
 import { resolveUrl } from '#utils/resolveUrl';
-import { useRequest } from '#utils/restRequest';
-import { type GoApiResponse } from '#utils/restRequest';
+import {
+    type GoApiResponse,
+    useRequest,
+} from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
+type EventResponse = GoApiResponse<'/api/v2/event/{id}/'>;
 type SituationReportType = NonNullable<NonNullable<GoApiResponse<'/api/v2/situation_report/'>>['results']>[number];
-type FieldReportListItem = NonNullable<NonNullable<NonNullable<EmergencyOutletContext['emergencyResponse']>>['field_reports']>[number] & { regions: Region[] };
+type FieldReportListItem = NonNullable<EventResponse['field_reports']>[number] & { regions: Region[] };
 type AppealDocumentType = NonNullable<NonNullable<GoApiResponse<'/api/v2/appeal_document/'>>['results']>[number];
 
 const PAGE_SIZE = 10;
@@ -59,7 +61,18 @@ const PAGE_SIZE = 10;
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
+    const { emergencyId } = useParams<{ emergencyId: string }>();
+
+    const {
+        response: emergencyResponse,
+    } = useRequest({
+        skip: isNotDefined(emergencyId),
+        url: '/api/v2/event/{id}/',
+        pathVariables: {
+            id: Number(emergencyId),
+        },
+    });
+
     const {
         page: appealDocumentsPage,
         offset: appealDocumentsOffset,

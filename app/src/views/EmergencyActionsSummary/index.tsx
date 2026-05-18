@@ -6,16 +6,11 @@ import {
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import {
-    isDefined,
-    isNotDefined,
-} from '@togglecorp/fujs';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import TabPage from '#components/TabPage';
 import { type OrganizationType } from '#utils/constants';
-import { getLatestFieldReport } from '#utils/domain/emergency';
 import { type EmergencyOutletContext } from '#utils/outletContext';
-import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
@@ -29,18 +24,7 @@ export function Component() {
 
     const strings = useTranslation(i18n);
 
-    const latestFieldReportId = getLatestFieldReport(emergencyResponse?.field_reports)?.id;
-
-    const {
-        pending: latestFieldReportPending,
-        response: latestFieldReport,
-    } = useRequest({
-        skip: isNotDefined(latestFieldReportId),
-        url: '/api/v2/field-report/{id}/',
-        pathVariables: isDefined(latestFieldReportId) ? ({
-            id: latestFieldReportId,
-        }) : undefined,
-    });
+    const latestFieldReport = emergencyResponse?.field_report;
 
     const titleByOrganizationMap: Record<OrganizationType, string> = {
         NTLS: strings.nationalSocietyTitle,
@@ -50,7 +34,7 @@ export function Component() {
     };
 
     return (
-        <TabPage pending={latestFieldReportPending || emergencyResponsePending}>
+        <TabPage pending={emergencyResponsePending}>
             <Container
                 heading={strings.actionsTakenSectionTitle}
                 withHeaderBorder

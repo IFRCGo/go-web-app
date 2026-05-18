@@ -1,14 +1,24 @@
 import { sumSafe } from '@ifrc-go/ui/utils';
 import {
-    compareDate,
+    isDefined,
     isNotDefined,
     max,
 } from '@togglecorp/fujs';
 
+import { type components } from '#generated/types';
+import { DREF_TYPE_IMMINENT } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 type EventResponse = GoApiResponse<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
+
+type EmergencyStage = components['schemas']['ApiEmergencyStageEnumKey'];
+export const STAGE_EMERGENCY_APPEAL = 1 satisfies EmergencyStage;
+export const STAGE_DREF_APPLICATION = 2 satisfies EmergencyStage;
+export const STAGE_OPERATIONAL_UPDATE = 3 satisfies EmergencyStage;
+export const STAGE_FINAL_REPORT = 4 satisfies EmergencyStage;
+export const STAGE_FIELD_REPORT = 5 satisfies EmergencyStage;
+export const STAGE_DREF_APPEAL_ONLY = 6 satisfies EmergencyStage;
 
 export function getNumAffected(event: EventListItem) {
     const latestFieldReport = max(
@@ -22,67 +32,46 @@ export function getNumAffected(event: EventListItem) {
     ]);
 }
 
-type EventItem = GoApiResponse<'/api/v2/event/{id}'>;
-type FieldReport = EventItem['field_reports'][number];
-type Appeal = EventItem['appeals'][number];
+type EmergencyDetail = GoApiResponse<'/api/v2/emergency/{id}/'>;
 
-export function getLatestAppeal(appeals: Appeal[] | undefined) {
-    if (isNotDefined(appeals) || appeals.length === 0) {
+export function getEmergencyMeta(emergency: EmergencyDetail | undefined) {
+    if (isNotDefined(emergency)) {
         return undefined;
     }
 
-    // FIXME(frozenhelium): verify if this is the desired outcome
-    return appeals.toSorted(
-        (a, b) => compareDate(a.start_date, b.start_date),
-    )[0];
-}
+    const {
+        disaster_start_date,
+        appeal,
+        dref,
+        stage,
+    } = emergency;
 
-function getFieldReport(
-    reports: FieldReport[] | undefined,
-    compareFunction: (
-        a?: string,
-        b?: string,
-        direction?: number
-    ) => number,
-    direction?: number,
-): FieldReport | undefined {
-    if (isNotDefined(reports) || reports.length === 0) {
-        return undefined;
-    }
+    const amountRequested = stage === STAGE_DREF_APPLICATION
+        && dref.type_of_dref === DREF_TYPE_IMMINENT
+        ? dref?.total_cost
+        : dref?.amount_requested ?? appeal?.amount_requested ?? dref?.total_cost;
 
-    // FIXME: use max function
-    return reports.reduce((
-        selectedReport: FieldReport | undefined,
-        currentReport: FieldReport | undefined,
-    ) => {
-        if (isNotDefined(selectedReport)
-            || compareFunction(
-                currentReport?.report_date ?? currentReport?.created_at,
-                selectedReport.report_date ?? selectedReport.created_at,
-                direction,
-            ) > 0) {
-            return currentReport;
-        }
-        return selectedReport;
-    }, undefined);
-}
+    const drefPlannedBudget = sumSafe(
+        dref?.planned_interventions?.map(({ budget }) => budget).filter(isDefined),
+    ) ?? dref?.total_cost;
 
-export function getLatestFieldReport(
-    reports: FieldReport[] | undefined,
-): FieldReport | undefined {
-    return getFieldReport(
-        reports,
-        compareDate,
-        1,
-    );
-}
+    const amountFunded = drefPlannedBudget ?? appeal?.amount_funded;
 
-export function getFirstFieldReport(
-    reports: FieldReport[] | undefined,
-): FieldReport | undefined {
-    return getFieldReport(
-        reports,
-        compareDate,
-        -1,
-    );
+    const startDate = dref?.final_report_details?.operation_start_date
+        ?? dref?.operational_update_details?.new_operational_start_date
+        ?? dref?.date_of_approval
+        ?? appeal?.start_date
+        ?? disaster_start_date;
+
+    const endDate = dref?.final_report_details?.operation_end_date
+        ?? dref?.operational_update_details?.new_operational_end_date
+        ?? dref?.end_date
+        ?? appeal?.end_date;
+
+    return {
+        startDate,
+        endDate,
+        amountFunded,
+        amountRequested,
+    };
 }

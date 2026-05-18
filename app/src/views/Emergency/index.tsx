@@ -14,21 +14,18 @@ import {
     KeyFigure,
     Label,
     ListView,
+    Message,
     NavigationTabList,
     ProgressBar,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import {
-    resolveToString,
-    sumSafe,
-} from '@ifrc-go/ui/utils';
+import { resolveToString } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
     listToMap,
 } from '@togglecorp/fujs';
 
-import { APPEAL_TYPE_DREF } from '#components/domain/ActiveOperationMap/utils';
 import Link from '#components/Link';
 import NavigationTab from '#components/NavigationTab';
 import Page from '#components/Page';
@@ -39,7 +36,14 @@ import usePermissions from '#hooks/domain/usePermissions';
 import useRegion from '#hooks/domain/useRegion';
 import useUserMe from '#hooks/domain/useUserMe';
 import { DREF_TYPE_IMMINENT } from '#utils/constants';
-import { getLatestAppeal } from '#utils/domain/emergency';
+import {
+    getEmergencyMeta,
+    STAGE_DREF_APPLICATION,
+    STAGE_EMERGENCY_APPEAL,
+    STAGE_FIELD_REPORT,
+    STAGE_FINAL_REPORT,
+    STAGE_OPERATIONAL_UPDATE,
+} from '#utils/domain/emergency';
 import { type EmergencyOutletContext } from '#utils/outletContext';
 import { resolveUrl } from '#utils/resolveUrl';
 import {
@@ -66,16 +70,18 @@ export function Component() {
 
     const {
         response: emergencyResponse,
+        error: emergencyResponseError,
         pending: emergencyPending,
     } = useRequest({
         // FIXME: need to check if emergencyId can be ''
         skip: isNotDefined(emergencyId),
-        url: '/api/v2/event/{id}/',
+        url: '/api/v2/emergency/{id}/',
         pathVariables: {
             id: Number(emergencyId),
         },
     });
 
+    // FIXME: this can be moved to EmergencySnippet component
     const {
         response: emergencySnippetResponse,
         pending: emergencySnippetPending,
@@ -84,19 +90,6 @@ export function Component() {
         skip: isNotDefined(emergencyId),
         url: '/api/v2/event_snippet/',
         query: {
-            event: Number(emergencyId),
-        },
-    });
-
-    // FIXME: show surge tab for the emergency if there is surge alerts to it
-    // This could be done by adding surge alert count to the emergency instance API in future
-    const {
-        response: surgeAlertsResponse,
-    } = useRequest({
-        url: '/api/v2/surge_alert/',
-        preserveResponse: true,
-        query: {
-            limit: 5,
             event: Number(emergencyId),
         },
     });
@@ -199,8 +192,8 @@ export function Component() {
         ].filter((tabInfo) => tabInfo.snippets.length > 0);
     }, [emergencyResponse, emergencySnippetResponse]);
 
-    const showSurgeTab = (surgeAlertsResponse?.count ?? 0) > 0
-        || (emergencyResponse?.active_deployments ?? 0) > 0;
+    const showSurgeTab = (emergencyResponse?.surge_alerts_count ?? 0) > 0
+        || (emergencyResponse?.active_deployments_count ?? 0) > 0;
 
     const pageTitle = (isDefined(emergencyResponse) && isDefined(emergencyResponse.name))
         ? resolveToString(
@@ -208,165 +201,57 @@ export function Component() {
             { emergencyName: emergencyResponse.name },
         ) : strings.emergencyPageTitleFallback;
 
-    const latestAppeal = getLatestAppeal(emergencyResponse?.appeals);
+    /*
+    const isDref = emergencyResponse?.stage === STAGE_FINAL_REPORT
+        || emergencyResponse?.stage === STAGE_OPERATIONAL_UPDATE
+        || emergencyResponse?.stage === STAGE_DREF_APPLICATION;
+    */
 
-    const emergencyStage = useMemo(() => {
-        if (!emergencyResponse) {
-            return undefined;
-        }
+    /*
+    const isImminentDref = emergencyResponse?.stage === STAGE_DREF_APPLICATION
+        && emergencyResponse.dref.type_of_dref === DREF_TYPE_IMMINENT;
+    */
 
-        const {
-            appeals,
-            field_reports,
-        } = emergencyResponse;
-
-        const hasAppeals = isDefined(appeals) && appeals.length !== 0;
-
-        const hasFieldReports = isDefined(field_reports) && field_reports.length !== 0;
-
-        if (!hasAppeals && !hasFieldReports) {
-            return undefined;
-        }
-
-        if (!hasAppeals) {
-            return 'field-report';
-        }
-
-        if (isNotDefined(latestAppeal)) {
-            return undefined;
-        }
-
-        // FIXME(frozenhelium): add more stages
-        if (latestAppeal?.atype === APPEAL_TYPE_DREF) {
-            return 'dref';
-        }
-
-        return 'emergency-appeal';
-    }, [emergencyResponse, latestAppeal]);
-
-    const { response: activeDrefResponse } = useRequest({
-        skip: emergencyStage !== 'dref' || isNotDefined(latestAppeal?.code),
-        url: '/api/v2/active-dref/',
-        query: isDefined(latestAppeal?.code) ? ({
-            appeal_code: latestAppeal.code,
-        }) : undefined,
-    });
-
-    const currentDref = activeDrefResponse?.results?.[0];
-    const drefStage = useMemo(() => {
-        if (isNotDefined(currentDref)) {
-            return undefined;
-        }
-
-        if (currentDref.has_final_report) {
-            return 'final-report';
-        }
-
-        if (currentDref.has_ops_update) {
-            return 'ops-update';
-        }
-
-        return 'application';
-    }, [currentDref]);
-
-    const { response: drefApplicationResponse } = useRequest({
-        skip: isNotDefined(currentDref?.id),
-        url: '/api/v2/dref/{id}/',
-        pathVariables: isDefined(currentDref?.id) ? ({
-            id: String(currentDref.id),
-        }) : undefined,
-    });
-
-    // FIXME(frozenhelium): verify this logic
-    const latestOpsUpdate = currentDref?.operational_update_details?.[0];
-
-    const { response: drefOpsUpdateResponse } = useRequest({
-        skip: isNotDefined(currentDref?.id) || drefStage === 'application' || isNotDefined(latestOpsUpdate?.id),
-        url: '/api/v2/dref-op-update/{id}/',
-        pathVariables: isDefined(latestOpsUpdate?.id) ? ({
-            id: String(latestOpsUpdate.id),
-        }) : undefined,
-    });
-
-    const finalReport = currentDref?.final_report_details;
-    const { response: drefFinalReportResponse } = useRequest({
-        skip: isNotDefined(currentDref?.id)
-            || drefStage !== 'final-report'
-            || isNotDefined(finalReport?.id),
-        url: '/api/v2/dref-final-report/{id}/',
-        pathVariables: isDefined(finalReport?.id) ? ({
-            id: String(finalReport.id),
-        }) : undefined,
-    });
+    const meta = useMemo(() => (
+        getEmergencyMeta(emergencyResponse)
+    ), [emergencyResponse]);
 
     const outletContext = useMemo<EmergencyOutletContext>(
         () => ({
             emergencyResponse,
             emergencyAdditionalTabs,
-            emergencyStage,
             emergencyResponsePending: emergencyPending,
-            activeDrefOperation: currentDref,
-            drefStage,
-            drefApplication: drefApplicationResponse,
-            drefOpsUpdate: drefOpsUpdateResponse,
-            drefFinalReport: drefFinalReportResponse,
         }),
         [
             emergencyResponse,
             emergencyAdditionalTabs,
-            emergencyStage,
             emergencyPending,
-            currentDref,
-            drefStage,
-            drefApplicationResponse,
-            drefOpsUpdateResponse,
-            drefFinalReportResponse,
         ],
     );
 
-    const peopleTargeted = sumSafe(
-        emergencyResponse?.appeals.map(
-            (appeal) => appeal.num_beneficiaries,
-        ),
-    );
-    const fundingRequirements = sumSafe(
-        emergencyResponse?.appeals.map(
-            (appeal) => appeal.amount_requested,
-        ),
-    );
-
-    const funding = sumSafe(
-        emergencyResponse?.appeals.map(
-            (appeal) => appeal.amount_funded,
-        ),
-    );
+    const peopleTargeted = emergencyResponse?.appeal?.num_beneficiaries;
 
     const hasResponseActivity = isDefined(emergencyResponse?.response_activity_count)
         && emergencyResponse.response_activity_count > 0;
 
-    const operationTypeLabel = useMemo(() => {
-        if (latestAppeal?.atype !== APPEAL_TYPE_DREF) {
-            return latestAppeal?.atype_display;
-        }
+    if (isDefined(emergencyResponseError)) {
+        // FIXME: we need to implement error display in Page itself
+        return (
+            <Page title={pageTitle}>
+                <Message
+                    errored
+                    // FIXME: use translations
+                    erroredTitle="Failed to load the Emergency details."
+                    erroredDescription={emergencyResponseError.value.messageForNotification}
+                />
+            </Page>
+        );
+    }
 
-        if (drefStage === 'application') {
-            if (drefApplicationResponse?.type_of_dref === DREF_TYPE_IMMINENT) {
-                return strings.operationLabelImminentDref;
-            }
-
-            return strings.operationLabelDref;
-        }
-
-        if (drefStage === 'ops-update') {
-            return strings.operationLabelOpsUpdate;
-        }
-
-        if (drefStage === 'final-report') {
-            return strings.operationLabelFinalReport;
-        }
-
-        return '--';
-    }, [latestAppeal, drefStage, drefApplicationResponse, strings]);
+    // FIXME: use translations
+    const stageDisplay = (emergencyResponse?.stage === STAGE_DREF_APPLICATION
+        && emergencyResponse.dref.type_of_dref === DREF_TYPE_IMMINENT
+    ) ? 'Imminent DREF' : emergencyResponse?.stage_display;
 
     return (
         <Page
@@ -433,69 +318,75 @@ export function Component() {
                     </Link>
                 </>
             )}
-            info={emergencyStage !== 'field-report' && (
-                <ListView
-                    layout="grid"
-                    numPreferredGridColumns={3}
-                >
-                    <Container
-                        withPadding
-                        withShadow
-                        withBackground
+            info={isDefined(emergencyResponse?.stage)
+                && emergencyResponse.stage !== STAGE_FIELD_REPORT
+                && (
+                    <ListView
+                        layout="grid"
+                        numPreferredGridColumns={3}
                     >
-                        <ListView withSpaceBetweenContents>
+                        <Container
+                            withPadding
+                            withShadow
+                            withBackground
+                        >
+                            <ListView withSpaceBetweenContents>
+                                <Label>
+                                    {strings.operationTimelineLabel}
+                                </Label>
+                                <Label strong>
+                                    {stageDisplay}
+                                </Label>
+                            </ListView>
+                            <TimelineProgressBar
+                                startDate={meta?.startDate}
+                                endDate={meta?.endDate}
+                            />
+                        </Container>
+                        <Container
+                            withPadding
+                            withShadow
+                            withBackground
+                        >
                             <Label>
-                                {strings.operationTimelineLabel}
+                                {strings.emergencyFundingRequirementsLabel}
                             </Label>
-                            <Label strong>
-                                {operationTypeLabel}
+                            <ProgressBar
+                                totalValue={meta?.amountRequested}
+                                value={meta?.amountFunded}
+                            />
+                            <ListView withCenteredContents>
+                                <KeyFigure
+                                    value={meta?.amountRequested}
+                                    valueType="number"
+                                    valueOptions={{ compact: true }}
+                                />
+                            </ListView>
+                        </Container>
+                        <Container
+                            withPadding
+                            withShadow
+                            withBackground
+                        >
+                            <Label>
+                                {strings.emergencyPeopleTargetedLabel}
                             </Label>
-                        </ListView>
-                        <TimelineProgressBar
-                            startDate={latestAppeal?.start_date}
-                            endDate={latestAppeal?.end_date}
-                        />
-                    </Container>
-                    <Container
-                        withPadding
-                        withShadow
-                        withBackground
-                    >
-                        <Label>
-                            {strings.emergencyFundingRequirementsLabel}
-                        </Label>
-                        <ProgressBar
-                            totalValue={fundingRequirements}
-                            value={funding}
-                        />
-                        <ListView withCenteredContents>
-                            <KeyFigure
-                                value={fundingRequirements}
-                                valueType="number"
-                                valueOptions={{ compact: true }}
-                            />
-                        </ListView>
-                    </Container>
-                    <Container
-                        withPadding
-                        withShadow
-                        withBackground
-                    >
-                        <Label>
-                            {strings.emergencyPeopleTargetedLabel}
-                        </Label>
-                        <ListView withCenteredContents>
-                            <KeyFigure
-                                value={peopleTargeted}
-                                valueType="number"
-                                valueOptions={{ compact: true }}
-                            />
-                        </ListView>
-                    </Container>
-                </ListView>
-            )}
+                            <ListView withCenteredContents>
+                                <KeyFigure
+                                    value={peopleTargeted}
+                                    valueType="number"
+                                    valueOptions={{ compact: true }}
+                                />
+                            </ListView>
+                        </Container>
+                    </ListView>
+                )}
             contentOriginalLanguage={emergencyResponse?.translation_module_original_language}
-            headerBackgroundUrl={drefApplicationResponse?.cover_image_file?.file}
+            headerBackgroundUrl={
+                emergencyResponse?.dref?.final_report_details?.cover_image_file?.file
+                    ?? emergencyResponse?.dref?.operational_update_details?.cover_image_file?.file
+                    ?? emergencyResponse?.dref?.cover_image_file?.file
+            }
         >
             <NavigationTabList>
                 <NavigationTab
@@ -504,7 +395,7 @@ export function Component() {
                 >
                     {strings.emergencyTabDetails}
                 </NavigationTab>
-                {emergencyStage === 'field-report' && (
+                {emergencyResponse?.stage === STAGE_FIELD_REPORT && (
                     <NavigationTab
                         to="emergencyActionsSummary"
                         urlParams={{ emergencyId }}
@@ -512,7 +403,10 @@ export function Component() {
                         {strings.emergencyTabActionsSummary}
                     </NavigationTab>
                 )}
-                {emergencyStage === 'dref' && (
+                {(emergencyResponse?.stage === STAGE_DREF_APPLICATION
+                    || emergencyResponse?.stage === STAGE_OPERATIONAL_UPDATE
+                    || emergencyResponse?.stage === STAGE_FINAL_REPORT
+                ) && (
                     <NavigationTab
                         to="emergencyOperationStrategy"
                         urlParams={{ emergencyId }}
@@ -520,7 +414,7 @@ export function Component() {
                         {strings.emergencyTabOperationStrategy}
                     </NavigationTab>
                 )}
-                {(emergencyStage === 'emergency-appeal' || emergencyStage === 'dref') && (
+                {isDefined(emergencyResponse) && emergencyResponse.stage !== STAGE_FIELD_REPORT && (
                     <>
                         <NavigationTab
                             to="emergencyDocuments"
@@ -538,7 +432,7 @@ export function Component() {
                         )}
                     </>
                 )}
-                {emergencyStage === 'emergency-appeal' && hasResponseActivity && (
+                {emergencyResponse?.stage === STAGE_EMERGENCY_APPEAL && hasResponseActivity && (
                     <NavigationTab
                         to="emergencyActivities"
                         urlParams={{ emergencyId }}

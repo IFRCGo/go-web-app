@@ -2,29 +2,29 @@ import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
+    DateOutput,
     Description,
     HtmlOutput,
     InfoPopup,
     InlineLayout,
     KeyFigureView,
+    Label,
     ListView,
     Message,
     TextOutput,
+    Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     compareDate,
     isDefined,
+    isFalsyString,
     isNotDefined,
     isTruthyString,
     listToGroupList,
     listToMap,
 } from '@togglecorp/fujs';
 
-import {
-    APPEAL_TYPE_DREF,
-    APPEAL_TYPE_EMERGENCY,
-} from '#components/domain/ActiveOperationMap/utils';
 import EmergencyLessonsLearnedFromPreviousOperations from '#components/domain/EmergencyLessonsLearnedFromPreviousOperations';
 import SeverityIndicator from '#components/domain/SeverityIndicator';
 import EventTimeline, { type EventTimelineItem } from '#components/EventTimeline';
@@ -32,14 +32,20 @@ import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 import useDisasterType from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import { DREF_TYPE_IMMINENT } from '#utils/constants';
 import {
-    getFirstFieldReport,
-    getLatestAppeal,
-    getLatestFieldReport,
+    DREF_TYPE_IMMINENT,
+    FIELD_REPORT_STATUS_EARLY_WARNING,
+    FIELD_REPORT_STATUS_EVENT,
+} from '#utils/constants';
+import {
+    STAGE_DREF_APPEAL_ONLY,
+    STAGE_DREF_APPLICATION,
+    STAGE_EMERGENCY_APPEAL,
+    STAGE_FIELD_REPORT,
+    STAGE_FINAL_REPORT,
+    STAGE_OPERATIONAL_UPDATE,
 } from '#utils/domain/emergency';
 import { type EmergencyOutletContext } from '#utils/outletContext';
-import { useRequest } from '#utils/restRequest';
 
 import EmergencyMap from './EmergencyMap';
 
@@ -53,12 +59,6 @@ export function Component() {
     const {
         emergencyResponse,
         emergencyResponsePending,
-        emergencyStage,
-        activeDrefOperation,
-        drefStage,
-        drefApplication,
-        drefOpsUpdate,
-        drefFinalReport: drefFinaReport,
     } = useOutletContext<EmergencyOutletContext>();
     const {
         api_request_choices,
@@ -85,30 +85,32 @@ export function Component() {
 
     const disasterType = disasterTypes?.find(
         (typeOfDisaster) => typeOfDisaster.id === emergencyResponse?.dtype,
-    );
+    ) ?? emergencyResponse?.dref.disaster_type_details;
 
-    // FIXME(frozenhelium): verify if this is correct
-    const mdrCode = isDefined(emergencyResponse)
-        && isDefined(emergencyResponse?.appeals)
-        && emergencyResponse.appeals.length > 0
-        ? emergencyResponse?.appeals[0]?.code : undefined;
+    const mdrCode = emergencyResponse?.appeal?.code
+        ?? emergencyResponse?.dref?.appeal_code;
 
-    const firstFieldReport = getFirstFieldReport(emergencyResponse?.field_reports);
-    const assistanceIsRequestedByNS = firstFieldReport?.ns_request_assistance;
-    const assistanceIsRequestedByCountry = firstFieldReport?.request_assistance;
-    const latestFieldReport = getLatestFieldReport(emergencyResponse?.field_reports);
-    const latestAppeal = getLatestAppeal(emergencyResponse?.appeals);
+    const latestFieldReport = emergencyResponse?.field_report;
 
-    const {
-        pending: latestFullFieldReportPending,
-        response: latestFullFieldReport,
-    } = useRequest({
-        skip: isNotDefined(latestFieldReport),
-        url: '/api/v2/field-report/{id}/',
-        pathVariables: isDefined(latestFieldReport?.id) ? ({
-            id: latestFieldReport.id,
-        }) : undefined,
-    });
+    const latestAppeal = emergencyResponse?.appeal;
+    const dref = emergencyResponse?.dref;
+    const drefOpsUpdate = dref?.operational_update_details;
+    const drefFinalReport = dref?.final_report_details;
+
+    const stage = emergencyResponse?.stage;
+    const isFieldReportStage = stage === STAGE_FIELD_REPORT;
+    // STAGE_DREF_APPEAL_ONLY behaves like Emergency Appeal — no embedded DREF data is available.
+    // FIXME: variable name should be more generic
+    const isEmergencyAppealStage = stage === STAGE_EMERGENCY_APPEAL
+        || stage === STAGE_DREF_APPEAL_ONLY;
+    const isDrefStage = stage === STAGE_DREF_APPLICATION
+        || stage === STAGE_OPERATIONAL_UPDATE
+        || stage === STAGE_FINAL_REPORT;
+
+    // The new endpoint encodes the first field report's assistance flags on the
+    // attached field_report via `first_fr_*` fields.
+    const assistanceIsRequestedByNS = latestFieldReport?.first_fr_ns_request_assistance;
+    const assistanceIsRequestedByCountry = latestFieldReport?.first_fr_request_assistance;
 
     const emergencyContacts = emergencyResponse?.contacts;
 
@@ -138,6 +140,7 @@ export function Component() {
                     },
                 ).filter(isDefined) ?? [],
                 (contact) => (
+                    // FIXME: this logic can be improved
                     contact.email.endsWith('ifrc.org')
                         ? 'IFRC'
                         : 'National Societies'
@@ -150,34 +153,77 @@ export function Component() {
 
     const timelineEvents = useMemo(
         () => {
-            if (emergencyStage === 'field-report') {
+            if (isFieldReportStage) {
                 return undefined;
             }
 
             const events: EventTimelineItem[] = [];
 
-            if (isDefined(firstFieldReport)
-                && firstFieldReport?.id !== latestFieldReport?.id
-                && isDefined(firstFieldReport.report_date)
+            if (dref?.type_of_dref === DREF_TYPE_IMMINENT
+                && isDefined(dref.date_of_approval)
             ) {
                 events.push({
-                    key: `fr-${firstFieldReport.id}`,
-                    date: new Date(firstFieldReport.report_date),
-                    // FIXME: use strings
-                    label: 'First Field Report',
+                    key: `imminent-dref-start-${dref.id}`,
+                    date: new Date(dref.date_of_approval),
+                    label: (
+                        <>
+                            <Label strong>
+                                Start of Imminent DREF
+                            </Label>
+                            <Link
+                                to="drefApplicationForm"
+                                urlParams={{ drefId: dref.id }}
+                                withLinkIcon
+                                withUnderline
+                            >
+                                DREF Application
+                            </Link>
+                        </>
+                    ),
                 });
             }
 
-            if (isDefined(latestFieldReport) && isDefined(latestFieldReport.report_date)) {
+            if (dref?.type_of_dref === DREF_TYPE_IMMINENT
+                && emergencyResponse?.stage === STAGE_DREF_APPLICATION
+                && isDefined(dref.hazard_date)
+            ) {
                 events.push({
-                    key: `fr-${latestFieldReport.id}`,
-                    date: new Date(latestFieldReport.report_date),
-                    // FIXME: use strings
-                    label: 'Last Field Report',
+                    key: `event-forecasted-${dref.id}`,
+                    date: new Date(dref.hazard_date),
+                    label: (
+                        <Label strong>
+                            Forecasted event
+                        </Label>
+                    ),
                 });
             }
 
-            if (latestAppeal?.atype === APPEAL_TYPE_EMERGENCY) {
+            emergencyResponse?.timeline_field_reports.forEach((fr) => {
+                if (isDefined(fr.report_date)) {
+                    events.push({
+                        key: `fr-${fr.id}`,
+                        date: new Date(fr.report_date),
+                        label: (
+                            <>
+                                <Label>
+                                    {`Field Report #${fr.fr_num ?? 1}`}
+                                </Label>
+                                <Link
+                                    to="fieldReportDetails"
+                                    urlParams={{ fieldReportId: fr.id }}
+                                    withUnderline
+                                    withLinkIcon
+                                    // FIXME: use strings
+                                >
+                                    View report
+                                </Link>
+                            </>
+                        ),
+                    });
+                }
+            });
+
+            if (isEmergencyAppealStage) {
                 if (isDefined(emergencyResponse)
                     && isDefined(emergencyResponse.disaster_start_date)
                 ) {
@@ -189,7 +235,7 @@ export function Component() {
                     });
                 }
 
-                if (isDefined(latestAppeal.start_date)) {
+                if (isDefined(latestAppeal?.start_date)) {
                     events.push({
                         key: `ea-start-${latestAppeal.id}`,
                         date: new Date(latestAppeal.start_date),
@@ -198,7 +244,7 @@ export function Component() {
                     });
                 }
 
-                if (isDefined(latestAppeal.end_date)) {
+                if (isDefined(latestAppeal?.end_date)) {
                     events.push({
                         key: `ea-end-${latestAppeal.id}`,
                         date: new Date(latestAppeal.end_date),
@@ -208,87 +254,120 @@ export function Component() {
                 }
             }
 
-            if (latestAppeal?.atype === APPEAL_TYPE_DREF && isDefined(activeDrefOperation)) {
-                const {
-                    id,
-                    date_of_approval,
-                    has_ops_update,
-                    operational_update_details,
-                    has_final_report,
-                    final_report_details,
-                } = activeDrefOperation;
+            if (isDrefStage && isDefined(dref)) {
+                if (dref?.type_of_dref !== DREF_TYPE_IMMINENT && isDefined(dref?.event_date)) {
+                    events.push({
+                        key: `dref-event-start-${dref.id}`,
+                        date: new Date(dref.event_date),
+                        // FIXME: use strings
+                        label: (
+                            <Label strong>
+                                Beginning of the Disaster
+                            </Label>
+                        ),
+                    });
+                }
 
-                if (isDefined(drefApplication)) {
-                    const {
-                        type_of_dref,
-                        event_date,
-                        hazard_date,
-                    } = drefApplication;
+                if (isDefined(dref?.date_of_approval)) {
+                    events.push({
+                        key: `dref-operation-start-${dref.id}`,
+                        date: new Date(dref.date_of_approval),
+                        label: (
+                            <Label strong>
+                                Start of Operation
+                            </Label>
+                        ),
+                    });
+                }
 
-                    if (type_of_dref !== DREF_TYPE_IMMINENT && isDefined(event_date)) {
+                dref.timeline_operational_updates.forEach((opsUpdate) => {
+                    if (isDefined(opsUpdate.date_of_approval)) {
                         events.push({
-                            key: `dref-application-event-start-${id}`,
-                            date: new Date(event_date),
+                            key: `dref-operation-update-${opsUpdate.id}`,
+                            date: new Date(opsUpdate.date_of_approval),
                             // FIXME: use strings
-                            label: 'Beginning of the Disaster',
+                            label: (
+                                <>
+                                    <Label>
+                                        {`Operational Update #${opsUpdate.operational_update_number}`}
+                                    </Label>
+                                    <Tooltip
+                                        description={(
+                                            <Container
+                                                heading={(
+                                                    <DateOutput
+                                                        value={opsUpdate.date_of_approval}
+                                                    />
+                                                )}
+                                                withHeaderBorder
+                                            >
+                                                <TextOutput
+                                                    // FIXME: use strings
+                                                    label="Targeted Population"
+                                                    value={opsUpdate.total_targeted_population}
+                                                    valueType="number"
+                                                    strongValue
+                                                />
+                                                <TextOutput
+                                                    // FIXME: use strings
+                                                    label="Funding Requirements"
+                                                    value={opsUpdate.total_dref_allocation}
+                                                    valueType="number"
+                                                    strongValue
+                                                />
+                                                <Description>
+                                                    {opsUpdate.summary_of_change}
+                                                </Description>
+                                            </Container>
+                                        )}
+                                    />
+                                </>
+                            ),
                         });
                     }
+                });
 
-                    if (type_of_dref === DREF_TYPE_IMMINENT && isDefined(hazard_date)) {
-                        events.push({
-                            key: `dref-application-event-start-${id}`,
-                            date: new Date(hazard_date),
-                            // FIXME: use strings
-                            label: 'Beginning of the Disaster',
-                        });
-                    }
-                }
-
-                if (isDefined(date_of_approval)) {
-                    events.push({
-                        key: `dref-application-approved-${id}`,
-                        date: new Date(date_of_approval),
-                        // FIXME: use strings
-                        label: 'Start of Operation',
-                    });
-                }
-
-                if (has_ops_update && operational_update_details.length > 0) {
-                    operational_update_details.toReversed().forEach((opsUpdate, i) => {
-                        // FIXME(frozenhelium): we need date_of_approval or updated_at here
-                        if (isDefined(opsUpdate.created_at)) {
-                            events.push({
-                                key: `ops-update-${opsUpdate.id}`,
-                                date: new Date(opsUpdate.created_at),
-                                // FIXME: use strings
-                                label: `Operational Update #${i + 1}`,
-                            });
-                        }
-                    });
-                }
-
-                if (has_final_report
-                    && isDefined(final_report_details)
-                    && final_report_details.created_at
-                ) {
-                    // FIXME(frozenhelium): we need date_of_approval or updated_at here
-                    events.push({
-                        key: `final-report-${final_report_details.id}`,
-                        date: new Date(final_report_details.created_at),
-                        // FIXME: use strings
-                        label: 'DREF Final Report',
-                    });
-                }
-
-                const endDate = drefFinaReport?.operation_end_date
+                const endDate = drefFinalReport?.operation_end_date
                     ?? drefOpsUpdate?.new_operational_end_date
-                    ?? drefApplication?.end_date;
+                    ?? dref.end_date;
 
                 if (isDefined(endDate)) {
                     events.push({
                         key: 'end-of-dref-operations',
                         date: new Date(endDate),
-                        label: 'End of Operation',
+                        // FIXME: use strings
+                        label: (
+                            <Label strong>
+                                End of Operation
+                            </Label>
+                        ),
+                    });
+                }
+
+                const lastFinalReportUpdate = drefFinalReport?.date_of_approval
+                    ?? drefFinalReport?.modified_at;
+
+                if (isDefined(drefFinalReport) && isDefined(lastFinalReportUpdate)) {
+                    events.push({
+                        key: `final-report-${drefFinalReport.id}`,
+                        date: new Date(lastFinalReportUpdate),
+                        // FIXME: use strings
+                        label: (
+                            <>
+                                <Label strong>
+                                    DREF Final Report
+                                </Label>
+                                <Link
+                                    to="drefFinalReportForm"
+                                    urlParams={{ finalReportId: drefFinalReport.id }}
+                                    withLinkIcon
+                                    withUnderline
+                                    // FIXME: use strings
+                                >
+                                    View report
+                                </Link>
+                            </>
+                        ),
                     });
                 }
             }
@@ -296,19 +375,51 @@ export function Component() {
             return events.toSorted((a, b) => compareDate(a.date, b.date));
         },
         [
-            emergencyStage,
+            isFieldReportStage,
+            isEmergencyAppealStage,
+            isDrefStage,
             latestAppeal,
             emergencyResponse,
-            firstFieldReport,
-            latestFieldReport,
-            activeDrefOperation,
-            drefApplication,
+            dref,
             drefOpsUpdate,
-            drefFinaReport,
+            drefFinalReport,
         ],
     );
 
     const country = emergencyResponse?.countries?.[0];
+
+    const startDate = isFieldReportStage
+        ? latestFieldReport?.start_date
+        : emergencyResponse?.disaster_start_date;
+
+    const lfrDisasterTypeName = latestFieldReport?.dtype?.name;
+
+    const numInjured = emergencyResponse?.num_injured
+        ?? latestFieldReport?.num_injured
+        ?? latestFieldReport?.gov_num_injured
+        ?? latestFieldReport?.other_num_injured;
+    const numDead = emergencyResponse?.num_dead
+        ?? latestFieldReport?.num_dead
+        ?? latestFieldReport?.gov_num_dead
+        ?? latestFieldReport?.other_num_dead;
+    const numMissing = emergencyResponse?.num_missing
+        ?? latestFieldReport?.num_missing
+        ?? latestFieldReport?.gov_num_missing
+        ?? latestFieldReport?.other_num_missing;
+    const numAffected = emergencyResponse?.num_affected
+        ?? latestFieldReport?.num_affected
+        ?? latestFieldReport?.gov_num_affected
+        ?? latestFieldReport?.other_num_affected;
+    const numDisplaced = emergencyResponse?.num_displaced
+        ?? latestFieldReport?.num_displaced
+        ?? latestFieldReport?.gov_num_displaced
+        ?? latestFieldReport?.other_num_displaced;
+    const numPotentiallyAffected = latestFieldReport?.num_potentially_affected
+        ?? latestFieldReport?.gov_num_potentially_affected
+        ?? latestFieldReport?.other_num_potentially_affected;
+    const numHighestRisk = latestFieldReport?.num_highest_risk
+        ?? latestFieldReport?.gov_num_highest_risk
+        ?? latestFieldReport?.other_num_highest_risk;
 
     if (isNotDefined(emergencyResponse)) {
         return (
@@ -319,8 +430,35 @@ export function Component() {
     }
 
     return (
-        <TabPage pending={latestFullFieldReportPending}>
-            {(emergencyStage === 'field-report' || emergencyStage === 'emergency-appeal') && (
+        <TabPage>
+            {isFieldReportStage
+                && latestFieldReport?.status === FIELD_REPORT_STATUS_EARLY_WARNING && (
+                <Container
+                    heading={strings.emergencyKeyFiguresTitle}
+                    withHeaderBorder
+                >
+                    <ListView
+                        layout="grid"
+                        numPreferredGridColumns={2}
+                        spacing="sm"
+                    >
+                        <KeyFigureView
+                            label={strings.keyFigurePotentiallyAffectedLabel}
+                            value={numPotentiallyAffected}
+                            valueType="number"
+                            withShadow
+                        />
+                        <KeyFigureView
+                            label={strings.keyFigureHighestRiskLabel}
+                            value={numHighestRisk}
+                            valueType="number"
+                            withShadow
+                        />
+                    </ListView>
+                </Container>
+            )}
+            {((isFieldReportStage && latestFieldReport?.status === FIELD_REPORT_STATUS_EVENT)
+                || isEmergencyAppealStage) && (
                 <Container
                     heading={strings.emergencyKeyFiguresTitle}
                     withHeaderBorder
@@ -332,38 +470,38 @@ export function Component() {
                     >
                         <KeyFigureView
                             label={strings.keyFigureInjuredLabel}
-                            value={latestFieldReport?.num_injured}
+                            value={numInjured}
                             valueType="number"
                             withShadow
                         />
                         <KeyFigureView
                             label={strings.keyFigureDeadLabel}
-                            value={latestFieldReport?.num_dead}
+                            value={numDead}
                             valueType="number"
                             withShadow
                         />
                         <KeyFigureView
                             label={strings.keyFigureMissingLabel}
-                            value={latestFieldReport?.num_missing}
+                            value={numMissing}
                             valueType="number"
                             withShadow
                         />
                         <KeyFigureView
                             label={strings.keyFigureAffectedLabel}
-                            value={latestFieldReport?.num_affected}
+                            value={numAffected}
                             valueType="number"
                             withShadow
                         />
                         <KeyFigureView
                             label={strings.keyFigureDisplacedLabel}
-                            value={latestFieldReport?.num_displaced}
+                            value={numDisplaced}
                             valueType="number"
                             withShadow
                         />
                     </ListView>
                 </Container>
             )}
-            {emergencyStage !== 'field-report' && (
+            {!isFieldReportStage && (
                 <InlineLayout
                     after={(
                         <ListView
@@ -377,7 +515,8 @@ export function Component() {
                             />
                             <TextOutput
                                 label={strings.GLIDENumber}
-                                value={emergencyResponse?.glide}
+                                value={emergencyResponse?.glide
+                                    ?? emergencyResponse?.dref?.glide_code}
                                 strongValue
                             />
                         </ListView>
@@ -391,7 +530,7 @@ export function Component() {
                 <ListView
                     layout="grid"
                     withSpacingOpticalCorrection
-                    numPreferredGridColumns={emergencyStage === 'dref' ? 2 : 3}
+                    numPreferredGridColumns={isDrefStage ? 2 : 3}
                 >
                     <ListView layout="block">
                         <TextOutput
@@ -401,19 +540,14 @@ export function Component() {
                         />
                         <TextOutput
                             label={strings.disasterType}
-                            value={disasterType?.name}
+                            value={isFieldReportStage ? lfrDisasterTypeName : disasterType?.name}
                             strongValue
                         />
-                        {emergencyStage !== 'field-report' && (
+                        {!isFieldReportStage && (
                             <>
                                 <TextOutput
                                     label={strings.overviewOperationTypeLabel}
-                                    value={[
-                                        latestAppeal?.atype_display,
-                                        latestAppeal?.atype === APPEAL_TYPE_DREF && drefStage === 'application' && drefApplication?.type_of_dref_display,
-                                        latestAppeal?.atype === APPEAL_TYPE_DREF && drefStage === 'ops-update' && drefOpsUpdate?.type_of_dref_display,
-                                        latestAppeal?.atype === APPEAL_TYPE_DREF && drefStage === 'final-report' && drefFinaReport?.type_of_dref_display,
-                                    ].filter(Boolean).join(', ')}
+                                    value={emergencyResponse?.stage_display}
                                     strongValue
                                 />
                                 <TextOutput
@@ -454,22 +588,22 @@ export function Component() {
                         <TextOutput
                             label={strings.startDate}
                             valueType="date"
-                            value={emergencyResponse?.disaster_start_date}
+                            value={startDate}
                             strongValue
                         />
-                        {emergencyStage === 'field-report' && isDefined(latestFullFieldReport) && (
+                        {isFieldReportStage && (
                             <>
                                 <TextOutput
                                     label={strings.overviewDREFLabel}
-                                    value={isDefined(latestFullFieldReport.dref)
-                                        ? requestMap?.[latestFullFieldReport.dref]
+                                    value={isDefined(latestFieldReport?.dref)
+                                        ? requestMap?.[latestFieldReport.dref]
                                         : undefined}
                                     strongValue
                                 />
                                 <TextOutput
                                     label={strings.overviewEmergencyAppealLabel}
-                                    value={isDefined(latestFullFieldReport.appeal)
-                                        ? requestMap?.[latestFullFieldReport.appeal]
+                                    value={isDefined(latestFieldReport?.appeal)
+                                        ? requestMap?.[latestFieldReport.appeal]
                                         : undefined}
                                     strongValue
                                 />
@@ -483,7 +617,7 @@ export function Component() {
                             strongValue
                         />
                     </ListView>
-                    {emergencyStage !== 'dref' && (
+                    {!isDrefStage && (
                         <ListView layout="block">
                             <TextOutput
                                 label={strings.assistanceRequestedByGovernment}
@@ -517,13 +651,17 @@ export function Component() {
                 withHeaderBorder
             >
                 {/* FIXME(frozenhelium): handle condition where there is no summary */}
-                <ListView layout="grid">
-                    {emergencyStage === 'dref' && (
+                <ListView
+                    layout="grid"
+                    numPreferredGridColumns={(isDrefStage && isFalsyString(dref?.event_scope))
+                        || (!isDrefStage && isFalsyString(emergencyResponse.summary)) ? 1 : 2}
+                >
+                    {isDrefStage && (
                         <Description>
-                            {drefApplication?.event_scope}
+                            {dref?.event_scope}
                         </Description>
                     )}
-                    {emergencyStage !== 'dref' && (
+                    {!isDrefStage && (
                         <HtmlOutput
                             value={emergencyResponse.summary}
                         />
@@ -531,7 +669,7 @@ export function Component() {
                     <EmergencyMap event={emergencyResponse} />
                 </ListView>
             </Container>
-            {emergencyStage === 'field-report'
+            {isFieldReportStage
                 && isDefined(emergencyResponse)
                 && isDefined(emergencyResponse.dtype)
                 && isDefined(country) && (

@@ -1,6 +1,6 @@
 .event-timeline {
     --event-height: 12rem;
-    --event-width: 14rem;
+    --event-width: 10rem;
 
     position: relative;
 
@@ -12,6 +12,7 @@
         width: calc(100% - var(--event-width));
         height: calc(2 * var(--event-height));
         isolation: isolate;
+        line-height: 1;
 
         .event {
             --event-border-width: var(--go-ui-width-separator-md);
@@ -71,19 +72,16 @@
 
             .content {
                 width: 100%;
-            }
 
-            &:hover {
-                z-index: 1;
-                background-color: unset;
-
-                /*
-                .content {
+                &:hover {
                     border-radius: var(--go-ui-border-radius-md);
                     box-shadow: var(--go-ui-box-shadow-sm);
                     background-color: rgba(255, 255, 255, .8);
                 }
-                */
+            }
+
+            &:has(.content:hover) {
+                z-index: 1;
             }
         }
 
