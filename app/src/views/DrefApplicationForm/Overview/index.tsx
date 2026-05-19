@@ -47,7 +47,7 @@ import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import DrefShareModal from '#components/domain/DrefShareModal';
-import { type FieldReportItem as FieldReportSearchItem } from '#components/domain/FieldReportSearchSelectInput';
+import { type EventItem as EventSearchItem } from '#components/domain/EventSearchSelectInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
@@ -80,7 +80,7 @@ import {
     TYPE_LOAN,
 } from '../common';
 import { type PartialDref } from '../schema';
-import CopyFieldReportSection from './CopyFieldReportSection';
+import EventInputSection from './EventInputSection';
 
 import i18n from './i18n.json';
 
@@ -113,8 +113,8 @@ interface Props {
     districtOptions: DistrictItem[] | null | undefined;
     setDistrictOptions: Dispatch<SetStateAction<DistrictItem[] | null | undefined>>;
 
-    fieldReportOptions: FieldReportSearchItem[] | null | undefined;
-    setFieldReportOptions: Dispatch<SetStateAction<FieldReportSearchItem[] | null | undefined>>;
+    eventOptions: EventSearchItem[] | null | undefined;
+    setEventOptions: Dispatch<SetStateAction<EventSearchItem[] | null | undefined>>;
 }
 
 const userKeySelector = (item: User) => item.id;
@@ -131,8 +131,8 @@ function Overview(props: Props) {
         disabled,
         districtOptions,
         setDistrictOptions,
-        fieldReportOptions,
-        setFieldReportOptions,
+        eventOptions,
+        setEventOptions,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -317,17 +317,15 @@ function Overview(props: Props) {
                             readOnly={readOnly}
                         />
                     </InputSection>
-                    {value?.type_of_dref !== TYPE_LOAN && (
-                        <CopyFieldReportSection
-                            value={value}
-                            setFieldValue={setFieldValue}
-                            disabled={disabled}
-                            setDistrictOptions={setDistrictOptions}
-                            fieldReportOptions={fieldReportOptions}
-                            setFieldReportOptions={setFieldReportOptions}
-                            readOnly={readOnly}
-                        />
-                    )}
+                    <EventInputSection
+                        value={value}
+                        setFieldValue={setFieldValue}
+                        disabled={disabled}
+                        setDistrictOptions={setDistrictOptions}
+                        eventOptions={eventOptions}
+                        setEventOptions={setEventOptions}
+                        readOnly={readOnly}
+                    />
                     <InputSection
                         title={strings.drefFormDrefTypeTitle}
                         numPreferredColumns={2}

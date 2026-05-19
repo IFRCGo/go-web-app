@@ -334,6 +334,8 @@ function ActiveDrefTable(props: Props) {
                         country_details,
                         is_dref_imminent_v2,
                         starting_language,
+                        country,
+                        event,
                     } = originalDref;
 
                     const is_published = status === DREF_STATUS_APPROVED;
@@ -357,6 +359,8 @@ function ActiveDrefTable(props: Props) {
                         ? userRegionCoordinatorMap?.[drefRegion] ?? false
                         : false;
 
+                    const countryId = isDefined(country) ? country : undefined;
+
                     return {
                         id,
                         drefId: originalDref.id,
@@ -369,6 +373,8 @@ function ActiveDrefTable(props: Props) {
                         hasPermissionToApprove: isRegionCoordinator || userMe?.is_superuser,
                         onPublishSuccess: refetchActiveDref,
                         startingLanguage: starting_language as Language,
+                        countryId,
+                        event,
                     };
                 },
             ),

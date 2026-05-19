@@ -15,6 +15,7 @@ import {
 import type { ButtonProps } from '@ifrc-go/ui';
 import {
     Button,
+    Description,
     ListView,
     Message,
     Modal,
@@ -27,19 +28,26 @@ import {
     useTranslation,
 } from '@ifrc-go/ui/hooks';
 import {
+    resolveToComponent,
     resolveToString,
+    stringDescriptionSelector,
+    stringKeySelector,
     stringLabelSelector,
 } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
+    unique,
 } from '@togglecorp/fujs';
 
 import DrefExportModal from '#components/domain/DrefExportModal';
 import DrefShareModal from '#components/domain/DrefShareModal';
+import EventSearchSelectInput, { type EventItem as EventSearchItem } from '#components/domain/EventSearchSelectInput';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import Link from '#components/Link';
+import SelectOutput from '#components/SelectOutput';
 import useAlert from '#hooks/useAlert';
+import useInputState from '#hooks/useInputState';
 import useRouting from '#hooks/useRouting';
 import { languageNameMap } from '#utils/common';
 import {
@@ -54,6 +62,7 @@ import {
 import {
     type GoApiBody,
     useLazyRequest,
+    useRequest,
 } from '#utils/restRequest';
 
 import { exportDrefAllocation } from './drefAllocationExport';
@@ -61,10 +70,16 @@ import { exportDrefAllocation } from './drefAllocationExport';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+const keySelector = (d: EventSearchItem) => d.id;
+const labelSelector = (d: EventSearchItem) => d.name ?? '???';
+
 type SelectLanguageOption = {
     key: Language,
     label: string,
 }
+
+type DrefPublishRequestPostBody = GoApiBody<'/api/v2/dref/{id}/approve/', 'POST'>;
+type OpsUpdateRequestBody = GoApiBody<'/api/v2/dref-op-update/', 'POST'>;
 
 function selectLanguageKeySelector(option: SelectLanguageOption) {
     return option.key;
@@ -74,6 +89,8 @@ export interface Props {
     drefId: number;
     id: number;
     status: DrefStatus | null | undefined;
+    countryId?: number | undefined;
+    event?: number | null | undefined;
 
     applicationType: 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT';
     canAddOpsUpdate: boolean;
@@ -91,6 +108,7 @@ function DrefTableActions(props: Props) {
         id,
         drefId: drefIdFromProps,
         status,
+        countryId,
         applicationType,
         canAddOpsUpdate,
         canCreateFinalReport,
@@ -99,16 +117,18 @@ function DrefTableActions(props: Props) {
         onPublishSuccess,
         drefType,
         startingLanguage,
+        event,
     } = props;
 
+    const [eventValue, setEventValue] = useInputState<number | undefined | null>(event);
+    const [eventOptions, setEventOptions] = useState<
+        EventSearchItem[] | undefined | null
+    >([]);
     const [selectOpsLanguage, setSelectOpsLanguage] = useState<Language | undefined>();
-
     const [selectFinalLanguage, setSelectFinalLanguage] = useState<Language | undefined>();
 
     const { navigate } = useRouting();
-
     const alert = useAlert();
-
     const strings = useTranslation(i18n);
 
     const selectLanguageOptions: SelectLanguageOption[] | undefined = useMemo(() => {
@@ -124,10 +144,52 @@ function DrefTableActions(props: Props) {
         ];
     }, [startingLanguage, strings.drefOpsUpdateStartingLanguageLabel]);
 
+    const linkEmergencyOptions = useMemo(() => ([
+        {
+            key: 'create-new',
+            label: strings.linkEmergencyCreateNewLabel,
+            description: strings.linkEmergencyCreateNewDescription,
+        },
+        {
+            key: 'select-existing',
+            label: strings.linkEmergencySelectExistingLabel,
+            description: null,
+        },
+    ]), [
+        strings.linkEmergencyCreateNewLabel,
+        strings.linkEmergencyCreateNewDescription,
+        strings.linkEmergencySelectExistingLabel,
+    ]);
+
+    const [linkEmergencyValue, setLinkEmergencyValue] = useState<string | undefined>();
+
     const [showExportModal, {
         setTrue: setShowExportModalTrue,
         setFalse: setShowExportModalFalse,
     }] = useBooleanState(false);
+
+    const [showDrefApprovalModal, {
+        setTrue: setShowDrefApprovalModalTrue,
+        setFalse: setShowDrefApprovalModalFalse,
+    }] = useBooleanState(false);
+
+    const {
+        retrigger: eventTrigger,
+    } = useRequest({
+        skip: isNotDefined(eventValue),
+        url: '/api/v2/event/mini/',
+        query: {
+            id: isDefined(eventValue) ? eventValue : undefined,
+        },
+        onSuccess: (response) => {
+            setEventOptions(
+                (oldOptions) => unique(
+                    [...(oldOptions ?? []), ...response.results],
+                    (option) => option.id,
+                ),
+            );
+        },
+    });
 
     const {
         trigger: fetchDref,
@@ -141,26 +203,36 @@ function DrefTableActions(props: Props) {
         ),
         onSuccess: (response) => {
             const exportData = {
-                // FIXME: use translations
-                allocationFor: response?.type_of_dref === DREF_TYPE_LOAN ? 'Emergency Appeal' : 'DREF Operation',
+                allocationFor: response?.type_of_dref === DREF_TYPE_LOAN
+                    ? strings.drefAllocationForEmergencyAppeal
+                    : strings.drefAllocationForDrefOperation,
                 appealManager: response?.ifrc_appeal_manager_name,
                 projectManager: response?.ifrc_project_manager_name,
                 affectedCountry: response?.country_details?.name,
                 name: response?.title,
                 disasterType: response?.disaster_type_details?.name,
-                // FIXME: use translations
-                responseType: response?.type_of_dref === DREF_TYPE_IMMINENT ? 'Imminent Crisis' : response?.type_of_onset_display,
+                responseType: response?.type_of_dref === DREF_TYPE_IMMINENT
+                    ? strings.drefResponseTypeImminentCrisis
+                    : response?.type_of_onset_display,
                 noOfPeopleTargeted: response?.num_assisted,
                 nsRequestDate: response?.ns_request_date,
                 disasterStartDate: response?.event_date,
                 implementationPeriod: response?.type_of_dref === DREF_TYPE_IMMINENT
-                    ? `${response.operation_timeframe_imminent} days` : `${response?.operation_timeframe} months`,
+                    ? resolveToString(
+                        strings.drefImplementationPeriodDays,
+                        { count: response.operation_timeframe_imminent },
+                    )
+                    : resolveToString(
+                        strings.drefImplementationPeriodMonths,
+                        { count: response?.operation_timeframe },
+                    ),
                 totalDREFAllocation: response?.amount_requested,
                 previousAllocation: undefined,
                 allocationRequested: response.type_of_dref === DREF_TYPE_IMMINENT
                     ? response.total_cost : response?.amount_requested,
-                // FIXME: use translations
-                toBeAllocatedFrom: response?.type_of_dref === DREF_TYPE_IMMINENT ? 'Anticipatory Pillar' : 'Response Pillar',
+                toBeAllocatedFrom: response?.type_of_dref === DREF_TYPE_IMMINENT
+                    ? strings.drefAllocatedFromAnticipatoryPillar
+                    : strings.drefAllocatedFromResponsePillar,
                 focalPointName: response?.regional_focal_point_name,
             };
             exportDrefAllocation(exportData);
@@ -179,29 +251,30 @@ function DrefTableActions(props: Props) {
         ),
         onSuccess: (response) => {
             const exportData = {
-                allocationFor: response?.type_of_dref === DREF_TYPE_LOAN ? 'Emergency Appeal' : 'DREF Operation',
+                allocationFor: response?.type_of_dref === DREF_TYPE_LOAN
+                    ? strings.drefAllocationForEmergencyAppeal
+                    : strings.drefAllocationForDrefOperation,
                 appealManager: response?.ifrc_appeal_manager_name,
                 projectManager: response?.ifrc_project_manager_name,
                 affectedCountry: response?.country_details?.name,
                 name: response?.title,
                 disasterType: response?.disaster_type_details?.name,
-                responseType:
-                    response?.type_of_dref === DREF_TYPE_IMMINENT
-                        // FIXME: add translations
-                        ? 'Imminent Crisis'
-                        : response?.type_of_onset_display,
+                responseType: response?.type_of_dref === DREF_TYPE_IMMINENT
+                    ? strings.drefResponseTypeImminentCrisis
+                    : response?.type_of_onset_display,
                 nsRequestDate: response?.ns_request_date,
                 disasterStartDate: response?.event_date,
-                implementationPeriod: `${response?.total_operation_timeframe} months`,
+                implementationPeriod: resolveToString(
+                    strings.drefImplementationPeriodMonths,
+                    { count: response?.total_operation_timeframe },
+                ),
                 allocationRequested: response?.additional_allocation,
                 previousAllocation: response?.dref_allocated_so_far ?? 0,
                 totalDREFAllocation: response?.total_dref_allocation,
                 noOfPeopleTargeted: response?.number_of_people_targeted,
-                toBeAllocatedFrom:
-                    response?.type_of_dref === DREF_TYPE_IMMINENT
-                        // FIXME: add translations
-                        ? 'Anticipatory Pillar'
-                        : 'Response Pillar',
+                toBeAllocatedFrom: response?.type_of_dref === DREF_TYPE_IMMINENT
+                    ? strings.drefAllocatedFromAnticipatoryPillar
+                    : strings.drefAllocatedFromResponsePillar,
                 focalPointName: response?.regional_focal_point_name,
             };
             exportDrefAllocation(exportData);
@@ -216,12 +289,13 @@ function DrefTableActions(props: Props) {
         url: '/api/v2/dref/{id}/approve/',
         pathVariables: { id: String(id) },
         // FIXME: typings should be fixed in the server
-        body: () => ({} as never),
+        body: (publishBody: DrefPublishRequestPostBody) => publishBody,
         onSuccess: () => {
             alert.show(
                 strings.drefApprovalSuccessTitle,
                 { variant: 'success' },
             );
+            setShowDrefApprovalModalFalse();
             if (onPublishSuccess) {
                 onPublishSuccess();
             }
@@ -238,6 +312,10 @@ function DrefTableActions(props: Props) {
             );
         },
     });
+
+    const handlePublishDref = useCallback(() => {
+        publishDref({ event: eventValue });
+    }, [publishDref, eventValue]);
 
     const {
         trigger: publishOpsUpdate,
@@ -391,9 +469,6 @@ function DrefTableActions(props: Props) {
         },
     });
 
-    // FIXME: the type should be fixed on the server
-    type OpsUpdateRequestBody = GoApiBody<'/api/v2/dref-op-update/', 'POST'>;
-
     const {
         trigger: createOpsUpdate,
         pending: createOpsUpdatePending,
@@ -492,6 +567,11 @@ function DrefTableActions(props: Props) {
         setFalse: setShowFinalReportConfirmModalFalse,
     }] = useBooleanState(false);
 
+    const handleDrefApprovalOpen = useCallback(() => {
+        eventTrigger();
+        setShowDrefApprovalModalTrue();
+    }, [eventTrigger, setShowDrefApprovalModalTrue]);
+
     const handleExportClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
         () => {
             setShowExportModalTrue();
@@ -508,19 +588,16 @@ function DrefTableActions(props: Props) {
 
     const handlePublishClick = useCallback(
         () => {
-            if (applicationType === 'DREF') {
-                publishDref(null);
-            } else if (applicationType === 'OPS_UPDATE') {
+            if (applicationType === 'OPS_UPDATE') {
                 publishOpsUpdate(null);
-            } else if (applicationType === 'FINAL_REPORT') {
+            }
+
+            if (applicationType === 'FINAL_REPORT') {
                 publishFinalReport(null);
-            } else {
-                applicationType satisfies never;
             }
         },
         [
             applicationType,
-            publishDref,
             publishOpsUpdate,
             publishFinalReport,
         ],
@@ -607,13 +684,25 @@ function DrefTableActions(props: Props) {
                             {strings.dropdownActionFinalizeLabel}
                         </DropdownMenuItem>
                     )}
-                    {canApprove && (
+                    {canApprove && applicationType !== 'DREF' && (
                         <DropdownMenuItem
                             name={undefined}
                             type="confirm-button"
                             before={<CheckLineIcon className={styles.icon} />}
                             confirmMessage={strings.drefAccountConfirmMessage}
                             onConfirm={handlePublishClick}
+                            disabled={disabled}
+                            persist
+                        >
+                            {strings.dropdownActionApproveLabel}
+                        </DropdownMenuItem>
+                    )}
+                    {canApprove && applicationType === 'DREF' && (
+                        <DropdownMenuItem
+                            name={undefined}
+                            type="button"
+                            before={<CheckLineIcon className={styles.icon} />}
+                            onClick={handleDrefApprovalOpen}
                             disabled={disabled}
                             persist
                         >
@@ -813,6 +902,80 @@ function DrefTableActions(props: Props) {
                         pending
                         title={strings.drefApprovalInProgressTitle}
                     />
+                </Modal>
+            )}
+            {showDrefApprovalModal && (
+                <Modal
+                    heading={strings.drefApprovalConfirmHeading}
+                    onClose={setShowDrefApprovalModalFalse}
+                    footerActions={(
+                        <Button
+                            name={null}
+                            onClick={handlePublishDref}
+                            disabled={disabled
+                                || isNotDefined(linkEmergencyValue)
+                                || (linkEmergencyValue === 'select-existing' && isNotDefined(eventValue))}
+                        >
+                            {strings.dropdownActionApproveLabel}
+                        </Button>
+                    )}
+                >
+                    {isNotDefined(event) && (
+                        <ListView layout="block">
+                            <Description>
+                                {strings.drefApplicationNoEventApprovalWarningMessage}
+                            </Description>
+                            <RadioInput
+                                name={undefined}
+                                options={linkEmergencyOptions}
+                                keySelector={stringKeySelector}
+                                labelSelector={stringLabelSelector}
+                                value={linkEmergencyValue}
+                                spacing="lg"
+                                onChange={setLinkEmergencyValue}
+                                radioListLayout="block"
+                                descriptionSelector={stringDescriptionSelector}
+                            />
+                            <EventSearchSelectInput
+                                name={undefined}
+                                value={eventValue}
+                                onChange={setEventValue}
+                                countryId={countryId}
+                                options={eventOptions}
+                                onOptionsChange={setEventOptions}
+                                placeholder={strings.drefApprovalLinkEmergencyPlaceholder}
+                                nonClearable
+                                disabled={disabled || linkEmergencyValue !== 'select-existing'}
+                            />
+                            <div />
+                        </ListView>
+                    )}
+                    {(isDefined(event) && isDefined(eventOptions)) && (
+                        <ListView
+                            layout="block"
+                            spacing="xs"
+                        >
+                            <Description>
+                                {resolveToComponent(
+                                    strings.drefApplicationHasEventMessage,
+                                    {
+                                        emergency: (
+                                            <SelectOutput
+                                                value={event}
+                                                options={eventOptions}
+                                                keySelector={keySelector}
+                                                strongValue
+                                                labelSelector={labelSelector}
+                                            />
+                                        ),
+                                    },
+                                )}
+                            </Description>
+                            <Description>
+                                {strings.drefApprovalSureMessage}
+                            </Description>
+                        </ListView>
+                    )}
                 </Modal>
             )}
         </TableActions>

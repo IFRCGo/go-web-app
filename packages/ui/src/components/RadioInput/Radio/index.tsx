@@ -82,7 +82,10 @@ function Radio<NAME>(props: Props<NAME>) {
                     <Label>
                         {children}
                     </Label>
-                    <Description textSize="sm">
+                    <Description
+                        textSize="sm"
+                        withLightText
+                    >
                         {description}
                     </Description>
                 </ListView>
