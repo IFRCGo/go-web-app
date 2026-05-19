@@ -11,6 +11,7 @@ env:
   APP_ENVIRONMENT: 'development'
   APP_MAPBOX_ACCESS_TOKEN: 'dummy-token'
   APP_RISK_API_ENDPOINT: 'https://go-risk-api-stage.ifrc.org/'
+  APP_MALAWI_RISK_WATCH_GRAPHQL_ENDPOINT: 'https://malawi-risk-watch-stage.example.com/graphql/'
   APP_TINY_API_KEY: 'dummy-api-key'
   APP_TITLE: 'IFRC Go Test'
   APP_TRANSLATION_API_ENDPOINT: 'https://cacheppuccino-stage.ifrc.org/'
