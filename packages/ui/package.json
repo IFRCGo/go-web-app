@@ -94,7 +94,7 @@
         "postcss-preset-env": "^11.0.0",
         "react-focus-on": "^3.9.1",
         "sanitize-html": "^2.11.0",
-        "stylelint": "^17.0.0",
+        "stylelint": "^17.11.1",
         "stylelint-config-concentric": "^2.0.2",
         "stylelint-config-recommended": "^18.0.0",
         "stylelint-value-no-unknown-custom-properties": "^6.1.1",
