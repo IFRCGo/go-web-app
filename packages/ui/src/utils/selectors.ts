@@ -37,3 +37,7 @@ export function numericKeySelector(option: { key: number }) {
 export function numericCountSelector(option: { count: number }) {
     return option.count;
 }
+
+export function stringDescriptionSelector(option: { description: string | undefined | null }) {
+    return option.description;
+}

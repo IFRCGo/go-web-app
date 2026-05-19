@@ -2,17 +2,21 @@ import {
     type Dispatch,
     type SetStateAction,
     useCallback,
+    useMemo,
 } from 'react';
 import {
     Button,
+    Description,
     InlineLayout,
     InputSection,
+    ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     isDefined,
     isFalsyString,
     isNotDefined,
+    listToMap,
     unique,
 } from '@togglecorp/fujs';
 import {
@@ -22,9 +26,8 @@ import {
 import sanitizeHtml from 'sanitize-html';
 
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
-import FieldReportSearchSelectInput, { type FieldReportItem as FieldReportSearchItem } from '#components/domain/FieldReportSearchSelectInput';
+import EventSearchSelectInput, { type EventItem as EventSearchItem } from '#components/domain/EventSearchSelectInput';
 import useAlert from '#hooks/useAlert';
-import useInputState from '#hooks/useInputState';
 import {
     useLazyRequest,
     useRequest,
@@ -41,38 +44,52 @@ interface Props {
     setFieldValue: (...entries: EntriesAsList<PartialDref>) => void;
     disabled?: boolean;
     setDistrictOptions: Dispatch<SetStateAction<DistrictItem[] | null | undefined>>;
-    fieldReportOptions: FieldReportSearchItem[] | null | undefined;
-    setFieldReportOptions: Dispatch<SetStateAction<FieldReportSearchItem[] | null | undefined>>;
+    eventOptions: EventSearchItem[] | null | undefined;
+    setEventOptions: Dispatch<SetStateAction<EventSearchItem[] | null | undefined>>;
 }
 
-function CopyFieldReportSection(props: Props) {
+function CopyEventSection(props: Props) {
     const {
         value,
         readOnly,
         setFieldValue,
         disabled,
         setDistrictOptions,
-        fieldReportOptions,
-        setFieldReportOptions,
+        eventOptions,
+        setEventOptions,
     } = props;
 
     const strings = useTranslation(i18n);
     const alert = useAlert();
 
-    const [fieldReport, setFieldReport] = useInputState<number | undefined | null>(
-        value?.field_report,
-    );
+    const eventValue = value.event;
+
+    const latestFieldReportId = useMemo(() => {
+        if (isNotDefined(eventValue) || isNotDefined(eventOptions)) {
+            return undefined;
+        }
+        const eventIdMap = listToMap(
+            eventOptions,
+            (item) => item.id,
+        );
+
+        return eventIdMap[eventValue]?.latest_field_report_id;
+    }, [eventOptions, eventValue]);
+
+    const onEventChange = useCallback((val: number | undefined) => {
+        setFieldValue(val, 'event');
+    }, [setFieldValue]);
 
     useRequest({
-        skip: isNotDefined(value.field_report),
-        url: '/api/v2/field-report/{id}/',
-        pathVariables: {
-            id: Number(value.field_report),
+        skip: isNotDefined(eventValue),
+        url: '/api/v2/event/mini/',
+        query: {
+            id: isDefined(eventValue) ? eventValue : undefined,
         },
-        onSuccess: (fr) => {
-            setFieldReportOptions(
+        onSuccess: (response) => {
+            setEventOptions(
                 (oldOptions) => unique(
-                    [...(oldOptions ?? []), fr],
+                    [...(oldOptions ?? []), ...response.results],
                     (option) => option.id,
                 ),
             );
@@ -84,8 +101,8 @@ function CopyFieldReportSection(props: Props) {
         trigger: triggerDetailRequest,
     } = useLazyRequest({
         url: '/api/v2/field-report/{id}/',
-        pathVariables: isDefined(fieldReport)
-            ? { id: fieldReport }
+        pathVariables: isDefined(latestFieldReportId)
+            ? { id: latestFieldReportId }
             : undefined,
         onSuccess: (rawFieldReportResponse) => {
             const fieldReportResponse = removeNull(rawFieldReportResponse);
@@ -102,6 +119,7 @@ function CopyFieldReportSection(props: Props) {
 
             const un_or_other_actor = value.un_or_other_actor ?? fieldReportResponse.actions_others;
             const country = value.country ?? fieldReportResponse.countries[0];
+            const national_society = value.national_society ?? country;
 
             const district = (value.district && value.district.length > 0)
                 ? value.district
@@ -211,7 +229,8 @@ function CopyFieldReportSection(props: Props) {
             setFieldValue(media_contact_email, 'media_contact_email');
             setFieldValue(media_contact_phone_number, 'media_contact_phone_number');
             setFieldValue(media_contact_title, 'media_contact_title');
-            setFieldValue(fieldReportResponse.id, 'field_report');
+            setFieldValue(fieldReportResponse.event, 'event');
+            setFieldValue(national_society, 'national_society');
             setFieldValue(country, 'country');
             setFieldValue(district, 'district');
             setFieldValue(num_affected, 'num_affected');
@@ -240,35 +259,45 @@ function CopyFieldReportSection(props: Props) {
             title={strings.drefFormEventDetailsTitle}
             description={strings.drefFormEventDescription}
         >
-            <InlineLayout
-                after={(
-                    <Button
-                        disabled={isNotDefined(fieldReport)
-                            || frDetailPending
-                            || disabled
-                            || readOnly}
-                        onClick={handleCopyButtonClick}
-                        name={fieldReport}
+            <ListView layout="block">
+                <InlineLayout
+                    after={(
+                        <Button
+                            disabled={isNotDefined(latestFieldReportId)
+                                || frDetailPending
+                                || disabled
+                                || readOnly}
+                            onClick={handleCopyButtonClick}
+                            name={eventValue}
+                        >
+                            {strings.drefFormCopyButtonLabel}
+                        </Button>
+                    )}
+                >
+                    <EventSearchSelectInput
+                        name={undefined}
+                        value={eventValue}
+                        onChange={onEventChange}
+                        countryId={value?.national_society}
+                        options={eventOptions}
+                        onOptionsChange={setEventOptions}
+                        placeholder={strings.drefFormSelectFieldReportPlaceholder}
+                        nonClearable
+                        disabled={disabled}
+                        readOnly={readOnly}
+                    />
+                </InlineLayout>
+                {isDefined(eventValue) && isNotDefined(latestFieldReportId) && (
+                    <Description
+                        withLightText
+                        textSize="sm"
                     >
-                        {strings.drefFormCopyButtonLabel}
-                    </Button>
+                        {strings.noEventDetailsWarningMessage}
+                    </Description>
                 )}
-            >
-                <FieldReportSearchSelectInput
-                    name={undefined}
-                    value={fieldReport}
-                    onChange={setFieldReport}
-                    nationalSociety={value?.national_society}
-                    options={fieldReportOptions}
-                    onOptionsChange={setFieldReportOptions}
-                    placeholder={strings.drefFormSelectFieldReportPlaceholder}
-                    nonClearable
-                    disabled={disabled}
-                    readOnly={readOnly}
-                />
-            </InlineLayout>
+            </ListView>
         </InputSection>
     );
 }
 
-export default CopyFieldReportSection;
+export default CopyEventSection;

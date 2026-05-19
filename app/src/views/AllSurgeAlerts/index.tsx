@@ -29,7 +29,7 @@ import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 
 import CountrySelectInput from '#components/domain/CountrySelectInput';
-import EventSearchSelectInput from '#components/domain/EventSearchSelectInput';
+import EventSearchSelectInput, { type EventItem } from '#components/domain/EventSearchSelectInput';
 import ExportButton from '#components/domain/ExportButton';
 import Page from '#components/Page';
 import useAlert from '#hooks/useAlert';
@@ -48,9 +48,6 @@ import styles from './styles.module.css';
 
 type SurgeResponse = GoApiResponse<'/api/v2/surge_alert/'>;
 type SurgeListItem = NonNullable<SurgeResponse['results']>[number];
-
-type GetEventResponse = GoApiResponse<'/api/v2/event/mini/'>;
-type EventItem = Pick<NonNullable<GetEventResponse['results']>[number], 'id' | 'name' | 'dtype'>;
 
 type TableKey = number;
 const nowTimestamp = new Date().getTime();
