@@ -1,0 +1,11 @@
+{
+    "namespace": "drefApplicationForm",
+    "strings": {
+        "drefFormCopyFRSuccessMessage": "Successfully copied some data from the selected emergency",
+        "drefFormEventDetailsTitle": "Link with an emergency",
+        "drefFormEventDescription": "Please check for, and link to an existing emergency if available. You can use it to pre-fill matching fields in this request. To do so, select the relevant emergency from the drop-down list and click “Copy”.",
+        "drefFormSelectFieldReportPlaceholder": "Select an emergency",
+        "drefFormCopyButtonLabel": "Copy",
+        "noEventDetailsWarningMessage": "The selected Emergency does not contain enough details to be copied over."
+    }
+}

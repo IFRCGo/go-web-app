@@ -34,7 +34,7 @@ import {
 
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import DrefExportModal from '#components/domain/DrefExportModal';
-import { type FieldReportItem as FieldReportSearchItem } from '#components/domain/FieldReportSearchSelectInput';
+import { type EventItem as EventSearchItem } from '#components/domain/EventSearchSelectInput';
 import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import Link from '#components/Link';
@@ -169,8 +169,8 @@ export function Component() {
     const [districtOptions, setDistrictOptions] = useState<
         DistrictItem[] | undefined | null
     >([]);
-    const [fieldReportOptions, setFieldReportOptions] = useState<
-        FieldReportSearchItem[] | undefined | null
+    const [eventOptions, setEventOptions] = useState<
+        EventSearchItem[] | undefined | null
     >([]);
 
     const {
@@ -810,8 +810,8 @@ export function Component() {
                                 disabled={disabled}
                                 districtOptions={districtOptions}
                                 setDistrictOptions={setDistrictOptions}
-                                fieldReportOptions={fieldReportOptions}
-                                setFieldReportOptions={setFieldReportOptions}
+                                eventOptions={eventOptions}
+                                setEventOptions={setEventOptions}
                             />
                         </TabPanel>
                         <TabPanel name="eventDetail">

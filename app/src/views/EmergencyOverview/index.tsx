@@ -296,6 +296,7 @@ export function Component() {
             return events.toSorted((a, b) => compareDate(a.date, b.date));
         },
         [
+            emergencyStage,
             latestAppeal,
             emergencyResponse,
             firstFieldReport,
