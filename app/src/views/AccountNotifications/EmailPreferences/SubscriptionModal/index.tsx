@@ -38,7 +38,7 @@ import {
 import NonFieldError from '#components/NonFieldError';
 import { type components } from '#generated/types';
 import useCountry from '#hooks/domain/useCountry';
-import useDisasterTypes, { type DisasterType } from '#hooks/domain/useDisasterType';
+import { type DisasterType } from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import {
@@ -62,7 +62,7 @@ function alertPerDayKeySelector(option: AlertPerDayEnums) {
     return option.key;
 }
 
-const disasterTypeLabelSelector = (disasterType: DisasterType) => disasterType.name ?? '?';
+const disasterTypeLabelSelector = (disasterType: Pick<DisasterType, 'id' | 'name'>) => disasterType.name ?? '?';
 
 interface Props {
     onClose: () => void;
@@ -85,7 +85,21 @@ function SubscriptionModal(props: Props) {
     const strings = useTranslation(i18n);
     const alert = useAlert();
 
-    const disasterTypeOptions = useDisasterTypes();
+    // NOTE: Email alerts only supports 3 disasters at the moment
+    const disasterTypeOptions = [
+        {
+            id: 2,
+            name: strings.earthquakeLabel,
+        },
+        {
+            id: 4,
+            name: strings.cycloneLabel,
+        },
+        {
+            id: 12,
+            name: strings.floodLabel,
+        },
+    ];
 
     const defaultFormValue: PartialFormFields = useMemo(() => ({
         user: userId,
@@ -289,7 +303,9 @@ function SubscriptionModal(props: Props) {
                         region,
                     ];
                 }
-
+                if (regionIndex === -1) {
+                    return selectedRegions;
+                }
                 if (isSelected) {
                     return selectedRegions;
                 }
@@ -304,7 +320,7 @@ function SubscriptionModal(props: Props) {
         setFieldValue(
             (selectedCountries: number[] | undefined = []) => {
                 const countryIndex = selectedCountries.findIndex(
-                    (selectedRegion) => selectedRegion === country,
+                    (selectedCountry) => selectedCountry === country,
                 );
 
                 if (countryIndex === -1 && isSelected) {
@@ -325,8 +341,8 @@ function SubscriptionModal(props: Props) {
 
         if (isSelected) {
             const countryDetails = countryDetailsById[country];
-            if (isDefined(countryDetails)) {
-                updateRegionSelection(false, countryDetails.id);
+            if (isDefined(countryDetails?.region)) {
+                updateRegionSelection(false, countryDetails?.region);
             }
         }
     }, [setFieldValue, countryDetailsById, updateRegionSelection]);
@@ -420,10 +436,10 @@ function SubscriptionModal(props: Props) {
                         {regionOptions?.map((region) => {
                             const regionCountries = regionGroupedCountries[region.key];
                             const selectedCountries = regionCountries?.filter(
-                                (country) => selectedCountriesIdMap?.[country.id],
+                                (country) => !!selectedCountriesIdMap?.[country.id],
                             );
                             const hasSelectedCountries = isDefined(selectedCountries)
-                                && selectedCountries?.length !== 0;
+                                && selectedCountries?.length > 0;
 
                             return (
                                 <ExpandableContainer

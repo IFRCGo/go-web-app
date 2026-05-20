@@ -4,10 +4,12 @@ import {
 } from 'react';
 import {
     AddLineIcon,
+    DeleteBinTwoLineIcon,
     PencilLineIcon,
 } from '@ifrc-go/icons';
 import {
     Button,
+    ConfirmButton,
     Container,
     ListView,
     TextOutput,
@@ -22,7 +24,11 @@ import {
 } from '@togglecorp/fujs';
 
 import useUserMe from '#hooks/domain/useUserMe';
-import { useRequest } from '#utils/restRequest';
+import useAlert from '#hooks/useAlert';
+import {
+    useLazyRequest,
+    useRequest,
+} from '#utils/restRequest';
 
 import SubscriptionModal from './SubscriptionModal';
 
@@ -31,6 +37,7 @@ import i18n from './i18n.json';
 function EmailPreferences() {
     const user = useUserMe();
     const strings = useTranslation(i18n);
+    const alert = useAlert();
 
     const {
         response: subscriptionListResponse,
@@ -39,6 +46,29 @@ function EmailPreferences() {
     } = useRequest<'/api/v2/alert-subscription/'>({
         url: '/api/v2/alert-subscription/',
         method: 'GET',
+    });
+
+    const {
+        pending: subscriptionDeletePending,
+        trigger: deleteSubscription,
+    } = useLazyRequest({
+        method: 'DELETE',
+        url: '/api/v2/alert-subscription/{id}/',
+        pathVariables: ({ id }) => ({ id }),
+        onSuccess: () => {
+            refetchSubscriptionList();
+            alert.show(
+                strings.subscriptionDeletedSuccessMessage,
+                { variant: 'success' },
+            );
+        },
+        onFailure: () => {
+            alert.show(
+                strings.subscriptionDeletedFailureMessage,
+                { variant: 'danger' },
+            );
+        },
+
     });
 
     const subscriptionList = subscriptionListResponse?.results;
@@ -61,6 +91,10 @@ function EmailPreferences() {
         setActiveSubscriptionId(subId);
     }, [setActiveSubscriptionId, showSubscriptionModal]);
 
+    const handleSubscriptionDelete = useCallback((subId: number) => {
+        deleteSubscription({ id: subId });
+    }, [deleteSubscription]);
+
     const handleSubscriptionAddClick = useCallback(() => {
         showSubscriptionModal();
         setActiveSubscriptionId(undefined);
@@ -70,6 +104,7 @@ function EmailPreferences() {
         <>
             <Container
                 heading={strings.heading}
+                headerDescription={strings.description}
                 pending={subscriptionListPending}
                 empty={isNotDefined(subscriptionList) || subscriptionList?.length === 0}
                 emptyMessage={strings.emptyMessage}
@@ -96,16 +131,33 @@ function EmailPreferences() {
                             withDarkBackground
                             withPadding
                             headerActions={(
-                                <Button
-                                    name={item.id}
-                                    onClick={handleSubscriptionEditClick}
-                                    title={strings.editSubscriptionTitle}
-                                    before={<PencilLineIcon />}
-                                    styleVariant="action"
-                                    colorVariant="primary"
-                                >
-                                    {strings.editSubscriptionLabel}
-                                </Button>
+                                <>
+                                    <Button
+                                        name={item.id}
+                                        onClick={handleSubscriptionEditClick}
+                                        title={strings.editSubscriptionTitle}
+                                        before={<PencilLineIcon />}
+                                        styleVariant="action"
+                                        colorVariant="primary"
+                                    >
+                                        {strings.editSubscriptionLabel}
+                                    </Button>
+                                    <ConfirmButton
+                                        name={item.id}
+                                        styleVariant="action"
+                                        colorVariant="primary"
+                                        title={strings.deleteSubscriptionTitle}
+                                        onConfirm={handleSubscriptionDelete}
+                                        // eslint-disable-next-line max-len
+                                        confirmHeading={strings.deleteSubscriptionConfirmationHeading}
+                                        // eslint-disable-next-line max-len
+                                        confirmMessage={strings.deleteSubscriptionConfirmationMessage}
+                                        before={<DeleteBinTwoLineIcon />}
+                                        disabled={subscriptionDeletePending}
+                                    >
+                                        {strings.deleteSubscriptionLabel}
+                                    </ConfirmButton>
+                                </>
                             )}
                             headingLevel={5}
                             withHeaderBorder

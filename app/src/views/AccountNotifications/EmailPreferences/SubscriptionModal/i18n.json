@@ -3,6 +3,9 @@
     "strings": {
         "addSubscriptionHeading": "New subscription",
         "editSubscriptionHeading": "Edit subscription",
+        "earthquakeLabel": "Earthquake",
+        "cycloneLabel": "Cyclone",
+        "floodLabel": "Flood",
         "updateButtonLabel": "Save",
         "cancelButtonLabel": "Cancel",
         "subscriptionTitleLabel": "Enter subscription title",
