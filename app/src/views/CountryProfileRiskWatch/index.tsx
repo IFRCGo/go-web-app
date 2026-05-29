@@ -38,6 +38,8 @@ function getCurrentMonth() {
     return new Date().getMonth();
 }
 
+const temp_override = true;
+
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -77,6 +79,10 @@ export function Component() {
 
     const hasImminentEvents = useMemo(
         () => {
+            if (temp_override) {
+                return true;
+            }
+
             if (isNotDefined(imminentEventCountsResponse)) {
                 return false;
             }

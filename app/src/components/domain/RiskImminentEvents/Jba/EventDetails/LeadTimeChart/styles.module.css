@@ -1,0 +1,24 @@
+.chart-container {
+    height: 12rem;
+}
+
+.line {
+    stroke: var(--go-ui-color-primary-blue);
+    stroke-width: 1.5;
+    fill: none;
+}
+
+.threshold {
+    stroke: var(--go-ui-color-red-90);
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+    fill: none;
+}
+
+.point {
+    fill: var(--go-ui-color-primary-blue);
+}
+
+.point-active {
+    fill: var(--go-ui-color-red-90);
+}

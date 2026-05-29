@@ -70,6 +70,21 @@ export default defineConfig(({ mode }) => {
             port: 3000,
             allowedHosts: ["host.docker.internal"],
             strictPort: true,
+            // Dev proxy for the Malawi Risk Watch backend. The backend has no
+            // CORS headers configured for http://localhost:3000, so requests
+            // are routed through Vite to stay same-origin in dev.
+            proxy: {
+                '/malawi-graphql': {
+                    target: env.APP_MALAWI_RISK_WATCH_BACKEND_ORIGIN || 'http://localhost:8060',
+                    changeOrigin: true,
+                    rewrite: (path) => path.replace(/^\/malawi-graphql/, '/graphql/'),
+                },
+                '/malawi-media': {
+                    target: env.APP_MALAWI_RISK_WATCH_BACKEND_ORIGIN || 'http://localhost:8060',
+                    changeOrigin: true,
+                    rewrite: (path) => path.replace(/^\/malawi-media/, '/media'),
+                },
+            },
         },
         build: {
             outDir: '../build',

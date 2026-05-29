@@ -77,6 +77,22 @@ export const COLOR_PRIMARY_RED = '#f5333f';
 
 export const COLOR_ACTIVE_REGION = '#7d8b9d';
 
+// 5-stop sequential ramps (every other stop from the 9-stop ifrc-go/ui ramps)
+export const COLOR_BLUE_GRADIENT_5 = [
+    '#E0E3E7',
+    '#AEB7C2',
+    '#7D8B9D',
+    '#4D617A',
+    '#011E41',
+];
+export const COLOR_RED_GRADIENT_5 = [
+    '#FDD6D9',
+    '#FBADB2',
+    '#F9858C',
+    '#F75C65',
+    '#F5333F',
+];
+
 // Import template
 
 export const FONT_FAMILY_HEADER = 'Montserrat';

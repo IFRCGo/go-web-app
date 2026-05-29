@@ -3,9 +3,12 @@ import {
     useMemo,
     useState,
 } from 'react';
+import { LayoutGridLineIcon } from '@ifrc-go/icons';
 import {
     Container,
+    DropdownMenu,
     ListView,
+    RadioInput,
     RawList,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -25,21 +28,27 @@ import {
 } from '@togglecorp/re-map';
 import getBuffer from '@turf/buffer';
 import type {
+    FillLayer,
+    LineLayer,
     LngLatBoundsLike,
     SymbolLayer,
 } from 'mapbox-gl';
 
 import GlobalMap from '#components/domain/GlobalMap';
 import GoMapContainer from '#components/GoMapContainer';
+import StepGradientBar from '#components/StepGradientBar';
 import { type components } from '#generated/riskTypes';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import {
+    COLOR_BLACK,
+    COLOR_LIGHT_GREY,
     COLOR_WHITE,
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
 import { getGeoJsonBounds } from '#utils/geo';
 
+import { type HdxOption } from './hdxLayers';
 import LayerOptions, { type LayerOptionsValue } from './LayerOptions';
 import {
     activeHazardPointLayer,
@@ -58,6 +67,7 @@ import {
     trackPointOuterCircleLayer,
     uncertaintyConeLayer,
 } from './mapStyles';
+import useHdxLayers from './useHdxLayers';
 import { type RiskLayerProperties } from './utils';
 
 import i18n from './i18n.json';
@@ -101,7 +111,7 @@ export interface RiskEventDetailProps<EVENT, EXPOSURE> {
 type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> | undefined;
 
 // FIXME: read this from common type
-type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
+type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss' | 'jba' | 'arc';
 
 interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     // FIXME: use props for configuration rather than
@@ -117,10 +127,18 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     detailRenderer: React.ComponentType<RiskEventDetailProps<EVENT, EXPOSURE>>;
     pending: boolean;
     sidePanelHeading: React.ReactNode;
+    sidePanelFilters?: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
     onActiveEventChange: (eventId: KEY | undefined) => void;
     activeEventExposurePending: boolean;
+    showLayerSelection?: boolean;
+    iso3ForChoropleth?: string;
+    activeHdxOptionKey?: string;
+    onActiveHdxOptionKeyChange?: (key: string | undefined) => void;
 }
+
+function hdxOptionKeySelector(opt: HdxOption) { return opt.key; }
+function hdxOptionLabelSelector(opt: HdxOption) { return opt.label; }
 
 function RiskImminentEventMap<
     EVENT,
@@ -138,10 +156,15 @@ function RiskImminentEventMap<
         hazardTypeSelector,
         footprintSelector,
         sidePanelHeading,
+        sidePanelFilters,
         bbox,
         onActiveEventChange,
         activeEventExposurePending,
         source,
+        showLayerSelection,
+        iso3ForChoropleth,
+        activeHdxOptionKey,
+        onActiveHdxOptionKeyChange,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -351,6 +374,102 @@ function RiskImminentEventMap<
         [allIconsLoaded],
     );
 
+    const {
+        options: hdxOptions,
+        activeOption: activeHdxOption,
+        pcodeToColor,
+        bins: choroplethBins,
+    } = useHdxLayers(activeHdxOptionKey, Boolean(showLayerSelection));
+
+    const choroplethFillLayer = useMemo<Omit<FillLayer, 'id'> | undefined>(() => {
+        if (!iso3ForChoropleth || !pcodeToColor || pcodeToColor.size === 0) {
+            return undefined;
+        }
+        const matchPairs: string[] = [];
+        pcodeToColor.forEach((color, pcode) => {
+            matchPairs.push(pcode, color);
+        });
+        const fillColor: NonNullable<FillLayer['paint']>['fill-color'] = [
+            'match',
+            ['get', 'code'],
+            ...matchPairs,
+            COLOR_LIGHT_GREY,
+        ];
+        return {
+            type: 'fill',
+            'source-layer': `go-admin2-${iso3ForChoropleth}-staging`,
+            paint: {
+                'fill-color': fillColor,
+                'fill-opacity': 0.7,
+            },
+            layout: { visibility: 'visible' },
+        };
+    }, [iso3ForChoropleth, pcodeToColor]);
+
+    const choroplethOutlineLayer = useMemo<Omit<LineLayer, 'id'> | undefined>(() => {
+        if (!iso3ForChoropleth || !pcodeToColor || pcodeToColor.size === 0) {
+            return undefined;
+        }
+        return {
+            type: 'line',
+            'source-layer': `go-admin2-${iso3ForChoropleth}-staging`,
+            paint: {
+                'line-color': COLOR_BLACK,
+                'line-opacity': 0.3,
+                'line-width': 0.5,
+            },
+            layout: { visibility: 'visible' },
+        };
+    }, [iso3ForChoropleth, pcodeToColor]);
+
+    const layerSelectionNode = useMemo(() => {
+        if (!showLayerSelection || !onActiveHdxOptionKeyChange) {
+            return undefined;
+        }
+        return (
+            <DropdownMenu
+                // FIXME: use strings
+                label={activeHdxOption?.label ?? 'Layers'}
+                labelBefore={<LayoutGridLineIcon />}
+                labelStyleVariant="filled"
+                persistent
+                preferredPopupWidth={30}
+            >
+                <RadioInput
+                    name="hdxLayer"
+                    clearable
+                    value={activeHdxOptionKey}
+                    options={hdxOptions}
+                    keySelector={hdxOptionKeySelector}
+                    labelSelector={hdxOptionLabelSelector}
+                    radioListLayout="block"
+                    onChange={onActiveHdxOptionKeyChange}
+                    spacing="2xs"
+                />
+            </DropdownMenu>
+        );
+    }, [
+        showLayerSelection,
+        onActiveHdxOptionKeyChange,
+        activeHdxOptionKey,
+        hdxOptions,
+        activeHdxOption,
+    ]);
+
+    const legendNode = useMemo(() => {
+        if (!activeHdxOption || !choroplethBins) {
+            return null;
+        }
+        return (
+            <StepGradientBar
+                steps={choroplethBins.map((bin) => ({
+                    color: bin.color,
+                    label: bin.label,
+                }))}
+            />
+        );
+    }, [activeHdxOption, choroplethBins]);
+
     return (
         <div className={styles.riskImminentEventMap}>
             <GlobalMap
@@ -359,7 +478,28 @@ function RiskImminentEventMap<
                 <GoMapContainer
                     className={styles.mapContainer}
                     title={strings.riskImminentEventsMap}
-                />
+                    layerSelection={layerSelectionNode}
+                >
+                    {legendNode}
+                </GoMapContainer>
+                {iso3ForChoropleth && choroplethFillLayer && choroplethOutlineLayer && (
+                    <MapSource
+                        sourceKey="hdx-choropleth"
+                        sourceOptions={{
+                            type: 'vector',
+                            url: `mapbox://go-ifrc.go-admin2-${iso3ForChoropleth}-staging`,
+                        }}
+                    >
+                        <MapLayer
+                            layerKey="hdx-choropleth-fill"
+                            layerOptions={choroplethFillLayer}
+                        />
+                        <MapLayer
+                            layerKey="hdx-choropleth-outline"
+                            layerOptions={choroplethOutlineLayer}
+                        />
+                    </MapSource>
+                )}
                 {hazardKeys.map((key) => {
                     const url = hazardKeyToIconMap[key];
 
@@ -456,6 +596,8 @@ function RiskImminentEventMap<
                 </MapSource>
                 <MapOrder
                     ordering={[
+                        getLayerName('hdx-choropleth', 'hdx-choropleth-fill', true),
+                        getLayerName('hdx-choropleth', 'hdx-choropleth-outline', true),
                         getLayerName('active-event-footprint', 'exposure-fill', true),
                         getLayerName('active-event-footprint', 'exposure-fill-outline', true),
                         getLayerName('active-event-footprint', 'uncertainty-cone', true),
@@ -480,7 +622,8 @@ function RiskImminentEventMap<
                 className={styles.sidePanel}
                 heading={sidePanelHeading}
                 pending={pending}
-                empty={isNotDefined(events) || events.length === 0}
+                empty={isNotDefined(sidePanelFilters)
+                    && (isNotDefined(events) || events.length === 0)}
                 emptyMessage={strings.emptyImminentEventMessage}
                 withPadding
                 withBackground
@@ -490,17 +633,24 @@ function RiskImminentEventMap<
                 spacing="sm"
                 withoutSpacingOpticalCorrection
             >
-                <ListView
-                    layout="block"
-                    spacing="2xs"
-                >
-                    <RawList
-                        data={events}
-                        keySelector={keySelector}
-                        renderer={listItemRenderer}
-                        rendererParams={eventListRendererParams}
-                    />
-                </ListView>
+                {sidePanelFilters}
+                {(isDefined(events) && events.length > 0) ? (
+                    <ListView
+                        layout="block"
+                        spacing="2xs"
+                    >
+                        <RawList
+                            data={events}
+                            keySelector={keySelector}
+                            renderer={listItemRenderer}
+                            rendererParams={eventListRendererParams}
+                        />
+                    </ListView>
+                ) : (
+                    isDefined(sidePanelFilters) && (
+                        <div>{strings.emptyImminentEventMessage}</div>
+                    )
+                )}
             </Container>
         </div>
     );

@@ -51,6 +51,7 @@ interface Props {
     onPresentationModeChange?: (newPresentationMode: boolean) => void;
     children?: React.ReactNode;
     withFullHeight?: boolean;
+    layerSelection?: React.ReactNode;
 }
 
 function GoMapContainer(props: Props) {
@@ -65,6 +66,7 @@ function GoMapContainer(props: Props) {
         onPresentationModeChange,
         children,
         withFullHeight,
+        layerSelection,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -311,15 +313,23 @@ function GoMapContainer(props: Props) {
                             </ListView>
                         )}
                     />
-                    {withPresentationMode && !printMode && !presentationMode && (
-                        <Button
-                            className={styles.presentationModeButton}
-                            name={undefined}
-                            before={<ArtboardLineIcon />}
-                            onClick={enterPresentationMode}
+                    {(withPresentationMode || layerSelection) && (
+                        <ListView
+                            layout="block"
+                            className={styles.topLeftActions}
                         >
-                            {strings.presentationModeButtonLabel}
-                        </Button>
+                            {withPresentationMode && !printMode && !presentationMode && (
+                                <Button
+                                    className={styles.presentationModeButton}
+                                    name={undefined}
+                                    before={<ArtboardLineIcon />}
+                                    onClick={enterPresentationMode}
+                                >
+                                    {strings.presentationModeButtonLabel}
+                                </Button>
+                            )}
+                            {layerSelection}
+                        </ListView>
                     )}
                     {!printMode && !presentationMode && !withoutDownloadButton && (
                         <RawButton

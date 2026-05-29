@@ -1,0 +1,11 @@
+.step-gradient-bar {
+    width: min(30cqi, 10rem);
+
+    .step {
+        flex-grow: 1;
+
+        .swatch {
+            height: 0.5rem;
+        }
+    }
+}

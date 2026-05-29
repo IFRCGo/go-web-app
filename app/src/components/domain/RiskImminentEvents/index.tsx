@@ -1,5 +1,6 @@
 import {
     useCallback,
+    useEffect,
     useMemo,
     useState,
 } from 'react';
@@ -27,14 +28,19 @@ import { environment } from '#config';
 import { type components } from '#generated/riskTypes';
 import { hazardTypeToColorMap } from '#utils/domain/risk';
 
+import { JBA_DEFAULT_LEAD_TIME_DAYS } from './malawi/constants';
+import Arc from './Arc';
 import Gdacs from './Gdacs';
+import Jba from './Jba';
 import MeteoSwiss from './MeteoSwiss';
 import Pdc from './Pdc';
 import WfpAdam from './WfpAdam';
 
 import i18n from './i18n.json';
 
-export type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
+export type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss' | 'jba' | 'arc';
+
+const MALAWI_ISO3 = 'MWI';
 type HazardType = components<'read'>['schemas']['CommonHazardTypeEnumKey'];
 
 type BaseProps = {
@@ -57,16 +63,40 @@ type Props = BaseProps & ({
 function RiskImminentEvents(props: Props) {
     const {
         className,
-        defaultSource = 'gdacs',
         ...otherProps
     } = props;
+
+    const isMalawi = (
+        // eslint-disable-next-line react/destructuring-assignment
+        props.variant === 'country' && props.iso3 === MALAWI_ISO3
+    );
+    // eslint-disable-next-line react/destructuring-assignment
+    const defaultSource: ImminentEventSource = props.defaultSource
+        ?? (isMalawi ? 'jba' : 'gdacs');
+
     const [activeView, setActiveView] = useState<ImminentEventSource>(defaultSource);
+
+    // HDX layer selection is lifted here so it persists across JBA <-> ARC.
+    const [activeHdxOptionKey, setActiveHdxOptionKey] = useState<string | undefined>();
+    const [activeLeadTimeDays, setActiveLeadTimeDays] = useState<number>(
+        JBA_DEFAULT_LEAD_TIME_DAYS,
+    );
+
+    // Reset HDX selection when switching to a non-Malawi source.
+    useEffect(() => {
+        if (activeView !== 'jba' && activeView !== 'arc') {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setActiveHdxOptionKey(undefined);
+        }
+    }, [activeView]);
 
     const strings = useTranslation(i18n);
 
     const handleRadioClick = useCallback((key: ImminentEventSource) => {
         setActiveView(key);
     }, []);
+
+    const showLayerSelection = isMalawi;
 
     const riskHazards: Array<{
         key: HazardType,
@@ -263,6 +293,26 @@ function RiskImminentEvents(props: Props) {
                                 {strings.imminentEventsSourceMeteoSwissLabel}
                             </Radio>
                         )}
+                        {isMalawi && (
+                            <Radio
+                                name="jba"
+                                value={activeView === 'jba'}
+                                onClick={handleRadioClick}
+                            >
+                                {/* FIXME: use strings */}
+                                JBA
+                            </Radio>
+                        )}
+                        {isMalawi && (
+                            <Radio
+                                name="arc"
+                                value={activeView === 'arc'}
+                                onClick={handleRadioClick}
+                            >
+                                {/* FIXME: use strings */}
+                                ARC
+                            </Radio>
+                        )}
                     </ListView>
                 </ListView>
             )}
@@ -289,6 +339,26 @@ function RiskImminentEvents(props: Props) {
                 <MeteoSwiss
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...otherProps}
+                />
+            )}
+            {activeView === 'jba' && (
+                <Jba
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...otherProps}
+                    showLayerSelection={showLayerSelection}
+                    activeHdxOptionKey={activeHdxOptionKey}
+                    onActiveHdxOptionKeyChange={setActiveHdxOptionKey}
+                    activeLeadTimeDays={activeLeadTimeDays}
+                    onActiveLeadTimeDaysChange={setActiveLeadTimeDays}
+                />
+            )}
+            {activeView === 'arc' && (
+                <Arc
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...otherProps}
+                    showLayerSelection={showLayerSelection}
+                    activeHdxOptionKey={activeHdxOptionKey}
+                    onActiveHdxOptionKeyChange={setActiveHdxOptionKey}
                 />
             )}
         </Container>
