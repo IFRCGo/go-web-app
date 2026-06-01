@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { MapLayer } from '@togglecorp/re-map';
 import {
+    type BackgroundLayer,
     type FillLayer,
     type LineLayer,
     type SymbolLayer,
@@ -8,7 +9,6 @@ import {
 
 import {
     COLOR_ACTIVE_REGION,
-    COLOR_LIGHT_GREY,
     COLOR_WHITE,
 } from '#utils/constants';
 
@@ -17,6 +17,18 @@ const hiddenFillLayerOptions: Omit<FillLayer, 'id'> = {
     layout: {
         visibility: 'none',
     },
+};
+
+const hiddenLineLayerOptions: Omit<LineLayer, 'id'> = {
+    type: 'line',
+    layout: {
+        visibility: 'none',
+    },
+};
+
+const backgroundLayerOptions: Omit<BackgroundLayer, 'id'> = {
+    type: 'background',
+    paint: { 'background-color': COLOR_WHITE },
 };
 
 interface Props {
@@ -32,20 +44,13 @@ function ActiveCountryBaseMapLayer(props: Props) {
             layout: { visibility: 'visible' },
             paint: {
                 'fill-color': [
-                    'interpolate',
-                    ['linear'],
-                    ['zoom'],
-                    2,
-                    [
-                        'match',
-                        ['get', 'iso3'],
-                        activeCountryIso3,
-                        COLOR_ACTIVE_REGION,
-                        COLOR_LIGHT_GREY,
-                    ],
-                    10,
-                    COLOR_LIGHT_GREY,
+                    'match',
+                    ['get', 'iso3'],
+                    activeCountryIso3,
+                    COLOR_ACTIVE_REGION,
+                    COLOR_WHITE,
                 ],
+                'fill-opacity': 0.2,
             },
         }),
         [activeCountryIso3],
@@ -56,17 +61,11 @@ function ActiveCountryBaseMapLayer(props: Props) {
             type: 'line',
             layout: { visibility: 'visible' },
             paint: {
-                'line-color': [
-                    'match',
-                    ['get', 'country_iso3'],
-                    activeCountryIso3,
-                    COLOR_WHITE,
-                    COLOR_LIGHT_GREY,
-                ],
+                'line-color': COLOR_WHITE,
                 'line-opacity': 1,
             },
         }),
-        [activeCountryIso3],
+        [],
     );
 
     const adminOneLabelLayerOptions = useMemo<Omit<SymbolLayer, 'id'>>(
@@ -89,15 +88,57 @@ function ActiveCountryBaseMapLayer(props: Props) {
         [activeCountryIso3],
     );
 
+    const adminZeroLabelLayerOptions = useMemo<Omit<SymbolLayer, 'id'>>(
+        () => ({
+            type: 'symbol',
+            layout: {
+                visibility: 'none',
+            },
+        }),
+        [],
+    );
+
     return (
         <>
             <MapLayer
-                layerKey="admin-0"
-                layerOptions={adminZeroHighlightLayerOptions}
+                layerKey="background"
+                layerOptions={backgroundLayerOptions}
+            />
+            <MapLayer
+                layerKey="hillshade"
+                layerOptions={hiddenFillLayerOptions}
+            />
+            <MapLayer
+                layerKey="admin-0-boundary-mask"
+                layerOptions={hiddenLineLayerOptions}
+            />
+            <MapLayer
+                layerKey="admin-0-boundary"
+                layerOptions={hiddenLineLayerOptions}
+            />
+            <MapLayer
+                layerKey="admin-0-boundary-disputed"
+                layerOptions={hiddenLineLayerOptions}
             />
             <MapLayer
                 layerKey="admin-0-highlight"
                 layerOptions={hiddenFillLayerOptions}
+            />
+            <MapLayer
+                layerKey="admin-0-label"
+                layerOptions={adminZeroLabelLayerOptions}
+            />
+            <MapLayer
+                layerKey="admin-0-label-priority"
+                layerOptions={adminZeroLabelLayerOptions}
+            />
+            <MapLayer
+                layerKey="admin-0-label-non-independent"
+                layerOptions={adminZeroLabelLayerOptions}
+            />
+            <MapLayer
+                layerKey="admin-0"
+                layerOptions={adminZeroHighlightLayerOptions}
             />
             <MapLayer
                 layerKey="admin-1-boundary"

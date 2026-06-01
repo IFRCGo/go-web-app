@@ -116,7 +116,7 @@ function InputContainer(props: Props) {
             <InlineLayout
                 className={_cs(
                     styles.inputSection,
-                    paddingClassName,
+                    variant !== 'transparent' && paddingClassName,
                 )}
                 elementRef={inputSectionRef}
                 before={icons}

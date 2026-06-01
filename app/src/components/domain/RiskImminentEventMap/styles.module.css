@@ -11,6 +11,10 @@
         flex-grow: 1;
     }
 
+    .legend-list {
+        max-width: 20rem;
+    }
+
     @media screen and (max-width: 50rem) {
         flex-direction: column;
         height: initial;
@@ -23,5 +27,28 @@
             max-height: 70vh;
             overflow: auto;
         }
+    }
+}
+
+/* Graduated-size legend for the bubble representation (size encodes value). */
+.bubble-legend {
+    display: flex;
+    align-items: center;
+    gap: var(--go-ui-spacing-2xs);
+
+    .bubble-sample-small,
+    .bubble-sample-large {
+        flex-shrink: 0;
+        border-radius: var(--go-ui-border-radius-full);
+    }
+
+    .bubble-sample-small {
+        width: 0.5rem;
+        height: 0.5rem;
+    }
+
+    .bubble-sample-large {
+        width: 1.375rem;
+        height: 1.375rem;
     }
 }

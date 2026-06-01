@@ -81,6 +81,7 @@ function getLayerProperties(
 type BaseProps = {
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
+    baseLayers?: React.ReactNode;
 }
 
 type Props = BaseProps & ({
@@ -98,6 +99,7 @@ function WfpAdam(props: Props) {
         title,
         bbox,
         variant,
+        baseLayers,
     } = props;
 
     const {
@@ -228,6 +230,7 @@ function WfpAdam(props: Props) {
             activeEventExposure={exposureResponse}
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
+            baseLayers={baseLayers}
         />
     );
 }

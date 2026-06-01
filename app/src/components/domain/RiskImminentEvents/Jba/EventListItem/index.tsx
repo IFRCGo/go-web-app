@@ -23,13 +23,14 @@ function EventListItem(props: Props) {
             expanded={expanded}
             onExpandClick={onExpandClick}
             heading={data.adminAreaName}
-            description={(
+            description={!expanded && (
                 <TextOutput
                     // FIXME: use strings
-                    label="Forecast impact (mean)"
+                    label="Population exposed (mean)"
                     value={data.band5Mean}
                     valueType="number"
-                    maximumFractionDigits={3}
+                    compact
+                    maximumFractionDigits={0}
                     textSize="sm"
                 />
             )}

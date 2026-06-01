@@ -3,6 +3,7 @@ import {
     useMemo,
     useState,
 } from 'react';
+import { ListView } from '@ifrc-go/ui';
 import {
     isDefined,
     isNotDefined,
@@ -12,14 +13,19 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 import { useQuery } from 'urql';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
+import { type HdxLayerSelection } from '#components/domain/RiskImminentEventMap/hdxLayers';
+import { type LocalUnitsSelection } from '#components/domain/RiskImminentEventMap/useLocalUnits';
 import { type RiskLayerProperties } from '#components/domain/RiskImminentEventMap/utils';
 import { graphql } from '#generated/gql';
 import { MAX_PAGE_LIMIT } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 
 import { JBA_IMPACT_THRESHOLD } from '../malawi/constants';
+import HowItWorks from '../malawi/HowItWorks';
+import useFloodExposure, { type FloodExposure } from '../malawi/useFloodExposure';
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
+import IngestionRunFilter, { type JbaIngestionRun } from './IngestionRunFilter';
 import LeadTimeFilter from './LeadTimeFilter';
 
 const JBA_FORECAST_IMPACTS_QUERY = graphql(`
@@ -30,6 +36,7 @@ const JBA_FORECAST_IMPACTS_QUERY = graphql(`
       ) {
         results {
           id
+          forecastFileId
           forecastIssueDate
           forecastTargetDate
           leadTimeDays
@@ -51,8 +58,40 @@ const JBA_FORECAST_IMPACTS_QUERY = graphql(`
     }
 `);
 
+const JBA_FORECAST_FILE_QUERY = graphql(`
+    query JbaForecastFile($id: ID!) {
+      floodForecastFile(id: $id) {
+        id
+        leadTimeDays
+        tiff {
+          url
+        }
+      }
+    }
+`);
+
+const JBA_INGESTION_RUNS_QUERY = graphql(`
+    query JbaIngestionRuns {
+      jbaIngestionRuns(
+        order: { runDate: DESC }
+        pagination: { limit: 9999 }
+      ) {
+        results {
+          id
+          runDate
+          forecastIssueTime
+          status
+          filesExpected
+          filesProcessed
+          completedAt
+        }
+      }
+    }
+`);
+
 export type JbaEvent = {
     id: string;
+    forecastFileId: string | undefined;
     forecastIssueDate: string;
     forecastTargetDate: string;
     leadTimeDays: number | null | undefined;
@@ -65,6 +104,12 @@ export type JbaEvent = {
     band5P90: number | null;
     band5Max: number | null;
     ensemblesNonzeroCount: number | null;
+    // Populated once the admin2 REST fetch resolves (joined by adminAreaIfrcId).
+    districtId: number | undefined;
+    districtName: string | undefined;
+    // RP100 flood-exposed population (HDX), joined by adminAreaPcode. Static
+    // district-wide context, not matched to this forecast's footprint/lead time.
+    floodExposure?: FloodExposure;
 };
 
 function keySelector(event: JbaEvent) {
@@ -78,10 +123,13 @@ interface BaseProps {
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
     showLayerSelection?: boolean;
-    activeHdxOptionKey?: string;
-    onActiveHdxOptionKeyChange?: (key: string | undefined) => void;
+    activeHdxLayers?: HdxLayerSelection[];
+    onActiveHdxLayersChange?: (next: HdxLayerSelection[]) => void;
+    localUnits?: LocalUnitsSelection;
+    onLocalUnitsChange?: (next: LocalUnitsSelection) => void;
     activeLeadTimeDays: number;
     onActiveLeadTimeDaysChange: (value: number) => void;
+    baseLayers?: React.ReactNode;
 }
 
 type Props = BaseProps & (
@@ -96,33 +144,85 @@ function Jba(props: Props) {
         bbox,
         variant,
         showLayerSelection,
-        activeHdxOptionKey,
-        onActiveHdxOptionKeyChange,
+        activeHdxLayers,
+        onActiveHdxLayersChange,
+        localUnits,
+        onLocalUnitsChange,
         activeLeadTimeDays,
         onActiveLeadTimeDaysChange,
+        baseLayers,
     } = props;
 
     // eslint-disable-next-line react/destructuring-assignment
     const iso3 = variant === 'country' ? props.iso3 : undefined;
 
+    // RP100 flood-exposed population per district (HDX), joined by pcode below.
+    const floodExposureByPcode = useFloodExposure(isDefined(iso3));
+
     const [{ data, fetching: pendingImpacts }] = useQuery({
         query: JBA_FORECAST_IMPACTS_QUERY,
     });
 
+    const [{ data: runsData, fetching: pendingRuns }] = useQuery({
+        query: JBA_INGESTION_RUNS_QUERY,
+    });
+
     const allImpactRows = data?.floodForecastImpacts?.results;
 
-    // Latest forecast issue date in the response (rows are ordered DESC).
-    const latestIssueDate = allImpactRows?.[0]?.forecastIssueDate;
+    // Most recent issue date that actually has impacts (rows are ordered DESC).
+    const latestImpactIssueDate = allImpactRows?.[0]?.forecastIssueDate;
+
+    const ingestionRuns = useMemo<JbaIngestionRun[]>(
+        () => (runsData?.jbaIngestionRuns?.results ?? []).map((run) => ({
+            id: run.id,
+            runDate: String(run.runDate),
+            forecastIssueTime: isDefined(run.forecastIssueTime)
+                ? String(run.forecastIssueTime) : null,
+            status: run.status,
+            filesExpected: run.filesExpected ?? null,
+            filesProcessed: run.filesProcessed ?? null,
+            completedAt: isDefined(run.completedAt) ? String(run.completedAt) : null,
+        })),
+        [runsData],
+    );
+
+    const [selectedRunId, setSelectedRunId] = useState<string | undefined>(undefined);
+
+    // Default to the latest run that actually has impacts (the run whose runDate
+    // matches the most recent impact issue date), so the initial view never lands
+    // on a pending/failed run with no data. Any run can still be picked explicitly.
+    const defaultRun = useMemo(() => {
+        if (isDefined(latestImpactIssueDate)) {
+            const match = ingestionRuns.find(
+                (run) => run.runDate === String(latestImpactIssueDate),
+            );
+            if (match) {
+                return match;
+            }
+        }
+        return ingestionRuns[0];
+    }, [ingestionRuns, latestImpactIssueDate]);
+
+    const activeRun = useMemo(
+        () => ingestionRuns.find((run) => run.id === selectedRunId) ?? defaultRun,
+        [ingestionRuns, selectedRunId, defaultRun],
+    );
+
+    // Fall back to the latest impact issue date so impacts still render even when
+    // the runs query is empty or unavailable; an explicitly selected run wins.
+    const activeIssueDate = activeRun?.runDate
+        ?? (isDefined(latestImpactIssueDate) ? String(latestImpactIssueDate) : undefined);
 
     // All rows for the latest issue date (no threshold filter).
     // Used to build the per-admin timeline shown in the detail chart.
-    const latestRows = useMemo<JbaEvent[]>(() => {
-        if (!allImpactRows || !latestIssueDate) {
+    // districtId / districtName are filled in once the admin2 REST call lands.
+    const latestRowsRaw = useMemo<JbaEvent[]>(() => {
+        if (!allImpactRows || !activeIssueDate) {
             return [];
         }
         const rows: JbaEvent[] = [];
         allImpactRows.forEach((row) => {
-            if (String(row.forecastIssueDate) !== String(latestIssueDate)) {
+            if (String(row.forecastIssueDate) !== String(activeIssueDate)) {
                 return;
             }
             if (isNotDefined(row.band5Mean)) {
@@ -137,6 +237,7 @@ function Jba(props: Props) {
             }
             rows.push({
                 id: row.id,
+                forecastFileId: row.forecastFileId ?? undefined,
                 forecastIssueDate: String(row.forecastIssueDate),
                 forecastTargetDate: String(row.forecastTargetDate),
                 leadTimeDays: row.leadTimeDays,
@@ -149,43 +250,19 @@ function Jba(props: Props) {
                 band5P90: isDefined(row.band5P90) ? Number(row.band5P90) : null,
                 band5Max: isDefined(row.band5Max) ? Number(row.band5Max) : null,
                 ensemblesNonzeroCount: row.ensemblesNonzeroCount ?? null,
+                districtId: undefined,
+                districtName: undefined,
             });
         });
         return rows;
-    }, [allImpactRows, latestIssueDate]);
-
-    // Per-admin timeline across all 10 lead times (sorted ascending).
-    const timelineByAdmin = useMemo(() => {
-        const map = new Map<number, JbaEvent[]>();
-        latestRows.forEach((row) => {
-            const list = map.get(row.adminAreaIfrcId);
-            if (list) {
-                list.push(row);
-            } else {
-                map.set(row.adminAreaIfrcId, [row]);
-            }
-        });
-        map.forEach((list) => {
-            list.sort((a, b) => (a.leadTimeDays ?? 0) - (b.leadTimeDays ?? 0));
-        });
-        return map;
-    }, [latestRows]);
-
-    // Markers: rows at the selected lead time whose band5Mean >= threshold.
-    const events = useMemo(
-        () => latestRows.filter((e) => (
-            e.leadTimeDays === activeLeadTimeDays
-            && e.band5Mean >= JBA_IMPACT_THRESHOLD
-        )),
-        [latestRows, activeLeadTimeDays],
-    );
+    }, [allImpactRows, activeIssueDate]);
 
     const ifrcIds = useMemo(
         () => unique(
-            events.map((e) => e.adminAreaIfrcId),
+            latestRowsRaw.map((e) => e.adminAreaIfrcId),
             (id) => id,
         ),
-        [events],
+        [latestRowsRaw],
     );
 
     const { response: adminAreasResponse } = useRequest({
@@ -206,6 +283,51 @@ function Jba(props: Props) {
         });
         return map;
     }, [adminAreasResponse]);
+
+    // Enrich rows with admin1 district info once the admin2 REST call lands.
+    const latestRows = useMemo<JbaEvent[]>(
+        () => latestRowsRaw.map((row) => {
+            const admin = adminAreaById.get(row.adminAreaIfrcId);
+            return {
+                ...row,
+                districtId: admin?.district_id,
+                districtName: admin?.district_name,
+            };
+        }),
+        [latestRowsRaw, adminAreaById],
+    );
+
+    // Per-admin timeline across all 10 lead times (sorted ascending).
+    const timelineByAdmin = useMemo(() => {
+        const map = new Map<number, JbaEvent[]>();
+        latestRows.forEach((row) => {
+            const list = map.get(row.adminAreaIfrcId);
+            if (list) {
+                list.push(row);
+            } else {
+                map.set(row.adminAreaIfrcId, [row]);
+            }
+        });
+        map.forEach((list) => {
+            list.sort((a, b) => (a.leadTimeDays ?? 0) - (b.leadTimeDays ?? 0));
+        });
+        return map;
+    }, [latestRows]);
+
+    // Markers: rows at the selected lead time whose band5Mean >= threshold,
+    // enriched with the district's RP100 flood-exposed population.
+    const events = useMemo(
+        () => latestRows
+            .filter((e) => (
+                e.leadTimeDays === activeLeadTimeDays
+                && e.band5Mean >= JBA_IMPACT_THRESHOLD
+            ))
+            .map((e) => ({
+                ...e,
+                floodExposure: floodExposureByPcode.get(e.adminAreaPcode),
+            })),
+        [latestRows, activeLeadTimeDays, floodExposureByPcode],
+    );
 
     const pointFeatureSelector = useCallback(
         (event: JbaEvent): EventPointFeature | undefined => {
@@ -280,14 +402,60 @@ function Jba(props: Props) {
         [events, timelineByAdmin],
     );
 
-    const sidePanelHeading = useMemo(() => (
-        latestIssueDate ? `${title} (issued ${String(latestIssueDate)})` : title
-    ), [title, latestIssueDate]);
+    // The selected ingestion run (issue date + status) is surfaced by the
+    // IngestionRunFilter in the side panel, so the heading stays clean.
+    const sidePanelHeading = title;
+
+    // Resolve the forecast-file ID for the active lead time. All admin rows
+    // at the same (issueDate, leadTime) share the same forecastFileId, so the
+    // first matching row suffices.
+    const activeForecastFileId = useMemo(() => (
+        latestRowsRaw.find((row) => row.leadTimeDays === activeLeadTimeDays)?.forecastFileId
+    ), [latestRowsRaw, activeLeadTimeDays]);
+
+    // Lazy-fetch the TIFF URL for the active forecast file only.
+    const [{ data: forecastFileData }] = useQuery({
+        query: JBA_FORECAST_FILE_QUERY,
+        variables: { id: activeForecastFileId ?? '' },
+        pause: !activeForecastFileId,
+    });
+    // TODO: backend returns a relative tiff.url like "/media/jba/tiff/.../lead01.tif"
+    // and Django doesn't add CORS headers to media file responses, so a direct
+    // cross-origin GET fails. Rewrite "/media/..." → "/malawi-media/..." so the
+    // request stays same-origin and Vite's dev proxy (see vite.config.ts) forwards
+    // it to the backend. Replace this once the backend serves CORS-tagged media
+    // (or ships absolute, CORS-correct URLs).
+    const activeCogUrl = useMemo(() => {
+        const rawUrl = forecastFileData?.floodForecastFile?.tiff?.url;
+        if (!rawUrl) {
+            return undefined;
+        }
+        if (rawUrl.startsWith('/media/')) {
+            return rawUrl.replace(/^\/media\//, '/malawi-media/');
+        }
+        return rawUrl;
+    }, [forecastFileData]);
 
     const sidePanelFilters = (
-        <LeadTimeFilter
-            value={activeLeadTimeDays}
-            onChange={onActiveLeadTimeDaysChange}
+        <ListView
+            layout="block"
+            spacing="sm"
+        >
+            <LeadTimeFilter
+                value={activeLeadTimeDays}
+                onChange={onActiveLeadTimeDaysChange}
+            />
+            <HowItWorks />
+        </ListView>
+    );
+
+    const headerActions = (
+        <IngestionRunFilter
+            runs={ingestionRuns}
+            value={activeRun?.id}
+            onChange={setSelectedRunId}
+            activeRun={activeRun}
+            pending={pendingRuns}
         />
     );
 
@@ -303,15 +471,22 @@ function Jba(props: Props) {
             activeEventExposurePending={false}
             listItemRenderer={EventListItem}
             detailRenderer={EventDetails}
-            pending={pendingImpacts}
+            pending={pendingImpacts || pendingRuns}
             sidePanelHeading={sidePanelHeading}
             sidePanelFilters={sidePanelFilters}
+            headerActions={headerActions}
             bbox={bbox}
             onActiveEventChange={handleActiveEventChange}
             showLayerSelection={showLayerSelection}
             iso3ForChoropleth={iso3}
-            activeHdxOptionKey={activeHdxOptionKey}
-            onActiveHdxOptionKeyChange={onActiveHdxOptionKeyChange}
+            activeHdxLayers={activeHdxLayers}
+            onActiveHdxLayersChange={onActiveHdxLayersChange}
+            localUnits={localUnits}
+            onLocalUnitsChange={onLocalUnitsChange}
+            cogUrl={activeCogUrl}
+            baseLayers={baseLayers}
+            // Reset the open detail + raster controls when the run or lead time changes.
+            detailResetKey={`${activeRun?.id ?? ''}__${activeLeadTimeDays}`}
         />
     );
 }

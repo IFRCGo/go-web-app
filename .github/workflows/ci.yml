@@ -244,13 +244,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Generate types
+        run: pnpm generate:type
+
       - uses: actions/download-artifact@v4
         with:
           name: ui-build
           path: packages/ui/dist
-
-      - name: Generate types
-        run: pnpm generate:type
 
       - name: Typecheck
         run: pnpm typecheck

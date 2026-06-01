@@ -7,8 +7,10 @@ import {
 // CSVs are admin2-keyed via the `ADM2_PCODE` column (HDX convention) and joined
 // against the Mapbox `go-admin2-${iso3}-staging` tileset's feature `code`.
 //
-// One CSV may expose multiple metrics. Each metric becomes a flat option in the
-// layer-selection radio, labelled "{dataset.label} — {metric.label}".
+// One CSV may expose multiple metrics. Each metric becomes a toggleable option
+// in the layer-selection panel, labelled "{dataset.label} — {metric.label}".
+// Options are grouped by dataset (see buildHdxOptionGroups) so the panel shows
+// one heading per dataset with a Switch per metric; multiple may be active.
 //
 // Order is intentional (semantic grouping), not alphabetical:
 //   1. hazard inputs:  flood_exposure, vulnerability
@@ -114,6 +116,20 @@ export interface HdxOption {
     metric: HdxMetricRecipe;
 }
 
+// How an active data layer is drawn on the map. Independent of opacity.
+export type HdxRepresentation = 'choropleth' | 'bubble';
+
+export const DEFAULT_HDX_OPACITY = 80;
+
+// Per-active-layer selection state, lifted to the owner of the panel. Presence
+// in the list means the layer is active; order is the map stacking order.
+export interface HdxLayerSelection {
+    key: HdxOptionKey;
+    representation: HdxRepresentation;
+    // 0-100 (percent); applies to either representation.
+    opacity: number;
+}
+
 // Build a flat list of `{datasetName} — {metricColumn}` options from a list of
 // known dataset names returned by the backend. Datasets not in the recipe table
 // are dropped.
@@ -126,4 +142,24 @@ export function buildHdxOptions(availableDatasetNames: Set<string>): HdxOption[]
             recipe,
             metric,
         })));
+}
+
+// A dataset and the options it exposes, used to render the grouped layer panel
+// (one heading per dataset, one Switch per metric). Preserves recipe order.
+export interface HdxOptionGroup {
+    datasetName: string;
+    label: string;
+    options: HdxOption[];
+}
+
+export function buildHdxOptionGroups(availableDatasetNames: Set<string>): HdxOptionGroup[] {
+    const allOptions = buildHdxOptions(availableDatasetNames);
+    return HDX_LAYER_RECIPES
+        .filter((recipe) => availableDatasetNames.has(recipe.datasetName))
+        .map((recipe) => ({
+            datasetName: recipe.datasetName,
+            label: recipe.label,
+            options: allOptions.filter((opt) => opt.recipe.datasetName === recipe.datasetName),
+        }))
+        .filter((group) => group.options.length > 0);
 }

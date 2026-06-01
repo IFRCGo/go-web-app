@@ -4,10 +4,7 @@ import {
     useRef,
     useState,
 } from 'react';
-import {
-    useLocation,
-    useParams,
-} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
     Button,
     Container,
@@ -76,6 +73,7 @@ import ContextFields from './ContextFields';
 import EarlyActionsFields from './EarlyActionsFields';
 import ResponseFields from './ResponseFields';
 import RiskAnalysisFields from './RiskAnalysisFields';
+import { useFieldReportFormRouteState } from './routeState';
 import SituationFields from './SituationFields';
 
 import i18n from './i18n.json';
@@ -129,15 +127,13 @@ export function Component() {
     const strings = useTranslation(i18n);
     const formContentRef = useRef<HTMLDivElement>(null);
     const currentLanguage = useCurrentLanguage();
-    const { state } = useLocation();
+    const { initialValue: routeInitialValue } = useFieldReportFormRouteState();
 
     const [activeTab, setActiveTab] = useState<TabKeys>('context');
     const [eventOptions, setEventOptions] = useState<EventItem[] | null | undefined>([]);
     const [districtOptions, setDistrictOptions] = useState<DistrictItem[] | null | undefined>([]);
 
-    const status = !fieldReportId && state?.earlyWarning
-        ? FIELD_REPORT_STATUS_EARLY_WARNING
-        : FIELD_REPORT_STATUS_EVENT;
+    const initialValue = !fieldReportId ? routeInitialValue : undefined;
 
     const {
         value,
@@ -150,10 +146,11 @@ export function Component() {
         reportSchema,
         {
             value: {
-                status,
+                status: FIELD_REPORT_STATUS_EVENT,
                 is_covid_report: false,
                 visibility: VISIBILITY_PUBLIC,
                 bulletin: BULLETIN_PUBLISHED_NO,
+                ...initialValue,
             },
         },
     );

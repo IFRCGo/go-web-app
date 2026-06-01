@@ -1,0 +1,88 @@
+.lead-time-filter {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-2xs);
+
+    .slider {
+        /* vertical room for the 20px handle to overflow the track; horizontal
+           room so the edge handle and the centred "1"/"10" labels stay in bounds */
+        padding: 0.625rem 0.75rem 0;
+    }
+
+    .track {
+        position: relative;
+        outline: none;
+        border-radius: var(--go-ui-border-radius-full);
+        background-color: var(--go-ui-color-gray-30);
+        cursor: pointer;
+        height: 6px;
+        touch-action: none;
+
+        /* extend the touch/click hit area beyond the 6px visual track */
+        &::before {
+            position: absolute;
+            inset: -0.625rem 0;
+            content: "";
+        }
+
+        .fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: var(--go-ui-border-radius-full);
+            background-color: var(--go-ui-color-primary-red);
+            height: 100%;
+        }
+
+        .handle {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 2.5px solid var(--go-ui-color-primary-red);
+            border-radius: var(--go-ui-border-radius-full);
+            box-shadow: var(--go-ui-box-shadow-sm);
+            background-color: var(--go-ui-color-white);
+            width: 20px;
+            height: 20px;
+        }
+
+        &:focus-visible .handle {
+            box-shadow:
+                var(--go-ui-box-shadow-sm),
+                0 0 0 4px color-mix(in srgb, var(--go-ui-color-primary-red) 22%, transparent);
+        }
+    }
+
+    .number-row {
+        position: relative;
+        margin-top: 0.875rem;
+        height: 1.25rem;
+
+        .number {
+            position: absolute;
+            top: 0;
+            transform: translateX(-50%);
+            border: 0;
+            background: none;
+            cursor: pointer;
+            padding: 0 0.125rem;
+            line-height: 1;
+            white-space: nowrap;
+            color: var(--go-ui-color-gray-60);
+            font-family: var(--go-ui-font-family-sans-serif);
+            font-size: var(--go-ui-font-size-sm);
+            font-weight: var(--go-ui-font-weight-medium);
+
+            &.active {
+                color: var(--go-ui-color-primary-red);
+                font-weight: var(--go-ui-font-weight-semibold);
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--go-ui-color-primary-red);
+                outline-offset: 2px;
+                border-radius: var(--go-ui-border-radius-sm);
+            }
+        }
+    }
+}

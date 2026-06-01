@@ -12,12 +12,19 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 import { useQuery } from 'urql';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
+import { type HdxLayerSelection } from '#components/domain/RiskImminentEventMap/hdxLayers';
+import { type LocalUnitsSelection } from '#components/domain/RiskImminentEventMap/useLocalUnits';
 import { type RiskLayerProperties } from '#components/domain/RiskImminentEventMap/utils';
 import { graphql } from '#generated/gql';
 import { MAX_PAGE_LIMIT } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 
-import { ARC_IMPACT_THRESHOLD } from '../malawi/constants';
+import {
+    ARC_IMPACT_THRESHOLD,
+    ARC_OBSERVATION_HISTORY_DAYS,
+} from '../malawi/constants';
+import HowItWorks from '../malawi/HowItWorks';
+import useFloodExposure, { type FloodExposure } from '../malawi/useFloodExposure';
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 
@@ -53,11 +60,19 @@ export type ArcEvent = {
     adminAreaPcode: string;
     adminAreaName: string;
     adminAreaIfrcId: number;
+    // MRW backend AdminArea PK — matches ArcTriggerEvent.affectedAdminAreas.
+    adminAreaMrwId: string;
     rainfall: number | null;
     rainfallRaw: number | null;
-    impact: number;
+    impact: number | null;
     eventRp: number | null;
     cellTrigger: boolean;
+    // Populated once the admin2 REST fetch resolves (joined by adminAreaIfrcId).
+    districtId: number | undefined;
+    districtName: string | undefined;
+    // RP100 flood-exposed population (HDX), joined by adminAreaPcode. Static
+    // district-wide context, not matched to this observation.
+    floodExposure?: FloodExposure;
 };
 
 function keySelector(event: ArcEvent) {
@@ -71,8 +86,11 @@ interface BaseProps {
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
     showLayerSelection?: boolean;
-    activeHdxOptionKey?: string;
-    onActiveHdxOptionKeyChange?: (key: string | undefined) => void;
+    activeHdxLayers?: HdxLayerSelection[];
+    onActiveHdxLayersChange?: (next: HdxLayerSelection[]) => void;
+    localUnits?: LocalUnitsSelection;
+    onLocalUnitsChange?: (next: LocalUnitsSelection) => void;
+    baseLayers?: React.ReactNode;
 }
 
 type Props = BaseProps & (
@@ -87,12 +105,18 @@ function Arc(props: Props) {
         bbox,
         variant,
         showLayerSelection,
-        activeHdxOptionKey,
-        onActiveHdxOptionKeyChange,
+        activeHdxLayers,
+        onActiveHdxLayersChange,
+        localUnits,
+        onLocalUnitsChange,
+        baseLayers,
     } = props;
 
     // eslint-disable-next-line react/destructuring-assignment
     const iso3 = variant === 'country' ? props.iso3 : undefined;
+
+    // RP100 flood-exposed population per district (HDX), joined by pcode below.
+    const floodExposureByPcode = useFloodExposure(isDefined(iso3));
 
     const [{ data, fetching: pendingObservations }] = useQuery({
         query: ARC_RAINFALL_OBSERVATIONS_QUERY,
@@ -101,23 +125,23 @@ function Arc(props: Props) {
     const allObservationRows = data?.arcRainfallObservations?.results;
     const latestObservationDate = allObservationRows?.[0]?.observationDate;
 
-    const events = useMemo<ArcEvent[]>(() => {
-        if (!allObservationRows || !latestObservationDate) {
+    // All observation rows (every date) in ArcEvent shape. Drives both the
+    // latest-date markers and the per-district timeline shown in the detail chart.
+    const allRows = useMemo<ArcEvent[]>(() => {
+        if (!allObservationRows) {
             return [];
         }
         const rows: ArcEvent[] = [];
         allObservationRows.forEach((row) => {
-            if (String(row.observationDate) !== String(latestObservationDate)) {
-                return;
-            }
-            if (isNotDefined(row.impact) || Number(row.impact) < ARC_IMPACT_THRESHOLD) {
-                return;
-            }
             if (isNotDefined(row.adminArea?.ifrcId)) {
-                // eslint-disable-next-line no-console
-                console.warn(
-                    `[Arc] dropping observation row with null adminArea.ifrcId: ${row.id}`,
-                );
+                // Only warn for the latest date — older history rows from the
+                // same unmapped admin area would repeat the same warning.
+                if (String(row.observationDate) === String(latestObservationDate)) {
+                    // eslint-disable-next-line no-console
+                    console.warn(
+                        `[Arc] dropping observation row with null adminArea.ifrcId: ${row.id}`,
+                    );
+                }
                 return;
             }
             rows.push({
@@ -126,22 +150,36 @@ function Arc(props: Props) {
                 adminAreaPcode: row.adminArea.pcode,
                 adminAreaName: row.adminArea.name,
                 adminAreaIfrcId: row.adminArea.ifrcId,
+                adminAreaMrwId: String(row.adminAreaId),
                 rainfall: isDefined(row.rainfall) ? Number(row.rainfall) : null,
                 rainfallRaw: isDefined(row.rainfallRaw) ? Number(row.rainfallRaw) : null,
-                impact: Number(row.impact),
+                impact: isDefined(row.impact) ? Number(row.impact) : null,
                 eventRp: row.eventRp ?? null,
                 cellTrigger: row.cellTrigger,
+                districtId: undefined,
+                districtName: undefined,
             });
         });
         return rows;
     }, [allObservationRows, latestObservationDate]);
 
+    const eventsRaw = useMemo<ArcEvent[]>(() => {
+        if (!latestObservationDate) {
+            return [];
+        }
+        return allRows.filter((row) => (
+            row.observationDate === String(latestObservationDate)
+            && isDefined(row.impact)
+            && row.impact >= ARC_IMPACT_THRESHOLD
+        ));
+    }, [allRows, latestObservationDate]);
+
     const ifrcIds = useMemo(
         () => unique(
-            events.map((e) => e.adminAreaIfrcId),
+            eventsRaw.map((e) => e.adminAreaIfrcId),
             (id) => id,
         ),
-        [events],
+        [eventsRaw],
     );
 
     const { response: adminAreasResponse } = useRequest({
@@ -162,6 +200,40 @@ function Arc(props: Props) {
         });
         return map;
     }, [adminAreasResponse]);
+
+    // Enrich with admin1 district info once the admin2 REST call lands, plus
+    // the district's RP100 flood-exposed population.
+    const events = useMemo<ArcEvent[]>(
+        () => eventsRaw.map((row) => {
+            const admin = adminAreaById.get(row.adminAreaIfrcId);
+            return {
+                ...row,
+                districtId: admin?.district_id,
+                districtName: admin?.district_name,
+                floodExposure: floodExposureByPcode.get(row.adminAreaPcode),
+            };
+        }),
+        [eventsRaw, adminAreaById, floodExposureByPcode],
+    );
+
+    // Per-district observation history (most recent ARC_OBSERVATION_HISTORY_DAYS
+    // rows, sorted ascending) for the detail chart.
+    const timelineByAdmin = useMemo(() => {
+        const map = new Map<number, ArcEvent[]>();
+        allRows.forEach((row) => {
+            const list = map.get(row.adminAreaIfrcId);
+            if (list) {
+                list.push(row);
+            } else {
+                map.set(row.adminAreaIfrcId, [row]);
+            }
+        });
+        map.forEach((list, key) => {
+            list.sort((a, b) => a.observationDate.localeCompare(b.observationDate));
+            map.set(key, list.slice(-ARC_OBSERVATION_HISTORY_DAYS));
+        });
+        return map;
+    }, [allRows]);
 
     const pointFeatureSelector = useCallback(
         (event: ArcEvent): EventPointFeature | undefined => {
@@ -189,8 +261,9 @@ function Arc(props: Props) {
 
     const footprintSelector = useCallback(
         (
-            activeIfrcId: number | undefined,
+            exposure: ArcEvent[] | undefined,
         ): GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> | undefined => {
+            const activeIfrcId = exposure?.[0]?.adminAreaIfrcId;
             if (isNotDefined(activeIfrcId)) {
                 return undefined;
             }
@@ -214,18 +287,25 @@ function Arc(props: Props) {
         [adminAreaById],
     );
 
-    const [activeIfrcId, setActiveIfrcId] = useState<number | undefined>(undefined);
+    // Re-use the activeEventExposure plumbing to carry the active district's
+    // recent observation history so the detail can render the rainfall chart
+    // and the footprint selector can derive the ifrcId. No async fetch needed.
+    const [activeTimeline, setActiveTimeline] = useState<ArcEvent[] | undefined>(undefined);
 
     const handleActiveEventChange = useCallback(
         (eventId: string | undefined) => {
             if (isNotDefined(eventId)) {
-                setActiveIfrcId(undefined);
+                setActiveTimeline(undefined);
                 return;
             }
             const ev = events.find((e) => e.id === eventId);
-            setActiveIfrcId(ev?.adminAreaIfrcId);
+            if (!ev) {
+                setActiveTimeline(undefined);
+                return;
+            }
+            setActiveTimeline(timelineByAdmin.get(ev.adminAreaIfrcId));
         },
-        [events],
+        [events, timelineByAdmin],
     );
 
     const sidePanelHeading = useMemo(() => (
@@ -240,18 +320,22 @@ function Arc(props: Props) {
             hazardTypeSelector={hazardTypeSelector}
             pointFeatureSelector={pointFeatureSelector}
             footprintSelector={footprintSelector}
-            activeEventExposure={activeIfrcId}
+            activeEventExposure={activeTimeline}
             activeEventExposurePending={false}
             listItemRenderer={EventListItem}
             detailRenderer={EventDetails}
             pending={pendingObservations}
             sidePanelHeading={sidePanelHeading}
+            sidePanelFilters={<HowItWorks />}
             bbox={bbox}
             onActiveEventChange={handleActiveEventChange}
             showLayerSelection={showLayerSelection}
             iso3ForChoropleth={iso3}
-            activeHdxOptionKey={activeHdxOptionKey}
-            onActiveHdxOptionKeyChange={onActiveHdxOptionKeyChange}
+            activeHdxLayers={activeHdxLayers}
+            onActiveHdxLayersChange={onActiveHdxLayersChange}
+            localUnits={localUnits}
+            onLocalUnitsChange={onLocalUnitsChange}
+            baseLayers={baseLayers}
         />
     );
 }

@@ -1,8 +1,9 @@
 .step-gradient-bar {
-    width: min(30cqi, 10rem);
+    width: min(36cqi, 16rem);
 
     .step {
         flex-grow: 1;
+        text-align: center;
 
         .swatch {
             height: 0.5rem;

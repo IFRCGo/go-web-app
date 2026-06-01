@@ -23,6 +23,7 @@ import {
     sdtUrl,
 } from '#config';
 import useAuth from '#hooks/domain/useAuth';
+import { FIELD_REPORT_STATUS_EARLY_WARNING } from '#utils/constants';
 
 import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
 import CountryDropdown from './CountryDropdown';
@@ -313,7 +314,11 @@ function Navbar(props: Props) {
                                             to="fieldReportFormNew"
                                             colorVariant="primary"
                                             styleVariant="action"
-                                            state={{ earlyWarning: true }}
+                                            state={{
+                                                initialValue: {
+                                                    status: FIELD_REPORT_STATUS_EARLY_WARNING,
+                                                },
+                                            }}
                                             withoutFullWidth
                                         >
                                             {strings.userMenuCreateEarlyActionFieldReport}

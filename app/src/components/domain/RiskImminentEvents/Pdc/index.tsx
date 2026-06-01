@@ -34,6 +34,7 @@ function hazardTypeSelector(item: EventItem) {
 type BaseProps = {
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
+    baseLayers?: React.ReactNode;
 }
 
 type Props = BaseProps & ({
@@ -51,6 +52,7 @@ function Pdc(props: Props) {
         title,
         bbox,
         variant,
+        baseLayers,
     } = props;
 
     const [activeEventId, setActiveEventId] = useState<number | undefined>();
@@ -259,6 +261,7 @@ function Pdc(props: Props) {
             activeEventExposure={exposureResponse}
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
+            baseLayers={baseLayers}
         />
     );
 }

@@ -1,0 +1,142 @@
+.layers-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-sm);
+    padding: var(--go-ui-spacing-sm);
+
+    .active-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--go-ui-color-text-light);
+        font-size: var(--go-ui-font-size-sm);
+
+        .clear-all {
+            border: 0;
+            background: none;
+            cursor: pointer;
+            padding: 0;
+            color: var(--go-ui-color-primary-red);
+            font-family: var(--go-ui-font-family-sans-serif);
+            font-size: var(--go-ui-font-size-sm);
+            font-weight: var(--go-ui-font-weight-medium);
+        }
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+/* Collapsible dataset section (custom — keeps a single, never-remounted chevron). */
+.section {
+    .section-header {
+        text-align: left;
+
+        .chevron {
+            flex-shrink: 0;
+            transition: transform var(--go-ui-duration-transition-medium) ease-in-out;
+            color: var(--go-ui-color-gray-60);
+        }
+
+        .chevron-expanded {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+/* Active-layer count badge, shown in each group header. */
+.count-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--go-ui-border-radius-full);
+    background-color: var(--go-ui-color-primary-red);
+    padding: var(--go-ui-spacing-4xs);
+    min-width: 1rem;
+    line-height: 1;
+    color: var(--go-ui-color-white);
+    font-size: var(--go-ui-font-size-2xs);
+}
+
+/* Per-layer representation + opacity controls, shown beneath an active row. */
+.control-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-2xs);
+    margin-top: var(--go-ui-spacing-3xs);
+    border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-20);
+    border-radius: var(--go-ui-border-radius-md);
+    background-color: var(--go-ui-color-gray-10);
+    padding: var(--go-ui-spacing-xs);
+}
+
+.opacity-slider {
+    display: flex;
+    align-items: center;
+    gap: var(--go-ui-spacing-xs);
+
+    .opacity-label {
+        color: var(--go-ui-color-text-light);
+        font-size: var(--go-ui-font-size-sm);
+    }
+
+    .opacity-track {
+        position: relative;
+        flex-grow: 1;
+        outline: none;
+        border-radius: var(--go-ui-border-radius-full);
+        background-color: var(--go-ui-color-gray-30);
+        cursor: pointer;
+        height: 4px;
+        touch-action: none;
+
+        .opacity-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: var(--go-ui-border-radius-full);
+            background-color: var(--go-ui-color-primary-red);
+            height: 100%;
+        }
+
+        .opacity-handle {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid var(--go-ui-color-primary-red);
+            border-radius: var(--go-ui-border-radius-full);
+            box-shadow: var(--go-ui-box-shadow-sm);
+            background-color: var(--go-ui-color-white);
+            width: 14px;
+            height: 14px;
+        }
+
+        &:focus-visible .opacity-handle {
+            box-shadow:
+                var(--go-ui-box-shadow-sm),
+                0 0 0 4px color-mix(in srgb, var(--go-ui-color-primary-red) 22%, transparent);
+        }
+    }
+
+    .opacity-value {
+        min-width: 2.5rem;
+        text-align: right;
+        color: var(--go-ui-color-text);
+        font-size: var(--go-ui-font-size-sm);
+    }
+}
+
+.marker-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--go-ui-spacing-2xs);
+
+    .marker-dot {
+        flex-shrink: 0;
+        border-radius: var(--go-ui-border-radius-full);
+        background-color: var(--go-ui-color-primary-red);
+        width: 0.625rem;
+        height: 0.625rem;
+    }
+}

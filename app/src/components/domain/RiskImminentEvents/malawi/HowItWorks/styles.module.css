@@ -1,0 +1,66 @@
+.trigger {
+    /* keep the labelled trigger from stretching in block layouts */
+    align-self: flex-start;
+}
+
+.steps {
+    display: grid;
+    align-items: start;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    gap: var(--go-ui-spacing-lg);
+
+    .arrow {
+        /* optically centre the arrow on the number badge row */
+        margin-top: 0.25rem;
+        color: var(--go-ui-color-gray-40);
+        font-size: 1.25rem;
+    }
+
+    .step {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-sm);
+    }
+
+    .number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--go-ui-border-radius-full);
+        background-color: var(--go-ui-color-primary-red);
+        width: 1.5rem;
+        height: 1.5rem;
+        color: var(--go-ui-color-white);
+        font-size: var(--go-ui-font-size-sm);
+        font-weight: var(--go-ui-font-weight-semibold);
+    }
+
+    .step-title {
+        font-weight: var(--go-ui-font-weight-semibold);
+    }
+
+    .description {
+        color: var(--go-ui-color-text-light);
+        font-size: var(--go-ui-font-size-sm);
+    }
+
+    .note {
+        border-radius: var(--go-ui-border-radius-sm);
+        background-color: color-mix(in srgb, var(--go-ui-color-primary-red) 8%, var(--go-ui-color-white));
+        padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--go-ui-color-primary-red);
+        font-size: var(--go-ui-font-size-xs);
+        font-weight: var(--go-ui-font-weight-semibold);
+    }
+
+    @media (max-width: 50rem) {
+        grid-template-columns: 1fr;
+
+        .arrow {
+            display: none;
+        }
+    }
+}

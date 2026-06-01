@@ -2,6 +2,16 @@
     height: 12rem;
 }
 
+.band-envelope {
+    fill: color-mix(in srgb, var(--go-ui-color-primary-blue) 10%, transparent);
+    stroke: none;
+}
+
+.band-likely {
+    fill: color-mix(in srgb, var(--go-ui-color-primary-blue) 22%, transparent);
+    stroke: none;
+}
+
 .line {
     stroke: var(--go-ui-color-primary-blue);
     stroke-width: 1.5;
