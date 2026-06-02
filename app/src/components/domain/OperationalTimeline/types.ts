@@ -35,25 +35,24 @@ export interface TimelineBar {
     startPhase: PhaseKey;
     endPhase: PhaseKey;
     /**
-     * Optional manual lane (vertical stack position within the activity row).
+     * Optional manual lane (vertical stack position within the group's bar area).
      * When omitted, lanes are assigned automatically by greedy packing.
      */
     lane?: number;
     /** Display string shown as "Last update: ..." in the card. */
     lastUpdate?: string;
+    /**
+     * The linked resource exists but its folder is still empty (no content
+     * yet). Such bars are rendered muted/greyed but remain clickable.
+     */
+    isEmpty?: boolean;
     description?: ReactNode;
     document?: TimelineDocument;
 }
 
-export interface TimelineActivity {
-    id: string;
-    label: ReactNode;
-    description?: ReactNode;
-    bars: TimelineBar[];
-}
-
 export interface TimelineGroup {
     id: string;
+    /** Sector name shown on the collapsible group header. */
     label: ReactNode;
-    activities: TimelineActivity[];
+    bars: TimelineBar[];
 }

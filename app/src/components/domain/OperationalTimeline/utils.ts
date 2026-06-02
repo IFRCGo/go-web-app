@@ -22,7 +22,7 @@ export interface PositionedBar extends TimelineBar {
  * ranges intersect; a lane is free for a new bar when the last bar in that lane
  * ends strictly before the new bar starts. Bars with an explicit `lane` keep
  * it (manual override). Returns the positioned bars and the total lane count
- * so the caller can size the activity's row band.
+ * so the caller can size the group's bar area.
  */
 export function packLanes(bars: TimelineBar[]): {
     positioned: PositionedBar[];

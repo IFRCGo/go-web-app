@@ -2,24 +2,12 @@
     display: flex;
     align-items: center;
     /* keep a little breathing room between stacked lanes */
-    padding-block: var(--go-ui-spacing-4xs);
+    padding: var(--go-ui-spacing-4xs);
     min-width: 0;
 
     .pill {
-        display: flex;
-        justify-content: flex-start;
         width: 100%;
         min-width: 0;
-        border-radius: 1em;
-        background-color: var(--go-ui-color-primary-red);
-        padding-block: var(--go-ui-spacing-3xs);
-        padding-inline: var(--go-ui-spacing-sm);
-        text-align: start;
-        color: var(--go-ui-color-white);
-
-        &:hover {
-            background-color: var(--go-ui-color-red-hover);
-        }
 
         .pill-label {
             overflow: hidden;
@@ -32,12 +20,22 @@
     .active {
         background-color: var(--go-ui-color-red-hover);
     }
+
+    /* Linked folder is still empty: muted but kept clickable. */
+    .pill.empty {
+        background-color: var(--go-ui-color-gray-60);
+
+        &:hover {
+            background-color: var(--go-ui-color-gray-70);
+        }
+    }
 }
 
-.card {
+.popup {
     display: flex;
     flex-direction: column;
     gap: var(--go-ui-spacing-sm);
+    padding: var(--go-ui-spacing-md)!important;
 
     .card-heading {
         font-size: var(--go-ui-font-size-lg);
