@@ -1,0 +1,59 @@
+import { type ReactNode } from 'react';
+
+/**
+ * The timeline's time axis is a fixed, ordered set of NAMED ordinal phases
+ * (not real calendar dates). Bars reference a start/end phase by key and the
+ * component lays them out across equal-width columns.
+ *
+ * NOTE: These are indicative, context-specific timeframes meant to function as
+ * a guide only (see the legacy copy in SurgeOperationalToolbox).
+ */
+export const PHASES = [
+    'pre_disaster',
+    'w1',
+    'w2',
+    'w3',
+    'w4',
+    'month_2',
+    'month_3',
+    'month_4',
+    'month_5_12',
+    'closure',
+] as const;
+
+export type PhaseKey = typeof PHASES[number];
+
+export interface TimelineDocument {
+    label: ReactNode;
+    url: string;
+}
+
+export interface TimelineBar {
+    id: string;
+    /** Shown on the pill and as the hover-card heading. */
+    label: ReactNode;
+    startPhase: PhaseKey;
+    endPhase: PhaseKey;
+    /**
+     * Optional manual lane (vertical stack position within the activity row).
+     * When omitted, lanes are assigned automatically by greedy packing.
+     */
+    lane?: number;
+    /** Display string shown as "Last update: ..." in the card. */
+    lastUpdate?: string;
+    description?: ReactNode;
+    document?: TimelineDocument;
+}
+
+export interface TimelineActivity {
+    id: string;
+    label: ReactNode;
+    description?: ReactNode;
+    bars: TimelineBar[];
+}
+
+export interface TimelineGroup {
+    id: string;
+    label: ReactNode;
+    activities: TimelineActivity[];
+}

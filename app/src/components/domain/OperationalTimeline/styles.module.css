@@ -1,0 +1,99 @@
+.operational-timeline {
+    overflow-x: auto;
+    width: 100%;
+
+    .timeline {
+        display: flex;
+        flex-direction: column;
+        /* gutter (15rem) + 10 phase columns (min 6rem each) */
+        min-width: 75rem;
+
+        .gutter {
+            position: sticky;
+            left: 0;
+            z-index: 1;
+            flex: 0 0 15rem;
+            background-color: var(--go-ui-color-white);
+            padding: var(--go-ui-spacing-sm);
+        }
+
+        /* every phase strip (header + each activity) shares this column model so
+           columns line up vertically; the dashed lines mark column boundaries */
+        .phase-header,
+        .phase-area {
+            display: grid;
+            flex: 1 1 0;
+            grid-template-columns: repeat(10, minmax(6rem, 1fr));
+            min-width: 0;
+            background-image: repeating-linear-gradient(
+                to right,
+                transparent,
+                transparent calc(10% - var(--go-ui-width-separator-thin)),
+                var(--go-ui-color-separator-light) calc(10% - var(--go-ui-width-separator-thin)),
+                var(--go-ui-color-separator-light) 10%
+            );
+        }
+
+        .header-row {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            background-color: var(--go-ui-color-white);
+            border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+
+            .phase-header-cell {
+                padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-2xs);
+                text-align: center;
+                text-transform: uppercase;
+                color: var(--go-ui-color-text-light);
+                font-size: var(--go-ui-font-size-2xs);
+                font-weight: var(--go-ui-font-weight-bold);
+            }
+        }
+
+        .group {
+            display: flex;
+            flex-direction: column;
+
+            .group-header {
+                position: sticky;
+                left: 0;
+                justify-content: flex-start;
+                background-color: var(--go-ui-color-gray-10);
+                padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-sm);
+                width: 100%;
+                text-align: start;
+
+                .chevron {
+                    flex-shrink: 0;
+                }
+
+                .group-label {
+                    font-weight: var(--go-ui-font-weight-bold);
+                }
+            }
+
+            .activity-row {
+                display: flex;
+                border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator-light);
+
+                .activity-label {
+                    font-weight: var(--go-ui-font-weight-semibold);
+                }
+
+                .activity-description {
+                    margin-top: var(--go-ui-spacing-3xs);
+                    color: var(--go-ui-color-text-light);
+                    font-size: var(--go-ui-font-size-sm);
+                }
+
+                .phase-area {
+                    align-items: center;
+                    gap: var(--go-ui-spacing-3xs) 0;
+                    padding-block: var(--go-ui-spacing-xs);
+                }
+            }
+        }
+    }
+}
