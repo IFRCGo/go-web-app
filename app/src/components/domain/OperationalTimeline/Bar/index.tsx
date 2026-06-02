@@ -32,12 +32,13 @@ function Bar(props: Props) {
         >
             <DropdownMenu
                 className={styles.pill}
-                activeClassName={styles.active}
-                popupClassName={styles.card}
+                // activeClassName={styles.active}
+                popupClassName={styles.popup}
                 label={<span className={styles.pillLabel}>{bar.label}</span>}
+                labelStyleVariant="translucent"
+                labelColorVariant={bar.isEmpty ? 'secondary' : 'primary'}
                 preferredPopupWidth={22}
                 withoutDropdownIcon
-                labelWithoutPadding
                 persistent
             >
                 <div className={styles.cardHeading}>
