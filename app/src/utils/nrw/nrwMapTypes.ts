@@ -2,10 +2,7 @@
 // The enums are shared values between the backend and frontend.
 // Do not change any values without first checking with the IBF backend team.
 
-export enum HazardType {
-  Flood = 'flood',
-  Drought = 'drought',
-}
+import { type HazardType } from './shared-enums';
 
 // Enum to identify alert classes
 // These then point to the color/style/localized string in the front end.
@@ -83,7 +80,7 @@ export interface EventOverviewData {
   eventName: string;
 
   // ID to later reference the event, as well as for making other API calls for related resources
-  eventId: string;
+  eventId: number;
 
   alertClass: AlertClassType;
 
@@ -129,9 +126,6 @@ export interface EventAdminAreaData {
   exposure: ExposureCategory[];
 }
 
-// Data for all events, keyed by event ID
-export type AllEventsData = Record<string, EventOverviewData>;
-
 // Country-level non-event data
 // This is a work in progress still and will either have more data added to it,
 // or merged into some other source.
@@ -154,7 +148,7 @@ export enum EventDataSources {
 // Details needed by the map when an event is selected
 // This is derived from EventOverviewData and passed to the map component
 export interface SelectedEventMapDetails {
-  eventId: string;
+  eventId: number;
   centroid: [number, number];
   // Admin area codes affected by this event, keyed by admin level
   exposedRegionsByLevel: Map<number, string[]>;

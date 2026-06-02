@@ -20,7 +20,6 @@ import {
 import { getSelectedEventMapDetails } from '#utils/nrw/nrwMapHelpers';
 import type { MapSelectionView } from '#utils/nrw/nrwMapInteractionHelpers';
 import { PrintElementId } from '#utils/nrw/nrwMapToPdfExporter';
-import type { AllEventsData } from '#utils/nrw/nrwMapTypes';
 
 import NrwControlPanel from './NrwControlPanel';
 import NrwDataPanel from './NrwDataPanel';
@@ -95,7 +94,7 @@ export default function NrwMapContainer() {
         hideAllLayers,
         activeLayerIds,
         isMapReady,
-    } = useNrwDataLoader(selectedCountry, {} as AllEventsData, selectedEventId, initialLayerIds);
+    } = useNrwDataLoader(selectedCountry, [], selectedEventId, initialLayerIds);
 
     const [selectedAdminPlaceCode, setSelectedAdminPlaceCode] = useState<
     string | null
@@ -124,10 +123,13 @@ export default function NrwMapContainer() {
 
     // Derive peak day for the selected event (for PDF export filename)
     const selectedEventPeakDay = useMemo(() => {
-        if (!activeEventId || !eventData[activeEventId]) {
+        const activeEvent = activeEventId
+            ? eventData.find((event) => event.eventId === activeEventId)
+            : null;
+        if (!activeEvent) {
             return undefined;
         }
-        const peakTime = eventData[activeEventId].reachesPeakAlertClassTime;
+        const peakTime = activeEvent.reachesPeakAlertClassTime;
         return peakTime ? peakTime.split('T')[0] : undefined;
     }, [eventData, activeEventId]);
 
@@ -166,7 +168,7 @@ export default function NrwMapContainer() {
     };
 
     // Handle event selection from control panel
-    const handleEventClick = (eventId: string) => {
+    const handleEventClick = (eventId: number) => {
         selectEvent(eventId);
         // Clear any user-selected admin area when changing events
         setSelectedAdminPlaceCode(null);

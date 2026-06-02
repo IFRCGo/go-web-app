@@ -20,7 +20,7 @@ import type Style from 'ol/style/Style';
 
 import { type MvtStyleCreator } from './nrwMapStyles';
 import type {
-    AllEventsData,
+    EventOverviewData,
     MapLayerDetails,
     SelectedEventMapDetails,
 } from './nrwMapTypes';
@@ -32,12 +32,12 @@ import {
 // Extract the map-relevant details from event data for a selected event
 // Returns null if no event is selected or event not found
 export function getSelectedEventMapDetails(
-    eventData: AllEventsData,
-    eventId: string | null,
+    eventData: EventOverviewData[],
+    eventId: number | null,
 ): SelectedEventMapDetails | null {
     if (!eventId) return null;
 
-    const event = eventData[eventId];
+    const event = eventData.find((e) => e.eventId === eventId);
     if (!event) return null;
 
     // Build affected regions map by admin level

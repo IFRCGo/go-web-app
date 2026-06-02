@@ -2,21 +2,21 @@
 
 import {
     AlertClassType,
-    type AllEventsData,
     DataSourceType,
+    type EventOverviewData,
     ExposedItemType,
-    HazardType,
     MapLayerDisplayType,
     MapLayerInfoType,
     MeasurementUnits,
 } from '../nrwMapTypes';
+import { HazardType } from '../shared-enums';
 
 // Mock data for testing - populations are made up, summed up the hierarchy
-export const mockAllEventsData_MW: AllEventsData = {
-    event1: {
-        hazardTypes: [HazardType.Flood],
+export const mockAllEventsData_MW: EventOverviewData[] = [
+    {
+        hazardTypes: [HazardType.floods],
         eventName: 'Flood - Malawi',
-        eventId: 'event1',
+        eventId: 1001,
         alertClass: AlertClassType.Low,
         trigger: false,
         centroid: [33.78, -13.98], // Lilongwe City center
@@ -194,10 +194,10 @@ export const mockAllEventsData_MW: AllEventsData = {
         firstIssuedAt: '2026-04-01T08:30:00Z',
         lastUpdatedAt: '2026-04-02T00:00:00Z',
     },
-    event2: {
-        hazardTypes: [HazardType.Flood],
+    {
+        hazardTypes: [HazardType.floods],
         eventName: 'Flood - Malawi',
-        eventId: 'event2',
+        eventId: 1002,
         alertClass: AlertClassType.High,
         trigger: true,
         centroid: [35.32, -15.38], // Zomba center
@@ -356,10 +356,10 @@ export const mockAllEventsData_MW: AllEventsData = {
         firstIssuedAt: '2026-04-01T14:15:00Z',
         lastUpdatedAt: '2026-04-02T00:00:00Z',
     },
-    event3: {
-        hazardTypes: [HazardType.Flood],
+    {
+        hazardTypes: [HazardType.floods],
         eventName: 'Flood - Malawi',
-        eventId: 'event3',
+        eventId: 1003,
         alertClass: AlertClassType.Medium,
         trigger: false,
         centroid: [34.5, -14.5], // Between Lilongwe and Zomba
@@ -556,14 +556,14 @@ export const mockAllEventsData_MW: AllEventsData = {
         firstIssuedAt: '2026-04-01T19:45:00Z',
         lastUpdatedAt: '2026-04-02T00:00:00Z',
     },
-};
+];
 
 // Mock data for Zambia testing
-export const mockAllEventsData_ZM: AllEventsData = {
-    event1: {
-        hazardTypes: [HazardType.Flood],
+export const mockAllEventsData_ZM: EventOverviewData[] = [
+    {
+        hazardTypes: [HazardType.floods],
         eventName: 'Flood - Zambia',
-        eventId: 'event1',
+        eventId: 2001,
         alertClass: AlertClassType.Low,
         trigger: false,
         centroid: [24.8, -13.68], // Mufumbwe center
@@ -684,10 +684,10 @@ export const mockAllEventsData_ZM: AllEventsData = {
         firstIssuedAt: '2026-04-01T10:00:00Z',
         lastUpdatedAt: '2026-04-02T00:00:00Z',
     },
-    event2: {
-        hazardTypes: [HazardType.Flood],
+    {
+        hazardTypes: [HazardType.floods],
         eventName: 'Flood - Zambia',
-        eventId: 'event2',
+        eventId: 2002,
         alertClass: AlertClassType.Medium,
         trigger: true,
         centroid: [24.8, -13.68], // Mufumbwe center
@@ -808,4 +808,4 @@ export const mockAllEventsData_ZM: AllEventsData = {
         firstIssuedAt: '2026-04-01T16:30:00Z',
         lastUpdatedAt: '2026-04-02T00:00:00Z',
     },
-};
+];

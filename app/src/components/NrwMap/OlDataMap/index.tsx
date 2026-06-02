@@ -126,11 +126,11 @@ export default function OlDataMap({
                 [3, null],
                 [4, null],
             ]),
-            selectedEventId: selectedEventDetails?.eventId ?? '',
+            selectedEventId: selectedEventDetails?.eventId ?? null,
             exposedRegionsByLevel:
         selectedEventDetails?.exposedRegionsByLevel ?? new Map(),
             isEventSelected() {
-                return state.selectedEventId !== '';
+                return state.selectedEventId !== null;
             },
         };
         stateRef.current = state;
@@ -372,7 +372,7 @@ export default function OlDataMap({
         if (!state || !map || !addAdminLayer) return;
 
         // Update state with new event details
-        state.selectedEventId = selectedEventDetails?.eventId ?? '';
+        state.selectedEventId = selectedEventDetails?.eventId ?? null;
         state.exposedRegionsByLevel = selectedEventDetails?.exposedRegionsByLevel ?? new Map();
 
         // If event selected with exposed regions, drill down to admin3

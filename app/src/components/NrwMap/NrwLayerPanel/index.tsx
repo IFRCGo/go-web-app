@@ -40,7 +40,7 @@ interface NrwLayerPanelProps {
   onToggleMapLayer: (layerDetails: MapLayerDetails) => void;
   onHideAllLayers: () => void;
   mapRef: React.RefObject<MapOl | null>;
-  eventId?: string;
+  eventId?: number;
   peakDay?: string;
   // Resource IDs of layers that should be on on initial view
   initialLayerIds: string[];

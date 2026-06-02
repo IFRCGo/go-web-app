@@ -42,7 +42,7 @@ export interface MapViewState {
   // See task: https://dev.azure.com/redcrossnl/IBF/_workitems/edit/41768
   selectedAdminCodes: Map<number, string | null>;
 
-  selectedEventId: string;
+  selectedEventId: number | null;
 
   // Affected region codes by admin level. This is populated when an event is selected.
   exposedRegionsByLevel: Map<number, string[]>;

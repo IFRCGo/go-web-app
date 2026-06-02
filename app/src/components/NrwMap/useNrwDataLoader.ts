@@ -19,7 +19,7 @@ import {
     styleRcBranchPoint,
 } from '#utils/nrw/nrwMapStyles';
 import {
-    type AllEventsData,
+    type EventOverviewData,
     type MapLayerDetails,
     MapLayerDisplayType,
     MapLayerInfoType,
@@ -36,16 +36,16 @@ import {
  */
 export default function useNrwDataLoader(
     selectedCountry: string,
-    initialEventData: AllEventsData,
-    initialEventId: string,
+    initialEventData: EventOverviewData[],
+    initialEventId: number | null,
     initialLayerIds: string[],
 ) {
     const alert = useAlert();
 
     // Shared state: event data and selected event
-    const [eventData, setEventData] = useState<AllEventsData>(initialEventData);
-    const [selectedEventId, setSelectedEventId] = useState<string | null>(
-        initialEventId || null,
+    const [eventData, setEventData] = useState<EventOverviewData[]>(initialEventData);
+    const [selectedEventId, setSelectedEventId] = useState<number | null>(
+        initialEventId,
     );
 
     // Resource IDs of currently visible layers (population, event extent, etc.)
@@ -197,7 +197,7 @@ export default function useNrwDataLoader(
     };
 
     // Select an event by ID
-    const selectEvent = (eventId: string) => {
+    const selectEvent = (eventId: number) => {
         setSelectedEventId(eventId);
     };
 
@@ -208,9 +208,8 @@ export default function useNrwDataLoader(
     };
 
     // Get available layers for the currently selected event
-    const selectedEventLayers: MapLayerDetails[] = selectedEventId && eventData[selectedEventId]
-        ? eventData[selectedEventId].availableLayers
-        : [];
+    const selectedEvent = eventData.find((event) => event.eventId === selectedEventId) ?? null;
+    const selectedEventLayers: MapLayerDetails[] = selectedEvent?.availableLayers ?? [];
 
     return {
         eventData,

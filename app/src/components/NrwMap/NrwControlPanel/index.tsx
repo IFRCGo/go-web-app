@@ -12,7 +12,6 @@ import {
 import { Button } from '@ifrc-go/ui';
 
 import {
-    type AllEventsData,
     type EventAdminAreaData,
     type EventOverviewData,
     ExposedItemType,
@@ -55,7 +54,7 @@ function getExposureLabel(type: ExposedItemType): string {
 
 interface EventButtonProps {
   event: EventOverviewData;
-  onEventClick: (eventId: string) => void;
+  onEventClick: (eventId: number) => void;
 }
 
 interface EventDetailViewProps {
@@ -342,9 +341,9 @@ function EventButton({ event, onEventClick }: EventButtonProps) {
 }
 
 interface NrwControlPanelProps {
-  eventData: AllEventsData;
-  activeEventId: string | null;
-  onEventClick: (eventId: string) => void;
+  eventData: EventOverviewData[];
+  activeEventId: number | null;
+  onEventClick: (eventId: number) => void;
   onRefreshAll: () => void;
   onDeselectEvent: () => void;
   countryCode: string;
@@ -364,8 +363,7 @@ export default function NrwControlPanel({
     countryCode,
     selectedAdminPlaceCode,
 }: NrwControlPanelProps) {
-    const events = Object.values(eventData);
-    const selectedEvent = activeEventId ? eventData[activeEventId] : null;
+    const selectedEvent = eventData.find((event) => event.eventId === activeEventId) ?? null;
 
     const handleBack = () => {
         onDeselectEvent();
@@ -387,7 +385,7 @@ export default function NrwControlPanel({
         );
     }
 
-    if (events.length === 0) {
+    if (eventData.length === 0) {
         return (
             <div className={styles.dataContainer}>
                 <p>
@@ -410,7 +408,7 @@ export default function NrwControlPanel({
                     Refresh All
                 </Button>
             </div>
-            {events.map((event) => (
+            {eventData.map((event) => (
                 <EventButton
                     key={event.eventId}
                     event={event}

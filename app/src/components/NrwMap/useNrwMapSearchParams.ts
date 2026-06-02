@@ -16,7 +16,7 @@ import {
     parseMapLayersParam,
     sanitizeAdminCode,
     sanitizeCountryCode,
-    sanitizeIdParam,
+    sanitizeEventIdParam,
     sanitizeMapLatitudeParam,
     sanitizeMapLongitudeParam,
     sanitizeMapZoomParam,
@@ -25,7 +25,7 @@ import {
 
 interface InitialParams {
     selectedCountry: string;
-    selectedEventId: string;
+    selectedEventId: number | null;
     selectedMapZoom: number | null;
     selectedMapLat: number | null;
     selectedMapLon: number | null;
@@ -35,7 +35,7 @@ interface InitialParams {
 
 interface MapViewParams {
     country: string;
-    eventId?: string | null;
+    eventId?: number | null;
     adminCode?: string;
     mapView?: MapSelectionView;
     layerIds: string[];
@@ -43,7 +43,7 @@ interface MapViewParams {
 
 interface EventParams {
     country: string;
-    eventId: string;
+    eventId: number;
     layerIds: string[];
 }
 
@@ -58,7 +58,7 @@ export default function useNrwMapSearchParams() {
     // Read initial param values once on mount for setting initial display.
     const [initial] = useState<InitialParams>(() => ({
         selectedCountry: sanitizeCountryCode(searchParams.get(countryParamsKey)),
-        selectedEventId: sanitizeIdParam(searchParams.get(eventIdParamsKey)),
+        selectedEventId: sanitizeEventIdParam(searchParams.get(eventIdParamsKey)),
         selectedMapZoom: sanitizeMapZoomParam(searchParams.get(mapZoomParamsKey)),
         selectedMapLat: sanitizeMapLatitudeParam(searchParams.get(mapCenterLatParamsKey)),
         selectedMapLon: sanitizeMapLongitudeParam(searchParams.get(mapCenterLonParamsKey)),
@@ -89,7 +89,7 @@ export default function useNrwMapSearchParams() {
     const setEventParams = useCallback(({ country, eventId, layerIds }: EventParams) => {
         const nextParams: Record<string, string> = {
             [countryParamsKey]: country,
-            [eventIdParamsKey]: sanitizeIdParam(eventId),
+            [eventIdParamsKey]: String(eventId),
         };
         const layersValue = serializeMapLayersParam(layerIds);
         if (layersValue) {
@@ -111,7 +111,7 @@ export default function useNrwMapSearchParams() {
         };
 
         if (eventId) {
-            nextParams[eventIdParamsKey] = sanitizeIdParam(eventId);
+            nextParams[eventIdParamsKey] = String(eventId);
         }
 
         const sanitizedAdminCode = sanitizeAdminCode(adminCode);

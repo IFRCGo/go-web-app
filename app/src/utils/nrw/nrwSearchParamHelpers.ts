@@ -13,15 +13,18 @@ export const mapCenterLonParamsKey = 'lon';
 export const adminParamsKey = 'a';
 export const mapLayersParamsKey = 'l';
 
-// Accept ids containing only alphanumeric characters and hyphens, with a max length
-export function sanitizeIdParam(value: string | null | undefined): string {
-    const maxLength = 36;
-    const idRegex = /^[A-Za-z0-9-]+$/;
+// Parse a numeric event ID from a URL search parameter string.
+// Returns null if the value is missing, empty, or not a valid positive integer.
+export function sanitizeEventIdParam(value: string | null | undefined): number | null {
     const cleanedValue = value?.trim() ?? '';
-    if (cleanedValue.length > maxLength) {
-        return '';
+    if (cleanedValue === '') {
+        return null;
     }
-    return idRegex.test(cleanedValue) ? cleanedValue : '';
+    const parsed = Number(cleanedValue);
+    if (!Number.isInteger(parsed) || parsed <= 0) {
+        return null;
+    }
+    return parsed;
 }
 
 // Convert to uppercase and accept only 3 letter length codes
