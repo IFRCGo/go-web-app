@@ -1,0 +1,56 @@
+.bar {
+    display: flex;
+    align-items: center;
+    /* keep a little breathing room between stacked lanes */
+    padding-block: var(--go-ui-spacing-4xs);
+    min-width: 0;
+
+    .pill {
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+        min-width: 0;
+        border-radius: 1em;
+        background-color: var(--go-ui-color-primary-red);
+        padding-block: var(--go-ui-spacing-3xs);
+        padding-inline: var(--go-ui-spacing-sm);
+        text-align: start;
+        color: var(--go-ui-color-white);
+
+        &:hover {
+            background-color: var(--go-ui-color-red-hover);
+        }
+
+        .pill-label {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: var(--go-ui-font-size-sm);
+        }
+    }
+
+    .active {
+        background-color: var(--go-ui-color-red-hover);
+    }
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-sm);
+
+    .card-heading {
+        font-size: var(--go-ui-font-size-lg);
+        font-weight: var(--go-ui-font-weight-bold);
+    }
+
+    .last-update {
+        margin-top: calc(-1 * var(--go-ui-spacing-2xs));
+        color: var(--go-ui-color-text-light);
+        font-size: var(--go-ui-font-size-sm);
+    }
+
+    .card-description {
+        color: var(--go-ui-color-text);
+    }
+}
