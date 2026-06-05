@@ -10,6 +10,7 @@
         "operationDisasterType": "Disaster Type",
         "operationFilterDisastersPlaceholder": "All Disaster Types",
         "crisisTabName": "Crisis Categorisation",
+        "crisisCategorisationDescription": "The Crisis Categorisation enables the IFRC Network to systematically assess and assign severity levels to disasters based on standardized indicators. It supports both single-country and multi-country emergencies, allowing to input specific vulnerability data per country, consolidate those scores into a final IFRC Severity Level, and automatically track the history of all categorisation changes.",
         "appealTabName": "Appeal Types",
         "mapStartDateAfter": "Start After",
         "mapStartDateBefore": "Start Before",
@@ -19,9 +20,9 @@
         "operationMapProvinces": "Provinces",
         "operationMapClearFilters": "Clear Filters",
         "operationFilterDistrictPlaceholder": "All Provinces",
-        "crisisRedEmergency": "Red Emergency",
-        "crisisOrangeEmergency": "Orange Emergency",
-        "crisisYellowEmergency": "Yellow Emergency",
+        "crisisRedEmergency": "Red Level",
+        "crisisOrangeEmergency": "Orange Level",
+        "crisisYellowEmergency": "Yellow Level",
         "explanationBubblePopulationLabel": "# of people targeted",
         "explanationBubbleAmountLabel": "IFRC financial requirements"
     }

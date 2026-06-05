@@ -7,7 +7,9 @@ import {
     Button,
     Container,
     DateInput,
+    InfoPopup,
     InlineLayout,
+    ListView,
     SelectInput,
     Tab,
     TabList,
@@ -353,11 +355,17 @@ function ActiveOperationMap(props: Props) {
                 <InlineLayout
                     after={(
                         <TabList>
-                            <Tab
-                                name="crisis"
-                            >
-                                {strings.crisisTabName}
-                            </Tab>
+                            <ListView spacing="3xs">
+                                <Tab
+                                    name="crisis"
+                                >
+                                    {strings.crisisTabName}
+                                </Tab>
+                                <InfoPopup
+                                    title={strings.crisisTabName}
+                                    description={strings.crisisCategorisationDescription}
+                                />
+                            </ListView>
                             <Tab
                                 name="appeal"
                             >
