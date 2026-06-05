@@ -14,6 +14,7 @@ import {
     noCountrySelectedValue,
 } from '#utils/nrw/nrwConstants';
 import {
+    type AdminAreaDetails,
     getCurrentCountryEventData,
     getEventDetails,
 } from '#utils/nrw/nrwDataFetchHelpers';
@@ -99,6 +100,7 @@ export default function NrwMapContainer() {
     const [selectedAdminPlaceCode, setSelectedAdminPlaceCode] = useState<
     string | null
     >(initialAdminCode);
+    const [adminDetails, setAdminDetails] = useState<AdminAreaDetails | null>(null);
 
     // Store map instance for PDF export
     const mapRef = useRef<MapOl | null>(null);
@@ -155,6 +157,7 @@ export default function NrwMapContainer() {
         // Deselect current event and admin areas
         deselectEvent();
         setSelectedAdminPlaceCode(null);
+        setAdminDetails(null);
 
         // Reload event data and set it
         const data = await getCurrentCountryEventData(selectedCountry);
@@ -165,6 +168,7 @@ export default function NrwMapContainer() {
     const handleDeselectEvent = () => {
         deselectEvent();
         setSelectedAdminPlaceCode(null);
+        setAdminDetails(null);
     };
 
     // Handle event selection from control panel
@@ -172,6 +176,7 @@ export default function NrwMapContainer() {
         selectEvent(eventId);
         // Clear any user-selected admin area when changing events
         setSelectedAdminPlaceCode(null);
+        setAdminDetails(null);
         // Set search params for URL sharing only - does not reload data
         setEventParams({
             country: selectedCountry,
@@ -183,9 +188,11 @@ export default function NrwMapContainer() {
     // Callback to update search params based on user interactions.
     const handleMapItemSelected = (
         placeCode: string,
+        details: AdminAreaDetails | null,
         mapView?: MapSelectionView,
     ) => {
         setSelectedAdminPlaceCode(placeCode);
+        setAdminDetails(details);
         setMapViewParams({
             country: selectedCountry,
             eventId: activeEventId,
@@ -208,7 +215,10 @@ export default function NrwMapContainer() {
     return (
         <div className={styles.container}>
             <div id={PrintElementId.DataPanel}>
-                <NrwDataPanel selectedCountry={selectedCountry} />
+                <NrwDataPanel
+                    selectedCountry={selectedCountry}
+                    adminDetails={adminDetails}
+                />
             </div>
             <div className={styles.mainContent}>
                 <div className={styles.controlPanelColumn}>

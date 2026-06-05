@@ -7,10 +7,9 @@ import {
 } from './mockData/mock_EventData';
 import {
     ADMIN_LEVEL_FIELD_KEY,
-    ADMIN1_PCODE_FIELD_KEY,
-    ADMIN2_PCODE_FIELD_KEY,
-    ADMIN3_PCODE_FIELD_KEY,
-    PLACE_CODE_FIELD_KEY,
+    ADMIN_PCODE_KEY_BASE,
+    ATTRIBUTES_FIELD_KEY,
+    POPULATION_ATTRIBUTE_KEY,
 } from './nrwConstants';
 import {
     isValidCoordinatePair,
@@ -93,6 +92,41 @@ export interface AdminAreaDetails {
     admin1Pcode: string | null;
     admin2Pcode: string | null;
     admin3Pcode: string | null;
+    admin4Pcode: string | null;
+    population: number | null;
+}
+
+// Parse the population value from the attributes field
+function parsePopulation(rawAttributes: unknown): number | null {
+    if (!rawAttributes || typeof rawAttributes !== 'object') {
+        return null;
+    }
+    const attrs = rawAttributes as Record<string, unknown>;
+    const value = Number(attrs[POPULATION_ATTRIBUTE_KEY]);
+    return Number.isFinite(value) ? value : null;
+}
+
+// Build admin area details from feature properties
+export function getAdminAreaDetailsFromProperties(
+    props: Record<string, unknown>,
+): AdminAreaDetails | null {
+    const adminLevel = Number(props[ADMIN_LEVEL_FIELD_KEY]);
+    if (!Number.isFinite(adminLevel)) {
+        return null;
+    }
+    const code = props[`${ADMIN_PCODE_KEY_BASE}${adminLevel}`];
+    if (typeof code !== 'string' || !code) {
+        return null;
+    }
+    return {
+        code,
+        adminLevel,
+        admin1Pcode: (props[`${ADMIN_PCODE_KEY_BASE}1`] as string | null) ?? null,
+        admin2Pcode: (props[`${ADMIN_PCODE_KEY_BASE}2`] as string | null) ?? null,
+        admin3Pcode: (props[`${ADMIN_PCODE_KEY_BASE}3`] as string | null) ?? null,
+        admin4Pcode: (props[`${ADMIN_PCODE_KEY_BASE}4`] as string | null) ?? null,
+        population: parsePopulation(props[ATTRIBUTES_FIELD_KEY]),
+    };
 }
 
 // Fetch admin area details directly
@@ -111,14 +145,7 @@ export async function fetchAdminAreaDetails(
         if (!features || features.length === 0) {
             return null;
         }
-        const props = features[0].properties;
-        return {
-            code: props[PLACE_CODE_FIELD_KEY],
-            adminLevel: Number(props[ADMIN_LEVEL_FIELD_KEY]),
-            admin1Pcode: props[ADMIN1_PCODE_FIELD_KEY] ?? null,
-            admin2Pcode: props[ADMIN2_PCODE_FIELD_KEY] ?? null,
-            admin3Pcode: props[ADMIN3_PCODE_FIELD_KEY] ?? null,
-        };
+        return getAdminAreaDetailsFromProperties(features[0].properties);
     } catch {
         return null;
     }

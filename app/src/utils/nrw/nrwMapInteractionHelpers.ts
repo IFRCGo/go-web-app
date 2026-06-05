@@ -13,6 +13,10 @@ import {
     noCountrySelectedValue,
     PLACE_CODE_FIELD_KEY,
 } from './nrwConstants';
+import {
+    type AdminAreaDetails,
+    getAdminAreaDetailsFromProperties,
+} from './nrwDataFetchHelpers';
 import { getAdminAreaZIndex } from './nrwMapHelpers';
 import {
     styleAdmin1region,
@@ -139,12 +143,17 @@ export function handleFeatureClick(
     feature: FeatureLike,
     layer: BaseLayer,
     adminLayers: Map<number, VectorLayer>,
-    onSelect: (placeCode: string, mapView?: MapSelectionView) => void,
+    onSelect: (
+        placeCode: string,
+        details: AdminAreaDetails | null,
+        mapView?: MapSelectionView,
+    ) => void,
 ): {
   showChildLevel: 2 | 3 | 4;
   parentCode: string;
 } | void {
     const properties = feature.getProperties();
+    const adminDetails = getAdminAreaDetailsFromProperties(properties);
 
     // Print out all features of the item clicked on.
     // Use only for DEV builds.
@@ -153,7 +162,7 @@ export function handleFeatureClick(
         console.log('Clicked feature properties:', properties);
     }
 
-    const newSelectedRegionCode = properties[PLACE_CODE_FIELD_KEY] || noCountrySelectedValue;
+    const newSelectedRegionCode = adminDetails?.code || noCountrySelectedValue;
 
     let processAdmin3Clicks = layer === adminLayers.get(3);
     if (processAdmin3Clicks && state.isEventSelected()) {
@@ -165,7 +174,7 @@ export function handleFeatureClick(
 
     // Clicked on admin3 layer
     if (processAdmin3Clicks) {
-        onSelect(newSelectedRegionCode, getCurrentMapSelectionView(state));
+        onSelect(newSelectedRegionCode, adminDetails, getCurrentMapSelectionView(state));
         state.selectedAdminCodes.set(3, newSelectedRegionCode);
         adminLayers.forEach((adminLayer) => adminLayer.changed());
 
@@ -192,7 +201,7 @@ export function handleFeatureClick(
         }
 
         if (selectedLayer) {
-            onSelect(newSelectedRegionCode, getCurrentMapSelectionView(state));
+            onSelect(newSelectedRegionCode, adminDetails, getCurrentMapSelectionView(state));
             state.selectedAdminCodes.set(level, newSelectedRegionCode);
             selectedLayer.changed();
             fitToFeature(state, feature);

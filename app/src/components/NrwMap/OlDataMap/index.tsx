@@ -15,7 +15,10 @@ import {
 } from 'ol/proj';
 import { apply } from 'ol-mapbox-style';
 
-import { fetchAdminAreaDetails } from '#utils/nrw/nrwDataFetchHelpers';
+import {
+    type AdminAreaDetails,
+    fetchAdminAreaDetails,
+} from '#utils/nrw/nrwDataFetchHelpers';
 import {
     getExtentForVectorData,
     getZIndexOffset,
@@ -54,7 +57,11 @@ interface OlDataMapProps {
 
   // Callbacks for the map interactions
   // Interactable feature click callback (i.e. on clicking admin area)
-  onSelect: (placeCode: string, mapView?: MapSelectionView) => void;
+  onSelect: (
+    placeCode: string,
+    details: AdminAreaDetails | null,
+    mapView?: MapSelectionView,
+  ) => void;
   // Callback for when map center/zoom change finishes
   // This will be hit a lot though map interaction, so don't run costly actions on it
   onViewChange?: (mapView: MapSelectionView) => void;
@@ -186,6 +193,8 @@ export default function OlDataMap({
                     if (!currentState || !currentAddAdminLayer) return;
 
                     if (details) {
+                        // Pass details for the selection
+                        onSelectRef.current(details.code, details);
                         // Add layers based on current admin level selection
                         if (details.adminLevel === 1) {
                             currentAddAdminLayer(2, country, details.code);
