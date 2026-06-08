@@ -6,7 +6,7 @@ This component will be the shared NRW map component.
 
 The "Nrw..." prefix naming of the files and components is to help tell the new changes apart from existing GO components. More general components will be derived from these after working more with the TC team.
 
-The "Ol..." prefix stands for OpenLayers (the mapping front library used), and this naming is also subject to change (once we work with the TC team more).
+The "Ol..." prefix stands for OpenLayers (the mapping front library used), and this naming is also subject to change (once we work with the ToggleCore team more).
 
 ## Basic Architecture
 
