@@ -139,7 +139,9 @@ export function Component() {
 
     const [filterHasEvent] = useUrlSearchState<boolean | undefined>(
         'has_event',
-        (value) => value?.toLowerCase() === 'true',
+        (value) => (value?.toLowerCase() === 'true'
+            ? true
+            : undefined),
         (value) => (value ? String(value) : undefined),
     );
 
