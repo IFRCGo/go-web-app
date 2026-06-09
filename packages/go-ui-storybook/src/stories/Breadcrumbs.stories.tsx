@@ -19,6 +19,12 @@ const meta: Meta<typeof Breadcrumbs> = {
         },
     },
     tags: ['autodocs'],
+    argTypes: {
+        colorVariant: {
+            control: 'select',
+            options: ['text', 'text-on-dark', 'primary', 'secondary', 'success', 'danger'],
+        },
+    },
 };
 
 export default meta;
@@ -33,5 +39,12 @@ export const WithSlashSeparator: Story = {
     args: {
         ...Default.args,
         separator: '/',
+    },
+};
+
+export const WithColorVariant: Story = {
+    args: {
+        ...Default.args,
+        colorVariant: 'primary',
     },
 };

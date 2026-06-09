@@ -4,10 +4,11 @@ import {
 } from '@togglecorp/fujs';
 
 import InlineLayout, { type Props as InlineLayoutProps } from '#components/InlineLayout';
+import { type ColorVariant } from '#utils/style';
 
 import styles from './styles.module.css';
 
-export type ButtonColorVariant = 'text' | 'text-on-dark' | 'primary' | 'secondary' | 'success' | 'danger';
+export type ButtonColorVariant = ColorVariant;
 export type ButtonStyleVariant = 'outline' | 'filled' | 'transparent' | 'action' | 'translucent';
 export type ButtonTextSize = 'xs' | 'sm' | 'md' | 'lg';
 
