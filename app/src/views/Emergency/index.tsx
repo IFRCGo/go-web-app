@@ -23,6 +23,7 @@ import { resolveToString } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
+    isTruthyString,
     listToMap,
 } from '@togglecorp/fujs';
 
@@ -51,6 +52,7 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
+import HeaderBackground from './HeaderBackground';
 import TimelineProgressBar from './TimelineProgressBar';
 
 import i18n from './i18n.json';
@@ -253,20 +255,36 @@ export function Component() {
         && emergencyResponse.dref.type_of_dref === DREF_TYPE_IMMINENT
     ) ? 'Imminent DREF' : emergencyResponse?.stage_display;
 
+    // eslint-disable-next-line max-len
+    const headerBackgroundUrl = emergencyResponse?.dref?.final_report_details?.cover_image_file?.file
+        ?? emergencyResponse?.dref?.operational_update_details?.cover_image_file?.file
+        ?? emergencyResponse?.dref?.cover_image_file?.file;
+
+    const withBackgroundImage = isTruthyString(headerBackgroundUrl);
+
     return (
         <Page
             title={pageTitle}
             breadCrumbs={(
-                <Breadcrumbs>
-                    <Link to="home">
+                <Breadcrumbs
+                    colorVariant={withBackgroundImage ? 'text-on-dark' : undefined}
+                >
+                    <Link
+                        to="home"
+                        colorVariant={withBackgroundImage ? 'text-on-dark' : undefined}
+                    >
                         {strings.home}
                     </Link>
-                    <Link to="emergencies">
+                    <Link
+                        to="emergencies"
+                        colorVariant={withBackgroundImage ? 'text-on-dark' : undefined}
+                    >
                         {strings.emergencies}
                     </Link>
                     <Link
                         to="emergencyOverview"
                         urlParams={{ emergencyId }}
+                        colorVariant={withBackgroundImage ? 'text-on-dark' : undefined}
                     >
                         {emergencyResponse?.name}
                     </Link>
@@ -296,14 +314,16 @@ export function Component() {
                 </>
             )}
             heading={emergencyResponse?.name ?? '--'}
+            headingColorVariant={withBackgroundImage ? 'text-on-dark' : undefined}
             description={(
-                <>
+                <ListView withWrap>
                     <Link
                         to="regionsLayout"
                         urlParams={{
                             regionId: region?.id,
                         }}
                         withLinkIcon
+                        colorVariant={withBackgroundImage ? 'text-on-dark' : undefined}
                     >
                         {region?.region_name}
                     </Link>
@@ -313,10 +333,11 @@ export function Component() {
                             countryId: country?.id,
                         }}
                         withLinkIcon
+                        colorVariant={withBackgroundImage ? 'text-on-dark' : undefined}
                     >
                         {country?.name}
                     </Link>
-                </>
+                </ListView>
             )}
             info={isDefined(emergencyResponse?.stage)
                 && emergencyResponse.stage !== STAGE_FIELD_REPORT
@@ -382,11 +403,11 @@ export function Component() {
                     </ListView>
                 )}
             contentOriginalLanguage={emergencyResponse?.translation_module_original_language}
-            headerBackgroundUrl={
-                emergencyResponse?.dref?.final_report_details?.cover_image_file?.file
-                    ?? emergencyResponse?.dref?.operational_update_details?.cover_image_file?.file
-                    ?? emergencyResponse?.dref?.cover_image_file?.file
-            }
+            headerBackground={withBackgroundImage && (
+                <HeaderBackground
+                    backgroundImageUrl={headerBackgroundUrl}
+                />
+            )}
         >
             <NavigationTabList>
                 <NavigationTab

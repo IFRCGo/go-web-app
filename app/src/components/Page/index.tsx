@@ -3,6 +3,7 @@ import {
     useEffect,
 } from 'react';
 import {
+    type HeadingProps,
     ListView,
     PageContainer,
     PageHeader,
@@ -17,7 +18,6 @@ import {
     _cs,
     isDefined,
     isNotDefined,
-    isTruthyString,
 } from '@togglecorp/fujs';
 
 import { type components } from '#generated/types';
@@ -45,7 +45,8 @@ interface Props {
     blockingContent?: React.ReactNode;
     contentOriginalLanguage?: TranslationModuleOriginalLanguageEnum;
     beforeHeaderContent?: React.ReactNode;
-    headerBackgroundUrl?: string;
+    headerBackground?: React.ReactNode;
+    headingColorVariant?: HeadingProps['colorVariant'];
 }
 
 function Page(props: Props) {
@@ -66,7 +67,8 @@ function Page(props: Props) {
         blockingContent,
         contentOriginalLanguage,
         beforeHeaderContent,
-        headerBackgroundUrl,
+        headerBackground,
+        headingColorVariant,
     } = props;
 
     const currentLanguage = useCurrentLanguage();
@@ -123,16 +125,8 @@ function Page(props: Props) {
                     heading={heading}
                     description={description}
                     info={info}
-                    background={isTruthyString(headerBackgroundUrl) && (
-                        <div className={styles.headerBackground}>
-                            <img
-                                className={styles.headerBackgroundImage}
-                                alt=""
-                                src={headerBackgroundUrl}
-                            />
-                            <div className={styles.headerBackgroundOverlay} />
-                        </div>
-                    )}
+                    background={headerBackground}
+                    headingColorVariant={headingColorVariant}
                 />
             )}
             {isNotDefined(blockingContent) && (
