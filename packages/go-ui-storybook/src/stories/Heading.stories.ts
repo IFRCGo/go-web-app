@@ -17,7 +17,12 @@ const meta = {
         },
     },
     tags: ['autodocs'],
-    argTypes: {},
+    argTypes: {
+        colorVariant: {
+            control: 'select',
+            options: ['text', 'text-on-dark', 'primary', 'secondary', 'success', 'danger'],
+        },
+    },
 } satisfies Meta<typeof Heading>;
 
 export default meta;
@@ -26,6 +31,14 @@ type Story = StoryObj<typeof meta>;
 export const Level1: Story = {
     args: {
         level: 1,
+        children: 'A world of dew, And within every dewdrop, A world of struggle.',
+    },
+};
+
+export const WithColorVariant: Story = {
+    args: {
+        level: 2,
+        colorVariant: 'primary',
         children: 'A world of dew, And within every dewdrop, A world of struggle.',
     },
 };

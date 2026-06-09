@@ -6,19 +6,38 @@
     .item {
         display: flex;
 
-        &:not(:last-child) {
-            color: var(--go-ui-color-gray-70);
-        }
-
         &:last-child {
-            color: var(--go-ui-color-black);
+            font-weight: var(--go-ui-font-weight-medium);
         }
     }
 
     .separator {
         display: flex;
         justify-content: center;
-        color: var(--go-ui-color-gray-70);
         font-size: var(--go-ui-font-size-xl);
+    }
+
+    &.color-variant-text {
+        color: var(--go-ui-color-text);
+    }
+
+    &.color-variant-text-on-dark {
+        color: var(--go-ui-color-text-on-dark);
+    }
+
+    &.color-variant-primary {
+        color: var(--go-ui-color-primary-red);
+    }
+
+    &.color-variant-secondary {
+        color: var(--go-ui-color-primary-blue);
+    }
+
+    &.color-variant-success {
+        color: var(--go-ui-color-positive);
+    }
+
+    &.color-variant-danger {
+        color: var(--go-ui-color-negative);
     }
 }
