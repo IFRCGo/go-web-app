@@ -913,8 +913,10 @@ function DrefTableActions(props: Props) {
                             name={null}
                             onClick={handlePublishDref}
                             disabled={disabled
-                                || isNotDefined(linkEmergencyValue)
-                                || (linkEmergencyValue === 'select-existing' && isNotDefined(eventValue))}
+                                || (isNotDefined(event)
+                                    && (isNotDefined(linkEmergencyValue)
+                                        || (linkEmergencyValue === 'select-existing' && isNotDefined(eventValue)))
+                                )}
                         >
                             {strings.dropdownActionApproveLabel}
                         </Button>
@@ -950,7 +952,7 @@ function DrefTableActions(props: Props) {
                             <div />
                         </ListView>
                     )}
-                    {(isDefined(event) && isDefined(eventOptions)) && (
+                    {(isDefined(event)) && (
                         <ListView
                             layout="block"
                             spacing="xs"
@@ -959,7 +961,7 @@ function DrefTableActions(props: Props) {
                                 {resolveToComponent(
                                     strings.drefApplicationHasEventMessage,
                                     {
-                                        emergency: (
+                                        emergency: isDefined(eventOptions) ? (
                                             <SelectOutput
                                                 value={event}
                                                 options={eventOptions}
@@ -967,7 +969,7 @@ function DrefTableActions(props: Props) {
                                                 strongValue
                                                 labelSelector={labelSelector}
                                             />
-                                        ),
+                                        ) : '??',
                                     },
                                 )}
                             </Description>
