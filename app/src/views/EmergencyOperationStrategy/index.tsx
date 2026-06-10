@@ -108,67 +108,102 @@ function Intervention(props: InterventionProps) {
             </div>
             {showDetails && (
                 <ListView layout="block">
+                    {(intervention.indicators?.length ?? 0) > 0 && (
+                        <div
+                            className={_cs(
+                                styles.indicatorTable,
+                                stage !== STAGE_DREF_APPLICATION && styles.withActual,
+                            )}
+                        >
+                            <Label strong>
+                                {strings.plannedOperationIndicatorsLabel}
+                            </Label>
+                            <Label strong>
+                                {strings.plannedOperationTargetedLabel}
+                            </Label>
+                            {stage !== STAGE_DREF_APPLICATION && (
+                                <Label strong>
+                                    {strings.plannedOperationActualsLabel}
+                                </Label>
+                            )}
+                            {intervention.indicators?.map((indicator) => (
+                                <Fragment key={indicator.id}>
+                                    <Label className={styles.cell}>
+                                        {indicator.title}
+                                    </Label>
+                                    <NumberOutput
+                                        className={styles.cell}
+                                        value={indicator.target}
+                                    />
+                                    {stage !== STAGE_DREF_APPLICATION && (
+                                        <NumberOutput
+                                            className={styles.cell}
+                                            value={indicator.actual}
+                                        />
+                                    )}
+                                </Fragment>
+                            ))}
+                        </div>
+                    )}
+                    {/* FIXME(frozenhelium): go-api, the design also shows a
+                        "Needs" section beside the priority actions but the
+                        emergency dref payload does not expose the needs
+                        identified for the operation */}
                     <ListView
                         layout="grid"
-                        withPadding
-                        withDarkBackground
-                        withSpacingOpticalCorrection
+                        numPreferredGridColumns={2}
                     >
-                        <Label strong>
-                            {/* FIXME: use strings */}
-                            Indicators
-                        </Label>
-                        <Label strong>
-                            {/* FIXME: use strings */}
-                            Targeted
-                        </Label>
-                        {intervention.indicators?.map((indicator) => (
-                            <Fragment key={indicator.id}>
-                                <Label>
-                                    {indicator.title}
-                                </Label>
-                                <NumberOutput
-                                    value={indicator.target}
-                                />
-                            </Fragment>
-                        ))}
+                        {intervention.description && (
+                            <Container
+                                withPadding
+                                withDarkBackground
+                                heading={stage === STAGE_DREF_APPLICATION
+                                    ? strings.plannedOperationPriorityActionsHeading
+                                    : strings.plannedOperationActivitiesHeading}
+                                headingLevel={6}
+                            >
+                                <DescriptionText>
+                                    {intervention.description}
+                                </DescriptionText>
+                            </Container>
+                        )}
+                        {intervention.progress_towards_outcome && (
+                            <Container
+                                withPadding
+                                withDarkBackground
+                                heading={strings.plannedOperationProgressSoFarHeading}
+                                headingLevel={6}
+                            >
+                                <DescriptionText>
+                                    {intervention.progress_towards_outcome}
+                                </DescriptionText>
+                            </Container>
+                        )}
+                        {intervention.challenges && (
+                            <Container
+                                withPadding
+                                withDarkBackground
+                                heading={strings.plannedOperationChallengesHeading}
+                                headingLevel={6}
+                            >
+                                <DescriptionText>
+                                    {intervention.challenges}
+                                </DescriptionText>
+                            </Container>
+                        )}
+                        {intervention.narrative_description_of_achievements && (
+                            <Container
+                                withPadding
+                                withDarkBackground
+                                heading={strings.plannedOperationAchievementsHeading}
+                                headingLevel={6}
+                            >
+                                <DescriptionText>
+                                    {intervention.narrative_description_of_achievements}
+                                </DescriptionText>
+                            </Container>
+                        )}
                     </ListView>
-                    {intervention.description && (
-                        <Container
-                            withPadding
-                            withDarkBackground
-                            heading="Activities"
-                            headingLevel={6}
-                        >
-                            <DescriptionText>
-                                {intervention.description}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {intervention.challenges && (
-                        <Container
-                            withPadding
-                            withDarkBackground
-                            heading="Challenges"
-                            headingLevel={6}
-                        >
-                            <DescriptionText>
-                                {intervention.challenges}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {intervention.narrative_description_of_achievements && (
-                        <Container
-                            withPadding
-                            withDarkBackground
-                            heading="Achievements"
-                            headingLevel={6}
-                        >
-                            <DescriptionText>
-                                {intervention.narrative_description_of_achievements}
-                            </DescriptionText>
-                        </Container>
-                    )}
                 </ListView>
             )}
         </Container>
@@ -192,27 +227,30 @@ export function Component() {
     const sectorMap = listToMap(sectorsResponse, ({ key }) => key);
     const strings = useTranslation(i18n);
 
+    // FIXME(frozenhelium): go-api, dref on the emergency detail response can
+    // be null but the schema marks it non-nullable, so the optional chaining
+    // below is not enforced by the types
     const drefDetails = useMemo(() => {
         if (emergencyResponse?.stage === STAGE_FINAL_REPORT) {
-            return emergencyResponse.dref.final_report_details;
+            return emergencyResponse.dref?.final_report_details;
         }
 
         if (emergencyResponse?.stage === STAGE_OPERATIONAL_UPDATE) {
-            return emergencyResponse?.dref.operational_update_details;
+            return emergencyResponse?.dref?.operational_update_details;
         }
 
         return emergencyResponse?.dref;
     }, [emergencyResponse]);
 
-    const isImminent = emergencyResponse?.dref.type_of_dref === DREF_TYPE_IMMINENT
+    const isImminent = emergencyResponse?.dref?.type_of_dref === DREF_TYPE_IMMINENT
         && emergencyResponse?.stage === STAGE_DREF_APPLICATION;
 
     return (
         <TabPage
             pending={sectorsPending || emergencyResponsePending}
-            empty={isImminent && isNotDefined(emergencyResponse?.dref.proposed_action)}
+            empty={isImminent && isNotDefined(emergencyResponse?.dref?.proposed_action)}
         >
-            {isImminent && emergencyResponse?.dref.proposed_action.map((action) => (
+            {isImminent && emergencyResponse?.dref?.proposed_action?.map((action) => (
                 <Container
                     key={action.id}
                     heading={action.proposed_type_display}

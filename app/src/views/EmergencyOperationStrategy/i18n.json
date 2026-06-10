@@ -4,6 +4,14 @@
         "plannedOperationHeading": "Planned Operations",
         "plannedOperationBudgetLabel": "Budget(CHF)",
         "plannedOperationPeopleTargetedLabel": "People Targeted",
-        "plannedOperationPeopleReachedLabel": "People Reached"
+        "plannedOperationPeopleReachedLabel": "People Reached",
+        "plannedOperationIndicatorsLabel": "Indicators",
+        "plannedOperationTargetedLabel": "Targeted",
+        "plannedOperationActualsLabel": "Actuals",
+        "plannedOperationPriorityActionsHeading": "Priority Actions",
+        "plannedOperationActivitiesHeading": "Activities",
+        "plannedOperationProgressSoFarHeading": "Progress so far",
+        "plannedOperationChallengesHeading": "Challenges",
+        "plannedOperationAchievementsHeading": "Achievements"
     }
 }

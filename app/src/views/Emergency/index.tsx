@@ -10,6 +10,7 @@ import { PencilFillIcon } from '@ifrc-go/icons';
 import {
     Breadcrumbs,
     Button,
+    ButtonLayout,
     Container,
     KeyFigure,
     Label,
@@ -251,8 +252,11 @@ export function Component() {
     }
 
     // FIXME: use translations
+    // FIXME(frozenhelium): go-api, dref on the emergency detail response can
+    // be null but the schema marks it non-nullable, so the optional chaining
+    // below is not enforced by the types
     const stageDisplay = (emergencyResponse?.stage === STAGE_DREF_APPLICATION
-        && emergencyResponse.dref.type_of_dref === DREF_TYPE_IMMINENT
+        && emergencyResponse.dref?.type_of_dref === DREF_TYPE_IMMINENT
     ) ? 'Imminent DREF' : emergencyResponse?.stage_display;
 
     // eslint-disable-next-line max-len
@@ -300,6 +304,11 @@ export function Component() {
                         {isSubscribed ? strings.emergencyUnfollow : strings.emergencyFollow}
                     </Button>
                     {!isGuestUser && (
+                        // FIXME(frozenhelium): go-api, saving an event from
+                        // the admin panel with a changed severity level but an
+                        // empty severity level update date responds with 500;
+                        // the validation in EventAdmin.save_model should move
+                        // to the admin form
                         <Link
                             external
                             href={resolveUrl(adminUrl, `api/event/${emergencyId}/change/`)}
@@ -316,27 +325,42 @@ export function Component() {
             heading={emergencyResponse?.name ?? '--'}
             headingColorVariant={withBackgroundImage ? 'text-on-dark' : undefined}
             description={(
-                <ListView withWrap>
-                    <Link
-                        to="regionsLayout"
-                        urlParams={{
-                            regionId: region?.id,
-                        }}
-                        withLinkIcon
-                        colorVariant={withBackgroundImage ? 'text-on-dark' : undefined}
-                    >
-                        {region?.region_name}
-                    </Link>
-                    <Link
-                        to="countriesLayout"
-                        urlParams={{
-                            countryId: country?.id,
-                        }}
-                        withLinkIcon
-                        colorVariant={withBackgroundImage ? 'text-on-dark' : undefined}
-                    >
-                        {country?.name}
-                    </Link>
+                <ListView
+                    layout="block"
+                    withCenteredContents
+                >
+                    <ListView withWrap>
+                        <Link
+                            to="regionsLayout"
+                            urlParams={{
+                                regionId: region?.id,
+                            }}
+                            withLinkIcon
+                            colorVariant={withBackgroundImage ? 'text-on-dark' : undefined}
+                        >
+                            {region?.region_name}
+                        </Link>
+                        <Link
+                            to="countriesLayout"
+                            urlParams={{
+                                countryId: country?.id,
+                            }}
+                            withLinkIcon
+                            colorVariant={withBackgroundImage ? 'text-on-dark' : undefined}
+                        >
+                            {country?.name}
+                        </Link>
+                    </ListView>
+                    {emergencyResponse?.stage === STAGE_FINAL_REPORT && (
+                        <ButtonLayout
+                            colorVariant="secondary"
+                            styleVariant="filled"
+                            textSize="sm"
+                            readOnly
+                        >
+                            {strings.emergencyOperationEnded}
+                        </ButtonLayout>
+                    )}
                 </ListView>
             )}
             info={isDefined(emergencyResponse?.stage)

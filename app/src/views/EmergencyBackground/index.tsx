@@ -1,4 +1,5 @@
 import { useOutletContext } from 'react-router-dom';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     isDefined,
     isNotDefined,
@@ -7,14 +8,18 @@ import {
 import CountryPastEventsChart from '#components/domain/CountryPastEventsChart';
 import CountrySeasonalCalendar from '#components/domain/CountrySeasonalCalendar';
 import EmergencyLessonsLearnedFromPreviousOperations from '#components/domain/EmergencyLessonsLearnedFromPreviousOperations';
+import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 import { STAGE_FIELD_REPORT } from '#utils/domain/emergency';
 import { type EmergencyOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 
+import i18n from './i18n.json';
+
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
+    const strings = useTranslation(i18n);
     const {
         emergencyResponse,
         emergencyResponsePending,
@@ -37,7 +42,18 @@ export function Component() {
     const country = emergencyResponse?.countries?.[0];
 
     return (
-        <TabPage pending={emergencyResponsePending || databankResponsePending}>
+        <TabPage
+            pending={emergencyResponsePending || databankResponsePending}
+            headerAction={isDefined(countryId) ? (
+                <Link
+                    to="countryProfilePreviousEvents"
+                    urlParams={{ countryId }}
+                    withLinkIcon
+                >
+                    {strings.seeMoreOnCountryPageLink}
+                </Link>
+            ) : undefined}
+        >
             {emergencyResponse?.stage !== STAGE_FIELD_REPORT
                 && isDefined(emergencyResponse)
                 && isDefined(emergencyResponse.dtype)

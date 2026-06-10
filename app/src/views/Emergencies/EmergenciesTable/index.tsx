@@ -20,6 +20,7 @@ import {
 
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import useFilterState from '#hooks/useFilterState';
+import { getEventOrderingWithFallback } from '#utils/domain/emergency';
 import {
     createCountryListColumn,
     createLinkColumn,
@@ -118,6 +119,10 @@ function EventItemsTable() {
             createNumberColumn<EventListItem, number>(
                 'num_affected',
                 strings.emergenciesTableAffected,
+                // FIXME(frozenhelium): go-api, ordering by num_affected uses
+                // the raw event field which is empty for most ongoing
+                // emergencies; expose a sortable value that falls back to the
+                // latest field report figure like the one displayed here
                 (item) => item.num_affected ?? getMostRecentAffectedValue(item.field_reports),
                 { sortable: true },
             ),
@@ -142,7 +147,7 @@ function EventItemsTable() {
         () => ({
             limit,
             offset,
-            ordering,
+            ordering: getEventOrderingWithFallback(ordering),
             disaster_start_date__gte: filter.startDateAfter,
             disaster_start_date__lte: filter.startDateBefore,
             dtype: filter.dType,

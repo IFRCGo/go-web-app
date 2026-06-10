@@ -1,0 +1,20 @@
+.situational-overview-content {
+    align-items: start;
+
+    .text-content {
+        width: 100%;
+
+        &.collapsed {
+            max-height: var(--go-ui-height-map-md);
+            overflow: hidden;
+        }
+    }
+}
+
+.situational-overview-text {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+
+}

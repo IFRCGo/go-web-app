@@ -13,4 +13,21 @@
             grid-template-columns: 3fr 1fr 1fr max-content;
         }
     }
+
+    .indicator-table {
+        display: grid;
+        align-items: stretch;
+        grid-template-columns: 2fr 1fr;
+        gap: var(--go-ui-spacing-xs);
+
+        &.with-actual {
+            grid-template-columns: 2fr 1fr 1fr;
+        }
+
+        .cell {
+            border-radius: var(--go-ui-border-radius-lg);
+            background-color: var(--go-ui-color-background);
+            padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+        }
+    }
 }

@@ -1,6 +1,16 @@
-import { useMemo } from 'react';
+import {
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
+    ChevronDownLineIcon,
+    ChevronUpLineIcon,
+} from '@ifrc-go/icons';
+import {
+    Button,
     Container,
     DateOutput,
     Description,
@@ -14,8 +24,12 @@ import {
     TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
+import {
+    _cs,
     compareDate,
     isDefined,
     isFalsyString,
@@ -50,6 +64,7 @@ import { type EmergencyOutletContext } from '#utils/outletContext';
 import EmergencyMap from './EmergencyMap';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
@@ -83,9 +98,13 @@ export function Component() {
         [api_request_choices],
     );
 
+    // FIXME(frozenhelium): go-api, dref (and field_report, appeal) on the
+    // emergency detail response can be null but the schema marks them
+    // non-nullable; add allow_null to the extend_schema_field annotations on
+    // DetailEmergencySerializer and regenerate the types
     const disasterType = disasterTypes?.find(
         (typeOfDisaster) => typeOfDisaster.id === emergencyResponse?.dtype,
-    ) ?? emergencyResponse?.dref.disaster_type_details;
+    ) ?? emergencyResponse?.dref?.disaster_type_details;
 
     const mdrCode = emergencyResponse?.appeal?.code
         ?? emergencyResponse?.dref?.appeal_code;
@@ -107,10 +126,55 @@ export function Component() {
         || stage === STAGE_OPERATIONAL_UPDATE
         || stage === STAGE_FINAL_REPORT;
 
+    const [
+        situationalOverviewExpanded,
+        {
+            setFalse: collapseSituationalOverview,
+            toggle: toggleSituationalOverviewExpanded,
+        },
+    ] = useBooleanState(false);
+    const situationalOverviewRef = useRef<HTMLDivElement>(null);
+    const [situationalOverviewOverflows, setSituationalOverviewOverflows] = useState(false);
+
+    const situationalOverviewText = isDrefStage
+        ? dref?.event_scope
+        : emergencyResponse?.summary;
+
+    useEffect(() => {
+        // NOTE: the component instance can be re-used for a different
+        // emergency, so we reset the expanded state when the content changes
+        collapseSituationalOverview();
+
+        const element = situationalOverviewRef.current;
+        if (isNotDefined(element)) {
+            return undefined;
+        }
+
+        // NOTE: the content height changes after the initial render (images
+        // and embeds in the summary load lazily, viewport resizes reflow the
+        // text), so we re-measure whenever the element's box changes instead
+        // of measuring just once
+        const resizeObserver = new ResizeObserver(() => {
+            setSituationalOverviewOverflows(element.scrollHeight > element.clientHeight);
+        });
+        resizeObserver.observe(element);
+
+        return () => {
+            resizeObserver.disconnect();
+        };
+    }, [situationalOverviewText, collapseSituationalOverview]);
+
     // The new endpoint encodes the first field report's assistance flags on the
     // attached field_report via `first_fr_*` fields.
-    const assistanceIsRequestedByNS = latestFieldReport?.first_fr_ns_request_assistance;
-    const assistanceIsRequestedByCountry = latestFieldReport?.first_fr_request_assistance;
+    // FIXME(frozenhelium): go-api, the dref payload does not expose whether
+    // the National Society requested international assistance, so the value
+    // stays empty for DREF stage emergencies
+    const assistanceIsRequestedByNS = isDrefStage
+        ? undefined
+        : latestFieldReport?.first_fr_ns_request_assistance;
+    const assistanceIsRequestedByCountry = isDrefStage
+        ? dref?.government_requested_assistance ?? undefined
+        : latestFieldReport?.first_fr_request_assistance;
 
     const emergencyContacts = emergencyResponse?.contacts;
 
@@ -280,6 +344,10 @@ export function Component() {
                     });
                 }
 
+                // FIXME(frozenhelium): go-api, timeline_operational_updates
+                // is not filtered by approved status and approved updates can
+                // be missing date_of_approval, so some approved operational
+                // updates may not appear in this timeline
                 dref.timeline_operational_updates.forEach((opsUpdate) => {
                     if (isDefined(opsUpdate.date_of_approval)) {
                         events.push({
@@ -391,6 +459,10 @@ export function Component() {
     const startDate = isFieldReportStage
         ? latestFieldReport?.start_date
         : emergencyResponse?.disaster_start_date;
+
+    const drefEndDate = drefFinalReport?.operation_end_date
+        ?? drefOpsUpdate?.new_operational_end_date
+        ?? dref?.end_date;
 
     const lfrDisasterTypeName = latestFieldReport?.dtype?.name;
 
@@ -513,6 +585,11 @@ export function Component() {
                                 value={mdrCode}
                                 strongValue
                             />
+                            {/* FIXME(frozenhelium): go-api, approving an
+                            operational update with a new glide code does not
+                            sync it to event.glide (nor to dref.glide_code),
+                            so a glide number added in an operational update
+                            is not shown here */}
                             <TextOutput
                                 label={strings.GLIDENumber}
                                 value={emergencyResponse?.glide
@@ -525,12 +602,21 @@ export function Component() {
             )}
             <Container
                 heading={strings.emergencyOverviewTitle}
+                headerActions={(
+                    <TextOutput
+                        label={strings.overviewLastUpdateLabel}
+                        value={emergencyResponse.updated_at}
+                        valueType="date"
+                        textSize="sm"
+                        withLightText
+                    />
+                )}
                 withHeaderBorder
             >
                 <ListView
                     layout="grid"
                     withSpacingOpticalCorrection
-                    numPreferredGridColumns={isDrefStage ? 2 : 3}
+                    numPreferredGridColumns={3}
                 >
                     <ListView layout="block">
                         <TextOutput
@@ -591,6 +677,14 @@ export function Component() {
                             value={startDate}
                             strongValue
                         />
+                        {isDrefStage && (
+                            <TextOutput
+                                label={strings.endDate}
+                                valueType="date"
+                                value={drefEndDate}
+                                strongValue
+                            />
+                        )}
                         {isFieldReportStage && (
                             <>
                                 <TextOutput
@@ -609,6 +703,17 @@ export function Component() {
                                 />
                             </>
                         )}
+                        {isDrefStage && (
+                            <TextOutput
+                                label={strings.overviewEmergencyAppealLabel}
+                                value={isDefined(dref?.emergency_appeal_planned)
+                                    // NOTE: in api_request_choices, 2 is
+                                    // 'Planned' and 0 is 'No'
+                                    ? requestMap?.[dref.emergency_appeal_planned ? 2 : 0]
+                                    : undefined}
+                                strongValue
+                            />
+                        )}
                         <TextOutput
                             label={strings.visibility}
                             value={isDefined(emergencyResponse.visibility)
@@ -617,22 +722,20 @@ export function Component() {
                             strongValue
                         />
                     </ListView>
-                    {!isDrefStage && (
-                        <ListView layout="block">
-                            <TextOutput
-                                label={strings.assistanceRequestedByGovernment}
-                                valueType="boolean"
-                                value={assistanceIsRequestedByCountry}
-                                strongValue
-                            />
-                            <TextOutput
-                                label={strings.assistanceRequestedByNS}
-                                valueType="boolean"
-                                value={assistanceIsRequestedByNS}
-                                strongValue
-                            />
-                        </ListView>
-                    )}
+                    <ListView layout="block">
+                        <TextOutput
+                            label={strings.assistanceRequestedByGovernment}
+                            valueType="boolean"
+                            value={assistanceIsRequestedByCountry}
+                            strongValue
+                        />
+                        <TextOutput
+                            label={strings.assistanceRequestedByNS}
+                            valueType="boolean"
+                            value={assistanceIsRequestedByNS}
+                            strongValue
+                        />
+                    </ListView>
                 </ListView>
             </Container>
 
@@ -653,19 +756,48 @@ export function Component() {
                 {/* FIXME(frozenhelium): handle condition where there is no summary */}
                 <ListView
                     layout="grid"
-                    numPreferredGridColumns={(isDrefStage && isFalsyString(dref?.event_scope))
-                        || (!isDrefStage && isFalsyString(emergencyResponse.summary)) ? 1 : 2}
+                    gridContentClassName={styles.situationalOverviewContent}
+                    numPreferredGridColumns={isFalsyString(situationalOverviewText) ? 1 : 2}
                 >
-                    {isDrefStage && (
-                        <Description>
-                            {dref?.event_scope}
-                        </Description>
-                    )}
-                    {!isDrefStage && (
-                        <HtmlOutput
-                            value={emergencyResponse.summary}
-                        />
-                    )}
+                    <ListView layout="block">
+                        <div
+                            ref={situationalOverviewRef}
+                            className={_cs(
+                                styles.textContent,
+                                !situationalOverviewExpanded && styles.collapsed,
+                            )}
+                        >
+                            {isDrefStage && (
+                                <Description>
+                                    {dref?.event_scope}
+                                </Description>
+                            )}
+                            {!isDrefStage && (
+                                <HtmlOutput
+                                    value={emergencyResponse.summary}
+                                />
+                            )}
+                        </div>
+                        {(situationalOverviewOverflows || situationalOverviewExpanded) && (
+                            <InlineLayout
+                                after={(
+                                    <Button
+                                        styleVariant="action"
+                                        name={undefined}
+                                        onClick={toggleSituationalOverviewExpanded}
+                                        textSize="sm"
+                                        after={situationalOverviewExpanded
+                                            ? <ChevronUpLineIcon />
+                                            : <ChevronDownLineIcon />}
+                                    >
+                                        {situationalOverviewExpanded
+                                            ? strings.situationalOverviewSeeLess
+                                            : strings.situationalOverviewSeeMore}
+                                    </Button>
+                                )}
+                            />
+                        )}
+                    </ListView>
                     <EmergencyMap event={emergencyResponse} />
                 </ListView>
             </Container>
@@ -754,7 +886,8 @@ export function Component() {
                                                     </Description>
                                                     <ListView
                                                         layout="block"
-                                                        spacing="none"
+                                                        withSpacingOpticalCorrection
+                                                        spacing="sm"
                                                     >
                                                         <Description
                                                             textSize="sm"

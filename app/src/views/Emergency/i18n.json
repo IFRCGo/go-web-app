@@ -17,6 +17,7 @@
         "emergencies": "Emergencies",
         "emergencyEdit": "Edit Event",
         "emergencyFollow":"Follow",
-        "emergencyUnfollow":"Unfollow"
+        "emergencyUnfollow":"Unfollow",
+        "emergencyOperationEnded": "Operation Ended"
     }
 }
