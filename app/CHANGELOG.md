@@ -1,5 +1,14 @@
 # go-web-app
 
+## 7.26.1
+
+### Patch Changes
+
+- 5e964f6: Update Active Operations map
+
+  - Add tooltip for crisis categorisation tab in active operation map
+  - Update legend labels
+
 ## 7.26.0
 
 ### Minor Changes
