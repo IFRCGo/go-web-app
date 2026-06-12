@@ -80,6 +80,7 @@ const appConfigs = compat.config({
                     'postcss.config.cjs',
                     'stylelint.config.cjs',
                     'vite.config.ts',
+                    'codegen.ts',
                 ],
                 optionalDependencies: false,
             },

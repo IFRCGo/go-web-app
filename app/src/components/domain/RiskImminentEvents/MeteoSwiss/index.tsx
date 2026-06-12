@@ -65,6 +65,7 @@ function getLayerProperties(
 type BaseProps = {
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
+    baseLayers?: React.ReactNode;
 }
 
 type Props = BaseProps & ({
@@ -82,6 +83,7 @@ function MeteoSwiss(props: Props) {
         title,
         bbox,
         variant,
+        baseLayers,
     } = props;
 
     const {
@@ -226,6 +228,7 @@ function MeteoSwiss(props: Props) {
             activeEventExposure={exposureResponse}
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
+            baseLayers={baseLayers}
         />
     );
 }

@@ -6,6 +6,8 @@ const {
     APP_MAPBOX_ACCESS_TOKEN,
     APP_TINY_API_KEY,
     APP_RISK_API_ENDPOINT,
+    APP_MALAWI_RISK_WATCH_GRAPHQL_ENDPOINT,
+    APP_MALAWI_RISK_WATCH_ADMIN_URL,
     APP_TRANSLATION_API_ENDPOINT,
     APP_SDT_URL,
     APP_POWER_BI_REPORT_ID_1,
@@ -31,6 +33,13 @@ export const api = APP_API_ENDPOINT;
 export const adminUrl = APP_ADMIN_URL ?? `${api}admin/`;
 export const mbtoken = APP_MAPBOX_ACCESS_TOKEN;
 export const riskApi = APP_RISK_API_ENDPOINT;
+export const malawiRiskWatchGraphqlApi = APP_MALAWI_RISK_WATCH_GRAPHQL_ENDPOINT;
+// Django admin of the Malawi Risk Watch backend. Defaults to `/admin/` on the
+// GraphQL endpoint's origin. In dev the GraphQL endpoint is served same-origin
+// through the Vite proxy, so set APP_MALAWI_RISK_WATCH_ADMIN_URL to the real
+// backend origin for the "Review event" link to resolve correctly.
+export const malawiRiskWatchAdminUrl = APP_MALAWI_RISK_WATCH_ADMIN_URL
+    ?? `${new URL(malawiRiskWatchGraphqlApi).origin}/admin/`;
 export const translationApi = APP_TRANSLATION_API_ENDPOINT;
 export const sdtUrl = APP_SDT_URL;
 export const powerBiReportId1 = APP_POWER_BI_REPORT_ID_1;

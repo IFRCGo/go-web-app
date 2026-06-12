@@ -133,7 +133,7 @@ function Link(props: Props) {
         </ButtonLayout>
     );
 
-    if (nonLink) {
+    if (nonLink || disabled) {
         return (
             <div className={styles.link}>
                 {content}
@@ -148,6 +148,7 @@ function Link(props: Props) {
                 target="_blank"
                 rel="noopener noreferrer"
                 href={toLink}
+                aria-disabled={disabled}
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...linkProps}
             >
@@ -164,6 +165,7 @@ function Link(props: Props) {
                 search: urlSearch,
                 hash: urlHash,
             }}
+            aria-disabled={disabled}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...linkProps}
         >

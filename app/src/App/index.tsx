@@ -35,6 +35,10 @@ import {
     KEY_USER_STORAGE,
 } from '#utils/constants';
 import {
+    malawiRiskWatchGraphqlClient,
+    UrqlProvider,
+} from '#utils/graphql';
+import {
     getFromStorage,
     removeFromStorage,
     setToStorage,
@@ -240,9 +244,11 @@ function Application() {
                 <UserContext.Provider value={userContextValue}>
                     <AlertContext.Provider value={alertContextValue}>
                         <RequestContext.Provider value={requestContextValue}>
-                            <RouterProvider
-                                router={router}
-                            />
+                            <UrqlProvider value={malawiRiskWatchGraphqlClient}>
+                                <RouterProvider
+                                    router={router}
+                                />
+                            </UrqlProvider>
                         </RequestContext.Provider>
                     </AlertContext.Provider>
                 </UserContext.Provider>

@@ -32,7 +32,10 @@
                 // "openapi-typescript",
                 // We are using this in eslint.config.ts but we are getting a false positive
                 "@typescript-eslint/parser",
-                "@typescript-eslint/eslint-plugin"
+                "@typescript-eslint/eslint-plugin",
+                // Only invoked via the `generate:type:malawi-graphql` script
+                "@graphql-codegen/cli",
+                "@graphql-codegen/client-preset"
             ],
             "entry": [
                 "eslint.config.ts",

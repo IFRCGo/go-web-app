@@ -1,0 +1,22 @@
+.chart-container {
+    height: 12rem;
+}
+
+.line {
+    stroke: var(--go-ui-color-primary-blue);
+    stroke-width: 1.5;
+    fill: none;
+}
+
+.point {
+    fill: var(--go-ui-color-primary-blue);
+}
+
+.point-triggered {
+    fill: var(--go-ui-color-red-90);
+}
+
+.point-active {
+    stroke: var(--go-ui-color-text);
+    stroke-width: 1.5;
+}

@@ -289,6 +289,11 @@ export const reportSchema: FormSchema = {
             start_date: { required: true },
             request_assistance: {},
             ns_request_assistance: {},
+            // Set only by prefills from external systems (e.g. Malawi Risk
+            // Watch); no form input renders them, but they must be in the
+            // schema or validation prunes them from the submitted body.
+            external_source: {},
+            external_source_id: {},
 
             // RESPONSE
 

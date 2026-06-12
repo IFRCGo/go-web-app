@@ -1,0 +1,11 @@
+.heading {
+    display: flex;
+    align-items: center;
+    gap: var(--go-ui-spacing-sm);
+
+    .trigger-badge {
+        flex-shrink: 0;
+        font-size: var(--go-ui-font-size-2xs);
+        font-weight: var(--go-ui-font-weight-normal);
+    }
+}

@@ -1,0 +1,72 @@
+.activation-timeline {
+    display: flex;
+    flex-direction: column;
+
+    .step {
+        display: flex;
+        gap: var(--go-ui-spacing-sm);
+
+        .indicator {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            flex-shrink: 0;
+
+            .circle {
+                display: flex;
+                align-items: center;
+                flex-shrink: 0;
+                justify-content: center;
+                border-radius: 50%;
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+
+            .circle-completed {
+                background-color: var(--go-ui-color-primary-red);
+                color: var(--go-ui-color-white);
+            }
+
+            .circle-active {
+                border: 0.125rem solid var(--go-ui-color-primary-red);
+                background-color: var(--go-ui-color-white);
+            }
+
+            .circle-pending {
+                border: 0.125rem solid var(--go-ui-color-gray-40);
+                background-color: var(--go-ui-color-white);
+            }
+
+            .check-icon {
+                font-size: 0.875rem;
+            }
+
+            .connector {
+                flex-grow: 1;
+                background-color: var(--go-ui-color-gray-40);
+                width: 0.125rem;
+                min-height: 0.5rem;
+            }
+
+            .connector-completed {
+                background-color: var(--go-ui-color-primary-red);
+            }
+        }
+
+        .label {
+            padding-bottom: var(--go-ui-spacing-4xs);
+        }
+
+        .label-active {
+            font-weight: var(--go-ui-font-weight-semibold);
+        }
+
+        .label-pending {
+            color: var(--go-ui-color-gray-60);
+        }
+
+        &:last-child .label {
+            padding-bottom: 0;
+        }
+    }
+}

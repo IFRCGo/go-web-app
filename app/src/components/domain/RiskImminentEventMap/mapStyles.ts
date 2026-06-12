@@ -73,6 +73,16 @@ const severityColorStyle: Expression = [
 ];
 
 export const geojsonSourceOptions: mapboxgl.GeoJSONSourceRaw = { type: 'geojson' };
+
+// Basemap style layer that thematic surface layers (HDX choropleth fills and
+// outline, JBA COG raster) are inserted beneath, so boundary lines and place
+// labels stay readable above them. Passing this as MapLayer's `beneath` also
+// makes the insertion point deterministic for layers that mount outside a
+// RiskImminentEventMap render (the COG raster mounts after an async decode,
+// when MapOrder has already run and won't re-run). Mapbox silently skips
+// addLayer when the anchor id is missing, so this must exist in the GO
+// basemap style (it does — see ActiveCountryBaseMapLayer, which restyles it).
+export const BASEMAP_ADMIN_1_BOUNDARY_LAYER = 'admin-1-boundary';
 const hazardTypeColorPaint: CirclePaint['circle-color'] = [
     'match',
     ['get', 'hazard_type'],

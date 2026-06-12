@@ -1,0 +1,34 @@
+.chart-container {
+    height: 12rem;
+}
+
+.band-envelope {
+    fill: color-mix(in srgb, var(--go-ui-color-primary-blue) 10%, transparent);
+    stroke: none;
+}
+
+.band-likely {
+    fill: color-mix(in srgb, var(--go-ui-color-primary-blue) 22%, transparent);
+    stroke: none;
+}
+
+.line {
+    stroke: var(--go-ui-color-primary-blue);
+    stroke-width: 1.5;
+    fill: none;
+}
+
+.threshold {
+    stroke: var(--go-ui-color-red-90);
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+    fill: none;
+}
+
+.point {
+    fill: var(--go-ui-color-primary-blue);
+}
+
+.point-active {
+    fill: var(--go-ui-color-red-90);
+}
