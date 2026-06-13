@@ -28,6 +28,13 @@ Pure renames — update the import, the JSX tag, and the `Props` type; props are
 
 New: `Dropdown` (generic disclosure that `Menu` composes), `Tag`, `Selection`, `SelectionList`, `ChipLayout`. Unchanged: `KeyFigure`, `KeyFigureCard`, `ColorPreview`, `InputLabel`, `Tooltip`.
 
+Overlays now use native platform features where they fit — no public API changes:
+- `Dialog` uses the native `<dialog>` element opened with `showModal()`: focus trapping, focus restore, background inerting, top-layer rendering and the `::backdrop` come from the platform (the `react-focus-on` dependency and the portal are gone; `aria-labelledby` is wired to the Container heading). Escape and backdrop clicks route through `onClose` gated by `closeOnEscape`/`closeOnClickOutside`.
+- `Popover` (and the disclosure-style consumers built on it — `Dropdown`, `Menu`, `MoreInfo`, the select dropdowns, floating `InputError`) uses the native Popover API (`popover="manual"`) + **CSS Anchor Positioning** (`anchor-name`/`position-anchor`/`position-area` + `position-try-fallbacks`), with a Portal fallback when the Popover API is unavailable. This path is for **HTML-element triggers**.
+- `Tooltip` is intentionally simpler and does **not** use the native Popover API: it renders a `Portal` positioned with `useFloatPlacement` (JS). This keeps the surface in the HTML namespace and uses `getBoundingClientRect`, so tooltips placed **inside `<svg>` (e.g. chart points)** work — the native Popover API is `HTMLElement`-only and CSS anchor positioning doesn't handle SVG anchors.
+
+**Removed dependency:** `react-focus-on` is dropped — the native `<dialog>` provides focus trapping/restore. (`useFloatPlacement` remains, used by `Tooltip`.)
+
 ### Accessibility
 
 - **Form fields**: `InputContainer` now wires `<label htmlFor>` (`InputLabel` renders a real `<label>`), generated ids, `aria-describedby`→hint/error, `aria-invalid`, `aria-required`, and `role="alert"` on errors. Grouped controls (`RadioInput`, `Checklist`) get `role="radiogroup"`/`group"`.

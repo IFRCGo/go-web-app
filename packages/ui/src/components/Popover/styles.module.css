@@ -1,34 +1,56 @@
 .popup {
+    /* defaults declared so the JS-injected inline values are "known" */
+    --popover-anchor-name: --none;
+    --popover-preferred-width: anchor-size(width);
+
+    /* reset native [popover] UA defaults so anchor positioning controls it */
     position: fixed;
+    position-anchor: var(--popover-anchor-name);
+    position-area: bottom;
+    justify-self: anchor-center;
+    margin: 0;
+    margin-block-start: var(--go-ui-spacing-2xs);
+    border: 0;
     border-radius: var(--go-ui-spacing-xs);
     box-shadow: var(--go-ui-box-shadow-2xl);
     background-color: var(--go-ui-color-white);
+    padding: 0;
+    inset: auto;
+    width: clamp(16rem, var(--popover-preferred-width), calc(100vw - 2rem));
     max-height: 50vh;
     overflow: auto;
-
-    &.top-orientation {
-        /* FIXME: add variable */
-        box-shadow: 0 -8pt 20pt -5pt rgb(0 0 0 / 0.5);
-    }
+    /* flip above the trigger when there is not enough room below */
+    position-try-fallbacks: flip-block;
 }
 
 .pointer {
+    --popover-anchor-name: --none;
+
     position: fixed;
-    transform: translateX(-50%);
+    position-anchor: var(--popover-anchor-name);
+    position-area: bottom;
+    justify-self: anchor-center;
+    margin: 0;
+    border: 0;
     background-color: transparent;
+    padding: 0;
+    inset: auto;
     line-height: 0;
     color: var(--go-ui-color-white);
     font-size: 0.5rem;
     pointer-events: none;
     filter: drop-shadow(0 -1pt 1pt rgb(0 0 0 / .1));
 
+    /* matches the content box's flip (driven by JS-read orientation) so the
+       pointer stays attached on the trigger-facing side */
+    &.flipped {
+        position-area: top;
+        transform: rotate(180deg);
+    }
+
     .icon {
         width: 2em;
         height: 1em;
         fill: currentColor;
-    }
-
-    &.top-orientation {
-        transform: translateX(-50%) rotate(180deg);
     }
 }

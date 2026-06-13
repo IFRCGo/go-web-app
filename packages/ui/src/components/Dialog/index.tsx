@@ -1,14 +1,17 @@
 import {
     useCallback,
     useEffect,
+    useId,
+    useRef,
 } from 'react';
-import { FocusOn } from 'react-focus-on';
 import { CloseFillIcon } from '@ifrc-go/icons';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import Container, { type Props as ContainerProps } from '#components/Container';
-import Portal from '#components/Portal';
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
@@ -26,10 +29,11 @@ const sizeToStyleMap: Record<DialogSize, string> = {
     pageWidth: styles.pageWidth,
 };
 
-export interface Props extends Omit<ContainerProps, 'withInternalPadding' | 'withoutWrapInHeading' | 'size'> {
+export interface Props extends Omit<ContainerProps, 'withInternalPadding' | 'withoutWrapInHeading' | 'size' | 'headingId' | 'role'> {
     closeOnClickOutside?: boolean;
     closeOnEscape?: boolean;
     onClose?: () => void;
+    /** Applied to the `<dialog>` element (its `::backdrop` is the dim layer) */
     overlayClassName?: string;
     modalContainerClassName?: string;
     size?: DialogSize;
@@ -37,12 +41,14 @@ export interface Props extends Omit<ContainerProps, 'withInternalPadding' | 'wit
 }
 
 /**
- * Overlay dialog built on Container, rendered in a portal with focus
- * trapping (specific layer).
+ * Modal dialog built on the native `<dialog>` element (specific layer).
  *
- * Carries `role="dialog"` + `aria-modal="true"`; its accessible name is
- * derived from the heading (via `aria-labelledby` once Container exposes a
- * heading id, with an `aria-label` fallback when the heading is a string).
+ * Opened with `showModal()`, so focus trapping, focus restore, background
+ * inerting, top-layer rendering and the `::backdrop` come from the platform —
+ * no portal or focus-trap library needed. Its accessible name is wired via
+ * `aria-labelledby` to the Container heading (`Container.headingId`). Escape
+ * and backdrop clicks are routed through `onClose` (gated by `closeOnEscape` /
+ * `closeOnClickOutside`) so React stays the source of truth for open state.
  */
 function Dialog(props: Props) {
     const {
@@ -62,78 +68,103 @@ function Dialog(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
+    const dialogRef = useRef<HTMLDialogElement>(null);
+    const headingId = useId();
 
     useEffect(
         () => {
-            const prevValue = document.documentElement.style.scrollbarGutter;
+            const dialogElement = dialogRef.current;
+            dialogElement?.showModal();
+
+            // showModal() inerts the background but does not lock its scroll.
+            const prevOverflow = document.body.style.overflow;
+            const prevScrollbarGutter = document.documentElement.style.scrollbarGutter;
+            document.body.style.overflow = 'hidden';
             document.documentElement.style.scrollbarGutter = 'initial';
 
             return () => {
-                document.documentElement.style.scrollbarGutter = prevValue;
+                document.body.style.overflow = prevOverflow;
+                document.documentElement.style.scrollbarGutter = prevScrollbarGutter;
+                dialogElement?.close();
             };
         },
         [],
     );
 
+    const handleCancel = useCallback(
+        (event: React.SyntheticEvent<HTMLDialogElement>) => {
+            // Never let the element close itself on Escape; route through
+            // onClose so the owner unmounts us (keeping React authoritative).
+            event.preventDefault();
+            if (closeOnEscape) {
+                onClose?.();
+            }
+        },
+        [closeOnEscape, onClose],
+    );
+
+    useEffect(
+        () => {
+            const dialogElement = dialogRef.current;
+            if (!dialogElement) {
+                return undefined;
+            }
+            // A click whose target is the <dialog> itself is a backdrop click
+            // (content sits in the child Container). Attached imperatively so
+            // the listener lives on the genuinely-interactive dialog element.
+            const handleBackdropClick = (event: MouseEvent) => {
+                if (event.target === dialogElement && closeOnClickOutside) {
+                    onClose?.();
+                }
+            };
+            dialogElement.addEventListener('click', handleBackdropClick);
+            return () => {
+                dialogElement.removeEventListener('click', handleBackdropClick);
+            };
+        },
+        [closeOnClickOutside, onClose],
+    );
+
     const sizeStyle = sizeToStyleMap[size];
 
-    const handleClickOutside = useCallback(() => {
-        if (closeOnClickOutside && onClose) {
-            onClose();
-        }
-    }, [onClose, closeOnClickOutside]);
-
-    const handleEscape = useCallback(() => {
-        if (closeOnEscape && onClose) {
-            onClose();
-        }
-    }, [onClose, closeOnEscape]);
-
-    // FIXME(a11y-tier2): wire `aria-labelledby` to Container's heading id once
-    // Group MISC-B exposes a `headingId` prop on Container and threads it onto
-    // the Heading element. Until then the dialog's accessible name comes from
-    // the `aria-label` fallback below, which only covers string headings.
-    const headingFallbackLabel = typeof heading === 'string' ? heading : undefined;
+    // Only show the close button when it can actually do something — closing a
+    // mount-to-show dialog needs the owner's onClose. Avoids a dead "×".
+    const showCloseButton = !withoutCloseButton && isDefined(onClose);
 
     return (
-        <Portal>
-            <div className={_cs(styles.overlay, overlayClassName)}>
-                <FocusOn
-                    className={_cs(styles.focusContainer, modalContainerClassName, sizeStyle)}
-                    onClickOutside={handleClickOutside}
-                    onEscapeKey={handleEscape}
-                    gapMode="padding"
-                    // gapMode={null}
-                >
-                    <Container
-                        // eslint-disable-next-line react/jsx-props-no-spreading
-                        {...containerProps}
-                        role="dialog"
-                        aria-modal="true"
-                        aria-label={headingFallbackLabel}
-                        heading={heading}
-                        withPadding
-                        withoutWrapInHeader
-                        withoutWrapInFooter
-                        className={_cs(styles.modal, className)}
-                        withContentOverflow
-                        headerActions={(!withoutCloseButton || headerActions) ? (
-                            <>
-                                {headerActions}
-                                <Button
-                                    name={undefined}
-                                    onClick={onClose}
-                                    variant="tertiary"
-                                    title={strings.closeButtonLabel}
-                                >
-                                    <CloseFillIcon className={styles.closeIcon} />
-                                </Button>
-                            </>
-                        ) : undefined}
-                    />
-                </FocusOn>
-            </div>
-        </Portal>
+        <dialog
+            ref={dialogRef}
+            className={_cs(styles.dialog, sizeStyle, overlayClassName, modalContainerClassName)}
+            aria-labelledby={heading ? headingId : undefined}
+            onCancel={handleCancel}
+        >
+            <Container
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...containerProps}
+                heading={heading}
+                headingId={headingId}
+                withPadding
+                withoutWrapInHeader
+                withoutWrapInFooter
+                className={_cs(styles.modal, className)}
+                withContentOverflow
+                headerActions={(showCloseButton || headerActions) ? (
+                    <>
+                        {headerActions}
+                        {showCloseButton && (
+                            <Button
+                                name={undefined}
+                                onClick={onClose}
+                                variant="tertiary"
+                                title={strings.closeButtonLabel}
+                            >
+                                <CloseFillIcon className={styles.closeIcon} />
+                            </Button>
+                        )}
+                    </>
+                ) : undefined}
+            />
+        </dialog>
     );
 }
 

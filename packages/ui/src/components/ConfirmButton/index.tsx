@@ -70,7 +70,8 @@ function ConfirmButton<NAME>(props: Props<NAME>) {
             {showConfirmation && (
                 <Dialog
                     heading={confirmHeading}
-                    closeOnEscape={false}
+                    closeOnEscape
+                    onClose={() => setShowConfirmation(false)}
                     size="sm"
                     footerActions={(
                         <ListView spacing="sm">

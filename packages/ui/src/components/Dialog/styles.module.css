@@ -1,90 +1,96 @@
-.overlay {
+.dialog {
+    --spacing: calc(var(--go-ui-spacing-md) * 2);
+    --max-full-width: calc(100% - var(--spacing));
+    --max-page-width: calc(var(--go-ui-page-width-max) - var(--spacing));
+    --max-full-height: calc(100% - var(--spacing));
+
+    --max-width: min(var(--max-full-width), var(--max-page-width));
+    --max-height: var(--max-full-height);
+
+    /* centre in the top layer: inset:0 + margin:auto with a non-stretching
+       (fit-content) height; reset the UA border/padding/background */
     display: flex;
     position: fixed;
-    top: 0;
-    left: 0;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--go-ui-color-background-overlay-dark);
-    width: 100vw;
-    height: 100vh;
-    overflow: auto;
-    animation: fade-in var(--go-ui-duration-transition-medium) ease-in forwards;
+    inset: 0;
+    flex-direction: column;
+    margin: auto;
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+    width: 100%;
+    max-width: var(--max-width);
+    /* fit-content (not auto) hugs the content AND centres via margin:auto +
+       inset:0; capped by max-height, scrolling internally when taller */
+    height: fit-content;
+    max-height: var(--max-height);
+    overflow: hidden;
+    animation: slide-down var(--go-ui-duration-transition-medium) ease-in forwards;
 
-    .focus-container {
-        --spacing: calc(var(--go-ui-spacing-md) * 2);
-        --max-full-width: calc(100% - var(--spacing));
-        --max-page-width: calc(var(--go-ui-page-width-max) - var(--spacing));
-        --max-full-height: calc(100% - var(--spacing));
+    &::backdrop {
+        background-color: var(--go-ui-color-background-overlay-dark);
+        animation: fade-in var(--go-ui-duration-transition-medium) ease-in forwards;
+    }
 
-        --max-width: min(var(--max-full-width), var(--max-page-width));
-        --max-height: var(--max-full-height);
+    /* sized variants keep the centred fit-content height from the base, with a
+       sensible minimum (capped by the viewport) so they are never too short */
+    &.size-sm {
+        max-width: min(var(--max-width), var(--go-ui-width-modal-sm));
+        min-height: min(var(--max-height), 12rem);
+    }
 
-        display: block;
+    &.size-md {
+        max-width: min(var(--max-width), var(--go-ui-width-modal-md));
+        min-height: min(var(--max-height), 20rem);
+    }
+
+    &.size-lg {
+        max-width: min(var(--max-width), var(--go-ui-width-modal-lg));
+        min-height: min(var(--max-height), 28rem);
+        max-height: min(var(--max-height), 70vh);
+    }
+
+    &.size-xl {
+        max-width: min(var(--max-width), var(--go-ui-width-modal-xl));
+        min-height: min(var(--max-height), 36rem);
+        max-height: min(var(--max-height), 90vh);
+    }
+
+    /* FIXME: remove either size-full or page-width variant */
+    &.size-full {
         width: 100%;
-        max-width: var(--max-width);
         height: 100%;
-        max-height: var(--max-height);
+    }
+
+    &.page-width {
+        width: 100%;
+        height: 100%;
+    }
+
+    &.size-auto {
+        width: max-content;
+        height: max-content;
+    }
+
+    .modal {
+        /* grow to fill the dialog box (so the surface covers it fully) while
+           min-height:0 lets it shrink so its content can scroll */
+        flex: 1 1 auto;
+        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        border-radius: var(--go-ui-border-radius-lg);
+        box-shadow: var(--go-ui-box-shadow-2xl);
+        background-color: var(--go-ui-color-white);
+        width: 100%;
+        min-height: 0;
+        max-height: 100%;
         overflow: auto;
-        animation: slide-down var(--go-ui-duration-transition-medium) ease-in forwards;
 
-        &.size-sm {
-            max-width: min(var(--max-width), var(--go-ui-width-modal-sm));
-            height: auto;
-            /* FIXME: use variable */
-            min-height: min(var(--max-height), 18vh, 12rem);
+        .close-icon {
+            font-size: var(--go-ui-height-icon-multiplier);
         }
 
-        &.size-md {
-            max-width: min(var(--max-width), var(--go-ui-width-modal-md));
-            height: auto;
-            /* FIXME: use variable */
-            min-height: min(var(--max-height), 32vh, 20rem);
-        }
-
-        &.size-lg {
-            max-width: min(var(--max-width), var(--go-ui-width-modal-lg));
-            max-height: min(var(--max-height), 70vh);
-        }
-
-        &.size-xl {
-            max-width: min(var(--max-width), var(--go-ui-width-modal-xl));
-            max-height: min(var(--max-height), 90vh);
-        }
-
-        /* FIXME: remove either size-full or page-width variant */
-        &.size-full {
-            width: 100%;
-            height: 100%;
-        }
-
-        &.page-width {
-            width: 100%;
-            height: 100%;
-        }
-
-        &.size-auto {
-            width: max-content;
-            height: max-content;
-        }
-
-        .modal {
-            border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-            border-radius: var(--go-ui-border-radius-lg);
-            box-shadow: var(--go-ui-box-shadow-2xl);
-            background-color: var(--go-ui-color-white);
-            width: 100%;
-            height: 100%;
+        .content {
+            flex-grow: 1;
             overflow: auto;
-
-            .close-icon {
-                font-size: var(--go-ui-height-icon-multiplier);
-            }
-
-            .content {
-                flex-grow: 1;
-                overflow: auto;
-            }
         }
     }
 }
