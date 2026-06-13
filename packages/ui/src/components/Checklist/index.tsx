@@ -2,9 +2,11 @@ import {
     type ComponentType,
     type ReactNode,
     useCallback,
+    useId,
     useMemo,
 } from 'react';
 import {
+    isDefined,
     listToMap,
     OptionKey,
 } from '@togglecorp/fujs';
@@ -95,6 +97,10 @@ function Checklist<
         withoutOpticalSpacingCorrection,
     } = props;
 
+    const generatedId = useId();
+    const errorId = isDefined(error) ? `${generatedId}-error` : undefined;
+    const hintId = isDefined(hint) ? `${generatedId}-hint` : undefined;
+
     const highlightMode = useMemo(
         () => getHighlightMode(value, prevValue, withDiffView),
         [value, prevValue, withDiffView],
@@ -156,6 +162,9 @@ function Checklist<
 
     return (
         <InputContainer
+            role="group"
+            hintId={hintId}
+            errorId={errorId}
             className={className}
             backgroundColor={backgroundColor}
             withPadding={withPadding}

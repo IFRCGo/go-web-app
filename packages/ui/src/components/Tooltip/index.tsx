@@ -10,7 +10,7 @@ import {
 
 import Container from '#components/Container';
 import ListView from '#components/ListView';
-import Popup from '#components/Popup';
+import Popover from '#components/Popover';
 
 import styles from './styles.module.css';
 
@@ -21,6 +21,13 @@ export interface Props {
     preferredWidth?: number;
 }
 
+/**
+ * Hover-triggered tooltip attached to its parent element (specific layer).
+ *
+ * Renders its content in a Popover with `role="tooltip"`.
+ */
+// FIXME(a11y-tier2): tooltip is hover-only; add keyboard/focus trigger and
+// `aria-describedby` wiring from the parent control to the tooltip content.
 function Tooltip(props: Props) {
     const {
         className,
@@ -83,13 +90,14 @@ function Tooltip(props: Props) {
                 />
             )}
             {showPopup && (
-                <Popup
+                <Popover
                     className={_cs(styles.tooltipContent, className)}
                     parentRef={parentRef as React.RefObject<HTMLElement | null>}
                     pointerClassName={styles.pointer}
                     preferredWidth={preferredWidth}
                 >
                     <Container
+                        role="tooltip"
                         heading={title}
                         withPadding
                     >
@@ -101,7 +109,7 @@ function Tooltip(props: Props) {
                             {description}
                         </ListView>
                     </Container>
-                </Popup>
+                </Popover>
             )}
         </>
     );

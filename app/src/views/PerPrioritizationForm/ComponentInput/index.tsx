@@ -5,10 +5,10 @@ import {
 import {
     ButtonLayout,
     Checkbox,
+    DataDisplay,
     ExpandableContainer,
     ListView,
     TextArea,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
@@ -212,7 +212,7 @@ function ComponentInput(props: Props) {
                                         readOnly
                                         // FIXME: use tag component
                                     >
-                                        <TextOutput
+                                        <DataDisplay
                                             key={answerStat.answer}
                                             label={answerStat.answer}
                                             value={answerStat.num}

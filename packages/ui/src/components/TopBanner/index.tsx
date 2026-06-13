@@ -23,14 +23,17 @@ function TopBanner(props: Props) {
     } = props;
 
     return (
-        <div className={_cs(
-            styles.topBanner,
-            variant === 'negative' && styles.negative,
-            variant === 'warning' && styles.warning,
-            variant === 'positive' && styles.positive,
-            variant === 'information' && styles.information,
-            className,
-        )}
+        <div
+            // NOTE: page-level announcement -> polite live region
+            role="status"
+            className={_cs(
+                styles.topBanner,
+                variant === 'negative' && styles.negative,
+                variant === 'warning' && styles.warning,
+                variant === 'positive' && styles.positive,
+                variant === 'information' && styles.information,
+                className,
+            )}
         >
             {children}
         </div>

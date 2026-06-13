@@ -7,14 +7,14 @@ import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 import {
     Breadcrumbs,
     Container,
-    DateOutput,
+    DataDisplay,
+    DateDisplay,
     Description,
-    HtmlOutput,
+    DisplayLabel,
+    HtmlDisplay,
     InlineLayout,
-    Label,
     ListView,
     Message,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -298,7 +298,7 @@ export function Component() {
                         {resolveToComponent(strings.lastUpdatedByLabel, {
                             user: user || '--',
                             date: (
-                                <DateOutput
+                                <DateDisplay
                                     value={lastTouchedAt}
                                 />
                             ),
@@ -335,34 +335,34 @@ export function Component() {
                         layout="grid"
                         numPreferredGridColumns={3}
                     >
-                        <TextOutput
+                        <DataDisplay
                             label={strings.visibilityLabel}
                             value={visibility}
                             strongValue
                         />
                         {reportType === 'EW' ? (
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.forecastedDateLabel}
                                 value={startDate}
                                 valueType="date"
                                 strongValue
                             />
                         ) : (
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.startDateLabel}
                                 value={startDate}
                                 valueType="date"
                                 strongValue
                             />
                         )}
-                        <TextOutput
+                        <DataDisplay
                             label={strings.reportDateLabel}
                             value={reportDate}
                             valueType="date"
                             strongValue
                         />
                         {reportType === 'COVID' && (
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.covidFieldReportLabel}
                                 value
                                 valueType="boolean"
@@ -379,14 +379,14 @@ export function Component() {
                                 numPreferredGridColumns={3}
                             >
                                 {(reportType === 'EPI' || reportType === 'COVID') && isTruthyString(sitFieldsDate) && (
-                                    <TextOutput
+                                    <DataDisplay
                                         label={strings.dateOfData}
                                         value={sitFieldsDate}
                                         valueType="date"
                                     />
                                 )}
                                 {(reportType === 'EPI' || reportType === 'COVID') && isTruthyString(epiSources) && (
-                                    <TextOutput
+                                    <DataDisplay
                                         label={strings.epiSource}
                                         value={epiSources}
                                     />
@@ -428,7 +428,7 @@ export function Component() {
                             heading={strings.notesLabel}
                             withHeaderBorder
                         >
-                            <HtmlOutput
+                            <HtmlDisplay
                                 value={epiNotesSinceLastFr}
                             />
                         </Container>
@@ -438,7 +438,7 @@ export function Component() {
                             heading={strings.sourcesForDataMarkedLabel}
                             withHeaderBorder
                         >
-                            <HtmlOutput
+                            <HtmlDisplay
                                 value={otherSources}
                             />
                         </Container>
@@ -449,7 +449,7 @@ export function Component() {
                             heading={reportType === 'EW' ? strings.riskAnalysisTitle : strings.descriptionTitle}
                             withHeaderBorder
                         >
-                            <HtmlOutput
+                            <HtmlDisplay
                                 value={description}
                             />
                         </Container>
@@ -464,13 +464,13 @@ export function Component() {
                             withSpacingOpticalCorrection
                             spacing="sm"
                         >
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.governmentAssistanceLabel}
                                 value={requestAssistance}
                                 valueType="boolean"
                                 strongValue
                             />
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.nsAssistanceLabel}
                                 value={nsRequestAssistance}
                                 valueType="boolean"
@@ -541,19 +541,19 @@ export function Component() {
                                                     </InlineLayout>
                                                 ))}
                                                 {reportType === 'COVID' && value.category === 'Health' && (
-                                                    <TextOutput
+                                                    <DataDisplay
                                                         label={strings.fieldReportDetailsNotes}
                                                         value={notesHealth}
                                                     />
                                                 )}
                                                 {reportType === 'COVID' && value.category === 'NS Institutional Strengthening' && (
-                                                    <TextOutput
+                                                    <DataDisplay
                                                         label={strings.fieldReportDetailsNotes}
                                                         value={notesNs}
                                                     />
                                                 )}
                                                 {reportType === 'COVID' && value.category === 'Socioeconomic Interventions' && (
-                                                    <TextOutput
+                                                    <DataDisplay
                                                         label={strings.fieldReportDetailsNotes}
                                                         value={notesSocioeco}
                                                     />
@@ -561,7 +561,7 @@ export function Component() {
                                             </ListView>
                                         </Container>
                                     ))}
-                                    <TextOutput
+                                    <DataDisplay
                                         strongLabel
                                         label={strings.fieldReportDetailsSummary}
                                         value={actionTaken.summary}
@@ -575,7 +575,7 @@ export function Component() {
                             heading={strings.actionsTakenByOthersHeading}
                             withHeaderBorder
                         >
-                            <HtmlOutput
+                            <HtmlDisplay
                                 value={actionsOthers}
                             />
                         </Container>
@@ -616,7 +616,7 @@ export function Component() {
                             withHeaderBorder
                         >
                             {plannedResponses.map((plannedResponse) => (
-                                <TextOutput
+                                <DataDisplay
                                     key={plannedResponse.key}
                                     label={plannedResponse.title}
                                     value={isDefined(plannedResponse.value)
@@ -632,7 +632,7 @@ export function Component() {
                             withHeaderBorder
                         >
                             {sources.map((source) => (
-                                <TextOutput
+                                <DataDisplay
                                     key={source.id}
                                     label={source.stype}
                                     value={source.spec}
@@ -656,9 +656,9 @@ export function Component() {
                                         withSpacingOpticalCorrection
                                         spacing="sm"
                                     >
-                                        <Label strong>
+                                        <DisplayLabel strong>
                                             {contact.ctype}
-                                        </Label>
+                                        </DisplayLabel>
                                         <div>
                                             {joinList([
                                                 isTruthyString(contact.name)

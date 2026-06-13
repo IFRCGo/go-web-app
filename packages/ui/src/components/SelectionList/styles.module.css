@@ -1,0 +1,25 @@
+.selection-list {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--go-ui-spacing-3xs);
+
+    &.with-label {
+        border-left: var(--go-ui-width-separator-md) solid var(--go-ui-color-primary-red);
+        padding-left: var(--go-ui-spacing-2xs);
+    }
+
+    .label {
+        color: var(--go-ui-color-text-light);
+        font-weight: var(--go-ui-font-weight-bold);
+    }
+
+    .list {
+        display: inline-flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        gap: var(--go-ui-spacing-3xs);
+    }
+}

@@ -98,6 +98,8 @@ function Alert<N extends string>(props: Props<N>) {
 
     return (
         <Container
+            // NOTE: transient, assertive notification -> role="alert" (live region)
+            role="alert"
             className={_cs(
                 styles.alert,
                 alertVariantToClassNameMap[variant],

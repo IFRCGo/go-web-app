@@ -4,8 +4,8 @@ import {
 } from 'react';
 
 import Button, { Props as ButtonProps } from '#components/Button';
+import Dialog from '#components/Dialog';
 import ListView from '#components/ListView';
-import Modal from '#components/Modal';
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
@@ -68,7 +68,7 @@ function ConfirmButton<NAME>(props: Props<NAME>) {
                 onClick={handleOnClick}
             />
             {showConfirmation && (
-                <Modal
+                <Dialog
                     heading={confirmHeading}
                     closeOnEscape={false}
                     size="sm"
@@ -91,7 +91,7 @@ function ConfirmButton<NAME>(props: Props<NAME>) {
                     )}
                 >
                     {confirmMessage}
-                </Modal>
+                </Dialog>
             )}
         </>
     );

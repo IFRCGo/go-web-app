@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import {
     Container,
-    Pager,
+    Pagination,
     Table,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -199,7 +199,7 @@ export default function SurgeTable(props: Props) {
                 </Link>
             )}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={projectActivePage}
                     onActivePageChange={setProjectActivePage}
                     itemsCount={surgeResponse?.count ?? 0}

@@ -1,7 +1,7 @@
 import {
     Button,
     Container,
-    TextOutput,
+    DataDisplay,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
@@ -67,7 +67,7 @@ function OperationInfoCard(props: Props) {
             withPadding
             backgroundColor="background"
         >
-            <TextOutput
+            <DataDisplay
                 label={strings.operationLastUpdatedLabel}
                 value={updated_at}
                 valueType="date"

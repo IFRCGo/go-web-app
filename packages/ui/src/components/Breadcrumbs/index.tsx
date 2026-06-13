@@ -11,6 +11,11 @@ export interface BreadcrumbsProps {
     children: React.ReactNode;
 }
 
+/**
+ * Breadcrumbs renders a `<nav>` trail of crumbs separated by a divider.
+ * Specific layer: the last crumb is marked `aria-current="page"` and the
+ * separators are `aria-hidden`.
+ */
 function Breadcrumbs(props: BreadcrumbsProps) {
     const {
         className,
@@ -21,10 +26,12 @@ function Breadcrumbs(props: BreadcrumbsProps) {
 
     const items = Children.toArray(children).reduce<React.ReactNode[]>(
         (acc, child, index, array) => {
+            const isLast = index === array.length - 1;
             const item = (
                 <div
                     key={`breadcrumb-${index}`} // eslint-disable-line react/no-array-index-key
                     className={_cs(styles.item, itemClassName)}
+                    aria-current={isLast ? 'page' : undefined}
                 >
                     {child}
                 </div>
@@ -32,11 +39,12 @@ function Breadcrumbs(props: BreadcrumbsProps) {
 
             acc.push(item);
 
-            if (index !== array.length - 1) {
+            if (!isLast) {
                 acc.push(
                     <span
                         key={`separator-${index}`} // eslint-disable-line react/no-array-index-key
                         className={styles.separator}
+                        aria-hidden
                     >
                         {separator}
                     </span>,

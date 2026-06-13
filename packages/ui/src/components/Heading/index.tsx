@@ -26,6 +26,8 @@ const levelToClassName: Record<HeadingLevel, string> = {
 
 export interface Props {
     className?: string;
+    /** id on the heading element (e.g. for aria-labelledby wiring) */
+    id?: string;
     level?: HeadingLevel;
     children: ReactNode;
     ellipsize?: boolean;
@@ -41,6 +43,7 @@ export interface Props {
 function Heading(props: Props) {
     const {
         className,
+        id,
         level = 3,
         children,
         ellipsize,
@@ -63,6 +66,7 @@ function Heading(props: Props) {
 
     return (
         <HeadingTag
+            id={id}
             className={_cs(
                 styles.heading,
                 ellipsize && styles.ellipsized,

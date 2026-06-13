@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import {
     Container,
-    NumberOutput,
-    Pager,
+    NumberDisplay,
+    Pagination,
     Table,
 } from '@ifrc-go/ui';
 import { SortContext } from '@ifrc-go/ui/contexts';
@@ -164,7 +164,7 @@ function EventItemsTable(props: Props) {
         () => (
             resolveToComponent(
                 strings.regionEmergenciesTableTitle,
-                { numEmergencies: <NumberOutput value={eventResponse?.count} /> },
+                { numEmergencies: <NumberDisplay value={eventResponse?.count} /> },
             )
         ),
         [strings.regionEmergenciesTableTitle, eventResponse],
@@ -185,7 +185,7 @@ function EventItemsTable(props: Props) {
                 </Link>
             )}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={eventResponse?.count ?? 0}
                     maxItemsPerPage={limit}

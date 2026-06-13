@@ -7,10 +7,10 @@ import {
     BarChart,
     ColorPreview,
     Container,
+    DataDisplay,
     KeyFigureCard,
     LegendItem,
     ListView,
-    TextOutput,
     TimeSeriesChart,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -272,25 +272,25 @@ function Stats(props: Props) {
                                     spacing="sm"
                                     withSpacingOpticalCorrection
                                 >
-                                    <TextOutput
+                                    <DataDisplay
                                         value={activePointKey}
                                         valueType="date"
                                         format="yyyy"
                                         strongValue
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         icon={<ColorPreview value="var(--color-source-dref)" />}
                                         label={strings.sourceDREF}
                                         value={activePointData?.dref}
                                         valueType="number"
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         icon={<ColorPreview value="var(--color-source-emergency-appeal)" />}
                                         label={strings.sourceEmergencyAppeal}
                                         value={activePointData?.emergencyAppeal}
                                         valueType="number"
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         icon={<ColorPreview value="var(--color-source-emergency-appeal)" />}
                                         label={strings.sourceOthers}
                                         value={activePointData?.others}
@@ -298,7 +298,7 @@ function Stats(props: Props) {
                                     />
                                 </ListView>
                             ) : (
-                                <TextOutput
+                                <DataDisplay
                                     label={strings.sourcesTypeLegendLabel}
                                     value={(
                                         <ListView

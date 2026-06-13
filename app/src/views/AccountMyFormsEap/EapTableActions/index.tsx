@@ -11,8 +11,8 @@ import {
     Button,
     ButtonLayout,
     ConfirmButton,
+    Dialog,
     ListView,
-    Modal,
     RawButton,
 } from '@ifrc-go/ui';
 import {
@@ -546,7 +546,7 @@ function EapTableActions(props: Props) {
                 />
             )}
             {showAdditionalFileModal && details?.eapType === EAP_TYPE_FULL && (
-                <Modal
+                <Dialog
                     heading={strings.additionalFilesButtonLabel}
                     onClose={setShowAdditionalFileModalFalse}
                 >
@@ -570,7 +570,7 @@ function EapTableActions(props: Props) {
                             </Link>
                         )}
                     </ListView>
-                </Modal>
+                </Dialog>
             )}
         </ListView>
     );

@@ -8,7 +8,7 @@ import {
     ChartContainer,
     ChartPoint,
     Container,
-    TextOutput,
+    DataDisplay,
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -106,7 +106,7 @@ function NationalSocietyIncomeOverTime(props: Props) {
             <Tooltip
                 title={year}
                 description={(
-                    <TextOutput
+                    <DataDisplay
                         label={strings.nsIncomeOverTimeTooltipTotalLabel}
                         value={incomeByYear?.[Number(year)]?.value}
                         suffix=" CHF"
@@ -139,7 +139,7 @@ function NationalSocietyIncomeOverTime(props: Props) {
             withHeaderBorder
             footerActions={isDefined(countryResponse?.fdrs)
                 && isDefined(countryResponse.society_name) && (
-                <TextOutput
+                <DataDisplay
                     label={strings.sourceLabel}
                     value={(
                         <Link

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import {
     Container,
     DateInput,
-    Pager,
+    Pagination,
     Table,
 } from '@ifrc-go/ui';
 import { SortContext } from '@ifrc-go/ui/contexts';
@@ -185,7 +185,7 @@ function EventItemsTable() {
                 </>
             )}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={eventResponse?.count ?? 0}
                     maxItemsPerPage={limit}

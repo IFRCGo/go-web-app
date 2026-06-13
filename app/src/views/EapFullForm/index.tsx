@@ -14,11 +14,11 @@ import { ShareFillIcon } from '@ifrc-go/icons';
 import {
     Alert,
     Button,
+    Dialog,
     IconButton,
     InlineLayout,
     ListView,
     Message,
-    Modal,
     Tab,
     TabList,
     TabPanel,
@@ -1166,7 +1166,7 @@ export function Component() {
                             </ListView>
                         </InlineLayout>
                         {shouldSubmit && (
-                            <Modal
+                            <Dialog
                                 heading={strings.submitConfirmHeading}
                                 onClose={handleRequestForApprovalCancel}
                                 pending={createFullEapPending || updateFullFormPending}
@@ -1193,7 +1193,7 @@ export function Component() {
                                         />
                                     )}
                                 </ListView>
-                            </Modal>
+                            </Dialog>
                         )}
                         {showShareModal && isDefined(eapId) && (
                             <EapShareModal

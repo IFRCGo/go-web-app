@@ -1,7 +1,7 @@
 import {
     Description,
+    DisplayLabel,
     InlineLayout,
-    Label,
     ListView,
     type ListViewProps,
 } from '@ifrc-go/ui';
@@ -42,9 +42,9 @@ function QuestionOutput(props: Props) {
             <InlineLayout
                 before={`${componentNum}.${questionNum}.`}
                 after={(
-                    <Label strong>
+                    <DisplayLabel strong>
                         {answer}
-                    </Label>
+                    </DisplayLabel>
                 )}
             >
                 {question}

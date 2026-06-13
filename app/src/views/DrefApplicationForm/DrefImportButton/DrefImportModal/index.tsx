@@ -4,9 +4,9 @@ import {
 } from 'react';
 import { DrefTwoIcon } from '@ifrc-go/icons';
 import {
+    Dialog,
     FileInputButton,
     ListView,
-    Modal,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { encodeDate } from '@ifrc-go/ui/utils';
@@ -188,7 +188,7 @@ function DrefImportModal(props: Props) {
     ]);
 
     return (
-        <Modal
+        <Dialog
             heading={strings.drefImportApplication}
             onClose={onClose}
             className={styles.importDrefApplicationModal}
@@ -208,7 +208,7 @@ function DrefImportModal(props: Props) {
                     {strings.drefImportTemplate}
                 </div>
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

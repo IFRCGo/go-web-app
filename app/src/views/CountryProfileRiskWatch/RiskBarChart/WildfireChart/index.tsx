@@ -7,7 +7,7 @@ import {
     ChartAxes,
     ChartContainer,
     ChartPoint,
-    TextOutput,
+    DataDisplay,
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -149,7 +149,7 @@ function WildfireChart(props: Props) {
                     title={date.toLocaleString(navigator.language, { month: 'long' })}
                     description={(
                         <>
-                            <TextOutput
+                            <DataDisplay
                                 value={resolveToString(
                                     strings.minMaxValue,
                                     {
@@ -160,13 +160,13 @@ function WildfireChart(props: Props) {
                                 strongValue
                                 label={resolveToString(strings.minMax, { currentYear })}
                             />
-                            <TextOutput
+                            <DataDisplay
                                 value={monthData.average}
                                 label={resolveToString(strings.average, { currentYear })}
                                 valueType="number"
                                 strongValue
                             />
-                            <TextOutput
+                            <DataDisplay
                                 value={monthData.current}
                                 label={resolveToString(strings.year, { currentYear })}
                                 valueType="number"

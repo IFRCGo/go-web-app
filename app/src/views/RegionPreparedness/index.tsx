@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import {
     Container,
     DefaultMessage,
-    HtmlOutput,
+    HtmlDisplay,
     ListView,
     RawList,
 } from '@ifrc-go/ui';
@@ -39,7 +39,7 @@ function Snippet(props: SnippetProps) {
             heading={title}
             withHeaderBorder
         >
-            <HtmlOutput
+            <HtmlDisplay
                 value={snippet}
             />
         </Container>

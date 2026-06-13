@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import {
-    BooleanOutput,
-    type BooleanOutputProps,
-    DateOutput,
-    type DateOutputProps,
+    BooleanDisplay,
+    type BooleanDisplayProps,
+    DateDisplay,
+    type DateDisplayProps,
     ListView,
-    NumberOutput,
-    type NumberOutputProps,
+    NumberDisplay,
+    type NumberDisplayProps,
 } from '@ifrc-go/ui';
 import {
     DEFAULT_INVALID_TEXT,
@@ -40,17 +40,17 @@ interface BaseProps {
     withDiff: boolean;
 }
 
-interface BooleanProps extends BooleanOutputProps {
+interface BooleanProps extends BooleanDisplayProps {
     valueType: 'boolean',
-    prevValue?: BooleanOutputProps['value'];
+    prevValue?: BooleanDisplayProps['value'];
 }
 
-interface NumberProps extends NumberOutputProps {
+interface NumberProps extends NumberDisplayProps {
     valueType: 'number',
-    prevValue?: NumberOutputProps['value'];
+    prevValue?: NumberDisplayProps['value'];
 }
 
-interface DateProps extends DateOutputProps {
+interface DateProps extends DateDisplayProps {
     valueType: 'date',
     prevValue?: DateProps['value'];
 }
@@ -96,7 +96,7 @@ function PrintableDataDisplay(props: Props) {
 
         if (componentProps.valueType === 'number') {
             return (
-                <NumberOutput
+                <NumberDisplay
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...componentProps}
                     invalidText={invalidText}
@@ -106,7 +106,7 @@ function PrintableDataDisplay(props: Props) {
 
         if (componentProps.valueType === 'date') {
             return (
-                <DateOutput
+                <DateDisplay
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...componentProps}
                     invalidText={invalidText}
@@ -117,7 +117,7 @@ function PrintableDataDisplay(props: Props) {
 
         if (componentProps.valueType === 'boolean') {
             return (
-                <BooleanOutput
+                <BooleanDisplay
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...componentProps}
                     invalidText={invalidText}
@@ -145,7 +145,7 @@ function PrintableDataDisplay(props: Props) {
 
         if (componentProps.valueType === 'number') {
             return (
-                <NumberOutput
+                <NumberDisplay
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...componentProps}
                     invalidText={invalidText}
@@ -156,7 +156,7 @@ function PrintableDataDisplay(props: Props) {
 
         if (componentProps.valueType === 'date') {
             return (
-                <DateOutput
+                <DateDisplay
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...componentProps}
                     invalidText={invalidText}
@@ -168,7 +168,7 @@ function PrintableDataDisplay(props: Props) {
 
         if (componentProps.valueType === 'boolean') {
             return (
-                <BooleanOutput
+                <BooleanDisplay
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...componentProps}
                     invalidText={invalidText}

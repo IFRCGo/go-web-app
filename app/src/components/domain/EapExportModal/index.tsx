@@ -5,8 +5,8 @@ import {
 } from 'react';
 import { DownloadLineIcon } from '@ifrc-go/icons';
 import {
+    Dialog,
     Message,
-    Modal,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -152,7 +152,7 @@ function EapExportModal(props: Props) {
     ]);
 
     return (
-        <Modal
+        <Dialog
             heading={strings.exportTitle}
             onClose={onClose}
             className={styles.drefExportModal}
@@ -193,7 +193,7 @@ function EapExportModal(props: Props) {
                     )}
                 />
             )}
-        </Modal>
+        </Dialog>
     );
 }
 

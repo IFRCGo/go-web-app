@@ -1,4 +1,4 @@
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
@@ -34,7 +34,7 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.healthCCMMDesignedSpecification}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.healthCCMMNsValue}
                     label={strings.healthCCMMNsLabel}
                     strongLabel

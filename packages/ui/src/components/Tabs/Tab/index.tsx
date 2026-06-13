@@ -66,12 +66,15 @@ export default function Tab<NAME extends TabKey>(props: Props<NAME>) {
     const disabled = disabledFromContext || disabledFromProps;
 
     return (
+        // FIXME(a11y-tier2): add roving tabindex / arrow-key navigation across tabs
         <RawButton
             className={styles.tab}
             onClick={context.setActiveTab}
             name={name}
             disabled={disabled}
             type="button"
+            role="tab"
+            aria-selected={isActive}
         >
             <TabLayout
                 // eslint-disable-next-line react/jsx-props-no-spreading

@@ -13,8 +13,8 @@ import {
 import {
     Button,
     Container,
-    DropdownMenu,
     InlineLayout,
+    Menu,
     Tab,
     TabList,
     TabPanel,
@@ -163,10 +163,11 @@ function NationalSocietyLocalUnits(props: Props) {
                             {strings.addLocalUnitLabel}
                         </Button>
                         {canSeeMoreOptions && (
-                            <DropdownMenu
+                            <Menu
                                 withoutDropdownIcon
                                 labelVariant="tertiary"
                                 label={<MoreTwoFillIcon className={styles.icon} />}
+                                ariaLabel={strings.moreOptionsLabel}
                                 persistent
                             >
                                 {isSuperUser && (
@@ -207,7 +208,7 @@ function NationalSocietyLocalUnits(props: Props) {
                                         </DropdownMenuItem>
                                     </>
                                 )}
-                            </DropdownMenu>
+                            </Menu>
                         )}
                     </>
                 )}

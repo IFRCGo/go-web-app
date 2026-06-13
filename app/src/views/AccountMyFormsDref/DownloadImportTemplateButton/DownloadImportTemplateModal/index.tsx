@@ -6,8 +6,8 @@ import {
 import {
     Button,
     Description,
+    Dialog,
     ListView,
-    Modal,
     RadioInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -90,7 +90,7 @@ function DownloadImportTemplateModal(props: Props) {
     ]);
 
     return (
-        <Modal
+        <Dialog
             heading={strings.heading}
             footerActions={(
                 <Button
@@ -119,7 +119,7 @@ function DownloadImportTemplateModal(props: Props) {
                     {strings.description}
                 </Description>
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

@@ -1,4 +1,4 @@
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
@@ -39,12 +39,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.choleraDesignedPersonnel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraTotalPersonnelValue}
                     label={strings.choleraTotalPersonnelLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraTotalPersonnelCompositionValue}
                     label={strings.choleraTotalPersonnelCompositionLabel}
                     strongLabel
@@ -54,62 +54,62 @@ export function Component() {
                 heading={strings.choleraStandardComponentsLabel}
             >
                 <div>{strings.choleraStandardComponentsDescription}</div>
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraStandardModuleOneValue}
                     label={strings.choleraStandardModuleOneLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraStandardModuleTwoValue}
                     label={strings.choleraStandardModuleTwoLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraStandardModuleThreeValue}
                     label={strings.choleraStandardModuleThreeLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraStandardModuleFourValue}
                     label={strings.choleraStandardModuleFourLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraStandardModuleFiveValue}
                     label={strings.choleraStandardModuleFiveLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraStandardModuleSixValue}
                     label={strings.choleraStandardModuleSixLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraStandardModuleSevenValue}
                     label={strings.choleraStandardModuleSevenLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraStandardModuleEightValue}
                     label={strings.choleraStandardModuleEightLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraStandardModuleNineValue}
                     label={strings.choleraStandardModuleNineLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraStandardModuleTenValue}
                     label={strings.choleraStandardModuleTenLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraStandardModuleElevenValue}
                     label={strings.choleraStandardModuleElevenLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraStandardModuleTwelveValue}
                     label={strings.choleraStandardModuleTwelveLabel}
                     strongLabel
@@ -118,7 +118,7 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.choleraSpecifications}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.choleraSpecificationsValue}
                     label={strings.choleraSpecificationsLabel}
                     strongLabel

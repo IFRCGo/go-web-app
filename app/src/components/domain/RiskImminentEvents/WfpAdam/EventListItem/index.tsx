@@ -2,7 +2,7 @@ import {
     useEffect,
     useRef,
 } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import ImminentEventListItem from '#components/domain/ImminentEventListItem';
@@ -58,7 +58,7 @@ function EventListItem(props: Props) {
             onExpandClick={onExpandClick}
             heading={title}
             description={(
-                <TextOutput
+                <DataDisplay
                     label={strings.wfpEventListPublishedOn}
                     value={publish_date}
                     valueType="date"

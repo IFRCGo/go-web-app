@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     _cs,
@@ -68,7 +68,7 @@ function DiffWrapper<
             {children}
             {showPreviousValue
                 && (
-                    <TextOutput
+                    <DataDisplay
                         className={styles.previousValue}
                         label={strings.previousValueLabel}
                         value={previousValue}

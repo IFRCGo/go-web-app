@@ -5,8 +5,8 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
+import DataDisplay from '#components/DataDisplay';
 import LegendItem from '#components/LegendItem';
-import TextOutput from '#components/TextOutput';
 import Tooltip from '#components/Tooltip';
 import {
     getPercentage,
@@ -86,6 +86,10 @@ export type Props<D> = {
     colorSelector?: never;
 })
 
+/**
+ * PieChart renders proportions of the data as pie segments with a legend.
+ * Specific (data-viz) layer.
+ */
 function PieChart<D>(props: Props<D>) {
     const {
         className,
@@ -165,7 +169,7 @@ function PieChart<D>(props: Props<D>) {
                         >
                             <Tooltip
                                 description={(
-                                    <TextOutput
+                                    <DataDisplay
                                         label={datum.label}
                                         value={datum.value}
                                     />
@@ -181,7 +185,7 @@ function PieChart<D>(props: Props<D>) {
                         className={styles.legendItem}
                         key={datum.key}
                         label={showPercentageInLegend ? (
-                            <TextOutput
+                            <DataDisplay
                                 label={datum.label}
                                 value={datum.percentage}
                                 valueType="number"

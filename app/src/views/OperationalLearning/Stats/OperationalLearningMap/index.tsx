@@ -5,9 +5,9 @@ import {
 } from 'react';
 import {
     Container,
+    DataDisplay,
     ListView,
-    NumberOutput,
-    TextOutput,
+    NumberDisplay,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { maxSafe } from '@ifrc-go/ui/utils';
@@ -181,7 +181,7 @@ function OperationalLearningMap(props: Props) {
             <GoMapContainer
                 title={strings.downloadMapTitle}
                 footer={(
-                    <TextOutput
+                    <DataDisplay
                         label={strings.learningCount}
                         value={(
                             <ListView
@@ -193,8 +193,8 @@ function OperationalLearningMap(props: Props) {
                                     endColor={LEARNING_COUNT_HIGH_COLOR}
                                 />
                                 <ListView withSpaceBetweenContents>
-                                    <NumberOutput value={MIN_LEARNING_COUNT} />
-                                    <NumberOutput value={maxLearning} />
+                                    <NumberDisplay value={MIN_LEARNING_COUNT} />
+                                    <NumberDisplay value={maxLearning} />
                                 </ListView>
                             </ListView>
                         )}
@@ -235,7 +235,7 @@ function OperationalLearningMap(props: Props) {
                     <Container
                         headingLevel={5}
                     >
-                        <TextOutput
+                        <DataDisplay
                             value={clickedPointProperties.feature.properties.learningCount}
                             label={strings.learningCount}
                             valueType="number"

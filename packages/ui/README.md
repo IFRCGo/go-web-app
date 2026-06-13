@@ -94,6 +94,27 @@ Visual dimensions are token-valued props ("specs") resolved against the CSS-vari
 
 Ordinal specs accept an **offset**: the resolved token shifts along the scale (clamped), so the same `spacing="md"` or `textSize="md"` can resolve one step larger or smaller inside a visually bigger or denser context — without inventing new tokens.
 
+## Accessibility
+
+The library is built **native-semantics-first**: components reach for the correct HTML element or ARIA role rather than re-creating behaviour on a `<div>`, so keyboard and screen-reader support largely come for free. See [CONTRIBUTING.md](./CONTRIBUTING.md#accessibility) for the full conventions; the highlights:
+
+- **Form fields** wire `label`↔control↔hint↔error once in `InputContainer` — real `<label htmlFor>`, `aria-describedby`, `aria-invalid`, and `role="alert"` on errors.
+- **Interactive widgets** follow the WAI-ARIA Authoring Practices pattern (dialog, tabs, combobox, switch, disclosure).
+- **Formatted outputs speak to three audiences at once** — the headline accessibility pattern:
+
+| Audience | Sees / hears / reads | Carrier |
+| --- | --- | --- |
+| Sighted | `1.5M` | visible text |
+| Screen reader | `1,500,000` | `role="img"` + `aria-label` |
+| Machine / test | `1500000` | native `<data value>` / `<time datetime>` |
+
+```tsx
+<data value="1500000" role="img" aria-label="1,500,000">1.5M</data>
+<time dateTime="2026-06-13" role="img" aria-label="13 June 2026">13 Jun</time>
+```
+
+The `role="img"` (and `aria-label`) appear **only when the visible text is an abbreviated, lossy form** of the value; full values render as a plain `<data>`/`<time>` that reads correctly on its own. Tests assert on the native `value`/`dateTime` attribute, never on the formatted text.
+
 ## UI Layout Concepts
 
 ### ListView

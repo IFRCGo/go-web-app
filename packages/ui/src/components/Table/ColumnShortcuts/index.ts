@@ -7,12 +7,12 @@ import {
     randomString,
 } from '@togglecorp/fujs';
 
-import BooleanOutput, { type Props as BooleanOutputProps } from '#components/BooleanOutput';
-import DateOutput, { type Props as DateOutputProps } from '#components/DateOutput';
-import DateRangeOutput, { type Props as DateRangeOutputProps } from '#components/DateRangeOutput';
-import NumberOutput, { type Props as NumberOutputProps } from '#components/NumberOutput';
+import BooleanDisplay, { type Props as BooleanDisplayProps } from '#components/BooleanDisplay';
+import DateDisplay, { type Props as DateDisplayProps } from '#components/DateDisplay';
+import DateRangeDisplay, { type Props as DateRangeDisplayProps } from '#components/DateRangeDisplay';
+import NumberDisplay, { type Props as NumberDisplayProps } from '#components/NumberDisplay';
 import ProgressBar, { type Props as ProgressBarProps } from '#components/ProgressBar';
-import ReducedListDisplay, { Props as ReducedListDisplayProps } from '#components/ReducedListDisplay';
+import TruncatedList, { Props as TruncatedListProps } from '#components/TruncatedList';
 
 import Cell, { type CellProps } from '../Cell';
 import HeaderCell, { type HeaderCellProps } from '../HeaderCell';
@@ -52,9 +52,9 @@ export function createBooleanColumn<D, K>(
     id: string,
     title: string,
     accessor: (item: D) => boolean | undefined | null,
-    options?: Options<D, K, BooleanOutputProps, HeaderCellProps>,
+    options?: Options<D, K, BooleanDisplayProps, HeaderCellProps>,
 ) {
-    const item: Column<D, K, BooleanOutputProps, HeaderCellProps> & {
+    const item: Column<D, K, BooleanDisplayProps, HeaderCellProps> & {
         valueSelector: (item: D) => boolean | undefined | null,
         valueComparator: (foo: D, bar: D) => number,
     } = {
@@ -71,8 +71,8 @@ export function createBooleanColumn<D, K>(
         },
         cellRendererClassName: options?.cellRendererClassName,
         cellContainerClassName: options?.cellContainerClassName,
-        cellRenderer: BooleanOutput,
-        cellRendererParams: (_: K, datum: D): BooleanOutputProps => ({
+        cellRenderer: BooleanDisplay,
+        cellRendererParams: (_: K, datum: D): BooleanDisplayProps => ({
             value: accessor(datum),
         }),
         valueSelector: accessor,
@@ -183,12 +183,12 @@ export function createNumberColumn<D, K extends string | number>(
     id: string,
     title: string,
     accessor: (item: D) => number | undefined | null,
-    options?: Options<D, K, NumberOutputProps, HeaderCellProps> & {
-        suffix?: NumberOutputProps['suffix'];
-        maximumFractionDigits?: NumberOutputProps['maximumFractionDigits'];
+    options?: Options<D, K, NumberDisplayProps, HeaderCellProps> & {
+        suffix?: NumberDisplayProps['suffix'];
+        maximumFractionDigits?: NumberDisplayProps['maximumFractionDigits'];
     },
 ) {
-    const item: Column<D, K, NumberOutputProps, HeaderCellProps> & {
+    const item: Column<D, K, NumberDisplayProps, HeaderCellProps> & {
         valueSelector: (item: D) => number | undefined | null,
         valueComparator: (foo: D, bar: D) => number,
     } = {
@@ -211,8 +211,8 @@ export function createNumberColumn<D, K extends string | number>(
             options?.cellRendererClassName,
         ),
         cellContainerClassName: options?.cellContainerClassName,
-        cellRenderer: NumberOutput,
-        cellRendererParams: (_: K, datum: D): NumberOutputProps => ({
+        cellRenderer: NumberDisplay,
+        cellRendererParams: (_: K, datum: D): NumberDisplayProps => ({
             value: accessor(datum),
             suffix: options?.suffix,
             // compact: true,
@@ -232,9 +232,9 @@ export function createDateColumn<D, K>(
     id: string,
     title: string,
     accessor: (item: D) => string | undefined | null,
-    options?: Options<D, K, DateOutputProps, HeaderCellProps>,
+    options?: Options<D, K, DateDisplayProps, HeaderCellProps>,
 ) {
-    const item: Column<D, K, DateOutputProps, HeaderCellProps> & {
+    const item: Column<D, K, DateDisplayProps, HeaderCellProps> & {
         valueSelector: (item: D) => string | undefined | null,
         valueComparator: (foo: D, bar: D) => number,
     } = {
@@ -251,8 +251,8 @@ export function createDateColumn<D, K>(
         },
         cellRendererClassName: options?.cellRendererClassName,
         cellContainerClassName: options?.cellContainerClassName,
-        cellRenderer: DateOutput,
-        cellRendererParams: (_: K, datum: D): DateOutputProps => ({
+        cellRenderer: DateDisplay,
+        cellRendererParams: (_: K, datum: D): DateDisplayProps => ({
             value: accessor(datum),
             invalidText: '--',
         }),
@@ -269,9 +269,9 @@ export function createDateRangeColumn<D, K>(
     id: string,
     title: string,
     accessor: (item: D) => { startDate: string, endDate: string },
-    options?: Options<D, K, DateRangeOutputProps, HeaderCellProps>,
+    options?: Options<D, K, DateRangeDisplayProps, HeaderCellProps>,
 ) {
-    const item: Column<D, K, DateRangeOutputProps, HeaderCellProps> & {
+    const item: Column<D, K, DateRangeDisplayProps, HeaderCellProps> & {
         valueSelector: (item: D) => string | undefined | null,
         valueComparator: (foo: D, bar: D) => number,
     } = {
@@ -287,9 +287,9 @@ export function createDateRangeColumn<D, K>(
             infoDescription: options?.headerInfoDescription,
         },
         cellRendererClassName: options?.cellRendererClassName,
-        cellRenderer: DateRangeOutput,
+        cellRenderer: DateRangeDisplay,
         cellContainerClassName: options?.cellContainerClassName,
-        cellRendererParams: (_: K, datum: D): DateRangeOutputProps => ({
+        cellRendererParams: (_: K, datum: D): DateRangeDisplayProps => ({
             ...accessor(datum),
         }),
         valueSelector: (datum) => accessor(datum).startDate,
@@ -513,13 +513,13 @@ export function createMultiTimelineColumn<DATUM, KEY>(
 export function createListDisplayColumn<DATUM, KEY, LIST_ITEM, RENDERER_PROPS>(
     id: string,
     title: string,
-    rendererParams: (datum: DATUM) => ReducedListDisplayProps<LIST_ITEM, RENDERER_PROPS>,
+    rendererParams: (datum: DATUM) => TruncatedListProps<LIST_ITEM, RENDERER_PROPS>,
     options?: Options<DATUM, KEY, TableActionsProps, HeaderCellProps>,
 ) {
     const item: Column<
         DATUM,
         KEY,
-        ReducedListDisplayProps<LIST_ITEM, RENDERER_PROPS>,
+        TruncatedListProps<LIST_ITEM, RENDERER_PROPS>,
         HeaderCellProps
     > = {
         id,
@@ -529,7 +529,7 @@ export function createListDisplayColumn<DATUM, KEY, LIST_ITEM, RENDERER_PROPS>(
             sortable: false,
         },
         headerContainerClassName: options?.headerContainerClassName,
-        cellRenderer: ReducedListDisplay,
+        cellRenderer: TruncatedList,
         cellRendererParams: (_, datum) => ({
             ...rendererParams(datum),
         }),

@@ -3,9 +3,9 @@ import { CopyLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
+    DataDisplay,
     Description,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
@@ -59,13 +59,13 @@ function TokenDetails(props: Props) {
                     spacing="3xs"
                     layout="block"
                 >
-                    <TextOutput
+                    <DataDisplay
                         label={strings.createdAtLabel}
                         value={data?.created_at}
                         valueType="date"
                         textSize="sm"
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.expiresOnLabel}
                         value={data?.expire_timestamp}
                         valueType="date"

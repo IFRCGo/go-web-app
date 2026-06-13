@@ -4,7 +4,7 @@ import {
     useSearchParams,
 } from 'react-router-dom';
 import {
-    Label,
+    DisplayLabel,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -580,16 +580,16 @@ export function Component() {
                                 headingLevel={4}
                             >
                                 <div className={styles.indicatorItems}>
-                                    <Label
+                                    <DisplayLabel
                                         // FIXME: create and use printable labels
                                         textSize="sm"
                                         strong
                                     >
                                         {strings.indicatorTitleLabel}
-                                    </Label>
-                                    <Label textSize="sm" strong>
+                                    </DisplayLabel>
+                                    <DisplayLabel textSize="sm" strong>
                                         {strings.indicatorTargetLabel}
-                                    </Label>
+                                    </DisplayLabel>
                                     {operation.indicators.map((indicator) => {
                                         const prevIndicator = isDefined(indicator.previous_id)
                                             ? prevOperationIndicatorMap?.[indicator.previous_id]
@@ -752,16 +752,16 @@ export function Component() {
                                 headingLevel={4}
                             >
                                 <div className={styles.indicatorItems}>
-                                    <Label
+                                    <DisplayLabel
                                         // FIXME: create and use printable labels
                                         textSize="sm"
                                         strong
                                     >
                                         {strings.indicatorTitleLabel}
-                                    </Label>
-                                    <Label textSize="sm" strong>
+                                    </DisplayLabel>
+                                    <DisplayLabel textSize="sm" strong>
                                         {strings.indicatorTargetLabel}
-                                    </Label>
+                                    </DisplayLabel>
                                     {approach.indicators.map((indicator) => {
                                         const prevIndicator = prevApproachIndicatorMap
                                             ?.[indicator.previous_id!];

@@ -3,7 +3,7 @@ import {
     isDefined,
 } from '@togglecorp/fujs';
 
-import NumberOutput from '#components/NumberOutput';
+import NumberDisplay from '#components/NumberDisplay';
 
 import styles from './styles.module.css';
 
@@ -91,7 +91,7 @@ function ProgressBar(props: Props) {
                 <div className={styles.title}>
                     {title}
                     {showPercentageInTitle && (
-                        <NumberOutput
+                        <NumberDisplay
                             value={percentage}
                             suffix="%"
                         />

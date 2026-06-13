@@ -13,15 +13,15 @@ import {
     Button,
     Checklist,
     Container,
+    DataDisplay,
     DateInput,
+    Dialog,
     InputSection,
     ListView,
     Message,
-    Modal,
     RadioInput,
     SegmentInput,
     TextInput,
-    TextOutput,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -865,7 +865,7 @@ export function Component() {
                 </ListView>
             )}
             {submitConfirmationShown && (
-                <Modal
+                <Dialog
                     heading={strings.monitoring3wHeading}
                     className={styles.confirmModal}
                     onClose={hideSubmitConfirmation}
@@ -912,7 +912,7 @@ export function Component() {
                         withSpacingOpticalCorrection
                         spacing="sm"
                     >
-                        <TextOutput
+                        <DataDisplay
                             className={styles.metaItem}
                             labelClassName={styles.metaLabel}
                             valueClassName={styles.metaValue}
@@ -920,7 +920,7 @@ export function Component() {
                             value={selectedCountryDetail?.name}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             className={styles.metaItem}
                             labelClassName={styles.metaLabel}
                             valueClassName={styles.metaValue}
@@ -929,7 +929,7 @@ export function Component() {
                             valueType="date"
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             className={styles.metaItem}
                             labelClassName={styles.metaLabel}
                             valueClassName={styles.metaValue}
@@ -941,7 +941,7 @@ export function Component() {
                                 selectedNationalSocietyDetail?.society_name
                             )}
                         />
-                        <TextOutput
+                        <DataDisplay
                             className={styles.metaItem}
                             labelClassName={styles.metaLabel}
                             valueClassName={styles.sectorsList}
@@ -958,7 +958,7 @@ export function Component() {
                                             && isDefined(activity.action)
                                         ),
                                     ).map((activity) => (
-                                        <TextOutput
+                                        <DataDisplay
                                             icon={(<LegendIcon />)}
                                             key={activity.client_id}
                                             value={(
@@ -974,7 +974,7 @@ export function Component() {
                             ))}
                         />
                     </ListView>
-                </Modal>
+                </Dialog>
             )}
         </Page>
     );

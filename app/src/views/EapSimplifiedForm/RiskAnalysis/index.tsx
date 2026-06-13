@@ -1,9 +1,9 @@
 import {
     Container,
     Description,
+    DisplayLabel,
     Heading,
     InputSection,
-    Label,
     ListView,
     TextArea,
 } from '@ifrc-go/ui';
@@ -61,9 +61,9 @@ function RiskAnalysis(props: Props) {
                             <Heading level={5}>
                                 {strings.riskHeading}
                             </Heading>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.riskSectionCriteriaIntroduction1}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.riskSectionCriteriaComment11}
@@ -75,18 +75,18 @@ function RiskAnalysis(props: Props) {
                                     {strings.riskSectionCriteriaComment13}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.riskSectionCriteriaIntroduction2}
-                            </Label>
+                            </DisplayLabel>
                             <Description>
                                 {strings.riskSectionCriteriaComment2}
                             </Description>
                             <Heading level={5}>
                                 {strings.earlyActionSectionCriteriaHeading}
                             </Heading>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.riskSectionCriteriaIntroduction3}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.riskSectionCriteriaComment31}
@@ -98,9 +98,9 @@ function RiskAnalysis(props: Props) {
                                     {strings.riskSectionCriteriaComment33}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.riskSectionCriteriaIntroduction4}
-                            </Label>
+                            </DisplayLabel>
                             <Description>
                                 {strings.riskSectionCriteriaComment4}
                             </Description>

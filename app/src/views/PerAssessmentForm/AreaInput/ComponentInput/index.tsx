@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import {
     Container,
     ExpandableContainer,
-    HtmlOutput,
+    HtmlDisplay,
     InputSection,
     ListView,
     SelectInput,
@@ -283,7 +283,7 @@ function ComponentInput(props: Props) {
                         withoutPadding
                         title={strings.epiConsiderationTitle}
                         description={(
-                            <HtmlOutput value={component?.epi_considerations_guidance} />
+                            <HtmlDisplay value={component?.epi_considerations_guidance} />
                         )}
                     >
                         <TextArea
@@ -302,7 +302,7 @@ function ComponentInput(props: Props) {
                         withoutPadding
                         title={strings.urbanConsiderationTitle}
                         description={(
-                            <HtmlOutput value={component?.urban_considerations_guidance} />
+                            <HtmlDisplay value={component?.urban_considerations_guidance} />
                         )}
                     >
                         <TextArea
@@ -321,7 +321,7 @@ function ComponentInput(props: Props) {
                         withoutPadding
                         title={strings.environmentConsiderationTitle}
                         description={(
-                            <HtmlOutput
+                            <HtmlDisplay
                                 value={component?.climate_environmental_considerations_guidance}
                             />
                         )}

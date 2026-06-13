@@ -1,5 +1,9 @@
-import React, { useMemo } from 'react';
+import React, {
+    useId,
+    useMemo,
+} from 'react';
 import {
+    isDefined,
     isNotDefined,
     listToMap,
     OptionKey,
@@ -106,6 +110,10 @@ function RadioInput<
         ...otherOptions
     } = props;
 
+    const generatedId = useId();
+    const errorId = isDefined(error) ? `${generatedId}-error` : undefined;
+    const hintId = isDefined(hint) ? `${generatedId}-hint` : undefined;
+
     const highlightMode = useMemo(
         () => getHighlightMode(value, prevValue, withDiffView),
         [value, prevValue, withDiffView],
@@ -185,6 +193,9 @@ function RadioInput<
 
     return (
         <InputContainer
+            role="radiogroup"
+            hintId={hintId}
+            errorId={errorId}
             className={className}
             backgroundColor={backgroundColor}
             withPadding={withPadding}

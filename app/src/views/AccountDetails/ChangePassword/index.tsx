@@ -4,8 +4,8 @@ import {
 } from 'react';
 import {
     Button,
+    Dialog,
     ListView,
-    Modal,
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -155,7 +155,7 @@ function ChangePasswordModal(props: Props) {
     const fieldError = getErrorObject(formError);
 
     return (
-        <Modal
+        <Dialog
             heading={strings.changePasswordModalHeading}
             onClose={handleModalCloseButton}
             withoutCloseButton
@@ -219,7 +219,7 @@ function ChangePasswordModal(props: Props) {
                     withAsterisk
                 />
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

@@ -3,8 +3,8 @@ import { useOutletContext } from 'react-router-dom';
 import {
     BarChart,
     Container,
+    DataDisplay,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -85,7 +85,7 @@ function NationalSocietyIncomeSourceBreakdown(props: Props) {
             footerActions={isDefined(countryResponse?.fdrs)
                 && isDefined(countryResponse.society_name) && (
                 <ListView withSpacingOpticalCorrection>
-                    <TextOutput
+                    <DataDisplay
                         label={strings.incomeSourceBreakdownSourceLabel}
                         value={(
                             <Link
@@ -104,7 +104,7 @@ function NationalSocietyIncomeSourceBreakdown(props: Props) {
                             </Link>
                         )}
                     />
-                    <TextOutput
+                    <DataDisplay
                         value={selectedYear}
                         strongValue
                     />

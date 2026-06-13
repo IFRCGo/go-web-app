@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
@@ -91,12 +91,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.personnel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.totalPersonnelValue}
                     label={strings.totalPersonnelLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.personnelCompositionValue}
                     label={strings.personnelCompositionLabel}
                     strongLabel
@@ -108,7 +108,7 @@ export function Component() {
                 <div>{strings.standardComponentsDetails}</div>
                 <ul>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.opdModuleValue}
                             label={strings.opdModuleValueLabel}
                             withoutLabelColon
@@ -116,7 +116,7 @@ export function Component() {
                         />
                     </li>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.maternalModuleValue}
                             label={strings.maternalModuleLabel}
                             withoutLabelColon
@@ -124,7 +124,7 @@ export function Component() {
                         />
                     </li>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.pharmaceuticalModuleValue}
                             label={strings.pharmaceuticalModuleLabel}
                             withoutLabelColon
@@ -132,7 +132,7 @@ export function Component() {
                         />
                     </li>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.pssModuleValue}
                             label={strings.pssModuleValueLabel}
                             withoutLabelColon
@@ -140,7 +140,7 @@ export function Component() {
                         />
                     </li>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.storeModuleValue}
                             label={strings.storeModuleValueLabel}
                             withoutLabelColon
@@ -148,7 +148,7 @@ export function Component() {
                         />
                     </li>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.wasteManagementModuleValue}
                             label={strings.wasteManagementModuleLabel}
                             withoutLabelColon
@@ -156,7 +156,7 @@ export function Component() {
                         />
                     </li>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.waterTreatmentModuleValue}
                             label={strings.waterTreatmentModuleLabel}
                             withoutLabelColon
@@ -164,7 +164,7 @@ export function Component() {
                         />
                     </li>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.sanitationModuleValue}
                             label={strings.sanitationModuleLabel}
                             withoutLabelColon
@@ -172,7 +172,7 @@ export function Component() {
                         />
                     </li>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.infrastructureModuleValue}
                             label={strings.infrastructureModuleLabel}
                             withoutLabelColon
@@ -180,7 +180,7 @@ export function Component() {
                         />
                     </li>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.powerModuleValue}
                             label={strings.powerModuleLabel}
                             withoutLabelColon
@@ -188,7 +188,7 @@ export function Component() {
                         />
                     </li>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.administrationModuleValue}
                             label={strings.administrationModuleLabel}
                             withoutLabelColon
@@ -196,7 +196,7 @@ export function Component() {
                         />
                     </li>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.itModuleValue}
                             label={strings.itModuleLabel}
                             withoutLabelColon
@@ -204,7 +204,7 @@ export function Component() {
                         />
                     </li>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.vehiclesValue}
                             label={strings.vehiclesLabel}
                             withoutLabelColon
@@ -212,7 +212,7 @@ export function Component() {
                         />
                     </li>
                     <li>
-                        <TextOutput
+                        <DataDisplay
                             value={strings.basecampsValue}
                             label={strings.basecampsLabel}
                             withoutLabelColon
@@ -224,22 +224,22 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.specifications}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsWeightValue}
                     label={strings.specificationsWeightLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsVolumeValue}
                     label={strings.specificationsVolumeLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsCostValue}
                     label={strings.specificationsCostLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsNationalSocietyValue}
                     label={strings.specificationsNationalSocietyLabel}
                     strongLabel

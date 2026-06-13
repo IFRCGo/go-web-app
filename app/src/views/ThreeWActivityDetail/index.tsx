@@ -6,11 +6,11 @@ import { useParams } from 'react-router-dom';
 import { PencilFillIcon } from '@ifrc-go/icons';
 import {
     Container,
-    DateOutput,
+    DataDisplay,
+    DateDisplay,
     ListView,
     Message,
     RawList,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
@@ -130,7 +130,7 @@ export function Component() {
                     strings.emergencyLastModifiedOnTitle,
                     {
                         date: (
-                            <DateOutput
+                            <DateDisplay
                                 value={modifiedAt}
                             />
                         ),
@@ -156,7 +156,7 @@ export function Component() {
                             layout="block"
                             withSpacingOpticalCorrection
                         >
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.emergencyIFRCSupportedOperation}
                                 value={(
                                     <Link
@@ -169,7 +169,7 @@ export function Component() {
                                 )}
                                 strongLabel
                             />
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.emergencyCountry}
                                 value={(
                                     <Link
@@ -182,36 +182,36 @@ export function Component() {
                                 )}
                                 strongLabel
                             />
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.emergencyProvince}
                                 value={districtsName}
                                 strongLabel
                             />
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.emergencyStartDate}
                                 value={startDate}
                                 valueType="date"
                                 strongLabel
                             />
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.emergencyStatus}
                                 value={statusName}
                                 strongLabel
                             />
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.emergencyActivityLead}
                                 value={activityLeadName}
                                 strongLabel
                             />
                             {activityLead === 'deployed_eru' && (
-                                <TextOutput
+                                <DataDisplay
                                     label={strings.emergencyERU}
                                     value={eruNationalSocietyName}
                                     strongLabel
                                 />
                             )}
                             {activityLead === 'national_society' && (
-                                <TextOutput
+                                <DataDisplay
                                     label={strings.emergencyNationalSociety}
                                     value={nationalSocietyName}
                                     strongLabel

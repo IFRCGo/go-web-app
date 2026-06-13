@@ -1,8 +1,8 @@
 import {
     Container,
+    DataDisplay,
     InlineLayout,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
@@ -91,7 +91,7 @@ function EventDetails(props: Props) {
                 spacing="xs"
             >
                 {isDefined(eventDetails?.source) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventSourceLabel}
                         value={eventDetails?.source}
                         strongValue
@@ -99,7 +99,7 @@ function EventDetails(props: Props) {
                     />
                 )}
                 {isDefined(populationExposure?.death) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventDeathLabel}
                         value={populationExposure?.death}
                         maximumFractionDigits={2}
@@ -110,7 +110,7 @@ function EventDetails(props: Props) {
                     />
                 )}
                 {isDefined(populationExposure?.displaced) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventDisplacedLabel}
                         value={populationExposure?.displaced}
                         maximumFractionDigits={2}
@@ -121,7 +121,7 @@ function EventDetails(props: Props) {
                     />
                 )}
                 {isDefined(populationExposure?.exposed_population) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventPopulationLabel}
                         value={populationExposure?.exposed_population}
                         strongValue
@@ -129,7 +129,7 @@ function EventDetails(props: Props) {
                     />
                 )}
                 {isDefined(populationExposure?.people_affected) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventPeopleAffectedLabel}
                         value={populationExposure?.people_affected}
                         strongValue
@@ -137,7 +137,7 @@ function EventDetails(props: Props) {
                     />
                 )}
                 {isDefined(populationExposure?.impact) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventImpactLabel}
                         value={populationExposure?.impact}
                         strongValue
@@ -146,7 +146,7 @@ function EventDetails(props: Props) {
                 )}
                 {isDefined(eventDetails?.severitydata)
                     && (isDefined(eventDetails) && (eventDetails?.eventtype) && !(eventDetails.eventtype === 'FL')) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventSeverityLabel}
                         value={eventDetails?.severitydata?.severitytext}
                         strongValue
@@ -154,7 +154,7 @@ function EventDetails(props: Props) {
                     />
                 )}
                 {isDefined(eventDetails?.alertlevel) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventAlertType}
                         value={eventDetails?.alertlevel}
                         strongValue

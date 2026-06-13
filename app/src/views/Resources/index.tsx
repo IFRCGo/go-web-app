@@ -1,9 +1,9 @@
 import {
     Container,
     Description,
+    DisplayLabel,
+    Iframe,
     Image,
-    InlineFrame,
-    Label,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -44,7 +44,7 @@ export function Component() {
             heading={strings.aboutResources}
             description={strings.resourcesDescription}
             info={(
-                <InlineFrame
+                <Iframe
                     className={styles.introductionVideo}
                     title="GO introduction video"
                     src="https://www.youtube.com/embed/dwPsQzla9A4"
@@ -320,9 +320,9 @@ export function Component() {
                                     withSpacingOpticalCorrection
                                     spacing="sm"
                                 >
-                                    <Label strong>
+                                    <DisplayLabel strong>
                                         {contact.name}
-                                    </Label>
+                                    </DisplayLabel>
                                     <Link
                                         href={`mailto:${contact.email}`}
                                         external

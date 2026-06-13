@@ -1,5 +1,6 @@
 import {
     useEffect,
+    useId,
     useMemo,
 } from 'react';
 import {
@@ -52,6 +53,7 @@ function ExpandableContainer(props: Props) {
 
     // const containerRef = useRef<HTMLDivElement>(null);
     const strings = useTranslation(i18n);
+    const contentId = useId();
 
     const [
         expanded,
@@ -112,12 +114,15 @@ function ExpandableContainer(props: Props) {
                 ? strings.expandableContainerCollapse
                 : strings.expandableContainerExpand}
             after={icon}
+            aria-expanded={expanded}
+            aria-controls={contentId}
         >
             {expanded ? collapseLabel : expandLabel}
         </Button>
     ), [
         toggleExpanded,
         expanded,
+        contentId,
         strings.expandableContainerCollapse,
         strings.expandableContainerExpand,
         icon,
@@ -146,7 +151,11 @@ function ExpandableContainer(props: Props) {
                 </>
             )}
         >
-            {(expanded) && children}
+            {expanded && (
+                <div id={contentId}>
+                    {children}
+                </div>
+            )}
         </Container>
     );
 }

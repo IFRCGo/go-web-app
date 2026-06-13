@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import {
     Container,
     ListView,
-    Pager,
+    Pagination,
     RawList,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -65,7 +65,7 @@ function ActiveSurgeSupport() {
             pending={aggregatedSurgePending}
             errored={isDefined(aggregatedSurgeResponseError)}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={aggregatedSurgeResponse?.count ?? 0}
                     maxItemsPerPage={limit}

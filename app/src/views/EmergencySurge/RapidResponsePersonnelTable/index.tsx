@@ -4,7 +4,7 @@ import {
 } from 'react';
 import {
     Container,
-    Pager,
+    Pagination,
     Table,
 } from '@ifrc-go/ui';
 import { SortContext } from '@ifrc-go/ui/contexts';
@@ -220,7 +220,7 @@ export default function RapidResponsePersonnelTable(props: Props) {
                 </Link>
             )}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={personnelResponse?.count ?? 0}
                     maxItemsPerPage={limit}

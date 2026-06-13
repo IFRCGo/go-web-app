@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { DownloadTwoLineIcon } from '@ifrc-go/icons';
 import {
     Button,
-    NumberOutput,
+    NumberDisplay,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
@@ -36,7 +36,7 @@ function ExportButton(props: Props) {
                 strings.exportDownloadingButtonLabel,
                 {
                     progress: (
-                        <NumberOutput
+                        <NumberDisplay
                             value={progress * 100}
                             maximumFractionDigits={0}
                         />

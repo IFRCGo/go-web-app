@@ -4,8 +4,8 @@ import {
     Button,
     Container,
     Description,
+    DisplayLabel,
     InputSection,
-    Label,
     ListView,
     TextArea,
 } from '@ifrc-go/ui';
@@ -86,12 +86,12 @@ function NationalSocietyCapacity(props: Props) {
                     content={(
                         <ListView layout="block" withSpacingOpticalCorrection>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                <Label strong>
+                                <DisplayLabel strong>
                                     {strings.capacityCriteriaIntroduction11}
-                                </Label>
-                                <Label>
+                                </DisplayLabel>
+                                <DisplayLabel>
                                     {strings.capacityCriteriaIntroduction12}
-                                </Label>
+                                </DisplayLabel>
                             </ListView>
                             <Description>
                                 {strings.capacityCriteriaComment1}
@@ -172,17 +172,17 @@ function NationalSocietyCapacity(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.capacityExplanatoryNoteLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.capacityExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.capacityRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>{strings.capacityFinancialDescription}</li>

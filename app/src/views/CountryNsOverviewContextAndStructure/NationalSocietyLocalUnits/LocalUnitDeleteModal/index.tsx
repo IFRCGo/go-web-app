@@ -4,8 +4,8 @@ import {
 } from 'react';
 import {
     Button,
+    Dialog,
     ListView,
-    Modal,
     RadioInput,
     TextArea,
 } from '@ifrc-go/ui';
@@ -143,7 +143,7 @@ function LocalUnitDeleteModal(props: Props) {
     );
 
     return (
-        <Modal
+        <Dialog
             heading={resolveToString(
                 strings.deleteLocalUnitHeading,
                 { localUnitName },
@@ -185,7 +185,7 @@ function LocalUnitDeleteModal(props: Props) {
                     error={error?.deprecated_reason_overview}
                 />
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

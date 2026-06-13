@@ -54,6 +54,9 @@ function Message(props: Props) {
 
     return (
         <div
+            // NOTE: status feedback (pending/empty/errored) -> polite live region
+            role="status"
+            aria-busy={pending}
             className={_cs(
                 styles.message,
                 variant === 'error' && styles.errored,

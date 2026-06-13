@@ -8,8 +8,8 @@ import {
 } from 'react-router-dom';
 import {
     Container,
-    HtmlOutput,
-    type HtmlOutputProps,
+    HtmlDisplay,
+    type HtmlDisplayProps,
     ListView,
     Message,
     RawList,
@@ -67,7 +67,7 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     const countrySnippetRendererParams = useCallback(
-        (_: number, data: CountrySnippetType): HtmlOutputProps => ({
+        (_: number, data: CountrySnippetType): HtmlDisplayProps => ({
             value: data.snippet,
         }),
         [],
@@ -129,7 +129,7 @@ export function Component() {
                 <ListView layout="block">
                     <RawList
                         data={countrySnippetResponse.results}
-                        renderer={HtmlOutput}
+                        renderer={HtmlDisplay}
                         rendererParams={countrySnippetRendererParams}
                         keySelector={numericIdSelector}
                     />

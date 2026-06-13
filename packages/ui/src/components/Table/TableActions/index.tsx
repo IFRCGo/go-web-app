@@ -2,7 +2,7 @@ import React from 'react';
 import { MoreFillIcon } from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
 
-import DropdownMenu from '#components/DropdownMenu';
+import Menu from '#components/Menu';
 
 import styles from './styles.module.css';
 
@@ -31,14 +31,14 @@ function TableActions(props: Props) {
         <div className={_cs(styles.tableActions, className)}>
             {children}
             {extraActions && (
-                <DropdownMenu
+                <Menu
                     withoutDropdownIcon
                     labelVariant="tertiary"
                     label={<MoreFillIcon className={styles.moreIcon} />}
                     persistent={persistent}
                 >
                     {extraActions}
-                </DropdownMenu>
+                </Menu>
             )}
         </div>
     );

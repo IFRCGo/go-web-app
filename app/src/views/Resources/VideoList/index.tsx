@@ -1,7 +1,7 @@
 import {
     Description,
     Heading,
-    InlineFrame,
+    Iframe,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -65,7 +65,7 @@ function VideoList() {
                         className={styles.videoItem}
                         spacing="sm"
                     >
-                        <InlineFrame
+                        <Iframe
                             title={videoLink.heading}
                             src={videoLink.embedId}
                             allowFullScreen

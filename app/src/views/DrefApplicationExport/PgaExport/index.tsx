@@ -1,11 +1,11 @@
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     Container,
+    DataDisplay,
+    type DataDisplayProps,
     DescriptionText,
     Heading,
     Signature,
-    TextOutput,
-    type TextOutputProps,
 } from '@ifrc-go/ui/printable';
 
 import i18n from './i18n.json';
@@ -13,10 +13,10 @@ import styles from './styles.module.css';
 
 const DREF_IMMINENT_OBLIGATION_EXACT_AMOUNT = 75000;
 
-export function BlockTextOutput(props: TextOutputProps
+export function BlockTextOutput(props: DataDisplayProps
     & { styleVariant?: never, withoutLabelColon?: never }) {
     return (
-        <TextOutput
+        <DataDisplay
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...props}
             styleVariant="contents"
@@ -159,14 +159,14 @@ function PgaExport() {
                 headingLevel={4}
             >
                 <div className={styles.drefSigned}>
-                    <TextOutput
+                    <DataDisplay
                         className={styles.drefTable}
                         label={strings.imminentDrefSigned}
                         invalidText={null}
                         strongLabel
                         withoutLabelColon
                     />
-                    <TextOutput
+                    <DataDisplay
                         className={styles.drefTable}
                         label={strings.imminentIFRCSigned}
                         invalidText={null}

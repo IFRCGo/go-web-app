@@ -1,0 +1,8 @@
+{
+    "namespace": "common",
+    "strings": {
+        "truncatedListShowMoreLabel": "... and {n} more",
+        "truncatedListShowMoreAriaLabel": "Show {n} more",
+        "truncatedListShowLessAriaLabel": "Show less"
+    }
+}

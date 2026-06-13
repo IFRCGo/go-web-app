@@ -14,7 +14,7 @@ import Button, { Props as ButtonProps } from '#components/Button';
 import DefaultMessage from '#components/DefaultMessage';
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import ListView from '#components/ListView';
-import Popup from '#components/Popup';
+import Popover from '#components/Popover';
 import RawInput from '#components/RawInput';
 import RawList from '#components/RawList';
 import useBlurEffect from '#hooks/useBlurEffect';
@@ -88,6 +88,10 @@ const emptyList: unknown[] = [];
  * Shared shell for the select inputs: search input, clear/select-all/
  * dropdown actions and the options popup (generic layer).
  */
+// FIXME(a11y-tier2): wire full combobox semantics here -- role="combobox"
+// on the search input with aria-expanded/aria-controls, role="listbox" on
+// the options popover, role="option" + aria-selected on each option, and
+// aria-activedescendant tracking the focused option (deferred this pass).
 function SelectInputContainer<
     OPTION_KEY extends OptionKey,
     const NAME,
@@ -314,7 +318,7 @@ function SelectInputContainer<
                 )}
             />
             {dropdownShownActual && (
-                <Popup
+                <Popover
                     elementRef={popupRef}
                     parentRef={inputSectionRef}
                     className={_cs(optionsPopupClassName, styles.popup)}
@@ -351,7 +355,7 @@ function SelectInputContainer<
                             {infoMessage}
                         </div>
                     )}
-                </Popup>
+                </Popover>
             )}
         </>
     );

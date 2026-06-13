@@ -2,10 +2,10 @@ import { useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
+    DataDisplay,
     KeyFigure,
     ListView,
     RawList,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -68,7 +68,7 @@ function CountryNsCapacityStrengthening() {
             headerDescription={strings.countryNsCapacityStrengtheningDescription}
             withHeaderBorder
             footerActions={!isEmpty && (
-                <TextOutput
+                <DataDisplay
                     label={strings.moreDetailsLabel}
                     value={(
                         <Link

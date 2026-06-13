@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
@@ -52,12 +52,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.personnel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.totalPersonnelValue}
                     label={strings.totalPersonnelLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.compositionValue}
                     label={strings.compositionLabel}
                     strongLabel
@@ -85,17 +85,17 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.specifications}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsVolumeValue}
                     label={strings.specificationsVolumeLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsCostValue}
                     label={strings.specificationsCostLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsNationalSocietyValue}
                     label={strings.specificationsNationalSocietyLabel}
                     strongLabel

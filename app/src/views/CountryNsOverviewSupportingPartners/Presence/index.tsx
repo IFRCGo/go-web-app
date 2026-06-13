@@ -2,11 +2,11 @@ import { useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
-    InfoPopup,
+    DataDisplay,
     InlineLayout,
     ListView,
+    MoreInfo,
     RawList,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
@@ -52,7 +52,7 @@ function DelegationInformation(props: DelegationInformationProps) {
 
     return (
         <div className={styles.delegation}>
-            <TextOutput
+            <DataDisplay
                 label={resolveToString(
                     strings.countryIFRCPresenceHeadOfDelegation,
                     { delegationOfficeType },
@@ -62,18 +62,18 @@ function DelegationInformation(props: DelegationInformationProps) {
             />
             {/* NOTE: Hide it for now, not sure if we can publish or not */}
             {/*
-            <TextOutput
+            <DataDisplay
                 label={strings.countryIFRCContact}
                 value={contact}
                 strongValue
             />
               */}
-            <TextOutput
+            <DataDisplay
                 label={strings.countryIFRCDelegationType}
                 value={delegationOfficeType}
                 strongValue
             />
-            <TextOutput
+            <DataDisplay
                 valueClassName={styles.location}
                 label={strings.countryIFRCLocation}
                 value={address}
@@ -122,7 +122,7 @@ function Presence() {
                 backgroundColor="foreground"
                 // NOTE: Hide it for now, not sure if we can publish or not
                 // footerActions={(
-                //     <TextOutput
+                //     <DataDisplay
                 //         label={strings.source}
                 //         value={(
                 //             <Link
@@ -141,9 +141,9 @@ function Presence() {
                     <ListView withWrap>
                         <InlineLayout
                             after={(
-                                <InfoPopup
-                                    description={strings.disclaimer}
-                                />
+                                <MoreInfo>
+                                    {strings.disclaimer}
+                                </MoreInfo>
                             )}
                             spacing="2xs"
                         >
@@ -192,7 +192,7 @@ function Presence() {
                     className={styles.presenceCard}
                     heading={strings.countryICRCPresenceTitle}
                     footerActions={isDefined(countryResponse.icrc_presence.url) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.source}
                             value={(
                                 <Link

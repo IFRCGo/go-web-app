@@ -6,8 +6,8 @@ import {
     ChartAxes,
     ChartContainer,
     ChartPoint,
-    DateOutput,
-    TextOutput,
+    DataDisplay,
+    DateDisplay,
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -91,15 +91,15 @@ function PreviousAssessmentCharts(props: Props) {
 
             return (
                 <Tooltip
-                    title={<DateOutput value={datum.date_of_assessment} />}
+                    title={<DateDisplay value={datum.date_of_assessment} />}
                     description={(
                         <>
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.performanceTooltipCycleLabel}
                                 value={datum.assessment_number}
                                 valueType="number"
                             />
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.performanceTooltipAverageRatingLabel}
                                 value={datum.average_rating}
                                 valueType="number"

@@ -5,8 +5,8 @@ import {
 import {
     Container,
     DateInput,
-    NumberOutput,
-    Pager,
+    NumberDisplay,
+    Pagination,
     Table,
 } from '@ifrc-go/ui';
 import { SortContext } from '@ifrc-go/ui/contexts';
@@ -223,7 +223,7 @@ export function Component() {
             strings.allEmergenciesHeading,
             {
                 numEmergencies: (
-                    <NumberOutput
+                    <NumberDisplay
                         value={eventResponse?.count}
                     />
                 ),
@@ -326,7 +326,7 @@ export function Component() {
                     />
                 )}
                 footerActions={(
-                    <Pager
+                    <Pagination
                         activePage={page}
                         itemsCount={eventResponse?.count ?? 0}
                         maxItemsPerPage={limit}

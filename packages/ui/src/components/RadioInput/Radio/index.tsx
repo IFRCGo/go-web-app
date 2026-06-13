@@ -6,7 +6,7 @@ import {
 
 import ButtonLayout from '#components/ButtonLayout';
 import Description from '#components/Description';
-import Label from '#components/Label';
+import DisplayLabel from '#components/DisplayLabel';
 import ListView from '#components/ListView';
 import { SpacingType } from '#utils/style';
 
@@ -79,9 +79,9 @@ function Radio<NAME>(props: Props<NAME>) {
                     spacingOffset={-3}
                     spacing={spacing}
                 >
-                    <Label>
+                    <DisplayLabel>
                         {children}
-                    </Label>
+                    </DisplayLabel>
                     <Description textSize="sm">
                         {description}
                     </Description>

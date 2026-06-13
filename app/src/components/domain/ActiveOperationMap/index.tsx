@@ -7,9 +7,9 @@ import {
     Button,
     Container,
     DateInput,
-    InfoPopup,
     InlineLayout,
     ListView,
+    MoreInfo,
     SelectInput,
     Tab,
     TabList,
@@ -361,10 +361,11 @@ function ActiveOperationMap(props: Props) {
                                 >
                                     {strings.crisisTabName}
                                 </Tab>
-                                <InfoPopup
+                                <MoreInfo
                                     title={strings.crisisTabName}
-                                    description={strings.crisisCategorisationDescription}
-                                />
+                                >
+                                    {strings.crisisCategorisationDescription}
+                                </MoreInfo>
                             </ListView>
                             <Tab
                                 name="appeal"

@@ -6,10 +6,10 @@ import {
 } from '@ifrc-go/icons';
 import {
     Container,
+    DataDisplay,
     Description,
     KeyFigureCard,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
@@ -200,7 +200,7 @@ export function Component() {
                     empty={false}
                     heading={strings.nsStrategicPrioritiesHeading}
                     footerActions={(
-                        <TextOutput
+                        <DataDisplay
                             label={strings.source}
                             value={strings.unifiedPlanning}
                             strongValue

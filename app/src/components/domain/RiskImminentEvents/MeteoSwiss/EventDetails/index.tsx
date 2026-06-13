@@ -4,11 +4,11 @@ import {
 } from 'react';
 import {
     Container,
-    DateOutput,
+    DataDisplay,
+    DateDisplay,
     Description,
     ListView,
-    NumberOutput,
-    TextOutput,
+    NumberDisplay,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -176,7 +176,7 @@ function EventDetails(props: Props) {
             >
                 <ListView layout="block">
                     {impactList.map((impact) => (
-                        <TextOutput
+                        <DataDisplay
                             key={impact.key}
                             label={resolveToComponent(
                                 strings.impactLabel,
@@ -189,21 +189,21 @@ function EventDetails(props: Props) {
                                 strings.meteoSwissImpactValue,
                                 {
                                     value: (
-                                        <NumberOutput
+                                        <NumberDisplay
                                             value={impact.value}
                                             compact
                                             maximumFractionDigits={2}
                                         />
                                     ),
                                     fivePercent: (
-                                        <NumberOutput
+                                        <NumberDisplay
                                             value={impact.fivePercentValue}
                                             compact
                                             maximumFractionDigits={2}
                                         />
                                     ),
                                     ninetyFivePercent: (
-                                        <NumberOutput
+                                        <NumberDisplay
                                             value={impact.ninetyFivePercentValue}
                                             compact
                                             maximumFractionDigits={2}
@@ -226,14 +226,14 @@ function EventDetails(props: Props) {
                     {
                         model: model_name ?? '--',
                         updatedAt: (
-                            <DateOutput
+                            <DateDisplay
                                 value={updated_at}
                                 format={UPDATED_AT_FORMAT}
                             />
                         ),
                         eventName: hazard_name,
                         countryName: country_details?.name ?? '--',
-                        eventDate: <DateOutput value={start_date} />,
+                        eventDate: <DateDisplay value={start_date} />,
                     },
                 )}
             </div>

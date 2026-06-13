@@ -4,8 +4,8 @@ import {
     Button,
     Container,
     Description,
+    DisplayLabel,
     InputSection,
-    Label,
     ListView,
     TextArea,
 } from '@ifrc-go/ui';
@@ -115,9 +115,9 @@ function RiskAnalysis(props: Props) {
                     heading={strings.riskAnalysisSectionHeading}
                     content={(
                         <ListView withSpacingOpticalCorrection layout="block">
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.riskSectionCriteriaIntroduction1}
-                            </Label>
+                            </DisplayLabel>
                             <ListView withSpacingOpticalCorrection spacing="xs" layout="block">
                                 <Description>
                                     {strings.riskSectionCriteriaComment11}
@@ -132,9 +132,9 @@ function RiskAnalysis(props: Props) {
                                     {strings.riskSectionCriteriaComment14}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.riskSectionCriteriaIntroduction2}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" withSpacingOpticalCorrection layout="block">
                                 <Description>
                                     {strings.riskSectionCriteriaComment21}
@@ -143,9 +143,9 @@ function RiskAnalysis(props: Props) {
                                     {strings.riskSectionCriteriaComment22}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.riskSectionCriteriaIntroduction3}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" withSpacingOpticalCorrection layout="block">
                                 <Description>
                                     {strings.riskSectionCriteriaComment31}
@@ -154,9 +154,9 @@ function RiskAnalysis(props: Props) {
                                     {strings.riskSectionCriteriaComment32}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.riskSectionCriteriaIntroduction4}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" withSpacingOpticalCorrection layout="block">
                                 <Description>
                                     {strings.riskSectionCriteriaComment41}
@@ -165,16 +165,16 @@ function RiskAnalysis(props: Props) {
                                     {strings.riskSectionCriteriaComment42}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.riskSectionCriteriaIntroduction5}
-                            </Label>
+                            </DisplayLabel>
                             <Description>
                                 {strings.riskSectionCriteriaComment5}
                             </Description>
                             <ListView spacing="xs" withSpacingOpticalCorrection layout="block">
-                                <Label strong>
+                                <DisplayLabel strong>
                                     {strings.riskSectionCriteriaIntroduction6}
-                                </Label>
+                                </DisplayLabel>
                                 <Description>
                                     <ol>
                                         <li>{strings.riskSectionCriteriaIntroduction61}</li>
@@ -216,15 +216,15 @@ function RiskAnalysis(props: Props) {
                                 heading={strings.hazardSelectionTitle}
                                 content={(
                                     <ListView layout="block">
-                                        <Label strong>
+                                        <DisplayLabel strong>
                                             {strings.riskExplanatoryNoteLabel}
-                                        </Label>
+                                        </DisplayLabel>
                                         <Description>
                                             {strings.hazardSelectionExplanatoryNote}
                                         </Description>
-                                        <Label strong>
+                                        <DisplayLabel strong>
                                             {strings.riskRequiredPointsLabel}
-                                        </Label>
+                                        </DisplayLabel>
                                         <Description>
                                             <ul>
                                                 <li>
@@ -294,15 +294,15 @@ function RiskAnalysis(props: Props) {
                                 title={strings.exposeElementTitle}
                                 content={(
                                     <ListView layout="block">
-                                        <Label strong>
+                                        <DisplayLabel strong>
                                             {strings.riskExplanatoryNoteLabel}
-                                        </Label>
+                                        </DisplayLabel>
                                         <Description>
                                             {strings.exposeElementExplanatoryNote}
                                         </Description>
-                                        <Label strong>
+                                        <DisplayLabel strong>
                                             {strings.riskRequiredPointsLabel}
-                                        </Label>
+                                        </DisplayLabel>
                                         <Description>
                                             <ul>
                                                 <li>
@@ -370,9 +370,9 @@ function RiskAnalysis(props: Props) {
                                 ariaLabel={strings.prioritisedImpactTitle}
                                 content={(
                                     <ListView layout="block">
-                                        <Label strong>
+                                        <DisplayLabel strong>
                                             {strings.riskExplanatoryNoteLabel}
-                                        </Label>
+                                        </DisplayLabel>
                                         <Description>
                                             {strings.prioritisedImpactExplanatoryNote}
                                         </Description>

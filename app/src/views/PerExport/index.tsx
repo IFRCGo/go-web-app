@@ -15,8 +15,8 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     Container,
+    DataDisplay,
     Heading,
-    TextOutput,
 } from '@ifrc-go/ui/printable';
 import {
     numericCountSelector,
@@ -397,34 +397,34 @@ export function Component() {
                 heading={strings.perExportNSPreparedness}
                 headingLevel={3}
             >
-                <TextOutput
+                <DataDisplay
                     label={strings.perExportStartDateLabel}
                     value={perResponse?.date_of_assessment}
                     valueType="date"
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.perExportPhaseLabel}
                     value={processStatusResponse?.phase_display}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.perExportFocalPointNameLabel}
                     value={perResponse?.ns_focal_point_name}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.perExportCycleLabel}
                     value={perResponse?.assessment_number}
                     valueType="number"
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.perExportTypeOfAssessmentLabel}
                     value={perResponse?.type_of_assessment_details?.name}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.perExportFocalPointEmailTitle}
                     value={perResponse?.ns_focal_point_email}
                     strongValue

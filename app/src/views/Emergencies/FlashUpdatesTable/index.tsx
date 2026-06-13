@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import {
     Container,
-    NumberOutput,
-    Pager,
+    NumberDisplay,
+    Pagination,
     Table,
 } from '@ifrc-go/ui';
 import { SortContext } from '@ifrc-go/ui/contexts';
@@ -131,7 +131,7 @@ function FlashUpdateTable() {
             strings.flashUpdateTableTitle,
             {
                 numFlashUpdates: (
-                    <NumberOutput
+                    <NumberDisplay
                         value={flashUpdateResponse?.count}
                     />
                 ),
@@ -146,7 +146,7 @@ function FlashUpdateTable() {
             heading={heading}
             withHeaderBorder
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={flashUpdateResponse?.count ?? 0}
                     maxItemsPerPage={limit}

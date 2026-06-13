@@ -1,7 +1,7 @@
 import {
     Container,
+    DataDisplay,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
@@ -55,57 +55,57 @@ function EventDetails(props: Props) {
                 layout="block"
                 spacing="xs"
             >
-                <TextOutput
+                <DataDisplay
                     label={strings.eventDetailsCreatedOn}
                     value={pdc_created_at}
                     valueType="date"
                     strongValue
                     backgroundColor="foreground"
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.eventDetailsUpdatedOn}
                     value={pdc_updated_at}
                     valueType="date"
                     strongValue
                     backgroundColor="foreground"
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.eventDetailsPeopleExposed}
                     value={popExposure?.total?.valueFormatted}
                     strongValue
                     backgroundColor="foreground"
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.eventDetailsHouseholdExposed}
                     value={popExposure?.households?.valueFormatted}
                     strongValue
                     backgroundColor="foreground"
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.eventDetailsPeopleGroups}
                     value={popExposure?.vulnerable?.valueFormatted}
                     strongValue
                     backgroundColor="foreground"
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.eventDetailsValueExposed}
                     value={capitalExposure?.total?.valueFormatted}
                     strongValue
                     backgroundColor="foreground"
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.eventDetailsSchoolExposed}
                     value={capitalExposure?.school?.valueFormatted}
                     strongValue
                     backgroundColor="foreground"
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.eventHospitalsExposed}
                     value={capitalExposure?.hospital?.valueFormatted}
                     strongValue
                     backgroundColor="foreground"
                 />
-                <TextOutput
+                <DataDisplay
                     valueType="text"
                     value={description}
                     backgroundColor="foreground"

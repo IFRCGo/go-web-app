@@ -1,6 +1,6 @@
 import { _cs } from '@togglecorp/fujs';
 
-import DateOutput from '#components/DateOutput';
+import DateDisplay from '#components/DateDisplay';
 
 import HeaderCell, { HeaderCellProps } from '../../HeaderCell';
 
@@ -14,6 +14,10 @@ export interface Props extends HeaderCellProps {
     } | undefined;
 }
 
+/**
+ * Specific table header cell that labels a multi-timeline column with its
+ * start and end dates.
+ */
 function MultiTimelineHeader(props: Props) {
     const {
         className,
@@ -29,10 +33,10 @@ function MultiTimelineHeader(props: Props) {
             titleClassName={styles.title}
             title={(
                 <>
-                    <DateOutput
+                    <DateDisplay
                         value={dateRange?.start}
                     />
-                    <DateOutput
+                    <DateDisplay
                         value={dateRange?.end}
                     />
                 </>

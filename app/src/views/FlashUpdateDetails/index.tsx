@@ -11,13 +11,13 @@ import {
     Breadcrumbs,
     Button,
     Container,
-    DateOutput,
-    HtmlOutput,
+    DataDisplay,
+    DateDisplay,
+    DisplayLabel,
+    HtmlDisplay,
     Image,
-    Label,
     ListView,
     Message,
-    TextOutput,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -199,7 +199,7 @@ export function Component() {
                             heading={strings.flashUpdateSituationalOverviewHeading}
                             withHeaderBorder
                         >
-                            <HtmlOutput
+                            <HtmlDisplay
                                 value={flashUpdateResponse.situational_overview}
                             />
                         </Container>
@@ -259,7 +259,7 @@ export function Component() {
                                     >
                                         <ListView layout="block">
                                             {isTruthyString(actionTaken.summary) && (
-                                                <TextOutput
+                                                <DataDisplay
                                                     label={strings.flashUpdateActionDescription}
                                                     value={actionTaken.summary}
                                                     strongLabel
@@ -274,9 +274,9 @@ export function Component() {
                                                     <ListView withWrap>
                                                         {actionTaken.action_details.map(
                                                             (actionDetail) => (
-                                                                <Label key={actionDetail.id}>
+                                                                <DisplayLabel key={actionDetail.id}>
                                                                     {actionDetail.name}
-                                                                </Label>
+                                                                </DisplayLabel>
                                                             ),
                                                         )}
                                                     </ListView>
@@ -304,7 +304,7 @@ export function Component() {
                                             key={reference.id}
                                             heading={reference.source_description}
                                             headerDescription={(
-                                                <DateOutput value={reference.date} />
+                                                <DateDisplay value={reference.date} />
                                             )}
                                             headingLevel={4}
                                             withPadding

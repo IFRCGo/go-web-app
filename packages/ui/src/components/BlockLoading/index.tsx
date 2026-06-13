@@ -28,6 +28,9 @@ function BlockLoading(props: Props) {
 
     return (
         <div
+            // NOTE: loading status -> polite live region marked busy
+            role="status"
+            aria-busy
             className={
                 _cs(
                     styles.blockLoading,

@@ -7,9 +7,9 @@ import {
     TargetedPopulationIcon,
 } from '@ifrc-go/icons';
 import {
-    InfoPopup,
     KeyFigureCard,
     ListView,
+    MoreInfo,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { getPercentage } from '@ifrc-go/ui/utils';
@@ -60,10 +60,11 @@ function RegionKeyFigures(props: Props) {
                 value={aggregatedAppealResponse.active_drefs}
                 valueType="number"
                 info={(
-                    <InfoPopup
+                    <MoreInfo
                         title={strings.regionKeyFiguresDrefTitle}
-                        description={strings.regionKeyFiguresDrefDescription}
-                    />
+                    >
+                        {strings.regionKeyFiguresDrefDescription}
+                    </MoreInfo>
                 )}
                 label={strings.regionKeyFiguresActiveDrefs}
                 textSize="4xl"
@@ -73,10 +74,11 @@ function RegionKeyFigures(props: Props) {
                 value={aggregatedAppealResponse.active_appeals}
                 valueType="number"
                 info={(
-                    <InfoPopup
+                    <MoreInfo
                         title={strings.regionKeyFiguresActiveAppealsTitle}
-                        description={strings.regionKeyFigureActiveAppealDescription}
-                    />
+                    >
+                        {strings.regionKeyFigureActiveAppealDescription}
+                    </MoreInfo>
                 )}
                 label={strings.regionKeyFiguresActiveAppeals}
                 textSize="4xl"

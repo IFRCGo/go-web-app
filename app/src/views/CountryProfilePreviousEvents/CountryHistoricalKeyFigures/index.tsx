@@ -6,9 +6,9 @@ import {
     TargetedPopulationIcon,
 } from '@ifrc-go/icons';
 import {
-    InfoPopup,
     KeyFigureCard,
     ListView,
+    MoreInfo,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { getPercentage } from '@ifrc-go/ui/utils';
@@ -42,10 +42,11 @@ function CountryHistoricalKeyFigures(props: Props) {
                 value={data.active_drefs}
                 valueType="number"
                 info={(
-                    <InfoPopup
+                    <MoreInfo
                         title={strings.keyFiguresDrefTitle}
-                        description={strings.keyFiguresDref}
-                    />
+                    >
+                        {strings.keyFiguresDref}
+                    </MoreInfo>
                 )}
                 label={strings.countryHistoricalDREFOperations}
                 boxShadow="md"
@@ -55,12 +56,11 @@ function CountryHistoricalKeyFigures(props: Props) {
                 value={data.active_appeals}
                 valueType="number"
                 info={(
-                    <InfoPopup
+                    <MoreInfo
                         title={strings.keyFiguresEmergencyAppealTitle}
-                        description={
-                            strings.countryHistoricalFigureEmergencyAppealDescription
-                        }
-                    />
+                    >
+                        {strings.countryHistoricalFigureEmergencyAppealDescription}
+                    </MoreInfo>
                 )}
                 label={strings.keyFiguresEmergencyAppeals}
                 boxShadow="md"

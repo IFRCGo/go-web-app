@@ -3,7 +3,7 @@ import { _cs } from '@togglecorp/fujs';
 
 import LegendItem from '#components/LegendItem';
 import ListView from '#components/ListView';
-import NumberOutput from '#components/NumberOutput';
+import NumberDisplay from '#components/NumberDisplay';
 import {
     getPercentage,
     sumSafe,
@@ -56,12 +56,12 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
                             className={styles.barInfo}
                             style={{ width: `${percentage}%` }}
                         >
-                            <NumberOutput
+                            <NumberDisplay
                                 className={styles.value}
                                 value={datum.value}
                             />
                             {(percentage > 10) && (
-                                <NumberOutput
+                                <NumberDisplay
                                     className={styles.percentage}
                                     value={getPercentage(datum.value, total)}
                                     prefix="("

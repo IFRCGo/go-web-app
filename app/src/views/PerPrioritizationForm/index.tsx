@@ -13,8 +13,8 @@ import {
     Button,
     ConfirmButton,
     Container,
-    DropdownMenu,
     ListView,
+    Menu,
     Message,
     Portal,
 } from '@ifrc-go/ui';
@@ -466,7 +466,7 @@ export function Component() {
                 withCenteredHeading
                 headingLevel={2}
                 headerActions={(
-                    <DropdownMenu
+                    <Menu
                         label={resolveToString(
                             strings.sortButtonLabel,
                             { sort: sortKeyToLabel[sortBy] },
@@ -494,7 +494,7 @@ export function Component() {
                                 </DropdownMenuItem>
                             ),
                         )}
-                    </DropdownMenu>
+                    </Menu>
                 )}
                 footerActions={value?.is_draft !== false ? (
                     <ConfirmButton

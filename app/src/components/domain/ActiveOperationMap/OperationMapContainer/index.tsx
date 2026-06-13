@@ -5,10 +5,10 @@ import {
 } from 'react';
 import {
     Container,
+    DataDisplay,
     LegendItem,
     ListView,
     RadioInput,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { sumSafe } from '@ifrc-go/ui/utils';
@@ -292,7 +292,7 @@ function OperationMapContainer(props: Props) {
                                 key={appeal.id}
                                 heading={appeal.name}
                                 headerDescription={(
-                                    <TextOutput
+                                    <DataDisplay
                                         textSize="sm"
                                         valueType="date"
                                         withLightText
@@ -308,19 +308,19 @@ function OperationMapContainer(props: Props) {
                                     spacing="2xs"
                                     withSpacingOpticalCorrection
                                 >
-                                    <TextOutput
+                                    <DataDisplay
                                         value={appeal.num_beneficiaries}
                                         description={strings.operationPopoverPeopleAffected}
                                         valueType="number"
                                         textSize="sm"
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         value={appeal.amount_requested}
                                         description={strings.operationPopoverAmountRequested}
                                         valueType="number"
                                         textSize="sm"
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         value={appeal.amount_funded}
                                         description={strings.operationPopoverAmountFunded}
                                         valueType="number"

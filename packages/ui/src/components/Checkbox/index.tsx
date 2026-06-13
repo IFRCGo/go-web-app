@@ -35,6 +35,17 @@ export interface Props<NAME> {
     description?: React.ReactNode;
     /** Surface color token; setting it also adds padding and rounded corners */
     backgroundColor?: BackgroundColorType;
+    /**
+     * ARIA role for the control input. Switch passes `'switch'` so it is
+     * announced as a switch rather than a checkbox.
+     */
+    role?: React.AriaRole;
+    /**
+     * Explicit `aria-checked` for the control. Only needed when `role`
+     * overrides the native checkbox semantics (e.g. Switch); otherwise
+     * the native `checked` attribute conveys the state.
+     */
+    'aria-checked'?: boolean | 'mixed';
 }
 
 /**
@@ -61,6 +72,8 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         value,
         description,
         backgroundColor,
+        role,
+        'aria-checked': ariaChecked,
         ...otherProps
     } = props;
 
@@ -97,6 +110,8 @@ function Checkbox<const NAME>(props: Props<NAME>) {
                     onChange={handleChange}
                     className={_cs(styles.input, inputClassName)}
                     type="checkbox"
+                    role={role}
+                    aria-checked={ariaChecked}
                     checked={checked ?? false}
                     disabled={disabled || readOnly}
                     readOnly={readOnly}

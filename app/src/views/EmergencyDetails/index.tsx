@@ -2,12 +2,12 @@ import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
+    DataDisplay,
     Description,
-    HtmlOutput,
-    InfoPopup,
+    HtmlDisplay,
     KeyFigureCard,
     ListView,
-    TextOutput,
+    MoreInfo,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
@@ -202,7 +202,7 @@ export function Component() {
                         withSpacingOpticalCorrection
                         numPreferredGridColumns={3}
                     >
-                        <TextOutput
+                        <DataDisplay
                             label={strings.disasterCategorisation}
                             value={(
                                 <ListView
@@ -215,58 +215,56 @@ export function Component() {
                                         level={emergencyResponse.ifrc_severity_level}
                                     />
                                     {emergencyResponse.ifrc_severity_level_update_date && (
-                                        <InfoPopup
-                                            description={(
-                                                <TextOutput
-                                                    label={strings.severityLevelUpdateDateLabel}
-                                                    value={
-                                                        emergencyResponse
-                                                            .ifrc_severity_level_update_date
-                                                    }
-                                                    valueType="date"
-                                                />
-                                            )}
-                                        />
+                                        <MoreInfo>
+                                            <DataDisplay
+                                                label={strings.severityLevelUpdateDateLabel}
+                                                value={
+                                                    emergencyResponse
+                                                        .ifrc_severity_level_update_date
+                                                }
+                                                valueType="date"
+                                            />
+                                        </MoreInfo>
                                     )}
                                 </ListView>
                             )}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.disasterType}
                             value={disasterType?.name}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.startDate}
                             valueType="date"
                             value={emergencyResponse?.disaster_start_date}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.visibility}
                             value={isDefined(emergencyResponse.visibility)
                                 ? visibilityMap?.[emergencyResponse.visibility]
                                 : '--'}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.MDRCode}
                             value={mdrCode}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.GLIDENumber}
                             value={emergencyResponse?.glide}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.assistanceRequestedByNS}
                             valueType="boolean"
                             value={assistanceIsRequestedByNS}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.assistanceRequestedByGovernment}
                             valueType="boolean"
                             value={assistanceIsRequestedByCountry}
@@ -283,7 +281,7 @@ export function Component() {
                         heading={strings.situationalOverviewTitle}
                         withHeaderBorder
                     >
-                        <HtmlOutput
+                        <HtmlDisplay
                             value={emergencyResponse.summary}
                         />
                     </Container>

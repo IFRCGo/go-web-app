@@ -6,9 +6,9 @@ import { PencilFillIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
+    DataDisplay,
     ListView,
-    Pager,
-    TextOutput,
+    Pagination,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -122,12 +122,12 @@ export function Component() {
                     layout="grid"
                     numPreferredGridColumns={3}
                 >
-                    <TextOutput
+                    <DataDisplay
                         label={strings.usernameLabel}
                         value={meResponse?.username}
                         strongLabel
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.fullNameLabel}
                         strongLabel
                         value={
@@ -136,32 +136,32 @@ export function Component() {
                                 .filter(isTruthyString).join(' ')
                         }
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.emailLabel}
                         value={meResponse?.email}
                         strongLabel
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.phoneNumberLabel}
                         value={meResponse?.profile?.phone_number}
                         strongLabel
                     />
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.countryLabel}
                         value={userCountry?.name}
                     />
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.cityLabel}
                         value={meResponse?.profile?.city}
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.organizationLabel}
                         value={meResponse?.profile?.org}
                         strongLabel
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.organizationTypeLabel}
                         value={
                             isDefined(meResponse?.profile.org_type)
@@ -170,12 +170,12 @@ export function Component() {
                         }
                         strongLabel
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.departmentLabel}
                         value={meResponse?.profile?.department}
                         strongLabel
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.positionLabel}
                         value={meResponse?.profile?.position}
                         strongLabel
@@ -216,7 +216,7 @@ export function Component() {
                     footerActions={isDefined(montandonTokenResponse)
                         && isDefined(montandonTokenResponse.count)
                         && (
-                            <Pager
+                            <Pagination
                                 activePage={page}
                                 itemsCount={montandonTokenResponse.count}
                                 maxItemsPerPage={TOKEN_PAGE_SIZE}

@@ -8,11 +8,11 @@ import {
     ButtonLayout,
     type ButtonProps,
     type ConfirmButtonProps,
+    Dialog,
     ListView,
-    Modal,
     RawButton,
 } from '@ifrc-go/ui';
-import { DropdownMenuContext } from '@ifrc-go/ui/contexts';
+import { MenuContext } from '@ifrc-go/ui/contexts';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
 
@@ -52,7 +52,7 @@ function DropdownMenuItem<NAME>(props: Props<NAME>) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const { setShowDropdown } = useContext(DropdownMenuContext);
+    const { setShowDropdown } = useContext(MenuContext);
     const [showConfirmation, setShowConfirmation] = useState(false);
 
     const onConfirm = remainingProps.type === 'confirm-button'
@@ -228,7 +228,7 @@ function DropdownMenuItem<NAME>(props: Props<NAME>) {
                     </ButtonLayout>
                 </RawButton>
                 {showConfirmation && (
-                    <Modal
+                    <Dialog
                         heading={confirmHeading}
                         closeOnEscape={false}
                         size="sm"
@@ -251,7 +251,7 @@ function DropdownMenuItem<NAME>(props: Props<NAME>) {
                         )}
                     >
                         {confirmMessage}
-                    </Modal>
+                    </Dialog>
                 )}
             </>
         );

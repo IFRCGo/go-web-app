@@ -3,7 +3,7 @@ import { RedCrossNationalSocietyIcon } from '@ifrc-go/icons';
 import {
     Container,
     Description,
-    HtmlOutput,
+    HtmlDisplay,
     KeyFigureCard,
     ListView,
 } from '@ifrc-go/ui';
@@ -73,7 +73,7 @@ export function Component() {
                     heading={profileSnippet.title}
                     withHeaderBorder
                 >
-                    <HtmlOutput
+                    <HtmlDisplay
                         value={profileSnippet.snippet}
                         key={profileSnippet.id}
                     />

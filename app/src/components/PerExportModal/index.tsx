@@ -3,8 +3,8 @@ import {
     useState,
 } from 'react';
 import {
+    Dialog,
     Message,
-    Modal,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -92,7 +92,7 @@ function PerExportModal(props: Props) {
     });
 
     return (
-        <Modal
+        <Dialog
             heading={strings.perExportTitle}
             onClose={onCancel}
         >
@@ -136,7 +136,7 @@ function PerExportModal(props: Props) {
                     )}
                 />
             )}
-        </Modal>
+        </Dialog>
     );
 }
 

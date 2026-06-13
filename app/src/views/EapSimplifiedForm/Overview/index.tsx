@@ -4,8 +4,8 @@ import {
     Button,
     Container,
     Description,
+    DisplayLabel,
     InputSection,
-    Label,
     ListView,
     NumberInput,
 } from '@ifrc-go/ui';
@@ -99,12 +99,12 @@ function Overview(props: Props) {
                     content={(
                         <ListView withSpacingOpticalCorrection layout="block">
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                <Label strong>
+                                <DisplayLabel strong>
                                     {strings.sectionCriteriaIntroduction11}
-                                </Label>
-                                <Label>
+                                </DisplayLabel>
+                                <DisplayLabel>
                                     {strings.sectionCriteriaIntroduction12}
-                                </Label>
+                                </DisplayLabel>
                             </ListView>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>

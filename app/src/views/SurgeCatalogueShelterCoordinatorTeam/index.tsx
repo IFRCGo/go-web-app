@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
 
@@ -61,37 +61,37 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.designedFor}
             >
-                <TextOutput
+                <DataDisplay
                     label={strings.designedForItemOneLabel}
                     value={strings.designedForItemOneValue}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.designedForItemTwoLabel}
                     value={strings.designedForItemTwoValue}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.designedForItemThreeLabel}
                     value={strings.designedForItemThreeValue}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.designedForItemFourLabel}
                     value={strings.designedForItemFourValue}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.designedForItemFiveLabel}
                     value={strings.designedForItemFiveValue}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.designedForItemSixLabel}
                     value={strings.designedForItemSixValue}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.designedForItemSevenLabel}
                     value={strings.designedForItemSevenValue}
                     strongLabel
@@ -100,12 +100,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.personnel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.totalPersonnelValue}
                     label={strings.totalPersonnelLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.personnelCompositionValue}
                     label={strings.personnelCompositionLabel}
                     strongLabel
@@ -114,7 +114,7 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.specification}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationValue}
                     label={strings.specificationLabel}
                     strongLabel

@@ -1,4 +1,4 @@
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
@@ -44,12 +44,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.healthIPCPersonnel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.healthIPCTotalValue}
                     label={strings.healthIPCTotalLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.healthIPCCompositionValue}
                     label={strings.healthIPCCompositionLabel}
                     strongLabel
@@ -70,22 +70,22 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.healthIPCSpecificationsLabel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.healthIPCSpecificationsWeightValue}
                     label={strings.healthIPCSpecificationsWeightLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.healthIPCSpecificationsVolumeValue}
                     label={strings.healthIPCSpecificationsVolumeLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.healthIPCSpecificationsCostValue}
                     label={strings.healthIPCSpecificationsCostLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.healthIPCSpecificationsNsValue}
                     label={strings.healthIPCSpecificationsNsLabel}
                     strongLabel

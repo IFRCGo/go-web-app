@@ -6,10 +6,10 @@ import {
     Button,
     Checklist,
     Container,
+    Dialog,
     ExpandableContainer,
     InputError,
     ListView,
-    Modal,
     Radio,
     RadioInput,
     Switch,
@@ -348,7 +348,7 @@ function SubscriptionModal(props: Props) {
     }, [setFieldValue, countryDetailsById, updateRegionSelection]);
 
     return (
-        <Modal
+        <Dialog
             heading={isDefined(subscriptionId)
                 ? strings.editSubscriptionHeading
                 : strings.addSubscriptionHeading}
@@ -525,7 +525,7 @@ function SubscriptionModal(props: Props) {
                     />
                 </Container>
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

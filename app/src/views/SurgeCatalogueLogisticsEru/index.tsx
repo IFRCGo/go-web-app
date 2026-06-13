@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
@@ -88,12 +88,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.logisticsPersonnel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.logisticsPersonnelValue}
                     label={strings.logisticsPersonnelLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.logisticsPersonnelCompositionValue}
                     label={strings.logisticsPersonnelCompositionLabel}
                     strongLabel
@@ -116,22 +116,22 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.logisticsSpecifications}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.logisticsSpecificationsWeightValue}
                     label={strings.logisticsSpecificationsWeightLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.logisticsSpecificationsVolumeValue}
                     label={strings.logisticsSpecificationsVolumeLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.logisticsSpecificationsCostValue}
                     label={strings.logisticsSpecificationsCostLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.logisticsSpecificationsNSValue}
                     label={strings.logisticsSpecificationsNSLabel}
                     strongLabel

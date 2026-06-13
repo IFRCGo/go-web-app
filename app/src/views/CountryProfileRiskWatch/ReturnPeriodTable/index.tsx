@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import {
     Container,
+    DataDisplay,
     SelectInput,
     Table,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -191,7 +191,7 @@ function ReturnPeriodTable(props: Props) {
             heading={strings.returnPeriodTableHeading}
             withHeaderBorder
             footerActions={(
-                <TextOutput
+                <DataDisplay
                     label={strings.returnPeriodSource}
                     value={strings.returnPeriodIfrcMontandon}
                     strongValue

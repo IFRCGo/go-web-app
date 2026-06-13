@@ -9,9 +9,9 @@ import {
     Button,
     ButtonLayout,
     Container,
+    Dialog,
     InputError,
     ListView,
-    Modal,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -362,7 +362,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                 </InputError>
             )}
             {showModal && (
-                <Modal
+                <Dialog
                     onClose={setShowModalFalse}
                     // FIXME: use strings
                     heading="Select Admin-2"
@@ -434,7 +434,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                             </>
                         )}
                     </BaseMap>
-                </Modal>
+                </Dialog>
             )}
         </ListView>
     );

@@ -12,12 +12,12 @@ import {
 import {
     Button,
     Container,
+    DataDisplay,
+    Dialog,
     FileInputButton,
     InlineLayout,
     ListView,
-    Modal,
     SelectInput,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -207,7 +207,7 @@ function LocalUnitBulkUploadModal(props: Props) {
         || importSummaryResponse?.status === BULK_UPLOAD_PENDING;
 
     return (
-        <Modal
+        <Dialog
             heading={resolveToString(strings.modalHeading, {
                 countryName: countryResponse?.name ?? '--',
             })}
@@ -319,7 +319,7 @@ function LocalUnitBulkUploadModal(props: Props) {
                                         ),
                                     })}
                                 </span>
-                                <TextOutput
+                                <DataDisplay
                                     strongLabel
                                     valueType="text"
                                     label={strings.contentStructureNoteLabel}
@@ -348,7 +348,7 @@ function LocalUnitBulkUploadModal(props: Props) {
                     </InlineLayout>
                 )}
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

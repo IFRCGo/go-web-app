@@ -1,4 +1,4 @@
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import ImminentEventListItem from '#components/domain/ImminentEventListItem';
@@ -35,7 +35,7 @@ function EventListItem(props: Props) {
             onExpandClick={onExpandClick}
             heading={hazard_name ?? '--'}
             description={(
-                <TextOutput
+                <DataDisplay
                     label={strings.gdacsEventStartedOn}
                     value={start_date}
                     valueType="date"

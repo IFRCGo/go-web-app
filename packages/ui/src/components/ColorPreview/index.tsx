@@ -9,6 +9,10 @@ export interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'si
     size?: 'sm' | 'md' | 'lg';
 }
 
+/**
+ * ColorPreview is a presentational swatch rendering a solid color in a round
+ * or square shape at a preset size (raw layer).
+ */
 function ColorPreview(props: Props) {
     const {
         value,

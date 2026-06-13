@@ -51,6 +51,64 @@ Booleans are for true binaries only (`disabled`, `readOnly`, `withAsterisk`). An
 - Secondary nodes get `<slot>Ref` names (`inputElementRef`, `inputSectionRef`).
 - Styling escape hatches are flat `<slot>ClassName` props (`labelClassName`, `afterContainerClassName`); `className` applies to the root and is merged last, so consumer overrides win.
 
+## Accessibility
+
+Accessibility is a convention here, not an afterthought. The guiding rule is **native semantics first**: reach for the correct HTML element or ARIA role before building a custom widget, because most of the keyboard and screen-reader behaviour comes for free when you do. This is also why component names track HTML/ARIA vocabulary — a component named for what it *is* tends to render the right thing.
+
+### Form fields
+
+The label↔control↔hint↔error relationship is wired once, in `InputContainer` — individual inputs must not re-implement it. A field generates a stable id (`useId`) and:
+
+- the label is a real `<label htmlFor={id}>` (`InputLabel`), not a styled `<div>`;
+- the control gets `aria-describedby` pointing at the hint and/or error nodes (by id);
+- the control gets `aria-invalid` when errored and `aria-required` when required (the visual asterisk stays `aria-hidden`);
+- the error node carries `role="alert"` so validation is announced.
+
+Grouped controls (`RadioInput`, `Checklist`, `SegmentInput`) wrap their options in `role="radiogroup"`/`role="group"` and associate the group-level label/error.
+
+### Accessible value outputs (core pattern)
+
+Formatted outputs (`NumberOutput`, `DateOutput`, `BooleanOutput`, and anything built on them like `KeyFigure`/`TextOutput`) speak to **three audiences at once**:
+
+| Audience | Content | Carrier |
+| --- | --- | --- |
+| Sighted user | the visible, possibly abbreviated string (`1.5M`) | rendered text |
+| Screen reader | the full, un-abbreviated reading (`1,500,000`, with prefix/suffix/currency/unit, localised) | `role="img"` + `aria-label` |
+| Machine / test | the raw input value (`1500000`) | native `<data value>` / `<time datetime>` |
+
+```tsx
+// NumberOutput, compact, value={1500000}
+<data value="1500000" role="img" aria-label="1,500,000">1.5M</data>
+
+// DateOutput, value="2026-06-13"
+<time dateTime="2026-06-13" role="img" aria-label="13 June 2026">13 Jun</time>
+```
+
+Rules:
+
+- The full screen-reader string is produced by the **same formatter with abbreviation off** (e.g. `formatNumber(value, { compact: false, … })`) — never hand-written.
+- `role="img"` is applied **only when the visible string is lossy** (compact numbers, short dates, abbreviated units). When the visible text already equals the full reading (`42`, `Yes`), render a plain `<data>`/`<time>` with no role and no `aria-label` — the text reads correctly on its own.
+- The native attribute (`value` / `dateTime`) is **always present** and is the machine-readable + test hook — read `el.value` / `el.dateTime` in tests rather than asserting on the formatted text. There is no separate `data-*` attribute; the native one is the contract.
+- `role="img"` is deliberate, not a hack: `img` is the role whose children are presentational and whose name comes from `aria-label`, so the label *replaces* the inner text for assistive tech. `role="presentation"`/`none` does the opposite (strips semantics, ignores `aria-label`) and must not be used for this.
+- Never rely on `title` for the accessible value — it is inconsistently announced and invisible on touch.
+
+### Interactive widgets
+
+Follow the WAI-ARIA Authoring Practices pattern for the widget:
+
+- **Dialog** (`Modal`): `role="dialog"` + `aria-modal` + `aria-labelledby` wired to the heading; focus trap, Escape, and focus restore (via `react-focus-on`).
+- **Tabs**: `role="tablist"`/`tab`/`tabpanel`, `aria-selected`, tab↔panel `aria-controls`/`aria-labelledby`, arrow-key navigation with a roving `tabindex`.
+- **Combobox** (`SelectInputContainer` and the select family): `role="combobox"`/`listbox`/`option`, `aria-expanded`, `aria-controls`, `aria-activedescendant`, `aria-selected`.
+- **Menu vs popover**: `role="menu"`/`menuitem"` (with menu keyboard semantics) is only for action menus. A popover holding arbitrary content (e.g. `InfoPopup`) is **not** a menu — don't give it menu roles.
+- **Disclosure** (`ExpandableContainer`): toggle is a `<button>` with `aria-expanded` + `aria-controls`.
+- **Switch** (`Switch`): `role="switch"` + `aria-checked`, even though it's built on a checkbox.
+
+### Status, landmarks, and controls
+
+- Live regions: transient notifications use `role="alert"` (assertive); status/loading uses `role="status"` + `aria-busy`. `Alert`, `Message`, `BlockLoading` follow this.
+- Navigation: `Breadcrumbs` and `Pager` are `<nav>` landmarks with an `aria-label`; the current item gets `aria-current="page"`.
+- Icon-only controls require an accessible name — `IconButton` enforces `ariaLabel`; decorative icons elsewhere are `aria-hidden`.
+
 ## Documentation
 
 - Every exported component carries a JSDoc block: what it is, which layer it belongs to, and notes on non-obvious props. These flow into Storybook automatically via react-docgen.

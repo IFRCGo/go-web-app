@@ -1,10 +1,10 @@
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
+    DataDisplay,
     LegendItem,
     ListView,
     Message,
-    TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -88,22 +88,22 @@ function SeasonalCalendarEvent(props: SeasonalCalendarEventProps) {
                 title={data.label}
                 description={(
                     <>
-                        <TextOutput
+                        <DataDisplay
                             strongLabel
                             label={strings.seasonalCalendarTooltipEventTypeLabel}
                             value={event_type}
                         />
-                        <TextOutput
+                        <DataDisplay
                             strongLabel
                             label={strings.seasonalCalendarTooltipEventLabel}
                             value={data.event?.join(', ')}
                         />
-                        <TextOutput
+                        <DataDisplay
                             strongLabel
                             label={strings.seasonalCalendarTooltipMonthsLabel}
                             value={data.month?.join(', ')}
                         />
-                        <TextOutput
+                        <DataDisplay
                             strongLabel
                             label={strings.seasonalCalendarTooltipSourceLabel}
                             value={data.source}
@@ -231,7 +231,7 @@ export function Component() {
                     heading={strings.countryIndicatorsHeading}
                     withHeaderBorder
                     footerActions={(
-                        <TextOutput
+                        <DataDisplay
                             label={strings.sources}
                             value={joinList([
                                 <Link
@@ -273,13 +273,13 @@ export function Component() {
                         numPreferredGridColumns={3}
                         withSpacingOpticalCorrection
                     >
-                        <TextOutput
+                        <DataDisplay
                             label={strings.countryIndicatorsPopulationLabel}
                             value={databankResponse?.world_bank_population}
                             valueType="number"
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.countryIndicatorsPopulationUnder18Label}
                             suffix=" %"
                             maximumFractionDigits={2}
@@ -287,14 +287,14 @@ export function Component() {
                             valueType="number"
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.countryIndicatorsUrbanPopulationLabel}
                             suffix=" %"
                             value={databankResponse?.world_bank_urban_population_percentage}
                             valueType="number"
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.countryIndicatorsGDPLabel}
                             prefix="$"
                             maximumFractionDigits={0}
@@ -302,7 +302,7 @@ export function Component() {
                             valueType="number"
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.countryIndicatorsCapitaLabel}
                             prefix="$"
                             maximumFractionDigits={0}
@@ -310,7 +310,7 @@ export function Component() {
                             valueType="number"
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.countryIndicatorsPovertyLabel}
                             suffix=" %"
                             maximumFractionDigits={2}
@@ -318,13 +318,13 @@ export function Component() {
                             valueType="number"
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.countryIndicatorsLifeExpectancyLabel}
                             value={databankResponse?.world_bank_life_expectancy}
                             valueType="number"
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.countryIndicatorsLiteracyLabel}
                             suffix=" %"
                             maximumFractionDigits={2}
@@ -332,7 +332,7 @@ export function Component() {
                             valueType="number"
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.countryIndicatorsGenderInequalityIndexLabel}
                             value={databankResponse?.hdr_gii}
                             valueType="number"
@@ -361,7 +361,7 @@ export function Component() {
                 <Container
                     heading={strings.seasonalCalendarHeading}
                     footerActions={(
-                        <TextOutput
+                        <DataDisplay
                             label={strings.source}
                             value={(
                                 <Link

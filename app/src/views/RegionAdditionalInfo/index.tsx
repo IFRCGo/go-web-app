@@ -3,8 +3,8 @@ import { useOutletContext } from 'react-router-dom';
 import {
     Container,
     Description,
-    HtmlOutput,
-    type HtmlOutputProps,
+    HtmlDisplay,
+    type HtmlDisplayProps,
     KeyFigureCard,
     ListView,
     RawList,
@@ -102,7 +102,7 @@ export function Component() {
     );
 
     const regionSnippetParams = useCallback(
-        (_: number, data: RegionSnippetType): HtmlOutputProps => ({
+        (_: number, data: RegionSnippetType): HtmlDisplayProps => ({
             value: data.snippet,
         }),
         [],
@@ -140,7 +140,7 @@ export function Component() {
                         <RawList
                             data={snippets}
                             keySelector={snippetKeySelector}
-                            renderer={HtmlOutput}
+                            renderer={HtmlDisplay}
                             rendererParams={regionSnippetParams}
                         />
                     </ListView>

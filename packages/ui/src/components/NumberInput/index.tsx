@@ -1,6 +1,7 @@
 import {
     useCallback,
     useEffect,
+    useId,
     useMemo,
     useState,
 } from 'react';
@@ -53,6 +54,15 @@ function NumberInput<const T>(props: Props<T>) {
     const [inputContainerProps, rawInputProps] = extractInputContainerProps(
         otherProps,
     );
+
+    const generatedId = useId();
+    const inputId = generatedId;
+    const hasError = isDefined(inputContainerProps.error);
+    const hasHint = isDefined(inputContainerProps.hint);
+    const errorId = hasError ? `${generatedId}-error` : undefined;
+    const hintId = hasHint ? `${generatedId}-hint` : undefined;
+    const describedBy = [hintId, errorId].filter(isDefined).join(' ') || undefined;
+
     const [tempValue, setTempValue] = useState<string | undefined>(String(valueFromProps ?? ''));
 
     useEffect(() => {
@@ -87,6 +97,9 @@ function NumberInput<const T>(props: Props<T>) {
         <InputContainer
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...inputContainerProps}
+            inputId={inputId}
+            hintId={hintId}
+            errorId={errorId}
             disabled={disabled}
             readOnly={readOnly}
             required={required}
@@ -96,6 +109,10 @@ function NumberInput<const T>(props: Props<T>) {
                 <RawInput
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...rawInputProps}
+                    id={inputId}
+                    aria-invalid={hasError}
+                    aria-required={required}
+                    aria-describedby={describedBy}
                     elementRef={inputElementRef}
                     className={inputClassName}
                     disabled={disabled}

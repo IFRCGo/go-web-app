@@ -6,10 +6,10 @@ import {
 import {
     Container,
     type ContainerProps,
+    DataDisplay,
     ListView,
-    NumberOutput,
+    NumberDisplay,
     ProgressBar,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
@@ -67,12 +67,12 @@ function LocalUnitImportSummary(props: Props) {
                             strings.rowsSuccessLabel,
                             {
                                 numRows: (
-                                    <NumberOutput
+                                    <NumberDisplay
                                         value={value?.success_count}
                                     />
                                 ),
                                 total: (
-                                    <NumberOutput
+                                    <NumberDisplay
                                         value={totalCount}
                                     />
                                 ),
@@ -91,7 +91,7 @@ function LocalUnitImportSummary(props: Props) {
                     layout="block"
                     withSpacingOpticalCorrection
                 >
-                    <TextOutput
+                    <DataDisplay
                         label={strings.statusLabel}
                         value={value?.status_details}
                         strongValue

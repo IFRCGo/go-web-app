@@ -3,7 +3,7 @@ import {
     isDefined,
 } from '@togglecorp/fujs';
 
-import Modal from '#components/Modal';
+import Dialog from '#components/Dialog';
 import useBooleanState from '#hooks/useBooleanState';
 
 import styles from './styles.module.css';
@@ -22,6 +22,10 @@ export interface Props {
     withoutBackground?: boolean;
 }
 
+/**
+ * Specific component for an image with an optional caption that can be
+ * expanded into a full-size Dialog overlay.
+ */
 function Image(props: Props) {
     const {
         className,
@@ -77,7 +81,7 @@ function Image(props: Props) {
                 </figcaption>
             )}
             {isExpanded && (
-                <Modal
+                <Dialog
                     className={styles.expandedModal}
                     size="full"
                     heading={caption}
@@ -89,7 +93,7 @@ function Image(props: Props) {
                         src={src}
                         alt={alt}
                     />
-                </Modal>
+                </Dialog>
             )}
         </figure>
     );

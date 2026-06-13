@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import {
     Container,
-    Pager,
+    Pagination,
     SelectInput,
     Table,
 } from '@ifrc-go/ui';
@@ -183,7 +183,7 @@ function PossibleEarlyActionTable(props: Props) {
                 </>
             )}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={possibleEarlyActionResponse?.count ?? 0}
                     maxItemsPerPage={limit}

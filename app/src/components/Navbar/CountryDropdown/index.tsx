@@ -10,8 +10,8 @@ import {
 import { SearchLineIcon } from '@ifrc-go/icons';
 import {
     Container,
-    DropdownMenu,
     ListView,
+    Menu,
     Tab,
     TabList,
     TabPanel,
@@ -105,7 +105,7 @@ function CountryDropdown() {
     );
 
     return (
-        <DropdownMenu
+        <Menu
             label={strings.menuCountriesLabel}
             labelVariant="tertiary"
             popupClassName={styles.countryDropdown}
@@ -231,7 +231,7 @@ function CountryDropdown() {
                     </ListView>
                 </Tabs>
             </Container>
-        </DropdownMenu>
+        </Menu>
     );
 }
 

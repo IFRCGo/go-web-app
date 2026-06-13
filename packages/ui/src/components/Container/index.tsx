@@ -36,6 +36,11 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
     className?: string;
 
     heading?: React.ReactNode;
+    /**
+     * id on the heading element; used for aria-labelledby wiring
+     * (e.g. Dialog points its aria-labelledby here)
+     */
+    headingId?: string;
     withEllipsizedHeading?: boolean;
     headingLevel?: HeadingProps['level'];
     headerDescription?: React.ReactNode;
@@ -106,6 +111,7 @@ function Container(props: Props) {
         elementRef,
 
         heading,
+        headingId,
         withEllipsizedHeading,
         headingLevel = 3,
         headerIcons,
@@ -280,6 +286,7 @@ function Container(props: Props) {
                             )}
                         >
                             <Heading
+                                id={headingId}
                                 level={headingLevel}
                                 ellipsize={withEllipsizedHeading}
                                 spacing={spacing}

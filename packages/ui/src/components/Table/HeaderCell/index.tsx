@@ -14,7 +14,7 @@ import {
 } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
-import InfoPopup from '#components/InfoPopup';
+import MoreInfo from '#components/MoreInfo';
 import useTranslation from '#hooks/useTranslation';
 
 import type {
@@ -113,11 +113,12 @@ function HeaderCell(props: HeaderCellProps) {
                 {title}
             </div>
             {(infoTitle || infoDescription) && (
-                <InfoPopup
+                <MoreInfo
                     className={styles.infoPopupIcon}
                     title={infoTitle}
-                    description={infoDescription}
-                />
+                >
+                    {infoDescription}
+                </MoreInfo>
             )}
         </div>
     );

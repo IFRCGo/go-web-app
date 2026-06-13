@@ -7,9 +7,9 @@ import {
 } from '@ifrc-go/icons';
 import {
     Container,
-    InfoPopup,
     KeyFigureCard,
     ListView,
+    MoreInfo,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { getPercentage } from '@ifrc-go/ui/utils';
@@ -48,10 +48,11 @@ export function Component() {
                 valueType="number"
                 textSize="4xl"
                 info={(
-                    <InfoPopup
+                    <MoreInfo
                         title={strings.keyFiguresDrefTitle}
-                        description={strings.keyFiguresDrefDescription}
-                    />
+                    >
+                        {strings.keyFiguresDrefDescription}
+                    </MoreInfo>
                 )}
                 label={strings.homeKeyFiguresActiveDrefs}
             />
@@ -61,10 +62,11 @@ export function Component() {
                 valueType="number"
                 textSize="4xl"
                 info={(
-                    <InfoPopup
+                    <MoreInfo
                         title={strings.keyFiguresActiveAppealsTitle}
-                        description={strings.keyFigureActiveAppealDescription}
-                    />
+                    >
+                        {strings.keyFigureActiveAppealDescription}
+                    </MoreInfo>
                 )}
                 label={strings.homeKeyFiguresActiveAppeals}
             />

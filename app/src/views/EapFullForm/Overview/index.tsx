@@ -6,8 +6,8 @@ import {
     Container,
     DateInput,
     Description,
+    DisplayLabel,
     InputSection,
-    Label,
     ListView,
     TextArea,
     TextInput,
@@ -430,9 +430,9 @@ function Overview(props: Props) {
                                 title={strings.workWithGovernmentTitle}
                                 content={(
                                     <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                        <Label strong>
+                                        <DisplayLabel strong>
                                             {strings.overviewExplanatoryNoteLabel}
-                                        </Label>
+                                        </DisplayLabel>
                                         <Description>
                                             {strings.workExplanatoryNote}
                                         </Description>
@@ -481,17 +481,17 @@ function Overview(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.overviewExplanatoryNoteLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.actorsExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.overviewRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>{strings.overviewRequiredPoint1}</li>

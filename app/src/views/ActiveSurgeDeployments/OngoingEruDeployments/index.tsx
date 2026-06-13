@@ -7,7 +7,7 @@ import {
     Container,
     LegendItem,
     ListView,
-    Pager,
+    Pagination,
     SelectInput,
     Table,
     TableBodyContent,
@@ -273,7 +273,7 @@ function OngoingEruDeployments() {
             heading={strings.eruHeading}
             withHeaderBorder
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={deployedEruResponse?.count ?? 0}
                     maxItemsPerPage={limit}

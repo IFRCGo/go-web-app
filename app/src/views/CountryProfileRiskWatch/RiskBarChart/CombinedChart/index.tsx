@@ -6,8 +6,8 @@ import {
 import {
     ChartAxes,
     ChartContainer,
-    NumberOutput,
-    TextOutput,
+    DataDisplay,
+    NumberDisplay,
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -224,7 +224,7 @@ function CombinedChart(props: Props) {
             }
 
             return (
-                <NumberOutput
+                <NumberDisplay
                     value={value}
                     compact
                     maximumFractionDigits={0}
@@ -304,13 +304,13 @@ function CombinedChart(props: Props) {
                                                 <>
                                                     {datum.originalData.date.toLocaleDateString('default', { month: 'long' })}
                                                     {selectedRiskMetricDetail.key === 'riskScore' ? (
-                                                        <TextOutput
+                                                        <DataDisplay
                                                             label={strings.riskScoreLabel}
                                                             value={riskCategoryToLabelMap[value]}
                                                             strongValue
                                                         />
                                                     ) : (
-                                                        <TextOutput
+                                                        <DataDisplay
                                                             label={selectedRiskMetricDetail.label}
                                                             value={value}
                                                             valueType="number"

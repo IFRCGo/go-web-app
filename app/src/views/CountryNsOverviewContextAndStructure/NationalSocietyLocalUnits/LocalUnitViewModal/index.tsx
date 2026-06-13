@@ -1,6 +1,6 @@
 import {
+    Dialog,
     ListView,
-    Modal,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
@@ -29,7 +29,7 @@ function LocalUnitViewModal(props: Props) {
     const strings = useTranslation(i18n);
 
     return (
-        <Modal
+        <Dialog
             heading={strings.confirmChangesModalHeading}
             headerDescription={strings.confirmChangesContentQuestion}
             withHeaderBorder
@@ -44,7 +44,7 @@ function LocalUnitViewModal(props: Props) {
                 />
                 {children}
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

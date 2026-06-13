@@ -2,7 +2,7 @@ import {
     useCallback,
     useContext,
 } from 'react';
-import { DropdownMenu } from '@ifrc-go/ui';
+import { Menu } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
@@ -41,7 +41,7 @@ function AuthenticatedUserDropdown(props: Props) {
     }
 
     return (
-        <DropdownMenu
+        <Menu
             className={className}
             label={(
                 userMe
@@ -66,7 +66,7 @@ function AuthenticatedUserDropdown(props: Props) {
             >
                 {strings.userMenuLogout}
             </DropdownMenuItem>
-        </DropdownMenu>
+        </Menu>
     );
 }
 

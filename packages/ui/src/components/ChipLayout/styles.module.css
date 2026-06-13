@@ -1,0 +1,65 @@
+.chip-layout {
+    --color-border: transparent;
+    --color-text: inherit;
+    --color-background: transparent;
+    --border-radius: var(--go-ui-border-radius-full);
+    --padding: var(--go-ui-spacing-4xs) var(--go-ui-spacing-sm);
+
+    display: inline-flex;
+    align-items: center;
+    border: var(--go-ui-width-separator-sm) solid var(--color-border);
+    border-radius: var(--border-radius);
+    background-color: var(--color-background);
+    padding: var(--padding);
+    color: var(--color-text);
+    gap: var(--go-ui-spacing-3xs);
+
+    /* Style axis: how the pill looks. */
+    &.style-variant-tag {
+        --color-border: var(--go-ui-color-gray-40);
+        --color-background: var(--go-ui-color-gray-30);
+        --color-text: inherit;
+    }
+
+    &.style-variant-selection {
+        --color-border: var(--go-ui-color-gray-40);
+        --color-background: var(--go-ui-color-gray-30);
+        --color-text: inherit;
+    }
+
+    /* Color axis: which semantic color drives border/background/text. */
+    &.color-variant-primary {
+        --color-border: var(--go-ui-color-primary-red);
+        --color-background: var(--go-ui-color-primary-red);
+        --color-text: var(--go-ui-color-white);
+    }
+
+    &.color-variant-secondary {
+        --color-border: var(--go-ui-color-primary-red);
+        --color-background: var(--go-ui-color-white);
+        --color-text: var(--go-ui-color-primary-red);
+    }
+
+    &.color-variant-tertiary {
+        --color-border: var(--go-ui-color-gray-40);
+        --color-background: var(--go-ui-color-gray-30);
+        --color-text: inherit;
+    }
+
+    /* When a trailing action is present, tighten the trailing padding so the
+       action sits closer to the edge. */
+    &.with-trailing {
+        --padding: var(--go-ui-spacing-4xs) var(--go-ui-spacing-4xs) var(--go-ui-spacing-4xs) var(--go-ui-spacing-sm);
+    }
+
+    .leading {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .trailing {
+        display: inline-flex;
+        align-items: center;
+        font-size: var(--go-ui-font-size-sm);
+    }
+}

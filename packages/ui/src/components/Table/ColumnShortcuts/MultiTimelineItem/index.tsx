@@ -3,7 +3,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
-import TextOutput from '#components/TextOutput';
+import DataDisplay from '#components/DataDisplay';
 import Tooltip from '#components/Tooltip';
 import {
     type DateLike,
@@ -28,6 +28,10 @@ export interface Props {
     highlightedEndDateLabel: string;
 }
 
+/**
+ * Specific table cell component that draws a date-range bar plus a
+ * highlighted sub-range on a shared timeline, with a tooltip of the dates.
+ */
 function MultiTimelineItem(props: Props) {
     const {
         className,
@@ -95,24 +99,24 @@ function MultiTimelineItem(props: Props) {
             <Tooltip
                 description={(
                     <>
-                        <TextOutput
+                        <DataDisplay
                             valueType="date"
                             label={startDateLabel}
                             value={startDate}
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={endDateLabel}
                             value={endDate}
                             valueType="date"
                         />
                         {highlightedStartDate && highlightedEndDate && (
                             <>
-                                <TextOutput
+                                <DataDisplay
                                     label={highlightedStartDateLabel}
                                     value={highlightedStartDate}
                                     valueType="date"
                                 />
-                                <TextOutput
+                                <DataDisplay
                                     label={highlightedEndDateLabel}
                                     value={highlightedEndDate}
                                     valueType="date"

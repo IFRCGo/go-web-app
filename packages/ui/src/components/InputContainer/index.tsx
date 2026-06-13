@@ -4,10 +4,10 @@ import {
 } from '@togglecorp/fujs';
 
 import Description from '#components/Description';
+import DisplayLabel from '#components/DisplayLabel';
 import InlineLayout from '#components/InlineLayout';
 import InputError from '#components/InputError';
 import InputLabel from '#components/InputLabel';
-import Label from '#components/Label';
 import ListView from '#components/ListView';
 import {
     BackgroundColorType,
@@ -33,6 +33,22 @@ export interface Props {
     hint?: React.ReactNode;
     error?: React.ReactNode;
     errorOnTooltip?: boolean;
+
+    /**
+     * Id of the rendered control, used to wire `<label htmlFor>` to it
+     * (the field passes the same id to its RawInput/RawTextArea).
+     */
+    inputId?: string;
+    /** Id applied to the hint node so the control can `aria-describedby` it */
+    hintId?: string;
+    /** Id applied to the error node so the control can `aria-describedby` it */
+    errorId?: string;
+    /**
+     * ARIA role for the container root. Grouped controls (RadioInput,
+     * Checklist) pass `'radiogroup'`/`'group'`; the root then carries a
+     * group-level `aria-describedby` pointing at the hint/error nodes.
+     */
+    role?: 'radiogroup' | 'group';
 
     disabled?: boolean;
     readOnly?: boolean;
@@ -72,6 +88,10 @@ function InputContainer(props: Props) {
         hint,
         icons,
         input,
+        inputId,
+        hintId,
+        errorId,
+        role,
         label,
         readOnly,
         required,
@@ -93,9 +113,17 @@ function InputContainer(props: Props) {
         modes: withoutInputSectionPadding ? [] : ['padding-inline'],
     });
 
+    // Group-level description for radiogroup/group containers; individual
+    // text-style fields wire aria-describedby on the control itself instead.
+    const groupDescribedBy = isDefined(role)
+        ? ([hintId, errorId].filter(isDefined).join(' ') || undefined)
+        : undefined;
+
     return (
         <ListView
             elementRef={elementRef}
+            role={role}
+            aria-describedby={groupDescribedBy}
             layout="block"
             className={_cs(
                 styles.inputContainer,
@@ -119,6 +147,7 @@ function InputContainer(props: Props) {
             withPadding={withPadding}
         >
             <InputLabel
+                htmlFor={inputId}
                 disabled={disabled}
                 required={isRequired}
             >
@@ -138,12 +167,13 @@ function InputContainer(props: Props) {
                 {input}
             </InlineLayout>
             {withPrevValue && prevValue && isDefined(highlightMode) && (
-                <Label strong>
+                <DisplayLabel strong>
                     {prevValue}
-                </Label>
+                </DisplayLabel>
             )}
             {!error && !errorOnTooltip && hint && (
                 <Description
+                    id={hintId}
                     withLightText
                     textSize="sm"
                 >
@@ -152,6 +182,7 @@ function InputContainer(props: Props) {
             )}
             {error && (
                 <InputError
+                    id={errorId}
                     disabled={disabled}
                     floating={errorOnTooltip}
                 >

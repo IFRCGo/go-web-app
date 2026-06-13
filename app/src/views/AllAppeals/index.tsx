@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 import {
     Container,
     DateInput,
-    NumberOutput,
-    Pager,
+    NumberDisplay,
+    Pagination,
     SelectInput,
     Table,
 } from '@ifrc-go/ui';
@@ -282,7 +282,7 @@ export function Component() {
             strings.allAppealsHeading,
             {
                 numAppeals: (
-                    <NumberOutput
+                    <NumberDisplay
                         value={appealsResponse?.count}
                     />
                 ),
@@ -392,7 +392,7 @@ export function Component() {
                     />
                 )}
                 footerActions={(
-                    <Pager
+                    <Pagination
                         activePage={page}
                         itemsCount={appealsResponse?.count ?? 0}
                         maxItemsPerPage={limit}

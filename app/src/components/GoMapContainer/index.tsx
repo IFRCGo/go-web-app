@@ -12,11 +12,11 @@ import {
 import {
     Button,
     Container,
-    DateOutput,
+    DateDisplay,
+    DisplayLabel,
     IconButton,
-    InfoPopup,
-    Label,
     ListView,
+    MoreInfo,
     RawButton,
 } from '@ifrc-go/ui';
 import {
@@ -173,7 +173,7 @@ function GoMapContainer(props: Props) {
                     withSpacingOpticalCorrection
                 >
                     {title}
-                    <DateOutput
+                    <DateDisplay
                         className={styles.headerDate}
                         value={(new Date()).toDateString()}
                     />
@@ -248,69 +248,68 @@ function GoMapContainer(props: Props) {
                     <MapContainer
                         className={styles.map}
                     />
-                    <InfoPopup
-                        infoLabel={strings.infoLabel}
+                    <MoreInfo
+                        label={strings.infoLabel}
                         className={styles.mapDisclaimer}
-                        description={(
+                    >
+                        <ListView
+                            layout="block"
+                            withSpacingOpticalCorrection
+                            spacing="sm"
+                        >
+                            <DisplayLabel>
+                                {strings.mapDisclaimer}
+                            </DisplayLabel>
                             <ListView
-                                layout="block"
                                 withSpacingOpticalCorrection
-                                spacing="sm"
+                                spacing="xs"
+                                withWrap
                             >
-                                <Label>
-                                    {strings.mapDisclaimer}
-                                </Label>
-                                <ListView
-                                    withSpacingOpticalCorrection
-                                    spacing="xs"
-                                    withWrap
-                                >
-                                    {mapSources}
-                                </ListView>
-                                <ListView
-                                    className="mapboxgl-ctrl-attrib-inner"
-                                    spacing="xs"
-                                    withSpacingOpticalCorrection
-                                    withWrap
-                                >
-                                    <Link
-                                        href="https://www.mapbox.com/about/maps/"
-                                        external
-                                        title={strings.mapContainerMapbox}
-                                        aria-label={strings.mapContainerMapbox}
-                                        role="listitem"
-                                        withLinkIcon
-                                        spacing="xs"
-                                    >
-                                        {strings.copyrightMapbox}
-                                    </Link>
-                                    <Link
-                                        href="https://www.openstreetmap.org/about/"
-                                        external
-                                        title={strings.mapContainerOpenStreetMap}
-                                        aria-label={strings.mapContainerOpenStreetMap}
-                                        role="listitem"
-                                        withLinkIcon
-                                        spacing="xs"
-                                    >
-                                        {strings.copyrightOSM}
-                                    </Link>
-                                    <Link
-                                        className="mapbox-improve-map"
-                                        href={`https://apps.mapbox.com/feedback/?owner=go-ifrc&amp;id=ckrfe16ru4c8718phmckdfjh0&amp;access_token=${mbtoken}`}
-                                        external
-                                        title={strings.feedbackAriaLabel}
-                                        aria-label={strings.feedbackAriaLabel}
-                                        role="listitem"
-                                        withLinkIcon
-                                        spacing="xs"
-                                    >
-                                        {strings.improveMapLabel}
-                                    </Link>
-                                </ListView>
+                                {mapSources}
                             </ListView>
-                        )}
-                    />
+                            <ListView
+                                className="mapboxgl-ctrl-attrib-inner"
+                                spacing="xs"
+                                withSpacingOpticalCorrection
+                                withWrap
+                            >
+                                <Link
+                                    href="https://www.mapbox.com/about/maps/"
+                                    external
+                                    title={strings.mapContainerMapbox}
+                                    aria-label={strings.mapContainerMapbox}
+                                    role="listitem"
+                                    withLinkIcon
+                                    spacing="xs"
+                                >
+                                    {strings.copyrightMapbox}
+                                </Link>
+                                <Link
+                                    href="https://www.openstreetmap.org/about/"
+                                    external
+                                    title={strings.mapContainerOpenStreetMap}
+                                    aria-label={strings.mapContainerOpenStreetMap}
+                                    role="listitem"
+                                    withLinkIcon
+                                    spacing="xs"
+                                >
+                                    {strings.copyrightOSM}
+                                </Link>
+                                <Link
+                                    className="mapbox-improve-map"
+                                    href={`https://apps.mapbox.com/feedback/?owner=go-ifrc&amp;id=ckrfe16ru4c8718phmckdfjh0&amp;access_token=${mbtoken}`}
+                                    external
+                                    title={strings.feedbackAriaLabel}
+                                    aria-label={strings.feedbackAriaLabel}
+                                    role="listitem"
+                                    withLinkIcon
+                                    spacing="xs"
+                                >
+                                    {strings.improveMapLabel}
+                                </Link>
+                            </ListView>
+                        </ListView>
+                    </MoreInfo>
                     {withPresentationMode && !printMode && !presentationMode && (
                         <Button
                             className={styles.presentationModeButton}

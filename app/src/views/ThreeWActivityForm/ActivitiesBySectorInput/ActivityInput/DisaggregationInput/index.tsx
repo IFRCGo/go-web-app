@@ -1,6 +1,6 @@
 import {
+    NumberDisplay,
     NumberInput,
-    NumberOutput,
     Switch,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -288,7 +288,7 @@ function DisaggregationInput(props: Props) {
                         disabled={disabled}
                         error={error?.male_unknown_age_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_male}
                     />
@@ -360,7 +360,7 @@ function DisaggregationInput(props: Props) {
                         disabled={disabled}
                         error={error?.female_unknown_age_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_female}
                     />
@@ -432,7 +432,7 @@ function DisaggregationInput(props: Props) {
                         disabled={disabled}
                         error={error?.other_unknown_age_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_other}
                     />
@@ -441,35 +441,35 @@ function DisaggregationInput(props: Props) {
                     <div className={_cs(styles.cell, styles.header)}>
                         {strings.totalHeader}
                     </div>
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_0_1_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_2_5_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_6_12_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_13_17_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_18_59_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_60_plus_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_unknown}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total}
                     />
@@ -581,7 +581,7 @@ function DisaggregationInput(props: Props) {
                             disabled={disabled}
                             error={error?.disabled_male_unknown_age_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_male}
                         />
@@ -653,7 +653,7 @@ function DisaggregationInput(props: Props) {
                             disabled={disabled}
                             error={error?.disabled_female_unknown_age_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_female}
                         />
@@ -725,7 +725,7 @@ function DisaggregationInput(props: Props) {
                             disabled={disabled}
                             error={error?.disabled_other_unknown_age_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_other}
                         />
@@ -734,35 +734,35 @@ function DisaggregationInput(props: Props) {
                         <div className={_cs(styles.cell, styles.header)}>
                             {strings.totalHeader}
                         </div>
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_0_1_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_2_5_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_6_12_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_13_17_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_18_59_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_60_plus_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_unknown}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total}
                         />

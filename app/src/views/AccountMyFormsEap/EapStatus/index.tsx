@@ -11,11 +11,11 @@ import {
     Alert,
     Button,
     Description,
-    DropdownMenu,
+    Dialog,
+    DisplayLabel,
     FileInputButton,
-    Label,
     ListView,
-    Modal,
+    Menu,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -186,7 +186,7 @@ function EapStatus(props: Props) {
 
     return (
         <>
-            <DropdownMenu
+            <Menu
                 label={statusLabelMapping?.[status] ?? '--'}
                 labelVariant="subtle"
             >
@@ -202,9 +202,9 @@ function EapStatus(props: Props) {
                         {option.value}
                     </DropdownMenuItem>
                 ))}
-            </DropdownMenu>
+            </Menu>
             {isDefined(newStatus) && (
-                <Modal
+                <Dialog
                     heading={strings.updateStatusHeading}
                     onClose={handleStatusUpdateCancel}
                     footerActions={(
@@ -262,13 +262,13 @@ function EapStatus(props: Props) {
                             {strings.updateStatusDescription}
                         </Description>
                         <ListView spacing="sm">
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {statusLabelMapping?.[status]}
-                            </Label>
+                            </DisplayLabel>
                             <ArrowRightFillIcon />
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {statusLabelMapping?.[newStatus]}
-                            </Label>
+                            </DisplayLabel>
                         </ListView>
                         {newStatus === EAP_STATUS_NS_ADDRESSING_COMMENTS && (
                             <ListView
@@ -286,9 +286,9 @@ function EapStatus(props: Props) {
                                 >
                                     {strings.reviewChecklistInputLabel}
                                 </FileInputButton>
-                                <Label>
+                                <DisplayLabel>
                                     {isDefined(checklistFile) && checklistFile.name}
-                                </Label>
+                                </DisplayLabel>
                             </ListView>
                         )}
                         {(isSimplifiedEapLocked || isFullEapLocked) && (
@@ -321,7 +321,7 @@ function EapStatus(props: Props) {
                             />
                         )}
                     </ListView>
-                </Modal>
+                </Dialog>
             )}
         </>
     );

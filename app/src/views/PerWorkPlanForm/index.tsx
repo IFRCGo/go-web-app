@@ -9,10 +9,10 @@ import {
     Button,
     ConfirmButton,
     Container,
+    DataDisplay,
     InlineLayout,
     ListView,
     Portal,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -364,13 +364,13 @@ export function Component() {
                 withPadding
                 withSpacingOpticalCorrection
             >
-                <TextOutput
+                <DataDisplay
                     label={strings.workPlanDate}
                     value={workPlanResponse?.overview_details?.workplan_development_date}
                     strongValue
                 />
                 <ListView>
-                    <TextOutput
+                    <DataDisplay
                         label={strings.perResponsibleLabel}
                         value={workPlanResponse?.overview_details?.ns_focal_point_name}
                         description={workPlanResponse?.overview_details?.ns_focal_point_email}

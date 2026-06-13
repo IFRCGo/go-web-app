@@ -1,7 +1,7 @@
 import Container from '#components/Container';
 import Description from '#components/Description';
-import InfoPopup from '#components/InfoPopup';
 import ListView from '#components/ListView';
+import MoreInfo from '#components/MoreInfo';
 import { BoxShadowType } from '#utils/style';
 
 type NumColumn = 1 | 2 | 3 | 4;
@@ -60,7 +60,7 @@ function InputSection(props: Props) {
                     )}
                     headerActions={(
                         <>
-                            {tooltip && <InfoPopup description={tooltip} />}
+                            {tooltip && <MoreInfo>{tooltip}</MoreInfo>}
                             {headerActions}
                         </>
                     )}

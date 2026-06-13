@@ -1,8 +1,8 @@
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
+    DataDisplay,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -90,7 +90,7 @@ export function Component() {
                     </Link>
                 )}
                 footerActions={(
-                    <TextOutput
+                    <DataDisplay
                         label={strings.moreDetails}
                         value={(
                             <Link
@@ -147,11 +147,11 @@ export function Component() {
                                         withSpacingOpticalCorrection
                                         spacing="sm"
                                     >
-                                        <TextOutput
+                                        <DataDisplay
                                             label={strings.perTypeOfAssessmentLabel}
                                             value={perProcess.type_of_assessment_details?.name}
                                         />
-                                        <TextOutput
+                                        <DataDisplay
                                             label={strings.perFocalPointLabel}
                                             value={[perProcess.ns_focal_point_name, perProcess.ns_focal_point_email].filter(isTruthyString).join(', ')}
                                         />
@@ -166,13 +166,13 @@ export function Component() {
                                     layout="grid"
                                     minGridColumnSize="6rem"
                                 >
-                                    <TextOutput
+                                    <DataDisplay
                                         value={perProcess.phase_display}
                                         description={strings.perPhaseLabel}
                                         withBlockLayout
                                         strongValue
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         value={perProcess.date_of_assessment}
                                         description={strings.perAssessmentDateLabel}
                                         withBlockLayout

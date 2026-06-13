@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
@@ -70,22 +70,22 @@ export function Component() {
                 heading={strings.designedFor}
             >
                 <div>{strings.designedForDetailsSectionOne}</div>
-                <TextOutput
+                <DataDisplay
                     value={strings.designedForAssessmentValue}
                     label={strings.designedForAssessmentValueLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.designedForResponseAnalysisValue}
                     label={strings.designedForResponseAnalysisValueLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.designedForSetUpValue}
                     label={strings.designedForSetUpValueLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.designedForMonitoringValue}
                     label={strings.designedForMonitoringValueLabel}
                     strongLabel
@@ -94,12 +94,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.personnel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.totalPersonnelValue}
                     label={strings.totalPersonnelLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={(
                         <ul>
                             <li>{strings.personnelCompositionValueOne}</li>
@@ -119,12 +119,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.specifications}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsCostValue}
                     label={strings.specificationsCostLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsNationalSocietyValue}
                     label={strings.specificationsNationalSocietyLabel}
                     strongLabel

@@ -11,11 +11,11 @@ import {
 import {
     Button,
     Container,
+    DataDisplay,
     InlineLayout,
     Legend,
     ListView,
     RawList,
-    TextOutput,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -571,24 +571,24 @@ function LocalUnitsMap(props: Props) {
                             withSpacingOpticalCorrection
                             spacing="sm"
                         >
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.localUnitsMapLastUpdate}
                                 value={localUnitDetail?.modified_at}
                                 strongValue
                                 valueType="date"
                             />
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.localUnitsMapAddress}
                                 strongValue
                                 value={localUnitAddress}
                             />
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.localUnitsMapLocalUnitType}
                                 strongValue
                                 value={localUnitDetail?.type_details.name}
                             />
                             {isDefined(localUnitDetail?.health) && (
-                                <TextOutput
+                                <DataDisplay
                                     label={strings.localUnitsMapHealthFacilityType}
                                     strongValue
                                     value={

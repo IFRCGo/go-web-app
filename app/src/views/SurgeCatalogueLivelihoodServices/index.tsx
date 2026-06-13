@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
 
@@ -146,7 +146,7 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.livelihoodSpecificationTitle}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.livelihoodSpecificationValue}
                     label={strings.livelihoodSpecificationLabel}
                     strongLabel

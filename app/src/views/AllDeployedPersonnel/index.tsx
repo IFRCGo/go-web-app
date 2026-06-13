@@ -6,7 +6,7 @@ import {
 import {
     Container,
     DateInput,
-    Pager,
+    Pagination,
     Table,
     TextInput,
 } from '@ifrc-go/ui';
@@ -420,7 +420,7 @@ export function Component() {
                     </>
                 )}
                 footerActions={(
-                    <Pager
+                    <Pagination
                         activePage={page}
                         itemsCount={personnelResponse?.count ?? 0}
                         maxItemsPerPage={limit}

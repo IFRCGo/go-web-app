@@ -5,8 +5,8 @@ import {
 } from '@ifrc-go/icons';
 import {
     ConfirmButton,
-    DateOutput,
-    Label,
+    DateDisplay,
+    DisplayLabel,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -77,10 +77,10 @@ function DocumentCard(props: Props) {
                 withSpacingOpticalCorrection
                 spacing="xs"
             >
-                <Label>
+                <DisplayLabel>
                     {getFileNameFromUrl(document.file)}
-                </Label>
-                <DateOutput value={document.created_at} />
+                </DisplayLabel>
+                <DateDisplay value={document.created_at} />
             </ListView>
             <ListView spacing="2xs">
                 <Link

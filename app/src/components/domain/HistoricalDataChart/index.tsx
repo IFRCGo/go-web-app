@@ -8,8 +8,8 @@ import {
     ChartAxes,
     ChartContainer,
     Container,
+    DataDisplay,
     SelectInput,
-    TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -250,26 +250,26 @@ function HistoricalDataChart(props: Props) {
                                         title={point.originalData.dtype.name}
                                         description={(
                                             <>
-                                                <TextOutput
+                                                <DataDisplay
                                                     label="Start date"
                                                     value={point.originalData.disaster_start_date}
                                                     valueType="date"
                                                     strongValue
                                                 />
-                                                <TextOutput
+                                                <DataDisplay
                                                     value={point.originalData.num_affected}
                                                     label={strings.peopleAffectedLabel}
                                                     valueType="number"
                                                     strongValue
                                                 />
-                                                <TextOutput
+                                                <DataDisplay
                                                     value={funded}
                                                     label={strings.fundedLabel}
                                                     valueType="number"
                                                     strongValue
                                                     maximumFractionDigits={0}
                                                 />
-                                                <TextOutput
+                                                <DataDisplay
                                                     value={coverage}
                                                     valueType="number"
                                                     suffix="%"

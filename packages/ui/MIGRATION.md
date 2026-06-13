@@ -4,6 +4,37 @@
 
 v3 restructures the library around two ideas: a declared **component layer model** (raw → generic → specific) and **token specs** — visual props (`spacing`, `textSize`, `backgroundColor`, `borderRadius`, `boxShadow`) resolved against the shared token scales through static CSS utility classes. See `CONTRIBUTING.md` for the conventions and `README.md` for the spec reference. Everything below is a mechanical rewrite; visual changes are explicitly flagged.
 
+### Component renames (HTML/ARIA-aligned)
+
+Pure renames — update the import, the JSX tag, and the `Props` type; props are otherwise unchanged:
+
+| Old | New |
+| --- | --- |
+| `Modal` / `ModalProps` | `Dialog` / `DialogProps` |
+| `Popup` / `PopupProps` | `Popover` / `PopoverProps` |
+| `InlineFrame` / `InlineFrameProps` | `Iframe` / `IframeProps` |
+| `Pager` / `PagerProps` | `Pagination` / `PaginationProps` |
+| `Label` / `LabelProps` | `DisplayLabel` / `DisplayLabelProps` (the generic text label; **not** the form `InputLabel`) |
+| `ReducedListDisplay` / `…Props` | `TruncatedList` / `TruncatedListProps` (now a disclosure — full list in DOM, `aria-expanded`) |
+| `TextOutput` / `TextOutputProps` | `DataDisplay` / `DataDisplayProps` (now renders `<dl>/<dt>/<dd>`) |
+| `NumberOutput` → `NumberDisplay`, `DateOutput` → `DateDisplay`, `BooleanOutput` → `BooleanDisplay`, `DateRangeOutput` → `DateRangeDisplay`, `HtmlOutput` → `HtmlDisplay`, `RawOutput` → `RawDisplay` | the read-only value family is now `*Display` (mirrors `*Input`) |
+| `Chip` | split → `ChipLayout` (generic base, `styleVariant`), `Tag` (static label), `Selection` / `SelectionList` (removable selected values) |
+| `DropdownMenu` / `DropdownMenuProps` | `Menu` / `MenuProps` (action menu; `role="menu"`). Icon-only triggers should pass `ariaLabel`. |
+| `InfoPopup` / `InfoPopupProps` | `MoreInfo` / `MoreInfoProps` — generic info affordance, `as="popover" \| "dialog"`; `infoLabel`→`label`, `description`→`children` (old names kept as deprecated aliases) |
+| `DismissableTextOutput`, `DismissableListOutput` | `Selection` (same props) |
+| `DismissableMultiListOutput` | `SelectionList` (same props; optional `label` group prefix) |
+| `DropdownMenuContext` / `DropdownMenuContextProps` (`@ifrc-go/ui/contexts`) | `MenuContext` / `MenuContextProps` (member `setShowDropdown` unchanged) |
+| `TextBadge` | `CharacterCount` (internal; was not exported) |
+
+New: `Dropdown` (generic disclosure that `Menu` composes), `Tag`, `Selection`, `SelectionList`, `ChipLayout`. Unchanged: `KeyFigure`, `KeyFigureCard`, `ColorPreview`, `InputLabel`, `Tooltip`.
+
+### Accessibility
+
+- **Form fields**: `InputContainer` now wires `<label htmlFor>` (`InputLabel` renders a real `<label>`), generated ids, `aria-describedby`→hint/error, `aria-invalid`, `aria-required`, and `role="alert"` on errors. Grouped controls (`RadioInput`, `Checklist`) get `role="radiogroup"`/`group"`.
+- **Roles added**: `Dialog` (`role="dialog"`+`aria-modal`+`aria-labelledby`), `Switch` (`role="switch"`+`aria-checked`), live regions on `Alert`/`Message`/`BlockLoading`/`Spinner`, `Pagination` (`<nav>`+`aria-current`), `Breadcrumbs` (`aria-current`), disclosures (`ExpandableContainer`/`Dropdown`/`MoreInfo`/`TruncatedList`: `aria-expanded`+`aria-controls`).
+- **Formatted value outputs** (`NumberDisplay`/`DateDisplay`/`BooleanDisplay`) render native `<data value>` / `<time dateTime>` (machine-readable + test hook — assert on `el.value`/`el.dateTime`, not the formatted text). When the visible text is abbreviated (e.g. `compact` "1.5M"), the full reading is exposed to screen readers via `role="img"`+`aria-label`.
+- Deferred to a follow-up (marked `// FIXME(a11y-tier2)`): full `SelectInputContainer` combobox roles, `Tabs` roving-tabindex arrow navigation, `Tooltip` keyboard trigger, `Menu` advanced keyboard nav.
+
 ### Spec engine (internal mechanism — `spacing` props unchanged)
 
 - `useSpacingToken(options)` (from `@ifrc-go/ui/hooks`) → `getSpacingClassName(options)` (pure function, from `@ifrc-go/ui/utils`). Same options object, same className semantics, no more runtime `<style>` injection.

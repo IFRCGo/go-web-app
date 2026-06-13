@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import {
-    DateOutput,
+    DataDisplay,
+    DateDisplay,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
@@ -45,7 +45,7 @@ function FieldReportStats(props: Props) {
                 </Link>
             ),
             date: (
-                <DateOutput value={report.updated_at ?? report.created_at} />
+                <DateDisplay value={report.updated_at ?? report.created_at} />
             ),
         },
     );
@@ -92,30 +92,30 @@ function FieldReportStats(props: Props) {
                 layout="block"
                 withSpacingOpticalCorrection
             >
-                <TextOutput
+                <DataDisplay
                     label={strings.potentiallyAffected}
                     valueType="number"
                     strongValue
                     value={numPotentiallyAffected}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.highestRisk}
                     valueType="number"
                     strongValue
                     value={numHighestRisk}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.affectedPopCenters}
                     strongValue
                     value={affectedPopulationCenters}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.assistedByGovernment}
                     valueType="number"
                     strongValue
                     value={report.gov_num_assisted}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.assistedByRCRC}
                     valueType="number"
                     strongValue
@@ -132,36 +132,36 @@ function FieldReportStats(props: Props) {
                 layout="block"
                 withSpacingOpticalCorrection
             >
-                <TextOutput
+                <DataDisplay
                     label={strings.cases}
                     valueType="number"
                     strongValue
                     value={report.epi_cases}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.numberOfDead}
                     valueType="number"
                     strongValue
                     value={report.epi_num_dead}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.epiSource}
                     strongValue
                     value={report.epi_figures_source_display}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.assisted}
                     valueType="number"
                     strongValue
                     value={numAssisted}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.localStaff}
                     valueType="number"
                     strongValue
                     value={report.num_localstaff}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.volunteers}
                     valueType="number"
                     strongValue
@@ -177,60 +177,60 @@ function FieldReportStats(props: Props) {
                 layout="block"
                 withSpacingOpticalCorrection
             >
-                <TextOutput
+                <DataDisplay
                     label={strings.cases}
                     valueType="number"
                     strongValue
                     value={report.epi_cases}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.suspectedCases}
                     valueType="number"
                     strongValue
                     value={report.epi_suspected_cases}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.probableCases}
                     valueType="number"
                     strongValue
                     value={report.epi_probable_cases}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.confirmedCases}
                     valueType="number"
                     strongValue
                     value={report.epi_confirmed_cases}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.numberOfDead}
                     valueType="number"
                     strongValue
                     value={report.epi_num_dead}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.epiSource}
                     strongValue
                     value={report.epi_figures_source_display}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.assisted}
                     valueType="number"
                     strongValue
                     value={numAssisted}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.localStaff}
                     valueType="number"
                     strongValue
                     value={report.num_localstaff}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.volunteers}
                     valueType="number"
                     strongValue
                     value={report.num_volunteers}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.delegates}
                     valueType="number"
                     strongValue
@@ -245,55 +245,55 @@ function FieldReportStats(props: Props) {
             layout="block"
             withSpacingOpticalCorrection
         >
-            <TextOutput
+            <DataDisplay
                 label={strings.affected}
                 valueType="number"
                 strongValue
                 value={numAffected}
             />
-            <TextOutput
+            <DataDisplay
                 label={strings.injured}
                 valueType="number"
                 strongValue
                 value={numInjured}
             />
-            <TextOutput
+            <DataDisplay
                 label={strings.dead}
                 valueType="number"
                 strongValue
                 value={numDead}
             />
-            <TextOutput
+            <DataDisplay
                 label={strings.missing}
                 valueType="number"
                 strongValue
                 value={numMissing}
             />
-            <TextOutput
+            <DataDisplay
                 label={strings.displaced}
                 valueType="number"
                 strongValue
                 value={numDisplaced}
             />
-            <TextOutput
+            <DataDisplay
                 label={strings.assisted}
                 valueType="number"
                 strongValue
                 value={numAssisted}
             />
-            <TextOutput
+            <DataDisplay
                 label={strings.localStaff}
                 valueType="number"
                 strongValue
                 value={report.num_localstaff}
             />
-            <TextOutput
+            <DataDisplay
                 label={strings.volunteers}
                 valueType="number"
                 strongValue
                 value={report.num_volunteers}
             />
-            <TextOutput
+            <DataDisplay
                 label={strings.delegates}
                 valueType="number"
                 strongValue

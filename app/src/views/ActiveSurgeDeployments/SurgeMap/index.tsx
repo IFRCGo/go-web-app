@@ -6,12 +6,12 @@ import {
 import {
     Button,
     Container,
+    DataDisplay,
     LegendItem,
     ListView,
     RadioInput,
-    ReducedListDisplay,
     SelectInput,
-    TextOutput,
+    TruncatedList,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -429,17 +429,17 @@ function SurgeMap(props: Props) {
                                     heading={event?.name}
                                     headingLevel={5}
                                 >
-                                    <TextOutput
+                                    <DataDisplay
                                         value={event.units}
                                         label={strings.deployedEru}
                                         strongLabel
                                         valueType="number"
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         className={styles.textOutput}
                                         labelClassName={styles.label}
                                         value={(
-                                            <ReducedListDisplay
+                                            <TruncatedList
                                                 list={event.eruType}
                                                 keySelector={stringNameSelector}
                                                 renderer={DisplayName}
@@ -449,11 +449,11 @@ function SurgeMap(props: Props) {
                                         label={strings.eruType}
                                         strongLabel
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         className={styles.textOutput}
                                         labelClassName={styles.label}
                                         value={(
-                                            <ReducedListDisplay
+                                            <TruncatedList
                                                 list={event.deployingNS}
                                                 keySelector={stringNameSelector}
                                                 renderer={DisplayName}
@@ -473,17 +473,17 @@ function SurgeMap(props: Props) {
                                     heading={event?.name}
                                     headingLevel={5}
                                 >
-                                    <TextOutput
+                                    <DataDisplay
                                         value={event.units}
                                         label={strings.deployedPersonnel}
                                         strongLabel
                                         valueType="number"
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         className={styles.textOutput}
                                         labelClassName={styles.label}
                                         value={(
-                                            <ReducedListDisplay
+                                            <TruncatedList
                                                 list={event.roleProfile}
                                                 keySelector={stringNameSelector}
                                                 renderer={DisplayName}
@@ -493,11 +493,11 @@ function SurgeMap(props: Props) {
                                         label={strings.roleProfile}
                                         strongLabel
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         className={styles.textOutput}
                                         labelClassName={styles.label}
                                         value={(
-                                            <ReducedListDisplay
+                                            <TruncatedList
                                                 list={event.deployingNS}
                                                 keySelector={stringNameSelector}
                                                 renderer={DisplayName}

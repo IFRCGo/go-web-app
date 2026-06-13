@@ -1,0 +1,33 @@
+.truncated-list {
+    display: inline-block;
+    position: relative;
+
+    .toggle-button {
+        text-decoration: underline;
+        color: var(--go-ui-color-blue-90);
+        font-weight: var(--go-ui-font-weight-medium);
+
+        &:hover,
+        &:focus {
+            opacity: 1;
+            color: var(--go-ui-color-primary-red);
+        }
+    }
+
+    .remainder {
+        display: none;
+
+        &.expanded {
+            display: block;
+            position: absolute;
+            border-radius: var(--go-ui-border-radius-md);
+            box-shadow: var(--go-ui-box-shadow-md);
+            background-color: var(--go-ui-color-white);
+            padding: var(--go-ui-spacing-sm);
+
+            .title {
+                font-weight: var(--go-ui-font-weight-bold);
+            }
+        }
+    }
+}

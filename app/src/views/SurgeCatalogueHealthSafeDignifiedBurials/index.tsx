@@ -1,4 +1,4 @@
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
@@ -29,12 +29,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.healthBurialsPersonnel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.healthBurialsTotalValue}
                     label={strings.healthBurialsTotalLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.healthBurialsCompositionValue}
                     label={strings.healthBurialsCompositionLabel}
                     strongLabel
@@ -55,22 +55,22 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.healthBurialsSpecificationsLabel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.healthBurialsSpecificationsWeightValue}
                     label={strings.healthBurialsSpecificationsWeightLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.healthBurialsSpecificationsVolumeValue}
                     label={strings.healthBurialsSpecificationsVolumeLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.healthBurialsSpecificationsCostValue}
                     label={strings.healthBurialsSpecificationsCostLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.healthBurialsSpecificationsNsValue}
                     label={strings.healthBurialsSpecificationsNsLabel}
                     strongLabel

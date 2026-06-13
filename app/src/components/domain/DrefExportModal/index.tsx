@@ -7,8 +7,8 @@ import { DownloadLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Checkbox,
+    Dialog,
     Message,
-    Modal,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -188,7 +188,7 @@ function DrefExportModal(props: Props) {
     ]);
 
     return (
-        <Modal
+        <Dialog
             heading={strings.drefExportTitle}
             onClose={onCancel}
             className={styles.drefExportModal}
@@ -250,7 +250,7 @@ function DrefExportModal(props: Props) {
                     )}
                 />
             )}
-        </Modal>
+        </Dialog>
     );
 }
 

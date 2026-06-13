@@ -7,9 +7,9 @@ import {
     ChartContainer,
     ChartPoint,
     Container,
-    DateOutput,
+    DataDisplay,
+    DateDisplay,
     SelectInput,
-    TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -199,21 +199,21 @@ function PastEventsChart(props: Props) {
                                 title={chartPoint.originalData.disaster_name}
                                 description={(
                                     <>
-                                        <DateOutput
+                                        <DateDisplay
                                             value={chartPoint.originalData.date}
                                             format="yyyy MMM"
                                         />
-                                        <TextOutput
+                                        <DataDisplay
                                             label={strings.pastEventsTargetedPopulation}
                                             value={chartPoint.originalData.targeted_population}
                                             valueType="number"
                                         />
-                                        <TextOutput
+                                        <DataDisplay
                                             label={strings.pastEventsAmountRequested}
                                             value={chartPoint.originalData.amount_requested}
                                             valueType="number"
                                         />
-                                        <TextOutput
+                                        <DataDisplay
                                             label={strings.pastEventsAmountFunded}
                                             value={getPercentage(
                                                 chartPoint.originalData.amount_funded,

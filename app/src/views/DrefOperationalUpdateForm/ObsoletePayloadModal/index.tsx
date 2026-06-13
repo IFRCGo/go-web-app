@@ -1,7 +1,7 @@
 import {
     BlockLoading,
     Button,
-    Modal,
+    Dialog,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -42,7 +42,7 @@ function ObsoletePayloadResolutionModal(props: Props) {
     });
 
     return (
-        <Modal
+        <Dialog
             heading={strings.drefChangesConflictWhileSaving}
             headingLevel={3}
             className={styles.obsoletePayloadResolutionModal}
@@ -87,7 +87,7 @@ function ObsoletePayloadResolutionModal(props: Props) {
                     </div>
                 </>
             )}
-        </Modal>
+        </Dialog>
     );
 }
 

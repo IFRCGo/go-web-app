@@ -4,7 +4,7 @@ import {
     useEffect,
 } from 'react';
 import { CheckFillIcon } from '@ifrc-go/icons';
-import { DropdownMenu } from '@ifrc-go/ui';
+import { Menu } from '@ifrc-go/ui';
 import {
     type Language,
     LanguageContext,
@@ -53,7 +53,7 @@ function LanguageDropdown() {
     );
 
     return (
-        <DropdownMenu
+        <Menu
             label={languageNameMapEn[currentLanguage]}
             labelVariant="tertiary"
             persistent
@@ -80,7 +80,7 @@ function LanguageDropdown() {
                     </DropdownMenuItem>
                 ),
             )}
-        </DropdownMenu>
+        </Menu>
     );
 }
 

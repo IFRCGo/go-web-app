@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import {
     Container,
-    HtmlOutput,
+    HtmlDisplay,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -69,7 +69,7 @@ export function Component() {
                         heading={emergencySnippet.title}
                         withHeaderBorder={isTruthyString(emergencySnippet.title)}
                     >
-                        <HtmlOutput
+                        <HtmlDisplay
                             value={emergencySnippet.snippet}
                             key={emergencySnippet.id}
                         />

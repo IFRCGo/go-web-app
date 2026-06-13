@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
@@ -69,12 +69,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.emergencyClinicPersonnel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.emergencyClinicTotalPersonnelValue}
                     label={strings.emergencyClinicTotalPersonnelLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.emergencyClinicPersonnelCompositionValue}
                     label={strings.emergencyClinicPersonnelCompositionLabel}
                     strongLabel
@@ -84,27 +84,27 @@ export function Component() {
                 heading={strings.emergencyClinicStandardComponents}
             >
                 <div>{strings.emergencyClinicStandardComponentsDetails}</div>
-                <TextOutput
+                <DataDisplay
                     value={strings.emergencyClinicModuleOneValue}
                     label={strings.emergencyClinicModuleOneLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.emergencyClinicModuleTwoValue}
                     label={strings.emergencyClinicModuleTwoLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.emergencyClinicModuleThreeValue}
                     label={strings.emergencyClinicModuleThreeLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.emergencyClinicModuleFourValue}
                     label={strings.emergencyClinicModuleFourLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.emergencyClinicModuleFiveValue}
                     label={strings.emergencyClinicModuleFiveLabel}
                     strongLabel
@@ -113,7 +113,7 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.emergencyClinicSpecifications}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.emergencyClinicSpecificationsWeightValue}
                     label={strings.emergencyClinicSpecificationsWeightLabel}
                     strongLabel

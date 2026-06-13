@@ -1,11 +1,13 @@
 import {
     useCallback,
+    useId,
     useState,
 } from 'react';
 import {
     EyeFillIcon,
     EyeOffLineIcon,
 } from '@ifrc-go/icons';
+import { isDefined } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
@@ -43,6 +45,14 @@ function PasswordInput<const T>(props: Props<T>) {
         otherProps,
     );
 
+    const generatedId = useId();
+    const inputId = generatedId;
+    const hasError = isDefined(inputContainerProps.error);
+    const hasHint = isDefined(inputContainerProps.hint);
+    const errorId = hasError ? `${generatedId}-error` : undefined;
+    const hintId = hasHint ? `${generatedId}-hint` : undefined;
+    const describedBy = [hintId, errorId].filter(isDefined).join(' ') || undefined;
+
     const [showPassword, setShowPassword] = useState(false);
     const strings = useTranslation(i18n);
     const handleButtonClick = useCallback(() => {
@@ -53,6 +63,9 @@ function PasswordInput<const T>(props: Props<T>) {
         <InputContainer
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...inputContainerProps}
+            inputId={inputId}
+            hintId={hintId}
+            errorId={errorId}
             disabled={disabled}
             readOnly={readOnly}
             required={required}
@@ -74,6 +87,10 @@ function PasswordInput<const T>(props: Props<T>) {
                 <RawInput
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...rawInputProps}
+                    id={inputId}
+                    aria-invalid={hasError}
+                    aria-required={required}
+                    aria-describedby={describedBy}
                     elementRef={inputElementRef}
                     className={inputClassName}
                     readOnly={readOnly}

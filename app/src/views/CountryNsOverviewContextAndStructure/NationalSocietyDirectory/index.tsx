@@ -1,9 +1,9 @@
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
+    DataDisplay,
     ListView,
     RawList,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -59,7 +59,7 @@ function NationalSocietyDirectory(props: Props) {
                 && directoryList.length > 0
                 && isDefined(countryResponse?.society_name)
                 && isDefined(countryResponse.url_ifrc) && (
-                <TextOutput
+                <DataDisplay
                     label={strings.countryNSDirectorySource}
                     value={(
                         <Link

@@ -1,0 +1,42 @@
+.data-display {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+
+    .label,
+    .value,
+    .description {
+        margin: 0;
+    }
+
+    &.with-uppercase-letters {
+        text-transform: uppercase;
+    }
+
+    &.with-light-text {
+        color: var(--go-ui-color-text-light);
+    }
+
+    &.with-block-layout {
+        flex-direction: column;
+        flex-wrap: initial;
+    }
+
+    .label {
+        &.with-colon::after {
+            content: ':';
+        }
+    }
+
+    .value {
+        &.text-type {
+            text-align: justify;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+    }
+
+    .strong {
+        font-weight: var(--go-ui-font-weight-semibold);
+    }
+}

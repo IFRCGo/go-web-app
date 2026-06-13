@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import {
     Button,
+    Dialog,
     ListView,
-    Modal,
     TextInput,
 } from '@ifrc-go/ui';
 import {
@@ -67,7 +67,7 @@ function GenerateMontandonTokenModal(props: Props) {
     );
 
     return (
-        <Modal
+        <Dialog
             className={styles.generateMontandonTokenModal}
             heading={strings.title}
             onClose={onClose}
@@ -151,7 +151,7 @@ function GenerateMontandonTokenModal(props: Props) {
                     </>
                 )}
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

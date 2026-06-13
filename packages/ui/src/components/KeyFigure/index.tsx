@@ -1,6 +1,6 @@
 import { _cs } from '@togglecorp/fujs';
 
-import RawOutput, { Props as RawOutputProps } from '#components/RawOutput';
+import RawDisplay, { Props as RawDisplayProps } from '#components/RawDisplay';
 import {
     getTextSizeClassName,
     TextSizeType,
@@ -21,22 +21,25 @@ interface CommonProps {
     textSize?: KeyFigureTextSize;
 }
 
-export type Props = CommonProps & RawOutputProps;
+export type Props = CommonProps & RawDisplayProps;
 
 /**
  * Embeddable key figure: a large typed value over a small label
  * (specific layer).
  *
- * Value rendering is delegated to RawOutput, so the `valueType`
+ * Value rendering is delegated to RawDisplay, so the `valueType`
  * discriminated union (boolean/number/date/text or a plain node)
- * and the per-type props come from RawOutputProps.
+ * and the per-type props come from RawDisplayProps. The big value
+ * therefore inherits the value-output treatment (native `<data>` /
+ * `<time>` plus a full reading for assistive tech) from the display
+ * primitives.
  */
 function KeyFigure(props: Props) {
     const {
         className,
         label,
         textSize = '3xl',
-        ...rawOutputProps
+        ...rawDisplayProps
     } = props;
 
     return (
@@ -52,9 +55,9 @@ function KeyFigure(props: Props) {
                     getTextSizeClassName(textSize),
                 )}
             >
-                <RawOutput
+                <RawDisplay
                     // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...rawOutputProps}
+                    {...rawDisplayProps}
                 />
             </div>
             <div className={styles.label}>

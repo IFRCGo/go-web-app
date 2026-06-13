@@ -4,8 +4,8 @@ import {
 } from 'react';
 import {
     Container,
+    DataDisplay,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -146,7 +146,7 @@ function LocalUnitView(props: Props) {
             emptyMessage={strings.localUnitViewNoChanges}
             footer={isDefined(newValue?.update_reason_overview)
                 && isNotDefined(locallyChangedValue) && (
-                <TextOutput
+                <DataDisplay
                     valueClassName={styles.updateReasonText}
                     strongLabel
                     value={newValue?.update_reason_overview}
@@ -202,7 +202,7 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.location_json?.lat}
                     value={newValue?.location_json?.lat}
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewLatitude}
                         value={newValue?.location_json?.lat}
@@ -217,7 +217,7 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.location_json?.lng}
                     value={newValue?.location_json?.lng}
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewLongitude}
                         value={newValue?.location_json?.lng}
@@ -232,7 +232,7 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.date_of_data}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewDateOfUpdate}
                         value={newValue?.date_of_data}
@@ -246,7 +246,7 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.subtype}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewSubtype}
                         value={newValue?.subtype}
@@ -259,7 +259,7 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.english_branch_name}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewLocalUnitNameEn}
                         value={newValue?.english_branch_name}
@@ -272,7 +272,7 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.local_branch_name}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewLocalUnitNameLocal}
                         value={newValue?.local_branch_name}
@@ -307,7 +307,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.focal_person_en}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewFocalPersonEn}
                                 value={newValue?.focal_person_en}
@@ -320,7 +320,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.focal_person_loc}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewFocalPersonLocal}
                                 value={newValue?.focal_person_loc}
@@ -337,7 +337,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.source_en}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewSourceEn}
                                 value={newValue?.source_en}
@@ -350,7 +350,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.source_loc}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewSourceLocal}
                                 value={newValue?.source_loc}
@@ -385,7 +385,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.other_affiliation}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewOtherAffiliation}
                                 value={newValue?.health?.other_affiliation}
@@ -436,7 +436,7 @@ function LocalUnitView(props: Props) {
                             }
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewTeachingHospital}
                                 value={newValue?.health?.is_teaching_hospital}
@@ -452,7 +452,7 @@ function LocalUnitView(props: Props) {
                             }
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewInPatientCapacity}
                                 value={newValue?.health?.is_in_patient_capacity}
@@ -468,7 +468,7 @@ function LocalUnitView(props: Props) {
                             }
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewIsolationRoomsWards}
                                 value={newValue?.health?.is_isolation_rooms_wards}
@@ -502,7 +502,7 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.address_en}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewAddressEn}
                         value={newValue?.address_en}
@@ -515,7 +515,7 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.address_loc}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewAddressLocal}
                         value={newValue?.address_loc}
@@ -528,7 +528,7 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.city_en}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewLocalityEn}
                         value={newValue?.city_en}
@@ -541,7 +541,7 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.city_loc}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewLocalityLocal}
                         value={newValue?.city_loc}
@@ -554,7 +554,7 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.postcode}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewPostCode}
                         value={newValue?.postcode}
@@ -569,7 +569,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.phone}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewPhone}
                                 value={newValue?.phone}
@@ -582,7 +582,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.email}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewEmail}
                                 value={newValue?.email}
@@ -595,7 +595,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.link}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewWebsite}
                                 value={newValue?.link}
@@ -631,7 +631,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.other_facility_type}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewOtherFacilityType}
                                 value={newValue?.health?.other_facility_type}
@@ -662,7 +662,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.speciality}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewSpecialties}
                                 value={newValue?.health?.speciality}
@@ -712,7 +712,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.other_services}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewOtherServices}
                                 value={newValue?.health?.other_services}
@@ -761,7 +761,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.number_of_isolation_rooms}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewNumberOfIsolationRooms}
                                 value={newValue?.health?.number_of_isolation_rooms}
@@ -774,7 +774,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.maximum_capacity}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewMaximumCapacity}
                                 value={newValue?.health?.maximum_capacity}
@@ -787,7 +787,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.is_warehousing}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 valueType="boolean"
                                 label={strings.localUnitViewWarehousing}
@@ -801,7 +801,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.is_cold_chain}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 valueType="boolean"
                                 label={strings.localUnitViewColdChain}
@@ -815,7 +815,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.ambulance_type_a}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewAmbulanceTypeA}
                                 value={newValue?.health?.ambulance_type_a}
@@ -828,7 +828,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.ambulance_type_b}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewAmbulanceTypeB}
                                 value={newValue?.health?.ambulance_type_b}
@@ -841,7 +841,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.ambulance_type_c}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewAmbulanceTypeC}
                                 value={newValue?.health?.ambulance_type_c}
@@ -854,7 +854,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.total_number_of_human_resource}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewTotalNumberOfHumanResources}
                                 value={newValue?.health?.total_number_of_human_resource}
@@ -867,7 +867,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.general_practitioner}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewGeneralPractitioner}
                                 value={newValue?.health?.general_practitioner}
@@ -880,7 +880,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.specialist}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewSpecialist}
                                 value={newValue?.health?.specialist}
@@ -893,7 +893,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.residents_doctor}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewResidentsDoctor}
                                 value={newValue?.health?.residents_doctor}
@@ -906,7 +906,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.nurse}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewNurse}
                                 value={newValue?.health?.nurse}
@@ -919,7 +919,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.dentist}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewDentist}
                                 value={newValue?.health?.dentist}
@@ -932,7 +932,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.nursing_aid}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewNursingAid}
                                 value={newValue?.health?.nursing_aid}
@@ -945,7 +945,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.midwife}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewMidwife}
                                 value={newValue?.health?.midwife}
@@ -958,7 +958,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.pharmacists}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewPharmacists}
                                 value={newValue?.health?.pharmacists}
@@ -1001,7 +1001,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.other_medical_heal}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 valueType="boolean"
                                 label={strings.localUnitViewOtherMedicalHeal}
@@ -1015,7 +1015,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.feedback}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewCommentsNS}
                                 value={newValue?.health?.feedback}
@@ -1028,7 +1028,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.focal_point_position}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewFocalPointPosition}
                                 value={newValue?.health?.focal_point_position}
@@ -1041,7 +1041,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.focal_point_email}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewFocalPointEmail}
                                 value={newValue?.health?.focal_point_email}
@@ -1054,7 +1054,7 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.focal_point_phone_number}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewFocalPointPhoneNumber}
                                 value={newValue?.health?.focal_point_phone_number}

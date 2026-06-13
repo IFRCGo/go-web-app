@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import {
     Description,
-    DropdownMenu,
     ListView,
+    Menu,
     TabList,
     Tabs,
 } from '@ifrc-go/ui';
@@ -27,7 +27,7 @@ function NavDropdownMenu(props: Props) {
     const [tabValue, setTabValue] = useState<string>(initialValue);
 
     return (
-        <DropdownMenu
+        <Menu
             popupClassName={styles.dropdown}
             label={label}
             labelVariant="tertiary"
@@ -68,7 +68,7 @@ function NavDropdownMenu(props: Props) {
                     </ListView>
                 </ListView>
             </Tabs>
-        </DropdownMenu>
+        </Menu>
     );
 }
 

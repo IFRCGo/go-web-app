@@ -6,12 +6,19 @@ import styles from './styles.module.css';
 export interface Props {
     children?: React.ReactNode;
     className?: string;
+    /** Id wired from the field's `aria-describedby` */
+    id?: string;
 }
 
+/**
+ * Form-field hint text (generic layer). Accepts an `id` so the field's
+ * control can reference it via `aria-describedby`.
+ */
 function InputHint(props: Props) {
     const {
         children,
         className,
+        id,
     } = props;
 
     if (!children) {
@@ -20,6 +27,7 @@ function InputHint(props: Props) {
 
     return (
         <div
+            id={id}
             className={_cs(
                 styles.inputHint,
                 className,

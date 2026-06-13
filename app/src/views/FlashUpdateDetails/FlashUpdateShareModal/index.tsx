@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import {
     Button,
+    Dialog,
     ListView,
     Message,
-    Modal,
     MultiSelectInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -90,7 +90,7 @@ function FlashUpdateShareModal(props: Props) {
     const pending = sharePending || donorResponsePending || donorGroupResponsePending;
 
     return (
-        <Modal
+        <Dialog
             heading={strings.flashUpdateShareTitle}
             onClose={onClose}
             footerActions={(
@@ -133,7 +133,7 @@ function FlashUpdateShareModal(props: Props) {
                     name={undefined}
                 />
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

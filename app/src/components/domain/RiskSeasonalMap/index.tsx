@@ -6,10 +6,10 @@ import {
 } from 'react';
 import {
     Container,
+    DataDisplay,
     InlineLayout,
     LegendItem,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -822,7 +822,7 @@ function RiskSeasonalMap(props: Props) {
                     withWrap
                     withSpaceBetweenContents
                 >
-                    <TextOutput
+                    <DataDisplay
                         label={strings.severityLegendLabel}
                         value={(
                             <ListView
@@ -840,7 +840,7 @@ function RiskSeasonalMap(props: Props) {
                             </ListView>
                         )}
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.hazardsTypeLegendLabel}
                         value={(
                             <ListView

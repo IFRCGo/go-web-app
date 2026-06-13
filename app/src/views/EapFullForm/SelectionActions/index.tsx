@@ -8,8 +8,8 @@ import {
     Checklist,
     Container,
     Description,
+    DisplayLabel,
     InputSection,
-    Label,
     ListView,
     TextArea,
 } from '@ifrc-go/ui';
@@ -252,15 +252,15 @@ function SelectionActions(props: Props) {
                     heading={strings.actionsStatementSectionHeading}
                     content={(
                         <ListView withSpacingOpticalCorrection layout="block">
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.actionsSectionCriteriaIntroduction1}
-                            </Label>
+                            </DisplayLabel>
                             <Description>
                                 {strings.actionsSectionCriteriaComment1}
                             </Description>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.actionsSectionCriteriaIntroduction2}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.actionsSectionCriteriaComment21}
@@ -269,9 +269,9 @@ function SelectionActions(props: Props) {
                                     {strings.actionsSectionCriteriaComment22}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.actionsSectionCriteriaIntroduction3}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.actionsSectionCriteriaComment31}
@@ -281,23 +281,23 @@ function SelectionActions(props: Props) {
                                 </Description>
                             </ListView>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                <Label strong>
+                                <DisplayLabel strong>
                                     {strings.actionsSectionCriteriaIntroduction41}
-                                </Label>
-                                <Label>
+                                </DisplayLabel>
+                                <DisplayLabel>
                                     {strings.actionsSectionCriteriaIntroduction42}
-                                </Label>
+                                </DisplayLabel>
                             </ListView>
                             <Description>
                                 {strings.actionsSectionCriteriaComment4}
                             </Description>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                <Label strong>
+                                <DisplayLabel strong>
                                     {strings.actionsSectionCriteriaIntroduction51}
-                                </Label>
-                                <Label>
+                                </DisplayLabel>
+                                <DisplayLabel>
                                     {strings.actionsSectionCriteriaIntroduction52}
-                                </Label>
+                                </DisplayLabel>
                             </ListView>
                             <Description>
                                 {strings.actionsSectionCriteriaComment5}
@@ -336,17 +336,17 @@ function SelectionActions(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.selectionActionExplanatoryNoteLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.selectionProcessExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.selectionActionRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>
@@ -483,9 +483,9 @@ function SelectionActions(props: Props) {
                                 ariaLabel={strings.evidenceBaseTitle}
                                 content={(
                                     <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                        <Label strong>
+                                        <DisplayLabel strong>
                                             {strings.selectionActionExplanatoryNoteLabel}
-                                        </Label>
+                                        </DisplayLabel>
                                         <Description>
                                             {strings.evidenceBaseExplanatoryNote}
                                         </Description>
@@ -642,9 +642,9 @@ function SelectionActions(props: Props) {
                                 title={strings.useFulnessActionsTitle}
                                 content={(
                                     <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                        <Label strong>
+                                        <DisplayLabel strong>
                                             {strings.selectionActionExplanatoryNoteLabel}
-                                        </Label>
+                                        </DisplayLabel>
                                         <Description>
                                             {strings.useFulnessActionsExplanatoryNote}
                                         </Description>
@@ -676,17 +676,17 @@ function SelectionActions(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.selectionActionExplanatoryNoteLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.feasibilityExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.selectionActionRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>{strings.feasibilityRequiredPoint1}</li>

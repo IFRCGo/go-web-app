@@ -1,8 +1,8 @@
 import {
     Container,
+    DataDisplay,
     ListView,
-    NumberOutput,
-    TextOutput,
+    NumberDisplay,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
@@ -43,7 +43,7 @@ function InitiativeCard(props: Props) {
                 },
             )}
             footer={(
-                <TextOutput
+                <DataDisplay
                     label={strings.initiativeCategoriesTitle}
                     value={initiative.categories}
                     valueType="text"
@@ -57,7 +57,7 @@ function InitiativeCard(props: Props) {
                 layout="grid"
                 minGridColumnSize="6rem"
             >
-                <TextOutput
+                <DataDisplay
                     value={resolveToString(
                         strings.initiativeYearApprovedAndDuration,
                         {
@@ -69,9 +69,9 @@ function InitiativeCard(props: Props) {
                     strongValue
                     withoutLabelColon
                 />
-                <TextOutput
+                <DataDisplay
                     value={(
-                        <NumberOutput
+                        <NumberDisplay
                             value={initiative.allocation}
                         />
                     )}

@@ -5,7 +5,7 @@ import {
 } from 'react';
 import {
     Container,
-    Pager,
+    Pagination,
     Table,
     TableBodyContent,
 } from '@ifrc-go/ui';
@@ -258,7 +258,7 @@ export function Component() {
                 </>
             )}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     onActivePageChange={setPage}
                     itemsCount={aggregatedStatusResponse?.count ?? 0}

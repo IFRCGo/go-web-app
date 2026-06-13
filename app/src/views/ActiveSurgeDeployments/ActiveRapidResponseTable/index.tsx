@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import {
     Container,
-    Pager,
+    Pagination,
     Table,
 } from '@ifrc-go/ui';
 import { SortContext } from '@ifrc-go/ui/contexts';
@@ -183,7 +183,7 @@ function ActiveRapidResponseAlertsTable() {
             headerDescription={strings.surgeAlertsTableHeaderDescription}
             withHeaderBorder
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={surgeAlertsResponse?.count ?? 0}
                     maxItemsPerPage={limit}

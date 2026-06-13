@@ -10,15 +10,15 @@ import {
     Button,
     ButtonLayout,
     Container,
+    DataDisplay,
     ExpandableContainer,
-    InfoPopup,
     InlineLayout,
     ListView,
-    NumberOutput,
+    MoreInfo,
+    NumberDisplay,
     ProgressBar,
     RawList,
-    ReducedListDisplay,
-    TextOutput,
+    TruncatedList,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -69,7 +69,7 @@ function Activity({ activity }: ActivityProps) {
             withPadding
             spacing="xs"
         >
-            <TextOutput
+            <DataDisplay
                 label={strings.peopleReached}
                 value={getPeopleReachedInActivity(activity)}
                 description={activity.details}
@@ -149,14 +149,14 @@ function ProjectListItem(props: ProjectListItemProps) {
                     spacing="xs"
                     withSpacingOpticalCorrection
                 >
-                    <TextOutput
+                    <DataDisplay
                         value={project.start_date}
                         valueType="date"
                         textSize="sm"
                         description={isDefined(project.end_date) && '-'}
                     />
                     {isDefined(project.end_date) && (
-                        <TextOutput
+                        <DataDisplay
                             value={project.end_date}
                             valueType="date"
                             textSize="sm"
@@ -173,7 +173,7 @@ function ProjectListItem(props: ProjectListItemProps) {
                 spacing="xs"
             >
                 {project.districts_details && (
-                    <ReducedListDisplay
+                    <TruncatedList
                         list={project.districts_details}
                         keySelector={numericIdSelector}
                         renderer={DistrictNameOutput}
@@ -230,18 +230,18 @@ function ActivityDetail(props: Props) {
                     spacing="sm"
                     after={(
                         <ListView spacing="xs">
-                            <NumberOutput
+                            <NumberDisplay
                                 value={projectCount}
                             />
-                            <InfoPopup
-                                description={resolveToString(
+                            <MoreInfo>
+                                {resolveToString(
                                     strings.completedProject,
                                     {
                                         totalProjects: projectCount,
                                         completeProjectCount,
                                     },
                                 )}
-                            />
+                            </MoreInfo>
                         </ListView>
                     )}
                 >

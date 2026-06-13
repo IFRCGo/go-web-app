@@ -4,7 +4,7 @@ import {
     CloseCircleLineIcon,
 } from '@ifrc-go/icons';
 import {
-    Label,
+    DisplayLabel,
     ListView,
 } from '@ifrc-go/ui';
 import { isDefined } from '@togglecorp/fujs';
@@ -50,9 +50,9 @@ function ReadinessIcon(props: Props) {
             <div className={styles.icon}>
                 {icon}
             </div>
-            <Label>
+            <DisplayLabel>
                 {isDefined(label) && label}
-            </Label>
+            </DisplayLabel>
         </ListView>
     );
 }

@@ -1,7 +1,7 @@
 import {
+    DataDisplay,
     ListView,
     type ListViewProps,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
@@ -44,7 +44,7 @@ function OtherProfilesDiffOutput(props: Props) {
                 previousValue={oldValue?.position}
                 diffViewEnabled
             >
-                <TextOutput
+                <DataDisplay
                     strongValue
                     value={newValue.position}
                     label={strings.otherProfilePositionOutputLabel}
@@ -56,7 +56,7 @@ function OtherProfilesDiffOutput(props: Props) {
                 previousValue={oldValue?.number}
                 diffViewEnabled
             >
-                <TextOutput
+                <DataDisplay
                     strongValue
                     valueType="number"
                     label={strings.otherProfileNumberOutputLabel}

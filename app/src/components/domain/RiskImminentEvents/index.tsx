@@ -12,9 +12,9 @@ import {
 } from '@ifrc-go/icons';
 import {
     Container,
-    InfoPopup,
     LegendItem,
     ListView,
+    MoreInfo,
     Radio,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -151,9 +151,10 @@ function RiskImminentEvents(props: Props) {
                             value={activeView === 'gdacs'}
                             onClick={handleRadioClick}
                             after={(
-                                <InfoPopup
+                                <MoreInfo
                                     title={strings.gdacsTitle}
-                                    description={resolveToComponent(
+                                >
+                                    {resolveToComponent(
                                         strings.gdacsDescription,
                                         {
                                             here: (
@@ -167,7 +168,7 @@ function RiskImminentEvents(props: Props) {
                                             ),
                                         },
                                     )}
-                                />
+                                </MoreInfo>
                             )}
                         >
                             {strings.imminentEventsSourceGdacsLabel}
@@ -177,9 +178,10 @@ function RiskImminentEvents(props: Props) {
                             value={activeView === 'pdc'}
                             onClick={handleRadioClick}
                             after={(
-                                <InfoPopup
+                                <MoreInfo
                                     title={strings.pdcTooltipTitle}
-                                    description={resolveToComponent(
+                                >
+                                    {resolveToComponent(
                                         strings.pdcTooltipDescription,
                                         {
                                             here: (
@@ -193,7 +195,7 @@ function RiskImminentEvents(props: Props) {
                                             ),
                                         },
                                     )}
-                                />
+                                </MoreInfo>
                             )}
                         >
                             {strings.imminentEventsSourcePdcLabel}
@@ -204,9 +206,10 @@ function RiskImminentEvents(props: Props) {
                                 value={activeView === 'wfpAdam'}
                                 onClick={handleRadioClick}
                                 after={(
-                                    <InfoPopup
+                                    <MoreInfo
                                         title={strings.wfpAdamTitle}
-                                        description={resolveToComponent(
+                                    >
+                                        {resolveToComponent(
                                             strings.wfpAdamDescription,
                                             {
                                                 here: (
@@ -220,7 +223,7 @@ function RiskImminentEvents(props: Props) {
                                                 ),
                                             },
                                         )}
-                                    />
+                                    </MoreInfo>
                                 )}
                             >
                                 {strings.imminentEventsSourceWfpAdamLabel}
@@ -232,32 +235,31 @@ function RiskImminentEvents(props: Props) {
                                 value={activeView === 'meteoSwiss'}
                                 onClick={handleRadioClick}
                                 after={(
-                                    <InfoPopup
+                                    <MoreInfo
                                         title={strings.meteoSwissTitle}
-                                        description={(
-                                            <ListView layout="block">
-                                                <div>
-                                                    {strings.meteoSwissDescriptionOne}
-                                                </div>
-                                                <div>
-                                                    {resolveToComponent(
-                                                        strings.meteoSwissDescriptionTwo,
-                                                        {
-                                                            here: (
-                                                                <Link
-                                                                    href="https://www.meteoswiss.admin.ch/about-us/research-and-cooperation/projects/2021/weather4un.html"
-                                                                    styleVariant="action"
-                                                                    external
-                                                                >
-                                                                    {strings.here}
-                                                                </Link>
-                                                            ),
-                                                        },
-                                                    )}
-                                                </div>
-                                            </ListView>
-                                        )}
-                                    />
+                                    >
+                                        <ListView layout="block">
+                                            <div>
+                                                {strings.meteoSwissDescriptionOne}
+                                            </div>
+                                            <div>
+                                                {resolveToComponent(
+                                                    strings.meteoSwissDescriptionTwo,
+                                                    {
+                                                        here: (
+                                                            <Link
+                                                                href="https://www.meteoswiss.admin.ch/about-us/research-and-cooperation/projects/2021/weather4un.html"
+                                                                styleVariant="action"
+                                                                external
+                                                            >
+                                                                {strings.here}
+                                                            </Link>
+                                                        ),
+                                                    },
+                                                )}
+                                            </div>
+                                        </ListView>
+                                    </MoreInfo>
                                 )}
                             >
                                 {strings.imminentEventsSourceMeteoSwissLabel}

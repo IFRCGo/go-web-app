@@ -30,7 +30,7 @@ export type Props = {
  * KeyFigure presented on a white card surface, optionally with an
  * icon, an info slot and a progress bar (specific layer).
  *
- * All KeyFigure props (label, textSize and the RawOutput value union)
+ * All KeyFigure props (label, textSize and the RawDisplay value union)
  * are forwarded to the embedded KeyFigure.
  */
 function KeyFigureCard(props: Props) {

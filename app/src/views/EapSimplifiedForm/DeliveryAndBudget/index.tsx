@@ -1,14 +1,14 @@
 import { useCallback } from 'react';
 import {
     Container,
+    DataDisplay,
     Description,
+    DisplayLabel,
     Heading,
     InputSection,
-    Label,
     ListView,
     NumberInput,
     TextArea,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -108,9 +108,9 @@ function DeliveryAndBudget(props: Props) {
                             <Heading level={5}>
                                 {strings.nationalSocietySectionHeading}
                             </Heading>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.deliverSectionCriteriaIntroduction1}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.deliverSectionCriteriaComment11}
@@ -122,9 +122,9 @@ function DeliveryAndBudget(props: Props) {
                             <Heading level={5}>
                                 {strings.budgetHeading}
                             </Heading>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.deliverSectionCriteriaIntroduction2}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.deliverSectionCriteriaComment21}
@@ -136,18 +136,18 @@ function DeliveryAndBudget(props: Props) {
                                     {strings.deliverSectionCriteriaComment23}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.deliverSectionCriteriaIntroduction3}
-                            </Label>
+                            </DisplayLabel>
                             <Description>
                                 {strings.deliverSectionCriteriaComment3}
                             </Description>
                             <Heading level={5}>
                                 {strings.coordinationSectionCriteriaHeading}
                             </Heading>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.deliverSectionCriteriaIntroduction4}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.deliverSectionCriteriaComment41}
@@ -211,9 +211,9 @@ function DeliveryAndBudget(props: Props) {
                                             {strings.deliverInvolvedTooltipDescriptionOne}
                                         </Description>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.deliverInvolvedTooltipDescriptionTwo}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {resolveToComponent(
                                                     strings.deliverInvolvedTooltipDescriptionThree,
@@ -351,7 +351,7 @@ function DeliveryAndBudget(props: Props) {
                         )}
                         withAsteriskOnTitle
                     >
-                        <TextOutput
+                        <DataDisplay
                             valueType="number"
                             strongLabel
                             label={strings.totalBudgetLabel}

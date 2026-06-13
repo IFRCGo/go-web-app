@@ -11,12 +11,12 @@ import {
 } from 'react-router-dom';
 import {
     Container,
+    DataDisplay,
     LegendItem,
     ListView,
-    Pager,
+    Pagination,
     RadioInput,
     Table,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { SortContext } from '@ifrc-go/ui/contexts';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -444,19 +444,19 @@ export function Component() {
                     withSpacingOpticalCorrection
                     spacing="2xs"
                 >
-                    <TextOutput
+                    <DataDisplay
                         value={appeal.num_beneficiaries}
                         description={strings.operationPopoverPeopleAffected}
                         valueType="number"
                         textSize="sm"
                     />
-                    <TextOutput
+                    <DataDisplay
                         value={appeal.amount_requested}
                         description={strings.operationAmountRequested}
                         valueType="number"
                         textSize="sm"
                     />
-                    <TextOutput
+                    <DataDisplay
                         value={appeal.amount_funded}
                         description={strings.operationPopoverAmountFunded}
                         valueType="number"
@@ -539,7 +539,7 @@ export function Component() {
                         </Link>
                     )}
                     footerActions={(
-                        <Pager
+                        <Pagination
                             activePage={page}
                             itemsCount={appealsResponse?.count ?? 0}
                             maxItemsPerPage={limit}

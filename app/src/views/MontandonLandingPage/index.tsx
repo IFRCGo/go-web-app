@@ -5,13 +5,13 @@ import {
 } from '@ifrc-go/icons';
 import {
     Container,
+    DataDisplay,
     Description,
-    DropdownMenu,
+    DisplayLabel,
     Heading,
-    InlineFrame,
-    Label,
+    Iframe,
     ListView,
-    TextOutput,
+    Menu,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
@@ -40,7 +40,7 @@ export function Component() {
             description={strings.montandonHeadingDescription}
             actions={(
                 <>
-                    <DropdownMenu
+                    <Menu
                         label={strings.sourcePopupTitle}
                         labelBefore={<DrefTwoIcon />}
                         preferredPopupWidth={30}
@@ -57,24 +57,24 @@ export function Component() {
                                 withSpacingOpticalCorrection
                                 spacing="sm"
                             >
-                                <TextOutput
+                                <DataDisplay
                                     strongLabel
                                     label={strings.stacIdLabel}
                                     value={strings.stacIdValue}
                                 />
-                                <TextOutput
+                                <DataDisplay
                                     strongLabel
                                     label={strings.stacVersionLabel}
                                     value={strings.stacVersionValue}
                                 />
-                                <TextOutput
+                                <DataDisplay
                                     strongLabel
                                     label={strings.validLabel}
                                     value={strings.validValue}
                                 />
-                                <Label>
+                                <DisplayLabel>
                                     {strings.stacLocationText}
-                                </Label>
+                                </DisplayLabel>
                                 <Link
                                     external
                                     href="https://montandon-eoapi-stage.ifrc.org/stac/"
@@ -86,8 +86,8 @@ export function Component() {
                                 </Link>
                             </ListView>
                         </Container>
-                    </DropdownMenu>
-                    <DropdownMenu
+                    </Menu>
+                    <Menu
                         label={strings.sharePopupTitle}
                         labelBefore={<ShareLineIcon />}
                         preferredPopupWidth={30}
@@ -112,9 +112,9 @@ export function Component() {
                                 </Link>
                             )}
                         >
-                            <Label>
+                            <DisplayLabel>
                                 {strings.shareUrlLabel}
-                            </Label>
+                            </DisplayLabel>
                             <Link
                                 href="https://radiantearth.github.io/stac-browser/#/external/montandon-eoapi-stage.ifrc.org/stac/"
                                 external
@@ -124,11 +124,11 @@ export function Component() {
                                 https://radiantearth.github.io/stac-browser/#/external/montandon-eoapi-stage.ifrc.org/stac/
                             </Link>
                         </Container>
-                    </DropdownMenu>
+                    </Menu>
                 </>
             )}
             info={(
-                <InlineFrame
+                <Iframe
                     src="https://www.youtube.com/embed/BEWxqYfrQek"
                     title={strings.videoTitle}
                     allowFullScreen
