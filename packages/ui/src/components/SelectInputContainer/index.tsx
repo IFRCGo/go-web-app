@@ -11,10 +11,12 @@ import {
 } from '@togglecorp/fujs';
 
 import Button, { Props as ButtonProps } from '#components/Button';
+import DefaultMessage from '#components/DefaultMessage';
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
-import List from '#components/List';
+import ListView from '#components/ListView';
 import Popup from '#components/Popup';
 import RawInput from '#components/RawInput';
+import RawList from '#components/RawList';
 import useBlurEffect from '#hooks/useBlurEffect';
 import useKeyboard from '#hooks/useKeyboard';
 import useTranslation from '#hooks/useTranslation';
@@ -78,10 +80,14 @@ export type Props<
     NAME,
     OPTION,
     RENDER_PROPS extends ContentBaseProps,
-> = SelectInputContainerProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS> & Omit<InputContainerProps, 'input' | 'inputSectionRef' | 'containerRef'>
+> = SelectInputContainerProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS> & Omit<InputContainerProps, 'input' | 'inputSectionRef' | 'elementRef'>
 
 const emptyList: unknown[] = [];
 
+/**
+ * Shared shell for the select inputs: search input, clear/select-all/
+ * dropdown actions and the options popup (generic layer).
+ */
 function SelectInputContainer<
     OPTION_KEY extends OptionKey,
     const NAME,
@@ -242,7 +248,7 @@ function SelectInputContainer<
             <InputContainer
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...inputContainerProps}
-                containerRef={containerRef}
+                elementRef={containerRef}
                 inputSectionRef={inputSectionRef}
                 disabled={disabled}
                 readOnly={readOnly}
@@ -254,8 +260,7 @@ function SelectInputContainer<
                             <Button
                                 onClick={onSelectAllButtonClick}
                                 disabled={disabled}
-                                colorVariant="text"
-                                styleVariant="action"
+                                variant="tertiary"
                                 name={undefined}
                                 title={strings.buttonTitleSelect}
                             >
@@ -266,8 +271,7 @@ function SelectInputContainer<
                             <Button
                                 onClick={onClearButtonClick}
                                 disabled={disabled}
-                                colorVariant="text"
-                                styleVariant="action"
+                                variant="tertiary"
                                 name={undefined}
                                 title={strings.buttonTitleClear}
                             >
@@ -277,8 +281,7 @@ function SelectInputContainer<
                         {!readOnly && !withoutDropdownIcon && (
                             <Button
                                 onClick={handleToggleDropdown}
-                                colorVariant="text"
-                                styleVariant="action"
+                                variant="tertiary"
                                 name={undefined}
                                 disabled={disabled}
                                 title={dropdownShownActual
@@ -316,21 +319,33 @@ function SelectInputContainer<
                     parentRef={inputSectionRef}
                     className={_cs(optionsPopupClassName, styles.popup)}
                 >
-                    <List<OPTION, OPTION_KEY, GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>>
+                    <ListView
                         className={styles.list}
-                        data={options}
-                        keySelector={optionKeySelector}
-                        renderer={GenericOption}
-                        rendererParams={optionListRendererParams}
-                        errored={optionsErrored}
-                        filtered={optionsFiltered}
-                        pending={optionsPending}
-                        pendingMessage={strings.selectInputPendingMessage}
-                        emptyMessage={strings.selectInputEmptyMessage}
-                        filteredEmptyMessage={strings.selectInputFilteredMessage}
-                        errorMessage={strings.selectInputErrorMessage}
-                        compact
-                    />
+                        layout="block"
+                        spacing="none"
+                    >
+                        <RawList<
+                            OPTION,
+                            OPTION_KEY,
+                            GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>
+                        >
+                            data={options}
+                            keySelector={optionKeySelector}
+                            renderer={GenericOption}
+                            rendererParams={optionListRendererParams}
+                        />
+                        <DefaultMessage
+                            pending={optionsPending}
+                            filtered={optionsFiltered}
+                            errored={optionsErrored}
+                            empty={options.length === 0}
+                            pendingMessage={strings.selectInputPendingMessage}
+                            emptyMessage={strings.selectInputEmptyMessage}
+                            filteredEmptyMessage={strings.selectInputFilteredMessage}
+                            errorMessage={strings.selectInputErrorMessage}
+                            compact
+                        />
+                    </ListView>
                     {!optionsPending && !optionsErrored && !!infoMessage && (
                         <div className={styles.infoMessage}>
                             {infoMessage}

@@ -212,7 +212,7 @@ function ComponentInput(props: Props) {
             withToggleButtonOnFooter
             withoutWrapInFooter
             initiallyExpanded
-            withBackground
+            backgroundColor="foreground"
             withPadding
             spacing="lg"
         >

@@ -176,7 +176,6 @@ function NavigationTab(props: Props) {
 
     const content = (
         <TabLayout
-            // elementRef={layoutElementRef}
             className={className}
             active={isActive}
             colorVariant={colorVariant}

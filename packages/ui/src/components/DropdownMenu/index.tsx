@@ -21,6 +21,7 @@ import styles from './styles.module.css';
 
 export interface Props {
     className?: string;
+    /** Applied to the toggle button while the dropdown is open */
     activeClassName?: string;
 
     popupClassName?: string;
@@ -31,20 +32,29 @@ export interface Props {
     labelBefore?: React.ReactNode;
     labelAfter?: React.ReactNode;
     labelSpacing?: SpacingType;
-    labelColorVariant?: ButtonProps<undefined>['colorVariant'];
-    labelStyleVariant?: ButtonProps<undefined>['styleVariant'];
+    /** Curated Button variant for the toggle button */
+    labelVariant?: ButtonProps<undefined>['variant'];
     labelWithoutPadding?: boolean;
 
     children?: React.ReactNode;
 
     withoutDropdownIcon?: boolean;
+    /** Imperative handle to open/close the dropdown programmatically */
     componentRef?: React.RefObject<{
         setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>;
     } | null>;
+    /** Refers to the toggle button's root element (also used as the popup parent) */
     elementRef?: React.RefObject<HTMLDivElement | null>;
+    /** Keeps the dropdown open when clicking inside the popup */
     persistent?: boolean;
 }
 
+/**
+ * Toggle button with an attached popup menu (specific layer).
+ *
+ * Renders a Button (configured through the label* props, including the
+ * curated `labelVariant`) that toggles a Popup containing `children`.
+ */
 function DropdownMenu(props: Props) {
     const newButtonRef = useRef<HTMLDivElement>(null);
     const {
@@ -57,8 +67,7 @@ function DropdownMenu(props: Props) {
         labelBefore,
         labelAfter,
         labelSpacing,
-        labelColorVariant,
-        labelStyleVariant,
+        labelVariant,
         labelWithoutPadding,
 
         withoutDropdownIcon,
@@ -130,10 +139,9 @@ function DropdownMenu(props: Props) {
                     showDropdown && activeClassName,
                     className,
                 )}
-                layoutElementRef={buttonRef}
+                elementRef={buttonRef}
                 onClick={handleMenuClick}
-                styleVariant={labelStyleVariant}
-                colorVariant={labelColorVariant}
+                variant={labelVariant}
                 withoutPadding={labelWithoutPadding}
                 spacing={labelSpacing}
                 after={hasAfterContent ? (

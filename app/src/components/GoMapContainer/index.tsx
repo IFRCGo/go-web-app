@@ -184,8 +184,8 @@ function GoMapContainer(props: Props) {
                     {printMode && (
                         <Container
                             className={styles.floatingActions}
-                            withShadow
-                            withBackground
+                            boxShadow="md"
+                            backgroundColor="foreground"
                             withPadding
                         >
                             <ListView>
@@ -339,7 +339,7 @@ function GoMapContainer(props: Props) {
                     <ListView
                         withPadding
                         withWrap
-                        withDarkBackground
+                        backgroundColor="background"
                         withSpaceBetweenContents
                     >
                         {footer}

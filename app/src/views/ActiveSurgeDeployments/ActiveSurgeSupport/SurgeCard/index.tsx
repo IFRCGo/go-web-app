@@ -135,8 +135,8 @@ function SurgeCard(props: Props) {
                 />
             )}
             withPadding
-            withBackground
-            withShadow
+            backgroundColor="foreground"
+            boxShadow="md"
         >
             <ListView
                 layout="block"
@@ -157,7 +157,7 @@ function SurgeCard(props: Props) {
                                 value={deployedERUCount}
                                 label={strings.surgeEmergencyResponseUnit}
                                 valueType="number"
-                                valueOptions={{ compact: true }}
+                                compact
                             />
                             <ReducedListDisplay
                                 list={deployedERUTypes}
@@ -200,7 +200,7 @@ function SurgeCard(props: Props) {
                                 value={deployedPersonnelCount}
                                 label={strings.surgeRapidResponsePersonnel}
                                 valueType="number"
-                                valueOptions={{ compact: true }}
+                                compact
                             />
                             <ReducedListDisplay
                                 list={deployedPersonnelTypes}

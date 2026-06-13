@@ -65,7 +65,7 @@ function OperationInfoCard(props: Props) {
                 </Button>
             )}
             withPadding
-            withDarkBackground
+            backgroundColor="background"
         >
             <TextOutput
                 label={strings.operationLastUpdatedLabel}

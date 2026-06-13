@@ -9,14 +9,19 @@ import InputError from '#components/InputError';
 import InputLabel from '#components/InputLabel';
 import Label from '#components/Label';
 import ListView from '#components/ListView';
-import useSpacingToken from '#hooks/useSpacingToken';
-import { SpacingType } from '#utils/style';
+import {
+    BackgroundColorType,
+    getSpacingClassName,
+    SpacingType,
+} from '#utils/style';
 
 import styles from './styles.module.css';
 
 export interface Props {
     className?: string;
-    containerRef?: React.RefObject<HTMLDivElement | null>;
+    /** Ref to the root DOM node */
+    elementRef?: React.RefObject<HTMLDivElement | null>;
+    /** Ref to the inner input section node (icons + input + actions row) */
     inputSectionRef?: React.RefObject<HTMLDivElement | null>;
 
     label?: React.ReactNode;
@@ -37,19 +42,27 @@ export interface Props {
     prevValue?: React.ReactNode;
     withPrevValue?: boolean;
 
-    variant?: 'form' | 'general' | 'transparent';
+    /**
+     * 'form' shows an input well, 'general' only a bottom border,
+     * 'transparent' no input section decoration
+     */
+    styleVariant?: 'form' | 'general' | 'transparent';
     withAsterisk?: boolean;
     spacing?: SpacingType;
 
     withPadding?: boolean;
-    withBackground?: boolean;
-    withDarkBackground?: boolean;
+    /** Surface color token for the container root */
+    backgroundColor?: BackgroundColorType;
     withoutInputSectionPadding?: boolean;
 }
 
+/**
+ * Layout shell shared by the input components: label, input section
+ * (icons + input + actions), hint, error and diff highlight (generic layer).
+ */
 function InputContainer(props: Props) {
     const {
-        containerRef,
+        elementRef,
         inputSectionRef,
         actions,
         className,
@@ -62,36 +75,35 @@ function InputContainer(props: Props) {
         label,
         readOnly,
         required,
-        variant = 'form',
+        styleVariant = 'form',
         withAsterisk,
         spacing,
         prevValue,
         withPrevValue,
         highlightMode,
         withPadding,
-        withBackground,
-        withDarkBackground,
+        backgroundColor,
         withoutInputSectionPadding,
     } = props;
 
     const isRequired = withAsterisk ?? required;
-    const paddingClassName = useSpacingToken({
+    const paddingClassName = getSpacingClassName({
         spacing,
-        offset: variant === 'transparent' ? -2 : -3,
+        offset: styleVariant === 'transparent' ? -2 : -3,
         modes: withoutInputSectionPadding ? [] : ['padding-inline'],
     });
 
     return (
         <ListView
-            elementRef={containerRef}
+            elementRef={elementRef}
             layout="block"
             className={_cs(
                 styles.inputContainer,
                 !!error && styles.errored,
                 readOnly && styles.readOnly,
-                variant === 'form' && styles.formVariant,
-                variant === 'general' && styles.generalVariant,
-                variant === 'transparent' && styles.transparentVariant,
+                styleVariant === 'form' && styles.formVariant,
+                styleVariant === 'general' && styles.generalVariant,
+                styleVariant === 'transparent' && styles.transparentVariant,
                 disabled && styles.disabled,
                 highlightMode === 'add' && styles.withAddHighlight,
                 highlightMode === 'update' && styles.withUpdateHighlight,
@@ -103,8 +115,7 @@ function InputContainer(props: Props) {
                 : undefined}
             spacing={spacing}
             spacingOffset={-4}
-            withBackground={withBackground}
-            withDarkBackground={withDarkBackground}
+            backgroundColor={backgroundColor}
             withPadding={withPadding}
         >
             <InputLabel

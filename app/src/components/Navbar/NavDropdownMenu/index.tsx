@@ -30,8 +30,7 @@ function NavDropdownMenu(props: Props) {
         <DropdownMenu
             popupClassName={styles.dropdown}
             label={label}
-            labelColorVariant="text"
-            labelStyleVariant="action"
+            labelVariant="tertiary"
             persistent
             preferredPopupWidth={42}
             withoutPopupPadding

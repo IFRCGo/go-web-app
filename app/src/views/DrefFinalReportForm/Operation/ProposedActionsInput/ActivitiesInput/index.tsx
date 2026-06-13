@@ -69,7 +69,7 @@ function ActivitiesInput(props: Props) {
     return (
         <ListView
             layout="block"
-            withDarkBackground
+            backgroundColor="background"
             withPadding
         >
             <InlineLayout

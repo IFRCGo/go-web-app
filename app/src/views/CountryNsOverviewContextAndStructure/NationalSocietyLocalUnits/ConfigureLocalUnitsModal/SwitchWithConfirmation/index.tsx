@@ -61,7 +61,7 @@ function SwitchWithConfirmation<const NAME extends number>(props: Props<NAME>) {
                 label={label}
                 value={value}
                 withInvertedView
-                withDarkBackground
+                backgroundColor="background"
                 onChange={setNewValue}
             />
             {newValue !== value && (
@@ -81,7 +81,7 @@ function SwitchWithConfirmation<const NAME extends number>(props: Props<NAME>) {
                             <Button
                                 name={undefined}
                                 onClick={handleConfirmButtonClick}
-                                styleVariant="filled"
+                                variant="primary"
                                 disabled={confirmDisabled}
                             >
                                 {strings.confirmButtonLabel}

@@ -93,15 +93,15 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                 <Button
                     name={undefined}
                     onClick={setShowReadinessInfoTrue}
-                    styleVariant="action"
+                    variant="tertiary"
                     title={strings.eruSeeReadinessInfoButton}
                 >
                     {strings.eruSeeReadinessInfoButton}
                 </Button>
             )}
             withPadding
-            withBackground
-            withShadow
+            backgroundColor="foreground"
+            boxShadow="md"
         >
             <ListView layout="block">
                 <TextOutput

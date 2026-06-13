@@ -117,9 +117,9 @@ function Presence() {
                 pending={false}
                 className={styles.presenceCard}
                 heading={strings.countryIFRCPresenceTitle}
-                withShadow
+                boxShadow="md"
                 withPadding
-                withBackground
+                backgroundColor="foreground"
                 // NOTE: Hide it for now, not sure if we can publish or not
                 // footerActions={(
                 //     <TextOutput
@@ -207,9 +207,9 @@ function Presence() {
                         />
                     )}
                     withHeaderBorder
-                    withShadow
+                    boxShadow="md"
                     withPadding
-                    withBackground
+                    backgroundColor="foreground"
                 >
                     {
                         resolveToString(

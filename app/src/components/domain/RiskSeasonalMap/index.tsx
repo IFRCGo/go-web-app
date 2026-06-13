@@ -817,7 +817,7 @@ function RiskSeasonalMap(props: Props) {
             withHeaderBorder
             footer={(
                 <ListView
-                    withDarkBackground
+                    backgroundColor="background"
                     withPadding
                     withWrap
                     withSpaceBetweenContents
@@ -913,9 +913,9 @@ function RiskSeasonalMap(props: Props) {
                     pending={dataPending}
                     empty={isNotDefined(filteredData) || filteredData?.length === 0}
                     withPadding
-                    withBackground
+                    backgroundColor="foreground"
                     withContentOverflow
-                    withShadow
+                    boxShadow="md"
                     withContentWell
                     withoutSpacingOpticalCorrection
                     spacing="sm"

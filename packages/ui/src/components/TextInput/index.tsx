@@ -9,6 +9,7 @@ type InheritedProps<NAME> = Omit<InputContainerProps, 'input' | 'highlightMode'>
 & Omit<RawInputProps<NAME>, 'type' | 'className' | 'elementRef'>;
 
 export interface Props<NAME> extends InheritedProps<NAME> {
+    /** Ref to the inner <input> node (elementRef refers to the root) */
     inputElementRef?: React.RefObject<HTMLInputElement | null>;
     inputClassName?: string;
     type?: 'text' | 'password';
@@ -16,10 +17,15 @@ export interface Props<NAME> extends InheritedProps<NAME> {
     prevValue?: RawInputProps<NAME>['value'];
 }
 
+/**
+ * Single-line text input composed of InputContainer and RawInput
+ * (specific layer).
+ */
 function TextInput<const NAME>(props: Props<NAME>) {
     const {
         disabled,
         inputClassName,
+        inputElementRef,
         readOnly,
         required,
         type = 'text',
@@ -51,6 +57,7 @@ function TextInput<const NAME>(props: Props<NAME>) {
                 <RawInput
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...rawInputProps}
+                    elementRef={inputElementRef}
                     value={value}
                     className={inputClassName}
                     disabled={disabled}

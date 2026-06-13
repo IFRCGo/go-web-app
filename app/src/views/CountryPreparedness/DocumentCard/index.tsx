@@ -96,7 +96,7 @@ function DocumentCard(props: Props) {
                     name={document.id}
                     onConfirm={handleFileDelete}
                     title={strings.removeFileButtonTitle}
-                    styleVariant="action"
+                    variant="tertiary"
                     spacing="none"
                     disabled={perDocumentDeletePending}
                 >

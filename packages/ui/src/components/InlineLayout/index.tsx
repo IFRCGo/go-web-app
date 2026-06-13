@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import useSpacingToken from '#hooks/useSpacingToken';
 import {
     fullSpacings,
     gapSpacings,
+    getSpacingClassName,
     SpacingMode,
     SpacingType,
 } from '#utils/style';
@@ -12,6 +12,7 @@ import {
 import styles from './styles.module.css';
 
 export interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'before' | 'after' | 'name' | 'value' | 'onClick'> {
+    /** Ref to the root DOM node */
     elementRef?: React.RefObject<HTMLDivElement | null>;
     className?: string;
 
@@ -34,6 +35,10 @@ export interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'be
     withInlineDisplay?: boolean;
 }
 
+/**
+ * Horizontal before/children/after row with spec-driven spacing
+ * (generic layer).
+ */
 function InlineLayout(props: Props) {
     const {
         className,
@@ -64,7 +69,7 @@ function InlineLayout(props: Props) {
         return fullSpacings;
     }, [withPadding]);
 
-    const spacingClassName = useSpacingToken({
+    const spacingClassName = getSpacingClassName({
         spacing,
         modes: spacingModes,
         offset: spacingOffset ?? 0,
@@ -72,7 +77,7 @@ function InlineLayout(props: Props) {
         withoutOpticalCorrection: withoutSpacingOpticalCorrection,
     });
 
-    const innerSpacingClassName = useSpacingToken({
+    const innerSpacingClassName = getSpacingClassName({
         spacing,
         modes: gapSpacings,
         offset: spacingOffset ?? 0,

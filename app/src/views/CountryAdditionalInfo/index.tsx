@@ -10,8 +10,9 @@ import {
     Container,
     HtmlOutput,
     type HtmlOutputProps,
-    List,
+    ListView,
     Message,
+    RawList,
     Table,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -125,17 +126,14 @@ export function Component() {
             )}
         >
             {hasCountrySnippet && (
-                <List
-                    data={countrySnippetResponse.results}
-                    renderer={HtmlOutput}
-                    rendererParams={countrySnippetRendererParams}
-                    keySelector={numericIdSelector}
-                    withoutMessage
-                    compact
-                    pending={countrySnippetPending}
-                    errored={false}
-                    filtered={false}
-                />
+                <ListView layout="block">
+                    <RawList
+                        data={countrySnippetResponse.results}
+                        renderer={HtmlOutput}
+                        rendererParams={countrySnippetRendererParams}
+                        keySelector={numericIdSelector}
+                    />
+                </ListView>
             )}
             {hasCountryContacts && (
                 <Container
@@ -156,17 +154,14 @@ export function Component() {
                     withHeaderBorder
                     heading={strings.linkTitle}
                 >
-                    <List
-                        data={countryResponse.links}
-                        renderer={Link}
-                        rendererParams={countryLinkRendererParams}
-                        keySelector={numericIdSelector}
-                        withoutMessage
-                        compact
-                        pending={false}
-                        errored={false}
-                        filtered={false}
-                    />
+                    <ListView layout="block">
+                        <RawList
+                            data={countryResponse.links}
+                            renderer={Link}
+                            rendererParams={countryLinkRendererParams}
+                            keySelector={numericIdSelector}
+                        />
+                    </ListView>
                 </Container>
             )}
             {!isDataAvailable && (

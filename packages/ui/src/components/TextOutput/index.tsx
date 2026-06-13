@@ -1,14 +1,20 @@
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
 
-import BooleanOutput, { Props as BooleanOutputProps } from '#components/BooleanOutput';
-import DateOutput, { Props as DateOutputProps } from '#components/DateOutput';
-import NumberOutput, { Props as NumberOutputProps } from '#components/NumberOutput';
-import useSpacingToken from '#hooks/useSpacingToken';
+import RawOutput, { Props as RawOutputProps } from '#components/RawOutput';
 import { DEFAULT_INVALID_TEXT } from '#utils/constants';
 import {
+    BackgroundColorType,
     fullSpacings,
     gapSpacings,
+    getBackgroundColorClassName,
+    getBorderRadiusClassName,
+    getSpacingClassName,
+    getTextSizeClassName,
     SpacingType,
+    TextSizeType,
 } from '#utils/style';
 
 import styles from './styles.module.css';
@@ -24,43 +30,32 @@ interface BaseProps {
     strongValue?: boolean;
     strongLabel?: boolean;
     strongDescription?: boolean;
+    /** Suppresses the ':' appended after the label by default */
     withoutLabelColon?: boolean;
-    invalidText?: React.ReactNode;
-    withBackground?: boolean;
-    withLightBackground?: boolean;
-    textSize?: 'sm' | 'md' | 'lg';
+    /**
+     * Surface color token; setting it also pads the row and rounds
+     * its corners ('md')
+     */
+    backgroundColor?: BackgroundColorType;
+    /** Font size token applied to the whole row */
+    textSize?: TextSizeType;
+    /** Stacks label, value and description vertically */
     withBlockLayout?: boolean;
     spacing?: SpacingType;
     withUppercaseLetters?: boolean;
     withLightText?: boolean;
 }
 
-interface BooleanProps extends BooleanOutputProps {
-    valueType: 'boolean',
-}
+export type Props = BaseProps & RawOutputProps;
 
-interface NumberProps extends NumberOutputProps {
-    valueType: 'number',
-}
-
-interface DateProps extends DateOutputProps {
-    valueType: 'date',
-}
-
-interface TextProps {
-    valueType: 'text',
-    value: string | null | undefined;
-}
-
-interface NodeProps {
-    valueType?: never;
-    value?: React.ReactNode;
-}
-
-export type Props = BaseProps & (
-    NodeProps | TextProps | DateProps | NumberProps | BooleanProps
-);
-
+/**
+ * Labelled value row: icon, label, typed value and description
+ * (specific layer).
+ *
+ * Value rendering is delegated to RawOutput, so the `valueType`
+ * discriminated union (boolean/number/date/text or a plain node)
+ * and the per-type props come from RawOutputProps.
+ */
 function TextOutput(props: Props) {
     const {
         className,
@@ -74,65 +69,31 @@ function TextOutput(props: Props) {
         strongValue,
         strongDescription,
         withoutLabelColon,
-        withBackground,
-        withLightBackground,
+        backgroundColor,
         invalidText = DEFAULT_INVALID_TEXT,
         textSize,
         withBlockLayout,
         spacing,
         withUppercaseLetters,
         withLightText,
-        ...otherProps
+        ...rawOutputProps
     } = props;
 
-    const spacingClassName = useSpacingToken({
+    const spacingClassName = getSpacingClassName({
         spacing,
         offset: -2,
-        modes: (withBackground || withLightBackground)
+        modes: isDefined(backgroundColor)
             ? fullSpacings
             : gapSpacings,
     });
-
-    const { value: propValue } = props;
-    let valueComponent: React.ReactNode = invalidText;
-
-    if (otherProps.valueType === 'number') {
-        valueComponent = (
-            <NumberOutput
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...otherProps}
-                invalidText={invalidText}
-            />
-        );
-    } else if (otherProps.valueType === 'date') {
-        valueComponent = (
-            <DateOutput
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...otherProps}
-                invalidText={invalidText}
-            />
-        );
-    } else if (otherProps.valueType === 'boolean') {
-        valueComponent = (
-            <BooleanOutput
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...otherProps}
-                invalidText={invalidText}
-            />
-        );
-    } else if (!(propValue instanceof Date)) {
-        valueComponent = propValue || invalidText;
-    }
 
     return (
         <div
             className={_cs(
                 styles.textOutput,
-                withBackground && styles.withBackground,
-                withLightBackground && styles.withLightBackground,
-                textSize === 'sm' && styles.textSizeSmall,
-                textSize === 'md' && styles.textSizeMedium,
-                textSize === 'lg' && styles.textSizeLarge,
+                getBackgroundColorClassName(backgroundColor),
+                isDefined(backgroundColor) && getBorderRadiusClassName('md'),
+                getTextSizeClassName(textSize),
                 withBlockLayout && styles.withBlockLayout,
                 withUppercaseLetters && styles.withUppercaseLetters,
                 withLightText && styles.withLightText,
@@ -157,11 +118,15 @@ function TextOutput(props: Props) {
                 className={_cs(
                     styles.value,
                     strongValue && styles.strong,
-                    otherProps.valueType === 'text' && styles.textType,
+                    rawOutputProps.valueType === 'text' && styles.textType,
                     valueClassName,
                 )}
             >
-                {valueComponent}
+                <RawOutput
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...rawOutputProps}
+                    invalidText={invalidText}
+                />
             </div>
             {description && (
                 <div

@@ -466,8 +466,8 @@ function PrivateCountryPreparedness() {
                         />
                     )}
                     withPadding
-                    withBackground
-                    withShadow
+                    backgroundColor="foreground"
+                    boxShadow="md"
                     spacing="lg"
                 >
                     <ListView
@@ -596,7 +596,7 @@ function PrivateCountryPreparedness() {
                                             )}
                                             withoutWrapInHeader
                                             withPadding
-                                            withDarkBackground
+                                            backgroundColor="background"
                                         >
                                             {component.details.title}
                                         </Container>
@@ -629,7 +629,7 @@ function PrivateCountryPreparedness() {
                                                 <ProgressBar
                                                     value={priorityComponent.rating?.value ?? 0}
                                                     totalValue={5}
-                                                    colorVariant="custom"
+                                                    variant="custom"
                                                     color={progressBarColor}
                                                 />
                                             </Fragment>
@@ -647,7 +647,7 @@ function PrivateCountryPreparedness() {
                     withHeaderBorder
                     footer={(
                         <ListView
-                            withDarkBackground
+                            backgroundColor="background"
                             withPadding
                         >
                             <TextOutput
@@ -705,7 +705,7 @@ function PrivateCountryPreparedness() {
                                         <ProgressBar
                                             value={component.rating?.value ?? 0}
                                             totalValue={5}
-                                            colorVariant="custom"
+                                            variant="custom"
                                             color={progressBarColor}
                                         />
                                     </InlineLayout>

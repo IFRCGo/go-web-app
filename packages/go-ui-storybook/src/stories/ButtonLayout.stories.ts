@@ -56,6 +56,38 @@ export const Danger: Story = {
     },
 };
 
+export const Translucent: Story = {
+    args: {
+        colorVariant: 'primary',
+        styleVariant: 'translucent',
+        children: 'Translucent Button',
+    },
+};
+
+export const Transparent: Story = {
+    args: {
+        colorVariant: 'primary',
+        styleVariant: 'transparent',
+        children: 'Transparent Button',
+    },
+};
+
+export const SecondaryFilled: Story = {
+    args: {
+        colorVariant: 'secondary',
+        styleVariant: 'filled',
+        children: 'Secondary Filled',
+    },
+};
+
+export const TextAction: Story = {
+    args: {
+        colorVariant: 'text',
+        styleVariant: 'action',
+        children: 'Text Action',
+    },
+};
+
 export const Disabled: Story = {
     args: {
         disabled: true,

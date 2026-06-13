@@ -46,7 +46,7 @@ function PointDetails(props: Props) {
             filtered={false}
             errored={false}
             empty={!data}
-            withDarkBackground
+            backgroundColor="background"
         >
             <ListView
                 layout="block"

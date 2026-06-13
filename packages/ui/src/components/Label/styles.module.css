@@ -6,16 +6,4 @@
     &.with-uppercase-letters {
         text-transform: uppercase;
     }
-
-    &.text-size-small {
-        font-size: var(--go-ui-font-size-sm);
-    }
-
-    &.text-size-medium {
-        font-size: var(--go-ui-font-size-md);
-    }
-
-    &.text-size-large {
-        font-size: var(--go-ui-font-size-lg);
-    }
 }

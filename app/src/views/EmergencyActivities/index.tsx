@@ -353,9 +353,9 @@ export function Component() {
                     numPreferredGridColumns={3}
                 >
                     <Container
-                        withShadow
+                        boxShadow="md"
                         withPadding
-                        withBackground
+                        backgroundColor="foreground"
                     >
                         <ListView
                             layout="grid"
@@ -369,7 +369,7 @@ export function Component() {
                             <KeyFigure
                                 value={peopleReached}
                                 valueType="number"
-                                valueOptions={{ compact: true }}
+                                compact
                                 label={(
                                     <InlineLayout
                                         after={(
@@ -385,9 +385,9 @@ export function Component() {
                         </ListView>
                     </Container>
                     <Container
-                        withShadow
+                        boxShadow="md"
                         withPadding
-                        withBackground
+                        backgroundColor="foreground"
                     >
                         <ListView
                             layout="grid"
@@ -410,9 +410,9 @@ export function Component() {
                         </ListView>
                     </Container>
                     <Container
-                        withShadow
+                        boxShadow="md"
                         withPadding
-                        withBackground
+                        backgroundColor="foreground"
                     >
                         <ListView
                             layout="grid"
@@ -464,8 +464,8 @@ export function Component() {
                             emptyMessage={strings.dataNotAvailable}
                             headingLevel={4}
                             withContentOverflow
-                            withBackground
-                            withShadow
+                            backgroundColor="foreground"
+                            boxShadow="md"
                             withPadding
                             withoutSpacingOpticalCorrection
                         >

@@ -112,7 +112,7 @@ export function createProgressColumn<D, K>(
             value: accessor(datum),
             totalValue: 100,
             showPercentageInTitle: true,
-            colorVariant: 'primary',
+            variant: 'primary',
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareNumber(accessor(foo), accessor(bar)),

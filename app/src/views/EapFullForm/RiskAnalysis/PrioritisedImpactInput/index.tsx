@@ -61,7 +61,6 @@ function PrioritisedImpactInput(props: Props) {
                     <IconButton
                         name={index}
                         onClick={onRemove}
-                        styleVariant="action"
                         disabled={disabled || readOnly}
                         // FIXME use translation strings
                         title="Remove prioritized impact"

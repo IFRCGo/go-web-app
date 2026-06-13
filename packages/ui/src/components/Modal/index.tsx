@@ -36,6 +36,10 @@ export interface Props extends Omit<ContainerProps, 'withInternalPadding' | 'wit
     withoutCloseButton?: boolean;
 }
 
+/**
+ * Overlay dialog built on Container, rendered in a portal with focus
+ * trapping (specific layer).
+ */
 function Modal(props: Props) {
     const {
         closeOnClickOutside = false,
@@ -104,8 +108,7 @@ function Modal(props: Props) {
                                 <Button
                                     name={undefined}
                                     onClick={onClose}
-                                    styleVariant="action"
-                                    colorVariant="text"
+                                    variant="tertiary"
                                     title={strings.closeButtonLabel}
                                 >
                                     <CloseFillIcon className={styles.closeIcon} />

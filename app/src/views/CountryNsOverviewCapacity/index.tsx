@@ -159,8 +159,8 @@ export function Component() {
                                 )}
                                 withFooterBorder
                                 withPadding
-                                withBackground
-                                withShadow
+                                backgroundColor="foreground"
+                                boxShadow="md"
                             >
                                 <ListView
                                     layout="grid"

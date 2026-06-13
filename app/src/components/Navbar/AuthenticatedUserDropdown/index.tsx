@@ -48,9 +48,8 @@ function AuthenticatedUserDropdown(props: Props) {
                     ? getUserName(userMe)
                     : userDetails?.displayName ?? strings.userDisplayNameAnonymous
             )}
-            labelStyleVariant="action"
+            labelVariant="tertiary"
             persistent
-            labelColorVariant="text"
             labelSpacing="sm"
         >
             <DropdownMenuItem

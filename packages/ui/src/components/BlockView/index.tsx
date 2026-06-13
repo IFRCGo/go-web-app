@@ -8,10 +8,10 @@ import {
     isDefined,
 } from '@togglecorp/fujs';
 
-import useSpacingToken from '#hooks/useSpacingToken';
 import {
     fullSpacings,
     gapSpacings,
+    getSpacingClassName,
     SpacingMode,
     SpacingType,
 } from '#utils/style';
@@ -19,6 +19,7 @@ import {
 import styles from './styles.module.css';
 
 export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref' | 'before' | 'after'> {
+    /** Ref to the root DOM node */
     elementRef?: RefObject<HTMLDivElement | null>;
     className?: string;
 
@@ -39,6 +40,10 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref' | 'before' 
     withOverflow?: boolean;
 }
 
+/**
+ * Vertical before/children/after stack with spec-driven spacing and
+ * optional separators (generic layer).
+ */
 function BlockView(props: Props) {
     const {
         className,
@@ -68,14 +73,14 @@ function BlockView(props: Props) {
         return fullSpacings;
     }, [withPadding]);
 
-    const spacingClassName = useSpacingToken({
+    const spacingClassName = getSpacingClassName({
         spacing,
         modes: spacingModes,
         offset: spacingOffset,
         withoutOpticalCorrection: withoutSpacingOpticalCorrection,
     });
 
-    const innerSpacingClassName = useSpacingToken({
+    const innerSpacingClassName = getSpacingClassName({
         spacing,
         modes: gapSpacings,
         offset: spacingOffset,

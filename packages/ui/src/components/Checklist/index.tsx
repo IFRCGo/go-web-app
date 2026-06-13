@@ -14,7 +14,10 @@ import InputContainer from '#components/InputContainer';
 import ListView from '#components/ListView';
 import RawList, { type ListKey } from '#components/RawList';
 import { getHighlightMode } from '#utils/common';
-import { SpacingType } from '#utils/style';
+import {
+    BackgroundColorType,
+    SpacingType,
+} from '#utils/style';
 
 export interface Props<
     KEY extends ListKey,
@@ -41,8 +44,8 @@ export interface Props<
     checkListLayoutMinGridColumnSize?: string;
     spacing?: SpacingType;
     withPadding?: boolean;
-    withBackground?: boolean;
-    withDarkBackground?: boolean;
+    /** Surface color token for the input container root */
+    backgroundColor?: BackgroundColorType;
     renderer?: ComponentType<CheckboxProps<KEY>>
     withoutOpticalSpacingCorrection?: boolean;
 
@@ -52,6 +55,10 @@ export interface Props<
     required?: boolean;
 }
 
+/**
+ * Multi-select checkbox list driven by options and selectors
+ * (specific layer).
+ */
 function Checklist<
     KEY extends ListKey,
     const NAME,
@@ -78,8 +85,7 @@ function Checklist<
         checkListLayoutMinGridColumnSize,
         spacing,
         withPadding,
-        withBackground,
-        withDarkBackground,
+        backgroundColor,
 
         prevValue,
         withDiffView,
@@ -151,8 +157,7 @@ function Checklist<
     return (
         <InputContainer
             className={className}
-            withBackground={withBackground}
-            withDarkBackground={withDarkBackground}
+            backgroundColor={backgroundColor}
             withPadding={withPadding}
             disabled={disabled}
             required={required}
@@ -163,7 +168,7 @@ function Checklist<
             prevValue={prevValueDisplay}
             withPrevValue={withPrevValue}
             errorOnTooltip={errorOnTooltip}
-            variant="transparent"
+            styleVariant="transparent"
             withoutInputSectionPadding
             input={(
                 <>

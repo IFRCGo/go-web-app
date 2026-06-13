@@ -5,6 +5,7 @@ import {
 } from '@ifrc-go/icons';
 import {
     Container,
+    type ContainerProps,
     ListView,
     NumberOutput,
     ProgressBar,
@@ -34,14 +35,14 @@ const BULK_UPLOAD_PENDING = 3 satisfies BulkStatusKey;
 interface Props {
     value: BulkUploadResponse | undefined;
     withPadding?: boolean;
-    withBackground?: boolean;
+    backgroundColor?: ContainerProps['backgroundColor'];
 }
 
 function LocalUnitImportSummary(props: Props) {
     const {
         value,
         withPadding,
-        withBackground,
+        backgroundColor,
     } = props;
     const strings = useTranslation(i18n);
 
@@ -55,7 +56,7 @@ function LocalUnitImportSummary(props: Props) {
             pending={value?.status === BULK_UPLOAD_PENDING}
             pendingMessage={strings.processingMessage}
             withPadding={withPadding}
-            withBackground={withBackground}
+            backgroundColor={backgroundColor}
         >
             <ListView layout="block">
                 {isDefined(totalCount) && (

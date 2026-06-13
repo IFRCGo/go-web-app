@@ -140,7 +140,7 @@ function InterventionInput(props: Props) {
                 <Button
                     name={index}
                     onClick={onRemove}
-                    styleVariant="action"
+                    variant="tertiary"
                     title={strings.drefFormRemoveIntervention}
                     disabled={disabled || readOnly}
                     before={<DeleteBinTwoLineIcon />}

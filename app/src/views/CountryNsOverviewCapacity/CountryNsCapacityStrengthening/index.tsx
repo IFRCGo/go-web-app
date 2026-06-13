@@ -106,15 +106,15 @@ function CountryNsCapacityStrengthening() {
                         pending={false}
                         heading={strings.bocaAssessment}
                         headingLevel={4}
-                        withShadow
-                        withBackground
+                        boxShadow="md"
+                        backgroundColor="foreground"
                         withPadding
                     >
                         <KeyFigure
                             value={uniqueLocalUnits.length}
                             label={strings.localUnits}
                             valueType="number"
-                            valueOptions={{ compact: true }}
+                            compact
                         />
                     </Container>
                 )}

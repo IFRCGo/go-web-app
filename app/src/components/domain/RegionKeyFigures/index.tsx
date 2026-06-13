@@ -8,7 +8,7 @@ import {
 } from '@ifrc-go/icons';
 import {
     InfoPopup,
-    KeyFigureView,
+    KeyFigureCard,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -55,7 +55,7 @@ function RegionKeyFigures(props: Props) {
             layout="grid"
             numPreferredGridColumns={6}
         >
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<DrefIcon />}
                 value={aggregatedAppealResponse.active_drefs}
                 valueType="number"
@@ -66,9 +66,9 @@ function RegionKeyFigures(props: Props) {
                     />
                 )}
                 label={strings.regionKeyFiguresActiveDrefs}
-                size="lg"
+                textSize="4xl"
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<AppealsIcon />}
                 value={aggregatedAppealResponse.active_appeals}
                 valueType="number"
@@ -79,44 +79,42 @@ function RegionKeyFigures(props: Props) {
                     />
                 )}
                 label={strings.regionKeyFiguresActiveAppeals}
-                size="lg"
+                textSize="4xl"
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<FundingIcon />}
                 value={aggregatedAppealResponse.amount_requested_dref_included}
                 valueType="number"
-                size="lg"
-                valueOptions={{ compact: true }}
+                textSize="4xl"
+                compact
                 label={strings.regionKeyFiguresBudget}
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<FundingCoverageIcon />}
                 value={getPercentage(
                     aggregatedAppealResponse?.amount_funded_dref_included,
                     aggregatedAppealResponse?.amount_requested_dref_included,
                 )}
                 valueType="number"
-                valueOptions={{
-                    compact: true,
-                    suffix: '%',
-                }}
-                size="lg"
+                compact
+                suffix="%"
+                textSize="4xl"
                 label={strings.regionKeyFiguresAppealsFunding}
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<TargetedPopulationIcon />}
                 value={aggregatedAppealResponse.target_population}
                 valueType="number"
-                size="lg"
-                valueOptions={{ compact: true }}
+                textSize="4xl"
+                compact
                 label={strings.regionKeyFiguresTargetPop}
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<AppealsTwoIcon />}
                 value={regionResponse.country_plan_count}
                 valueType="number"
-                size="lg"
-                valueOptions={{ compact: true }}
+                textSize="4xl"
+                compact
                 label={strings.regionKeyFiguresCountryPlan}
             />
         </ListView>

@@ -141,7 +141,7 @@ function EapActivationProcess(props: Props) {
                         />
                     </ListView>
                 )}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"

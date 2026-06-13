@@ -7,12 +7,19 @@ import TabContext, { type TabKey } from '#contexts/tab';
 
 import styles from './styles.module.css';
 
-export interface Props<NAME extends TabKey> extends Omit<TabLayoutProps, 'colorVariant' | 'styleVariant' | 'isActive'> {
+export interface Props<NAME extends TabKey> extends Omit<TabLayoutProps, 'colorVariant' | 'styleVariant' | 'active'> {
     name: NAME;
+    /** Position of this tab when used inside a 'step' style tab list (1-based) */
     step?: number;
+    /** Show the errored state on the tab */
     errored?: boolean;
 }
 
+/**
+ * Specific component for a single tab item, to be used inside Tabs.
+ * Renders a RawButton wrapping a TabLayout; the visual variants and active
+ * state come from the surrounding Tabs context, not from props.
+ */
 export default function Tab<NAME extends TabKey>(props: Props<NAME>) {
     const context = React.useContext(TabContext);
 

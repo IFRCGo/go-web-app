@@ -94,9 +94,9 @@ export const WithAsterisk: Story = {
     },
 };
 
-export const Variant: Story = {
+export const StyleVariant: Story = {
     args: {
         ...Default.args,
-        variant: 'general',
+        styleVariant: 'general',
     },
 };

@@ -171,7 +171,7 @@ function ChangePasswordModal(props: Props) {
                         name={undefined}
                         onClick={handleSubmitPassword}
                         disabled={updatePasswordPending}
-                        styleVariant="filled"
+                        variant="primary"
                     >
                         {strings.changePasswordConfirmButtonLabel}
                     </Button>

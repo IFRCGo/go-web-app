@@ -596,7 +596,7 @@ export function Component() {
                 <ExpandableContainer
                     heading={strings.operationalToolboxOverviewHeading}
                     initiallyExpanded
-                    withDarkBackground
+                    backgroundColor="background"
                     withPadding
                     spacing="lg"
                     headerDescription={strings.overviewSectionHeader}
@@ -635,7 +635,7 @@ export function Component() {
                     layout="block"
                     withSpacingOpticalCorrection
                     withPadding
-                    withDarkBackground
+                    backgroundColor="background"
                 >
                     <div>{fundingCoverageDescription}</div>
                     <div>{perSectionHeading}</div>

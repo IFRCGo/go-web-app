@@ -17,6 +17,10 @@ export interface ExpandButtonProps<ROW> {
     disabled?: boolean;
 }
 
+/**
+ * Specific component for the row expansion toggle used by the
+ * expand-row table column shortcut.
+ */
 function ExpandButton<K>(props : ExpandButtonProps<K>) {
     const {
         className,
@@ -34,8 +38,7 @@ function ExpandButton<K>(props : ExpandButtonProps<K>) {
             )}
             name={row}
             onClick={onClick}
-            colorVariant="text"
-            styleVariant="action"
+            variant="tertiary"
             disabled={disabled}
         >
             {expanded ? (

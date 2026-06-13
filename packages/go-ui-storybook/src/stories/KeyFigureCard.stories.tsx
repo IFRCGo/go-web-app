@@ -4,13 +4,13 @@ import type {
     StoryObj,
 } from '@storybook/react';
 
-import KeyFigureView from './KeyFigureView';
+import KeyFigureCard from './KeyFigureCard';
 
-type Story = StoryObj<typeof KeyFigureView>
+type Story = StoryObj<typeof KeyFigureCard>
 
 const meta = {
-    title: 'Views/KeyFigureView',
-    component: KeyFigureView,
+    title: 'Components/KeyFigureCard',
+    component: KeyFigureCard,
     parameters: {
         layout: 'centered',
         design: {
@@ -20,7 +20,7 @@ const meta = {
         },
     },
     tags: ['autodocs'],
-} satisfies Meta<typeof KeyFigureView>;
+} satisfies Meta<typeof KeyFigureCard>;
 
 export default meta;
 
@@ -47,6 +47,5 @@ export const WithIconAndInfo = {
         progressDescription: '22% received',
         icon: <HealthadviceIcon />,
         info: 'Africa - Hunger Crisis',
-        children: 'Last updated: 2023-10-06',
     },
 } satisfies Story;

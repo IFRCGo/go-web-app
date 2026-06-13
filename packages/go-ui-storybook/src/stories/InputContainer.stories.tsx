@@ -43,10 +43,10 @@ export const Default: Story = {
         hint: '',
         readOnly: false,
         required: false,
-        variant: 'form',
+        styleVariant: 'form',
         withAsterisk: false,
         className: '',
-        containerRef: undefined,
+        elementRef: undefined,
         inputSectionRef: undefined,
     },
 };
@@ -93,10 +93,10 @@ export const ErrorOnTooltip: Story = {
     },
 };
 
-export const Variant: Story = {
+export const StyleVariant: Story = {
     args: {
         ...Default.args,
-        variant: 'form',
+        styleVariant: 'form',
     },
 };
 
@@ -118,6 +118,6 @@ export const WithPadding: Story = {
     args: {
         ...Default.args,
         withPadding: true,
-        withBackground: true,
+        backgroundColor: 'foreground',
     },
 };

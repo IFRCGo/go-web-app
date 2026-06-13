@@ -60,55 +60,55 @@ function EventDetails(props: Props) {
                     value={pdc_created_at}
                     valueType="date"
                     strongValue
-                    withLightBackground
+                    backgroundColor="foreground"
                 />
                 <TextOutput
                     label={strings.eventDetailsUpdatedOn}
                     value={pdc_updated_at}
                     valueType="date"
                     strongValue
-                    withLightBackground
+                    backgroundColor="foreground"
                 />
                 <TextOutput
                     label={strings.eventDetailsPeopleExposed}
                     value={popExposure?.total?.valueFormatted}
                     strongValue
-                    withLightBackground
+                    backgroundColor="foreground"
                 />
                 <TextOutput
                     label={strings.eventDetailsHouseholdExposed}
                     value={popExposure?.households?.valueFormatted}
                     strongValue
-                    withLightBackground
+                    backgroundColor="foreground"
                 />
                 <TextOutput
                     label={strings.eventDetailsPeopleGroups}
                     value={popExposure?.vulnerable?.valueFormatted}
                     strongValue
-                    withLightBackground
+                    backgroundColor="foreground"
                 />
                 <TextOutput
                     label={strings.eventDetailsValueExposed}
                     value={capitalExposure?.total?.valueFormatted}
                     strongValue
-                    withLightBackground
+                    backgroundColor="foreground"
                 />
                 <TextOutput
                     label={strings.eventDetailsSchoolExposed}
                     value={capitalExposure?.school?.valueFormatted}
                     strongValue
-                    withLightBackground
+                    backgroundColor="foreground"
                 />
                 <TextOutput
                     label={strings.eventHospitalsExposed}
                     value={capitalExposure?.hospital?.valueFormatted}
                     strongValue
-                    withLightBackground
+                    backgroundColor="foreground"
                 />
                 <TextOutput
                     valueType="text"
                     value={description}
-                    withLightBackground
+                    backgroundColor="foreground"
                 />
                 {children}
             </ListView>

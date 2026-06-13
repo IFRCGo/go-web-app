@@ -84,7 +84,7 @@ function QuestionInput(props: Props) {
             }
             headingLevel={6}
             headerDescription={question.description}
-            withDarkBackground
+            backgroundColor="background"
             withPadding
         >
             <ListView

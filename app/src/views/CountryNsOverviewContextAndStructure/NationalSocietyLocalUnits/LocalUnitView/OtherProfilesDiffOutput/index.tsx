@@ -1,8 +1,10 @@
 import {
     ListView,
+    type ListViewProps,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { isDefined } from '@togglecorp/fujs';
 
 import DiffWrapper from '#components/DiffWrapper';
 
@@ -17,22 +19,22 @@ type OtherProfile = NonNullable<
 interface Props {
     newValue: OtherProfile;
     oldValue: OtherProfile | undefined;
-    withBackground?: boolean;
+    backgroundColor?: ListViewProps['backgroundColor'];
 }
 
 function OtherProfilesDiffOutput(props: Props) {
     const {
         newValue,
         oldValue,
-        withBackground,
+        backgroundColor,
     } = props;
 
     const strings = useTranslation(i18n);
 
     return (
         <ListView
-            withPadding={withBackground}
-            withBackground={withBackground}
+            withPadding={isDefined(backgroundColor)}
+            backgroundColor={backgroundColor}
             spacing="sm"
             layout="grid"
         >

@@ -3,10 +3,19 @@ import { _cs } from '@togglecorp/fujs';
 import styles from './styles.module.css';
 
 export interface Props extends Omit<React.HTMLProps<HTMLIFrameElement>, 'ref' | 'size'> {
+    /** Ref to the root DOM node (the iframe element) */
     elementRef?: React.RefObject<HTMLIFrameElement | null>;
+    /**
+     * Physical dimensions of the frame (max-width/max-height presets,
+     * default 'md'). This is true size semantics, not a style variant.
+     */
     size?: 'sm' | 'md' | 'lg';
 }
 
+/**
+ * Specific component for embedding an external document in an iframe
+ * with preset physical dimensions.
+ */
 function InlineFrame(props: Props) {
     const {
         className,

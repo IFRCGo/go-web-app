@@ -3,12 +3,18 @@ import { _cs } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
-interface Props {
-  className?: string;
-  children?: React.ReactNode;
-  variant: 'warning' | 'negative' | 'positive' | 'information';
+export interface Props {
+    className?: string;
+    children?: React.ReactNode;
+    /** Semantic status of the banner */
+    variant?: 'warning' | 'negative' | 'positive' | 'information';
 }
 
+/**
+ * TopBanner is a full-width announcement strip shown at the top of a
+ * page (e.g. maintenance or degraded-service notices).
+ * Specific layer: exposes a single semantic `variant` prop.
+ */
 function TopBanner(props: Props) {
     const {
         className,

@@ -359,7 +359,7 @@ export function Component() {
             />
             <ListView
                 layout="block"
-                withBackground
+                backgroundColor="foreground"
                 spacing="lg"
                 withPadding
                 withSpacingOpticalCorrection

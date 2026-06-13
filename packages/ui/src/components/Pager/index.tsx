@@ -157,6 +157,9 @@ export type Props = {
     totalCapacity?: number;
 }
 
+/**
+ * Specific component for page-based navigation, built on RawButton.
+ */
 function Pager(props: Props) {
     const {
         activePage: activePageProps,
@@ -233,7 +236,7 @@ function Pager(props: Props) {
                 onClick={onActivePageChange}
                 disabled={activePage >= numPages || disabled}
                 className={styles.pageButton}
-                title={`${strings.rawButtonGoToPage} ${activePage - 1}`}
+                title={`${strings.rawButtonGoToPage} ${activePage + 1}`}
             >
                 <ChevronRightLineIcon className={styles.icon} />
             </RawButton>

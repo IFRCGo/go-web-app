@@ -12,10 +12,9 @@ import {
 } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
+import Container, { Props as ContainerProps } from '#components/Container';
 import useBooleanState from '#hooks/useBooleanState';
 import useTranslation from '#hooks/useTranslation';
-
-import Container, { Props as ContainerProps } from '../Container';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -23,13 +22,19 @@ import styles from './styles.module.css';
 export interface Props extends ContainerProps {
     initiallyExpanded?: boolean;
     onExpansionChange?: (isExpanded: boolean) => void;
+    /** Imperative handle to control the expansion state from outside */
     componentRef?: React.RefObject<{
         setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
     } | null>;
+    /** [expandLabel, collapseLabel] for the toggle button */
     toggleButtonLabel?: [React.ReactNode, React.ReactNode];
     withToggleButtonOnFooter?: boolean;
 }
 
+/**
+ * Container whose children can be collapsed/expanded with a toggle
+ * button in the header or footer (specific layer).
+ */
 function ExpandableContainer(props: Props) {
     const {
         className,
@@ -100,7 +105,7 @@ function ExpandableContainer(props: Props) {
 
     const toggleButton = useMemo(() => (
         <Button
-            styleVariant="action"
+            variant="tertiary"
             name={undefined}
             onClick={toggleExpanded}
             title={expanded

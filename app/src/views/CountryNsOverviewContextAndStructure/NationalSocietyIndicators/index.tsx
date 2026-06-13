@@ -327,7 +327,7 @@ function NationalSocietyIndicators(props: Props) {
                                 <Button
                                     name={undefined}
                                     onClick={setShowVolunteerDisaggregationTrue}
-                                    styleVariant="action"
+                                    variant="tertiary"
                                     // FIXME: use strings
                                     title="Show disaggregation"
                                 >
@@ -373,7 +373,7 @@ function NationalSocietyIndicators(props: Props) {
                                 <Button
                                     name={undefined}
                                     onClick={setShowStaffDisaggregationTrue}
-                                    styleVariant="action"
+                                    variant="tertiary"
                                     // FIXME: use strings
                                     title="Show disaggregation"
                                 >
@@ -483,7 +483,7 @@ function NationalSocietyIndicators(props: Props) {
                                             className={styles.femaleDisaggregation}
                                             value={volunteer.female}
                                             totalValue={maxVolunteerInDisaggregation}
-                                            colorVariant="primary"
+                                            variant="primary"
                                         >
                                             <Tooltip
                                                 title={strings.volunteerTooltipFemaleLabel}

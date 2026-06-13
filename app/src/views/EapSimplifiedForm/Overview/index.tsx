@@ -121,7 +121,7 @@ function Overview(props: Props) {
         >
             <Container
                 heading={strings.detailsHeading}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"
@@ -220,7 +220,7 @@ function Overview(props: Props) {
             </Container>
             <Container
                 heading={strings.contacts}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"
@@ -229,7 +229,7 @@ function Overview(props: Props) {
                     <Container
                         heading={strings.nationalHeader}
                         headingLevel={4}
-                        variant="form"
+                        styleVariant="form"
                     >
                         <ListView
                             layout="block"
@@ -289,7 +289,7 @@ function Overview(props: Props) {
                     <Container
                         heading={strings.delegationHeader}
                         headingLevel={4}
-                        variant="form"
+                        styleVariant="form"
                     >
                         <ListView
                             layout="block"
@@ -320,7 +320,7 @@ function Overview(props: Props) {
                     <Container
                         heading={strings.regionalHeader}
                         headingLevel={4}
-                        variant="form"
+                        styleVariant="form"
                     >
                         <ListView
                             layout="block"

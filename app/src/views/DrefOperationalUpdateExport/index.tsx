@@ -50,12 +50,13 @@ import { useRequest } from '#utils/restRequest';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-function BlockTextOutput(props: TextOutputProps & { variant?: never, withoutLabelColon?: never }) {
+function BlockTextOutput(props: TextOutputProps
+    & { styleVariant?: never, withoutLabelColon?: never }) {
     return (
         <TextOutput
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...props}
-            variant="contents"
+            styleVariant="contents"
             withoutLabelColon
         />
     );

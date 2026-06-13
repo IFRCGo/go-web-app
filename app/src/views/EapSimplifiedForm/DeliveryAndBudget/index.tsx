@@ -163,7 +163,7 @@ function DeliveryAndBudget(props: Props) {
         >
             <Container
                 heading={strings.deliverHeading}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"
@@ -328,7 +328,7 @@ function DeliveryAndBudget(props: Props) {
                         />
                     </ListView>
                 )}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"

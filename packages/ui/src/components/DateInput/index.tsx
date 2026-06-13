@@ -10,6 +10,7 @@ type InheritedProps<NAME> = Omit<InputContainerProps, 'input' | 'highlightMode'>
 & Omit<RawInputProps<NAME>, 'type' | 'className' | 'elementRef'>;
 
 export interface Props<NAME> extends InheritedProps<NAME> {
+    /** Ref to the inner <input> node (elementRef refers to the root) */
     inputElementRef?: React.RefObject<HTMLInputElement | null>;
     inputClassName?: string;
     withDiffView?: boolean;
@@ -17,10 +18,15 @@ export interface Props<NAME> extends InheritedProps<NAME> {
     type?: 'date' | 'month';
 }
 
+/**
+ * Date/month input composed of InputContainer and RawInput
+ * (specific layer).
+ */
 function DateInput<const T>(props: Props<T>) {
     const {
         disabled,
         inputClassName,
+        inputElementRef,
         readOnly,
         required,
         withDiffView,
@@ -57,6 +63,7 @@ function DateInput<const T>(props: Props<T>) {
                 <RawInput
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...rawInputProps}
+                    elementRef={inputElementRef}
                     value={value}
                     readOnly={readOnly}
                     disabled={disabled}

@@ -1,7 +1,15 @@
 import { useCallback } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
 
-import InputError from '../InputError';
+import InputError from '#components/InputError';
+import {
+    BackgroundColorType,
+    getBackgroundColorClassName,
+} from '#utils/style';
+
 import DefaultCheckmark, { CheckmarkProps } from './Checkmark';
 
 import styles from './styles.module.css';
@@ -25,10 +33,14 @@ export interface Props<NAME> {
     tooltip?: string;
     value: boolean | undefined | null;
     description?: React.ReactNode;
-    withBackground?: boolean;
-    withDarkBackground?: boolean;
+    /** Surface color token; setting it also adds padding and rounded corners */
+    backgroundColor?: BackgroundColorType;
 }
 
+/**
+ * Checkbox input with label, description and optional custom checkmark
+ * (specific layer).
+ */
 function Checkbox<const NAME>(props: Props<NAME>) {
     const {
         className: classNameFromProps,
@@ -48,8 +60,7 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         tooltip,
         value,
         description,
-        withBackground,
-        withDarkBackground,
+        backgroundColor,
         ...otherProps
     } = props;
 
@@ -70,8 +81,8 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         styles.checkbox,
         classNameFromProps,
         !indeterminate && checked && styles.checked,
-        withBackground && styles.withBackground,
-        withDarkBackground && styles.withDarkBackground,
+        getBackgroundColorClassName(backgroundColor),
+        isDefined(backgroundColor) && styles.withBackgroundColor,
         disabled && styles.disabled,
         readOnly && styles.readOnly,
     );

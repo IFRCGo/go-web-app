@@ -30,7 +30,7 @@ export const Default: Story = {
         value: 75,
         title: 'Total Projects Completed',
         totalValue: 150,
-        colorVariant: 'primary',
+        variant: 'primary',
     },
 };
 
@@ -53,7 +53,7 @@ export const Success: Story = {
         value: 40,
         totalValue: 100,
         title: 'Successful Projects',
-        colorVariant: 'success',
+        variant: 'success',
     },
 };
 
@@ -62,7 +62,7 @@ export const Danger: Story = {
         value: 20,
         totalValue: 100,
         title: 'Failed Projects',
-        colorVariant: 'danger',
+        variant: 'danger',
     },
 };
 
@@ -71,7 +71,7 @@ export const CustomColor: Story = {
         value: 50,
         totalValue: 100,
         title: 'Custom Color Progress',
-        colorVariant: 'custom',
+        variant: 'custom',
         color: '#FF5733',
         showPercentageInTitle: true,
     },

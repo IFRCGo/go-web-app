@@ -37,7 +37,7 @@ function KeyInsights(props: Props) {
         <Container
             heading={strings.opsLearningSummariesHeading}
             withPadding
-            withDarkBackground
+            backgroundColor="background"
             headingLevel={5}
             spacing="lg"
         >

@@ -32,14 +32,37 @@ export default meta;
 export const Default: Story = {
     args: {
         title: 'Add Item',
+        ariaLabel: 'Add Item',
         children: <AddFillIcon />,
+    },
+};
+export const Primary: Story = {
+    args: {
+        ...Default.args,
         variant: 'primary',
+    },
+};
+export const Secondary: Story = {
+    args: {
+        ...Default.args,
+        variant: 'secondary',
+    },
+};
+export const Tertiary: Story = {
+    args: {
+        ...Default.args,
+        variant: 'tertiary',
+    },
+};
+export const Subtle: Story = {
+    args: {
+        ...Default.args,
+        variant: 'subtle',
     },
 };
 export const Disabled: Story = {
     args: {
-        title: 'Download',
-        children: <AddFillIcon />,
+        ...Default.args,
         variant: 'secondary',
         disabled: true,
     },

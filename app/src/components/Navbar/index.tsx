@@ -117,7 +117,6 @@ function Navbar(props: Props) {
                         <AuthenticatedUserDropdown />
                         <DropdownMenu
                             label={strings.headerCreateAReportLabel}
-                            labelColorVariant="primary"
                             labelSpacing="lg"
                         >
                             <DropdownMenuItem

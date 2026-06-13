@@ -19,6 +19,8 @@ function TimeSpanCheck<const NAME>(props: CheckboxProps<NAME>) {
         labelContainerClassName,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         description,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        backgroundColor,
 
         className: classNameFromProps,
         disabled,
@@ -31,8 +33,6 @@ function TimeSpanCheck<const NAME>(props: CheckboxProps<NAME>) {
         readOnly,
         tooltip,
         value,
-        withBackground,
-        withDarkBackground,
         ...otherProps
     } = props;
 
@@ -53,8 +53,6 @@ function TimeSpanCheck<const NAME>(props: CheckboxProps<NAME>) {
         styles.checkbox,
         classNameFromProps,
         !indeterminate && checked && styles.checked,
-        withBackground && styles.withBackground,
-        withDarkBackground && styles.withDarkBackground,
         disabled && styles.disabledCheckbox,
         readOnly && styles.readOnly,
     );

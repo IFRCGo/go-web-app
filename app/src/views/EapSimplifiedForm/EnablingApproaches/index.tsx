@@ -163,7 +163,7 @@ function EnablingApproaches(props: Props) {
         >
             <Container
                 heading={strings.enablingApproachesTitle}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"

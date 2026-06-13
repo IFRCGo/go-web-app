@@ -308,8 +308,8 @@ export function Component() {
                                             )}
                                             headingLevel={4}
                                             withPadding
-                                            withBackground
-                                            withShadow
+                                            backgroundColor="foreground"
+                                            boxShadow="md"
                                         >
                                             {isTruthyString(reference.url) && (
                                                 <Link

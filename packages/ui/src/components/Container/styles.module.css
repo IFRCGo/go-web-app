@@ -10,23 +10,12 @@
         max-height: 18rem;
     }
 
-    &.with-shadow {
-        box-shadow: var(--go-ui-box-shadow-md);
-    }
-
-    &.with-background {
-        border-radius: var(--go-ui-border-radius-lg);
-        background-color: var(--go-ui-color-foreground);
-    }
-
+    /*
+     * background-color, border-radius and box-shadow come from the
+     * spec utility classes (see #utils/style)
+     */
     &.with-border {
         border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-        border-radius: var(--go-ui-border-radius-lg);
-    }
-
-    &.with-dark-background {
-        border-radius: var(--go-ui-border-radius-lg);
-        background-color: var(--go-ui-color-background);
     }
 
     &.form-variant {

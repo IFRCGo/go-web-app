@@ -46,7 +46,7 @@ function TokenDetails(props: Props) {
             headerActions={isDefined(data?.token) && (
                 <Button
                     name={data?.token}
-                    styleVariant="action"
+                    variant="tertiary"
                     title={strings.copyButtonLabel}
                     onClick={handleCopyButtonClick}
                 >
@@ -73,7 +73,7 @@ function TokenDetails(props: Props) {
                     />
                 </ListView>
             )}
-            withBackground={!withoutPadding}
+            backgroundColor={!withoutPadding ? 'foreground' : undefined}
             withPadding={!withoutPadding}
         >
             {isDefined(data?.token) && (

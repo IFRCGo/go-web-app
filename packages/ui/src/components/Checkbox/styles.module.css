@@ -4,15 +4,9 @@
     cursor: pointer;
     gap: var(--go-ui-spacing-3xs);
 
-    &.with-background {
+    /* background-color itself comes from the spec utility class */
+    &.with-background-color {
         border-radius: var(--go-ui-border-radius-md);
-        background-color: var(--go-ui-color-foreground);
-        padding: var(--go-ui-spacing-sm);
-    }
-
-    &.with-dark-background {
-        border-radius: var(--go-ui-border-radius-md);
-        background-color: var(--go-ui-color-background);
         padding: var(--go-ui-spacing-sm);
     }
 

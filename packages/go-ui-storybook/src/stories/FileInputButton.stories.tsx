@@ -1,19 +1,19 @@
-import { RawFileInputProps } from '@ifrc-go/ui';
+import { FileInputButtonProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
 import { fn } from '@storybook/test';
 
-import RawFileInput from './RawFileInput';
+import FileInputButton from './FileInputButton';
 
-type RawFileInputSpecificProps = RawFileInputProps<string>;
+type FileInputButtonSpecificProps = FileInputButtonProps<string>;
 
-type Story = StoryObj<RawFileInputSpecificProps>;
+type Story = StoryObj<FileInputButtonSpecificProps>;
 
-const meta: Meta<typeof RawFileInput> = {
-    title: 'Inputs/RawFileInput',
-    component: RawFileInput,
+const meta: Meta<typeof FileInputButton> = {
+    title: 'Inputs/FileInputButton',
+    component: FileInputButton,
     parameters: {
         layout: 'centered',
         design: {
@@ -28,7 +28,7 @@ export default meta;
 
 export const Default: Story = {
     args: {
-        name: 'RawFileInput',
+        name: 'FileInputButton',
         children: 'Upload File',
         onChange: fn(),
     },
@@ -36,7 +36,7 @@ export const Default: Story = {
 
 export const Multiple: Story = {
     args: {
-        name: 'RawFileInput',
+        name: 'FileInputButton',
         children: 'Upload Files',
         multiple: true,
         styleVariant: 'outline',
@@ -47,7 +47,7 @@ export const Multiple: Story = {
 
 export const WithAccept: Story = {
     args: {
-        name: 'RawFileInput',
+        name: 'FileInputButton',
         accept: 'image/png,image/jpeg',
         children: 'Upload Image',
         onChange: fn(),
@@ -56,7 +56,7 @@ export const WithAccept: Story = {
 
 export const Disabled: Story = {
     args: {
-        name: 'RawFileInput',
+        name: 'FileInputButton',
         children: 'Export',
         onChange: fn(),
         disabled: true,
@@ -65,7 +65,7 @@ export const Disabled: Story = {
 
 export const ReadOnly: Story = {
     args: {
-        name: 'RawFileInput',
+        name: 'FileInputButton',
         children: 'Export',
         readOnly: true,
         onChange: fn(),

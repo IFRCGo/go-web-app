@@ -66,9 +66,9 @@ export function Component() {
                         heading={strings.goReferenceMaterial}
                         headerDescription={strings.goUserReferenceMaterial}
                         withHeaderBorder
-                        withBackground
+                        backgroundColor="foreground"
                         withPadding
-                        withShadow
+                        boxShadow="md"
                         headingLevel={5}
                     >
                         <ListView
@@ -143,8 +143,8 @@ export function Component() {
                         heading={strings.aboutSurgeLinks}
                         withHeaderBorder
                         withPadding
-                        withBackground
-                        withShadow
+                        backgroundColor="foreground"
+                        boxShadow="md"
                         headingLevel={5}
                     >
                         <ListView
@@ -200,8 +200,8 @@ export function Component() {
                         heading={strings.aboutGuidanceMaterial}
                         withHeaderBorder
                         withPadding
-                        withBackground
-                        withShadow
+                        backgroundColor="foreground"
+                        boxShadow="md"
                         headingLevel={5}
                     >
                         <ListView
@@ -243,8 +243,8 @@ export function Component() {
                         heading={strings.aboutOtherResources}
                         withHeaderBorder
                         withPadding
-                        withBackground
-                        withShadow
+                        backgroundColor="foreground"
+                        boxShadow="md"
                         headingLevel={5}
                     >
                         <ListView
@@ -312,8 +312,8 @@ export function Component() {
                                 heading={contact.extent}
                                 headingLevel={6}
                                 withPadding
-                                withShadow
-                                withBackground
+                                boxShadow="md"
+                                backgroundColor="foreground"
                             >
                                 <ListView
                                     layout="block"

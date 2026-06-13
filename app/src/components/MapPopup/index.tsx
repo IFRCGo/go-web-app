@@ -54,7 +54,7 @@ function MapPopup(props: Props) {
                 withHeaderBorder
                 withoutWrapInHeader
                 withPadding
-                withBackground
+                backgroundColor="foreground"
                 withContentOverflow
                 headerActions={(
                     <>
@@ -62,7 +62,7 @@ function MapPopup(props: Props) {
                         <Button
                             className={styles.closeButton}
                             name={undefined}
-                            styleVariant="action"
+                            variant="tertiary"
                             onClick={onCloseButtonClick}
                             title={strings.messagePopupClose}
                         >

@@ -5,7 +5,7 @@ import {
     Description,
     HtmlOutput,
     InfoPopup,
-    KeyFigureView,
+    KeyFigureCard,
     ListView,
     TextOutput,
 } from '@ifrc-go/ui';
@@ -157,7 +157,7 @@ export function Component() {
                     >
                         {emergencyResponse?.key_figures.map(
                             (keyFigure) => (
-                                <KeyFigureView
+                                <KeyFigureCard
                                     key={keyFigure.id}
                                     // FIXME: fix typing in server (medium priority)
                                     // FIXME: Rounding this because it was previously rounded
@@ -185,7 +185,7 @@ export function Component() {
                                             </div>
                                         </ListView>
                                     )}
-                                    withShadow
+                                    boxShadow="md"
                                 />
                             ),
                         )}
@@ -376,8 +376,8 @@ export function Component() {
                                                 headingLevel={6}
                                                 heading={contact.name}
                                                 withPadding
-                                                withShadow
-                                                withBackground
+                                                boxShadow="md"
+                                                backgroundColor="foreground"
                                             >
                                                 <ListView
                                                     layout="block"

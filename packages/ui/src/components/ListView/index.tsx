@@ -3,12 +3,17 @@ import {
     useLayoutEffect,
     useRef,
 } from 'react';
-import { _cs } from '@togglecorp/fujs';
-
-import useSpacingToken from '#hooks/useSpacingToken';
 import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
+
+import {
+    BackgroundColorType,
     fullSpacings,
     gapSpacings,
+    getBackgroundColorClassName,
+    getSpacingClassName,
     getSpacingValue,
     SpacingType,
 } from '#utils/style';
@@ -28,17 +33,23 @@ function useFallbackRef<T>(ref?: React.Ref<T>) {
 
 interface CommonProps extends Omit<React.HTMLProps<HTMLDivElement>, 'ref'> {
     className?: string;
+    /** Ref to the root DOM node */
     elementRef?: RefObject<HTMLDivElement | null>;
 
     spacing?: SpacingType;
     spacingOffset?: number;
+    /**
+     * Defaults to false, unlike the sibling layout components
+     * (which default the correction on): list items usually carry
+     * their own line-height compensation
+     */
     withSpacingOpticalCorrection?: boolean;
 
     children?: React.ReactNode;
     withPadding?: boolean;
     withFullWidth?: boolean;
-    withBackground?: boolean;
-    withDarkBackground?: boolean;
+    /** Surface color token; setting it also rounds the corners ('md') */
+    backgroundColor?: BackgroundColorType;
     withOverflow?: boolean;
     withGrow?: boolean;
 }
@@ -110,6 +121,10 @@ InlineLayoutProps
 | GridLayoutWithSidebarProps
 );
 
+/**
+ * List/grid layout primitive with inline, block, grid and
+ * grid-with-sidebar modes (generic layer).
+ */
 function ListView(props: Props) {
     const {
         className,
@@ -120,8 +135,7 @@ function ListView(props: Props) {
         withStartAlignment,
         spacing,
         withPadding,
-        withBackground,
-        withDarkBackground,
+        backgroundColor,
         children,
         numPreferredGridColumns = 2,
         minGridColumnSize = '12rem',
@@ -162,7 +176,7 @@ function ListView(props: Props) {
         }
     }, [numPreferredGridColumns, minGridColumnSize, layout, withPadding, spacing, elementRef]);
 
-    const spacingClassName = useSpacingToken({
+    const spacingClassName = getSpacingClassName({
         spacing,
         offset: spacingOffset,
         modes: withPadding ? fullSpacings : gapSpacings,
@@ -185,8 +199,8 @@ function ListView(props: Props) {
                 withSpaceBetweenContents && styles.withSpaceBetweenContents,
                 withCenteredContents && styles.withCenteredContents,
                 withFullWidth && styles.withFullWidth,
-                withBackground && styles.withBackground,
-                withDarkBackground && styles.withDarkBackground,
+                getBackgroundColorClassName(backgroundColor),
+                isDefined(backgroundColor) && styles.withBackgroundColor,
                 withSidebar && styles.withSidebar,
                 withOverflow && styles.withOverflow,
                 withGrow && styles.withGrow,

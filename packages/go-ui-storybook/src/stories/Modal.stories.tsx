@@ -58,7 +58,6 @@ function Template(args: ModalSpecificProps) {
         <>
             <Button
                 name={undefined}
-                styleVariant="outline"
                 onClick={handleClick}
             >
                 Open Modal
@@ -95,14 +94,13 @@ export const Default: Story = {
             <>
                 <Button
                     name={undefined}
-                    styleVariant="outline"
                     onClick={undefined}
                 >
                     Cancel
                 </Button>
                 <Button
                     name={undefined}
-                    styleVariant="filled"
+                    variant="primary"
                     onClick={undefined}
                 >
                     Submit

@@ -7,10 +7,17 @@ import styles from './styles.module.css';
 export interface Props {
     className?: string;
     message?: React.ReactNode;
+    /** Use reduced sizing for constrained contexts */
     compact?: boolean;
+    /** Drop the default dashed border around the loading area */
     withoutBorder?: boolean;
 }
 
+/**
+ * BlockLoading is a block-level loading indicator that reserves space
+ * for content being fetched.
+ * Specific layer: no variants.
+ */
 function BlockLoading(props: Props) {
     const {
         className,

@@ -107,8 +107,7 @@ function CountryDropdown() {
     return (
         <DropdownMenu
             label={strings.menuCountriesLabel}
-            labelColorVariant="text"
-            labelStyleVariant="action"
+            labelVariant="tertiary"
             popupClassName={styles.countryDropdown}
             persistent
             preferredPopupWidth={56}
@@ -191,7 +190,7 @@ function CountryDropdown() {
                                                     value={countrySearch}
                                                     onChange={setCountrySearch}
                                                     icons={<SearchLineIcon />}
-                                                    variant="general"
+                                                    styleVariant="general"
                                                 />
                                             </ListView>
                                         )}

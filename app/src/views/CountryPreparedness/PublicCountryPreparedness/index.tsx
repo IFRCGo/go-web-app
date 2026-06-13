@@ -217,7 +217,7 @@ function PublicCountryPreparedness() {
                                     (component) => (
                                         <Container
                                             key={component.details.id}
-                                            withDarkBackground
+                                            backgroundColor="background"
                                             withPadding
                                         >
                                             {component.details.title}

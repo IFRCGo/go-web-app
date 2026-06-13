@@ -190,9 +190,9 @@ export function Component() {
                     </Link>
                 )}
                 spacing="lg"
-                withShadow
+                boxShadow="md"
                 withPadding
-                withBackground
+                backgroundColor="foreground"
             >
                 {strings.eapDescription}
             </Container>

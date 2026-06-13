@@ -8,12 +8,12 @@ import InlineLayout from '#components/InlineLayout';
 import KeyFigure, { type Props as KeyFigureProps } from '#components/KeyFigure';
 import ListView from '#components/ListView';
 import ProgressBar from '#components/ProgressBar';
+import { BoxShadowType } from '#utils/style';
 
 import styles from './styles.module.css';
 
 export type Props = {
     className?: string;
-    children?: React.ReactNode;
 
     icon?: React.ReactNode;
     info?: React.ReactNode;
@@ -22,10 +22,18 @@ export type Props = {
     progress?: number;
     progressDescription?: React.ReactNode;
 
-    withShadow?: boolean;
+    /** Shadow token for the card surface (the old withShadow boolean meant 'md') */
+    boxShadow?: BoxShadowType;
 } & KeyFigureProps;
 
-function KeyFigureView(props: Props) {
+/**
+ * KeyFigure presented on a white card surface, optionally with an
+ * icon, an info slot and a progress bar (specific layer).
+ *
+ * All KeyFigure props (label, textSize and the RawOutput value union)
+ * are forwarded to the embedded KeyFigure.
+ */
+function KeyFigureCard(props: Props) {
     const {
         className,
 
@@ -34,7 +42,7 @@ function KeyFigureView(props: Props) {
         progressDescription,
         icon,
         info,
-        withShadow,
+        boxShadow,
 
         ...keyFigureProps
     } = props;
@@ -45,10 +53,10 @@ function KeyFigureView(props: Props) {
             empty={false}
             errored={false}
             filtered={false}
-            className={_cs(styles.keyFigureView, className)}
+            className={_cs(styles.keyFigureCard, className)}
             withPadding
-            withBackground
-            withShadow={withShadow}
+            backgroundColor="foreground"
+            boxShadow={boxShadow}
             withoutSpacingOpticalCorrection={isDefined(icon) || isDefined(info)}
         >
             <ListView layout="block">
@@ -83,4 +91,4 @@ function KeyFigureView(props: Props) {
     );
 }
 
-export default KeyFigureView;
+export default KeyFigureCard;

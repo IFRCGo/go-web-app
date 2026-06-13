@@ -315,7 +315,7 @@ function KeywordSearchSelectInput() {
             icons={<SearchLineIcon />}
             selectedOnTop={false}
             onEnterWithoutOption={handleSearchInputEnter}
-            variant="general"
+            styleVariant="general"
             withoutDropdownIcon
         />
     );

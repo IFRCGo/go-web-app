@@ -91,14 +91,14 @@ function LayerOptions(props: Props) {
                 name="showStormPosition"
                 value={value.showStormPosition}
                 onChange={setFieldValue}
-                withBackground
+                backgroundColor="foreground"
                 withInvertedView
             />
             {!exposureAreaControlHidden && (
                 <ListView
                     layout="block"
                     spacing="sm"
-                    withBackground
+                    backgroundColor="foreground"
                     withPadding
                 >
                     <Switch
@@ -127,7 +127,7 @@ function LayerOptions(props: Props) {
                 name="showTrackLine"
                 value={value.showTrackLine}
                 onChange={setFieldValue}
-                withBackground
+                backgroundColor="foreground"
                 withInvertedView
             />
             <Switch
@@ -136,7 +136,7 @@ function LayerOptions(props: Props) {
                 name="showForecastUncertainty"
                 value={value.showForecastUncertainty}
                 onChange={setFieldValue}
-                withBackground
+                backgroundColor="foreground"
                 withInvertedView
             />
         </ListView>

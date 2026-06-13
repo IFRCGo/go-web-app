@@ -4,7 +4,7 @@ import {
     Container,
     Description,
     HtmlOutput,
-    KeyFigureView,
+    KeyFigureCard,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -36,12 +36,12 @@ export function Component() {
                 layout="grid"
                 numPreferredGridColumns={3}
             >
-                <KeyFigureView
+                <KeyFigureCard
                     icon={<RedCrossNationalSocietyIcon />}
                     value={Number(regionResponse?.national_society_count)}
-                    valueOptions={{ compact: true }}
+                    compact
                     valueType="number"
-                    size="lg"
+                    textSize="4xl"
                     label={(
                         <ListView
                             layout="block"
@@ -62,7 +62,7 @@ export function Component() {
                             </Description>
                         </ListView>
                     )}
-                    withShadow
+                    boxShadow="md"
                 />
             </ListView>
             {regionResponse?.profile_snippets.filter(
@@ -118,8 +118,8 @@ export function Component() {
                                 heading={contact.name}
                                 headingLevel={5}
                                 headerDescription={contact.title}
-                                withBackground
-                                withShadow
+                                backgroundColor="foreground"
+                                boxShadow="md"
                                 withPadding
                             >
                                 <ListView

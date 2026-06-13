@@ -65,7 +65,7 @@ function Activity({ activity }: ActivityProps) {
         <Container
             heading={activity.action_details?.title ?? activity.custom_action}
             headingLevel={6}
-            withDarkBackground
+            backgroundColor="background"
             withPadding
             spacing="xs"
         >
@@ -135,7 +135,7 @@ function ProjectListItem(props: ProjectListItemProps) {
             withoutWrapInHeader
             footerActions={(
                 <Button
-                    styleVariant="action"
+                    variant="tertiary"
                     name={undefined}
                     onClick={detailsShown ? hideDetails : showDetails}
                     textSize="sm"
@@ -164,7 +164,7 @@ function ProjectListItem(props: ProjectListItemProps) {
                     )}
                 </ListView>
             )}
-            withBackground
+            backgroundColor="foreground"
             withPadding
             spacing="sm"
         >
@@ -252,7 +252,7 @@ function ActivityDetail(props: Props) {
                 </InlineLayout>
             )}
             withPadding
-            withDarkBackground
+            backgroundColor="background"
             spacing="sm"
         >
             <ListView

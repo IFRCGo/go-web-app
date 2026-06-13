@@ -162,7 +162,7 @@ function PlannedOperations(props: Props) {
         >
             <Container
                 heading={strings.plannedOperationsTitle}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"

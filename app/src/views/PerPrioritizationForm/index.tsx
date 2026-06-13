@@ -471,7 +471,7 @@ export function Component() {
                             strings.sortButtonLabel,
                             { sort: sortKeyToLabel[sortBy] },
                         )}
-                        labelStyleVariant="action"
+                        labelVariant="tertiary"
                         popupClassName={styles.sortByDropdownContent}
                     >
                         {sortOptions.map(

@@ -45,7 +45,7 @@ function MultiSelectOutput<VALUE extends string | number, OPTION>(props: Props<V
             label={label}
             value={valueLabel}
             strongLabel
-            withBackground={withBackground}
+            backgroundColor={withBackground ? 'background' : undefined}
         />
     );
 }

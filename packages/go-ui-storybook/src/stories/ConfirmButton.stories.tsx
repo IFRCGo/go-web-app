@@ -57,21 +57,28 @@ function Template(args:Args) {
 export const Primary: Story = {
     render: Template,
     args: {
-        styleVariant: 'filled',
+        variant: 'primary',
     },
 };
 
 export const Secondary: Story = {
     render: Template,
     args: {
-        styleVariant: 'outline',
+        variant: 'secondary',
     },
 };
 
-export const Translucent: Story = {
+export const Tertiary: Story = {
     render: Template,
     args: {
-        styleVariant: 'translucent',
+        variant: 'tertiary',
+    },
+};
+
+export const Subtle: Story = {
+    render: Template,
+    args: {
+        variant: 'subtle',
     },
 };
 

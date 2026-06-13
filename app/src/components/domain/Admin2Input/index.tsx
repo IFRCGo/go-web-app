@@ -341,7 +341,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                                 <Button
                                     name={admin2Id}
                                     onClick={removeSelection}
-                                    styleVariant="action"
+                                    variant="tertiary"
                                     readOnly
                                     disabled={readOnly}
                                 >

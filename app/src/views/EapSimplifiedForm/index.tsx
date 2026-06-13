@@ -921,9 +921,9 @@ export function Component() {
                                         <Alert
                                             name="form-error-warning"
                                             title={strings.submitFormErrorMessage}
-                                            type="warning"
+                                            variant="warning"
                                             withLightBackground
-                                            withoutShadow
+                                            boxShadow="none"
                                         />
                                     )}
                                 </ListView>

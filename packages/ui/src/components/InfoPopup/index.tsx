@@ -8,6 +8,7 @@ import styles from './styles.module.css';
 
 export interface Props {
     icon?: React.ReactNode;
+    /** Hide the info icon (shown by default) */
     withoutIcon?: boolean;
     infoLabel?: React.ReactNode;
     title?: React.ReactNode;
@@ -16,6 +17,10 @@ export interface Props {
     className?: string;
 }
 
+/**
+ * Specific component for a small information trigger that reveals
+ * a title and description in a dropdown popup.
+ */
 function InfoPopup(props: Props) {
     const {
         className,
@@ -41,8 +46,7 @@ function InfoPopup(props: Props) {
             )}
             popupClassName={_cs(styles.dropdownContainer, popupClassName)}
             className={_cs(styles.infoPopup, className)}
-            labelStyleVariant="action"
-            labelColorVariant="text"
+            labelVariant="tertiary"
             labelSpacing="none"
             withoutDropdownIcon
         >

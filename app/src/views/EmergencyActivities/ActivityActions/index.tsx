@@ -27,7 +27,7 @@ function ActivityActions(props: Props) {
     return (
         <DropdownMenu
             className={className}
-            labelStyleVariant="action"
+            labelVariant="tertiary"
             withoutDropdownIcon
             label={<MoreFillIcon />}
             persistent

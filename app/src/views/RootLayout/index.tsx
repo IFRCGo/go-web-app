@@ -463,7 +463,7 @@ export function Component() {
                                             </Link>
                                             <Button
                                                 name={undefined}
-                                                styleVariant="filled"
+                                                variant="primary"
                                                 onClick={handleClick}
                                             >
                                                 {strings.cookiesBannerIAccept}

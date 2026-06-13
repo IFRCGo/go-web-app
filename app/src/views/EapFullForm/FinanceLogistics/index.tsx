@@ -142,7 +142,7 @@ function FinanceLogistics(props: Props) {
         >
             <Container
                 heading={strings.financeHeading}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView layout="block" spacing="sm">
                     <InputSection
@@ -212,12 +212,10 @@ function FinanceLogistics(props: Props) {
                             value={value?.budget_file}
                             error={getErrorString(error?.budget_file)}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            required
                             clearable
                             disabled={disabled}
                             readOnly={readOnly}
                             useCurrentLanguageForMutation
-                            label={strings.financeUploadBudgetLabel}
                         >
                             {strings.financeUploadButtonLabel}
                         </GoSingleFileInput>
@@ -433,7 +431,7 @@ function FinanceLogistics(props: Props) {
             </Container>
             <Container
                 heading={strings.financeEapEndorsementHeading}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView layout="block" spacing="sm">
                     <InputSection

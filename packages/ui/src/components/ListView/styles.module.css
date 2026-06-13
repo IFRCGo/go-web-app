@@ -109,14 +109,9 @@
         width: 100%;
     }
 
-    &.with-background {
+    /* background-color itself comes from the spec utility class */
+    &.with-background-color {
         --border-radius: var(--go-ui-border-radius-md);
-        background-color: var(--go-ui-color-foreground);
-    }
-
-    &.with-dark-background {
-        --border-radius: var(--go-ui-border-radius-md);
-        background-color: var(--go-ui-color-background);
     }
 
     &:empty {

@@ -14,12 +14,12 @@ import styles from './styles.module.css';
 const DREF_IMMINENT_OBLIGATION_EXACT_AMOUNT = 75000;
 
 export function BlockTextOutput(props: TextOutputProps
-    & { variant?: never, withoutLabelColon?: never }) {
+    & { styleVariant?: never, withoutLabelColon?: never }) {
     return (
         <TextOutput
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...props}
-            variant="contents"
+            styleVariant="contents"
             withoutLabelColon
         />
     );

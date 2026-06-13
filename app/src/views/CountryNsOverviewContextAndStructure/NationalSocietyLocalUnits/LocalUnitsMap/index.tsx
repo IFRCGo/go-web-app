@@ -438,8 +438,8 @@ function LocalUnitsMap(props: Props) {
                             filtered={false}
                             empty={false}
                             withPadding
-                            withShadow
-                            withBackground
+                            boxShadow="md"
+                            backgroundColor="foreground"
                             className={styles.contactDetails}
                         >
                             <ListView
@@ -546,7 +546,7 @@ function LocalUnitsMap(props: Props) {
                         heading={(
                             <Button
                                 name={undefined}
-                                styleVariant="action"
+                                variant="tertiary"
                                 onClick={handleLocalUnitHeadingClick}
                                 disabled={!isAuthenticated}
                             >

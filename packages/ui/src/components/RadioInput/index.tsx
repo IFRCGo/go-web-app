@@ -9,7 +9,10 @@ import InputContainer from '#components/InputContainer';
 import ListView from '#components/ListView';
 import RawList from '#components/RawList';
 import { getHighlightMode } from '#utils/common';
-import { SpacingType } from '#utils/style';
+import {
+    BackgroundColorType,
+    SpacingType,
+} from '#utils/style';
 
 import Radio, { Props as RadioProps } from './Radio';
 
@@ -35,8 +38,8 @@ export interface CommonProps<NAME, OPTION, VALUE, RADIO_RENDERER_PROPS extends R
     radioListLayoutPreferredGridColumns?: number;
     spacing?: SpacingType;
     withPadding?: boolean;
-    withBackground?: boolean;
-    withDarkBackground?: boolean;
+    /** Surface color token for the input container root */
+    backgroundColor?: BackgroundColorType;
 
     prevValue?: VALUE | undefined | null;
     withPrevValue?: boolean;
@@ -62,6 +65,10 @@ RADIO_RENDERER_PROPS extends RadioProps<VALUE>
     ClearableProps<VALUE, NAME> | NonClearableProps<VALUE, NAME>
 )
 
+/**
+ * Single-select radio list driven by options and selectors; renderer
+ * can be swapped (e.g. SegmentInput) (specific layer).
+ */
 function RadioInput<
     const NAME,
     OPTION extends object,
@@ -90,8 +97,7 @@ function RadioInput<
         radioListLayoutPreferredGridColumns,
         spacing,
         withPadding,
-        withBackground,
-        withDarkBackground,
+        backgroundColor,
 
         prevValue,
         withDiffView,
@@ -180,8 +186,7 @@ function RadioInput<
     return (
         <InputContainer
             className={className}
-            withBackground={withBackground}
-            withDarkBackground={withDarkBackground}
+            backgroundColor={backgroundColor}
             withPadding={withPadding}
             disabled={disabled}
             required={required}
@@ -193,7 +198,7 @@ function RadioInput<
             withPrevValue={withPrevValue}
             withAsterisk={withAsterisk}
             errorOnTooltip={errorOnTooltip}
-            variant="transparent"
+            styleVariant="transparent"
             withoutInputSectionPadding
             input={(
                 <>

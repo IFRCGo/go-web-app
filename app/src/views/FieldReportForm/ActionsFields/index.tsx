@@ -275,7 +275,7 @@ function ActionsFields(props: Props) {
                 <ListView
                     layout="grid"
                     numPreferredGridColumns={3}
-                    withBackground
+                    backgroundColor="foreground"
                     withPadding
                     spacing="lg"
                 >

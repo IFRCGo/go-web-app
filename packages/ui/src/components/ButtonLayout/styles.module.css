@@ -77,22 +77,6 @@
         padding: 0;
     }
 
-    &.text-size-extra-small {
-        font-size: var(--go-ui-font-size-xs);
-    }
-
-    &.text-size-small {
-        font-size: var(--go-ui-font-size-sm);
-    }
-
-    &.text-size-medium {
-        font-size: var(--go-ui-font-size-md);
-    }
-
-    &.text-size-large {
-        font-size: var(--go-ui-font-size-lg);
-    }
-
     &.disabled {
         opacity: var(--go-ui-opacity-disabled-element);
     }
@@ -119,7 +103,7 @@
         pointer-events: none;
     }
 
-    &:not(.disabled):not(.readOnly) {
+    &:not(.disabled):not(.read-only) {
         cursor: pointer;
 
         &:hover {

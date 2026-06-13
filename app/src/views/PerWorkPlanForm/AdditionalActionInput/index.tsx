@@ -107,7 +107,7 @@ function AdditionalActionInput(props: Props) {
                 <Button
                     name={index ?? -1}
                     onClick={onRemove}
-                    styleVariant="action"
+                    variant="tertiary"
                     title={strings.actionInputRemoveButtonLabel}
                 >
                     <DeleteBinLineIcon />
@@ -116,7 +116,7 @@ function AdditionalActionInput(props: Props) {
             headerDescription={(
                 <NonFieldError error={error} />
             )}
-            withBackground
+            backgroundColor="foreground"
             withPadding
         >
             <ListView

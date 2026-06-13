@@ -10,6 +10,10 @@ export interface SwitchProps<N extends string | number> extends Omit<CheckboxPro
     withInvertedView?: boolean;
 }
 
+/**
+ * Boolean toggle rendered as a switch (a Checkbox with a switch
+ * checkmark) (specific layer).
+ */
 function Switch<N extends string | number>(props: SwitchProps<N>) {
     const {
         className,

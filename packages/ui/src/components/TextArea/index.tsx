@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 
+import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
+import RawTextArea, { Props as RawTextAreaProps } from '#components/RawTextArea';
+import TextBadge from '#components/TextBadge';
 import { getHighlightMode } from '#utils/common';
 import { extractInputContainerProps } from '#utils/inputs';
-
-import InputContainer, { Props as InputContainerProps } from '../InputContainer';
-import RawTextArea, { Props as RawTextAreaProps } from '../RawTextArea';
-import TextBadge from '../TextBadge';
 
 const BULLET = '•';
 const KEY_ENTER = 'Enter';
@@ -15,17 +14,23 @@ type InheritedProps<NAME> = Omit<InputContainerProps, 'input'>
 & Omit<RawTextAreaProps<NAME>, 'type' | 'className' | 'elementRef'>;
 
 export interface Props<NAME> extends InheritedProps<NAME> {
-    inputElementRef?: React.RefObject<HTMLInputElement | null>;
+    /** Ref to the inner <textarea> node (elementRef refers to the root) */
+    inputElementRef?: React.RefObject<HTMLTextAreaElement | null>;
     autoBullets?: boolean;
     inputClassName?: string;
     withDiffView?: boolean;
     prevValue?: RawTextAreaProps<NAME>['value'];
 }
 
+/**
+ * Multi-line text input composed of InputContainer and RawTextArea,
+ * with optional auto-bullets and a character counter (specific layer).
+ */
 function TextArea<const N>(props: Props<N>) {
     const {
         disabled,
         inputClassName,
+        inputElementRef,
         readOnly,
         required,
         onChange,
@@ -84,6 +89,7 @@ function TextArea<const N>(props: Props<N>) {
                     <RawTextArea
                         // eslint-disable-next-line react/jsx-props-no-spreading
                         {...rawInputProps}
+                        elementRef={inputElementRef}
                         value={value}
                         className={inputClassName}
                         disabled={disabled}

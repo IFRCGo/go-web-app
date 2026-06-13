@@ -895,7 +895,7 @@ export function Component() {
                     )}
                     headerDescription={(
                         <ListView
-                            withDarkBackground
+                            backgroundColor="background"
                             layout="block"
                             withSpacingOpticalCorrection
                             withPadding

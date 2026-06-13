@@ -12,10 +12,10 @@ import {
     Button,
     Description,
     DropdownMenu,
+    FileInputButton,
     Label,
     ListView,
     Modal,
-    RawFileInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -188,8 +188,7 @@ function EapStatus(props: Props) {
         <>
             <DropdownMenu
                 label={statusLabelMapping?.[status] ?? '--'}
-                labelColorVariant="text"
-                labelStyleVariant="translucent"
+                labelVariant="subtle"
             >
                 {eapStatusOptions?.map((option) => (
                     <DropdownMenuItem
@@ -279,14 +278,14 @@ function EapStatus(props: Props) {
                                 <Description withLightText>
                                     {strings.reviewChecklistDescription}
                                 </Description>
-                                <RawFileInput
+                                <FileInputButton
                                     name="review_checklist_file"
                                     onChange={setChecklistFile}
                                     before={<UploadLineIcon />}
                                     accept=".pdf, .docx, .pptx, .xlsx, .xlsm"
                                 >
                                     {strings.reviewChecklistInputLabel}
-                                </RawFileInput>
+                                </FileInputButton>
                                 <Label>
                                     {isDefined(checklistFile) && checklistFile.name}
                                 </Label>
@@ -295,10 +294,10 @@ function EapStatus(props: Props) {
                         {(isSimplifiedEapLocked || isFullEapLocked) && (
                             <Alert
                                 name="revise-error-warning"
-                                type="warning"
+                                variant="warning"
                                 title={strings.reviseFormErrorMessage}
                                 withLightBackground
-                                withoutShadow
+                                boxShadow="none"
                             />
                         )}
                         {!(isSimplifiedEapLocked || isFullEapLocked)
@@ -306,19 +305,19 @@ function EapStatus(props: Props) {
                             && (
                                 <Alert
                                     name="form-error-warning"
-                                    type="warning"
+                                    variant="warning"
                                     title={strings.submitFormErrorMessage}
                                     withLightBackground
-                                    withoutShadow
+                                    boxShadow="none"
                                 />
                             )}
                         {newStatus === EAP_STATUS_PENDING_PFA && !hasValidatedBudgetFile && (
                             <Alert
                                 name="no-budget-file-warning"
-                                type="danger"
+                                variant="danger"
                                 title={strings.noBudgetAlertTitle}
                                 withLightBackground
-                                withoutShadow
+                                boxShadow="none"
                             />
                         )}
                     </ListView>

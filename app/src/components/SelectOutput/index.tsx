@@ -39,7 +39,7 @@ function SelectOutput<VALUE, OPTION>(props: Props<VALUE, OPTION>) {
             label={label}
             value={valueLabel}
             strongLabel
-            withBackground={withBackground}
+            backgroundColor={withBackground ? 'background' : undefined}
         />
     );
 }

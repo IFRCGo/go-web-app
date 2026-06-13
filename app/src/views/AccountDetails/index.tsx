@@ -225,7 +225,7 @@ export function Component() {
                         )}
                     overlayPending
                     withPadding
-                    withDarkBackground
+                    backgroundColor="background"
                     spacing="lg"
                     empty={isNotDefined(montandonTokenResponse)
                         || montandonTokenResponse.results.length === 0}

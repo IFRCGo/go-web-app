@@ -35,7 +35,7 @@ function Example() {
         <Button
             name="button"
             onClick={handleButtonClick}
-            styleVariant="action"
+            variant="tertiary"
         >
             Button
         </Button>
@@ -69,6 +69,30 @@ All spacing uses a unified token scale, ensuring predictable rhythm and easy col
 
 Subtle optical adjustments compensate for line‑height inconsistencies (e.g., in ListView), producing visually balanced layouts.
 
+
+## Component Layers
+
+Every component belongs to one of three layers (see [CONTRIBUTING.md](./CONTRIBUTING.md) for the full rules):
+
+- **Raw** (`Raw*`) — unstyled behavioral primitives (`RawButton`, `RawInput`, `RawList`). No visual opinion, no spec props.
+- **Generic** — the small set that covers most designs through composition. `*Layout` components arrange slots *inside* another component's element (`ButtonLayout` inside `RawButton`); `*View` components are *standalone* generic blocks (`BlockView`, `InlineView`, `ListView`); plus building blocks like `Container`, `InputContainer`, `Heading`, and `RawOutput`. Generic components carry the token-spec props and expose two-axis variants (`colorVariant` + `styleVariant`).
+- **Specific** — consumer-facing components composed from the layers below (`Button`, `Alert`, `TextOutput`, `KeyFigureCard`). They expose a single curated `variant` and narrow spec scales to their design needs.
+
+Imports point downward only: specific components never import each other.
+
+## Token Specs
+
+Visual dimensions are token-valued props ("specs") resolved against the CSS-variable scales in `index.css` through static utility classes:
+
+| Spec | Prop | Values | Offset |
+| --- | --- | --- | --- |
+| Spacing | `spacing` | `none`, `5xs`–`5xl` | `spacingOffset` |
+| Text size | `textSize` | `2xs`–`4xl` | `textSizeOffset` |
+| Background | `backgroundColor` | `foreground`, `background`, `element` | — |
+| Border radius | `borderRadius` | `none`–`3xl`, `full` | `borderRadiusOffset` |
+| Shadow | `boxShadow` | `none`, `xs`–`2xl` | `boxShadowOffset` |
+
+Ordinal specs accept an **offset**: the resolved token shifts along the scale (clamped), so the same `spacing="md"` or `textSize="md"` can resolve one step larger or smaller inside a visually bigger or denser context — without inventing new tokens.
 
 ## UI Layout Concepts
 
@@ -247,12 +271,12 @@ The spacing system provides a **shared vocabulary** paddings and gaps across all
 #### Principles
 
 - Tokens (`5xs` → `5xl`) define a modular scale.  
-- The `useSpacingToken()` hook resolves tokens to values.  
+- The `getSpacingClassName()` resolver maps tokens to static utility classes.  
 - Shared across ListView, BlockView, Inline*, and Container.  
 - Adjusts for **optical harmony** and **density presets** (Compact ↔ Comfortable).  
 - Scales subtly with breakpoints for comfort and consistency.
 
-`useSpacingToken` resolves semantic spacing tokens into usable CSS values for gaps, padding, or margins.
+`getSpacingClassName` (from `@ifrc-go/ui/utils`) resolves semantic spacing tokens into static classes applying gaps and padding; `getSpacingValue` returns the raw CSS value for the rare inline-style case.
 
 #### Design intent
 

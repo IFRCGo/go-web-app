@@ -60,7 +60,7 @@ function VideoList() {
                     <ListView
                         key={videoLink.id}
                         layout="block"
-                        withDarkBackground
+                        backgroundColor="background"
                         withPadding
                         className={styles.videoItem}
                         spacing="sm"

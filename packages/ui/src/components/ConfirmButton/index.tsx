@@ -11,12 +11,22 @@ import useTranslation from '#hooks/useTranslation';
 import i18n from './i18n.json';
 
 export interface Props<NAME> extends ButtonProps<NAME> {
+    /** Body content of the confirmation dialog */
     confirmMessage?: React.ReactNode;
+    /** Heading of the confirmation dialog */
     confirmHeading?: React.ReactNode;
     onClick?: (name: NAME, e: React.MouseEvent<HTMLButtonElement>) => void;
+    /** Called with the button name once the user confirms */
     onConfirm: (name: NAME) => void;
 }
 
+/**
+ * Button that asks for confirmation before acting (specific layer).
+ *
+ * Extends Button (including its curated `variant` API); `onClick` fires
+ * immediately while `onConfirm` only fires after the user accepts the
+ * confirmation dialog.
+ */
 function ConfirmButton<NAME>(props: Props<NAME>) {
     const strings = useTranslation(i18n);
 
@@ -72,7 +82,7 @@ function ConfirmButton<NAME>(props: Props<NAME>) {
                             </Button>
                             <Button
                                 name={name}
-                                styleVariant="filled"
+                                variant="primary"
                                 onClick={handleConfirmClick}
                             >
                                 {strings.buttonOk}

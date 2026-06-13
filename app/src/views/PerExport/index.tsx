@@ -536,7 +536,7 @@ export function Component() {
                                 <ProgressBar
                                     value={component.rating?.value ?? 0}
                                     totalValue={5}
-                                    colorVariant="custom"
+                                    variant="custom"
                                     color={progressBarColor}
                                     title={(
                                         isDefined(component.rating)

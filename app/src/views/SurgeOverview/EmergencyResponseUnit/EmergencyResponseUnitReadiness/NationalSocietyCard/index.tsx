@@ -78,15 +78,15 @@ function NationalSocietyCard(props: Props) {
                 <Button
                     name={undefined}
                     onClick={setShowReadinessInfoTrue}
-                    styleVariant="action"
+                    variant="tertiary"
                     title={strings.eruNSSeeReadinessInfoButton}
                 >
                     {strings.eruNSSeeReadinessInfoButton}
                 </Button>
             )}
             withPadding
-            withShadow
-            withBackground
+            boxShadow="md"
+            backgroundColor="foreground"
         >
             <TextOutput
                 label={strings.eruTypesLabel}

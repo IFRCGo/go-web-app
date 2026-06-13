@@ -1,103 +1,61 @@
-import { useMemo } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import BooleanOutput, { Props as BooleanOutputProps } from '#components/BooleanOutput';
-import DateOutput, { Props as DateOutputProps } from '#components/DateOutput';
-import NumberOutput, { Props as NumberOutputProps } from '#components/NumberOutput';
+import RawOutput, { Props as RawOutputProps } from '#components/RawOutput';
+import {
+    getTextSizeClassName,
+    TextSizeType,
+} from '#utils/style';
 
 import styles from './styles.module.css';
+
+export type KeyFigureTextSize = Extract<TextSizeType, '2xl' | '3xl' | '4xl'>;
 
 interface CommonProps {
     className?: string;
     label?: React.ReactNode;
-    size?: 'sm' | 'md' | 'lg';
+    /**
+     * Font size token for the figure value, narrowed to the large end
+     * of the text-size scale (the old size prop mapped sm/md/lg to
+     * 2xl/3xl/4xl)
+     */
+    textSize?: KeyFigureTextSize;
 }
 
-interface BooleanProps {
-    valueType: 'boolean',
-    value: BooleanOutputProps['value'];
-    valueOptions?: Omit<BooleanOutputProps, 'value'>
-}
+export type Props = CommonProps & RawOutputProps;
 
-interface NumberProps {
-    valueType: 'number',
-    value: NumberOutputProps['value'];
-    valueOptions?: Omit<NumberOutputProps, 'value'>;
-}
-
-interface DateProps {
-    valueType: 'date',
-    value: DateOutputProps['value'],
-    valueOptions?: Omit<DateOutputProps, 'value'>;
-}
-
-interface TextProps {
-    valueType: 'text',
-    value: string | null | undefined;
-    valueOptions?: never;
-}
-
-export type Props = CommonProps & (
-    BooleanProps | NumberProps | DateProps | TextProps
-);
-
+/**
+ * Embeddable key figure: a large typed value over a small label
+ * (specific layer).
+ *
+ * Value rendering is delegated to RawOutput, so the `valueType`
+ * discriminated union (boolean/number/date/text or a plain node)
+ * and the per-type props come from RawOutputProps.
+ */
 function KeyFigure(props: Props) {
     const {
         className,
         label,
-        size = 'md',
-
-        valueType,
-        value,
-        valueOptions,
+        textSize = '3xl',
+        ...rawOutputProps
     } = props;
-
-    const valueComponent = useMemo(() => {
-        if (valueType === 'boolean') {
-            return (
-                <BooleanOutput
-                    value={value}
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...valueOptions}
-                />
-            );
-        }
-
-        if (valueType === 'number') {
-            return (
-                <NumberOutput
-                    value={value}
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...valueOptions}
-                />
-            );
-        }
-
-        if (valueType === 'date') {
-            return (
-                <DateOutput
-                    value={value}
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...valueOptions}
-                />
-            );
-        }
-
-        return value;
-    }, [valueType, value, valueOptions]);
 
     return (
         <div
             className={_cs(
                 styles.keyFigure,
-                size === 'sm' && styles.smallSize,
-                size === 'md' && styles.mediumSize,
-                size === 'lg' && styles.largeSize,
                 className,
             )}
         >
-            <div className={styles.value}>
-                {valueComponent}
+            <div
+                className={_cs(
+                    styles.value,
+                    getTextSizeClassName(textSize),
+                )}
+            >
+                <RawOutput
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...rawOutputProps}
+                />
             </div>
             <div className={styles.label}>
                 {label}

@@ -12,7 +12,7 @@ import {
 import {
     BarChart,
     Container,
-    KeyFigureView,
+    KeyFigureCard,
     ListView,
     TimeSeriesChart,
 } from '@ifrc-go/ui';
@@ -231,28 +231,28 @@ export function Component() {
                         layout="grid"
                         numPreferredGridColumns={4}
                     >
-                        <KeyFigureView
+                        <KeyFigureCard
                             className={styles.keyFigure}
                             icon={<EmergenciesIcon />}
                             value={eventsResponse?.count}
                             valueType="number"
                             label={strings.emergenciesStatsTitle}
                         />
-                        <KeyFigureView
+                        <KeyFigureCard
                             className={styles.keyFigure}
                             icon={<TargetedPopulationIcon />}
                             value={numAffected}
                             valueType="number"
                             label={strings.emergenciesStatsAffected}
                         />
-                        <KeyFigureView
+                        <KeyFigureCard
                             className={styles.keyFigure}
                             icon={<FundingCoverageIcon />}
                             value={amountRequested}
                             valueType="number"
                             label={strings.emergenciesStatsRequested}
                         />
-                        <KeyFigureView
+                        <KeyFigureCard
                             className={styles.keyFigure}
                             icon={<FundingIcon />}
                             value={funding}
@@ -268,9 +268,9 @@ export function Component() {
                     heading={strings.emergenciesByTypeTitle}
                     className={styles.emergenciesByType}
                     withHeaderBorder
-                    withShadow
+                    boxShadow="md"
                     withPadding
-                    withBackground
+                    backgroundColor="foreground"
                     pending={eventsPending}
                 >
                     <BarChart
@@ -284,9 +284,9 @@ export function Component() {
                     heading={strings.emergenciesOverLastYearTitle}
                     className={styles.emergenciesOverLastYear}
                     withHeaderBorder
-                    withShadow
+                    boxShadow="md"
                     withPadding
-                    withBackground
+                    backgroundColor="foreground"
                 >
                     {aggregateEventResponse && (
                         <TimeSeriesChart

@@ -1,12 +1,14 @@
 import { _cs } from '@togglecorp/fujs';
 
-import BooleanOutput, { Props as BooleanOutputProps } from '#components/BooleanOutput';
-import DateOutput, { Props as DateOutputProps } from '#components/DateOutput';
-import NumberOutput, { Props as NumberOutputProps } from '#components/NumberOutput';
+import RawOutput, { Props as RawOutputProps } from '#components/RawOutput';
 import {
     DEFAULT_INVALID_TEXT,
     DEFAULT_PRINT_DATE_FORMAT,
 } from '#utils/constants';
+import {
+    BackgroundColorType,
+    getBackgroundColorClassName,
+} from '#utils/style';
 
 import styles from './styles.module.css';
 
@@ -17,39 +19,25 @@ interface BaseProps {
     valueClassName?: string;
     strongValue?: boolean;
     strongLabel?: boolean;
+    /** Suppresses the ':' appended after the label by default */
     withoutLabelColon?: boolean;
-    invalidText?: React.ReactNode;
-    variant?: 'block' | 'default' | 'contents';
+    /** Layout variant: inline row, stacked block or display-contents cells */
+    styleVariant?: 'block' | 'default' | 'contents';
     withPadding?: boolean;
-    withBackground?: boolean;
+    /** Surface color token (the old withBackground boolean meant 'background') */
+    backgroundColor?: BackgroundColorType;
 }
 
-interface BooleanProps extends BooleanOutputProps {
-    valueType: 'boolean',
-}
+export type Props = BaseProps & RawOutputProps;
 
-interface NumberProps extends NumberOutputProps {
-    valueType: 'number',
-}
-
-interface DateProps extends DateOutputProps {
-    valueType: 'date',
-}
-
-interface TextProps {
-    valueType: 'text',
-    value: string | null | undefined;
-}
-
-interface NodeProps {
-    valueType?: never;
-    value?: React.ReactNode;
-}
-
-export type Props = BaseProps & (
-    NodeProps | TextProps | DateProps | NumberProps | BooleanProps
-);
-
+/**
+ * Labelled value row for print layouts (specific, printable layer).
+ *
+ * Print counterpart of TextOutput: value rendering is delegated to
+ * RawOutput, so the `valueType` discriminated union and per-type props
+ * come from RawOutputProps. Dates are always formatted with the print
+ * date format.
+ */
 function TextOutput(props: Props) {
     const {
         className,
@@ -60,53 +48,41 @@ function TextOutput(props: Props) {
         strongValue,
         withoutLabelColon,
         invalidText = DEFAULT_INVALID_TEXT,
-        variant = 'default',
+        styleVariant = 'default',
         withPadding,
-        withBackground,
-        ...otherProps
+        backgroundColor,
+        ...rawOutputProps
     } = props;
 
-    const { value: propValue } = props;
-    let valueComponent: React.ReactNode = invalidText;
-
-    if (otherProps.valueType === 'number') {
+    let valueComponent: React.ReactNode;
+    if (rawOutputProps.valueType === 'date') {
         valueComponent = (
-            <NumberOutput
+            <RawOutput
                 // eslint-disable-next-line react/jsx-props-no-spreading
-                {...otherProps}
-                invalidText={invalidText}
-            />
-        );
-    } else if (otherProps.valueType === 'date') {
-        valueComponent = (
-            <DateOutput
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...otherProps}
+                {...rawOutputProps}
                 invalidText={invalidText}
                 format={DEFAULT_PRINT_DATE_FORMAT}
             />
         );
-    } else if (otherProps.valueType === 'boolean') {
+    } else {
         valueComponent = (
-            <BooleanOutput
+            <RawOutput
                 // eslint-disable-next-line react/jsx-props-no-spreading
-                {...otherProps}
+                {...rawOutputProps}
                 invalidText={invalidText}
             />
         );
-    } else if (!(propValue instanceof Date)) {
-        valueComponent = propValue || invalidText;
     }
 
     return (
         <div
             className={_cs(
                 styles.textOutput,
-                variant === 'default' && styles.defaultVariant,
-                variant === 'contents' && styles.contentsVariant,
-                variant === 'block' && styles.blockVariant,
+                styleVariant === 'default' && styles.defaultVariant,
+                styleVariant === 'contents' && styles.contentsVariant,
+                styleVariant === 'block' && styles.blockVariant,
                 withPadding && styles.withPadding,
-                withBackground && styles.withBackground,
+                getBackgroundColorClassName(backgroundColor),
                 className,
             )}
         >
@@ -124,7 +100,7 @@ function TextOutput(props: Props) {
                 className={_cs(
                     styles.value,
                     strongValue && styles.strong,
-                    otherProps.valueType === 'text' && styles.textType,
+                    rawOutputProps.valueType === 'text' && styles.textType,
                     valueClassName,
                 )}
             >

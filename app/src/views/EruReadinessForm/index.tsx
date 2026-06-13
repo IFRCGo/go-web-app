@@ -356,7 +356,7 @@ export function Component() {
                     <Button
                         name={undefined}
                         onClick={handleFormSubmit}
-                        styleVariant="filled"
+                        variant="primary"
                         disabled={pending || isNotDefined(value.eru_owner)}
                     >
                         {strings.eruSaveAndCloseButton}

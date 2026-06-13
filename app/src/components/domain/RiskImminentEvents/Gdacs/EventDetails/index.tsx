@@ -95,7 +95,7 @@ function EventDetails(props: Props) {
                         label={strings.eventSourceLabel}
                         value={eventDetails?.source}
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(populationExposure?.death) && (
@@ -106,7 +106,7 @@ function EventDetails(props: Props) {
                         compact
                         valueType="number"
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(populationExposure?.displaced) && (
@@ -117,7 +117,7 @@ function EventDetails(props: Props) {
                         compact
                         valueType="number"
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(populationExposure?.exposed_population) && (
@@ -125,7 +125,7 @@ function EventDetails(props: Props) {
                         label={strings.eventPopulationLabel}
                         value={populationExposure?.exposed_population}
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(populationExposure?.people_affected) && (
@@ -133,7 +133,7 @@ function EventDetails(props: Props) {
                         label={strings.eventPeopleAffectedLabel}
                         value={populationExposure?.people_affected}
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(populationExposure?.impact) && (
@@ -141,7 +141,7 @@ function EventDetails(props: Props) {
                         label={strings.eventImpactLabel}
                         value={populationExposure?.impact}
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(eventDetails?.severitydata)
@@ -150,7 +150,7 @@ function EventDetails(props: Props) {
                         label={strings.eventSeverityLabel}
                         value={eventDetails?.severitydata?.severitytext}
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(eventDetails?.alertlevel) && (
@@ -158,7 +158,7 @@ function EventDetails(props: Props) {
                         label={strings.eventAlertType}
                         value={eventDetails?.alertlevel}
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(eventDetails)

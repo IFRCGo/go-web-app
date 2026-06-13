@@ -105,7 +105,6 @@ function Link(props: Props) {
 
     const content = (
         <ButtonLayout
-            // elementRef={layoutElementRef}
             className={_cs(className, styles.layout, withUnderline && styles.withUnderline)}
             withEllipsizedContent={withEllipsizedContent}
             colorVariant={colorVariant}

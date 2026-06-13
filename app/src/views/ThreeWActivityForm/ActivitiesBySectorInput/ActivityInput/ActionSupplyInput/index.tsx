@@ -83,7 +83,6 @@ function ActionSupplyInput(props: Props) {
             />
             <IconButton
                 name={index}
-                styleVariant="action"
                 ariaLabel={strings.actionRemoveLabel}
                 title={strings.actionRemoveLabel}
                 onClick={onRemove}

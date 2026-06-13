@@ -323,7 +323,7 @@ function SelectionActions(props: Props) {
                         />
                     </ListView>
                 )}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView layout="block">
                     <InputSection
@@ -464,13 +464,11 @@ function SelectionActions(props: Props) {
                             url="/api/v2/eap-file/"
                             value={value.theory_of_change_table_file}
                             error={error?.theory_of_change_table_file}
-                            label={strings.selectionActionUploadTableLabel}
                             onChange={setFieldValue}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
                             readOnly={readOnly}
-                            required
                             clearable
                         >
                             {strings.selectionActionUploadLabel}
@@ -565,7 +563,7 @@ function SelectionActions(props: Props) {
                 headerDescription={
                     strings.selectionActionPlannedOperationHeadingDescription
                 }
-                variant="form"
+                styleVariant="form"
             >
                 <ListView layout="block">
                     <InputSection

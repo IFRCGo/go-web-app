@@ -203,7 +203,7 @@ export function Component() {
             >
                 <Container
                     heading={strings.applicationDetails}
-                    variant="form"
+                    styleVariant="form"
                 >
                     <ListView
                         layout="block"
@@ -313,7 +313,7 @@ export function Component() {
                 </Container>
                 <Container
                     heading={strings.contacts}
-                    variant="form"
+                    styleVariant="form"
                 >
                     <ListView
                         layout="block"
@@ -365,7 +365,7 @@ export function Component() {
                     footerActions={(
                         <Button
                             name={undefined}
-                            styleVariant="filled"
+                            variant="primary"
                             onClick={handleRegistrationsuccessModalClose}
                         >
                             {strings.closeButtonLabel}

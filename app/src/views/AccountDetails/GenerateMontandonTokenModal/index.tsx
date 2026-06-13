@@ -101,7 +101,7 @@ function GenerateMontandonTokenModal(props: Props) {
                                 onClick={handleAcceptAndGenerateClick}
                                 disabled={isNotDefined(tokenTitle)
                                     || tokenTitle.trim().length < MIN_TITLE_LENGTH}
-                                styleVariant="filled"
+                                variant="primary"
                             >
                                 {strings.acceptButtonLabel}
                             </Button>

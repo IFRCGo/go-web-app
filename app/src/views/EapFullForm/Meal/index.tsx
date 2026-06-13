@@ -105,7 +105,7 @@ function Meal(props: Props) {
             )}
         >
             <Container
-                variant="form"
+                styleVariant="form"
                 heading={strings.mealHeading}
             >
                 <ListView

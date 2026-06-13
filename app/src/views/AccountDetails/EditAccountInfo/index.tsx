@@ -224,7 +224,7 @@ function EditAccountInfo(props: Props) {
                         name={undefined}
                         onClick={handleFormSubmit}
                         disabled={updateAccountPending}
-                        styleVariant="filled"
+                        variant="primary"
                     >
                         {strings.editProfileConfirmButtonLabel}
                     </Button>

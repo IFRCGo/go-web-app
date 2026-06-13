@@ -209,7 +209,7 @@ function PerAssessmentSummary(props: Props) {
             headerDescription={description}
             withHeaderBorder
             withPadding
-            withBackground
+            backgroundColor="foreground"
             spacing="lg"
         >
             <ListView

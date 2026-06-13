@@ -368,7 +368,7 @@ function SubscriptionModal(props: Props) {
                     <Button
                         name={undefined}
                         onClick={handleUpdateButtonClick}
-                        styleVariant="filled"
+                        variant="primary"
                         disabled={pristine
                             || updateSubscriptionPending
                             || createSubscriptionPending}
@@ -446,7 +446,7 @@ function SubscriptionModal(props: Props) {
                                     key={region.key}
                                     heading={region.value}
                                     headingLevel={6}
-                                    withDarkBackground
+                                    backgroundColor="background"
                                     withPadding
                                     headerActions={(
                                         <>
@@ -486,7 +486,7 @@ function SubscriptionModal(props: Props) {
                                                 label={country.name}
                                                 value={selectedCountriesIdMap?.[country.id]}
                                                 onChange={updateCountrySelection}
-                                                withBackground
+                                                backgroundColor="foreground"
                                                 withInvertedView
                                             />
                                         ))}

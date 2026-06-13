@@ -165,7 +165,7 @@ function NationalSocietyLocalUnits(props: Props) {
                         {canSeeMoreOptions && (
                             <DropdownMenu
                                 withoutDropdownIcon
-                                labelStyleVariant="action"
+                                labelVariant="tertiary"
                                 label={<MoreTwoFillIcon className={styles.icon} />}
                                 persistent
                             >

@@ -5,7 +5,7 @@ import {
 } from '@ifrc-go/ui';
 
 // eslint-disable-next-line max-len
-function RadioInput<const N, O extends object, V extends string | number | boolean, RRP extends RadioProps<V, N>>(props: RadioInputProps<N, O, V, RRP, never>) {
+function RadioInput<const N, O extends object, V extends string | number | boolean, RRP extends RadioProps<V>>(props: RadioInputProps<N, O, V, RRP>) {
     return (
         <PureRadioInput {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );

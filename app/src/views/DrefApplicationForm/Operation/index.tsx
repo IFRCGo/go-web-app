@@ -798,14 +798,14 @@ function Operation(props: Props) {
                         </InputSection>
                         <ListView
                             withPadding
-                            withBackground
+                            backgroundColor="foreground"
                             withSpacingOpticalCorrection
                         >
                             <NonFieldError error={getErrorObject(error?.planned_interventions)} />
                         </ListView>
                         <ListView
                             withPadding
-                            withBackground
+                            backgroundColor="foreground"
                             withSpacingOpticalCorrection
                         >
                             <Description>

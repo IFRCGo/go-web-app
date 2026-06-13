@@ -12,10 +12,10 @@ import {
 import {
     Button,
     Container,
+    FileInputButton,
     InlineLayout,
     ListView,
     Modal,
-    RawFileInput,
     SelectInput,
     TextOutput,
 } from '@ifrc-go/ui';
@@ -254,7 +254,7 @@ function LocalUnitBulkUploadModal(props: Props) {
                         <ListView layout="block">
                             {error && <NonFieldError error={error as Error<PartialLocalUnits>} />}
                             {isNotDefined(bulkUploadFile) && (
-                                <RawFileInput
+                                <FileInputButton
                                     name="file"
                                     accept=".xlsx, .xlsm"
                                     onChange={setBulkUploadFile}
@@ -265,12 +265,12 @@ function LocalUnitBulkUploadModal(props: Props) {
                                     before={<DrefTwoIcon className={styles.icon} />}
                                 >
                                     {strings.selectFileButtonLabel}
-                                </RawFileInput>
+                                </FileInputButton>
                             )}
                             {isDefined(bulkUploadFile) && (
                                 <ListView
                                     withPadding
-                                    withDarkBackground
+                                    backgroundColor="background"
                                     withSpaceBetweenContents
                                 >
                                     <InlineLayout
@@ -289,7 +289,7 @@ function LocalUnitBulkUploadModal(props: Props) {
                                         <Button
                                             name={undefined}
                                             onClick={handleStartUploadButtonClick}
-                                            styleVariant="filled"
+                                            variant="primary"
                                         >
                                             {strings.startUploadButtonLabel}
                                         </Button>
@@ -334,7 +334,7 @@ function LocalUnitBulkUploadModal(props: Props) {
                 {isDefined(importSummaryResponse) && (
                     <LocalUnitImportSummary
                         value={importSummaryResponse}
-                        withBackground
+                        backgroundColor="foreground"
                         withPadding
                     />
                 )}

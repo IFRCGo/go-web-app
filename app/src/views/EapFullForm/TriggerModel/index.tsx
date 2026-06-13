@@ -244,7 +244,7 @@ function TriggerModel(props: Props) {
                         />
                     </ListView>
                 )}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView layout="block" spacing="sm">
                     <InputSection
@@ -423,12 +423,10 @@ function TriggerModel(props: Props) {
                             value={value.forecast_table_file}
                             error={getErrorString(error?.forecast_table_file)}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            required
                             clearable
                             disabled={disabled}
                             readOnly={readOnly}
                             useCurrentLanguageForMutation
-                            label={strings.attachRelevantFilesUploadLabel}
                         >
                             {strings.triggerUploadTableLabel}
                         </GoSingleFileInput>

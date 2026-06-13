@@ -239,7 +239,7 @@ function ComponentInput(props: Props) {
             )}
             pending={formQuestionsPending}
             withPadding
-            withBackground
+            backgroundColor="foreground"
             spacing="lg"
         >
             <ListView
@@ -260,7 +260,7 @@ function ComponentInput(props: Props) {
                             componentNum={componentNum}
                             answer={mappedQuestionResponses?.[perFormQuestion.id]?.answerDisplay}
                             notes={mappedQuestionResponses?.[perFormQuestion.id]?.notes}
-                            withDarkBackground={i % 2 === 0}
+                            backgroundColor={i % 2 === 0 ? 'background' : undefined}
                         />
                     ),
                 )}

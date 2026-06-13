@@ -111,7 +111,7 @@ function RiskAnalysis(props: Props) {
         >
             <Container
                 heading={strings.riskHeading}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"
@@ -255,7 +255,7 @@ function RiskAnalysis(props: Props) {
             </Container>
             <Container
                 heading={strings.earlyActionSelection}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"

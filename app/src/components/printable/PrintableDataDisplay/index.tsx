@@ -8,12 +8,12 @@ import {
     NumberOutput,
     type NumberOutputProps,
 } from '@ifrc-go/ui';
-import { useSpacingToken } from '@ifrc-go/ui/hooks';
 import {
     DEFAULT_INVALID_TEXT,
     DEFAULT_PRINT_DATE_FORMAT,
     fullSpacings,
     gapSpacings,
+    getSpacingClassName,
     paddingSpacings,
     type SpacingType,
 } from '@ifrc-go/ui/utils';
@@ -208,13 +208,13 @@ function PrintableDataDisplay(props: Props) {
 
     const spacingOffset = -3;
 
-    const spacingClassName = useSpacingToken({
+    const spacingClassName = getSpacingClassName({
         spacing,
         offset: spacingOffset,
         modes: withPadding ? fullSpacings : gapSpacings,
     });
 
-    const innerPaddingClassName = useSpacingToken({
+    const innerPaddingClassName = getSpacingClassName({
         spacing,
         offset: spacingOffset,
         modes: paddingSpacings,

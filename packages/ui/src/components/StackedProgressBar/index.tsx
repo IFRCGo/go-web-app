@@ -16,9 +16,16 @@ export interface Props<VALUE> {
     data: VALUE[];
     valueSelector: (value: VALUE, index: number) => number;
     labelSelector: (value: VALUE, index: number) => React.ReactNode;
+    /** CSS color for each segment (data-driven visualization exception) */
     colorSelector: (value: VALUE, index: number) => string;
 }
 
+/**
+ * StackedProgressBar visualizes the proportions of multiple values as
+ * segments of a single bar, with a legend.
+ * Specific (data-viz) layer: segment colors come from data via
+ * `colorSelector`, the blessed data-driven exception.
+ */
 function StackedProgressBar<VALUE>(props: Props<VALUE>) {
     const {
         className,

@@ -204,7 +204,7 @@ function RiskAnalysis(props: Props) {
         >
             <Container
                 heading={strings.riskAnalysisHeading}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView layout="block" spacing="sm">
                     <InputSection
@@ -459,7 +459,6 @@ function RiskAnalysis(props: Props) {
                             error={getErrorString(error?.risk_analysis_relevant_files)}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             clearable
-                            required
                             disabled={disabled}
                             readOnly={readOnly}
                             useCurrentLanguageForMutation

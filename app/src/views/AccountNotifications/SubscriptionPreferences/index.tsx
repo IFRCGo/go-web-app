@@ -222,7 +222,6 @@ function SubscriptionPreferences() {
                 <Button
                     name={value}
                     onClick={handleUpdateButtonClick}
-                    colorVariant="primary"
                 >
                     {strings.subscriptionUpdateButtonLabel}
                 </Button>

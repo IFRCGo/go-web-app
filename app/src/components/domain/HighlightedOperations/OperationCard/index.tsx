@@ -118,8 +118,8 @@ function OperationCard(props: Props) {
         <Container
             className={className}
             withPadding
-            withBackground
-            withShadow
+            backgroundColor="foreground"
+            boxShadow="md"
             pending={false}
             empty={false}
             filtered={false}
@@ -240,7 +240,7 @@ function OperationCard(props: Props) {
                     )}
                     value={targetedPopulation}
                     valueType="number"
-                    valueOptions={{ compact: true }}
+                    compact
                 />
                 <KeyFigure
                     value={amountRequested}
@@ -254,7 +254,7 @@ function OperationCard(props: Props) {
                         </Link>
                     )}
                     valueType="number"
-                    valueOptions={{ compact: true }}
+                    compact
                 />
             </ListView>
         </Container>

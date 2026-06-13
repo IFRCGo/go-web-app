@@ -483,8 +483,8 @@ function RiskImminentEventMap<
                 empty={isNotDefined(events) || events.length === 0}
                 emptyMessage={strings.emptyImminentEventMessage}
                 withPadding
-                withBackground
-                withShadow
+                backgroundColor="foreground"
+                boxShadow="md"
                 withContentOverflow
                 withContentWell
                 spacing="sm"

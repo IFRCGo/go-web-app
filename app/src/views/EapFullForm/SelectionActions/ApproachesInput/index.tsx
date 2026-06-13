@@ -72,7 +72,7 @@ function ApproachesInput(props: Props) {
                 <Button
                     name={index}
                     onClick={onRemove}
-                    styleVariant="action"
+                    variant="tertiary"
                     title={strings.approachRemoveButton}
                     disabled={disabled || readOnly}
                 >
@@ -80,7 +80,7 @@ function ApproachesInput(props: Props) {
                 </Button>
             )}
             withPadding
-            withBackground
+            backgroundColor="foreground"
             initiallyExpanded
             withHeaderBorder
             // FIXME: add non field error and error indicator

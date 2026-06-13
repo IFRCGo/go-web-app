@@ -9,7 +9,7 @@ import type {
     TabColorVariant,
     TabStyleVariant,
 } from '#contexts/tab';
-import useSpacingToken from '#hooks/useSpacingToken';
+import { getSpacingClassName } from '#utils/style';
 
 import styles from './styles.module.css';
 
@@ -74,7 +74,7 @@ function TabLayout(props: Props) {
         ...inlineLayoutProps
     } = props;
 
-    const wrapperSpacingClassName = useSpacingToken({
+    const wrapperSpacingClassName = getSpacingClassName({
         modes: ['padding-inline'],
         spacing,
         offset: -5,

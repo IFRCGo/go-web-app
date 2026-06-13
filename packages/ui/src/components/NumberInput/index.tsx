@@ -18,6 +18,7 @@ type InheritedProps<NAME> = Omit<InputContainerProps, 'input'>
 & Omit<RawInputProps<NAME>, 'onChange' | 'value' | 'className' | 'elementRef'>;
 
 export interface Props<NAME> extends InheritedProps<NAME> {
+    /** Ref to the inner <input> node (elementRef refers to the root) */
     inputElementRef?: React.RefObject<HTMLInputElement | null>;
     inputClassName?: string;
     value: number | undefined | null;
@@ -30,11 +31,16 @@ export interface Props<NAME> extends InheritedProps<NAME> {
     prevValue?: number | undefined | null;
 }
 
+/**
+ * Numeric input composed of InputContainer and RawInput; keeps a local
+ * string state so partial input does not emit NaN (specific layer).
+ */
 function NumberInput<const T>(props: Props<T>) {
     const {
         disabled,
         readOnly,
         inputClassName,
+        inputElementRef,
         value: valueFromProps,
         required,
         onChange,
@@ -90,6 +96,7 @@ function NumberInput<const T>(props: Props<T>) {
                 <RawInput
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...rawInputProps}
+                    elementRef={inputElementRef}
                     className={inputClassName}
                     disabled={disabled}
                     onChange={handleChange}

@@ -71,7 +71,7 @@ function SurgeCatalogueContainer(props: Props) {
                 <Button
                     name={undefined}
                     onClick={handleBackButtonClick}
-                    styleVariant="action"
+                    variant="tertiary"
                     title={strings.surgeGoBack}
                     textSize="lg"
                 >

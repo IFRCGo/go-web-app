@@ -7,7 +7,7 @@ import {
 } from '@ifrc-go/icons';
 import {
     InfoPopup,
-    KeyFigureView,
+    KeyFigureCard,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -36,7 +36,7 @@ function CountryKeyFigures(props: Props) {
             layout="grid"
             numPreferredGridColumns={5}
         >
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<DrefIcon />}
                 value={data.active_drefs}
                 valueType="number"
@@ -47,9 +47,9 @@ function CountryKeyFigures(props: Props) {
                     />
                 )}
                 label={strings.activeDrefOperationsLabel}
-                withShadow
+                boxShadow="md"
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<AppealsIcon />}
                 value={data.active_appeals}
                 valueType="number"
@@ -62,37 +62,35 @@ function CountryKeyFigures(props: Props) {
                     />
                 )}
                 label={strings.countryOngoingActivitiesKeyFiguresActiveAppeals}
-                withShadow
+                boxShadow="md"
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<TargetedPopulationIcon />}
                 value={data.target_population}
                 valueType="number"
-                valueOptions={{ compact: true }}
+                compact
                 label={strings.countryOngoingActivitiesKeyFiguresTargetPop}
-                withShadow
+                boxShadow="md"
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<FundingIcon />}
                 value={data.amount_requested_dref_included}
                 valueType="number"
-                valueOptions={{ compact: true }}
+                compact
                 label={strings.countryOngoingActivitiesKeyFiguresBudget}
-                withShadow
+                boxShadow="md"
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<FundingCoverageIcon />}
                 value={getPercentage(
                     data.amount_funded_dref_included,
                     data.amount_requested_dref_included,
                 )}
                 valueType="number"
-                valueOptions={{
-                    suffix: '%',
-                    compact: true,
-                }}
+                suffix="%"
+                compact
                 label={strings.countryOngoingActivitiesKeyFiguresAppealsFunding}
-                withShadow
+                boxShadow="md"
             />
         </ListView>
     );

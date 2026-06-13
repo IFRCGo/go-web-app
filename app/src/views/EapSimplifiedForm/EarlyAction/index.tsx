@@ -137,7 +137,7 @@ function EarlyAction(props: Props) {
         >
             <Container
                 heading={strings.actionHeading}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"
@@ -268,7 +268,7 @@ function EarlyAction(props: Props) {
                     <ListView
                         layout="block"
                         spacing="none"
-                        withBackground
+                        backgroundColor="foreground"
                     >
                         <InputSection
                             title={strings.actionOperation}

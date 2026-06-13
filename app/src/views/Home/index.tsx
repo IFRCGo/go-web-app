@@ -8,7 +8,7 @@ import {
 import {
     Container,
     InfoPopup,
-    KeyFigureView,
+    KeyFigureCard,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -42,11 +42,11 @@ export function Component() {
             layout="grid"
             numPreferredGridColumns={5}
         >
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<DrefIcon />}
                 value={aggregatedAppealResponse.active_drefs}
                 valueType="number"
-                size="lg"
+                textSize="4xl"
                 info={(
                     <InfoPopup
                         title={strings.keyFiguresDrefTitle}
@@ -55,11 +55,11 @@ export function Component() {
                 )}
                 label={strings.homeKeyFiguresActiveDrefs}
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<AppealsIcon />}
                 value={aggregatedAppealResponse.active_appeals}
                 valueType="number"
-                size="lg"
+                textSize="4xl"
                 info={(
                     <InfoPopup
                         title={strings.keyFiguresActiveAppealsTitle}
@@ -68,35 +68,33 @@ export function Component() {
                 )}
                 label={strings.homeKeyFiguresActiveAppeals}
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<FundingIcon />}
                 value={aggregatedAppealResponse.amount_requested_dref_included}
                 valueType="number"
-                size="lg"
-                valueOptions={{ compact: true }}
+                textSize="4xl"
+                compact
                 label={strings.homeKeyFiguresBudget}
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<FundingCoverageIcon />}
                 value={getPercentage(
                     aggregatedAppealResponse?.amount_funded_dref_included,
                     aggregatedAppealResponse?.amount_requested_dref_included,
                 )}
                 valueType="number"
-                valueOptions={{
-                    compact: true,
-                    suffix: '%',
-                }}
+                compact
+                suffix="%"
                 label={strings.homeKeyFiguresAppealsFunding}
-                size="lg"
+                textSize="4xl"
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<TargetedPopulationIcon />}
                 value={aggregatedAppealResponse.target_population}
                 valueType="number"
-                valueOptions={{ compact: true }}
+                compact
                 label={strings.homeKeyFiguresTargetPop}
-                size="lg"
+                textSize="4xl"
             />
         </ListView>
     );

@@ -289,8 +289,8 @@ export function Component() {
                         {emergencyResponse.featured_documents.map((featuredDocument) => (
                             <Container
                                 key={featuredDocument.id}
-                                withBackground
-                                withShadow
+                                backgroundColor="foreground"
+                                boxShadow="md"
                                 withPadding
                                 withoutSpacingOpticalCorrection
                                 spacing="sm"
@@ -352,8 +352,8 @@ export function Component() {
                                 headingLevel={6}
                                 withHeaderBorder
                                 withPadding
-                                withShadow
-                                withBackground
+                                boxShadow="md"
+                                backgroundColor="foreground"
                                 withContentOverflow
                                 withFixedHeight
                                 spacing="sm"

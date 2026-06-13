@@ -5,7 +5,7 @@ import {
     Description,
     HtmlOutput,
     type HtmlOutputProps,
-    KeyFigureView,
+    KeyFigureCard,
     ListView,
     RawList,
 } from '@ifrc-go/ui';
@@ -47,7 +47,7 @@ function RegionKeyFigure(props: RegionKeyFigureProps) {
     const strings = useTranslation(i18n);
 
     return (
-        <KeyFigureView
+        <KeyFigureCard
             // FIXME: fix typings from server (medium priority)
             // FIXME: Do we need to round this similar to EmergencyDetails/KeyFigure?
             value={Number.parseFloat(figure)}
@@ -69,7 +69,7 @@ function RegionKeyFigure(props: RegionKeyFigureProps) {
                     </Description>
                 </ListView>
             )}
-            withShadow
+            boxShadow="md"
         />
     );
 }

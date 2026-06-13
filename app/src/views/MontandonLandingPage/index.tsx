@@ -43,7 +43,6 @@ export function Component() {
                     <DropdownMenu
                         label={strings.sourcePopupTitle}
                         labelBefore={<DrefTwoIcon />}
-                        labelColorVariant="primary"
                         preferredPopupWidth={30}
                         persistent
                     >
@@ -91,7 +90,6 @@ export function Component() {
                     <DropdownMenu
                         label={strings.sharePopupTitle}
                         labelBefore={<ShareLineIcon />}
-                        labelColorVariant="primary"
                         preferredPopupWidth={30}
                         persistent
                     >
@@ -161,8 +159,8 @@ export function Component() {
                         heading={strings.gettingStartedGuide}
                         withHeaderBorder
                         withPadding
-                        withBackground
-                        withShadow
+                        backgroundColor="foreground"
+                        boxShadow="md"
                     >
                         <ListView
                             layout="block"
@@ -242,8 +240,8 @@ export function Component() {
                         <Container
                             heading={strings.blogPosts}
                             withPadding
-                            withBackground
-                            withShadow
+                            backgroundColor="foreground"
+                            boxShadow="md"
                             withHeaderBorder
                         >
                             <ListView
@@ -269,8 +267,8 @@ export function Component() {
                         <Container
                             heading={strings.contact}
                             withPadding
-                            withBackground
-                            withShadow
+                            backgroundColor="foreground"
+                            boxShadow="md"
                             withHeaderBorder
                         >
                             <ListView

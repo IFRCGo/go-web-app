@@ -4,6 +4,9 @@
     --go-ui-font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
     --go-ui-optical-correction-factor: 1.5;
+    /* Additive term applied to vertical spacing (padding-block, row-gap) to
+       compensate for the extra perceived whitespace from text line-height */
+    --go-ui-spacing-optical-correction: calc(1rem / var(--go-ui-optical-correction-factor) - 1rem);
     --base-font-size: 0.875rem;
     --go-ui-font-size-export: 0.6875rem;
 

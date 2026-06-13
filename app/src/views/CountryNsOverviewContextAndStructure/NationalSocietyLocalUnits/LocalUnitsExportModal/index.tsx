@@ -131,7 +131,7 @@ function LocalUnitsExportModal(props: Props) {
                     <Button
                         name={null}
                         disabled={isNotDefined(countryId) || isNotDefined(selectedLocalUnitType)}
-                        styleVariant="filled"
+                        variant="primary"
                         onClick={triggerExport}
                     >
                         {strings.generateExportButtonLabel}

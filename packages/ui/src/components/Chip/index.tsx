@@ -23,10 +23,17 @@ export interface Props<N> {
     className?: string;
     name: N;
     label: React.ReactNode;
+    /** Visual emphasis of the chip */
     variant?: ChipVariant;
+    /** Show a delete button and call back with `name` on click */
     onDelete?: (name: N, e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
+/**
+ * Chip is a compact labelled element, typically representing an applied
+ * filter or selection, with an optional delete action.
+ * Specific layer: exposes a single curated `variant` prop.
+ */
 function Chip<const N>(props: Props<N>) {
     const {
         className,

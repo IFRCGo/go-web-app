@@ -64,7 +64,7 @@ function Extract(props: Props) {
                 />
             )}
             withPadding
-            withDarkBackground
+            backgroundColor="background"
         >
             {extract}
         </Container>

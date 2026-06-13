@@ -123,7 +123,7 @@ function RiskImminentEvents(props: Props) {
             footer={(
                 <ListView
                     withWrap
-                    withDarkBackground
+                    backgroundColor="background"
                     withSpaceBetweenContents
                     withPadding
                 >

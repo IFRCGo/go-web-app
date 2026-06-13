@@ -7,22 +7,6 @@
         text-align: center;
     }
 
-    &.text-size-extra-small {
-        font-size: var(--go-ui-font-size-xs);
-    }
-
-    &.text-size-small {
-        font-size: var(--go-ui-font-size-sm);
-    }
-
-    &.text-size-medium {
-        font-size: var(--go-ui-font-size-md);
-    }
-
-    &.text-size-large {
-        font-size: var(--go-ui-font-size-lg);
-    }
-
     &.with-light-text {
         color: var(--go-ui-color-text-light);
     }

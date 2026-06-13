@@ -128,7 +128,7 @@ function EmailPreferences() {
                         <Container
                             key={item.id}
                             heading={item.title}
-                            withDarkBackground
+                            backgroundColor="background"
                             withPadding
                             headerActions={(
                                 <>
@@ -137,15 +137,13 @@ function EmailPreferences() {
                                         onClick={handleSubscriptionEditClick}
                                         title={strings.editSubscriptionTitle}
                                         before={<PencilLineIcon />}
-                                        styleVariant="action"
-                                        colorVariant="primary"
+                                        variant="tertiary"
                                     >
                                         {strings.editSubscriptionLabel}
                                     </Button>
                                     <ConfirmButton
                                         name={item.id}
-                                        styleVariant="action"
-                                        colorVariant="primary"
+                                        variant="tertiary"
                                         title={strings.deleteSubscriptionTitle}
                                         onConfirm={handleSubscriptionDelete}
                                         // eslint-disable-next-line max-len

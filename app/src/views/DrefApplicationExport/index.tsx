@@ -1071,7 +1071,7 @@ export function Component() {
                             value={child_safeguarding_risk_level}
                             valueType="text"
                             strongValue
-                            variant="contents"
+                            styleVariant="contents"
                         />
                     )}
                 </Container>

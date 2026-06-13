@@ -49,8 +49,8 @@ function InitiativeCard(props: Props) {
                     valueType="text"
                 />
             )}
-            withBackground
-            withShadow
+            backgroundColor="foreground"
+            boxShadow="md"
             withPadding
         >
             <ListView
