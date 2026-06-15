@@ -100,6 +100,9 @@ const appConfigs = compat.config({
 
         'import/extensions': ['off', 'never'],
 
+        // This ignore can be removed after MVP phase.
+        'import/no-unresolved': ['error', { ignore: ['^@ifrc-go/'] }],
+
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'warn',
 

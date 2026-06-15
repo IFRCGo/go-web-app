@@ -371,6 +371,7 @@ export default function NrwControlPanel({
 
     if (selectedAdminPlaceCode) {
     // TODO: change the view based on this
+        // eslint-disable-next-line no-console
         console.debug(
             `TODO: [NrwControlPanel] Selected admin area: ${selectedAdminPlaceCode}`,
         );

@@ -1,53 +1,53 @@
 .container {
-    justify-content: center;
-    display: flex;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .mapWrapper {
-    position: relative;
-    width: 95%;
-    height: 800px;
-    --control-border-color: #32323250;
-    --control-bg: #ffffff;
-    --control-bg-hover: #f4f4f4;
-    --control-text: #323232;
-    --control-border-radius: 0.7rem;
-    --control-shadow: drop-shadow(0 0 10px rgba(0, 0, 0, 0.08));
+  position: relative;
+  width: 95%;
+  height: 800px;
+  --control-border-color: #32323250;
+  --control-bg: #ffffff;
+  --control-bg-hover: #f4f4f4;
+  --control-text: #323232;
+  --control-border-radius: 0.7rem;
+  --control-shadow: drop-shadow(0 0 10px rgba(0, 0, 0, 0.08));
 }
 
 .map {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 /* Restyle the OpenLayers zoom controls */
 .map :global(.ol-zoom) {
-    top: 1rem;
-    left: auto;
-    right: 1rem;
-    display: flex;
-    flex-direction: column;
-    background: none;
-    padding: 0;
-    border-radius: var(--control-border-radius);
-    border: 3px solid var(--control-border-color);
-    filter: var(--control-shadow);
+  display: flex;
+  top: 1rem;
+  right: 1rem;
+  left: auto;
+  flex-direction: column;
+  border: 3px solid var(--control-border-color);
+  border-radius: var(--control-border-radius);
+  background: none;
+  padding: 0;
+  filter: var(--control-shadow);
 }
 
 .map :global(.ol-zoom :is(.ol-zoom-in, .ol-zoom-out)) {
-    width: 2.5rem;
-    height: 2.5rem;
-    margin: 0;
-    background-color: var(--control-bg);
-    border: none;
-    color: transparent;
-    font-size: 0;
-    font-weight: 700;
-    line-height: 1;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 1.25rem 1.25rem;
+  margin: 0;
+  border: none;
+  background-color: var(--control-bg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 1.25rem 1.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 1;
+  color: transparent;
+  font-size: 0;
+  font-weight: 700;
 }
 
 /* The plus/minus icons from FontAwesome are placed here as SVG directly in the CSS
@@ -57,68 +57,60 @@
 
 /* Plus icon for zoom in */
 .map :global(.ol-zoom .ol-zoom-in) {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23323232' d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z'/%3E%3C/svg%3E");
+  border-bottom: 1px solid var(--control-border-color);
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23323232' d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z'/%3E%3C/svg%3E");
 }
 
 /* Minus icon for zoom out */
 .map :global(.ol-zoom .ol-zoom-out) {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23323232' d='M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z'/%3E%3C/svg%3E");
+  border-top: 1px solid var(--control-border-color);
+  border-radius: 0 0 0.5rem 0.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23323232' d='M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z'/%3E%3C/svg%3E");
 }
 
 .map :global(.ol-zoom :is(.ol-zoom-in, .ol-zoom-out):hover) {
-    background-color: var(--control-bg-hover);
-    outline: none;
+  outline: none;
+  background-color: var(--control-bg-hover);
 }
 
 .map :global(.ol-zoom :is(.ol-zoom-in, .ol-zoom-out):focus),
 .map :global(.ol-zoom :is(.ol-zoom-in, .ol-zoom-out):focus-visible) {
-    outline: none;
-}
-
-.map :global(.ol-zoom .ol-zoom-in) {
-    border-bottom: 1px solid var(--control-border-color);
-    border-radius: 0.5rem 0.5rem 0 0;
-}
-
-
-.map :global(.ol-zoom .ol-zoom-out) {
-    border-top: 1px solid var(--control-border-color);
-    border-radius: 0 0 0.5rem 0.5rem;
+  outline: none;
 }
 
 /* Layers button rendered below the zoom control */
 .layersButton {
-    position: absolute;
-    top: 7.5rem;
-    right: 1rem;
-    width: 2.85rem;
-    height: 2.85rem;
-    background-color: var(--control-bg);
-    color: var(--control-text);
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 1;
-    border-radius: var(--control-border-radius);
-    border: 3.9px solid var(--control-border-color);
-    background-clip: padding-box;
-    cursor: pointer;
-    filter: var(--control-shadow);
+  position: absolute;
+  top: 7.5rem;
+  right: 1rem;
+  border: 3.9px solid var(--control-border-color);
+  border-radius: var(--control-border-radius);
+  background-clip: padding-box;
+  background-color: var(--control-bg);
+  cursor: pointer;
+  width: 2.85rem;
+  height: 2.85rem;
+  line-height: 1;
+  color: var(--control-text);
+  font-size: 1.5rem;
+  font-weight: 700;
+  filter: var(--control-shadow);
 }
 
 .layersButton:hover {
-    background-color: var(--control-bg-hover);
+  background-color: var(--control-bg-hover);
 }
 
 /* Layer panel overlay, opens to the left of the layers button */
 .layerPanelOverlay {
-    position: absolute;
-    top: 7.5rem;
-    right: 4.5rem;
-    z-index: 10;
-    max-width: 300px;
-    max-height: calc(100% - 9rem);
-    overflow-y: auto;
-    border-radius: var(--control-border-radius);
-    filter: var(--control-shadow);
+  position: absolute;
+  top: 7.5rem;
+  right: 4.5rem;
+  z-index: 10;
+  border-radius: var(--control-border-radius);
+  max-width: 300px;
+  max-height: calc(100% - 9rem);
+  overflow-y: auto;
+  filter: var(--control-shadow);
 }
-

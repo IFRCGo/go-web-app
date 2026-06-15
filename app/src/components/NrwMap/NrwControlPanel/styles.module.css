@@ -5,8 +5,8 @@
 
 .header-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 16px;
 }
 
@@ -16,29 +16,29 @@
 
 .event-card {
     margin-bottom: 16px;
-    padding: 8px;
     border: 1px solid #ec74ff;
     border-radius: 4px;
+    padding: 8px;
 }
 
 .event-title {
-    font-weight: bold;
-    font-size: 1.1em;
     margin-bottom: 4px;
+    font-size: 1.1em;
+    font-weight: bold;
 }
 
 .event-alert {
-    font-size: 0.9em;
-    color: #666;
-    text-transform: capitalize;
     margin-bottom: 8px;
+    text-transform: capitalize;
+    color: #666;
+    font-size: 0.9em;
 }
 
 .event-details {
     margin-bottom: 8px;
     padding-left: 8px;
-    font-size: 0.9em;
     color: #666;
+    font-size: 0.9em;
 }
 
 .region-list {
@@ -49,19 +49,19 @@
 /* Event Detail View Styles */
 .event-detail-view {
     padding: 16px;
+    color: #333;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: 14px;
-    color: #333;
 }
 
 .back-button {
-    background: none;
+    margin-bottom: 16px;
     border: none;
-    color: #666;
+    background: none;
     cursor: pointer;
     padding: 0;
+    color: #666;
     font-size: 14px;
-    margin-bottom: 16px;
 }
 
 .back-button:hover {
@@ -83,24 +83,24 @@
 }
 
 .header-icon {
-    font-size: 20px;
     color: #333;
+    font-size: 20px;
 }
 
 .header-title {
+    color: #333;
     font-size: 16px;
     font-weight: 600;
-    color: #333;
 }
 
 .severity-badge {
-    background-color: #dc2626;
-    color: white;
-    padding: 4px 12px;
     border-radius: 4px;
+    background-color: #dc2626;
+    padding: 4px 12px;
+    text-transform: capitalize;
+    color: white;
     font-size: 12px;
     font-weight: 500;
-    text-transform: capitalize;
 }
 
 /* Event Info */
@@ -111,15 +111,15 @@
 .info-row {
     display: flex;
     align-items: center;
-    gap: 8px;
+    margin-bottom: 4px;
     color: #666;
     font-size: 13px;
-    margin-bottom: 4px;
+    gap: 8px;
 }
 
 .info-icon {
-    font-size: 16px;
     color: #999;
+    font-size: 16px;
 }
 
 /* Button Group */
@@ -136,17 +136,17 @@
 }
 
 .section-header {
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 0;
-    background: none;
     border: none;
+    background: none;
     cursor: pointer;
+    padding: 12px 0;
+    width: 100%;
+    color: #333;
     font-size: 14px;
     font-weight: 500;
-    color: #333;
 }
 
 .section-header:hover {
@@ -185,14 +185,14 @@
 }
 
 .stat-label {
-    font-size: 12px;
     color: #666;
+    font-size: 12px;
 }
 
 .stat-value {
+    color: #333;
     font-size: 14px;
     font-weight: 500;
-    color: #333;
 }
 
 /* District Table */
@@ -203,17 +203,17 @@
 .district-tableHeader {
     display: flex;
     justify-content: space-between;
-    padding: 8px 0;
     border-bottom: 1px solid #e5e5e5;
-    font-size: 12px;
+    padding: 8px 0;
     color: #666;
+    font-size: 12px;
 }
 
 .district-table-row {
     display: flex;
     justify-content: space-between;
-    padding: 8px 0;
     border-bottom: 1px solid #f0f0f0;
+    padding: 8px 0;
     font-size: 13px;
 }
 
@@ -233,35 +233,35 @@
 }
 
 .infra-label {
-    font-size: 12px;
     color: #666;
+    font-size: 12px;
 }
 
 .infra-value {
+    color: #333;
     font-size: 14px;
     font-weight: 500;
-    color: #333;
 }
 
 /* Data Sources */
 .source-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
+    justify-content: space-between;
     border-bottom: 1px solid #f0f0f0;
+    padding: 8px 0;
 }
 
 .source-label {
-    font-size: 13px;
     color: #333;
+    font-size: 13px;
 }
 
 .confidence-badge {
-    background-color: #22c55e;
-    color: white;
-    padding: 4px 10px;
     border-radius: 4px;
+    background-color: #22c55e;
+    padding: 4px 10px;
+    color: white;
     font-size: 11px;
     font-weight: 500;
 }
@@ -269,8 +269,8 @@
 /* Footer */
 .footer {
     margin-top: 20px;
-    padding-top: 12px;
-    font-size: 11px;
-    color: #999;
     border-top: 1px solid #e5e5e5;
+    padding-top: 12px;
+    color: #999;
+    font-size: 11px;
 }

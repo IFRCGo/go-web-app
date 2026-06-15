@@ -1,0 +1,68 @@
+name: NRW CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "develop"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-js:
+    name: Lint JS
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - name: Install dependencies
+        run: (export FONTAWESOME_API_KEY=${{ secrets.FONTAWESOME_API_KEY }}; pnpm install)
+      - name: Lint JS
+        run: pnpm exec eslint src/components/NrwMap src/utils/nrw
+        working-directory: app
+
+  lint-css:
+    name: Lint CSS
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - name: Install dependencies
+        run: (export FONTAWESOME_API_KEY=${{ secrets.FONTAWESOME_API_KEY }}; pnpm install)
+      - name: Lint CSS
+        run: pnpm exec stylelint "src/components/NrwMap/**/*.css" "src/utils/nrw/**/*.css"
+        working-directory: app
+
+  unused:
+    name: Identify unused files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - name: Install dependencies
+        run: (export FONTAWESOME_API_KEY=${{ secrets.FONTAWESOME_API_KEY }}; pnpm install)
+      - name: Initialize types
+        run: pnpm initialize:type
+        working-directory: app
+      - name: Identify unused files
+        run: pnpm lint:unused

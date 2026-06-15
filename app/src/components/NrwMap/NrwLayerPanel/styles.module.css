@@ -1,35 +1,35 @@
 .container {
-    background-color: #e0f7f7;
-    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
     border: 3px solid var(--control-border-color);
-    background-clip: padding-box;
     border-radius: var(--control-border-radius);
+    background-clip: padding-box;
+    background-color: #e0f7f7;
+    padding: 16px;
+    gap: 8px;
 }
 
 .title {
+    color: #000000;
     font-size: 14px;
     font-weight: 600;
-    color: #000000;
 }
 
 .button-group {
     display: flex;
+    align-items: flex-start;
     flex-direction: column;
     gap: 8px;
-    align-items: flex-start;
 }
 
 .layer-link {
     border: none;
     background: none;
+    cursor: pointer;
     padding: 0;
+    text-align: left;
     color: #000;
     font: inherit;
-    text-align: left;
-    cursor: pointer;
 }
 
 .hide-all-button {

@@ -1,23 +1,23 @@
 .container {
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  height: calc(100vh - 40px);
 }
 
 .main-content {
-    display: flex;
-    flex: 1;
-    min-height: 0;
+  display: flex;
+  flex: 1;
+  min-height: 0;
 }
 
 .control-panel-column {
-    width: 300px;
-    flex-shrink: 0;
-    overflow-y: auto;
+  flex-shrink: 0;
+  width: 300px;
+  overflow-y: auto;
 }
 
 .map-column {
-    flex: 1;
-    min-width: 0;
+  flex: 1;
+  min-width: 0;
 }
