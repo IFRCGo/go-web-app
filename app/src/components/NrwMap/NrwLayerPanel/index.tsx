@@ -10,12 +10,10 @@ import {
     useRef,
     useState,
 } from 'react';
-import { Button } from '@ifrc-go/ui';
-import type MapOl from 'ol/Map';
+import { byPrefixAndName } from '@awesome.me/kit-92f09b5225/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import useAlert from '#hooks/useAlert';
 import { getCountryMapData } from '#utils/nrw/nrwDataFetchHelpers';
-import { exportMapToPdf } from '#utils/nrw/nrwMapToPdfExporter';
 import {
     type MapLayerDetails,
     MapLayerInfoType,
@@ -39,11 +37,10 @@ interface NrwLayerPanelProps {
   countryCode: string;
   onToggleMapLayer: (layerDetails: MapLayerDetails) => void;
   onHideAllLayers: () => void;
-  mapRef: React.RefObject<MapOl | null>;
-  eventId?: number;
-  peakDay?: string;
   // Resource IDs of layers that should be on on initial view
   initialLayerIds: string[];
+  // Resource IDs of currently visible layers
+  visibleLayerResourceIds: string[];
   // Is the map setup complete
   isMapReady: boolean;
 }
@@ -56,14 +53,10 @@ export default function NrwLayerPanel({
     countryCode,
     onToggleMapLayer,
     onHideAllLayers,
-    mapRef,
-    eventId,
-    peakDay,
     initialLayerIds,
+    visibleLayerResourceIds,
     isMapReady,
 }: NrwLayerPanelProps) {
-    const alert = useAlert();
-
     // Whether the panel is still in its initial state (no user interaction yet).
     const isInitialStateRef = useRef(true);
 
@@ -75,6 +68,9 @@ export default function NrwLayerPanel({
     // Get the list of country-level layers available for a country
     // TODO: use real data instead of mock. Pending IBF API
     const [countryLayers, setCountryLayers] = useState<MapLayerDetails[]>([]);
+
+    // Visible layers, passed in from useNrwDataLoader.
+    const visibleLayerIds = new Set(visibleLayerResourceIds);
 
     useEffect(() => {
         const loadCountryLayers = async () => {
@@ -116,38 +112,11 @@ export default function NrwLayerPanel({
         onHideAllLayers();
     }, [onHideAllLayers]);
 
-    const handleExportMapClick = useCallback(async () => {
-        isInitialStateRef.current = false;
-        if (mapRef.current) {
-            const filenameParts = [countryCode];
-            if (eventId) {
-                filenameParts.push(`event_${eventId}`);
-            }
-            if (peakDay) {
-                filenameParts.push(`peak_${peakDay}`);
-            }
-            try {
-                await exportMapToPdf(mapRef.current, filenameParts);
-            } catch (error) {
-                alert.show('Failed to export map. Please try again.', { variant: 'danger' });
-                console.error('Map export error:', error);
-            }
-        }
-    }, [mapRef, countryCode, eventId, peakDay, alert]);
-
     const hasAnyLayers = eventLayers.length > 0 || countryLayers.length > 0;
 
     if (!hasAnyLayers) {
         return (
             <div className={styles.container}>
-                <div className={styles.exportButtonRow}>
-                    <Button
-                        name="export-map"
-                        onClick={handleExportMapClick}
-                    >
-                        Export
-                    </Button>
-                </div>
                 <div className={styles.title}>Map Layers</div>
                 <p>No layers available</p>
             </div>
@@ -156,28 +125,24 @@ export default function NrwLayerPanel({
 
     return (
         <div className={styles.container}>
-            <div className={styles.exportButtonRow}>
-                <Button
-                    name="export-map"
-                    onClick={handleExportMapClick}
-                >
-                    Export
-                </Button>
-            </div>
             <div className={styles.title}>Map Layers</div>
 
             {eventLayers.length > 0 && (
                 <div className={styles.buttonGroup}>
                     {eventLayers.map((layer) => (
-                        <Button
+                        <button
                             key={`${layer.dataType}_${layer.resourceId}`}
                             name={`toggle_${layer.dataType}_${layer.resourceId}`}
+                            type="button"
+                            className={styles.layerLink}
                             onClick={() => handleToggleClick(layer)}
                         >
-                            Toggle
+                            {visibleLayerIds.has(layer.resourceId)
+                                ? <FontAwesomeIcon icon={byPrefixAndName.fas!['square-check']!} />
+                                : <FontAwesomeIcon icon={byPrefixAndName.far!.square!} />}
                             {' '}
                             {getLayerLabel(layer)}
-                        </Button>
+                        </button>
                     ))}
                 </div>
             )}
@@ -185,23 +150,34 @@ export default function NrwLayerPanel({
             {countryLayers.length > 0 && (
                 <div className={styles.buttonGroup}>
                     {countryLayers.map((layer) => (
-                        <Button
+                        <button
                             key={`${layer.dataType}_${layer.resourceId}`}
-                            name={`toggle_country_${layer.dataType}`}
+                            name={`toggle_country_${layer.dataType}_${layer.resourceId}`}
+                            type="button"
+                            className={styles.layerLink}
                             onClick={() => handleToggleClick(layer)}
                         >
-                            Toggle
+                            {visibleLayerIds.has(layer.resourceId)
+                                ? <FontAwesomeIcon icon={byPrefixAndName.fas!['square-check']!} />
+                                : <FontAwesomeIcon icon={byPrefixAndName.far!.square!} />}
                             {' '}
                             {getLayerLabel(layer)}
-                        </Button>
+                        </button>
                     ))}
                 </div>
             )}
 
             <div className={styles.hideAllButton}>
-                <Button name="hide-all-layers" onClick={handleHideAllClick}>
+                <button
+                    name="hide-all-layers"
+                    type="button"
+                    className={styles.layerLink}
+                    onClick={handleHideAllClick}
+                >
+                    ✖️
+                    {' '}
                     Hide All Layers
-                </Button>
+                </button>
             </div>
         </div>
     );

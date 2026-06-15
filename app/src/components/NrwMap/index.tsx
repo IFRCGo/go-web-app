@@ -93,7 +93,7 @@ export default function NrwMapContainer() {
         registerMapAddLayer,
         toggleMapLayer,
         hideAllLayers,
-        activeLayerIds,
+        activeLayerIds: visibleLayerIds,
         isMapReady,
     } = useNrwDataLoader(selectedCountry, [], selectedEventId, initialLayerIds);
 
@@ -147,8 +147,8 @@ export default function NrwMapContainer() {
 
     // Sync the active layer IDs to the URL
     useEffect(() => {
-        syncLayerIds(activeLayerIds);
-    }, [activeLayerIds, syncLayerIds]);
+        syncLayerIds(visibleLayerIds);
+    }, [visibleLayerIds, syncLayerIds]);
 
     // Refresh page and put in a default start state
     const handleRefreshAll = async () => {
@@ -181,7 +181,7 @@ export default function NrwMapContainer() {
         setEventParams({
             country: selectedCountry,
             eventId,
-            layerIds: activeLayerIds,
+            layerIds: visibleLayerIds,
         });
     };
 
@@ -198,7 +198,7 @@ export default function NrwMapContainer() {
             eventId: activeEventId,
             adminCode: placeCode,
             mapView,
-            layerIds: activeLayerIds,
+            layerIds: visibleLayerIds,
         });
     };
 
@@ -208,7 +208,7 @@ export default function NrwMapContainer() {
             eventId: activeEventId,
             adminCode: selectedAdminPlaceCode ?? undefined,
             mapView,
-            layerIds: activeLayerIds,
+            layerIds: visibleLayerIds,
         });
     };
 
@@ -218,23 +218,13 @@ export default function NrwMapContainer() {
                 <NrwDataPanel
                     selectedCountry={selectedCountry}
                     adminDetails={adminDetails}
+                    mapRef={mapRef}
+                    eventId={activeEventId ?? undefined}
+                    peakDay={selectedEventPeakDay}
                 />
             </div>
             <div className={styles.mainContent}>
                 <div className={styles.controlPanelColumn}>
-                    <div id={PrintElementId.LayerPanel}>
-                        <NrwLayerPanel
-                            eventLayers={selectedEventLayers}
-                            countryCode={selectedCountry}
-                            onToggleMapLayer={toggleMapLayer}
-                            onHideAllLayers={hideAllLayers}
-                            mapRef={mapRef}
-                            eventId={activeEventId ?? undefined}
-                            peakDay={selectedEventPeakDay}
-                            initialLayerIds={initialLayerIds}
-                            isMapReady={isMapReady}
-                        />
-                    </div>
                     <div id={PrintElementId.ControlPanel}>
                         <NrwControlPanel
                             eventData={eventData}
@@ -257,6 +247,19 @@ export default function NrwMapContainer() {
                         onSelect={handleMapItemSelected}
                         onViewChange={handleMapViewChanged}
                         onMapReady={(map: MapOl) => { mapRef.current = map; }}
+                        layerPanel={(
+                            <div id={PrintElementId.LayerPanel}>
+                                <NrwLayerPanel
+                                    eventLayers={selectedEventLayers}
+                                    countryCode={selectedCountry}
+                                    onToggleMapLayer={toggleMapLayer}
+                                    onHideAllLayers={hideAllLayers}
+                                    initialLayerIds={initialLayerIds}
+                                    visibleLayerResourceIds={visibleLayerIds}
+                                    isMapReady={isMapReady}
+                                />
+                            </div>
+                        )}
                     />
                 </div>
             </div>

@@ -12,11 +12,11 @@ import {
     PLACE_CODE_FIELD_KEY,
 } from './nrwConstants';
 
-// Map URLs
+// Base map URL
 const maptilerBaseUrl = 'https://api.maptiler.com';
-const maptilerSimpleStylePath = '/maps/019c41d2-17c7-7e5e-9a47-d3b3f9515a5b/style.json';
-// Simple, default IBF data map
-export const mapUrlSimpleStyleJson = `${maptilerBaseUrl}${maptilerSimpleStylePath}?key=${maptilerApiKey}`;
+// ID of the map we created in Map Tiler.
+const mapGuid = '019eb13e-4bbd-743d-995d-970d7c3a2633';
+export const mapUrlStyleJson = `${maptilerBaseUrl}/maps/${mapGuid}/style.json?key=${maptilerApiKey}`;
 
 // Raw GitHub URLs for direct file access
 // TODO: Once we have working API, we'll need a conditional here to target either the
@@ -65,6 +65,10 @@ const getSimplificationFactor = (adminLevel: number): number => {
     return factor;
 };
 
+// For debug purposes, replace baseQuery by the following string. This directly calls pg_featureserv.
+// This lets you access tables (such as debug.admin_areas) that are not wrapped by the API.
+// Note that the query structure is slightly different for this base url.
+// const baseQuery = 'http://localhost:9000/collections/debug.admin_areas/items?filter=';
 const baseQuery = `${ibfApiBackend}admin-areas?filter=`;
 const and = '%20AND%20';
 

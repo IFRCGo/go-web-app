@@ -14,3 +14,5 @@ extend-exclude = [
     MENA = "MENA"
     ANC = "ANC"
     OTHR = "OTHR"
+    LSO = "LSO"
+    PN = "PN"

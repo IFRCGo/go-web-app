@@ -13,6 +13,7 @@ env:
   APP_RISK_API_ENDPOINT: 'https://go-risk-staging.northeurope.cloudapp.azure.com/api/v1/'
   APP_TINY_API_KEY: 'dummy-api-key'
   APP_TITLE: 'IFRC Go Test'
+  FONTAWESOME_API_KEY: ${{ secrets.FONTAWESOME_API_KEY }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

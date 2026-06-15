@@ -1,7 +1,11 @@
 import {
+    type ReactNode,
     useEffect,
     useRef,
+    useState,
 } from 'react';
+import { byPrefixAndName } from '@awesome.me/kit-92f09b5225/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { View } from 'ol';
 import { defaults as defaultControls } from 'ol/control/defaults.js';
 import type { EventsKey } from 'ol/events';
@@ -35,7 +39,7 @@ import type {
     SelectedEventMapDetails,
 } from '#utils/nrw/nrwMapTypes';
 import { MapLayerDisplayType } from '#utils/nrw/nrwMapTypes';
-import { mapUrlSimpleStyleJson } from '#utils/nrw/nrwUrls';
+import { mapUrlStyleJson } from '#utils/nrw/nrwUrls';
 
 import { createMapPopupPanel } from '../NrwMapPopupPanel';
 
@@ -76,6 +80,9 @@ interface OlDataMapProps {
   // Callback when the map instance is ready
   // This is needed to pass references of the map for exporting to PDF
   onMapReady?: (map: MapOl) => void;
+
+  // Layer panel rendered as an overlay when the layers button is pressed
+  layerPanel: ReactNode;
 }
 
 type AddAdminLayerFunction = (level: 1 | 2 | 3, country?: string, parentCode?: string) => void;
@@ -97,8 +104,10 @@ export default function OlDataMap({
     onSelect,
     onViewChange,
     onMapReady,
+    layerPanel,
 }: OlDataMapProps) {
     const mapRef = useRef<HTMLDivElement>(null);
+    const [isLayerPanelOpen, setIsLayerPanelOpen] = useState(false);
     const mapInstanceRef = useRef<MapOl | null>(null);
     const stateRef = useRef<MapViewState | null>(null);
     const adminLayersRef = useRef<Map<number, VectorLayer>>(new Map());
@@ -254,7 +263,7 @@ export default function OlDataMap({
             });
 
             // Apply base map style
-            apply(mapInstanceRef.current, mapUrlSimpleStyleJson);
+            apply(mapInstanceRef.current, mapUrlStyleJson);
             mapInstanceRef.current.addOverlay(mapPopup.overlay);
 
             // Expose addLayer function to parent
@@ -398,7 +407,7 @@ export default function OlDataMap({
             if (exposedAdmin2 && exposedAdmin2.length > 0) {
                 // If we have one or more admin2 exposed regions,
                 // load admin 2 and all it's childed admin3 regions.
-                // TODO: revist this logic after more designs are done
+                // TODO: revisit this logic after more designs are done
                 const parentCode = exposedAdmin2[0]!;
                 addAdminLayer(2, selectedCountry, parentCode);
                 addAdminLayer(3, selectedCountry, parentCode);
@@ -441,7 +450,26 @@ export default function OlDataMap({
 
     return (
         <div className={styles.container}>
-            <div ref={mapRef} className={styles.map} />
+            <div className={styles.mapWrapper}>
+                <div ref={mapRef} className={styles.map} />
+                <div
+                    className={styles.layerPanelOverlay}
+                    // Keep the panel mounted so deeplinked layers load on mount,
+                    // but hide it visually until the user opens it.
+                    hidden={!isLayerPanelOpen}
+                >
+                    {layerPanel}
+                </div>
+                <button
+                    type="button"
+                    className={styles.layersButton}
+                    aria-label="Layers"
+                    aria-expanded={isLayerPanelOpen}
+                    onClick={() => setIsLayerPanelOpen((prev) => !prev)}
+                >
+                    <FontAwesomeIcon icon={byPrefixAndName.far!['layer-group']!} />
+                </button>
+            </div>
         </div>
     );
 }

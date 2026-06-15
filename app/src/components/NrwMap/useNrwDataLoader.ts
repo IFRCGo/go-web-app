@@ -50,7 +50,7 @@ export default function useNrwDataLoader(
 
     // Resource IDs of currently visible layers (population, event extent, etc.)
     // The starting value is any layer IDs in the deeplink.
-    const [activeLayerIds, setActiveLayerIds] = useState<string[]>(initialLayerIds);
+    const [visibleLayerIds, setVisibleLayerIds] = useState<string[]>(initialLayerIds);
 
     // If the base map setup is complete.
     // This must be awaited before any layers can be added to the map.
@@ -83,7 +83,7 @@ export default function useNrwDataLoader(
         if (!resourceId) {
             return;
         }
-        setActiveLayerIds((prev) => {
+        setVisibleLayerIds((prev) => {
             const has = prev.includes(resourceId);
             if (isVisible && !has) {
                 return [...prev, resourceId];
@@ -193,7 +193,7 @@ export default function useNrwDataLoader(
         layersCache.current.forEach((layer) => {
             layer.setVisible(false);
         });
-        setActiveLayerIds([]);
+        setVisibleLayerIds([]);
     };
 
     // Select an event by ID
@@ -221,7 +221,7 @@ export default function useNrwDataLoader(
         registerMapAddLayer,
         toggleMapLayer,
         hideAllLayers,
-        activeLayerIds,
+        activeLayerIds: visibleLayerIds,
         isMapReady,
         initialLayerIds,
     };

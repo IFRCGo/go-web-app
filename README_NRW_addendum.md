@@ -37,6 +37,20 @@ cp app/sample.env app/.env
 
 Adjust settings as needed.
 
+You can get the `FONTAWESOME_API_KEY` from the NLRC BitWarden page, or login to the NLRC FontAwesome account, and get it from there. If it has already been set in GitHub secrets, you can get it from there as well. This is needed to build locally.
+
+### Github setup
+
+The CI workflow needs to build the UI library. To do this, you must set the `FONTAWESOME_API_KEY` in the GitHub secrets. See above on how to get this.
+
+1. In the GitHub repo, go to **Settings → Secrets and variables → Actions → New repository secret**.
+
+3. Name the new secret `FONTAWESOME_API_KEY` and paste the token as the value, then save.
+
+### Adding spellchecker corrections
+
+The spell checker is easily confused by acronyms and country codes. You can add exceptions in `typos.toml` under `[default.extend-words]`. These are case-sensitive.
+
 ### NRW Portal
 
 For running the NRW portal, see [the NRW readme.](app/src/components/NrwMap/readme.md)
