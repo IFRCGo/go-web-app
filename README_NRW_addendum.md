@@ -44,7 +44,7 @@ You can get the `FONTAWESOME_API_KEY` from the NLRC BitWarden page, or login to 
 The CI workflow needs to build the UI library. To do this, you must set the `FONTAWESOME_API_KEY` in the GitHub secrets. See above on how to get this.
 
 1. In the GitHub repo, go to **Settings → Secrets and variables → Actions → New repository secret**.
-1. Name the new secret `FONTAWESOME_API_KEY` and paste the token as the value, then save.
+2. Name the new secret `FONTAWESOME_API_KEY` and paste the token as the value, then save.
 
 ### Adding spellchecker corrections
 
