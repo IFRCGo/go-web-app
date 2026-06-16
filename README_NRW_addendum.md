@@ -45,7 +45,7 @@ The CI workflow needs to build the UI library. To do this, you must set the `FON
 
 1. In the GitHub repo, go to **Settings → Secrets and variables → Actions → New repository secret**.
 
-3. Name the new secret `FONTAWESOME_API_KEY` and paste the token as the value, then save.
+2. Name the new secret `FONTAWESOME_API_KEY` and paste the token as the value, then save.
 
 ### Adding spellchecker corrections
 
