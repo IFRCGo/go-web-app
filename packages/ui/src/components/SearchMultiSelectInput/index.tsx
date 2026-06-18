@@ -335,6 +335,8 @@ function SearchMultiSelectInput<
             persistentOptionPopup
             nonClearable={false}
             hasValue={isDefined(value) && value.length > 0}
+            optionSelector={(key) => value.findIndex((item) => item === key) !== -1}
+            multiSelect
             prevValue={prevValueDisplay}
             highlightMode={highlightMode}
         />

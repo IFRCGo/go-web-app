@@ -29,6 +29,8 @@ function Segment<NAME>(props: SegmentProps<NAME>) {
             className={styles.rawButton}
             name={name}
             onClick={onClick}
+            role="radio"
+            aria-checked={value}
         >
             <ButtonLayout
                 // eslint-disable-next-line react/jsx-props-no-spreading

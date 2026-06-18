@@ -77,6 +77,8 @@ function PasswordInput<const T>(props: Props<T>) {
                         variant="tertiary"
                         disabled={disabled}
                         name={undefined}
+                        aria-label={showPassword ? strings.hidePassword : strings.showPassword}
+                        aria-pressed={showPassword}
                         title={showPassword ? strings.hidePassword : strings.showPassword}
                     >
                         {showPassword ? <EyeFillIcon /> : <EyeOffLineIcon />}

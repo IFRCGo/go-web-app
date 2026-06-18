@@ -1,6 +1,7 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
 import json from "@eslint/json";
+import jsdoc from 'eslint-plugin-jsdoc';
 import tseslint  from 'typescript-eslint';
 import process from 'process';
 import { Linter } from 'eslint';
@@ -64,10 +65,12 @@ const appConfigs = compat.config({
             {
                 devDependencies: [
                     '**/*.test.{ts,tsx}',
+                    '**/setupTests.ts',
                     'eslint.config.js',
                     'postcss.config.cjs',
                     'stylelint.config.cjs',
                     'vite.config.ts',
+                    'vitest.config.ts',
                 ],
                 optionalDependencies: false,
             },
@@ -142,6 +145,22 @@ const jsonConfig: Linter.Config = {
     },
 };
 
+// CONTRIBUTING.md: every exported component carries a JSDoc block. Scoped to
+// component entry files (not utils/hooks/types) and introduced as a warning to
+// ratchet — ~22 components are currently missing one; flip to 'error' once
+// backfilled.
+const jsdocConfig: Linter.Config = {
+    files: ['src/components/*/index.tsx'],
+    plugins: { jsdoc },
+    rules: {
+        'jsdoc/require-jsdoc': ['warn', {
+            publicOnly: true,
+            require: { FunctionDeclaration: true },
+            exemptEmptyFunctions: true,
+        }],
+    },
+};
+
 const config = tseslint.config(
     // ...tseslint.configs.recommended,
     {
@@ -152,6 +171,7 @@ const config = tseslint.config(
     ...appConfigs,
     otherConfig,
     jsonConfig,
+    jsdocConfig,
 );
 
 export default config;

@@ -343,6 +343,7 @@ function SearchSelectInput<
             focusedKey={focusedKey}
             onFocusedKeyChange={setFocusedKey}
             hasValue={isDefined(value)}
+            optionSelector={(key) => key === value}
             persistentOptionPopup={false}
             onEnterWithoutOption={handleEnterWithoutOption}
             prevValue={prevValueDisplay}

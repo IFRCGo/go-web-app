@@ -1,4 +1,8 @@
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useEffect,
+    useRef,
+} from 'react';
 import {
     _cs,
     isDefined,
@@ -90,6 +94,16 @@ function Checkbox<const NAME>(props: Props<NAME>) {
 
     const checked = invertedLogic ? !value : value;
 
+    const inputRef = useRef<HTMLInputElement>(null);
+    // `indeterminate` is a DOM property, not an attribute, so React can't set
+    // it declaratively — apply it imperatively (and re-apply on checked change,
+    // since toggling `checked` clears the indeterminate flag).
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.indeterminate = !!indeterminate;
+        }
+    }, [indeterminate, checked]);
+
     const className = _cs(
         styles.checkbox,
         classNameFromProps,
@@ -107,11 +121,12 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         >
             <div className={_cs(styles.checkmarkContainer, checkmarkContainerClassName)}>
                 <input
+                    ref={inputRef}
                     onChange={handleChange}
                     className={_cs(styles.input, inputClassName)}
                     type="checkbox"
                     role={role}
-                    aria-checked={ariaChecked}
+                    aria-checked={ariaChecked ?? (indeterminate ? 'mixed' : undefined)}
                     checked={checked ?? false}
                     disabled={disabled || readOnly}
                     readOnly={readOnly}

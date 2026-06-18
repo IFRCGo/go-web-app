@@ -1,5 +1,5 @@
 .key-figure {
     .value {
-        font-weight: var(--go-ui-font-weight-medium);
+        font-weight: var(--go-ui-font-weight-bold);
     }
 }

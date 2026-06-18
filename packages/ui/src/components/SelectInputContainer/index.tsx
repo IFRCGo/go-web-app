@@ -1,4 +1,7 @@
-import React, { useRef } from 'react';
+import React, {
+    useId,
+    useRef,
+} from 'react';
 import {
     ArrowDownSmallFillIcon,
     ArrowUpSmallFillIcon,
@@ -7,6 +10,7 @@ import {
 } from '@ifrc-go/icons';
 import {
     _cs,
+    isDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
 
@@ -73,6 +77,10 @@ interface SelectInputContainerProps<
     onEnterWithoutOption?: () => void;
     dropdownHidden?: boolean;
     withoutDropdownIcon?: boolean;
+    /** Predicate for whether an option is currently chosen (drives aria-selected). */
+    optionSelector?: (optionKey: OPTION_KEY, option: OPTION) => boolean;
+    /** True for multi-select variants; sets aria-multiselectable on the listbox. */
+    multiSelect?: boolean;
 }
 
 export type Props<
@@ -87,11 +95,13 @@ const emptyList: unknown[] = [];
 /**
  * Shared shell for the select inputs: search input, clear/select-all/
  * dropdown actions and the options popup (generic layer).
+ *
+ * Implements the WAI-ARIA combobox pattern: role="combobox" on the search input
+ * (aria-expanded/-controls/-haspopup/-autocomplete + aria-activedescendant
+ * tracking the keyboard-focused option), role="listbox" on the options popup,
+ * and role="option" + aria-selected on each option (see GenericOption). The
+ * label/hint/error contract is wired through InputContainer via inputId.
  */
-// FIXME(a11y-tier2): wire full combobox semantics here -- role="combobox"
-// on the search input with aria-expanded/aria-controls, role="listbox" on
-// the options popover, role="option" + aria-selected on each option, and
-// aria-activedescendant tracking the focused option (deferred this pass).
 function SelectInputContainer<
     OPTION_KEY extends OptionKey,
     const NAME,
@@ -144,6 +154,8 @@ function SelectInputContainer<
         onEnterWithoutOption,
         dropdownHidden,
         withoutDropdownIcon,
+        optionSelector,
+        multiSelect,
     } = selectInputContainerProps;
 
     const options = optionsFromProps ?? (emptyList as OPTION[]);
@@ -153,6 +165,16 @@ function SelectInputContainer<
     const inputSectionRef = useRef<HTMLDivElement>(null);
     const inputElementRef = useRef<HTMLInputElement>(null);
     const popupRef = useRef<HTMLDivElement>(null);
+
+    const generatedId = useId();
+    const inputId = generatedId;
+    const listboxId = `${generatedId}-listbox`;
+    const getOptionNodeId = (key: OPTION_KEY) => `${generatedId}-option-${key}`;
+    const hasError = isDefined(inputContainerProps.error);
+    const hasHint = isDefined(inputContainerProps.hint);
+    const errorId = hasError ? `${generatedId}-error` : undefined;
+    const hintId = hasHint ? `${generatedId}-hint` : undefined;
+    const describedBy = [hintId, errorId].filter(isDefined).join(' ') || undefined;
 
     // FIXME(frozenhelium): useCallback removed for React Compiler compatibility
     const handleSearchInputChange = (value: string | undefined) => {
@@ -217,6 +239,8 @@ function SelectInputContainer<
         onClick: handleOptionClick,
         onFocus: onFocusedKeyChange,
         optionContainerClassName: _cs(optionContainerClassName, styles.listItem),
+        optionNodeId: getOptionNodeId(key),
+        isSelected: optionSelector ? optionSelector(key, option) : false,
     });
 
     useBlurEffect(
@@ -254,6 +278,9 @@ function SelectInputContainer<
                 {...inputContainerProps}
                 elementRef={containerRef}
                 inputSectionRef={inputSectionRef}
+                inputId={inputId}
+                hintId={hintId}
+                errorId={errorId}
                 disabled={disabled}
                 readOnly={readOnly}
                 required={required}
@@ -302,6 +329,20 @@ function SelectInputContainer<
                 input={(
                     <RawInput
                         name={name}
+                        id={inputId}
+                        role="combobox"
+                        aria-expanded={dropdownShownActual}
+                        aria-controls={dropdownShownActual ? listboxId : undefined}
+                        aria-haspopup="listbox"
+                        aria-autocomplete="list"
+                        aria-activedescendant={
+                            dropdownShownActual && focusedKey
+                                ? getOptionNodeId(focusedKey.key)
+                                : undefined
+                        }
+                        aria-invalid={hasError}
+                        aria-required={required}
+                        aria-describedby={describedBy}
                         elementRef={inputElementRef}
                         readOnly={readOnly}
                         disabled={disabled}
@@ -327,6 +368,9 @@ function SelectInputContainer<
                         className={styles.list}
                         layout="block"
                         spacing="none"
+                        role="listbox"
+                        id={listboxId}
+                        aria-multiselectable={multiSelect ? true : undefined}
                     >
                         <RawList<
                             OPTION,

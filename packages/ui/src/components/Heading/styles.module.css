@@ -30,7 +30,7 @@
     }
 
     &.level-two {
-        --font-size: 1.875rem;
+        --font-size: var(--go-ui-font-size-3xl);
 
         @media print {
             color: var(--go-ui-color-primary-blue);

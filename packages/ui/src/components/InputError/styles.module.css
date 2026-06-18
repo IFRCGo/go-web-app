@@ -1,5 +1,5 @@
 .error-content {
-    color: var(--go-ui-color-red);
+    color: var(--go-ui-color-negative);
 }
 
 .input-error {
@@ -17,7 +17,7 @@
     opacity: 0;
     animation: fade-in var(--go-ui-duration-transition-medium) ease-in forwards;
     animation-delay: var(--go-ui-duration-transition-medium);
-    color: var(--go-ui-color-red);
+    color: var(--go-ui-color-negative);
 }
 
 @keyframes slide-down {

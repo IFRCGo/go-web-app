@@ -7,7 +7,7 @@
 .tooltip-content {
     position: fixed;
     opacity: 0;
-    border-radius: var(--go-ui-spacing-xs);
+    border-radius: var(--go-ui-border-radius-xl);
     box-shadow: var(--go-ui-box-shadow-2xl);
     background-color: var(--go-ui-color-white);
     max-height: 50vh;

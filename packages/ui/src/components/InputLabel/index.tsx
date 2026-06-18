@@ -5,6 +5,8 @@ import styles from './styles.module.css';
 export interface Props {
     children?: React.ReactNode;
     className?: string;
+    /** Id applied to the `<label>`; lets a grouped control reference it via `aria-labelledby`. */
+    id?: string;
     disabled?: boolean;
     // FIXME: change prop name to withAsterisk
     required?: boolean;
@@ -22,6 +24,7 @@ function InputLabel(props: Props) {
     const {
         children,
         className,
+        id,
         disabled,
         required,
         htmlFor,
@@ -33,6 +36,7 @@ function InputLabel(props: Props) {
 
     return (
         <label
+            id={id}
             htmlFor={htmlFor}
             className={_cs(
                 styles.inputLabel,

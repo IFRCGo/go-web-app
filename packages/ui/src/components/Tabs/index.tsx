@@ -1,5 +1,6 @@
 import {
     useCallback,
+    useId,
     useMemo,
     useState,
 } from 'react';
@@ -32,6 +33,7 @@ function Tabs<const VALUE extends TabKey>(props: Props<VALUE>) {
 
     const [tabs, setTabs] = useState<TabKey[]>([]);
     const [step, setStep] = useState(0);
+    const idBase = useId();
 
     const registerTab = useCallback((name: TabKey) => {
         setTabs((prevTabs) => {
@@ -68,6 +70,7 @@ function Tabs<const VALUE extends TabKey>(props: Props<VALUE>) {
         unregisterTab,
         step,
         setStep,
+        idBase,
     }), [
         tabs,
         value,
@@ -79,6 +82,7 @@ function Tabs<const VALUE extends TabKey>(props: Props<VALUE>) {
         unregisterTab,
         step,
         setStep,
+        idBase,
     ]);
 
     return (

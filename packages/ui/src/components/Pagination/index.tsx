@@ -190,6 +190,7 @@ function Pagination(props: Props) {
                 onClick={onActivePageChange}
                 className={styles.pageButton}
                 disabled={activePage <= 1 || disabled}
+                aria-label={`${strings.rawButtonGoToPage} ${activePage - 1}`}
                 title={`${strings.rawButtonGoToPage} ${activePage - 1}`}
             >
                 <ChevronLeftLineIcon className={styles.icon} />
@@ -203,6 +204,7 @@ function Pagination(props: Props) {
                             name={page.index}
                             onClick={onActivePageChange}
                             disabled={disabled}
+                            aria-label={`${strings.rawButtonGoTo} ${page.index}`}
                             title={`${strings.rawButtonGoTo} ${page.index}`}
                         >
                             {page.index}
@@ -210,10 +212,11 @@ function Pagination(props: Props) {
                     );
                 }
                 if (page.type === 'fakeButton') {
+                    // Current page is a location indicator, not an action:
+                    // render a non-interactive span with aria-current.
                     return (
-                        <RawButton
+                        <span
                             key={`button-${page.key}`}
-                            name={undefined}
                             aria-current="page"
                             className={_cs(
                                 styles.pageButton,
@@ -222,13 +225,14 @@ function Pagination(props: Props) {
                             )}
                         >
                             {page.label}
-                        </RawButton>
+                        </span>
                     );
                 }
                 return (
                     <div
                         key={`span-${page.key}`}
                         className={styles.pageButton}
+                        aria-hidden
                     >
                         {page.label}
                     </div>
@@ -239,6 +243,7 @@ function Pagination(props: Props) {
                 onClick={onActivePageChange}
                 disabled={activePage >= numPages || disabled}
                 className={styles.pageButton}
+                aria-label={`${strings.rawButtonGoToPage} ${activePage + 1}`}
                 title={`${strings.rawButtonGoToPage} ${activePage + 1}`}
             >
                 <ChevronRightLineIcon className={styles.icon} />

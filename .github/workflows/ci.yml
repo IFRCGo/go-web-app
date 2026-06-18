@@ -47,6 +47,9 @@ jobs:
       - name: Lint JS
         run: pnpm lint:js
 
+      - name: Test
+        run: pnpm test
+
       - name: Build
         run: pnpm build
 

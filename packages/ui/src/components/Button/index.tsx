@@ -1,3 +1,5 @@
+import { _cs } from '@togglecorp/fujs';
+
 import ButtonLayout, { Props as ButtonLayoutProps } from '#components/ButtonLayout';
 import RawButton, { Props as RawButtonProps } from '#components/RawButton';
 
@@ -84,7 +86,7 @@ function Button<const NAME>(props: Props<NAME>) {
         <RawButton
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...rawButtonProps}
-            className={styles.button}
+            className={_cs(styles.button, withFullWidth && styles.fullWidth)}
             name={name}
             onClick={onClick}
             type={type}

@@ -2,6 +2,9 @@ import { Children } from 'react';
 import { ChevronRightLineIcon } from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
 
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface BreadcrumbsProps {
@@ -23,6 +26,8 @@ function Breadcrumbs(props: BreadcrumbsProps) {
         separator = <ChevronRightLineIcon />,
         itemClassName,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const items = Children.toArray(children).reduce<React.ReactNode[]>(
         (acc, child, index, array) => {
@@ -59,7 +64,7 @@ function Breadcrumbs(props: BreadcrumbsProps) {
     return (
         <nav
             className={_cs(styles.breadcrumbs, className)}
-            aria-label="breadcrumb"
+            aria-label={strings.breadcrumbNavLabel}
         >
             {items}
         </nav>

@@ -206,7 +206,6 @@ function ListView(props: Props) {
                 withGrow && styles.withGrow,
                 className,
             )}
-            role={layout !== 'grid' ? 'list' : undefined}
         >
             {layout === 'grid' && (
                 <div
@@ -221,7 +220,6 @@ function ListView(props: Props) {
                         sidebarSize === 'md' && styles.mdSidebar,
                         sidebarSize === 'lg' && styles.lgSidebar,
                     )}
-                    role="grid"
                 >
                     {children}
                 </div>

@@ -4,8 +4,11 @@ import {
 } from '@togglecorp/fujs';
 
 import Dialog from '#components/Dialog';
+import RawButton from '#components/RawButton';
 import useBooleanState from '#hooks/useBooleanState';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props {
@@ -49,6 +52,8 @@ function Image(props: Props) {
         },
     ] = useBooleanState(false);
 
+    const strings = useTranslation(i18n);
+
     if (!src) {
         return null;
     }
@@ -68,13 +73,26 @@ function Image(props: Props) {
             )}
             title={withoutCaption && typeof caption === 'string' ? caption : undefined}
         >
-            <img
-                role="presentation"
-                onClick={expandable ? setIsExpandedTrue : undefined}
-                src={src}
-                alt={alt}
-                className={_cs(styles.imgElement, imgElementClassName)}
-            />
+            {expandable ? (
+                <RawButton
+                    name={undefined}
+                    onClick={setIsExpandedTrue}
+                    className={styles.expandButton}
+                    aria-label={strings.expandImageLabel}
+                >
+                    <img
+                        src={src}
+                        alt={alt}
+                        className={_cs(styles.imgElement, imgElementClassName)}
+                    />
+                </RawButton>
+            ) : (
+                <img
+                    src={src}
+                    alt={alt}
+                    className={_cs(styles.imgElement, imgElementClassName)}
+                />
+            )}
             {!withoutCaption && isDefined(caption) && (
                 <figcaption className={_cs(captionClassName, styles.caption)}>
                     {caption}

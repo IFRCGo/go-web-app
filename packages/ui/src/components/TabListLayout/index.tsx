@@ -59,6 +59,7 @@ function TabListLayout(props: Props) {
                 <ListView
                     layout="block"
                     role="tablist"
+                    aria-orientation="vertical"
                     spacing={styleVariant === 'vertical' ? 'none' : spacing}
                     withSpacingOpticalCorrection={styleVariant === 'vertical-compact'}
                     spacingOffset={styleVariant === 'vertical-compact' ? -2 : 0}

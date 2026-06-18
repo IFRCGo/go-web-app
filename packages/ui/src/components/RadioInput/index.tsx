@@ -113,6 +113,9 @@ function RadioInput<
     const generatedId = useId();
     const errorId = isDefined(error) ? `${generatedId}-error` : undefined;
     const hintId = isDefined(hint) ? `${generatedId}-hint` : undefined;
+    // A shared name across every radio makes them a single native radio group,
+    // which provides arrow-key navigation between options for free.
+    const inputName = `${generatedId}-radio`;
 
     const highlightMode = useMemo(
         () => getHighlightMode(value, prevValue, withDiffView),
@@ -154,7 +157,7 @@ function RadioInput<
         k: VALUE,
         i: OPTION,
     ) => RADIO_RENDERER_PROPS = React.useCallback((key: VALUE, item: OPTION) => {
-        const radioProps: Pick<RADIO_RENDERER_PROPS, 'children' | 'name' | 'onClick' | 'value' | 'disabled' | 'readOnly' | 'description'> = {
+        const radioProps: Pick<RADIO_RENDERER_PROPS, 'children' | 'name' | 'onClick' | 'value' | 'disabled' | 'readOnly' | 'description' | 'inputName'> = {
             children: labelSelector(item),
             description: descriptionSelector ? descriptionSelector(item) : undefined,
             name: key,
@@ -162,6 +165,7 @@ function RadioInput<
             value: key === value,
             disabled,
             readOnly,
+            inputName,
         };
 
         const combinedProps = {
@@ -178,6 +182,7 @@ function RadioInput<
         disabled,
         readOnly,
         descriptionSelector,
+        inputName,
     ]);
 
     const radioList = (

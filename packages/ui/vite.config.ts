@@ -38,6 +38,7 @@ export default defineConfig(({ mode }) => {
                         'src/**/*.{ts,tsx}',
                         { 'ignore': [
                             'src/**/*.test.{ts,tsx}',
+                            'src/setupTests.ts',
                             'src/**/*.d.ts',
                             'src/**/.json',
                         ]}

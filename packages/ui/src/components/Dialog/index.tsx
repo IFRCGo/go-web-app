@@ -38,6 +38,11 @@ export interface Props extends Omit<ContainerProps, 'withInternalPadding' | 'wit
     modalContainerClassName?: string;
     size?: DialogSize;
     withoutCloseButton?: boolean;
+    /**
+     * Accessible name for a dialog with no `heading`. Ignored when `heading`
+     * is set (that wires `aria-labelledby` to the heading instead).
+     */
+    ariaLabel?: string;
 }
 
 /**
@@ -58,6 +63,7 @@ function Dialog(props: Props) {
         overlayClassName,
         size = 'md',
         withoutCloseButton = false,
+        ariaLabel,
 
         className,
         heading,
@@ -136,6 +142,7 @@ function Dialog(props: Props) {
             ref={dialogRef}
             className={_cs(styles.dialog, sizeStyle, overlayClassName, modalContainerClassName)}
             aria-labelledby={heading ? headingId : undefined}
+            aria-label={!heading ? ariaLabel : undefined}
             onCancel={handleCancel}
         >
             <Container
@@ -156,6 +163,7 @@ function Dialog(props: Props) {
                                 name={undefined}
                                 onClick={onClose}
                                 variant="tertiary"
+                                aria-label={strings.closeButtonLabel}
                                 title={strings.closeButtonLabel}
                             >
                                 <CloseFillIcon className={styles.closeIcon} />

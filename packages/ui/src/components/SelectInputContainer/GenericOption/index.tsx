@@ -27,6 +27,10 @@ export interface Props<
     optionKey: OPTION_KEY;
     onClick: (optionKey: OPTION_KEY, option: OPTION) => void;
     focusedKey?: { key: OPTION_KEY, mouse?: boolean } | undefined;
+    /** DOM id so the combobox input can point aria-activedescendant at it. */
+    optionNodeId?: string;
+    /** Whether this option is currently chosen (drives aria-selected). */
+    isSelected?: boolean;
 }
 function GenericOption<
     RENDER_PROPS extends ContentBaseProps,
@@ -41,6 +45,8 @@ function GenericOption<
         onClick,
         optionKey,
         focusedKey,
+        optionNodeId,
+        isSelected = false,
     } = props;
 
     const params = contentRendererParam(optionKey, option);
@@ -77,6 +83,10 @@ function GenericOption<
     return (
         <RawButton
             elementRef={divRef}
+            id={optionNodeId}
+            role="option"
+            aria-selected={isSelected}
+            tabIndex={-1}
             className={_cs(
                 styles.genericOption,
                 optionContainerClassName,

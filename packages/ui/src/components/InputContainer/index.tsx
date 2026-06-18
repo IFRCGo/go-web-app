@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import {
     _cs,
     isDefined,
@@ -119,11 +120,21 @@ function InputContainer(props: Props) {
         ? ([hintId, errorId].filter(isDefined).join(' ') || undefined)
         : undefined;
 
+    // A grouped container (radiogroup/group) has no single control for the
+    // label's htmlFor to target, so name the group via aria-labelledby and
+    // surface invalid/required on the group root itself.
+    const generatedId = useId();
+    const isGrouped = isDefined(role);
+    const labelId = (isGrouped && isDefined(label)) ? `${generatedId}-label` : undefined;
+
     return (
         <ListView
             elementRef={elementRef}
             role={role}
             aria-describedby={groupDescribedBy}
+            aria-labelledby={labelId}
+            aria-invalid={isGrouped && !!error ? true : undefined}
+            aria-required={isGrouped && isRequired ? true : undefined}
             layout="block"
             className={_cs(
                 styles.inputContainer,
@@ -147,6 +158,7 @@ function InputContainer(props: Props) {
             withPadding={withPadding}
         >
             <InputLabel
+                id={labelId}
                 htmlFor={inputId}
                 disabled={disabled}
                 required={isRequired}

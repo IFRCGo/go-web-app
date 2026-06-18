@@ -1,3 +1,13 @@
+/*
+ * A real (focusable) box rather than `display: contents`: a display:contents
+ * <button> is NOT keyboard-focusable in Firefox (no focus, no focus ring, no
+ * keyboard activation). inline-flex hugs the ButtonLayout child so the visual
+ * result is unchanged, while keeping the native button focusable.
+ */
 .button {
-    display: contents;
+    display: inline-flex;
+}
+
+.button.full-width {
+    width: 100%;
 }

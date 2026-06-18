@@ -46,11 +46,24 @@ function Radio<NAME>(props: Props<NAME>) {
         after,
     } = props;
 
-    const handleClick = React.useCallback(() => {
+    // Native radios fire `change` on selection (keyboard arrow keys, and a
+    // click on an unselected radio), so selection is wired through onChange to
+    // stay keyboard-operable.
+    const handleChange = React.useCallback(() => {
         if (onClick && !disabled && !readOnly) {
             onClick(name);
         }
     }, [disabled, name, onClick, readOnly]);
+
+    // A native radio does not fire `change` when the already-selected radio is
+    // re-clicked, so handle that case here to preserve the clearable behaviour
+    // (RadioInput toggles the value off). Guarded to the selected radio so an
+    // unselected click is not double-handled alongside onChange.
+    const handleClick = React.useCallback(() => {
+        if (value && onClick && !disabled && !readOnly) {
+            onClick(name);
+        }
+    }, [value, disabled, name, onClick, readOnly]);
 
     const inputId = useId();
 
@@ -93,9 +106,9 @@ function Radio<NAME>(props: Props<NAME>) {
                 type="radio"
                 name={typeof inputName === 'string' ? inputName : undefined}
                 checked={value}
+                onChange={handleChange}
                 onClick={handleClick}
                 disabled={disabled}
-                readOnly
             />
         </label>
     );
