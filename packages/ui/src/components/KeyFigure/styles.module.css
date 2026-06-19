@@ -1,5 +1,22 @@
 .key-figure {
+    .value-row {
+        display: flex;
+        align-items: baseline;
+        gap: var(--go-ui-spacing-4xs);
+    }
+
     .value {
         font-weight: var(--go-ui-font-weight-bold);
+    }
+
+    .supplement {
+        color: var(--go-ui-color-text-light);
+        font-size: var(--go-ui-font-size-xl);
+        font-weight: var(--go-ui-font-weight-normal);
+    }
+
+    /* Label reads visibly smaller than the value (design guideline). */
+    .label {
+        font-size: var(--go-ui-font-size-sm);
     }
 }

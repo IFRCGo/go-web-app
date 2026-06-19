@@ -172,6 +172,10 @@
     background-color: var(--go-ui-color-element-background);
 }
 
+.background-color-surface-raised.background-color-surface-raised {
+    background-color: var(--go-ui-color-gray-10);
+}
+
 .border-radius-none.border-radius-none {
     border-radius: var(--go-ui-border-radius-none);
 }

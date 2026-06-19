@@ -13,4 +13,8 @@
     &:disabled {
         cursor: not-allowed;
     }
+
+    &::placeholder {
+        color: var(--go-ui-color-gray-60);
+    }
 }

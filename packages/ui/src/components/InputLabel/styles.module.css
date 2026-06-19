@@ -1,14 +1,15 @@
 .input-label {
     display: flex;
     gap: var(--go-ui-spacing-4xs);
-    color: var(--go-ui-color-text-light);
-    font-size: var(--go-ui-font-size-sm);
+    color: var(--go-ui-color-text);
+    font-size: var(--go-ui-font-size-md);
+    font-weight: var(--go-ui-font-weight-medium);
 
     &.disabled {
         color: var(--go-ui-color-gray-40);
     }
 
     .required {
-        color: var(--go-ui-color-primary-red);
+        color: var(--go-ui-color-text);
     }
 }

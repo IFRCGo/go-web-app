@@ -1,14 +1,11 @@
 .spinner {
     display: inline-flex;
-    border-radius: var(--go-ui-border-radius-full);
-    background: var(--go-ui-color-gray-40);
-    padding: 0.2em;
-    line-height: 0;
     gap: 0.2em;
+    line-height: 0;
 
     .spinner-bounce {
         border-radius: 50%;
-        background: var(--go-ui-color-white);
+        background: var(--go-ui-color-gray-50);
         width: 0.6em;
         height: 0.6em;
         animation: spinner-bounce-delay var(--go-ui-duration-animation-slow) infinite ease-in-out both;
@@ -26,6 +23,12 @@
         }
     }
 
+    /* Show three static dots instead of the bounce for reduced-motion users. */
+    @media (prefers-reduced-motion: reduce) {
+        .spinner-bounce {
+            animation: none;
+        }
+    }
 }
 
 @keyframes spinner-bounce-delay {

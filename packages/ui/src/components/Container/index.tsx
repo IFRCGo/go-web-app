@@ -174,10 +174,10 @@ function Container(props: Props) {
         || isDefined(footerIcons)
         || isDefined(footerActions);
 
-    // The old withBackground/withDarkBackground/withBorder styles always
-    // rounded the container, so a set background or border implies 'lg'
+    // A set background or border implies a rounded container; the design uses
+    // a ~4px (md) card radius.
     const borderRadius = borderRadiusFromProps
-        ?? ((isDefined(backgroundColor) || withBorder) ? 'lg' : undefined);
+        ?? ((isDefined(backgroundColor) || withBorder) ? 'md' : undefined);
 
     const contentSpacingClassName = getSpacingClassName({
         spacing,

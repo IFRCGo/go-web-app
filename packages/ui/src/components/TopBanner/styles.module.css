@@ -1,9 +1,16 @@
 .top-banner {
-    --variant-color: var(--go-ui-color-background);
-    background-color: color-mix(in srgb, var(--variant-color) 10%, transparent);
+    --variant-color: var(--go-ui-color-information);
+    background-color: color-mix(in srgb, var(--variant-color) 16%, var(--go-ui-color-foreground));
     padding: var(--go-ui-spacing-md);
     text-align: center;
     font-weight: var(--go-ui-font-weight-medium);
+
+    /* Solid full-bleed announcement strip (design's primary TopBanner). */
+    &.brand {
+        --variant-color: var(--go-ui-color-primary-red);
+        background-color: var(--variant-color);
+        color: var(--go-ui-color-text-on-dark);
+    }
 
     &.negative {
         --variant-color: var(--go-ui-color-negative);

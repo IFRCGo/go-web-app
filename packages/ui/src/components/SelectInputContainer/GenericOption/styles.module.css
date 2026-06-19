@@ -1,7 +1,10 @@
 .generic-option {
     display: flex;
     gap: var(--go-ui-spacing-sm);
-    padding: var(--go-ui-spacing-2xs);
+
+    /* Airy rows with a larger inline-start inset (design dropdown spec). */
+    padding-block: var(--go-ui-spacing-sm);
+    padding-inline: var(--go-ui-spacing-md) var(--go-ui-spacing-sm);
     text-align: left;
 
     &:hover {

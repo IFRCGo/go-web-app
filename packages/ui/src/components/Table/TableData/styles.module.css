@@ -12,4 +12,8 @@
         --cell-border-color: var(--go-ui-color-separator-light);
         --cell-background-color: var(--go-ui-color-background);
     }
+
+    &.without-border {
+        --cell-border-color: transparent;
+    }
 }

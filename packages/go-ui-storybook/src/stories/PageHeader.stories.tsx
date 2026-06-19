@@ -42,6 +42,14 @@ export const WithDescription: Story = {
     },
 };
 
+export const WithOverline: Story = {
+    args: {
+        overline: 'Emergency Appeal',
+        heading: 'IFRC Disaster Response and Preparedness',
+        description: 'IFRC GO aims to make all disaster information universally accessible and useful to IFRC responders for better decision making.',
+    },
+};
+
 export const WithAction: Story = {
     args: {
         heading: 'IFRC Disaster Response and Preparedness',

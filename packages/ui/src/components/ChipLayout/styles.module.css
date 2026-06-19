@@ -17,15 +17,15 @@
 
     /* Style axis: how the pill looks. */
     &.style-variant-tag {
-        --color-border: var(--go-ui-color-gray-40);
-        --color-background: var(--go-ui-color-gray-30);
-        --color-text: inherit;
+        --color-border: transparent;
+        --color-background: var(--go-ui-color-gray-20);
+        --color-text: var(--go-ui-color-dark-blue-40);
     }
 
     &.style-variant-selection {
-        --color-border: var(--go-ui-color-gray-40);
-        --color-background: var(--go-ui-color-gray-30);
-        --color-text: inherit;
+        --color-border: transparent;
+        --color-background: var(--go-ui-color-gray-20);
+        --color-text: var(--go-ui-color-dark-blue-40);
     }
 
     /* Color axis: which semantic color drives border/background/text. */
@@ -42,9 +42,9 @@
     }
 
     &.color-variant-tertiary {
-        --color-border: var(--go-ui-color-gray-40);
-        --color-background: var(--go-ui-color-gray-30);
-        --color-text: inherit;
+        --color-border: transparent;
+        --color-background: var(--go-ui-color-gray-20);
+        --color-text: var(--go-ui-color-dark-blue-40);
     }
 
     /* When a trailing action is present, tighten the trailing padding so the

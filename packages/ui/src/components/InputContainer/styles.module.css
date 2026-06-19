@@ -55,7 +55,7 @@
 
     &.form-variant {
         .input-section { /* stylelint-disable-line no-descending-specificity */
-            background-color: var(--go-ui-color-element-background);
+            background-color: var(--go-ui-color-gray-20);
         }
 
         &.errored {

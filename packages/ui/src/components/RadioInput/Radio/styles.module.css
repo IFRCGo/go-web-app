@@ -9,6 +9,7 @@
 
     .blank-icon {
         /* FIXME: use variables */
+        color: var(--go-ui-color-gray-40);
         font-size: 1.25rem;
     }
 

@@ -14,11 +14,6 @@
     overflow: auto;
     animation: slide-down var(--go-ui-duration-transition-medium) ease-in forwards;
     animation-delay: var(--go-ui-duration-transition-fast);
-
-    &.top-orientation {
-        /* FIXME: add variable */
-        box-shadow: 0 -8pt 20pt -5pt rgb(0 0 0 / 0.5);
-    }
 }
 
 @keyframes slide-down {

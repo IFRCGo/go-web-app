@@ -11,6 +11,8 @@ import styles from './styles.module.css';
 
 export interface Props {
     className?: string;
+    /** Red uppercase eyebrow shown above the heading. */
+    overline?: React.ReactNode;
     heading?: React.ReactNode;
     description?: React.ReactNode;
     actions?: React.ReactNode;
@@ -22,6 +24,7 @@ export interface Props {
 function PageHeader(props: Props) {
     const {
         className,
+        overline,
         heading,
         description,
         actions,
@@ -30,7 +33,7 @@ function PageHeader(props: Props) {
         wikiLink,
     } = props;
 
-    if (!(actions || breadCrumbs || info || description || heading)) {
+    if (!(actions || breadCrumbs || info || description || heading || overline)) {
         return null;
     }
 
@@ -63,6 +66,11 @@ function PageHeader(props: Props) {
                 <ListView
                     layout="block"
                 >
+                    {overline && (
+                        <div className={styles.overline}>
+                            {overline}
+                        </div>
+                    )}
                     <Heading
                         level={1}
                         className={styles.heading}

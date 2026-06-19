@@ -108,6 +108,7 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         styles.checkbox,
         classNameFromProps,
         !indeterminate && checked && styles.checked,
+        indeterminate && styles.indeterminate,
         getBackgroundColorClassName(backgroundColor),
         isDefined(backgroundColor) && styles.withBackgroundColor,
         disabled && styles.disabled,

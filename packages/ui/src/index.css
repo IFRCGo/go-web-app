@@ -24,7 +24,7 @@
 
     --go-ui-height-brand-icon: 2.25rem;
     --go-ui-height-social-icon: 2.5rem;
-    --go-ui-height-key-figure-icon: 3rem;
+    --go-ui-height-key-figure-icon: 2rem;
     --go-ui-height-status-icon: 2.536rem;
     --go-ui-height-compact-status-icon: 2rem;
 
@@ -156,11 +156,13 @@
 
     --go-ui-color-red-hover: #DE2934;
 
-    --go-ui-color-purple-per: #8648B3;
-    --go-ui-color-orange-per: #FF8654;
-    --go-ui-color-blue-per: #418FDE;
-    --go-ui-color-teal-per: #00B2A2;
-    --go-ui-color-red-per: #DA283D;
+    /* Desaturated to match the design's flat PER category swatches
+       (Guidelines "Colours PER"); the vivid values were chart-only. */
+    --go-ui-color-purple-per: #806792;
+    --go-ui-color-orange-per: #FFA17A;
+    --go-ui-color-blue-per: #778BAD;
+    --go-ui-color-teal-per: #429089;
+    --go-ui-color-red-per: #C4515F;
 
     --go-ui-color-text-black: rgb(0 0 0 / 1);
     --go-ui-color-text: rgb(0 0 0 / 0.8);
@@ -212,7 +214,21 @@
     --go-ui-saturate-150: 1.5;
     --go-ui-saturate-200: 2;
 
+    /* Categorical hazard palette. Canonical source for hazard colors;
+       the app resolves these to literal hex at runtime
+       (app/src/utils/common.ts resolveCssColor) because Mapbox paint
+       expressions can't parse var(). The COLOR_HAZARD_* in
+       app/src/utils/constants.ts are kept only as load-time fallbacks.
+       cyclone/drought/flood/fi are design-export verified
+       (GRAPHS & LEGENDS + Guidelines); storm/wildfire mirror the app's
+       prior values (no design specimen). */
+    --go-ui-color-hazard-cyclone: #a4bede;
+    --go-ui-color-hazard-drought: #b68fba;
+    --go-ui-color-hazard-earthquake: #eca48c;
+    --go-ui-color-hazard-flood: #5a80b0;
     --go-ui-color-hazard-fi: #b7c992;
+    --go-ui-color-hazard-storm: #97b8c2;
+    --go-ui-color-hazard-wildfire: #ff5014;
 
     --go-ui-color-map-dot-appeals: #f5333f;
     --go-ui-color-map-dot-dref: #ff9e00;

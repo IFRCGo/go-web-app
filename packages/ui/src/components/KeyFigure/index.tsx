@@ -1,4 +1,7 @@
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
 
 import RawDisplay, { Props as RawDisplayProps } from '#components/RawDisplay';
 import {
@@ -13,6 +16,8 @@ export type KeyFigureTextSize = Extract<TextSizeType, '2xl' | '3xl' | '4xl'>;
 interface CommonProps {
     className?: string;
     label?: React.ReactNode;
+    /** De-emphasised trailing text shown beside the value (e.g. "/ 4"). */
+    supplement?: React.ReactNode;
     /**
      * Font size token for the figure value, narrowed to the large end
      * of the text-size scale (the old size prop mapped sm/md/lg to
@@ -38,6 +43,7 @@ function KeyFigure(props: Props) {
     const {
         className,
         label,
+        supplement,
         textSize = '3xl',
         ...rawDisplayProps
     } = props;
@@ -49,16 +55,23 @@ function KeyFigure(props: Props) {
                 className,
             )}
         >
-            <div
-                className={_cs(
-                    styles.value,
-                    getTextSizeClassName(textSize),
+            <div className={styles.valueRow}>
+                <div
+                    className={_cs(
+                        styles.value,
+                        getTextSizeClassName(textSize),
+                    )}
+                >
+                    <RawDisplay
+                        // eslint-disable-next-line react/jsx-props-no-spreading
+                        {...rawDisplayProps}
+                    />
+                </div>
+                {isDefined(supplement) && (
+                    <div className={styles.supplement}>
+                        {supplement}
+                    </div>
                 )}
-            >
-                <RawDisplay
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...rawDisplayProps}
-                />
             </div>
             <div className={styles.label}>
                 {label}

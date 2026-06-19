@@ -6,6 +6,17 @@
  */
 .button {
     display: inline-flex;
+
+    /*
+     * RawButton sets `position: relative`, which was inert under the old
+     * `display: contents` but — now that this wrapper is a real box — would
+     * make it the containing block for a ButtonLayout that a consumer
+     * positions via `className` (e.g. a map overlay button placed with
+     * `position: absolute`). Stay layout-transparent so such positioning keeps
+     * resolving against the consumer's own positioned ancestor, as it did
+     * before the focusability fix.
+     */
+    position: static;
 }
 
 .button.full-width {

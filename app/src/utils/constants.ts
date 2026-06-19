@@ -34,6 +34,9 @@ export const SEARCH_TEXT_LENGTH_MIN = 3;
 
 // Risk
 
+// Hazard colors — canonical source is @ifrc-go/ui's --go-ui-color-hazard-*
+// design tokens. These literals are load-time fallbacks for resolveCssColor
+// (Mapbox paint can't parse var()). Keep in sync with the ui tokens.
 export const COLOR_HAZARD_CYCLONE = '#a4bede';
 export const COLOR_HAZARD_DROUGHT = '#b68fba';
 export const COLOR_HAZARD_FOOD_INSECURITY = '#b7c992';

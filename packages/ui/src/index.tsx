@@ -195,6 +195,7 @@ export { default as TimeSeriesChart } from './components/TimeSeriesChart';
 export { default as ChartPoint } from './components/TimeSeriesChart/ChartPoint';
 export type { Props as TooltipProps } from './components/Tooltip';
 export { default as Tooltip } from './components/Tooltip';
+export type { Props as TopBannerProps } from './components/TopBanner';
 export { default as TopBanner } from './components/TopBanner';
 export type { Props as TruncatedListProps } from './components/TruncatedList';
 export { default as TruncatedList } from './components/TruncatedList';

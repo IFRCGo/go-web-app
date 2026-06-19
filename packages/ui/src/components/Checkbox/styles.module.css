@@ -49,6 +49,12 @@
         }
     }
 
+    &.indeterminate {
+        .checkmark {
+            color: var(--go-ui-color-primary-red);
+        }
+    }
+
     &:focus,
     &:hover {
         .checkmark {

@@ -34,7 +34,7 @@ export type BorderRadiusType = (typeof borderRadiusScale)[number];
 export const boxShadowScale = ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const;
 export type BoxShadowType = (typeof boxShadowScale)[number];
 
-export const backgroundColors = ['foreground', 'background', 'element'] as const;
+export const backgroundColors = ['foreground', 'background', 'element', 'surface-raised'] as const;
 export type BackgroundColorType = (typeof backgroundColors)[number];
 
 export type SpacingMode = 'row-gap' | 'column-gap' | 'padding-inline' | 'padding-block';
@@ -108,6 +108,7 @@ const backgroundColorToClassName: Record<BackgroundColorType, string> = {
     foreground: specs.backgroundColorForeground,
     background: specs.backgroundColorBackground,
     element: specs.backgroundColorElement,
+    'surface-raised': specs.backgroundColorSurfaceRaised,
 };
 
 // The class keys above depend on vite's camelCaseOnly locals convention

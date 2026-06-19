@@ -7,7 +7,7 @@ export interface Props {
     className?: string;
     children?: React.ReactNode;
     /** Semantic status of the banner */
-    variant?: 'warning' | 'negative' | 'positive' | 'information';
+    variant?: 'brand' | 'warning' | 'negative' | 'positive' | 'information';
 }
 
 /**
@@ -28,6 +28,7 @@ function TopBanner(props: Props) {
             role="status"
             className={_cs(
                 styles.topBanner,
+                variant === 'brand' && styles.brand,
                 variant === 'negative' && styles.negative,
                 variant === 'warning' && styles.warning,
                 variant === 'positive' && styles.positive,
