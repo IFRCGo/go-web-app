@@ -19,6 +19,7 @@ const {
     APP_PACKAGE_NAME,
     APP_REPOSITORY_URL,
     APP_SEED_DATA_REPO,
+    APP_NRW_PORTAL_MODE,
 } = import.meta.env;
 
 export const environment = APP_ENVIRONMENT;
@@ -44,3 +45,4 @@ export const sentryAppDsn = APP_SENTRY_DSN;
 export const sentryTracesSampleRate = APP_SENTRY_TRACES_SAMPLE_RATE;
 export const sentryReplaysSessionSampleRate = APP_SENTRY_REPLAYS_SESSION_SAMPLE_RATE;
 export const sentryReplaysOnErrorSampleRate = APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE;
+export const nrwPortalMode = APP_NRW_PORTAL_MODE;

@@ -8,6 +8,7 @@ import {
 } from 'react';
 import type MapOl from 'ol/Map';
 
+import { nrwPortalMode } from '#config';
 import useAlert from '#hooks/useAlert';
 import {
     defaultMapZoom,
@@ -268,6 +269,9 @@ export default function NrwMapContainer() {
                     />
                 </div>
             </div>
+            {nrwPortalMode === 'STANDALONE' && (
+                <div>__</div>
+            )}
         </div>
     );
 }

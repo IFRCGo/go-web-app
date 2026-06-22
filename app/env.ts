@@ -33,4 +33,5 @@ export default defineConfig({
     APP_SEED_DATA_REPO: Schema.string.optional(),
     APP_MAPTILER_API_KEY: Schema.string(),
     APP_IBF_API_BACKEND: Schema.string({ format: 'url', protocol: true, tld: false }),
+    APP_NRW_PORTAL_MODE: Schema.string.optional(),
 });
