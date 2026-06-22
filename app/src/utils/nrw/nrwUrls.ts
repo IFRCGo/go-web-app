@@ -82,7 +82,7 @@ export const getGlobalAdmin0Url = (): string => {
     return `${baseQuery}${levelParam}&${limitParam}&${simplifyParam}`;
 };
 
-export const getAdminRegionUrl = (
+export const getAdminAreaUrl = (
     countryIso3: string,
     adminLevel: number,
 ): string => {
@@ -109,6 +109,25 @@ export const getNestedAdminUrl = (
     const simplifyParam = `transform=simplify,${factor}`;
 
     return `${baseQuery}${countryParam}${and}${levelParam}${and}${parentParam}&${limitParam}&${simplifyParam}`;
+};
+
+// Get the geometry for a specific set of admin areas, identified by their place codes.
+// All requested codes are batched into a single CQL `IN` filter so only the exposed
+// areas' geometry is fetched in one request.
+export const getAdminAreasByCodesUrl = (
+    countryIso3: string,
+    adminLevel: number,
+    placeCodes: string[],
+): string => {
+    const factor = getSimplificationFactor(adminLevel);
+    const countryParam = `${COUNTRY_FIELD_KEY}=%27${countryIso3}%27`;
+    const levelParam = `${ADMIN_LEVEL_FIELD_KEY}=${adminLevel}`;
+    const quotedCodes = placeCodes.map((code) => `%27${code}%27`).join(',');
+    const codesParam = `${PLACE_CODE_FIELD_KEY}%20IN%20(${quotedCodes})`;
+    const limitParam = 'limit=10000';
+    const simplifyParam = `transform=simplify,${factor}`;
+
+    return `${baseQuery}${countryParam}${and}${levelParam}${and}${codesParam}&${limitParam}&${simplifyParam}`;
 };
 
 // Get a single admin area by its code (for initial selection from URL)

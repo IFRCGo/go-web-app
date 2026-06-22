@@ -147,9 +147,21 @@ export enum EventDataSources {
 
 // Details needed by the map when an event is selected
 // This is derived from EventOverviewData and passed to the map component
-export interface SelectedEventMapDetails {
+export interface SelectedEventDetails {
   eventId: number;
   centroid: [number, number];
-  // Admin area codes affected by this event, keyed by admin level
-  exposedRegionsByLevel: Map<number, string[]>;
+  // Alert class of the parent event, used to pick the color ramp for exposed areas
+  alertClass: AlertClassType;
+
+  // Exposure data for the current event, keyed by admin level,
+  // and sorted from lowest to highest (which is a byproduct of being a Record type).
+
+  // Exposed admin areas with their exposed population,
+  // keyed by admin level then place code.
+  // If new data is needed to be passed to the map for rendering, add that data
+  // to this object.
+  exposedPopulationPerAreaByLevel: Record<number, Record<string, number>>;
+  // Highest exposed population value per whole admin level.
+  // This is precomputed so we don't need to find the highest value for every feature render.
+  highestExposedPopulationByLevel: Record<number, number>;
 }

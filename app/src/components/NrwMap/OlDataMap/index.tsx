@@ -13,12 +13,10 @@ import type BaseLayer from 'ol/layer/Base';
 import type VectorLayer from 'ol/layer/Vector';
 import MapOl from 'ol/Map.js';
 import { unByKey } from 'ol/Observable';
-import {
-    fromLonLat,
-    toLonLat,
-} from 'ol/proj';
+import { toLonLat } from 'ol/proj';
 import { apply } from 'ol-mapbox-style';
 
+import useAlert from '#hooks/useAlert';
 import {
     type AdminAreaDetails,
     fetchAdminAreaDetails,
@@ -29,14 +27,16 @@ import {
     initializeMapView,
 } from '#utils/nrw/nrwMapHelpers';
 import {
-    createAdminLayer,
+    createAdminLayerForPlaceCodes,
+    createFullAdminLayer,
+    createNestedAdminLayer,
     handleFeatureClick,
     type MapSelectionView,
     type MapViewState,
 } from '#utils/nrw/nrwMapInteractionHelpers';
 import type {
     MapLayerDetails,
-    SelectedEventMapDetails,
+    SelectedEventDetails,
 } from '#utils/nrw/nrwMapTypes';
 import { MapLayerDisplayType } from '#utils/nrw/nrwMapTypes';
 import { mapUrlStyleJson } from '#utils/nrw/nrwUrls';
@@ -49,9 +49,9 @@ interface OlDataMapProps {
   // ISO_A3 code of the selected country
   selectedCountry: string;
 
-  // Details for the currently selected event (centroid, exposed regions)
+  // Details for the currently selected event (centroid, exposed areas)
   // Pass null when no event is selected
-  selectedEventDetails?: SelectedEventMapDetails | null;
+  selectedEventDetails?: SelectedEventDetails | null;
 
   // Optional arg to expose a method for adding a layer
   // It is a function that takes the add-layer function as an argument.
@@ -85,7 +85,11 @@ interface OlDataMapProps {
   layerPanel: ReactNode;
 }
 
-type AddAdminLayerFunction = (level: 1 | 2 | 3, country?: string, parentCode?: string) => void;
+type AddAdminLayerFunction = (
+    level: 1 | 2 | 3,
+    country: string,
+    parentCode?: string,
+) => void;
 
 /**
  * OpenLayers map component for NRW data maps
@@ -106,6 +110,7 @@ export default function OlDataMap({
     onMapReady,
     layerPanel,
 }: OlDataMapProps) {
+    const alert = useAlert();
     const mapRef = useRef<HTMLDivElement>(null);
     const [isLayerPanelOpen, setIsLayerPanelOpen] = useState(false);
     const mapInstanceRef = useRef<MapOl | null>(null);
@@ -142,12 +147,8 @@ export default function OlDataMap({
                 [3, null],
                 [4, null],
             ]),
-            selectedEventId: selectedEventDetails?.eventId ?? null,
-            exposedRegionsByLevel:
-        selectedEventDetails?.exposedRegionsByLevel ?? new Map(),
-            isEventSelected() {
-                return state.selectedEventId !== null;
-            },
+            currentViewAdminLevel: 1,
+            selectedEventDetails: selectedEventDetails ?? null,
         };
         stateRef.current = state;
 
@@ -166,31 +167,57 @@ export default function OlDataMap({
             );
         }
 
-        function addAdminLayer(
-            level: 1 | 2 | 3 | 4,
-            country?: string,
-            parentCode?: string,
-        ) {
-            // Remove layers at this level and below
-            for (let l = 4; l >= level; l -= 1) {
-                const existing = adminLayers.get(l);
+        // Logic wrapper for adding a new admin layer
+        function handleAddAdminLayerCommand(targetLevel: 1 | 2 | 3 | 4, newLayer: VectorLayer) {
+            // Remove any layers at this level and below
+            for (let level = 4; level >= targetLevel; level -= 1) {
+                // if a layer exists at this level, remove it
+                const existing = adminLayers.get(level);
                 if (existing) {
                     mapInstanceRef.current?.removeLayer(existing);
-                    adminLayers.delete(l);
-                    state.selectedAdminCodes.set(l, null);
+                    adminLayers.delete(level);
+                    state.selectedAdminCodes.set(level, null);
                 }
             }
 
-            const newLayer = createAdminLayer(state, level, country, parentCode);
             mapInstanceRef.current?.addLayer(newLayer);
-            adminLayers.set(level, newLayer);
+            adminLayers.set(targetLevel, newLayer);
+            state.currentViewAdminLevel = Math.max(...adminLayers.keys());
             return newLayer;
+        }
+
+        // Add an admin layer for a given level.
+        function addAdminLayer(
+            targetLevel: 1 | 2 | 3 | 4,
+            country: string,
+            parentCode?: string,
+        ) {
+            // For admin level 1, add all admin areas for that level.
+            if (targetLevel === 1) {
+                return handleAddAdminLayerCommand(
+                    targetLevel,
+                    createFullAdminLayer(state, targetLevel, country),
+                );
+            }
+
+            // For deeper admin levels, just add child areas of a given parent code.
+            if (parentCode === undefined) {
+                alert.show(`Parent code is required for admin level ${targetLevel}`, { variant: 'danger' });
+                return undefined;
+            }
+
+            return handleAddAdminLayerCommand(
+                targetLevel,
+                createNestedAdminLayer(state, targetLevel, country, parentCode),
+            );
         }
 
         // Init the admin map layers based on the initial map view from the search params
         function initMapAdminLayers(
             country?: string,
         ) {
+            if (country === undefined) return;
+
             const newLayer = addAdminLayer(1, country);
 
             // get initial admin selection from URL params
@@ -232,7 +259,7 @@ export default function OlDataMap({
             }
 
             // Set initial zoom/pan
-            if (mapInstanceRef.current) {
+            if (mapInstanceRef.current && newLayer) {
                 const map = mapInstanceRef.current;
                 const source = newLayer.getSource();
                 if (source) {
@@ -252,7 +279,7 @@ export default function OlDataMap({
             }
         }
 
-        // Store ref for use in event selection effect
+        // Store this ref for use in the async initialization callback
         addAdminLayerFunctionRef.current = addAdminLayer;
 
         if (mapRef.current && !mapInstanceRef.current) {
@@ -386,64 +413,82 @@ export default function OlDataMap({
     useEffect(() => {
         const state = stateRef.current;
         const map = mapInstanceRef.current;
-        const addAdminLayer = addAdminLayerFunctionRef.current;
-        if (!state || !map || !addAdminLayer) return;
+        const adminLayers = adminLayersRef.current;
+        if (!state || !map) return;
 
         // Update state with new event details
-        state.selectedEventId = selectedEventDetails?.eventId ?? null;
-        state.exposedRegionsByLevel = selectedEventDetails?.exposedRegionsByLevel ?? new Map();
+        state.selectedEventDetails = selectedEventDetails ?? null;
 
-        // If event selected with exposed regions, drill down to admin3
+        // If event selected with exposed areas, show the lowest affected admin level
         if (selectedEventDetails) {
-            // Get the first exposed admin1 region as parent for drilling down
-            const exposedAdmin1 = state.exposedRegionsByLevel.get(1);
-            const exposedAdmin2 = state.exposedRegionsByLevel.get(2);
+            const { exposedPopulationPerAreaByLevel } = selectedEventDetails;
 
-            // Set admin1 selection to match the event's admin1 region
-            if (exposedAdmin1 && exposedAdmin1.length > 0) {
-                state.selectedAdminCodes.set(1, exposedAdmin1[0]!);
+            // Guard against missing/invalid exposed population data
+            if (!exposedPopulationPerAreaByLevel
+                || Object.keys(exposedPopulationPerAreaByLevel).length === 0) {
+                alert.show('Event has no exposed population data', { variant: 'danger' });
+                return;
             }
 
-            if (exposedAdmin2 && exposedAdmin2.length > 0) {
-                // If we have one or more admin2 exposed regions,
-                // load admin 2 and all it's childed admin3 regions.
-                // TODO: revisit this logic after more designs are done
-                const parentCode = exposedAdmin2[0]!;
-                addAdminLayer(2, selectedCountry, parentCode);
-                addAdminLayer(3, selectedCountry, parentCode);
-            } else if (exposedAdmin1 && exposedAdmin1.length > 0) {
-                // If there are no exposed admin 2, just admin 1,
-                // load the admin 1 and its child admin 2 regions.
-                const admin1Code = exposedAdmin1[0]!;
-                addAdminLayer(2, selectedCountry, admin1Code);
-            }
+            // Find the deepest (lowest) admin level that has exposed areas.
+            const deepestExposedLevel = Number(
+                Object.keys(exposedPopulationPerAreaByLevel).at(-1),
+            );
 
-            // Pan to event centroid
-            if (selectedEventDetails.centroid) {
-                const [lon, lat] = selectedEventDetails.centroid;
-                map.getView().animate({
-                    center: fromLonLat([lon, lat]),
-                    // TODO: derive zoom from event details
-                    zoom: 9,
-                    duration: 500,
-                });
-            }
-        } else {
-            // No event selected: reset admin layers back to level 1 only
-            for (let l = 4; l > 1; l -= 1) {
-                const existing = adminLayersRef.current.get(l);
+            // Clear all existing admin area layers
+            for (let level = 4; level > 0; level -= 1) {
+                const existing = adminLayers.get(level);
                 if (existing) {
                     map.removeLayer(existing);
-                    adminLayersRef.current.delete(l);
-                    state.selectedAdminCodes.set(l as 2 | 3 | 4, null);
+                    adminLayers.delete(level);
+                    state.selectedAdminCodes.set(level, null);
                 }
             }
-            // Layer 1 remains, but clear any admin area selection on it
+
+            // Load all exposed admin areas on the lowest admin level
+            // and fit view to their extent.
+            if (deepestExposedLevel) {
+                const exposedCodes = Object.keys(
+                    exposedPopulationPerAreaByLevel[deepestExposedLevel] ?? {},
+                );
+                const level = deepestExposedLevel as 1 | 2 | 3;
+                const newLayer = createAdminLayerForPlaceCodes(
+                    state,
+                    level,
+                    selectedCountry,
+                    exposedCodes,
+                );
+                map.addLayer(newLayer);
+                adminLayers.set(level, newLayer);
+                state.currentViewAdminLevel = Math.max(...adminLayers.keys());
+
+                // Fit view to exposed admin areas extent
+                const source = adminLayers.get(deepestExposedLevel as 1 | 2 | 3)?.getSource();
+                if (source) {
+                    source.once('featuresloadend', () => {
+                        const extent = getExtentForVectorData(source);
+                        if (extent) {
+                            map.getView().fit(extent, { duration: 500 });
+                        }
+                    });
+                }
+            }
+        } else {
+            // No event selected: keep admin layer for level 1, but clear all deeper admin layers
+            for (let level = 4; level > 1; level -= 1) {
+                const existing = adminLayers.get(level);
+                if (existing) {
+                    map.removeLayer(existing);
+                    adminLayers.delete(level);
+                    state.selectedAdminCodes.set(level as 2 | 3 | 4, null);
+                }
+            }
+            // Admin layer for level 1 remains, but clear any admin area selection on it
             state.selectedAdminCodes.set(1, null);
         }
 
         // Trigger re-render of admin layers to apply new styling
-        adminLayersRef.current.forEach((layer) => {
+        adminLayers.forEach((layer) => {
             layer.changed();
         });
     }, [selectedEventDetails, selectedCountry]);

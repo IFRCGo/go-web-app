@@ -11,6 +11,7 @@ import {
 } from '@ifrc-go/icons';
 import { Button } from '@ifrc-go/ui';
 
+import { alertColors } from '#utils/nrw/nrwMapStyles';
 import {
     type EventAdminAreaData,
     type EventOverviewData,
@@ -142,11 +143,11 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
     // TODO: support multiple max admin levels
     // See task: https://dev.azure.com/redcrossnl/IBF/_workitems/edit/41768
     const admin0 = event.exposedAdminAreas[0]?.[0];
-    const admin1Regions = event.exposedAdminAreas[1] ?? [];
-    const admin3Regions = event.exposedAdminAreas[3] ?? [];
+    const admin1Areas = event.exposedAdminAreas[1] ?? [];
+    const admin3Areas = event.exposedAdminAreas[3] ?? [];
 
     const totalPopulation = getExposedPopulation(admin0);
-    const exposedDistrictsCount = admin3Regions.length;
+    const exposedDistrictsCount = admin3Areas.length;
 
     // Get exposure categories for infrastructure (exclude population)
     const infraExposure = admin0?.exposure.filter(
@@ -165,7 +166,15 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
                 <div className={styles.headerLeft}>
                     <span className={styles.headerTitle}>{event.eventName}</span>
                 </div>
-                <span className={styles.severityBadge}>{event.alertClass}</span>
+                <span
+                    className={styles.alertClassBadge}
+                    style={{
+                        color: alertColors[event.alertClass][4],
+                        backgroundColor: alertColors[event.alertClass][0],
+                    }}
+                >
+                    {event.alertClass}
+                </span>
             </div>
 
             {/* Event Info */}
@@ -184,7 +193,7 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
                     </span>
                 </div>
                 <div className={styles.infoRow}>
-                    <span>{admin1Regions.map((r) => r.name).join(', ') || 'N/A'}</span>
+                    <span>{admin1Areas.map((r) => r.name).join(', ') || 'N/A'}</span>
                 </div>
             </div>
 
@@ -209,7 +218,7 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
                         <span>District name</span>
                         <span>Exposed Population</span>
                     </div>
-                    {admin3Regions.map((district) => (
+                    {admin3Areas.map((district) => (
                         <div key={district.placeCode} className={styles.districtTableRow}>
                             <span>{district.name}</span>
                             <span>{getExposedPopulation(district).toLocaleString()}</span>
@@ -294,26 +303,34 @@ function formatStartTime(startTime: string): string {
 }
 
 /**
- * Displays a single event with its affected regions and population.
+ * Displays a single event with its affected areas and population.
  */
 function EventButton({ event, onEventClick }: EventButtonProps) {
     // Get admin0 (country level) for total population
     const admin0 = event.exposedAdminAreas[0]?.[0];
     const totalPopulation = getExposedPopulation(admin0);
 
-    // Get admin1 regions for affected areas
-    const admin1Regions = event.exposedAdminAreas[1] ?? [];
+    // Get admin1 areas for affected areas
+    const admin1Areas = event.exposedAdminAreas[1] ?? [];
 
     // Get admin3 count for exposed districts
-    const admin3Regions = event.exposedAdminAreas[3] ?? [];
-    const exposedDistrictsCount = admin3Regions.length;
+    const admin3Areas = event.exposedAdminAreas[3] ?? [];
+    const exposedDistrictsCount = admin3Areas.length;
 
     const startTimeLabel = formatStartTime(event.startTime);
 
     return (
         <div className={styles.eventCard}>
             <div className={styles.eventTitle}>{event.eventName}</div>
-            <div className={styles.eventAlert}>{event.alertClass}</div>
+            <div
+                className={styles.eventAlert}
+                style={{
+                    color: alertColors[event.alertClass][4],
+                    backgroundColor: alertColors[event.alertClass][0],
+                }}
+            >
+                {event.alertClass}
+            </div>
             <div className={styles.eventDetails}>
                 <div>{startTimeLabel}</div>
                 <div>
@@ -325,10 +342,10 @@ function EventButton({ event, onEventClick }: EventButtonProps) {
                     {exposedDistrictsCount}
                 </div>
                 <div>
-                    Affected regions:
-                    <ul className={styles.regionList}>
-                        {admin1Regions.map((region) => (
-                            <li key={region.placeCode}>{region.name}</li>
+                    Affected areas:
+                    <ul className={styles.areaList}>
+                        {admin1Areas.map((area) => (
+                            <li key={area.placeCode}>{area.name}</li>
                         ))}
                     </ul>
                 </div>
@@ -352,7 +369,7 @@ interface NrwControlPanelProps {
 
 /**
  * Control panel showing upcoming events for the selected country.
- * Each event displays affected admin1 regions and total population.
+ * Each event displays affected admin1 areas and total population.
  */
 export default function NrwControlPanel({
     eventData,

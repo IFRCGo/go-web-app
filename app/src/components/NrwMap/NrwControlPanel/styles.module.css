@@ -41,7 +41,7 @@
     font-size: 0.9em;
 }
 
-.region-list {
+.area-list {
     margin: 4px 0 0 16px;
     padding: 0;
 }
@@ -93,7 +93,7 @@
     font-weight: 600;
 }
 
-.severity-badge {
+.alert-class-badge {
     border-radius: 4px;
     background-color: #dc2626;
     padding: 4px 12px;

@@ -25,7 +25,7 @@ import {
     styleAdmin1,
 } from '#utils/nrw/nrwMapStyles';
 import {
-    getAdminRegionUrl,
+    getAdminAreaUrl,
     getGlobalAdmin0Url,
 } from '#utils/nrw/nrwUrls';
 
@@ -92,7 +92,7 @@ export default function OlGlobalMap({ onSelect }: OlGlobalMapProps) {
         }
 
         const admin1Source = new VectorSource({
-            url: getAdminRegionUrl(country, 1),
+            url: getAdminAreaUrl(country, 1),
             format: new GeoJSON(),
         });
 

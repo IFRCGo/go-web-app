@@ -7,9 +7,78 @@ import {
 } from 'ol/style';
 
 import { COUNTRY_FIELD_KEY } from './nrwConstants';
+import { AlertClassType } from './nrwMapTypes';
 
 export type MvtStyleCreator = (feature: FeatureLike, selected: string) => Style;
-const deselectedColor = 'rgba(0, 0, 0, 0.07)';
+const defaultAdminAreaBorderWidth = 1;
+const defaultPointWidth = 2;
+
+type AdminLevel = 1 | 2 | 3 | 4;
+
+const noEventAdminAreaFillColors: Record<AdminLevel, string> = {
+    1: 'rgba(112, 119, 93, 0.38)',
+    2: 'rgba(87, 152, 227, 0.84)',
+    3: 'rgba(32, 194, 29, 0.72)',
+    4: 'rgba(255, 105, 180, 0.72)',
+};
+
+const noEventAdminAreaStrokeColors: Record<AdminLevel, string> = {
+    1: '#595959',
+    2: 'rgba(35, 113, 203, 0.84)',
+    3: '#169b248e',
+    4: '#ff1493',
+};
+
+const exposedAreaFillAlphaHex = 'A6'; // 0.65
+const exposedAreaFillAlphaHexLight = '33'; // 0.2
+
+// Color steps for each alert class
+export const alertColors: Record<AlertClassType, string[]> = {
+    [AlertClassType.Low]: ['#FFF9EA', '#FFEDBC', '#FFDF8A', '#FFC635', '#D99A00'],
+    [AlertClassType.Medium]: ['#FFF5EA', '#FFD3AA', '#FFB066', '#FF6E00', '#C24E00'],
+    [AlertClassType.High]: ['#FEF1F2', '#FCC6CA', '#FA999F', '#F5333F', '#C01825'],
+};
+
+// Convert a tier level to a number based on the highest value the tier may represent
+export const tierLevelToNumber = (
+    tierLevel: number,
+    tierCount: number,
+    highestNumberValue: number,
+    roundToNearest: number,
+) : number => {
+    const rawNumber = (tierLevel / tierCount) * highestNumberValue;
+    return Math.round(rawNumber / roundToNearest) * roundToNearest;
+};
+
+// Convert a number to a tier level, but group the highest value into one tier lower.
+// This is so the top tier is not just a value equal to the highest value.
+export const numberToTierLevel = (
+    value: number,
+    highestNumberValue: number,
+    tierCount: number,
+): number => {
+    // Get the normalized value between 0 and 1 compared to the highest value
+    let normalizedValue = 0;
+    if (highestNumberValue > 0) {
+        normalizedValue = Math.min(value / highestNumberValue, 1);
+    }
+    // Scale this to the number of tiers
+    const tier = Math.floor(normalizedValue * tierCount);
+    // If this is the highest value (so if this is the highest value), set it in one tier lower
+    const adjustedTier = Math.min(tier, tierCount - 1);
+    return adjustedTier;
+};
+
+// Get the color string for an exposed area
+const getExposureColor = (
+    value: number,
+    highestValue: number,
+    alertClass: AlertClassType,
+): string => {
+    const colors = alertColors[alertClass];
+    const index = numberToTierLevel(value, highestValue, colors.length);
+    return colors[index]!;
+};
 
 // TODO: review the styling for perf in terms of what to render, and how to reduce
 // the number of features that must be looped through when styling
@@ -48,126 +117,65 @@ export const styleAdmin1 = (
     });
 };
 
-// Admin child borders style (e.g., admin3 regions)
-export const styleAdmin3Region = (
-    code: string,
+// Style for an admin area when an event is selected
+export const styleAdminAreaForEvent = (
+    placeCode: string,
     selectedChildCode: string | null,
-    affectedRegions: string[] | null,
-    isEventSelected: boolean,
+    exposedPopulation: Record<string, number> | null,
+    highestExposedPopulationNumber: number,
+    alertClass: AlertClassType,
+    isDeepestAdminLevel: boolean,
 ): Style => {
-    // Highlight selected child region in orange
-    if (code === selectedChildCode) {
-        return new Style({
-            fill: new Fill({
-                color: 'rgba(255, 106, 0, 0)',
-            }),
-            stroke: new Stroke({
-                color: '#e65100',
-                width: 2,
-            }),
-        });
+    // Only color the deepest level
+    if (!isDeepestAdminLevel) {
+        return new Style({});
     }
-    if (isEventSelected && affectedRegions && affectedRegions.includes(code)) {
-        return new Style({
-            fill: new Fill({
-                color: 'rgba(255, 123, 0, 0.72)',
-            }),
-            stroke: new Stroke({
-                color: '#d58711c2',
-                width: 2,
-            }),
-        });
-    }
-    if (!isEventSelected) {
-        return new Style({
 
-            fill: new Fill({
-                color: 'rgba(32, 194, 29, 0.72)',
-            }),
-            stroke: new Stroke({
-                color: '#169b248e',
-                width: 2,
-            }),
-        });
+    // Unexposed areas not displayed
+    if (!exposedPopulation || exposedPopulation[placeCode] === undefined) {
+        return new Style({});
     }
+
+    // Color based on exposed population
+    const population = exposedPopulation[placeCode] ?? 0;
+    const baseColor = getExposureColor(population, highestExposedPopulationNumber, alertClass);
+
+    // If nothing selected at the deepest level is selected, or if the current area is selected,
+    // render at standard opacity.
+    // Else, render at a lighter opacity.
+    const isStandardOpacity = selectedChildCode === null || selectedChildCode === placeCode;
+    const alphaHex = isStandardOpacity ? exposedAreaFillAlphaHex : exposedAreaFillAlphaHexLight;
+
     return new Style({
         fill: new Fill({
-            color: deselectedColor,
+            color: `${baseColor}${alphaHex}`,
         }),
         stroke: new Stroke({
-            color: deselectedColor,
-            width: 2,
+            color: baseColor,
+            width: defaultAdminAreaBorderWidth,
         }),
     });
 };
 
-export const styleAdmin2region = (
-    code: string,
+// Simplified style for an admin area when no event is selected.
+// Color is chosen by admin level.
+// Note: Selected areas are not rendered, even at the lowest level.
+// This is part of the debug UI while we wait for design.
+export const styleAdminNoEvent = (
+    placeCode: string,
     selectedCode: string | null,
-    isEventSelected: boolean,
+    adminLevel: AdminLevel,
 ): Style => {
-    // Don't fill the selected region if the selected code starts with code
-    if (selectedCode && selectedCode.startsWith(code)) {
-        return new Style({
-
-        });
-    }
-    // If an event is selected, return white at 50% alpha
-    if (isEventSelected) {
-        return new Style({
-            fill: new Fill({
-                color: deselectedColor,
-            }),
-            stroke: new Stroke({
-                color: deselectedColor,
-                width: 2,
-            }),
-        });
+    if (selectedCode && selectedCode.startsWith(placeCode)) {
+        return new Style({});
     }
     return new Style({
         fill: new Fill({
-            color: 'rgba(87, 152, 227, 0.84)',
+            color: noEventAdminAreaFillColors[adminLevel],
         }),
         stroke: new Stroke({
-            color: 'rgba(35, 113, 203, 0.84)',
-            width: 2,
-        }),
-    });
-};
-
-export const styleAdmin1region = (
-    code: string,
-    selectedCode: string | null,
-    isEventSelected: boolean,
-): Style => {
-    // Don't fill the selected region
-    if (selectedCode && selectedCode.startsWith(code)) {
-        return new Style({
-            stroke: new Stroke({
-                color: '#fcfc1d',
-                width: 1,
-            }),
-        });
-    }
-    // If an event is selected, return white at 50% alpha
-    if (isEventSelected) {
-        return new Style({
-            fill: new Fill({
-                color: 'rgba(255, 255, 255, 0.5)',
-            }),
-            stroke: new Stroke({
-                color: 'rgba(255, 255, 255, 0.5)',
-                width: 2,
-            }),
-        });
-    }
-    return new Style({
-        fill: new Fill({
-            color: 'rgba(112, 119, 93, 0.38)',
-        }),
-        stroke: new Stroke({
-            color: '#595959',
-            width: 2,
+            color: noEventAdminAreaStrokeColors[adminLevel],
+            width: defaultAdminAreaBorderWidth,
         }),
     });
 };
@@ -180,7 +188,7 @@ export const styleRcBranchPoint = new Style({
         }),
         stroke: new Stroke({
             color: '#ffffff',
-            width: 2,
+            width: defaultPointWidth,
         }),
     }),
 });
@@ -193,7 +201,7 @@ export const styleClinicPoint = new Style({
         }),
         stroke: new Stroke({
             color: '#ffffff',
-            width: 2,
+            width: defaultPointWidth,
         }),
     }),
 });

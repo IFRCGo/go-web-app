@@ -18,13 +18,14 @@ import {
     getCurrentCountryEventData,
     getEventDetails,
 } from '#utils/nrw/nrwDataFetchHelpers';
-import { getSelectedEventMapDetails } from '#utils/nrw/nrwMapHelpers';
+import { getSelectedEventDetails } from '#utils/nrw/nrwMapHelpers';
 import type { MapSelectionView } from '#utils/nrw/nrwMapInteractionHelpers';
 import { PrintElementId } from '#utils/nrw/nrwMapToPdfExporter';
 
 import NrwControlPanel from './NrwControlPanel';
 import NrwDataPanel from './NrwDataPanel';
 import NrwLayerPanel from './NrwLayerPanel';
+import NrwLegendPanel from './NrwLegendPanel';
 import OlDataMap from './OlDataMap';
 import useNrwDataLoader from './useNrwDataLoader';
 import useNrwMapSearchParams from './useNrwMapSearchParams';
@@ -117,9 +118,9 @@ export default function NrwMapContainer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // Derive map details for the selected event (centroid, affected regions)
-    const selectedEventMapDetails = useMemo(
-        () => getSelectedEventMapDetails(eventData, activeEventId),
+    // Derive map details for the selected event (centroid, affected areas)
+    const selectedEventDetails = useMemo(
+        () => getSelectedEventDetails(eventData, activeEventId),
         [eventData, activeEventId],
     );
 
@@ -135,15 +136,16 @@ export default function NrwMapContainer() {
         return peakTime ? peakTime.split('T')[0] : undefined;
     }, [eventData, activeEventId]);
 
-    // Show alert when no exposed regions found in a selected event
+    // Show alert when no exposed areas found in a selected event
     useEffect(() => {
-        if (selectedEventMapDetails && selectedEventMapDetails.exposedRegionsByLevel.size === 0) {
-            alert.show('No exposed regions', {
+        if (selectedEventDetails
+             && Object.keys(selectedEventDetails.exposedPopulationPerAreaByLevel).length === 0) {
+            alert.show('No exposed areas', {
                 variant: 'danger',
-                description: `No exposed regions found for event "${activeEventId}".`,
+                description: `No exposed areas found for event "${activeEventId}".`,
             });
         }
-    }, [selectedEventMapDetails, activeEventId, alert]);
+    }, [selectedEventDetails, activeEventId, alert]);
 
     // Sync the active layer IDs to the URL
     useEffect(() => {
@@ -240,7 +242,7 @@ export default function NrwMapContainer() {
                 <div className={styles.mapColumn} id={PrintElementId.Map}>
                     <OlDataMap
                         selectedCountry={selectedCountry}
-                        selectedEventDetails={selectedEventMapDetails}
+                        selectedEventDetails={selectedEventDetails}
                         initialMapView={initialMapView()}
                         initialAdminCode={initialAdminCode}
                         addLayerFunction={registerMapAddLayer}
@@ -260,6 +262,9 @@ export default function NrwMapContainer() {
                                 />
                             </div>
                         )}
+                    />
+                    <NrwLegendPanel
+                        selectedEventDetails={selectedEventDetails}
                     />
                 </div>
             </div>

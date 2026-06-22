@@ -16,6 +16,358 @@ export const mockAllEventsData_MW: EventOverviewData[] = [
     {
         hazardTypes: [HazardType.floods],
         eventName: 'Flood - Malawi',
+        eventId: 9900099,
+        alertClass: AlertClassType.Medium,
+        trigger: false,
+        centroid: [34.0, -12.5],
+        startTime: '2026-06-20T06:00:00Z',
+        reachesPeakAlertClassTime: '2026-06-23T06:00:00Z',
+        endTime: '2026-06-26T06:00:00Z',
+        availableLayers: [{ resourceId: 'flood_extent_7-hour_MWI', dataType: MapLayerInfoType.EventExtent, displayType: MapLayerDisplayType.Raster }],
+        exposedAdminAreas: [
+            // ADM0 - Country (sum of all ADM3: 51407 + 45300 = 96707)
+            [
+                {
+                    placeCode: 'MWI',
+                    adminLevel: 0,
+                    name: 'Malawi',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 96707, total: 96707,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 6900, total: 25500,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 17, total: 69,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 8, total: 32,
+                        },
+                    ],
+                },
+            ],
+            // ADM1 - Areas (MW1: 51407, MW2: 45300)
+            [
+                {
+                    placeCode: 'MW1',
+                    adminLevel: 1,
+                    name: 'Northern',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 51407, total: 51407,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 3800, total: 14000,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 9, total: 37,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 5, total: 18,
+                        },
+                    ],
+                },
+                {
+                    placeCode: 'MW2',
+                    adminLevel: 1,
+                    name: 'Central',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 45300, total: 45300,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 3100, total: 11000,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 8, total: 32,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 3, total: 14,
+                        },
+                    ],
+                },
+            ],
+            // ADM2 - Districts (MW105: 37307, MW103: 14100, MW201: 25900, MW202: 19400)
+            [
+                {
+                    placeCode: 'MW105',
+                    adminLevel: 2,
+                    name: 'Karonga',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 37307, total: 37307,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 2200, total: 8500,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 6, total: 21,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 3, total: 10,
+                        },
+                    ],
+                },
+                {
+                    placeCode: 'MW103',
+                    adminLevel: 2,
+                    name: 'Nkhata Bay',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 14100, total: 14100,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 1600, total: 5500,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 3, total: 16,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 2, total: 8,
+                        },
+                    ],
+                },
+                {
+                    placeCode: 'MW201',
+                    adminLevel: 2,
+                    name: 'Kasungu',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 25900, total: 25900,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 1900, total: 6500,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 5, total: 18,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 2, total: 8,
+                        },
+                    ],
+                },
+                {
+                    placeCode: 'MW202',
+                    adminLevel: 2,
+                    name: 'Nkhotakota',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 19400, total: 19400,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 1200, total: 5000,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 3, total: 14,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 1, total: 6,
+                        },
+                    ],
+                },
+            ],
+            // ADM3 - Areas
+            [
+                {
+                    placeCode: 'MW10506',
+                    adminLevel: 3,
+                    name: 'TA Kilupula',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 2300, total: 2300,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 200, total: 1500,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 1, total: 4,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 0, total: 2,
+                        },
+                    ],
+                },
+                {
+                    placeCode: 'MW10508',
+                    adminLevel: 3,
+                    name: 'TA Wasambo',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 12884, total: 12884,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 800, total: 3000,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 2, total: 7,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 1, total: 3,
+                        },
+                    ],
+                },
+                {
+                    placeCode: 'MW10507',
+                    adminLevel: 3,
+                    name: 'TA Mwirang\'ombe',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 22123, total: 22123,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 1200, total: 4000,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 3, total: 10,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 2, total: 5,
+                        },
+                    ],
+                },
+                {
+                    placeCode: 'MW10305',
+                    adminLevel: 3,
+                    name: 'TA Fukamapiri',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 8400, total: 8400,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 900, total: 3000,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 1, total: 6,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 1, total: 3,
+                        },
+                    ],
+                },
+                {
+                    placeCode: 'MW10301',
+                    adminLevel: 3,
+                    name: 'TA Mkumbira',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 1500, total: 1500,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 300, total: 1200,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 1, total: 5,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 0, total: 2,
+                        },
+                    ],
+                },
+                {
+                    placeCode: 'MW10302',
+                    adminLevel: 3,
+                    name: 'TA Timbiri',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 4200, total: 4200,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 400, total: 1300,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 1, total: 5,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 1, total: 3,
+                        },
+                    ],
+                },
+                {
+                    placeCode: 'MW20202',
+                    adminLevel: 3,
+                    name: 'TA Malenga Chanzi',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 15600, total: 15600,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 700, total: 3000,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 2, total: 8,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 1, total: 4,
+                        },
+                    ],
+                },
+                {
+                    placeCode: 'MW20201',
+                    adminLevel: 3,
+                    name: 'TA Mwadzama',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 3800, total: 3800,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 500, total: 2000,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 1, total: 6,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 0, total: 2,
+                        },
+                    ],
+                },
+                {
+                    placeCode: 'MW20102',
+                    adminLevel: 3,
+                    name: 'TA Kaomba',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 25000, total: 25000,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 1500, total: 4500,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 4, total: 12,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 2, total: 6,
+                        },
+                    ],
+                },
+                {
+                    placeCode: 'MW20112',
+                    adminLevel: 3,
+                    name: 'TA Wimbe',
+                    exposure: [
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 900, total: 900,
+                        },
+                        {
+                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 400, total: 2000,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 1, total: 6,
+                        },
+                        {
+                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 0, total: 2,
+                        },
+                    ],
+                },
+            ],
+        ],
+        dataSources: [DataSourceType.Glofas, DataSourceType.Other],
+        firstIssuedAt: '2026-06-19T08:00:00Z',
+        lastUpdatedAt: '2026-06-19T12:00:00Z',
+    },
+    {
+        hazardTypes: [HazardType.floods],
+        eventName: 'Flood - Malawi',
         eventId: 1001,
         alertClass: AlertClassType.Low,
         trigger: false,
@@ -47,7 +399,7 @@ export const mockAllEventsData_MW: EventOverviewData[] = [
                     ],
                 },
             ],
-            // ADM1 - Region (same sum, all in Central)
+            // ADM1 - Area (same sum, all in Central)
             [
                 {
                     placeCode: 'MW2',
@@ -228,7 +580,7 @@ export const mockAllEventsData_MW: EventOverviewData[] = [
                     ],
                 },
             ],
-            // ADM1 - Region (same sum, all in Southern)
+            // ADM1 - Area (same sum, all in Southern)
             [
                 {
                     placeCode: 'MW3',
@@ -354,206 +706,6 @@ export const mockAllEventsData_MW: EventOverviewData[] = [
         ],
         dataSources: [DataSourceType.Glofas, DataSourceType.Other],
         firstIssuedAt: '2026-04-01T14:15:00Z',
-        lastUpdatedAt: '2026-04-02T00:00:00Z',
-    },
-    {
-        hazardTypes: [HazardType.floods],
-        eventName: 'Flood - Malawi',
-        eventId: 1003,
-        alertClass: AlertClassType.Medium,
-        trigger: false,
-        centroid: [34.5, -14.5], // Between Lilongwe and Zomba
-        startTime: '2026-04-08T15:00:00Z',
-        reachesPeakAlertClassTime: '2026-04-10T06:00:00Z',
-        endTime: '2026-04-11T21:00:00Z',
-        availableLayers: [],
-        exposedAdminAreas: [
-            // ADM0 - Country (sum of all ADM3)
-            [
-                {
-                    placeCode: 'MWI',
-                    adminLevel: 0,
-                    name: 'Malawi',
-                    exposure: [
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 29600, total: 29600,
-                        },
-                        {
-                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 2100, total: 10500,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 5, total: 28,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 2, total: 12,
-                        },
-                    ],
-                },
-            ],
-            // ADM1 - Regions (Central: 11700, Southern: 17900)
-            [
-                {
-                    placeCode: 'MW2',
-                    adminLevel: 1,
-                    name: 'Central',
-                    exposure: [
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 11700, total: 11700,
-                        },
-                        {
-                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 1000, total: 5500,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 2, total: 14,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 1, total: 6,
-                        },
-                    ],
-                },
-                {
-                    placeCode: 'MW3',
-                    adminLevel: 1,
-                    name: 'Southern',
-                    exposure: [
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 17900, total: 17900,
-                        },
-                        {
-                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 1100, total: 5000,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 3, total: 14,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 1, total: 6,
-                        },
-                    ],
-                },
-            ],
-            // ADM2 - Districts (Lilongwe City: 11700, Zomba: 17900)
-            [
-                {
-                    placeCode: 'MW210',
-                    adminLevel: 2,
-                    name: 'Lilongwe City',
-                    exposure: [
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 11700, total: 11700,
-                        },
-                        {
-                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 1000, total: 5500,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 2, total: 14,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 1, total: 6,
-                        },
-                    ],
-                },
-                {
-                    placeCode: 'MW303',
-                    adminLevel: 2,
-                    name: 'Zomba',
-                    exposure: [
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 17900, total: 17900,
-                        },
-                        {
-                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 1100, total: 5000,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 3, total: 14,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 1, total: 6,
-                        },
-                    ],
-                },
-            ],
-            // ADM3 - Combined from event1 and event2
-            [
-                {
-                    placeCode: 'MW21046',
-                    adminLevel: 3,
-                    name: 'Area 16',
-                    exposure: [
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 3200, total: 3200,
-                        },
-                        {
-                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 400, total: 2500,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 1, total: 6,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 0, total: 3,
-                        },
-                    ],
-                },
-                {
-                    placeCode: 'MW21043',
-                    adminLevel: 3,
-                    name: 'Area 13',
-                    exposure: [
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 8500, total: 8500,
-                        },
-                        {
-                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 600, total: 3000,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 1, total: 8,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 1, total: 3,
-                        },
-                    ],
-                },
-                {
-                    placeCode: 'MW30303',
-                    adminLevel: 3,
-                    name: 'SC Mkumbira',
-                    exposure: [
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 2100, total: 2100,
-                        },
-                        {
-                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 300, total: 1500,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 1, total: 4,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 0, total: 2,
-                        },
-                    ],
-                },
-                {
-                    placeCode: 'MW30302',
-                    adminLevel: 3,
-                    name: 'TA Mwambo',
-                    exposure: [
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Population, exposed: 15800, total: 15800,
-                        },
-                        {
-                            unit: MeasurementUnits.Km, type: ExposedItemType.Roads, exposed: 800, total: 3500,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Schools, exposed: 2, total: 10,
-                        },
-                        {
-                            unit: MeasurementUnits.None, type: ExposedItemType.Clinics, exposed: 1, total: 4,
-                        },
-                    ],
-                },
-            ],
-        ],
-        dataSources: [DataSourceType.Glofas, DataSourceType.Other],
-        firstIssuedAt: '2026-04-01T19:45:00Z',
         lastUpdatedAt: '2026-04-02T00:00:00Z',
     },
 ];

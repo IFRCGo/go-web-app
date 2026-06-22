@@ -53,3 +53,35 @@ The spell checker is easily confused by acronyms and country codes. You can add 
 ### NRW Portal
 
 For running the NRW portal, see [the NRW readme.](app/src/components/NrwMap/readme.md)
+
+### .vscode settings
+
+The hope is to make the .vscode file as part of the repo if possible. For now, the contents are shared here. To use this, copy it into the `settings.json` file in the `<repo root>/.vscode/` directory. If either of these don't yet exist, create them.
+
+``` JSON
+{
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.stylelint": "explicit"
+    },
+    "eslint.workingDirectories": ["app", "packages/ui", "packages/go-ui-storybook"],
+    "eslint.format.enable": true,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "[typescript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[css]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+    }
+}
+```

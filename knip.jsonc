@@ -52,6 +52,12 @@
                 "src/**/*.test.tsx",
                 "src/**/*.tsx!",
                 "src/**/*.ts!"
+            ],
+            "ignore": [
+                // NRW (National Risk Watch) map is an in-progress feature;
+                // exclude it from unused analysis until it is fully wired up
+                "src/utils/nrw/**",
+                "src/components/NrwMap/**"
             ]
         }
     }

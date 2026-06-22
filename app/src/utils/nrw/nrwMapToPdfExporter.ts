@@ -103,14 +103,14 @@ export async function exportMapToPdf(
     filename = filename.replace(/[^a-zA-Z0-9._-]/g, '_');
 
     try {
-        // Capture panels in parallel, but map needs special handling
-        const [dataPanel, layerPanel, controlPanel] = await Promise.all([
+        // Capture the non-map panels in parallel
+        const [dataPanel, controlPanel] = await Promise.all([
             captureElement(PrintElementId.DataPanel),
-            captureElement(PrintElementId.LayerPanel),
             captureElement(PrintElementId.ControlPanel),
         ]);
 
-        // Capture map using OpenLayers rendercomplete event
+        // The map panel needs to be captured with special handling,
+        // using OpenLayers rendercomplete event
         const mapElement = await captureMap(mapInstance, PrintElementId.Map);
 
         // Create PDF
@@ -179,38 +179,17 @@ export async function exportMapToPdf(
             );
         }
 
-        // Add second page for the other panels
-        pdf.addPage();
-        const bottomPanelWidth = (contentWidth - gap) / 2;
-
-        // Add the control panel on the left
+        // Add second page for the control panel
         if (controlPanel) {
+            pdf.addPage();
             const aspectRatio = controlPanel.width / controlPanel.height;
-            const scaledWidth = bottomPanelWidth;
-            const scaledHeight = bottomPanelWidth / aspectRatio;
+            const scaledWidth = contentWidth;
+            const scaledHeight = contentWidth / aspectRatio;
 
             pdf.addImage(
                 controlPanel.canvas.toDataURL('image/png'),
                 'PNG',
                 margin,
-                margin,
-                scaledWidth,
-                scaledHeight,
-            );
-        }
-
-        // Add the layer panel on the right
-        if (layerPanel) {
-            const aspectRatio = layerPanel.width / layerPanel.height;
-            const scaledWidth = bottomPanelWidth;
-            const scaledHeight = bottomPanelWidth / aspectRatio;
-
-            const layerPanelX = margin + bottomPanelWidth + gap;
-
-            pdf.addImage(
-                layerPanel.canvas.toDataURL('image/png'),
-                'PNG',
-                layerPanelX,
                 margin,
                 scaledWidth,
                 scaledHeight,
