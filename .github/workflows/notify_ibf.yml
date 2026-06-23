@@ -1,7 +1,8 @@
 name: Notify IBF of submodule update
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches: [ibf-main]
 
 permissions:
@@ -9,6 +10,7 @@ permissions:
 
 jobs:
   dispatch:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/create-github-app-token@v2
@@ -24,3 +26,4 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
           repository: rodekruis/IBF
           event-type: submodule-update
+          client-payload: '{"pr_url": "${{ github.event.pull_request.html_url }}"}'
