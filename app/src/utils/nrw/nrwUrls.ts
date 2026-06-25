@@ -30,7 +30,7 @@ export const seedRepoMockCountryDataUrl = `${seedDataRepo}mock-backend/country/n
 export const getSeedRepoMockEventDataUrl = (countryIso3: string) => `${seedDataRepo}mock-backend/events/nrwMockData_${countryIso3}.json`;
 
 // IBF API events endpoint
-export const getEventsApiUrl = () => `${ibfApiBackend}events?active=true`;
+export const getEventsApiUrl = (countryIso3: string) => `${ibfApiBackend}events?countryCodeIso3=${countryIso3}&active=true`;
 
 // GO API URLs for local units data
 // TODO: Revisit these sources as part of this task:

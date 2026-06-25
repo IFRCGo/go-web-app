@@ -111,7 +111,7 @@ export default function NrwMapContainer() {
     useEffect(() => {
         const loadInitialData = async () => {
             const data = selectedEventId
-                ? await getEventDetails(selectedEventId)
+                ? await getEventDetails(selectedCountry, selectedEventId)
                 : await getCurrentCountryEventData(selectedCountry);
             setEventData(data);
         };

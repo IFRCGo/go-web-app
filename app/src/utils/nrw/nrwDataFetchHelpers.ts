@@ -151,14 +151,16 @@ export async function fetchAdminAreaDetails(
 }
 
 // Fetch events from the IBF API
-async function fetchEventsFromApi(): Promise<EventOverviewData[]> {
+async function fetchEventsFromApi(
+    countryCodeIso3: string,
+): Promise<EventOverviewData[]> {
     try {
-        const url = getEventsApiUrl();
+        const url = getEventsApiUrl(countryCodeIso3);
         const response = await fetch(url);
         if (!response.ok) {
             return [];
         }
-        const dtos = await response.json() as EventResponseDto[];
+        const dtos = (await response.json()) as EventResponseDto[];
         return mapEventResponsesToOverviews(dtos);
     } catch {
         return [];
@@ -166,28 +168,33 @@ async function fetchEventsFromApi(): Promise<EventOverviewData[]> {
 }
 
 // Fetch upcoming or ongoing events data for a country
-// TODO: add country-param to API and implement use here
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function getCurrentCountryEventData(_country: string): Promise<EventOverviewData[]> {
-    return fetchEventsFromApi();
+export async function getCurrentCountryEventData(
+    country: string,
+): Promise<EventOverviewData[]> {
+    return fetchEventsFromApi(country);
 }
 
 // Fetch a specific event's details, and only return that event
-export async function getEventDetails(eventId: number): Promise<EventOverviewData[]> {
-    const allEvents = await fetchEventsFromApi();
+export async function getEventDetails(
+    country: string,
+    eventId: number,
+): Promise<EventOverviewData[]> {
+    const allEvents = await fetchEventsFromApi(country);
     const event = allEvents.find((e) => e.eventId === eventId);
     return event ? [event] : [];
 }
 
 // Fetch country-level map layer data
 // TODO: Use the API instead of mock data. Pending IBF API
-export async function getCountryMapData(): Promise<Record<string, CountryMapData>> {
+export async function getCountryMapData(): Promise<
+  Record<string, CountryMapData>
+  > {
     try {
         const response = await fetch(seedRepoMockCountryDataUrl);
         if (!response.ok) {
             return {} as Record<string, CountryMapData>;
         }
-        return await response.json() as Record<string, CountryMapData>;
+        return (await response.json()) as Record<string, CountryMapData>;
     } catch {
         return {} as Record<string, CountryMapData>;
     }
