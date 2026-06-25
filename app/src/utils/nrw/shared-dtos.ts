@@ -5,19 +5,31 @@
  * Source DTOs:
  * - services/api-service/src/events/dto/event-exposed-admin-area.dto.ts
  * - services/api-service/src/events/dto/event-response.dto.ts
+ * - services/api-service/src/events/dto/map-layer-details.dto.ts
  */
 
-import type { Layer } from './shared-enums';
+import type {
+    MapLayerDisplayType,
+    MapLayerInfoType,
+} from './nrwMapTypes';
 
 interface AdminAreaExposureDto {
-    type: Layer;
+    type: MapLayerInfoType;
+    total: number | null;
     exposed: number;
 }
 
 export interface ExposedAdminAreaDto {
     placeCode: string;
     adminLevel: number;
+    name: string;
     exposure: AdminAreaExposureDto[];
+}
+
+export interface MapLayerDetailsDto {
+    resourceId: string;
+    dataType: MapLayerInfoType;
+    displayType: MapLayerDisplayType;
 }
 
 export interface EventResponseDto {
@@ -32,11 +44,12 @@ export interface EventResponseDto {
         latitude: number;
         longitude: number;
     };
-    startAt: Date;
-    reachesPeakAlertClassAt: Date;
-    endAt: Date;
-    firstIssuedAt: Date;
-    lastUpdatedAt: Date;
+    startAt: string;
+    reachesPeakAlertClassAt: string;
+    endAt: string;
+    firstIssuedAt: string;
+    lastUpdatedAt: string;
     isOngoing: boolean;
     exposedAdminAreas: ExposedAdminAreaDto[];
+    availableLayers: MapLayerDetailsDto[];
 }

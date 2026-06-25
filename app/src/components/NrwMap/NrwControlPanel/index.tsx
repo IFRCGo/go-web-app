@@ -164,7 +164,7 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
             {/* Header */}
             <div className={styles.header}>
                 <div className={styles.headerLeft}>
-                    <span className={styles.headerTitle}>{event.eventName}</span>
+                    <span className={styles.headerTitle}>{event.eventLabel}</span>
                 </div>
                 <span
                     className={styles.alertClassBadge}
@@ -255,7 +255,7 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
 
             {/* Data Sources Section */}
             <CollapsibleSection title="Data Sources">
-                {event.dataSources.map((source, index) => (
+                {event.forecastSources.map((source, index) => (
                     <div key={source} className={styles.sourceItem}>
                         <span className={styles.sourceLabel}>
                             {index === 0 ? 'Forecast Source' : 'Data Source'}
@@ -321,7 +321,7 @@ function EventButton({ event, onEventClick }: EventButtonProps) {
 
     return (
         <div className={styles.eventCard}>
-            <div className={styles.eventTitle}>{event.eventName}</div>
+            <div className={styles.eventTitle}>{event.eventLabel}</div>
             <div
                 className={styles.eventAlert}
                 style={{

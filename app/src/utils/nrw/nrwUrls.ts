@@ -29,6 +29,9 @@ export const seedRepoPopDataUrl = `${seedDataRepo}raster-data/population/rgba/`;
 export const seedRepoMockCountryDataUrl = `${seedDataRepo}mock-backend/country/nrwMockCountryData.json`;
 export const getSeedRepoMockEventDataUrl = (countryIso3: string) => `${seedDataRepo}mock-backend/events/nrwMockData_${countryIso3}.json`;
 
+// IBF API events endpoint
+export const getEventsApiUrl = () => `${ibfApiBackend}events?active=true`;
+
 // GO API URLs for local units data
 // TODO: Revisit these sources as part of this task:
 // https://dev.azure.com/redcrossnl/IBF/_workitems/edit/42046

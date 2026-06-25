@@ -2,15 +2,12 @@ import type VectorLayer from 'ol/layer/Vector';
 import type Style from 'ol/style/Style';
 
 import {
-    mockAllEventsData_MW,
-    mockAllEventsData_ZM,
-} from './mockData/mock_EventData';
-import {
     ADMIN_LEVEL_FIELD_KEY,
     ADMIN_PCODE_KEY_BASE,
     ATTRIBUTES_FIELD_KEY,
     POPULATION_ATTRIBUTE_KEY,
 } from './nrwConstants';
+import { mapEventResponsesToOverviews } from './nrwEventMapper';
 import {
     isValidCoordinatePair,
     makePointLayerFromFeatures,
@@ -21,10 +18,12 @@ import {
 } from './nrwMapTypes';
 import {
     getAdminAreaDetailsNoGeoUrl,
+    getEventsApiUrl,
     getHealthLocsApiUrl,
     getRcLocsApiUrl,
     seedRepoMockCountryDataUrl,
 } from './nrwUrls';
+import type { EventResponseDto } from './shared-dtos';
 
 // Format of GO API result for Red Cross locations
 type RcLocResult = {
@@ -151,60 +150,33 @@ export async function fetchAdminAreaDetails(
     }
 }
 
-// Load mock event data for a given country from local mock data
-// TODO: Replace with API calls when available
-// TODO: Also set this to be able to load mock data from the seed repo.
-// This was disabled since the DB payload format is still changing, so the seed repo
-// data is out of date. Regenerating it each time takes effort (and a lot of LLM tokens)
-async function loadMockEventData(country: string): Promise<EventOverviewData[]> {
-    // Method to fetch from seed repo, but also can be used for the backend
-    /*
-    const url = getSeedRepoMockEventDataUrl(country); // Import from './nrwUrls'
+// Fetch events from the IBF API
+async function fetchEventsFromApi(): Promise<EventOverviewData[]> {
     try {
+        const url = getEventsApiUrl();
         const response = await fetch(url);
         if (!response.ok) {
             return [];
         }
-        return await response.json() as EventOverviewData[];
+        const dtos = await response.json() as EventResponseDto[];
+        return mapEventResponsesToOverviews(dtos);
     } catch {
         return [];
     }
-        */
-
-    // Placeholder method using local mock data
-    const mockDataMap: Record<string, EventOverviewData[]> = {
-        MWI: mockAllEventsData_MW,
-        ZMB: mockAllEventsData_ZM,
-    };
-    return mockDataMap[country] ?? [];
 }
 
 // Fetch upcoming or ongoing events data for a country
-export async function getCurrentCountryEventData(country: string): Promise<EventOverviewData[]> {
-    // TODO: Use the API for fetching this for any country, and only use mock data
-    // if set to do so in the env file.
-    return loadMockEventData(country);
+// TODO: add country-param to API and implement use here
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function getCurrentCountryEventData(_country: string): Promise<EventOverviewData[]> {
+    return fetchEventsFromApi();
 }
 
 // Fetch a specific event's details, and only return that event
 export async function getEventDetails(eventId: number): Promise<EventOverviewData[]> {
-    // TODO: Use the API for fetching this for any country, and only use mock data
-    // if set to do so in the env file.
-    // For mock data, look for the event data with the matching eventId across all countries.
-    // TODO: When the API is available, this will be a single call to the API.
-    const countries = ['MWI', 'ZMB'];
-    for (let i = 0; i < countries.length; i += 1) {
-        const country = countries[i];
-        if (country) {
-            // eslint-disable-next-line no-await-in-loop
-            const countryEvents = await loadMockEventData(country);
-            const eventData = countryEvents.find((event) => event.eventId === eventId);
-            if (eventData) {
-                return [eventData];
-            }
-        }
-    }
-    return [];
+    const allEvents = await fetchEventsFromApi();
+    const event = allEvents.find((e) => e.eventId === eventId);
+    return event ? [event] : [];
 }
 
 // Fetch country-level map layer data

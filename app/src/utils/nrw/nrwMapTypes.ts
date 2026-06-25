@@ -2,7 +2,10 @@
 // The enums are shared values between the backend and frontend.
 // Do not change any values without first checking with the IBF backend team.
 
-import { type HazardType } from './shared-enums';
+import {
+    type ForecastSource,
+    type HazardType,
+} from './shared-enums';
 
 // Enum to identify alert classes
 // These then point to the color/style/localized string in the front end.
@@ -74,10 +77,13 @@ export interface MapLayerDetails {
 
 // Data for an overview of an event
 export interface EventOverviewData {
-  hazardTypes: HazardType[];
+  hazardType: HazardType;
 
-  // Translated, user-facing name for the event
+  // Internal event name (used as identifier)
   eventName: string;
+
+  // User-friendly label for display
+  eventLabel: string;
 
   // ID to later reference the event, as well as for making other API calls for related resources
   eventId: number;
@@ -108,14 +114,11 @@ export interface EventOverviewData {
   availableLayers: MapLayerDetails[];
 
   // sources used for the data (Glofas, etc.)
-  dataSources: DataSourceType[];
+  forecastSources: ForecastSource[];
 
-}
+  // TODO: use this to show an event as ongoing vs upcoming
+  isOngoing: boolean;
 
-// Sources for the data used in events, map layers, etc.
-export enum DataSourceType {
-  Glofas = 'glofas',
-  Other = 'other',
 }
 
 // Event data specific to an admin area. Each admin area with exposure has one of these.
