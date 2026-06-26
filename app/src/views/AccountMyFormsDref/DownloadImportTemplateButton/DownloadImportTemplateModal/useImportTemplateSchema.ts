@@ -4,6 +4,12 @@ import useCountry from '#hooks/domain/useCountry';
 import useDisasterTypes, { type DisasterType } from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useNationalSociety from '#hooks/domain/useNationalSociety';
+import usePrimarySector from '#hooks/domain/usePrimarySector';
+import {
+    DREF_TYPE_IMMINENT,
+    DREF_TYPE_RESPONSE,
+    type TypeOfDrefEnum,
+} from '#utils/constants';
 import { type TemplateSchema } from '#utils/importTemplate';
 import { type DrefRequestBody } from '#views/DrefApplicationForm/schema';
 
@@ -45,6 +51,7 @@ function useImportTemplateSchema() {
     const nationalSocieties = useNationalSociety();
     const countries = useCountry();
     const disasterTypes = useDisasterTypes();
+    const primarySectors = usePrimarySector();
 
     const {
         dref_planned_intervention_title,
@@ -52,6 +59,7 @@ function useImportTemplateSchema() {
         dref_identified_need_title,
         dref_dref_onset_type,
         dref_dref_disaster_category,
+        dref_proposed_action,
     } = useGlobalEnums();
 
     const optionsMap = useMemo(() => ({
@@ -118,19 +126,28 @@ function useImportTemplateSchema() {
                 description: needsIdentifiedDescMap[key],
             }),
         ) ?? [],
+        proposed_action_type: dref_proposed_action?.map(
+            ({ key, value }) => ({ key, label: value }),
+        ) ?? [],
+        primary_sector: primarySectors?.map(
+            ({ key, label }) => ({ key, label }),
+        ) ?? [],
     }), [
         countries,
         disasterTypes,
         nationalSocieties,
+        primarySectors,
         dref_planned_intervention_title,
         dref_national_society_action_title,
         dref_identified_need_title,
         dref_dref_onset_type,
         dref_dref_disaster_category,
+        dref_proposed_action,
     ]);
 
-    // FIXME: rename this to drefTemplateSchema
-    const drefFormSchema: TemplateSchema<DrefRequestBody, typeof optionsMap> = useMemo(() => ({
+    // NOTE: The Response template schema. Kept as a self-contained literal; the
+    // Imminent schema below shares the same optionsMap, engine and typing.
+    const responseSchema: TemplateSchema<DrefRequestBody, typeof optionsMap> = useMemo(() => ({
         type: 'object',
         fields: {
             // OPERATION OVERVIEW
@@ -932,8 +949,270 @@ function useImportTemplateSchema() {
         },
     }), []);
 
+    // NOTE: Imminent DREF template/parse schema. Self-contained literal that
+    // shares the same optionsMap, engine and typing as the Response schema.
+    // FIXME(imminent): confirm field guidance/cover copy with IFRC.
+    const imminentSchema: TemplateSchema<DrefRequestBody, typeof optionsMap> = useMemo(() => ({
+        type: 'object',
+        fields: {
+            // OPERATION OVERVIEW
+
+            national_society: {
+                type: 'select',
+                label: 'National society',
+                validation: 'number',
+                optionsKey: 'national_society',
+                description: 'Indicate your National Society by selecting it from the drop-down list.',
+            },
+
+            disaster_type: {
+                type: 'select',
+                label: 'Type of disaster',
+                validation: 'number',
+                optionsKey: 'disaster_type',
+                description: 'Select the relevant type of disaster from the drop-down list.',
+            },
+
+            type_of_onset: {
+                type: 'select',
+                label: 'Type of Onset',
+                validation: 'number',
+                optionsKey: 'type_of_onset',
+                description: 'Select the type of onset from the drop-down list.',
+            },
+
+            is_man_made_event: {
+                type: 'select',
+                label: 'Is this a man made event?',
+                validation: 'boolean',
+                optionsKey: '__boolean',
+                description: 'Select <b>Yes</b> or <b>No</b> from the drop-down list.',
+            },
+
+            country: {
+                type: 'select',
+                label: 'Affected Country',
+                validation: 'number',
+                optionsKey: 'country',
+                description: 'NOTE: You may add the targeted region during the import',
+            },
+
+            title: {
+                type: 'input',
+                label: 'DREF Title',
+                validation: 'string',
+            },
+
+            // EVENT DETAIL
+
+            hazard_date: {
+                headingBefore: 'Description of the Hazard',
+                type: 'input',
+                label: 'Date when the trigger was met / is expected to be met',
+                validation: 'date',
+                description: 'DD/MM/YYYY. Must be today or a future date.',
+            },
+
+            hazard_date_and_location: {
+                type: 'input',
+                label: 'Location and approximate date of the hazard',
+                validation: 'textArea',
+            },
+
+            hazard_vulnerabilities_and_risks: {
+                type: 'input',
+                label: 'Target communities’ vulnerabilities and exposure to the hazard',
+                validation: 'textArea',
+                description: 'Describe the anticipated humanitarian impact and which people are most likely to be affected and why.',
+            },
+
+            num_affected: {
+                type: 'input',
+                validation: 'number',
+                label: 'Total population likely to be affected',
+                description: 'People likely to be affected as a direct result of the anticipated event.',
+            },
+
+            estimated_number_of_affected_male: {
+                type: 'input',
+                validation: 'number',
+                label: 'Estimated number of affected male',
+            },
+
+            estimated_number_of_affected_female: {
+                type: 'input',
+                validation: 'number',
+                label: 'Estimated number of affected female',
+            },
+
+            estimated_number_of_affected_girls_under_18: {
+                type: 'input',
+                validation: 'number',
+                label: 'Estimated number of affected girls (under 18)',
+            },
+
+            estimated_number_of_affected_boys_under_18: {
+                type: 'input',
+                validation: 'number',
+                label: 'Estimated number of affected boys (under 18)',
+            },
+
+            source_information: {
+                type: 'list',
+                label: 'Source Information',
+                optionsKey: 'source_information',
+                children: {
+                    type: 'object',
+                    fields: {
+                        source_name: {
+                            type: 'input',
+                            validation: 'string',
+                            label: 'Name',
+                        },
+                        source_link: {
+                            type: 'input',
+                            validation: 'string',
+                            label: 'Link',
+                            description: 'Specify the names (up to 5) of the key information sources. If possible, provide links.\nThe names will be shown in the export as an hyperlink.',
+                        },
+                    },
+                },
+            },
+
+            // OPERATION
+
+            people_targeted_with_early_actions: {
+                headingBefore: 'Targeting',
+                type: 'input',
+                validation: 'number',
+                label: 'People targeted with early actions',
+            },
+
+            proposed_action: {
+                headingBefore: 'Proposed Actions',
+                type: 'list',
+                label: 'Proposed Actions',
+                hiddenLabel: true,
+                optionsKey: 'proposed_action_type',
+                keyFieldName: 'proposed_type',
+                children: {
+                    type: 'object',
+                    fields: {
+                        total_budget: {
+                            type: 'input',
+                            validation: 'number',
+                            label: '<b>Budget (CHF)</b>',
+                            description: 'Budget for this proposed action. The sub-total of Early Action and Early Response budgets must equal exactly CHF 75,000.',
+                        },
+                        activities: {
+                            type: 'list',
+                            label: 'Activities',
+                            hiddenLabel: true,
+                            optionsKey: 'primary_sector',
+                            keyFieldName: 'sector',
+                            children: {
+                                type: 'object',
+                                fields: {
+                                    activity: {
+                                        type: 'input',
+                                        validation: 'textArea',
+                                        label: 'List of activities',
+                                        description: 'Describe the activities planned under this sector. Leave blank for sectors that do not apply.',
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+
+            is_surge_personnel_deployed: {
+                headingBefore: 'About Support Services',
+                type: 'select',
+                validation: 'boolean',
+                optionsKey: '__boolean',
+                label: 'Will surge personnel be deployed?',
+                description: 'Select <b>Yes</b> or <b>No</b> from the drop-down list.',
+            },
+
+            surge_personnel_deployed: {
+                type: 'input',
+                validation: 'string',
+                label: 'Role profile of the deployed personnel',
+                description: 'Complete only if surge personnel will be deployed.',
+            },
+
+            has_anti_fraud_corruption_policy: {
+                headingBefore: 'Policies',
+                type: 'select',
+                optionsKey: '__boolean',
+                validation: 'boolean',
+                label: 'Does your National Society have anti-fraud and corruption policy?',
+            },
+
+            has_sexual_abuse_policy: {
+                type: 'select',
+                optionsKey: '__boolean',
+                validation: 'boolean',
+                label: 'Does your National Society have prevention of sexual exploitation and abuse policy?',
+            },
+
+            has_child_protection_policy: {
+                type: 'select',
+                optionsKey: '__boolean',
+                validation: 'boolean',
+                label: 'Does your National Society have child protection/child safeguarding policy?',
+            },
+
+            has_whistleblower_protection_policy: {
+                type: 'select',
+                optionsKey: '__boolean',
+                validation: 'boolean',
+                label: 'Does your National Society have whistleblower protection policy?',
+            },
+
+            has_anti_sexual_harassment_policy: {
+                type: 'select',
+                optionsKey: '__boolean',
+                validation: 'boolean',
+                label: 'Does your National Society have anti-sexual harassment policy?',
+            },
+
+            addressed_humanitarian_impacts: {
+                type: 'input',
+                validation: 'textArea',
+                label: 'Addressed humanitarian impacts',
+                description: 'Describe the humanitarian impacts the operation aims to address through the proposed early actions and early response.',
+            },
+
+            // TIMEFRAME AND CONTACTS
+
+            ns_request_date: {
+                headingBefore: 'Timeframe',
+                type: 'input',
+                validation: 'date',
+                label: 'Date of National Society Application',
+                description: 'DD/MM/YYYY',
+            },
+
+            operation_timeframe_imminent: {
+                type: 'input',
+                validation: 'number',
+                label: 'Operation timeframe (days)',
+                description: 'Indicate the number of days, e.g. <b>45</b>.',
+            },
+        },
+    }), []);
+
+    const drefSchemaByType = useMemo<
+        Partial<Record<TypeOfDrefEnum, TemplateSchema<DrefRequestBody, typeof optionsMap>>>
+    >(() => ({
+        [DREF_TYPE_RESPONSE]: responseSchema,
+        [DREF_TYPE_IMMINENT]: imminentSchema,
+    }), [responseSchema, imminentSchema]);
+
     return {
-        drefFormSchema,
+        drefSchemaByType,
         optionsMap,
     };
 }

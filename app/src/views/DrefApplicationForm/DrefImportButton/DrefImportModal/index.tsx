@@ -1,10 +1,12 @@
 import {
     useCallback,
+    useContext,
     useState,
 } from 'react';
 import { DrefTwoIcon } from '@ifrc-go/icons';
 import {
     ListView,
+    Message,
     Modal,
     RawFileInput,
 } from '@ifrc-go/ui';
@@ -14,23 +16,35 @@ import {
     isDefined,
     isNotDefined,
     isObject,
+    listToMap,
+    randomString,
 } from '@togglecorp/fujs';
 import xlsx, {
     type CellValue,
     type Row,
 } from 'exceljs';
 
+import DomainContext from '#contexts/domain';
 import useAlert from '#hooks/useAlert';
-import { DREF_TYPE_RESPONSE } from '#utils/constants';
 import {
-    SHEET_ACTIONS_NEEDS,
-    SHEET_EVENT_DETAIL,
-    SHEET_OPERATION,
-    SHEET_OPERATION_OVERVIEW,
-    SHEET_TIMEFRAMES_AND_CONTACTS,
+    DREF_TYPE_IMMINENT,
+    DREF_TYPE_RESPONSE,
+    type TypeOfDrefEnum,
+} from '#utils/constants';
+import {
+    DREF_OPTIONS_SHEET_NAME,
+    DREF_TYPE_CELL_COLUMN,
+    DREF_TYPE_CELL_ROW,
+    getDrefSheetNames,
 } from '#utils/domain/dref';
 import { getValueFromImportTemplate } from '#utils/importTemplate';
 import useImportTemplateSchema from '#views/AccountMyFormsDref/DownloadImportTemplateButton/DownloadImportTemplateModal/useImportTemplateSchema';
+import {
+    calculateProposedActionsCost,
+    EARLY_ACTION,
+    EARLY_RESPONSE,
+    OPERATION_TIMEFRAME_IMMINENT,
+} from '#views/DrefApplicationForm/common';
 import { type PartialDref } from '#views/DrefApplicationForm/schema';
 
 import i18n from './i18n.json';
@@ -93,6 +107,37 @@ function getNameAndValueFromRow(row: Row) {
     };
 }
 
+// NOTE: An imported Imminent file is parsed into whatever proposed-action blocks
+// were filled. The form always carries both an Early Action and an Early Response
+// block, and the derived costs (read-only in the form) won't recompute on a bulk
+// setValue. So normalise both blocks (preserving imported data) and compute the
+// costs + the fixed operation timeframe before handing the values to the form.
+function finalizeImminentImport(values: PartialDref): PartialDref {
+    type ProposedActionValue = NonNullable<PartialDref['proposed_action']>[number];
+
+    const proposedActionByType = listToMap(
+        values.proposed_action ?? [],
+        (action) => action.proposed_type ?? '<no-type>',
+        (action) => action,
+    );
+
+    const proposedAction: ProposedActionValue[] = ([EARLY_ACTION, EARLY_RESPONSE] as const).map(
+        (proposedType) => proposedActionByType?.[proposedType]
+            ?? { client_id: randomString(), proposed_type: proposedType },
+    );
+
+    const withProposedAction: PartialDref = {
+        ...values,
+        proposed_action: proposedAction,
+        operation_timeframe_imminent: OPERATION_TIMEFRAME_IMMINENT,
+    };
+
+    return {
+        ...withProposedAction,
+        ...calculateProposedActionsCost(withProposedAction),
+    };
+}
+
 interface Props {
     onClose: () => void;
     onImport?: (formFields: PartialDref) => void;
@@ -102,9 +147,29 @@ function DrefImportModal(props: Props) {
     const { onClose, onImport } = props;
     const strings = useTranslation(i18n);
 
-    const { drefFormSchema, optionsMap } = useImportTemplateSchema();
+    const { drefSchemaByType, optionsMap } = useImportTemplateSchema();
+    const {
+        countriesPending,
+        disasterTypesPending,
+        globalEnumsPending,
+        primarySectorsPending,
+    } = useContext(DomainContext);
     const alert = useAlert();
     const [importPending, setImportPending] = useState(false);
+
+    // Imported values are reverse-mapped (dropdown label -> key) using this
+    // reference data, and the uploaded file's type is unknown until parsed, so
+    // require every source either type may need before allowing an import.
+    const referenceDataPending = countriesPending
+        || disasterTypesPending
+        || globalEnumsPending
+        || primarySectorsPending;
+    const referenceDataReady = optionsMap.national_society.length > 0
+        && optionsMap.disaster_type.length > 0
+        && optionsMap.type_of_onset.length > 0
+        && optionsMap.primary_sector.length > 0;
+    const isReferenceDataMissing = !referenceDataPending && !referenceDataReady;
+    const canImport = referenceDataReady && !referenceDataPending;
 
     const handleChange = useCallback((file: File | undefined) => {
         if (isNotDefined(file)) {
@@ -118,27 +183,52 @@ function DrefImportModal(props: Props) {
                 const buffer = await excelFile.arrayBuffer();
                 await workbook.xlsx.load(buffer);
 
-                const worksheets = [
-                    workbook.getWorksheet(SHEET_OPERATION_OVERVIEW),
-                    workbook.getWorksheet(SHEET_EVENT_DETAIL),
-                    workbook.getWorksheet(SHEET_ACTIONS_NEEDS),
-                    workbook.getWorksheet(SHEET_OPERATION),
-                    workbook.getWorksheet(SHEET_TIMEFRAMES_AND_CONTACTS),
-                ].filter(isDefined);
+                // NOTE: The export embeds the DREF type in a fixed cell of the
+                // hidden options sheet. Read it first to pick the schema and the
+                // expected worksheet set. Templates without it (pre-feature) are
+                // treated as Response.
+                const optionsWorksheet = workbook.getWorksheet(DREF_OPTIONS_SHEET_NAME);
+                const detectedType = getValueFromCellValue(
+                    optionsWorksheet?.getCell(DREF_TYPE_CELL_ROW, DREF_TYPE_CELL_COLUMN)?.value,
+                );
+                // NOTE: The cell is written as a number; coerce a stringified value
+                // defensively. Unknown/absent -> Response (covers pre-feature templates).
+                const detectedTypeValue = typeof detectedType === 'string'
+                    ? Number(detectedType)
+                    : detectedType;
+                const typeOfDref: TypeOfDrefEnum = detectedTypeValue === DREF_TYPE_IMMINENT
+                    ? DREF_TYPE_IMMINENT
+                    : DREF_TYPE_RESPONSE;
 
-                // TODO: figure out better method for template validation
-                if (worksheets.length !== 5) {
+                const drefFormSchema = drefSchemaByType[typeOfDref];
+
+                // NOTE: Require the workbook to carry EXACTLY the content sheets
+                // expected for the detected type. A plain count check would accept
+                // a Response file (5 sheets) as Imminent (whose 4 sheets are a subset).
+                const expectedSheetNames = getDrefSheetNames(typeOfDref);
+                const presentSheetNames = getDrefSheetNames(DREF_TYPE_RESPONSE)
+                    .filter((sheetName) => isDefined(workbook.getWorksheet(sheetName)));
+                const sheetsMatchType = presentSheetNames.length === expectedSheetNames.length
+                    && expectedSheetNames.every(
+                        (sheetName) => presentSheetNames.includes(sheetName),
+                    );
+
+                if (isNotDefined(drefFormSchema) || !sheetsMatchType) {
                     alert.show(
                         strings.drefImportButton,
                         {
                             variant: 'danger',
                             description: strings.drefImportFailedDescription,
-                            debugMessage: 'Length of worksheet should be exactly 5.',
+                            debugMessage: `Expected worksheets [${expectedSheetNames.join(', ')}] for the detected DREF type.`,
                         },
                     );
 
                     return;
                 }
+
+                const worksheets = expectedSheetNames
+                    .map((sheetName) => workbook.getWorksheet(sheetName))
+                    .filter(isDefined);
 
                 const formValues: Record<string, string | number | boolean> = {};
                 worksheets.forEach((worksheet) => {
@@ -158,11 +248,14 @@ function DrefImportModal(props: Props) {
                 );
 
                 if (onImport && isObject(formValuesFromExcel)) {
-                    onImport({
+                    const importedValues: PartialDref = {
                         ...(formValuesFromExcel as unknown as PartialDref),
-                        // FIXME: get this from template
-                        type_of_dref: DREF_TYPE_RESPONSE,
-                    });
+                        type_of_dref: typeOfDref,
+                    };
+
+                    onImport(typeOfDref === DREF_TYPE_IMMINENT
+                        ? finalizeImminentImport(importedValues)
+                        : importedValues);
                     onClose();
                 }
             } catch (ex) {
@@ -182,7 +275,7 @@ function DrefImportModal(props: Props) {
         onImport,
         onClose,
         alert,
-        drefFormSchema,
+        drefSchemaByType,
         optionsMap,
         strings,
     ]);
@@ -200,13 +293,30 @@ function DrefImportModal(props: Props) {
                     accept=".xlsx"
                     onChange={handleChange}
                     styleVariant="outline"
-                    disabled={isNotDefined(drefFormSchema) || importPending}
+                    disabled={importPending || !canImport}
                 >
                     {strings.drefImportSelectFile}
                 </RawFileInput>
-                <div>
-                    {strings.drefImportTemplate}
-                </div>
+                {referenceDataPending && (
+                    <Message
+                        compact
+                        pending
+                        title={strings.drefImportDataPending}
+                    />
+                )}
+                {isReferenceDataMissing && (
+                    <Message
+                        compact
+                        variant="error"
+                        title={strings.drefImportDataMissingTitle}
+                        description={strings.drefImportDataMissingDescription}
+                    />
+                )}
+                {!referenceDataPending && !isReferenceDataMissing && (
+                    <div>
+                        {strings.drefImportTemplate}
+                    </div>
+                )}
             </ListView>
         </Modal>
     );

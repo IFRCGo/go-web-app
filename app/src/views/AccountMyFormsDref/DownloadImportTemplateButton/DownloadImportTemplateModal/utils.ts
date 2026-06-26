@@ -20,12 +20,17 @@ import {
     COLOR_PRIMARY_BLUE,
     COLOR_PRIMARY_RED,
     COLOR_WHITE,
+    DREF_TYPE_IMMINENT,
     DREF_TYPE_RESPONSE,
     FONT_FAMILY_HEADER,
     type TypeOfDrefEnum,
 } from '#utils/constants';
 import {
+    DREF_OPTIONS_SHEET_NAME,
+    DREF_TYPE_CELL_COLUMN,
+    DREF_TYPE_CELL_ROW,
     type DrefSheetName,
+    getDrefSheetNames,
     SHEET_ACTIONS_NEEDS,
     SHEET_EVENT_DETAIL,
     SHEET_OPERATION,
@@ -361,7 +366,10 @@ function addInputRow(
 async function generateCoverWorksheet(
     coverWorksheet: Worksheet,
     workbook: Workbook,
+    typeOfDref: TypeOfDrefEnum,
 ) {
+    const isImminent = typeOfDref === DREF_TYPE_IMMINENT;
+
     function writeCellRange(
         row: string,
         col: string,
@@ -462,10 +470,14 @@ async function generateCoverWorksheet(
     const eligibilityCriteriaHeading = writeCellRange('C21', 'L21', 'Criteria and Eligibility');
     eligibilityCriteriaHeading.style = introH3Style;
 
-    const eligibilityCriteriaDescription = writeCellRange('C22', 'L33', 'Before completing the template, ensure you meet the following criteria:\n\n--- A Field Report has been published to inform the DREF decision.\n--- NS has no overdue DREF reports.\n--- The support cost is no more than 40% (check under the “Resource Budget Summary” tab).\n--- The operation supports at least 100 households (HH).\n--- The budget allows no more than CHF100 per person (Total Budget ÷ Number of Targeted People).\n--- If requesting more than CHF500,000, check the IFRC categorisation with the Regional Office Information Management (RO IM) team (yellow category ceiling).');
+    const eligibilityCriteriaDescription = writeCellRange('C22', 'L33', isImminent
+        ? 'Before completing the template, ensure you meet the following criteria:\n\n--- The DREF responds to an imminent crisis where a forecast trigger/threshold has been or is about to be met.\n--- Scenario analysis and hazard monitoring information is available.\n--- The sub-total of the proposed Early Action and Early Response budgets is exactly CHF75,000.\n--- The operation is implemented within a short anticipatory window (around 45 days).\n--- NS has no overdue DREF reports.'
+        : 'Before completing the template, ensure you meet the following criteria:\n\n--- A Field Report has been published to inform the DREF decision.\n--- NS has no overdue DREF reports.\n--- The support cost is no more than 40% (check under the “Resource Budget Summary” tab).\n--- The operation supports at least 100 households (HH).\n--- The budget allows no more than CHF100 per person (Total Budget ÷ Number of Targeted People).\n--- If requesting more than CHF500,000, check the IFRC categorisation with the Regional Office Information Management (RO IM) team (yellow category ceiling).');
     eligibilityCriteriaDescription.style = introDescriptionStyle;
 
-    const note = writeCellRange('C36', 'L40', '<b>Ensure your DREF request reaches the Regional Office (RO) with enough time for a 24-hour technical review</b>, addressing comments, and getting approval within 10 days (sudden onset) or 14 days (slow onset/replenishment) from the trigger date.');
+    const note = writeCellRange('C36', 'L40', isImminent
+        ? '<b>Ensure your Imminent DREF request reaches the Regional Office (RO) with enough time for technical review and approval before the forecast trigger window closes.</b>'
+        : '<b>Ensure your DREF request reaches the Regional Office (RO) with enough time for a 24-hour technical review</b>, addressing comments, and getting approval within 10 days (sudden onset) or 14 days (slow onset/replenishment) from the trigger date.');
     note.style = introDescriptionStyle;
 
     const howToUseHeading = writeCellRange('P11', 'Y11', 'How to use the template');
@@ -477,7 +489,9 @@ async function generateCoverWorksheet(
     const structureOfTemplateHeading = writeCellRange('P27', 'Y27', 'Structure of the template');
     structureOfTemplateHeading.style = introH3Style;
 
-    const structureOfTemplateDescription = writeCellRange('P28', 'Y36', 'The template is divided into the following sections:\n\n<b><i>Operation Overview</i></b> – general context of the emergency operation.\n<b><i>Event Details</i></b> – information on the event triggering the DREF request.\n<b><i>Actions and Needs</i></b> – description of key actions and needs.\n<b><i>Operation Plan</i></b> – outline of the planned operation and identified risks.\n<b><i>Timeframes and Contacts</i></b> – key timeframes and relevant contact details.');
+    const structureOfTemplateDescription = writeCellRange('P28', 'Y36', isImminent
+        ? 'The template is divided into the following sections:\n\n<b><i>Operation Overview</i></b> – general context of the operation.\n<b><i>Event Details</i></b> – information on the imminent hazard triggering the DREF request.\n<b><i>Operation</i></b> – proposed early actions, early response and support services.\n<b><i>Timeframes and Contacts</i></b> – key timeframes and relevant contact details.'
+        : 'The template is divided into the following sections:\n\n<b><i>Operation Overview</i></b> – general context of the emergency operation.\n<b><i>Event Details</i></b> – information on the event triggering the DREF request.\n<b><i>Actions and Needs</i></b> – description of key actions and needs.\n<b><i>Operation Plan</i></b> – outline of the planned operation and identified risks.\n<b><i>Timeframes and Contacts</i></b> – key timeframes and relevant contact details.');
     structureOfTemplateDescription.style = introDescriptionStyle;
 
     const stepsForImportingHeading = writeCellRange('P39', 'Y39', 'Steps for importing the template');
@@ -638,6 +652,7 @@ async function generateOtherWorksheets(
 async function generateOptionsWorksheet(
     optionsWorksheet: Worksheet,
     optionsMap: OptionsMapping,
+    typeOfDref: TypeOfDrefEnum,
 ) {
     // eslint-disable-next-line no-param-reassign
     optionsWorksheet.state = 'veryHidden';
@@ -660,6 +675,13 @@ async function generateOptionsWorksheet(
             });
         }
     });
+
+    // NOTE: Embed the DREF type in a fixed cell, set far beyond the option
+    // columns (one column per option list) so it never collides with them.
+    // The import reads this back to pick the matching schema and validate the
+    // worksheet set. Old templates without this cell fall back to Response.
+    const typeCell = optionsWorksheet.getCell(DREF_TYPE_CELL_ROW, DREF_TYPE_CELL_COLUMN);
+    typeCell.value = typeOfDref;
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -681,32 +703,23 @@ export async function generateTemplate(
         'DREF Import',
         { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
     );
-    const overviewWorksheet = workbook.addWorksheet(
-        SHEET_OPERATION_OVERVIEW,
-        { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
-    );
-    const eventDetailsWorksheet = workbook.addWorksheet(
-        SHEET_EVENT_DETAIL,
-        { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
-    );
-    const actionsNeedsWorksheet = workbook.addWorksheet(
-        SHEET_ACTIONS_NEEDS,
-        { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
-    );
-    const operationWorksheet = workbook.addWorksheet(
-        SHEET_OPERATION,
-        { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
-    );
-    const timeframeAndContactsWorksheet = workbook.addWorksheet(
-        SHEET_TIMEFRAMES_AND_CONTACTS,
-        { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
-    );
 
-    const optionsWorksheet = workbook.addWorksheet('options');
+    // NOTE: Create only the content sheets that apply to this DREF type
+    // (Imminent omits Actions/Needs). generateOtherWorksheets drops any field
+    // whose target sheet was not created.
+    const sheetMap: Partial<Record<DrefSheetName, xlsx.Worksheet>> = {};
+    getDrefSheetNames(typeOfDref).forEach((sheetName) => {
+        sheetMap[sheetName] = workbook.addWorksheet(
+            sheetName,
+            { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
+        );
+    });
 
-    await generateCoverWorksheet(coverWorksheet, workbook);
+    const optionsWorksheet = workbook.addWorksheet(DREF_OPTIONS_SHEET_NAME);
 
-    await generateOptionsWorksheet(optionsWorksheet, optionsMap);
+    await generateCoverWorksheet(coverWorksheet, workbook, typeOfDref);
+
+    await generateOptionsWorksheet(optionsWorksheet, optionsMap, typeOfDref);
 
     await generateOtherWorksheets(
         templateActions,
@@ -714,15 +727,11 @@ export async function generateTemplate(
         workbook,
     );
 
-    const sheetMap: Record<DrefSheetName, xlsx.Worksheet> = {
-        [SHEET_OPERATION_OVERVIEW]: overviewWorksheet,
-        [SHEET_EVENT_DETAIL]: eventDetailsWorksheet,
-        [SHEET_ACTIONS_NEEDS]: actionsNeedsWorksheet,
-        [SHEET_OPERATION]: operationWorksheet,
-        [SHEET_TIMEFRAMES_AND_CONTACTS]: timeframeAndContactsWorksheet,
-    };
     Object.values(sheetMap).forEach(
         (sheet) => {
+            if (isNotDefined(sheet)) {
+                return;
+            }
             const worksheet = sheet;
             worksheet.properties.defaultRowHeight = 30;
             worksheet.properties.showGridLines = false;

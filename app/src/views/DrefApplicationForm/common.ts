@@ -86,6 +86,7 @@ export const eventDetailTabFields: (keyof PartialDref)[] = [
     'hazard_vulnerabilities_and_risks',
     'scenario_analysis_supporting_document',
     'hazard_date',
+    'hazard_date_and_location',
 ] satisfies (keyof PartialDref)[];
 
 export const actionsTabFields: (keyof PartialDref)[] = [
@@ -149,6 +150,7 @@ export const timeframeAndContactsTabFields: (keyof PartialDref)[] = [
     'submission_to_geneva',
     'date_of_approval',
     'operation_timeframe',
+    'operation_timeframe_imminent',
     'end_date',
     'publishing_date',
     'appeal_code',
