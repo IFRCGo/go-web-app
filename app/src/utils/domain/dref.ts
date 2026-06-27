@@ -69,18 +69,14 @@ export const SHEET_ACTIONS_NEEDS = 'Actions Needs' satisfies DrefSheetName;
 export const SHEET_OPERATION = 'Operation' satisfies DrefSheetName;
 export const SHEET_TIMEFRAMES_AND_CONTACTS = 'Timeframes and Contacts' satisfies DrefSheetName;
 
-// Name of the hidden worksheet that backs the data-validation dropdown lists.
 export const DREF_OPTIONS_SHEET_NAME = 'options';
 
-// The DREF type is embedded by the template export into a fixed cell on the
-// hidden options sheet, and read back on import to pick the right schema and
-// validate the worksheet set. The column is set far beyond the option columns
-// (one column per option list, a small handful) so it can never collide.
+// DREF type embedded here on export, read back on import. Column is far beyond
+// the option columns so it can't collide with them.
 export const DREF_TYPE_CELL_ROW = 1;
 export const DREF_TYPE_CELL_COLUMN = 100;
 
-// The content worksheets (and their order) a DREF import template has, per type.
-// Imminent has no Actions/Needs section, so that sheet is omitted for it.
+// Content worksheets per type; Imminent omits Actions/Needs.
 export function getDrefSheetNames(typeOfDref: TypeOfDrefEnum): DrefSheetName[] {
     if (typeOfDref === DREF_TYPE_IMMINENT) {
         return [
