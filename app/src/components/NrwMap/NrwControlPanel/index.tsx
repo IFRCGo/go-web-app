@@ -13,53 +13,68 @@ import { Button } from '@ifrc-go/ui';
 
 import { alertColors } from '#utils/nrw/nrwMapStyles';
 import {
-    type EventAdminAreaData,
-    type EventOverviewData,
-    ExposedItemType,
-    type ExposureCategory,
-} from '#utils/nrw/nrwMapTypes';
+    type AdminAreaExposureDto,
+    type EventResponseDto,
+    type ExposedAdminAreaDto,
+} from '#utils/nrw/shared-dtos';
+import { Layer } from '#utils/nrw/shared-enums';
 
 import styles from './styles.module.css';
 
+// Helper to group the flat list of exposed admin areas into a
+// [adminLevel][items] structure, which is easier to parse in this component.
+function groupAdminAreasByLevel(
+    areas: ExposedAdminAreaDto[],
+): ExposedAdminAreaDto[][] {
+    const grouped: ExposedAdminAreaDto[][] = [];
+    areas.forEach((area) => {
+        if (area) {
+            if (!grouped[area.adminLevel]) {
+                grouped[area.adminLevel] = [];
+            }
+            grouped[area.adminLevel]?.push(area);
+        }
+    });
+    return grouped;
+}
+
 // Helper to get exposure value by type from the exposure array
 function getExposureByType(
-    exposure: ExposureCategory[] | undefined,
-    type: ExposedItemType,
-): ExposureCategory | undefined {
+    exposure: AdminAreaExposureDto[] | undefined,
+    type: Layer,
+): AdminAreaExposureDto | undefined {
     return exposure?.find((e) => e.type === type);
 }
 
 // Helper to get population exposure from admin area
 function getExposedPopulation(
-    adminArea: EventAdminAreaData | undefined,
+    adminArea: ExposedAdminAreaDto | undefined,
 ): number {
     const popExposure = getExposureByType(
         adminArea?.exposure,
-        ExposedItemType.Population,
+        Layer.populationExposed,
     );
     return popExposure?.exposed ?? 0;
 }
 
 // Format label for exposure type - uses type value with _ID appended if no user-friendly label
 // TODO: move to loc file. See task https://dev.azure.com/redcrossnl/IBF/_workitems/edit/41713
-function getExposureLabel(type: ExposedItemType): string {
-    const labels: Record<ExposedItemType, string> = {
-        [ExposedItemType.Population]: 'Population',
-        [ExposedItemType.Buildings]: 'Buildings',
-        [ExposedItemType.Roads]: 'Roads',
-        [ExposedItemType.Schools]: 'Schools',
-        [ExposedItemType.Clinics]: 'Health Clinics',
+function getExposureLabel(type: Layer): string {
+    const labels: Record<Layer, string> = {
+        [Layer.populationExposed]: 'Population',
+        [Layer.floodDepth]: 'Flood Depth',
+        [Layer.glofasStations]: 'GloFAS Stations',
     };
     return labels[type] ?? `${type}_ID`;
 }
 
 interface EventButtonProps {
-  event: EventOverviewData;
+  event: EventResponseDto;
   onEventClick: (eventId: number) => void;
 }
 
 interface EventDetailViewProps {
-  event: EventOverviewData;
+  event: EventResponseDto;
   onBack: () => void;
 }
 
@@ -142,16 +157,18 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
     // Get admin data at different levels
     // TODO: support multiple max admin levels
     // See task: https://dev.azure.com/redcrossnl/IBF/_workitems/edit/41768
-    const admin0 = event.exposedAdminAreas[0]?.[0];
-    const admin1Areas = event.exposedAdminAreas[1] ?? [];
-    const admin3Areas = event.exposedAdminAreas[3] ?? [];
+    const adminAreasByLevel = groupAdminAreasByLevel(event.exposedAdminAreas);
+    const admin0 = adminAreasByLevel[0]?.[0];
+    const admin1Areas = adminAreasByLevel[1] ?? [];
+    // TODO: fix this based on design. Note: admin 2 is missing
+    const admin3Areas = adminAreasByLevel[3] ?? [];
 
     const totalPopulation = getExposedPopulation(admin0);
     const exposedDistrictsCount = admin3Areas.length;
 
     // Get exposure categories for infrastructure (exclude population)
     const infraExposure = admin0?.exposure.filter(
-        (e) => e.type !== ExposedItemType.Population,
+        (e) => e.type !== Layer.populationExposed,
     ) ?? [];
 
     return (
@@ -182,14 +199,14 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
                 <div className={styles.infoRow}>
                     <span>
                         Started on:
-                        {formatStartDate(event.startTime)}
+                        {formatStartDate(event.startAt)}
                     </span>
                 </div>
                 <div className={styles.infoRow}>
                     <span>
                         Reach high threshold:
                         {' '}
-                        {formatPeakTime(event.reachesPeakAlertClassTime)}
+                        {formatPeakTime(event.reachesPeakAlertClassAt)}
                     </span>
                 </div>
                 <div className={styles.infoRow}>
@@ -240,12 +257,10 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
                                 </span>
                                 <span className={styles.infraValue}>
                                     {item.exposed.toLocaleString()}
-                                    {item.unit ? ` ${item.unit}` : ''}
                                     {' '}
                                     /
                                     {' '}
-                                    {item.total.toLocaleString()}
-                                    {item.unit ? ` ${item.unit}` : ''}
+                                    {item.total?.toLocaleString()}
                                 </span>
                             </div>
                         ))}
@@ -307,17 +322,18 @@ function formatStartTime(startTime: string): string {
  */
 function EventButton({ event, onEventClick }: EventButtonProps) {
     // Get admin0 (country level) for total population
-    const admin0 = event.exposedAdminAreas[0]?.[0];
+    const adminAreasByLevel = groupAdminAreasByLevel(event.exposedAdminAreas);
+    const admin0 = adminAreasByLevel[0]?.[0];
     const totalPopulation = getExposedPopulation(admin0);
 
     // Get admin1 areas for affected areas
-    const admin1Areas = event.exposedAdminAreas[1] ?? [];
-
+    const admin1Areas = adminAreasByLevel[1] ?? [];
+    // TODO: fix this based on design. Note: admin 2 is missing
     // Get admin3 count for exposed districts
-    const admin3Areas = event.exposedAdminAreas[3] ?? [];
+    const admin3Areas = adminAreasByLevel[3] ?? [];
     const exposedDistrictsCount = admin3Areas.length;
 
-    const startTimeLabel = formatStartTime(event.startTime);
+    const startTimeLabel = formatStartTime(event.startAt);
 
     return (
         <div className={styles.eventCard}>
@@ -358,7 +374,7 @@ function EventButton({ event, onEventClick }: EventButtonProps) {
 }
 
 interface NrwControlPanelProps {
-  eventData: EventOverviewData[];
+  eventData: EventResponseDto[];
   activeEventId: number | null;
   onEventClick: (eventId: number) => void;
   onRefreshAll: () => void;

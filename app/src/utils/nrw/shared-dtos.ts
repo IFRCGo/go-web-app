@@ -1,6 +1,6 @@
 /**
  * AUTO-GENERATED from api-service DTOs. Do not edit by hand.
- * Regenerate with `npm run gen:frontend` (from the IBF repo root).
+ * Regenerate with `npm run generate:frontend` (from the IBF repo root).
  *
  * Source DTOs:
  * - services/api-service/src/events/dto/event-exposed-admin-area.dto.ts
@@ -9,12 +9,16 @@
  */
 
 import type {
+    AlertClass,
+    ForecastSource,
+    HazardType,
+    Layer,
     MapLayerDisplayType,
     MapLayerInfoType,
-} from './nrwMapTypes';
+} from './shared-enums';
 
-interface AdminAreaExposureDto {
-    type: MapLayerInfoType;
+export interface AdminAreaExposureDto {
+    type: Layer;
     total: number | null;
     exposed: number;
 }
@@ -26,19 +30,13 @@ export interface ExposedAdminAreaDto {
     exposure: AdminAreaExposureDto[];
 }
 
-export interface MapLayerDetailsDto {
-    resourceId: string;
-    dataType: MapLayerInfoType;
-    displayType: MapLayerDisplayType;
-}
-
 export interface EventResponseDto {
     eventId: number;
     eventName: string;
     eventLabel: string;
-    hazardType: string;
-    forecastSources: string[];
-    alertClass: string;
+    hazardType: HazardType;
+    forecastSources: ForecastSource[];
+    alertClass: AlertClass;
     trigger: boolean;
     centroid: {
         latitude: number;
@@ -52,4 +50,10 @@ export interface EventResponseDto {
     isOngoing: boolean;
     exposedAdminAreas: ExposedAdminAreaDto[];
     availableLayers: MapLayerDetailsDto[];
+}
+
+export interface MapLayerDetailsDto {
+    resourceId: string;
+    dataType: MapLayerInfoType;
+    displayType: MapLayerDisplayType;
 }

@@ -22,15 +22,13 @@ import {
     styleAdminAreaForEvent,
     styleAdminNoEvent,
 } from './nrwMapStyles';
-import {
-    AlertClassType,
-    type SelectedEventDetails,
-} from './nrwMapTypes';
+import { type SelectedEventDetails } from './nrwMapTypes';
 import {
     getAdminAreasByCodesUrl,
     getAdminAreaUrl,
     getNestedAdminUrl,
 } from './nrwUrls';
+import { AlertClass } from './shared-enums';
 
 // Fit the map view to a feature's geometry with animation
 function fitToFeature(state: MapViewState, feature: FeatureLike) {
@@ -115,7 +113,7 @@ function createAdminLayerFromUrl(
                     isDeepestLevel ? selectedCode : null,
                     event?.exposedPopulationPerAreaByLevel[adminLevel] ?? null,
                     event?.highestExposedPopulationByLevel[adminLevel] ?? 0,
-                    event?.alertClass ?? AlertClassType.High,
+                    event?.alertClass ?? AlertClass.High,
                     isDeepestLevel,
                 );
             }

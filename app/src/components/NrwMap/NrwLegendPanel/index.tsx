@@ -4,10 +4,8 @@ import {
     alertColors,
     tierLevelToNumber,
 } from '#utils/nrw/nrwMapStyles';
-import {
-    type AlertClassType,
-    type SelectedEventDetails,
-} from '#utils/nrw/nrwMapTypes';
+import { type SelectedEventDetails } from '#utils/nrw/nrwMapTypes';
+import { type AlertClass } from '#utils/nrw/shared-enums';
 
 import styles from './styles.module.css';
 
@@ -24,7 +22,7 @@ interface LegendEntry {
 // Debug. Awaiting design.
 const getExposureLegend = (
     highestValue: number,
-    alertClass: AlertClassType,
+    alertClass: AlertClass,
 ): LegendEntry[] => {
     const colors = alertColors[alertClass];
 

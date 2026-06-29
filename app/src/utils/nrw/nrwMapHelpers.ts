@@ -19,21 +19,24 @@ import VectorTile from 'ol/source/VectorTile';
 import type Style from 'ol/style/Style';
 
 import { type MvtStyleCreator } from './nrwMapStyles';
-import type {
-    EventOverviewData,
-    MapLayerDetails,
-    SelectedEventDetails,
-} from './nrwMapTypes';
-import { ExposedItemType } from './nrwMapTypes';
+import type { SelectedEventDetails } from './nrwMapTypes';
 import {
     seedRepoEventDataUrl,
     seedRepoPopDataUrl,
 } from './nrwUrls';
+import type {
+    EventResponseDto,
+    MapLayerDetailsDto,
+} from './shared-dtos';
+import {
+    Layer,
+    MapLayerInfoType,
+} from './shared-enums';
 
 // Extract the map-relevant details from event data for a selected event
 // Returns null if no event is selected or event not found
 export function getSelectedEventDetails(
-    eventData: EventOverviewData[],
+    eventData: EventResponseDto[],
     eventId: number | null,
 ): SelectedEventDetails | null {
     if (!eventId) return null;
@@ -48,35 +51,29 @@ export function getSelectedEventDetails(
     const highestExposedPopulationByLevel: Record<number, number> = {};
 
     if (event.exposedAdminAreas) {
-        // Parse the exposed admin area data by admin level
-        // to build the SelectedEventDetails
-        event.exposedAdminAreas.forEach((adminAreas, level) => {
-            if (!adminAreas || adminAreas.length === 0) {
-                return;
+        // Parse the list of exposed admin areas, grouping by admin level
+        // to build the SelectedEventDetails.
+        event.exposedAdminAreas.forEach((area) => {
+            const { adminLevel: level } = area;
+
+            // Get the value of the exposed population for this admin area, if any
+            const eventPopulationData = area.exposure.find(
+                (category) => category.type === Layer.populationExposed,
+            );
+            const exposedPopulationValue = eventPopulationData?.exposed ?? 0;
+
+            // Store the value for this admin area, keyed by level then place code
+            if (!exposedPopulationPerAreaByLevel[level]) {
+                exposedPopulationPerAreaByLevel[level] = {};
+                highestExposedPopulationByLevel[level] = 0;
             }
+            exposedPopulationPerAreaByLevel[level][area.placeCode] = exposedPopulationValue;
 
-            // Look in all admin areas for this level and extract both the exposed population,
-            // and the highest exposed population value for this level.
-            const populationByCode: Record<string, number> = {};
-            let highestExposedPopulationValue = 0;
-
-            adminAreas.forEach((area) => {
-                // Get the value of the exposed population for this admin area, if any
-                const eventPopulationData = area.exposure.find(
-                    (category) => category.type === ExposedItemType.Population,
-                );
-                const exposedPopulationValue = eventPopulationData?.exposed ?? 0;
-
-                // Store the value for this admin area, and update the highest value if needed
-                populationByCode[area.placeCode] = exposedPopulationValue;
-                if (exposedPopulationValue > highestExposedPopulationValue) {
-                    highestExposedPopulationValue = exposedPopulationValue;
-                }
-            });
-
-            // Set the data for this level
-            exposedPopulationPerAreaByLevel[level] = populationByCode;
-            highestExposedPopulationByLevel[level] = highestExposedPopulationValue;
+            // Update the highest exposed population value for this level if needed
+            const currentHighest = highestExposedPopulationByLevel[level] ?? 0;
+            if (exposedPopulationValue > currentHighest) {
+                highestExposedPopulationByLevel[level] = exposedPopulationValue;
+            }
         });
     } else {
     // Log error and let caller handle the empty map.
@@ -213,19 +210,19 @@ export function getAdminAreaZIndex(level: number): number {
 // Get the map layer z index offset on which the layer is drawn.
 // Higher numbers are drawn on top of other layers.
 // Change the numbers in this function to change the layering order. Use ints.
-export function getZIndexOffset(layerDetails: MapLayerDetails): number {
+export function getZIndexOffset(layerDetails: MapLayerDetailsDto): number {
     // Note: admin levels are handled by this function: getAdminAreaZIndex
     // Set the number below in relation to what the admin layer is drawn at.
 
     switch (layerDetails.dataType) {
-        case 'population':
+        case MapLayerInfoType.Population:
             return 500;
-        case 'event_extent':
+        case MapLayerInfoType.FloodDepth:
             return 1100;
-        case 'red_cross_branches':
+        case MapLayerInfoType.RedCrossBranches:
             // Give point data a higher offset
             return 1201;
-        case 'clinics':
+        case MapLayerInfoType.Clinics:
             // Give point data a higher offset
             return 1202;
         default:

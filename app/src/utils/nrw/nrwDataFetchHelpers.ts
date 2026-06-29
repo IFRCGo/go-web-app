@@ -7,15 +7,11 @@ import {
     ATTRIBUTES_FIELD_KEY,
     POPULATION_ATTRIBUTE_KEY,
 } from './nrwConstants';
-import { mapEventResponsesToOverviews } from './nrwEventMapper';
 import {
     isValidCoordinatePair,
     makePointLayerFromFeatures,
 } from './nrwMapHelpers';
-import {
-    type CountryMapData,
-    type EventOverviewData,
-} from './nrwMapTypes';
+import { type CountryMapData } from './nrwMapTypes';
 import {
     getAdminAreaDetailsNoGeoUrl,
     getEventsApiUrl,
@@ -153,15 +149,14 @@ export async function fetchAdminAreaDetails(
 // Fetch events from the IBF API
 async function fetchEventsFromApi(
     countryCodeIso3: string,
-): Promise<EventOverviewData[]> {
+): Promise<EventResponseDto[]> {
     try {
         const url = getEventsApiUrl(countryCodeIso3);
         const response = await fetch(url);
         if (!response.ok) {
             return [];
         }
-        const dtos = (await response.json()) as EventResponseDto[];
-        return mapEventResponsesToOverviews(dtos);
+        return (await response.json()) as EventResponseDto[];
     } catch {
         return [];
     }
@@ -170,7 +165,7 @@ async function fetchEventsFromApi(
 // Fetch upcoming or ongoing events data for a country
 export async function getCurrentCountryEventData(
     country: string,
-): Promise<EventOverviewData[]> {
+): Promise<EventResponseDto[]> {
     return fetchEventsFromApi(country);
 }
 
@@ -178,7 +173,7 @@ export async function getCurrentCountryEventData(
 export async function getEventDetails(
     country: string,
     eventId: number,
-): Promise<EventOverviewData[]> {
+): Promise<EventResponseDto[]> {
     const allEvents = await fetchEventsFromApi(country);
     const event = allEvents.find((e) => e.eventId === eventId);
     return event ? [event] : [];

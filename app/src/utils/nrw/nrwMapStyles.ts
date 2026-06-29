@@ -7,7 +7,7 @@ import {
 } from 'ol/style';
 
 import { COUNTRY_FIELD_KEY } from './nrwConstants';
-import { AlertClassType } from './nrwMapTypes';
+import { AlertClass } from './shared-enums';
 
 export type MvtStyleCreator = (feature: FeatureLike, selected: string) => Style;
 const defaultAdminAreaBorderWidth = 1;
@@ -33,10 +33,10 @@ const exposedAreaFillAlphaHex = 'A6'; // 0.65
 const exposedAreaFillAlphaHexLight = '33'; // 0.2
 
 // Color steps for each alert class
-export const alertColors: Record<AlertClassType, string[]> = {
-    [AlertClassType.Low]: ['#FFF9EA', '#FFEDBC', '#FFDF8A', '#FFC635', '#D99A00'],
-    [AlertClassType.Medium]: ['#FFF5EA', '#FFD3AA', '#FFB066', '#FF6E00', '#C24E00'],
-    [AlertClassType.High]: ['#FEF1F2', '#FCC6CA', '#FA999F', '#F5333F', '#C01825'],
+export const alertColors: Record<AlertClass, string[]> = {
+    [AlertClass.Low]: ['#FFF9EA', '#FFEDBC', '#FFDF8A', '#FFC635', '#D99A00'],
+    [AlertClass.Medium]: ['#FFF5EA', '#FFD3AA', '#FFB066', '#FF6E00', '#C24E00'],
+    [AlertClass.High]: ['#FEF1F2', '#FCC6CA', '#FA999F', '#F5333F', '#C01825'],
 };
 
 // Convert a tier level to a number based on the highest value the tier may represent
@@ -73,7 +73,7 @@ export const numberToTierLevel = (
 const getExposureColor = (
     value: number,
     highestValue: number,
-    alertClass: AlertClassType,
+    alertClass: AlertClass,
 ): string => {
     const colors = alertColors[alertClass];
     const index = numberToTierLevel(value, highestValue, colors.length);
@@ -123,7 +123,7 @@ export const styleAdminAreaForEvent = (
     selectedChildCode: string | null,
     exposedPopulation: Record<string, number> | null,
     highestExposedPopulationNumber: number,
-    alertClass: AlertClassType,
+    alertClass: AlertClass,
     isDeepestAdminLevel: boolean,
 ): Style => {
     // Only color the deepest level

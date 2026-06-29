@@ -133,7 +133,7 @@ export default function NrwMapContainer() {
         if (!activeEvent) {
             return undefined;
         }
-        const peakTime = activeEvent.reachesPeakAlertClassTime;
+        const peakTime = activeEvent.reachesPeakAlertClassAt;
         return peakTime ? peakTime.split('T')[0] : undefined;
     }, [eventData, activeEventId]);
 
