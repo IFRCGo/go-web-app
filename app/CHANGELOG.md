@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.26.2
+
+### Patch Changes
+
+- e21bae3: Update the stac browser link in Montandon page
+
 ## 7.26.1
 
 ### Patch Changes
