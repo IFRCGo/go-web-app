@@ -157,7 +157,8 @@ const makeStaticImageLayer = async (baseUri: string, name: string) => {
 
 // Raster layer functions
 export const makeEventImageLayer = async (resourceId: string) => {
-    const metadataUrl = `${ibfApiBackend}rasters/${resourceId}`;
+    const baseUrl = `${ibfApiBackend}rasters/alert`;
+    const metadataUrl = `${baseUrl}/${resourceId}`;
     const metadataResponse = await fetch(metadataUrl);
     if (!metadataResponse.ok) {
         throw new Error(`Failed to fetch event raster metadata: ${metadataResponse.status}`);
@@ -167,7 +168,7 @@ export const makeEventImageLayer = async (resourceId: string) => {
         xmin, ymin, xmax, ymax,
     } = metadata.extent;
 
-    const imageUrl = `${ibfApiBackend}rasters/${resourceId}/image`;
+    const imageUrl = `${baseUrl}/${resourceId}/image`;
     return new ImageLayer({
         source: new ImageStatic({
             url: imageUrl,
