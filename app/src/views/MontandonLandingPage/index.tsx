@@ -23,7 +23,7 @@ import i18n from './i18n.json';
 
 // NOTE: These are links and email bodies and don't need to be translated
 const emailSubject = encodeURIComponent('Explore Montandon Data');
-const linkToMontandonStacBrowser = 'https://radiantearth.github.io/stac-browser/#/external/montandon-eoapi-stage.ifrc.org/stac/';
+const linkToMontandonStacBrowser = 'https://ifrcgo.org/stac-browser/';
 const emailBody = encodeURIComponent(`Sharing with you a link to Montandon API: ${linkToMontandonStacBrowser}`);
 const mailtoLink = `mailto:?subject=${emailSubject}&body=${emailBody}`;
 const linkToMontandonNotebooks = 'https://ifrcgo.org/montandon-notebooks/';
