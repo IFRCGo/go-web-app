@@ -18,12 +18,11 @@ import VectorSource from 'ol/source/Vector';
 import VectorTile from 'ol/source/VectorTile';
 import type Style from 'ol/style/Style';
 
+import { ibfApiBackend } from '#config';
+
 import { type MvtStyleCreator } from './nrwMapStyles';
 import type { SelectedEventDetails } from './nrwMapTypes';
-import {
-    seedRepoEventDataUrl,
-    seedRepoPopDataUrl,
-} from './nrwUrls';
+import { seedRepoPopDataUrl } from './nrwUrls';
 import type {
     EventResponseDto,
     MapLayerDetailsDto,
@@ -157,9 +156,27 @@ const makeStaticImageLayer = async (baseUri: string, name: string) => {
 };
 
 // Raster layer functions
-export const makeEventImageLayer = async (name: string) => {
-    const baseUri = seedRepoEventDataUrl;
-    return makeStaticImageLayer(baseUri, name);
+export const makeEventImageLayer = async (resourceId: string) => {
+    const metadataUrl = `${ibfApiBackend}rasters/${resourceId}`;
+    const metadataResponse = await fetch(metadataUrl);
+    if (!metadataResponse.ok) {
+        throw new Error(`Failed to fetch event raster metadata: ${metadataResponse.status}`);
+    }
+    const metadata = await metadataResponse.json();
+    const {
+        xmin, ymin, xmax, ymax,
+    } = metadata.extent;
+
+    const imageUrl = `${ibfApiBackend}rasters/${resourceId}/image`;
+    return new ImageLayer({
+        source: new ImageStatic({
+            url: imageUrl,
+            projection: 'EPSG:4326',
+            interpolate: false,
+            imageExtent: [xmin, ymin, xmax, ymax],
+            crossOrigin: 'anonymous',
+        }),
+    });
 };
 
 export const makePopulationImageLayer = async (country_code: string) => {
