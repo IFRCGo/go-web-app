@@ -14,26 +14,26 @@ import { byPrefixAndName } from '@awesome.me/kit-92f09b5225/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { getCountryMapData } from '#utils/nrw/nrwDataFetchHelpers';
-import { type MapLayerDetailsDto } from '#utils/nrw/shared-dtos';
-import { MapLayerInfoType } from '#utils/nrw/shared-enums';
+import { type LayerDto } from '#utils/nrw/shared-dtos';
+import { LayerName } from '#utils/nrw/shared-enums';
 
 import styles from './styles.module.css';
 
 // TODO: move to loc file. See task https://dev.azure.com/redcrossnl/IBF/_workitems/edit/41713
-function getLayerLabel(layer: MapLayerDetailsDto): string {
+function getLayerLabel(layer: LayerDto): string {
     const labels: Record<string, string> = {
-        [MapLayerInfoType.Population]: 'Population',
-        [MapLayerInfoType.FloodDepth]: 'Flood Depth',
-        [MapLayerInfoType.RedCrossBranches]: 'Red Cross Branches',
-        [MapLayerInfoType.Clinics]: 'Clinics',
+        [LayerName.population]: 'Population',
+        [LayerName.floodDepth]: 'Flood Depth',
+        [LayerName.redCrossBranches]: 'Red Cross Branches',
+        [LayerName.clinics]: 'Clinics',
     };
-    return labels[layer.dataType] ?? layer.dataType;
+    return labels[layer.layer] ?? layer.layer;
 }
 
 interface NrwLayerPanelProps {
-  eventLayers: MapLayerDetailsDto[];
+  eventLayers: LayerDto[];
   countryCode: string;
-  onToggleMapLayer: (layerDetails: MapLayerDetailsDto) => void;
+  onToggleMapLayer: (layerDetails: LayerDto) => void;
   onHideAllLayers: () => void;
   // Resource IDs of layers that should be on on initial view
   initialLayerIds: string[];
@@ -65,7 +65,7 @@ export default function NrwLayerPanel({
 
     // Get the list of country-level layers available for a country
     // TODO: use real data instead of mock. Pending IBF API
-    const [countryLayers, setCountryLayers] = useState<MapLayerDetailsDto[]>([]);
+    const [countryLayers, setCountryLayers] = useState<LayerDto[]>([]);
 
     // Visible layers, passed in from useNrwDataLoader.
     const visibleLayerIds = new Set(visibleLayerResourceIds);
@@ -99,7 +99,7 @@ export default function NrwLayerPanel({
     }, [isMapReady, eventLayers, countryLayers, onToggleMapLayer]);
 
     // Wrapper for the toggle callback that was passed in as a component prop
-    const handleToggleClick = useCallback((layer: MapLayerDetailsDto) => {
+    const handleToggleClick = useCallback((layer: LayerDto) => {
         isInitialStateRef.current = false;
         onToggleMapLayer(layer);
     }, [onToggleMapLayer]);
@@ -129,8 +129,8 @@ export default function NrwLayerPanel({
                 <div className={styles.buttonGroup}>
                     {eventLayers.map((layer) => (
                         <button
-                            key={`${layer.dataType}_${layer.resourceId}`}
-                            name={`toggle_${layer.dataType}_${layer.resourceId}`}
+                            key={`${layer.layer}_${layer.resourceId}`}
+                            name={`toggle_${layer.layer}_${layer.resourceId}`}
                             type="button"
                             className={styles.layerLink}
                             onClick={() => handleToggleClick(layer)}
@@ -149,8 +149,8 @@ export default function NrwLayerPanel({
                 <div className={styles.buttonGroup}>
                     {countryLayers.map((layer) => (
                         <button
-                            key={`${layer.dataType}_${layer.resourceId}`}
-                            name={`toggle_country_${layer.dataType}_${layer.resourceId}`}
+                            key={`${layer.layer}_${layer.resourceId}`}
+                            name={`toggle_country_${layer.layer}_${layer.resourceId}`}
                             type="button"
                             className={styles.layerLink}
                             onClick={() => handleToggleClick(layer)}

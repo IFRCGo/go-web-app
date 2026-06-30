@@ -17,28 +17,19 @@ export enum HazardType {
   drought = 'drought',
 }
 
-export enum Layer {
-  // --- generic layers (cross-hazard) ---
+export enum LayerName {
+  // --- generic (cross-hazard) ---
+  population = 'population',
   populationExposed = 'population_exposed',
+  redCrossBranches = 'red_cross_branches',
+  clinics = 'clinics',
 
-  // --- floods-specific layers ---
+  // --- floods-specific ---
   floodDepth = 'flood_depth',
   glofasStations = 'glofas_stations',
 }
 
-// Key to identify the type of map layer info being shown.
-// This is used to style/label it on the frontend.
-export enum MapLayerInfoType {
-  // --- generic (cross-hazard) ---
-  Population = 'population',
-  RedCrossBranches = 'red_cross_branches',
-  Clinics = 'clinics',
-
-  // --- floods-specific ---
-  FloodDepth = 'flood_depth',
-}
-
-export enum MapLayerDisplayType {
+export enum LayerType {
   // Image data, i.e. PNGs
   Raster = 'raster',
   // Vector shape data for lines and polygons, including admin areas

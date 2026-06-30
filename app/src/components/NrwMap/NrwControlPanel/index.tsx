@@ -17,7 +17,7 @@ import {
     type EventResponseDto,
     type ExposedAdminAreaDto,
 } from '#utils/nrw/shared-dtos';
-import { Layer } from '#utils/nrw/shared-enums';
+import { LayerName } from '#utils/nrw/shared-enums';
 
 import styles from './styles.module.css';
 
@@ -39,33 +39,33 @@ function groupAdminAreasByLevel(
 }
 
 // Helper to get exposure value by type from the exposure array
-function getExposureByType(
+function getExposureByLayer(
     exposure: AdminAreaExposureDto[] | undefined,
-    type: Layer,
+    layer: LayerName,
 ): AdminAreaExposureDto | undefined {
-    return exposure?.find((e) => e.type === type);
+    return exposure?.find((e) => e.layer === layer);
 }
 
 // Helper to get population exposure from admin area
 function getExposedPopulation(
     adminArea: ExposedAdminAreaDto | undefined,
 ): number {
-    const popExposure = getExposureByType(
+    const popExposure = getExposureByLayer(
         adminArea?.exposure,
-        Layer.populationExposed,
+        LayerName.populationExposed,
     );
     return popExposure?.exposed ?? 0;
 }
 
 // Format label for exposure type - uses type value with _ID appended if no user-friendly label
 // TODO: move to loc file. See task https://dev.azure.com/redcrossnl/IBF/_workitems/edit/41713
-function getExposureLabel(type: Layer): string {
-    const labels: Record<Layer, string> = {
-        [Layer.populationExposed]: 'Population',
-        [Layer.floodDepth]: 'Flood Depth',
-        [Layer.glofasStations]: 'GloFAS Stations',
+function getExposureLabel(layer: LayerName): string {
+    const labels: Partial<Record<LayerName, string>> = {
+        [LayerName.populationExposed]: 'Population',
+        [LayerName.floodDepth]: 'Flood Depth',
+        [LayerName.glofasStations]: 'GloFAS Stations',
     };
-    return labels[type] ?? `${type}_ID`;
+    return labels[layer] ?? `${layer}_ID`;
 }
 
 interface EventButtonProps {
@@ -168,7 +168,7 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
 
     // Get exposure categories for infrastructure (exclude population)
     const infraExposure = admin0?.exposure.filter(
-        (e) => e.type !== Layer.populationExposed,
+        (e) => e.layer !== LayerName.populationExposed,
     ) ?? [];
 
     return (
@@ -249,11 +249,11 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
                 <CollapsibleSection title="Infrastructure Exposure">
                     <div className={styles.infraGrid}>
                         {infraExposure.map((item) => (
-                            <div key={item.type} className={styles.infraItem}>
+                            <div key={item.layer} className={styles.infraItem}>
                                 <span className={styles.infraLabel}>
                                     Exposed
                                     {' '}
-                                    {getExposureLabel(item.type)}
+                                    {getExposureLabel(item.layer)}
                                 </span>
                                 <span className={styles.infraValue}>
                                     {item.exposed.toLocaleString()}

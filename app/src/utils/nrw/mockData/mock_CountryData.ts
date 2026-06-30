@@ -3,8 +3,8 @@ import {
     EventDataSources,
 } from '#utils/nrw/nrwMapTypes';
 import {
-    MapLayerDisplayType,
-    MapLayerInfoType,
+    LayerName,
+    LayerType,
 } from '#utils/nrw/shared-enums';
 
 // Mock country map data for countries.
@@ -12,14 +12,14 @@ export default {
     MWI: {
         availableLayers: [
             {
-                resourceId: MapLayerInfoType.Population,
-                dataType: MapLayerInfoType.Population,
-                displayType: MapLayerDisplayType.Raster,
+                resourceId: LayerName.population,
+                layer: LayerName.population,
+                format: LayerType.Raster,
             },
             {
-                resourceId: MapLayerInfoType.RedCrossBranches,
-                dataType: MapLayerInfoType.RedCrossBranches,
-                displayType: MapLayerDisplayType.Point,
+                resourceId: LayerName.redCrossBranches,
+                layer: LayerName.redCrossBranches,
+                format: LayerType.Point,
             },
         ],
         supportedEventDataSources: [EventDataSources.Nrw],
@@ -27,19 +27,19 @@ export default {
     KEN: {
         availableLayers: [
             {
-                resourceId: MapLayerInfoType.Population,
-                dataType: MapLayerInfoType.Population,
-                displayType: MapLayerDisplayType.Raster,
+                resourceId: LayerName.population,
+                layer: LayerName.population,
+                format: LayerType.Raster,
             },
             {
-                resourceId: MapLayerInfoType.RedCrossBranches,
-                dataType: MapLayerInfoType.RedCrossBranches,
-                displayType: MapLayerDisplayType.Point,
+                resourceId: LayerName.redCrossBranches,
+                layer: LayerName.redCrossBranches,
+                format: LayerType.Point,
             },
             {
-                resourceId: MapLayerInfoType.Clinics,
-                dataType: MapLayerInfoType.Clinics,
-                displayType: MapLayerDisplayType.Point,
+                resourceId: LayerName.clinics,
+                layer: LayerName.clinics,
+                format: LayerType.Point,
             },
         ],
         supportedEventDataSources: [],
@@ -47,9 +47,9 @@ export default {
     ZMB: {
         availableLayers: [
             {
-                resourceId: MapLayerInfoType.Population,
-                dataType: MapLayerInfoType.Population,
-                displayType: MapLayerDisplayType.Raster,
+                resourceId: LayerName.population,
+                layer: LayerName.population,
+                format: LayerType.Raster,
             },
         ],
         supportedEventDataSources: [EventDataSources.Nrw],
@@ -57,19 +57,19 @@ export default {
     PHL: {
         availableLayers: [
             {
-                resourceId: MapLayerInfoType.Population,
-                dataType: MapLayerInfoType.Population,
-                displayType: MapLayerDisplayType.Raster,
+                resourceId: LayerName.population,
+                layer: LayerName.population,
+                format: LayerType.Raster,
             },
             {
-                resourceId: MapLayerInfoType.RedCrossBranches,
-                dataType: MapLayerInfoType.RedCrossBranches,
-                displayType: MapLayerDisplayType.Point,
+                resourceId: LayerName.redCrossBranches,
+                layer: LayerName.redCrossBranches,
+                format: LayerType.Point,
             },
             {
-                resourceId: MapLayerInfoType.Clinics,
-                dataType: MapLayerInfoType.Clinics,
-                displayType: MapLayerDisplayType.Point,
+                resourceId: LayerName.clinics,
+                layer: LayerName.clinics,
+                format: LayerType.Point,
             },
         ],
         supportedEventDataSources: [],
@@ -77,9 +77,9 @@ export default {
     ETH: {
         availableLayers: [
             {
-                resourceId: MapLayerInfoType.Population,
-                dataType: MapLayerInfoType.Population,
-                displayType: MapLayerDisplayType.Raster,
+                resourceId: LayerName.population,
+                layer: LayerName.population,
+                format: LayerType.Raster,
             },
         ],
         supportedEventDataSources: [],
@@ -87,19 +87,19 @@ export default {
     LSO: {
         availableLayers: [
             {
-                resourceId: MapLayerInfoType.Population,
-                dataType: MapLayerInfoType.Population,
-                displayType: MapLayerDisplayType.Raster,
+                resourceId: LayerName.population,
+                layer: LayerName.population,
+                format: LayerType.Raster,
             },
             {
-                resourceId: MapLayerInfoType.RedCrossBranches,
-                dataType: MapLayerInfoType.RedCrossBranches,
-                displayType: MapLayerDisplayType.Point,
+                resourceId: LayerName.redCrossBranches,
+                layer: LayerName.redCrossBranches,
+                format: LayerType.Point,
             },
             {
-                resourceId: MapLayerInfoType.Clinics,
-                dataType: MapLayerInfoType.Clinics,
-                displayType: MapLayerDisplayType.Point,
+                resourceId: LayerName.clinics,
+                layer: LayerName.clinics,
+                format: LayerType.Point,
             },
         ],
         supportedEventDataSources: [],
@@ -107,19 +107,19 @@ export default {
     SSD: {
         availableLayers: [
             {
-                resourceId: MapLayerInfoType.Population,
-                dataType: MapLayerInfoType.Population,
-                displayType: MapLayerDisplayType.Raster,
+                resourceId: LayerName.population,
+                layer: LayerName.population,
+                format: LayerType.Raster,
             },
             {
-                resourceId: MapLayerInfoType.RedCrossBranches,
-                dataType: MapLayerInfoType.RedCrossBranches,
-                displayType: MapLayerDisplayType.Point,
+                resourceId: LayerName.redCrossBranches,
+                layer: LayerName.redCrossBranches,
+                format: LayerType.Point,
             },
             {
-                resourceId: MapLayerInfoType.Clinics,
-                dataType: MapLayerInfoType.Clinics,
-                displayType: MapLayerDisplayType.Point,
+                resourceId: LayerName.clinics,
+                layer: LayerName.clinics,
+                format: LayerType.Point,
             },
         ],
         supportedEventDataSources: [],
@@ -127,9 +127,9 @@ export default {
     UGA: {
         availableLayers: [
             {
-                resourceId: MapLayerInfoType.Population,
-                dataType: MapLayerInfoType.Population,
-                displayType: MapLayerDisplayType.Raster,
+                resourceId: LayerName.population,
+                layer: LayerName.population,
+                format: LayerType.Raster,
             },
         ],
         supportedEventDataSources: [],
@@ -137,14 +137,14 @@ export default {
     ZWE: {
         availableLayers: [
             {
-                resourceId: MapLayerInfoType.Population,
-                dataType: MapLayerInfoType.Population,
-                displayType: MapLayerDisplayType.Raster,
+                resourceId: LayerName.population,
+                layer: LayerName.population,
+                format: LayerType.Raster,
             },
             {
-                resourceId: MapLayerInfoType.RedCrossBranches,
-                dataType: MapLayerInfoType.RedCrossBranches,
-                displayType: MapLayerDisplayType.Point,
+                resourceId: LayerName.redCrossBranches,
+                layer: LayerName.redCrossBranches,
+                format: LayerType.Point,
             },
         ],
         supportedEventDataSources: [],

@@ -36,8 +36,8 @@ import {
 } from '#utils/nrw/nrwMapInteractionHelpers';
 import type { SelectedEventDetails } from '#utils/nrw/nrwMapTypes';
 import { mapUrlStyleJson } from '#utils/nrw/nrwUrls';
-import { type MapLayerDetailsDto } from '#utils/nrw/shared-dtos';
-import { MapLayerDisplayType } from '#utils/nrw/shared-enums';
+import { type LayerDto } from '#utils/nrw/shared-dtos';
+import { LayerType } from '#utils/nrw/shared-enums';
 
 import { createMapPopupPanel } from '../NrwMapPopupPanel';
 
@@ -54,7 +54,7 @@ interface OlDataMapProps {
   // Optional arg to expose a method for adding a layer
   // It is a function that takes the add-layer function as an argument.
   addLayerFunction?: (
-    addLayer: (layer: BaseLayer, layerInfo: MapLayerDetailsDto) => void,
+    addLayer: (layer: BaseLayer, layerInfo: LayerDto) => void,
   ) => void;
 
   // Callbacks for the map interactions
@@ -294,10 +294,10 @@ export default function OlDataMap({
             // Expose addLayer function to parent
             if (addLayerFunction) {
                 addLayerFunction(
-                    (newLayer: BaseLayer, layerDetails: MapLayerDetailsDto) => {
+                    (newLayer: BaseLayer, layerDetails: LayerDto) => {
                         const zIndex = getZIndexOffset(layerDetails);
                         newLayer.setZIndex(zIndex);
-                        if (layerDetails.displayType === MapLayerDisplayType.Point) {
+                        if (layerDetails.format === LayerType.Point) {
                             pointLayers.add(newLayer);
                         }
                         mapInstanceRef.current?.addLayer(newLayer);

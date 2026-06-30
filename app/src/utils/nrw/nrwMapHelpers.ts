@@ -25,11 +25,10 @@ import type { SelectedEventDetails } from './nrwMapTypes';
 import { seedRepoPopDataUrl } from './nrwUrls';
 import type {
     EventResponseDto,
-    MapLayerDetailsDto,
+    LayerDto,
 } from './shared-dtos';
 import {
-    Layer,
-    MapLayerInfoType,
+    LayerName,
 } from './shared-enums';
 
 // Extract the map-relevant details from event data for a selected event
@@ -57,7 +56,7 @@ export function getSelectedEventDetails(
 
             // Get the value of the exposed population for this admin area, if any
             const eventPopulationData = area.exposure.find(
-                (category) => category.type === Layer.populationExposed,
+                (category) => category.layer === LayerName.populationExposed,
             );
             const exposedPopulationValue = eventPopulationData?.exposed ?? 0;
 
@@ -228,26 +227,26 @@ export function getAdminAreaZIndex(level: number): number {
 // Get the map layer z index offset on which the layer is drawn.
 // Higher numbers are drawn on top of other layers.
 // Change the numbers in this function to change the layering order. Use ints.
-export function getZIndexOffset(layerDetails: MapLayerDetailsDto): number {
+export function getZIndexOffset(layerDetails: LayerDto): number {
     // Note: admin levels are handled by this function: getAdminAreaZIndex
     // Set the number below in relation to what the admin layer is drawn at.
 
-    switch (layerDetails.dataType) {
-        case MapLayerInfoType.Population:
+    switch (layerDetails.layer) {
+        case LayerName.population:
             return 500;
-        case MapLayerInfoType.FloodDepth:
+        case LayerName.floodDepth:
             return 1100;
-        case MapLayerInfoType.RedCrossBranches:
+        case LayerName.redCrossBranches:
             // Give point data a higher offset
             return 1201;
-        case MapLayerInfoType.Clinics:
+        case LayerName.clinics:
             // Give point data a higher offset
             return 1202;
         default:
             // No need for a user facing error, but we should log this to correctly handle it later.
             console.error(
                 'Unknown layer data type for z-indexing:',
-                layerDetails.dataType,
+                layerDetails.layer,
             );
             return 1; // draw on the lowest layer above the base map
     }

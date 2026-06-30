@@ -1,6 +1,6 @@
 // Data types and structures use for the Nrw Map components
 
-import { type MapLayerDetailsDto } from './shared-dtos';
+import { type LayerDto } from './shared-dtos';
 import type { AlertClass } from './shared-enums';
 
 // Country-level non-event data
@@ -8,7 +8,7 @@ import type { AlertClass } from './shared-enums';
 // or merged into some other source.
 export interface CountryMapData {
   // Available map layers for the country that can be added
-  availableLayers: MapLayerDetailsDto[];
+  availableLayers: LayerDto[];
 
   // The event data sources for forecasted events.
   // This can differentiate between supported event types as well as MRW/NRW data sources.
