@@ -2,6 +2,7 @@
 // When adding enums here, follow the full updating flow.
 // See `Updating Shared Enums` in the README for details.
 
+// Not used by FE
 export enum EnsembleMemberType {
   median = 'median',
   run = 'run',
@@ -30,25 +31,20 @@ export enum LayerName {
 }
 
 export enum LayerType {
-  // Image data, i.e. PNGs
   Raster = 'raster',
-  // Vector shape data for lines and polygons, including admin areas
   Shape = 'shape',
-  // Vector point data, such as for glofas locations
   Point = 'point',
-  // Vector tiles, used for dense vector information such as many buildings and roads
   VectorTile = 'vector_tile',
 }
 
+// Not used by FE
 export enum SeverityKey {
   returnPeriod = 'return_period',
   percentile = 'percentile',
 }
 
-// ---------------------------------------------
-// Alert classification related enums - START
-// ---------------------------------------------
-
+// START: Alert classification related enums
+// Not used by FE
 // Allowed classification levels for: severityClass and probabilityClass
 export enum AlertClassificationLevel {
   SingleThreshold = 'single_threshold',
@@ -65,7 +61,4 @@ export enum AlertClass {
   Medium = 'medium',
   High = 'high',
 }
-
-// ---------------------------------------------
-// Alert classification related enums - END
-// ---------------------------------------------
+// END: Alert classification related enums

@@ -17,7 +17,7 @@ import type {
 } from './shared-enums';
 
 export interface AdminAreaExposureDto {
-    layer: LayerName;
+    layerName: LayerName;
     total: number | null;
     exposed: number;
 }
@@ -53,6 +53,6 @@ export interface EventResponseDto {
 
 export interface LayerDto {
     resourceId: string;
-    layer: LayerName;
-    format: LayerType;
+    layerName: LayerName;
+    layerType: LayerType;
 }

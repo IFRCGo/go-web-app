@@ -67,7 +67,7 @@ export default function useNrwDataLoader(
     // Cache of all loaded layers.
     // The key is fixed based on the layer details.
     const layersCache = useRef(new Map<string, BaseLayer>());
-    const getLayerKey = (layerDetails: LayerDto): string => `${layerDetails.layer}_${selectedCountry}_${layerDetails.resourceId}`;
+    const getLayerKey = (layerDetails: LayerDto): string => `${layerDetails.layerName}_${selectedCountry}_${layerDetails.resourceId}`;
 
     // Register the map's addLayer function.
     // Called by OlDataMap when the map is ready.
@@ -135,11 +135,11 @@ export default function useNrwDataLoader(
     // Exposed function to toggle a map layer
     // If the layer is not cached, it will be loaded.
     const toggleMapLayer = (layerDetails: LayerDto) => {
-        const { layer, format, resourceId } = layerDetails;
+        const { layerName, layerType, resourceId } = layerDetails;
 
-        switch (format) {
+        switch (layerType) {
             case LayerType.Raster:
-                switch (layer) {
+                switch (layerName) {
                     case LayerName.population:
                         toggleLayer(
                             getLayerKey(layerDetails),
@@ -156,12 +156,12 @@ export default function useNrwDataLoader(
                         break;
                     default:
                         console.error(
-                            `[useNrwDataLoader] Unsupported raster layer type: ${layer}`,
+                            `[useNrwDataLoader] Unsupported raster layer type: ${layerName}`,
                         );
                 }
                 break;
             case LayerType.Point:
-                switch (layer) {
+                switch (layerName) {
                     case LayerName.redCrossBranches:
                         toggleLayer(
                             getLayerKey(layerDetails),
@@ -178,14 +178,14 @@ export default function useNrwDataLoader(
                         break;
                     default:
                         console.error(
-                            `[useNrwDataLoader] Unsupported point layer type: ${layer}`,
+                            `[useNrwDataLoader] Unsupported point layer type: ${layerName}`,
                         );
                 }
                 break;
             default:
                 // TODO: Handle other display types (Shape, VectorTile)
                 console.error(
-                    `[useNrwDataLoader] Unsupported display type: ${format}`,
+                    `[useNrwDataLoader] Unsupported display type: ${layerType}`,
                 );
         }
     };

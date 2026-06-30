@@ -21,13 +21,13 @@ import styles from './styles.module.css';
 
 // TODO: move to loc file. See task https://dev.azure.com/redcrossnl/IBF/_workitems/edit/41713
 function getLayerLabel(layer: LayerDto): string {
-    const labels: Record<string, string> = {
+    const labels: Partial<Record<LayerName, string>> = {
         [LayerName.population]: 'Population',
         [LayerName.floodDepth]: 'Flood Depth',
         [LayerName.redCrossBranches]: 'Red Cross Branches',
         [LayerName.clinics]: 'Clinics',
     };
-    return labels[layer.layer] ?? layer.layer;
+    return labels[layer.layerName] ?? layer.layerName;
 }
 
 interface NrwLayerPanelProps {
@@ -129,8 +129,8 @@ export default function NrwLayerPanel({
                 <div className={styles.buttonGroup}>
                     {eventLayers.map((layer) => (
                         <button
-                            key={`${layer.layer}_${layer.resourceId}`}
-                            name={`toggle_${layer.layer}_${layer.resourceId}`}
+                            key={`${layer.layerName}_${layer.resourceId}`}
+                            name={`toggle_${layer.layerName}_${layer.resourceId}`}
                             type="button"
                             className={styles.layerLink}
                             onClick={() => handleToggleClick(layer)}
@@ -149,8 +149,8 @@ export default function NrwLayerPanel({
                 <div className={styles.buttonGroup}>
                     {countryLayers.map((layer) => (
                         <button
-                            key={`${layer.layer}_${layer.resourceId}`}
-                            name={`toggle_country_${layer.layer}_${layer.resourceId}`}
+                            key={`${layer.layerName}_${layer.resourceId}`}
+                            name={`toggle_country_${layer.layerName}_${layer.resourceId}`}
                             type="button"
                             className={styles.layerLink}
                             onClick={() => handleToggleClick(layer)}

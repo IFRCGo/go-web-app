@@ -1,6 +1,7 @@
 import type VectorLayer from 'ol/layer/Vector';
 import type Style from 'ol/style/Style';
 
+import mockCountryData from './mockData/mock_CountryData';
 import {
     ADMIN_LEVEL_FIELD_KEY,
     ADMIN_PCODE_KEY_BASE,
@@ -17,7 +18,6 @@ import {
     getEventsApiUrl,
     getHealthLocsApiUrl,
     getRcLocsApiUrl,
-    seedRepoMockCountryDataUrl,
 } from './nrwUrls';
 import type { EventResponseDto } from './shared-dtos';
 
@@ -184,15 +184,7 @@ export async function getEventDetails(
 export async function getCountryMapData(): Promise<
   Record<string, CountryMapData>
   > {
-    try {
-        const response = await fetch(seedRepoMockCountryDataUrl);
-        if (!response.ok) {
-            return {} as Record<string, CountryMapData>;
-        }
-        return (await response.json()) as Record<string, CountryMapData>;
-    } catch {
-        return {} as Record<string, CountryMapData>;
-    }
+    return mockCountryData;
 }
 
 export const makeRcBranchesPointLayer = async (

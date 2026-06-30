@@ -39,18 +39,18 @@ function groupAdminAreasByLevel(
 }
 
 // Helper to get exposure value by type from the exposure array
-function getExposureByLayer(
+function getExposureByLayerName(
     exposure: AdminAreaExposureDto[] | undefined,
-    layer: LayerName,
+    layerName: LayerName,
 ): AdminAreaExposureDto | undefined {
-    return exposure?.find((e) => e.layer === layer);
+    return exposure?.find((e) => e.layerName === layerName);
 }
 
 // Helper to get population exposure from admin area
 function getExposedPopulation(
     adminArea: ExposedAdminAreaDto | undefined,
 ): number {
-    const popExposure = getExposureByLayer(
+    const popExposure = getExposureByLayerName(
         adminArea?.exposure,
         LayerName.populationExposed,
     );
@@ -62,8 +62,6 @@ function getExposedPopulation(
 function getExposureLabel(layer: LayerName): string {
     const labels: Partial<Record<LayerName, string>> = {
         [LayerName.populationExposed]: 'Population',
-        [LayerName.floodDepth]: 'Flood Depth',
-        [LayerName.glofasStations]: 'GloFAS Stations',
     };
     return labels[layer] ?? `${layer}_ID`;
 }
@@ -168,7 +166,7 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
 
     // Get exposure categories for infrastructure (exclude population)
     const infraExposure = admin0?.exposure.filter(
-        (e) => e.layer !== LayerName.populationExposed,
+        (e) => e.layerName !== LayerName.populationExposed,
     ) ?? [];
 
     return (
@@ -249,11 +247,11 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
                 <CollapsibleSection title="Infrastructure Exposure">
                     <div className={styles.infraGrid}>
                         {infraExposure.map((item) => (
-                            <div key={item.layer} className={styles.infraItem}>
+                            <div key={item.layerName} className={styles.infraItem}>
                                 <span className={styles.infraLabel}>
                                     Exposed
                                     {' '}
-                                    {getExposureLabel(item.layer)}
+                                    {getExposureLabel(item.layerName)}
                                 </span>
                                 <span className={styles.infraValue}>
                                     {item.exposed.toLocaleString()}

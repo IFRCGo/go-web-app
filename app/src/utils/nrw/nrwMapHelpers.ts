@@ -27,9 +27,7 @@ import type {
     EventResponseDto,
     LayerDto,
 } from './shared-dtos';
-import {
-    LayerName,
-} from './shared-enums';
+import { LayerName } from './shared-enums';
 
 // Extract the map-relevant details from event data for a selected event
 // Returns null if no event is selected or event not found
@@ -56,7 +54,7 @@ export function getSelectedEventDetails(
 
             // Get the value of the exposed population for this admin area, if any
             const eventPopulationData = area.exposure.find(
-                (category) => category.layer === LayerName.populationExposed,
+                (layer) => layer.layerName === LayerName.populationExposed,
             );
             const exposedPopulationValue = eventPopulationData?.exposed ?? 0;
 
@@ -231,7 +229,7 @@ export function getZIndexOffset(layerDetails: LayerDto): number {
     // Note: admin levels are handled by this function: getAdminAreaZIndex
     // Set the number below in relation to what the admin layer is drawn at.
 
-    switch (layerDetails.layer) {
+    switch (layerDetails.layerName) {
         case LayerName.population:
             return 500;
         case LayerName.floodDepth:
@@ -246,7 +244,7 @@ export function getZIndexOffset(layerDetails: LayerDto): number {
             // No need for a user facing error, but we should log this to correctly handle it later.
             console.error(
                 'Unknown layer data type for z-indexing:',
-                layerDetails.layer,
+                layerDetails.layerName,
             );
             return 1; // draw on the lowest layer above the base map
     }

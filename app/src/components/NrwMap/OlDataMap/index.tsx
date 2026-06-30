@@ -297,7 +297,7 @@ export default function OlDataMap({
                     (newLayer: BaseLayer, layerDetails: LayerDto) => {
                         const zIndex = getZIndexOffset(layerDetails);
                         newLayer.setZIndex(zIndex);
-                        if (layerDetails.format === LayerType.Point) {
+                        if (layerDetails.layerType === LayerType.Point) {
                             pointLayers.add(newLayer);
                         }
                         mapInstanceRef.current?.addLayer(newLayer);

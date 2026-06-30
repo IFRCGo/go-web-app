@@ -13,13 +13,13 @@ export default {
         availableLayers: [
             {
                 resourceId: LayerName.population,
-                layer: LayerName.population,
-                format: LayerType.Raster,
+                layerName: LayerName.population,
+                layerType: LayerType.Raster,
             },
             {
                 resourceId: LayerName.redCrossBranches,
-                layer: LayerName.redCrossBranches,
-                format: LayerType.Point,
+                layerName: LayerName.redCrossBranches,
+                layerType: LayerType.Point,
             },
         ],
         supportedEventDataSources: [EventDataSources.Nrw],
@@ -28,18 +28,18 @@ export default {
         availableLayers: [
             {
                 resourceId: LayerName.population,
-                layer: LayerName.population,
-                format: LayerType.Raster,
+                layerName: LayerName.population,
+                layerType: LayerType.Raster,
             },
             {
                 resourceId: LayerName.redCrossBranches,
-                layer: LayerName.redCrossBranches,
-                format: LayerType.Point,
+                layerName: LayerName.redCrossBranches,
+                layerType: LayerType.Point,
             },
             {
                 resourceId: LayerName.clinics,
-                layer: LayerName.clinics,
-                format: LayerType.Point,
+                layerName: LayerName.clinics,
+                layerType: LayerType.Point,
             },
         ],
         supportedEventDataSources: [],
@@ -48,8 +48,8 @@ export default {
         availableLayers: [
             {
                 resourceId: LayerName.population,
-                layer: LayerName.population,
-                format: LayerType.Raster,
+                layerName: LayerName.population,
+                layerType: LayerType.Raster,
             },
         ],
         supportedEventDataSources: [EventDataSources.Nrw],
@@ -58,18 +58,18 @@ export default {
         availableLayers: [
             {
                 resourceId: LayerName.population,
-                layer: LayerName.population,
-                format: LayerType.Raster,
+                layerName: LayerName.population,
+                layerType: LayerType.Raster,
             },
             {
                 resourceId: LayerName.redCrossBranches,
-                layer: LayerName.redCrossBranches,
-                format: LayerType.Point,
+                layerName: LayerName.redCrossBranches,
+                layerType: LayerType.Point,
             },
             {
                 resourceId: LayerName.clinics,
-                layer: LayerName.clinics,
-                format: LayerType.Point,
+                layerName: LayerName.clinics,
+                layerType: LayerType.Point,
             },
         ],
         supportedEventDataSources: [],
@@ -78,8 +78,8 @@ export default {
         availableLayers: [
             {
                 resourceId: LayerName.population,
-                layer: LayerName.population,
-                format: LayerType.Raster,
+                layerName: LayerName.population,
+                layerType: LayerType.Raster,
             },
         ],
         supportedEventDataSources: [],
@@ -88,18 +88,18 @@ export default {
         availableLayers: [
             {
                 resourceId: LayerName.population,
-                layer: LayerName.population,
-                format: LayerType.Raster,
+                layerName: LayerName.population,
+                layerType: LayerType.Raster,
             },
             {
                 resourceId: LayerName.redCrossBranches,
-                layer: LayerName.redCrossBranches,
-                format: LayerType.Point,
+                layerName: LayerName.redCrossBranches,
+                layerType: LayerType.Point,
             },
             {
                 resourceId: LayerName.clinics,
-                layer: LayerName.clinics,
-                format: LayerType.Point,
+                layerName: LayerName.clinics,
+                layerType: LayerType.Point,
             },
         ],
         supportedEventDataSources: [],
@@ -108,18 +108,18 @@ export default {
         availableLayers: [
             {
                 resourceId: LayerName.population,
-                layer: LayerName.population,
-                format: LayerType.Raster,
+                layerName: LayerName.population,
+                layerType: LayerType.Raster,
             },
             {
                 resourceId: LayerName.redCrossBranches,
-                layer: LayerName.redCrossBranches,
-                format: LayerType.Point,
+                layerName: LayerName.redCrossBranches,
+                layerType: LayerType.Point,
             },
             {
                 resourceId: LayerName.clinics,
-                layer: LayerName.clinics,
-                format: LayerType.Point,
+                layerName: LayerName.clinics,
+                layerType: LayerType.Point,
             },
         ],
         supportedEventDataSources: [],
@@ -128,8 +128,8 @@ export default {
         availableLayers: [
             {
                 resourceId: LayerName.population,
-                layer: LayerName.population,
-                format: LayerType.Raster,
+                layerName: LayerName.population,
+                layerType: LayerType.Raster,
             },
         ],
         supportedEventDataSources: [],
@@ -138,13 +138,13 @@ export default {
         availableLayers: [
             {
                 resourceId: LayerName.population,
-                layer: LayerName.population,
-                format: LayerType.Raster,
+                layerName: LayerName.population,
+                layerType: LayerType.Raster,
             },
             {
                 resourceId: LayerName.redCrossBranches,
-                layer: LayerName.redCrossBranches,
-                format: LayerType.Point,
+                layerName: LayerName.redCrossBranches,
+                layerType: LayerType.Point,
             },
         ],
         supportedEventDataSources: [],
