@@ -1,5 +1,7 @@
 import {
     useCallback,
+    useEffect,
+    useMemo,
     useRef,
     useState,
 } from 'react';
@@ -7,10 +9,13 @@ import type BaseLayer from 'ol/layer/Base';
 
 import useAlert from '#hooks/useAlert';
 import {
+    getCurrentCountryEventData,
+    getEventDetails,
     makeClinicPointLayer,
     makeRcBranchesPointLayer,
 } from '#utils/nrw/nrwDataFetchHelpers';
 import {
+    getSelectedEventDetails,
     makeEventImageLayer,
     makePopulationImageLayer,
 } from '#utils/nrw/nrwMapHelpers';
@@ -35,20 +40,18 @@ import {
  * - Create, cache, and toggle map data layers
  *
  * @param selectedCountry - ISO_A3 country code for country-specific layers
+ * @param selectedEventId - Currently selected event id (selection state owned by the container)
  */
 export default function useNrwDataLoader(
     selectedCountry: string,
     initialEventData: EventResponseDto[],
-    initialEventId: number | null,
+    selectedEventId: number | null,
     initialLayerIds: string[],
 ) {
     const alert = useAlert();
 
-    // Shared state: event data and selected event
+    // Data state: event data loaded from the API.
     const [eventData, setEventData] = useState<EventResponseDto[]>(initialEventData);
-    const [selectedEventId, setSelectedEventId] = useState<number | null>(
-        initialEventId,
-    );
 
     // Resource IDs of currently visible layers (population, flood depth, etc.)
     // The starting value is any layer IDs in the deeplink.
@@ -57,6 +60,18 @@ export default function useNrwDataLoader(
     // If the base map setup is complete.
     // This must be awaited before any layers can be added to the map.
     const [isMapReady, setIsMapReady] = useState(false);
+
+    // Load initial event data asynchronously on mount.
+    useEffect(() => {
+        const loadInitialData = async () => {
+            const data = selectedEventId
+                ? await getEventDetails(selectedCountry, selectedEventId)
+                : await getCurrentCountryEventData(selectedCountry);
+            setEventData(data);
+        };
+        loadInitialData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // Reference to the function (passed in by the map component) for adding layers to the map.
     const addLayerToMapFunction = useRef<(
@@ -198,28 +213,38 @@ export default function useNrwDataLoader(
         setVisibleLayerIds([]);
     };
 
-    // Select an event by ID
-    const selectEvent = (eventId: number) => {
-        setSelectedEventId(eventId);
-    };
-
-    // Deselect the current event, hiding all layers
-    const deselectEvent = () => {
-        hideAllLayers();
-        setSelectedEventId(null);
+    // Reload the current country's event data and update shared state
+    const reloadCountryEventData = async () => {
+        const data = await getCurrentCountryEventData(selectedCountry);
+        setEventData(data);
     };
 
     // Get available layers for the currently selected event
     const selectedEvent = eventData.find((event) => event.eventId === selectedEventId) ?? null;
     const selectedEventLayers: LayerDto[] = selectedEvent?.availableLayers ?? [];
 
+    // Get details for the selected event
+    const selectedEventDetails = useMemo(
+        () => getSelectedEventDetails(eventData, selectedEventId),
+        [eventData, selectedEventId],
+    );
+
+    // Show user-facing alert when no exposed areas were in a selected event
+    useEffect(() => {
+        if (selectedEventDetails
+             && Object.keys(selectedEventDetails.exposedPopulationPerAreaByLevel).length === 0) {
+            alert.show('No exposed areas', {
+                variant: 'danger',
+                description: `No exposed areas found for event "${selectedEventId}".`,
+            });
+        }
+    }, [selectedEventDetails, selectedEventId, alert]);
+
     return {
         eventData,
-        setEventData,
-        selectedEventId,
-        selectEvent,
-        deselectEvent,
+        reloadCountryEventData,
         selectedEventLayers,
+        selectedEventDetails,
         registerMapAddLayer,
         toggleMapLayer,
         hideAllLayers,

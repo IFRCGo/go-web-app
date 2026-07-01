@@ -4,6 +4,7 @@ import {
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import { defaultMapZoom } from '#utils/nrw/nrwConstants';
 import type { MapSelectionView } from '#utils/nrw/nrwMapInteractionHelpers';
 import {
     adminParamsKey,
@@ -26,11 +27,9 @@ import {
 interface InitialParams {
     selectedCountry: string;
     selectedEventId: number | null;
-    selectedMapZoom: number | null;
-    selectedMapLat: number | null;
-    selectedMapLon: number | null;
     initialAdminCode: string | null;
     initialLayerIds: string[];
+    initialMapView: MapSelectionView | null;
 }
 
 interface MapViewParams {
@@ -56,15 +55,30 @@ export default function useNrwMapSearchParams() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     // Read initial param values once on mount for setting initial display.
-    const [initial] = useState<InitialParams>(() => ({
-        selectedCountry: sanitizeCountryCode(searchParams.get(countryParamsKey)),
-        selectedEventId: sanitizeEventIdParam(searchParams.get(eventIdParamsKey)),
-        selectedMapZoom: sanitizeMapZoomParam(searchParams.get(mapZoomParamsKey)),
-        selectedMapLat: sanitizeMapLatitudeParam(searchParams.get(mapCenterLatParamsKey)),
-        selectedMapLon: sanitizeMapLongitudeParam(searchParams.get(mapCenterLonParamsKey)),
-        initialAdminCode: sanitizeAdminCode(searchParams.get(adminParamsKey)) || null,
-        initialLayerIds: parseMapLayersParam(searchParams.get(mapLayersParamsKey)),
-    }));
+    const [initialParams] = useState<InitialParams>(() => {
+        const selectedMapZoom = sanitizeMapZoomParam(searchParams.get(mapZoomParamsKey));
+        const selectedMapLat = sanitizeMapLatitudeParam(searchParams.get(mapCenterLatParamsKey));
+        const selectedMapLon = sanitizeMapLongitudeParam(searchParams.get(mapCenterLonParamsKey));
+
+        // Initial map view based on the params
+        const initialMapView = selectedMapLat !== null && selectedMapLon !== null
+            ? {
+                zoom: selectedMapZoom ?? defaultMapZoom,
+                center: {
+                    lat: selectedMapLat,
+                    lon: selectedMapLon,
+                },
+            }
+            : null;
+
+        return {
+            selectedCountry: sanitizeCountryCode(searchParams.get(countryParamsKey)),
+            selectedEventId: sanitizeEventIdParam(searchParams.get(eventIdParamsKey)),
+            initialAdminCode: sanitizeAdminCode(searchParams.get(adminParamsKey)) || null,
+            initialLayerIds: parseMapLayersParam(searchParams.get(mapLayersParamsKey)),
+            initialMapView,
+        };
+    });
 
     // Sync the active layer IDs into the existing URL params.
     const syncLayerIds = useCallback((layerIds: string[]) => {
@@ -135,7 +149,7 @@ export default function useNrwMapSearchParams() {
     }, [setSearchParams]);
 
     return {
-        initial,
+        initialParams,
         syncLayerIds,
         resetToCountry,
         setEventParams,

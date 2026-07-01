@@ -10,11 +10,26 @@ The "Ol..." prefix stands for OpenLayers (the mapping front library used), and t
 
 ## Basic Architecture
 
-- The `NrwMap` component is the main container for all the NRW mapping components.
-- The `useNrwDataLoader` hook is the shared object used for loading/caching all data. This joins the UI logic of loading/selecting data between the UI components and the data map component.
-- `OlDataMap` is the NRW map component. It handles admin area rendering/selection, and can have any data layer added to it.
-- `OlGlobalMap` is a general global view component that can be used for global map interaction.
+- The `NrwMap` component is the main parent for all NRW mapping components. It creates the NRW components and the callbacks needed to communicate between them. It holds the state for the selected event. Data loading and other state management logic is handled by hooks.
+
+### Hooks
+
+- The `useNrwDataLoader` hook is the shared object used for loading/caching shared data and the state of that data.
+- The `useNrwMapSearchParams` hook parses and updates the url search params that are used for deeplinking map states. This is read once on page load. After that, it only writes to the search params to keep the state up-to-date.
+
+### Components
+
+- `OlDataMap` is the map component for NRW. It handles admin area rendering/selection and displays data from the `useNrwDataLoader` hook. It also loads/displays data directly for data that does not need to be shared with other components, such as the base map layer and admin area geometry.
 - `NrwControlPanel` and `NrwLayerPanel` are the UI interaction layers.
+- `NrwLegendPanel` displays map legend information
+- The `NrwMapPopupPanel` replaces the Go map popup panel, since that component is an extended MapBox UI element and can't be reused. This is the popup shown when an item on the map is clicked.
+
+### Prototype components
+
+These are not being brought out of the prototype branch.
+
+- `OlGlobalMap` is a general global view component that can be used for global map interaction. It's for demoing how a global map could look using OpenLayers without any MapBox components or data.
+- `NrwDataPanel`: This is just a debug panel used while the `NrwControlPanel` design was being worked out.
 
 ## Running Locally
 

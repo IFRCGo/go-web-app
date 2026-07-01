@@ -16,7 +16,6 @@ interface NrwDataPanelProps {
     adminDetails: AdminAreaDetails | null;
     mapRef: RefObject<MapOl | null>;
     eventId?: number;
-    peakDay?: string;
 }
 
 /**
@@ -33,7 +32,6 @@ export default function NrwDataPanel({
     adminDetails,
     mapRef,
     eventId,
-    peakDay,
 }: NrwDataPanelProps) {
     const alert = useAlert();
     const population = adminDetails?.population ?? null;
@@ -44,9 +42,6 @@ export default function NrwDataPanel({
             if (eventId) {
                 filenameParts.push(`event_${eventId}`);
             }
-            if (peakDay) {
-                filenameParts.push(`peak_${peakDay}`);
-            }
             try {
                 await exportMapToPdf(mapRef.current, filenameParts);
             } catch (error) {
@@ -54,7 +49,7 @@ export default function NrwDataPanel({
                 console.error('Map export error:', error);
             }
         }
-    }, [mapRef, selectedCountry, eventId, peakDay, alert]);
+    }, [mapRef, selectedCountry, eventId, alert]);
 
     return (
         <div className={styles.dataContainer}>
