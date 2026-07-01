@@ -34,9 +34,9 @@ const exposedAreaFillAlphaHexLight = '33'; // 0.2
 
 // Color steps for each alert class
 export const alertColors: Record<AlertClass, string[]> = {
-    [AlertClass.Low]: ['#FFF9EA', '#FFEDBC', '#FFDF8A', '#FFC635', '#D99A00'],
-    [AlertClass.Medium]: ['#FFF5EA', '#FFD3AA', '#FFB066', '#FF6E00', '#C24E00'],
-    [AlertClass.High]: ['#FEF1F2', '#FCC6CA', '#FA999F', '#F5333F', '#C01825'],
+    [AlertClass.low]: ['#FFF9EA', '#FFEDBC', '#FFDF8A', '#FFC635', '#D99A00'],
+    [AlertClass.medium]: ['#FFF5EA', '#FFD3AA', '#FFB066', '#FF6E00', '#C24E00'],
+    [AlertClass.high]: ['#FEF1F2', '#FCC6CA', '#FA999F', '#F5333F', '#C01825'],
 };
 
 // Convert a tier level to a number based on the highest value the tier may represent

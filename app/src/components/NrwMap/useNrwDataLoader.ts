@@ -138,7 +138,7 @@ export default function useNrwDataLoader(
         const { layerName, layerType, resourceId } = layerDetails;
 
         switch (layerType) {
-            case LayerType.Raster:
+            case LayerType.raster:
                 switch (layerName) {
                     case LayerName.population:
                         toggleLayer(
@@ -160,7 +160,7 @@ export default function useNrwDataLoader(
                         );
                 }
                 break;
-            case LayerType.Point:
+            case LayerType.point:
                 switch (layerName) {
                     case LayerName.redCrossBranches:
                         toggleLayer(

@@ -31,10 +31,10 @@ export enum LayerName {
 }
 
 export enum LayerType {
-  Raster = 'raster',
-  Shape = 'shape',
-  Point = 'point',
-  VectorTile = 'vector_tile',
+  raster = 'raster',
+  shape = 'shape',
+  point = 'point',
+  vectorTile = 'vector_tile',
 }
 
 // Not used by FE
@@ -44,21 +44,20 @@ export enum SeverityKey {
 }
 
 // START: Alert classification related enums
-// Not used by FE
-// Allowed classification levels for: severityClass and probabilityClass
+// Allowed classification levels for: severityClass and probabilityClass - Not used by FE
 export enum AlertClassificationLevel {
-  SingleThreshold = 'single_threshold',
-  Low = 'low',
-  Medium = 'medium',
-  High = 'high',
+  singleThreshold = 'single_threshold',
+  low = 'low',
+  medium = 'medium',
+  high = 'high',
 }
 
 // Allowed classification levels for alertClass
 // (derived from severityClass and probabilityClass according to ALERT_CLASS_MATRIX)
 // NOTE: do not change order, as this is used functionally
 export enum AlertClass {
-  Low = 'low',
-  Medium = 'medium',
-  High = 'high',
+  low = 'low',
+  medium = 'medium',
+  high = 'high',
 }
 // END: Alert classification related enums

@@ -113,7 +113,7 @@ function createAdminLayerFromUrl(
                     isDeepestLevel ? selectedCode : null,
                     event?.exposedPopulationPerAreaByLevel[adminLevel] ?? null,
                     event?.highestExposedPopulationByLevel[adminLevel] ?? 0,
-                    event?.alertClass ?? AlertClass.High,
+                    event?.alertClass ?? AlertClass.high,
                     isDeepestLevel,
                 );
             }

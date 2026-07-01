@@ -14,12 +14,12 @@ export default {
             {
                 resourceId: LayerName.population,
                 layerName: LayerName.population,
-                layerType: LayerType.Raster,
+                layerType: LayerType.raster,
             },
             {
                 resourceId: LayerName.redCrossBranches,
                 layerName: LayerName.redCrossBranches,
-                layerType: LayerType.Point,
+                layerType: LayerType.point,
             },
         ],
         supportedEventDataSources: [EventDataSources.Nrw],
@@ -29,17 +29,17 @@ export default {
             {
                 resourceId: LayerName.population,
                 layerName: LayerName.population,
-                layerType: LayerType.Raster,
+                layerType: LayerType.raster,
             },
             {
                 resourceId: LayerName.redCrossBranches,
                 layerName: LayerName.redCrossBranches,
-                layerType: LayerType.Point,
+                layerType: LayerType.point,
             },
             {
                 resourceId: LayerName.clinics,
                 layerName: LayerName.clinics,
-                layerType: LayerType.Point,
+                layerType: LayerType.point,
             },
         ],
         supportedEventDataSources: [],
@@ -49,7 +49,7 @@ export default {
             {
                 resourceId: LayerName.population,
                 layerName: LayerName.population,
-                layerType: LayerType.Raster,
+                layerType: LayerType.raster,
             },
         ],
         supportedEventDataSources: [EventDataSources.Nrw],
@@ -59,17 +59,17 @@ export default {
             {
                 resourceId: LayerName.population,
                 layerName: LayerName.population,
-                layerType: LayerType.Raster,
+                layerType: LayerType.raster,
             },
             {
                 resourceId: LayerName.redCrossBranches,
                 layerName: LayerName.redCrossBranches,
-                layerType: LayerType.Point,
+                layerType: LayerType.point,
             },
             {
                 resourceId: LayerName.clinics,
                 layerName: LayerName.clinics,
-                layerType: LayerType.Point,
+                layerType: LayerType.point,
             },
         ],
         supportedEventDataSources: [],
@@ -79,7 +79,7 @@ export default {
             {
                 resourceId: LayerName.population,
                 layerName: LayerName.population,
-                layerType: LayerType.Raster,
+                layerType: LayerType.raster,
             },
         ],
         supportedEventDataSources: [],
@@ -89,17 +89,17 @@ export default {
             {
                 resourceId: LayerName.population,
                 layerName: LayerName.population,
-                layerType: LayerType.Raster,
+                layerType: LayerType.raster,
             },
             {
                 resourceId: LayerName.redCrossBranches,
                 layerName: LayerName.redCrossBranches,
-                layerType: LayerType.Point,
+                layerType: LayerType.point,
             },
             {
                 resourceId: LayerName.clinics,
                 layerName: LayerName.clinics,
-                layerType: LayerType.Point,
+                layerType: LayerType.point,
             },
         ],
         supportedEventDataSources: [],
@@ -109,17 +109,17 @@ export default {
             {
                 resourceId: LayerName.population,
                 layerName: LayerName.population,
-                layerType: LayerType.Raster,
+                layerType: LayerType.raster,
             },
             {
                 resourceId: LayerName.redCrossBranches,
                 layerName: LayerName.redCrossBranches,
-                layerType: LayerType.Point,
+                layerType: LayerType.point,
             },
             {
                 resourceId: LayerName.clinics,
                 layerName: LayerName.clinics,
-                layerType: LayerType.Point,
+                layerType: LayerType.point,
             },
         ],
         supportedEventDataSources: [],
@@ -129,7 +129,7 @@ export default {
             {
                 resourceId: LayerName.population,
                 layerName: LayerName.population,
-                layerType: LayerType.Raster,
+                layerType: LayerType.raster,
             },
         ],
         supportedEventDataSources: [],
@@ -139,12 +139,12 @@ export default {
             {
                 resourceId: LayerName.population,
                 layerName: LayerName.population,
-                layerType: LayerType.Raster,
+                layerType: LayerType.raster,
             },
             {
                 resourceId: LayerName.redCrossBranches,
                 layerName: LayerName.redCrossBranches,
-                layerType: LayerType.Point,
+                layerType: LayerType.point,
             },
         ],
         supportedEventDataSources: [],
