@@ -34,6 +34,28 @@ export function sanitizeCountryCode(value: string | null | undefined): string {
     return countryRegex.test(cleanedValue) ? cleanedValue : noCountrySelectedValue;
 }
 
+// Parse comma-separated country codes from URL param
+// Returns empty array if value is null/undefined/empty or has no valid ISO_A3 codes
+export function parseAndSanitizeCountryCodesParam(value: string | null | undefined): string[] {
+    if (!value || value.trim() === '') {
+        return [];
+    }
+
+    return value
+        .split(',')
+        .map((countryCode) => sanitizeCountryCode(countryCode))
+        .filter((countryCode) => countryCode !== noCountrySelectedValue);
+}
+
+// Serialize country codes array to comma-separated string for URL param
+// Returns empty string if array is empty or all values are invalid
+export function serializeCountryCodesParam(countryCodes: string[]): string {
+    return countryCodes
+        .map((countryCode) => sanitizeCountryCode(countryCode))
+        .filter((countryCode) => countryCode !== noCountrySelectedValue)
+        .join(',');
+}
+
 function sanitizeFloatInRange(
     value: string | null | undefined,
     min: number,

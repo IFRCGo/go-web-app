@@ -11,6 +11,7 @@ import {
 } from '@ifrc-go/icons';
 import { Button } from '@ifrc-go/ui';
 
+import { noCountrySelectedValue } from '#utils/nrw/nrwConstants';
 import { alertColors } from '#utils/nrw/nrwMapStyles';
 import {
     type AdminAreaExposureDto,
@@ -377,7 +378,7 @@ interface NrwControlPanelProps {
   onEventClick: (eventId: number) => void;
   onRefreshAll: () => void;
   onDeselectEvent: () => void;
-  countryCode: string;
+    countryCodes: string[];
   selectedAdminPlaceCode: string | null;
 }
 
@@ -391,9 +392,10 @@ export default function NrwControlPanel({
     onEventClick,
     onRefreshAll,
     onDeselectEvent,
-    countryCode,
+    countryCodes,
     selectedAdminPlaceCode,
 }: NrwControlPanelProps) {
+    const countryCode = countryCodes[0] ?? noCountrySelectedValue;
     const selectedEvent = eventData.find((event) => event.eventId === activeEventId) ?? null;
 
     const handleBack = () => {

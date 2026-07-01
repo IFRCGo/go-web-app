@@ -17,6 +17,7 @@ import { toLonLat } from 'ol/proj';
 import { apply } from 'ol-mapbox-style';
 
 import useAlert from '#hooks/useAlert';
+import { noCountrySelectedValue } from '#utils/nrw/nrwConstants';
 import {
     type AdminAreaDetails,
     fetchAdminAreaDetails,
@@ -44,8 +45,8 @@ import { createMapPopupPanel } from '../NrwMapPopupPanel';
 import styles from './styles.module.css';
 
 interface OlDataMapProps {
-  // ISO_A3 code of the selected country
-  selectedCountry: string;
+    // ISO_A3 code list of selected countries
+    selectedCountries: string[];
 
   // Details for the currently selected event (centroid, exposed areas)
   // Pass null when no event is selected
@@ -98,7 +99,7 @@ type AddAdminLayerFunction = (
  * @returns A component that can be either standalone, or nested in a NrwMapContainer.
  */
 export default function OlDataMap({
-    selectedCountry,
+    selectedCountries,
     selectedEventDetails,
     initialMapView,
     initialAdminCode,
@@ -109,6 +110,7 @@ export default function OlDataMap({
     layerPanel,
 }: OlDataMapProps) {
     const alert = useAlert();
+    const selectedCountry = selectedCountries[0] ?? noCountrySelectedValue;
     const mapRef = useRef<HTMLDivElement>(null);
     const [isLayerPanelOpen, setIsLayerPanelOpen] = useState(false);
     const mapInstanceRef = useRef<MapOl | null>(null);
@@ -489,7 +491,7 @@ export default function OlDataMap({
         adminLayers.forEach((layer) => {
             layer.changed();
         });
-    }, [selectedEventDetails, selectedCountry]);
+    }, [selectedEventDetails, selectedCountry, alert]);
 
     return (
         <div className={styles.container}>

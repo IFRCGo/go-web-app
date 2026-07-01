@@ -31,14 +31,14 @@ export default function NrwMapContainer() {
     // All URL search param handling lives in this hook.
     const {
         initialParams: {
-            selectedCountry,
+            selectedCountries,
             selectedEventId: initialEventId,
             initialAdminCode,
             initialLayerIds,
             initialMapView,
         },
         syncLayerIds,
-        resetToCountry,
+        resetToCountries,
         setEventParams,
         setMapViewParams,
     } = useNrwMapSearchParams();
@@ -62,7 +62,7 @@ export default function NrwMapContainer() {
         activeLayerIds: visibleLayerIds,
         isMapReady,
         selectedEventDetails,
-    } = useNrwDataLoader(selectedCountry, [], selectedEventId, initialLayerIds);
+    } = useNrwDataLoader(selectedCountries, [], selectedEventId, initialLayerIds);
 
     // Store map instance for PDF export
     const mapRef = useRef<MapOl | null>(null);
@@ -74,7 +74,7 @@ export default function NrwMapContainer() {
 
     // Refresh page and put in a default start state
     const handleRefreshAll = async () => {
-        resetToCountry(selectedCountry);
+        resetToCountries(selectedCountries);
 
         // Deselect current event and admin areas
         setSelectedEventId(null);
@@ -102,7 +102,7 @@ export default function NrwMapContainer() {
         setAdminDetails(null);
         // Set search params for URL sharing only - does not reload data
         setEventParams({
-            country: selectedCountry,
+            countries: selectedCountries,
             eventId,
             layerIds: visibleLayerIds,
         });
@@ -117,7 +117,7 @@ export default function NrwMapContainer() {
         setSelectedAdminPlaceCode(placeCode);
         setAdminDetails(details);
         setMapViewParams({
-            country: selectedCountry,
+            countries: selectedCountries,
             eventId: selectedEventId,
             adminCode: placeCode,
             mapView,
@@ -127,7 +127,7 @@ export default function NrwMapContainer() {
 
     const handleMapViewChanged = (mapView: MapSelectionView) => {
         setMapViewParams({
-            country: selectedCountry,
+            countries: selectedCountries,
             eventId: selectedEventId,
             adminCode: selectedAdminPlaceCode ?? undefined,
             mapView,
@@ -139,7 +139,7 @@ export default function NrwMapContainer() {
         <div className={styles.container}>
             <div id={PrintElementId.DataPanel}>
                 <NrwDataPanel
-                    selectedCountry={selectedCountry}
+                    selectedCountries={selectedCountries}
                     adminDetails={adminDetails}
                     mapRef={mapRef}
                     eventId={selectedEventId ?? undefined}
@@ -154,14 +154,14 @@ export default function NrwMapContainer() {
                             onEventClick={handleEventClick}
                             onRefreshAll={handleRefreshAll}
                             onDeselectEvent={handleDeselectEvent}
-                            countryCode={selectedCountry}
+                            countryCodes={selectedCountries}
                             selectedAdminPlaceCode={selectedAdminPlaceCode}
                         />
                     </div>
                 </div>
                 <div className={styles.mapColumn} id={PrintElementId.Map}>
                     <OlDataMap
-                        selectedCountry={selectedCountry}
+                        selectedCountries={selectedCountries}
                         selectedEventDetails={selectedEventDetails}
                         initialMapView={initialMapView}
                         initialAdminCode={initialAdminCode}
@@ -173,7 +173,7 @@ export default function NrwMapContainer() {
                             <div id={PrintElementId.LayerPanel}>
                                 <NrwLayerPanel
                                     eventLayers={selectedEventLayers}
-                                    countryCode={selectedCountry}
+                                    countryCodes={selectedCountries}
                                     onToggleMapLayer={toggleMapLayer}
                                     onHideAllLayers={hideAllLayers}
                                     initialLayerIds={initialLayerIds}

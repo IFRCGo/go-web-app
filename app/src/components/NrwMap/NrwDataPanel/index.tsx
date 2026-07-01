@@ -6,13 +6,14 @@ import { Button } from '@ifrc-go/ui';
 import type MapOl from 'ol/Map';
 
 import useAlert from '#hooks/useAlert';
+import { noCountrySelectedValue } from '#utils/nrw/nrwConstants';
 import { type AdminAreaDetails } from '#utils/nrw/nrwDataFetchHelpers';
 import { exportMapToPdf } from '#utils/nrw/nrwMapToPdfExporter';
 
 import styles from './styles.module.css';
 
 interface NrwDataPanelProps {
-    selectedCountry: string;
+    selectedCountries: string[];
     adminDetails: AdminAreaDetails | null;
     mapRef: RefObject<MapOl | null>;
     eventId?: number;
@@ -23,17 +24,18 @@ interface NrwDataPanelProps {
  * This will change once we have a design. *
  * This panel will be deleted once other panels are in place *
  * The export button will be moved to a header or somewhere else *
- * @param selectedCountry - ISO_A3 code of the selected country
+ * @param selectedCountries - ISO_A3 code list of selected countries
  * @param adminDetails - details of the selected admin area, if any
  * @returns A component that is intended to be nested within a NrwMapContainer.
  */
 export default function NrwDataPanel({
-    selectedCountry,
+    selectedCountries,
     adminDetails,
     mapRef,
     eventId,
 }: NrwDataPanelProps) {
     const alert = useAlert();
+    const selectedCountry = selectedCountries[0] ?? noCountrySelectedValue;
     const population = adminDetails?.population ?? null;
 
     const handleExportMapClick = useCallback(async () => {

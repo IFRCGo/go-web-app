@@ -13,6 +13,7 @@ import {
 import { byPrefixAndName } from '@awesome.me/kit-92f09b5225/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { noCountrySelectedValue } from '#utils/nrw/nrwConstants';
 import { getCountryMapData } from '#utils/nrw/nrwDataFetchHelpers';
 import { type LayerDto } from '#utils/nrw/shared-dtos';
 import { LayerName } from '#utils/nrw/shared-enums';
@@ -32,7 +33,7 @@ function getLayerLabel(layer: LayerDto): string {
 
 interface NrwLayerPanelProps {
   eventLayers: LayerDto[];
-  countryCode: string;
+    countryCodes: string[];
   onToggleMapLayer: (layerDetails: LayerDto) => void;
   onHideAllLayers: () => void;
   // Resource IDs of layers that should be on on initial view
@@ -48,13 +49,14 @@ interface NrwLayerPanelProps {
  */
 export default function NrwLayerPanel({
     eventLayers,
-    countryCode,
+    countryCodes,
     onToggleMapLayer,
     onHideAllLayers,
     initialLayerIds,
     visibleLayerResourceIds,
     isMapReady,
 }: NrwLayerPanelProps) {
+    const countryCode = countryCodes[0] ?? noCountrySelectedValue;
     // Whether the panel is still in its initial state (no user interaction yet).
     const isInitialStateRef = useRef(true);
 

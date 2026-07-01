@@ -6,12 +6,14 @@ import {
 
 import { noCountrySelectedValue } from './nrwConstants';
 import {
+    parseAndSanitizeCountryCodesParam,
     parseMapLayersParam,
     sanitizeAdminCode,
     sanitizeCountryCode,
     sanitizeMapLatitudeParam,
     sanitizeMapLongitudeParam,
     sanitizeMapZoomParam,
+    serializeCountryCodesParam,
     serializeMapLayersParam,
 } from './nrwSearchParamHelpers';
 
@@ -48,6 +50,51 @@ describe('nrwSearchParamHelpers', () => {
         test('should return noCountrySelectedValue for empty strings', () => {
             expect(sanitizeCountryCode('')).toBe(noCountrySelectedValue);
             expect(sanitizeCountryCode('   ')).toBe(noCountrySelectedValue);
+        });
+    });
+
+    describe('parseCountryCodesParam', () => {
+        test('should parse a single country code', () => {
+            expect(parseAndSanitizeCountryCodesParam('KEN')).toEqual(['KEN']);
+        });
+
+        test('should parse comma-separated country codes', () => {
+            expect(parseAndSanitizeCountryCodesParam('KEN,UGA,TZA')).toEqual(['KEN', 'UGA', 'TZA']);
+        });
+
+        test('should uppercase and trim country codes', () => {
+            expect(parseAndSanitizeCountryCodesParam(' ken, UGA ,\ttza\n')).toEqual(['KEN', 'UGA', 'TZA']);
+        });
+
+        test('should filter out invalid country values', () => {
+            expect(parseAndSanitizeCountryCodesParam('KEN,XX,1AB,UGA')).toEqual(['KEN', 'UGA']);
+            expect(parseAndSanitizeCountryCodesParam(noCountrySelectedValue)).toEqual([]);
+        });
+
+        test('should return empty array for null/undefined/empty', () => {
+            expect(parseAndSanitizeCountryCodesParam(null)).toEqual([]);
+            expect(parseAndSanitizeCountryCodesParam(undefined)).toEqual([]);
+            expect(parseAndSanitizeCountryCodesParam('')).toEqual([]);
+            expect(parseAndSanitizeCountryCodesParam('   ')).toEqual([]);
+        });
+    });
+
+    describe('serializeCountryCodesParam', () => {
+        test('should serialize a single country code', () => {
+            expect(serializeCountryCodesParam(['KEN'])).toBe('KEN');
+        });
+
+        test('should serialize multiple country codes', () => {
+            expect(serializeCountryCodesParam(['KEN', 'UGA', 'TZA'])).toBe('KEN,UGA,TZA');
+        });
+
+        test('should sanitize and filter invalid values', () => {
+            expect(serializeCountryCodesParam([' ken ', 'XX', 'UGA', '1AB'])).toBe('KEN,UGA');
+        });
+
+        test('should return empty string for empty or invalid input', () => {
+            expect(serializeCountryCodesParam([])).toBe('');
+            expect(serializeCountryCodesParam([noCountrySelectedValue, 'XX'])).toBe('');
         });
     });
 

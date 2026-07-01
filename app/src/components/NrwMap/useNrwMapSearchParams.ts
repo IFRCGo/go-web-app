@@ -4,7 +4,10 @@ import {
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { defaultMapZoom } from '#utils/nrw/nrwConstants';
+import {
+    defaultMapZoom,
+    noCountrySelectedValue,
+} from '#utils/nrw/nrwConstants';
 import type { MapSelectionView } from '#utils/nrw/nrwMapInteractionHelpers';
 import {
     adminParamsKey,
@@ -14,18 +17,19 @@ import {
     mapCenterLonParamsKey,
     mapLayersParamsKey,
     mapZoomParamsKey,
+    parseAndSanitizeCountryCodesParam,
     parseMapLayersParam,
     sanitizeAdminCode,
-    sanitizeCountryCode,
     sanitizeEventIdParam,
     sanitizeMapLatitudeParam,
     sanitizeMapLongitudeParam,
     sanitizeMapZoomParam,
+    serializeCountryCodesParam,
     serializeMapLayersParam,
 } from '#utils/nrw/nrwSearchParamHelpers';
 
 interface InitialParams {
-    selectedCountry: string;
+    selectedCountries: string[];
     selectedEventId: number | null;
     initialAdminCode: string | null;
     initialLayerIds: string[];
@@ -33,7 +37,7 @@ interface InitialParams {
 }
 
 interface MapViewParams {
-    country: string;
+    countries: string[];
     eventId?: number | null;
     adminCode?: string;
     mapView?: MapSelectionView;
@@ -41,7 +45,7 @@ interface MapViewParams {
 }
 
 interface EventParams {
-    country: string;
+    countries: string[];
     eventId: number;
     layerIds: string[];
 }
@@ -72,7 +76,7 @@ export default function useNrwMapSearchParams() {
             : null;
 
         return {
-            selectedCountry: sanitizeCountryCode(searchParams.get(countryParamsKey)),
+            selectedCountries: parseAndSanitizeCountryCodesParam(searchParams.get(countryParamsKey)),
             selectedEventId: sanitizeEventIdParam(searchParams.get(eventIdParamsKey)),
             initialAdminCode: sanitizeAdminCode(searchParams.get(adminParamsKey)) || null,
             initialLayerIds: parseMapLayersParam(searchParams.get(mapLayersParamsKey)),
@@ -94,15 +98,19 @@ export default function useNrwMapSearchParams() {
         }, { replace: true });
     }, [setSearchParams]);
 
-    // Reset URL to only contain the country (used by "refresh all").
-    const resetToCountry = useCallback((country: string) => {
-        setSearchParams({ [countryParamsKey]: country });
+    // Reset URL to only contain the countries (used by "refresh all").
+    const resetToCountries = useCallback((countries: string[]) => {
+        const serializedCountries = serializeCountryCodesParam(countries);
+        setSearchParams({
+            [countryParamsKey]: serializedCountries || noCountrySelectedValue,
+        });
     }, [setSearchParams]);
 
     // Set params on event selection (does not include map view).
-    const setEventParams = useCallback(({ country, eventId, layerIds }: EventParams) => {
+    const setEventParams = useCallback(({ countries, eventId, layerIds }: EventParams) => {
+        const serializedCountries = serializeCountryCodesParam(countries);
         const nextParams: Record<string, string> = {
-            [countryParamsKey]: country,
+            [countryParamsKey]: serializedCountries || noCountrySelectedValue,
             [eventIdParamsKey]: String(eventId),
         };
         const layersValue = serializeMapLayersParam(layerIds);
@@ -114,14 +122,15 @@ export default function useNrwMapSearchParams() {
 
     // Set params reflecting the current map view + admin selection.
     const setMapViewParams = useCallback(({
-        country,
+        countries,
         eventId,
         adminCode,
         mapView,
         layerIds,
     }: MapViewParams) => {
+        const serializedCountries = serializeCountryCodesParam(countries);
         const nextParams: Record<string, string> = {
-            [countryParamsKey]: country,
+            [countryParamsKey]: serializedCountries || noCountrySelectedValue,
         };
 
         if (eventId) {
@@ -151,7 +160,7 @@ export default function useNrwMapSearchParams() {
     return {
         initialParams,
         syncLayerIds,
-        resetToCountry,
+        resetToCountries,
         setEventParams,
         setMapViewParams,
     };

@@ -8,6 +8,7 @@ import {
 import type BaseLayer from 'ol/layer/Base';
 
 import useAlert from '#hooks/useAlert';
+import { noCountrySelectedValue } from '#utils/nrw/nrwConstants';
 import {
     getCurrentCountryEventData,
     getEventDetails,
@@ -39,16 +40,17 @@ import {
  * - Load and cache data
  * - Create, cache, and toggle map data layers
  *
- * @param selectedCountry - ISO_A3 country code for country-specific layers
+ * @param selectedCountries - ISO_A3 country code list for country-specific layers
  * @param selectedEventId - Currently selected event id (selection state owned by the container)
  */
 export default function useNrwDataLoader(
-    selectedCountry: string,
+    selectedCountries: string[],
     initialEventData: EventResponseDto[],
     selectedEventId: number | null,
     initialLayerIds: string[],
 ) {
     const alert = useAlert();
+    const selectedCountry = selectedCountries[0] ?? noCountrySelectedValue;
 
     // Data state: event data loaded from the API.
     const [eventData, setEventData] = useState<EventResponseDto[]>(initialEventData);
@@ -229,7 +231,7 @@ export default function useNrwDataLoader(
         [eventData, selectedEventId],
     );
 
-    // Show user-facing alert when no exposed areas were in a selected event
+    // Show alert when no exposed areas found in a selected event
     useEffect(() => {
         if (selectedEventDetails
              && Object.keys(selectedEventDetails.exposedPopulationPerAreaByLevel).length === 0) {
