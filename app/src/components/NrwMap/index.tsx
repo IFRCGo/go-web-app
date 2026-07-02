@@ -60,7 +60,7 @@ export default function NrwMapContainer() {
         registerMapAddLayer,
         toggleMapLayer,
         hideAllLayers,
-        activeLayerKeys: visibleLayerKeys,
+        visibleLayerKeys,
         getLayerKey,
         selectedEventDetails,
     } = useNrwDataLoader(scopedCountries, [], selectedEventId, initialLayerKeys);

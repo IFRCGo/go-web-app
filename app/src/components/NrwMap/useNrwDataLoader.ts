@@ -335,7 +335,7 @@ export default function useNrwDataLoader(
         registerMapAddLayer,
         toggleMapLayer,
         hideAllLayers,
-        activeLayerKeys: visibleLayerKeys,
+        visibleLayerKeys,
         getLayerKey,
     };
 }
