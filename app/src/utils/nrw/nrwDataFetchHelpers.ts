@@ -163,28 +163,27 @@ async function fetchEventsFromApi(
 }
 
 // Fetch upcoming or ongoing events data for a country
-export async function getCurrentCountryEventData(
-    country: string,
+export async function getAllEventData(
+    countries: string[],
 ): Promise<EventResponseDto[]> {
-    return fetchEventsFromApi(country);
-}
-
-// Fetch a specific event's details, and only return that event
-export async function getEventDetails(
-    country: string,
-    eventId: number,
-): Promise<EventResponseDto[]> {
-    const allEvents = await fetchEventsFromApi(country);
-    const event = allEvents.find((e) => e.eventId === eventId);
-    return event ? [event] : [];
+    const eventsByCountry = await Promise.all(
+        countries.map((country) => fetchEventsFromApi(country)),
+    );
+    return eventsByCountry.flat();
 }
 
 // Fetch country-level map layer data
 // TODO: Use the API instead of mock data. Pending IBF API
-export async function getCountryMapData(): Promise<
-  Record<string, CountryMapData>
-  > {
-    return mockCountryData;
+// This now just filters the results of the mock data, but the actual API would probably
+// just return the countries we query for.
+export async function getCountryMapData(
+    scopedCountries: string[],
+): Promise<Record<string, CountryMapData>> {
+    return Object.fromEntries(
+        Object.entries(mockCountryData).filter(
+            ([countryCode]) => scopedCountries.includes(countryCode),
+        ),
+    );
 }
 
 export const makeRcBranchesPointLayer = async (
