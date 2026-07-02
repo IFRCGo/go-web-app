@@ -131,35 +131,6 @@ export default function useNrwDataLoader(
         }
     };
 
-    // Get the loader function for a layer type
-    const resolveLayerLoader = (
-        layerDetails: LayerDto,
-        country: string | undefined,
-    ): (() => Promise<BaseLayer>) | null => {
-        const { layerName, layerType, resourceId } = layerDetails;
-
-        if (layerType === LayerType.raster && layerName === LayerName.floodDepth) {
-            return () => makeEventImageLayer(resourceId);
-        }
-
-        // The remaining supported layers are all country-scoped.
-        if (!country) {
-            return null;
-        }
-
-        if (layerType === LayerType.raster && layerName === LayerName.population) {
-            return () => makePopulationImageLayer(country);
-        }
-        if (layerType === LayerType.point && layerName === LayerName.redCrossBranches) {
-            return () => makeRcBranchesPointLayer(country, styleRcBranchPoint);
-        }
-        if (layerType === LayerType.point && layerName === LayerName.clinics) {
-            return () => makeClinicPointLayer(country, styleClinicPoint);
-        }
-
-        return null;
-    };
-
     // Dispatch a single layer instance to its loader with an explicit target
     // visibility.
     const dispatchLayer = (
@@ -167,7 +138,22 @@ export default function useNrwDataLoader(
         country: string | undefined,
         targetVisible: boolean,
     ) => {
-        const loadLayer = resolveLayerLoader(layerDetails, country);
+        const { layerName, layerType, resourceId } = layerDetails;
+
+        let loadLayer: (() => Promise<BaseLayer>) | null = null;
+        if (layerType === LayerType.raster && layerName === LayerName.floodDepth) {
+            loadLayer = () => makeEventImageLayer(resourceId);
+        } else if (country) {
+            // The remaining supported layers are all country-scoped.
+            if (layerType === LayerType.raster && layerName === LayerName.population) {
+                loadLayer = () => makePopulationImageLayer(country);
+            } else if (layerType === LayerType.point && layerName === LayerName.redCrossBranches) {
+                loadLayer = () => makeRcBranchesPointLayer(country, styleRcBranchPoint);
+            } else if (layerType === LayerType.point && layerName === LayerName.clinics) {
+                loadLayer = () => makeClinicPointLayer(country, styleClinicPoint);
+            }
+        }
+
         if (!loadLayer) {
             console.error(
                 `[useNrwDataLoader] Unsupported layer: ${layerDetails.layerName} `
@@ -232,8 +218,7 @@ export default function useNrwDataLoader(
     const selectedEvent = eventData.find((event) => event.eventId === selectedEventId) ?? null;
     const selectedEventLayers: LayerDto[] = selectedEvent?.availableLayers ?? [];
 
-    // Unique country-scoped layer types across all scoped countries. The panel
-    // shows one toggle per entry; the hook fans the toggle out to every country.
+    // Unique country-scoped layer types across all scoped countries
     const countryLayerTypes = useMemo<LayerDto[]>(() => {
         const seen = new Set<LayerName>();
         const result: LayerDto[] = [];
