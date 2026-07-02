@@ -12,8 +12,8 @@ import { type AdminAreaDetails } from '#utils/nrw/nrwDataFetchHelpers';
 import type { MapSelectionView } from '#utils/nrw/nrwMapInteractionHelpers';
 import { PrintElementId } from '#utils/nrw/nrwMapToPdfExporter';
 
-import NrwControlPanel from './NrwControlPanel';
 import NrwDataPanel from './NrwDataPanel';
+import NrwEventsPanel from './NrwEventsPanel';
 import NrwLayerPanel from './NrwLayerPanel';
 import NrwLegendPanel from './NrwLegendPanel';
 import OlDataMap from './OlDataMap';
@@ -148,7 +148,7 @@ export default function NrwMapContainer() {
             <div className={styles.mainContent}>
                 <div className={styles.controlPanelColumn}>
                     <div id={PrintElementId.ControlPanel}>
-                        <NrwControlPanel
+                        <NrwEventsPanel
                             eventData={eventData}
                             activeEventId={selectedEventId}
                             onEventClick={handleEventClick}

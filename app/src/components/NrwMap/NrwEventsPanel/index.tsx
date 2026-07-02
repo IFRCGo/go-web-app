@@ -372,7 +372,7 @@ function EventButton({ event, onEventClick }: EventButtonProps) {
     );
 }
 
-interface NrwControlPanelProps {
+interface NrwEventsPanelProps {
   eventData: EventResponseDto[];
   activeEventId: number | null;
   onEventClick: (eventId: number) => void;
@@ -386,7 +386,7 @@ interface NrwControlPanelProps {
  * Control panel showing upcoming events for the selected country.
  * Each event displays affected admin1 areas and total population.
  */
-export default function NrwControlPanel({
+export default function NrwEventsPanel({
     eventData,
     activeEventId,
     onEventClick,
@@ -394,7 +394,7 @@ export default function NrwControlPanel({
     onDeselectEvent,
     countryCodes,
     selectedAdminPlaceCode,
-}: NrwControlPanelProps) {
+}: NrwEventsPanelProps) {
     const countryCode = countryCodes[0] ?? noCountrySelectedValue;
     const selectedEvent = eventData.find((event) => event.eventId === activeEventId) ?? null;
 
@@ -406,7 +406,7 @@ export default function NrwControlPanel({
     // TODO: change the view based on this
         // eslint-disable-next-line no-console
         console.debug(
-            `TODO: [NrwControlPanel] Selected admin area: ${selectedAdminPlaceCode}`,
+            `TODO: [NrwEventsPanel] Selected admin area: ${selectedAdminPlaceCode}`,
         );
     }
 
