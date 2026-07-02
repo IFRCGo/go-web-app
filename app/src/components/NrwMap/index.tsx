@@ -61,7 +61,6 @@ export default function NrwMapContainer() {
         toggleMapLayer,
         hideAllLayers,
         visibleLayerKeys,
-        getLayerKey,
         selectedEventDetails,
     } = useNrwDataLoader(scopedCountries, [], selectedEventId, initialLayerKeys);
 
@@ -178,7 +177,6 @@ export default function NrwMapContainer() {
                                     onToggleMapLayer={toggleMapLayer}
                                     onHideAllLayers={hideAllLayers}
                                     visibleLayerKeys={visibleLayerKeys}
-                                    getLayerKey={getLayerKey}
                                 />
                             </div>
                         )}

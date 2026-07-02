@@ -69,19 +69,8 @@ export default function useNrwDataLoader(
         >(null,
         );
 
-    // Cache of all loaded layers, keyed per underlying resource so per-country
-    // instances stay independent even though the panel exposes a single toggle.
+    // Cache of all loaded layers, keyed per scoped country, per layer.
     const layersCache = useRef(new Map<string, BaseLayer>());
-
-    // Public key used by the UI + URL. Country layers of the same type share
-    // a single key regardless of country.
-    const getLayerKey = (layerDetails: LayerDto): string => layerDetails.layerName;
-
-    // Internal cache key — retains per-country granularity so each country's
-    // data source has its own cached BaseLayer.
-    const getCacheKey = (layerDetails: LayerDto, country?: string): string => (
-        `${layerDetails.layerName}_${country}`
-    );
 
     // Register the map's addLayer function.
     // Set when the map is ready.
@@ -188,7 +177,7 @@ export default function useNrwDataLoader(
         }
 
         setLayerVisibility(
-            getCacheKey(layerDetails, country),
+            layerDetails.layerName,
             layerDetails,
             loadLayer,
             targetVisible,
@@ -203,7 +192,7 @@ export default function useNrwDataLoader(
         isCountryLayer: boolean,
         targetVisible: boolean,
     ) => {
-        const publicKey = getLayerKey(layerDetails);
+        const publicKey = layerDetails.layerName;
 
         if (!isCountryLayer) {
             dispatchLayer(layerDetails, undefined, targetVisible);
@@ -221,7 +210,7 @@ export default function useNrwDataLoader(
 
     // Public toggle used by the layer panel.
     const toggleMapLayer = (layerDetails: LayerDto, isCountryLayer: boolean) => {
-        const targetVisible = !visibleLayerKeys.includes(getLayerKey(layerDetails));
+        const targetVisible = !visibleLayerKeys.includes(layerDetails.layerName);
         applyLayerVisibility(layerDetails, isCountryLayer, targetVisible);
     };
 
@@ -276,11 +265,9 @@ export default function useNrwDataLoader(
         }
     }, [selectedEventDetails, selectedEventId, alert]);
 
-    // Load shared country + event data once the map is ready, then apply any
-    // deeplinked layers inline. Waiting for `isMapReady` means layers can be
-    // added immediately, so applying the initial keys is a one-shot step here
-    // (this effect only fires when the map becomes ready) rather than a
-    // separate effect that has to race data + readiness.
+    // Load shared country and event data, and then apply deeplinked layers.
+    // This is done once the map is ready
+    // (which is almost instant, but we wait for it to prevent a race condition).
     useEffect(() => {
         if (!isMapReady) {
             return;
@@ -299,25 +286,24 @@ export default function useNrwDataLoader(
             setCountryLayers(layersByCountry);
             setEventData(events);
 
-            // Apply deeplinked layers using the freshly-loaded data (the state
-            // set above hasn't propagated yet, so resolve against locals).
+            // Apply deeplinked layers
             if (initialLayerKeys.length === 0) {
                 return;
             }
             const initialKeys = new Set(initialLayerKeys);
             const showLayer = (layer: LayerDto, country: string | undefined) => {
-                if (!initialKeys.has(getLayerKey(layer))) {
+                if (!initialKeys.has(layer.layerName)) {
                     return;
                 }
                 dispatchLayer(layer, country, true);
-                updateVisibleLayerKey(getLayerKey(layer), true);
+                updateVisibleLayerKey(layer.layerName, true);
             };
 
-            // Event layers target a single resource (no country).
+            // Event layers
             const deeplinkedEvent = events.find((event) => event.eventId === selectedEventId);
             deeplinkedEvent?.availableLayers.forEach((layer) => showLayer(layer, undefined));
 
-            // Country layers fan out to every scoped country's instance.
+            // Country layers (show for all countries)
             Object.entries(layersByCountry).forEach(([countryCode, layers]) => {
                 layers.forEach((layer) => showLayer(layer, countryCode));
             });
@@ -336,6 +322,5 @@ export default function useNrwDataLoader(
         toggleMapLayer,
         hideAllLayers,
         visibleLayerKeys,
-        getLayerKey,
     };
 }
