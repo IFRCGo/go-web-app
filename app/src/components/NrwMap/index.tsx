@@ -56,7 +56,7 @@ export default function NrwMapContainer() {
         eventData,
         reloadCountryEventData,
         selectedEventLayers,
-        countryLayers,
+        countryLayerTypes,
         registerMapAddLayer,
         toggleMapLayer,
         hideAllLayers,
@@ -174,7 +174,7 @@ export default function NrwMapContainer() {
                             <div id={PrintElementId.LayerPanel}>
                                 <NrwLayerPanel
                                     eventLayers={selectedEventLayers}
-                                    countryLayers={countryLayers}
+                                    countryLayerTypes={countryLayerTypes}
                                     onToggleMapLayer={toggleMapLayer}
                                     onHideAllLayers={hideAllLayers}
                                     visibleLayerKeys={visibleLayerKeys}

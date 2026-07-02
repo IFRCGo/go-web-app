@@ -19,7 +19,14 @@ import {
     getHealthLocsApiUrl,
     getRcLocsApiUrl,
 } from './nrwUrls';
-import type { EventResponseDto } from './shared-dtos';
+import type {
+    EventResponseDto,
+    LayerDto,
+} from './shared-dtos';
+import type {
+    LayerName,
+    LayerType,
+} from './shared-enums';
 
 // Format of GO API result for Red Cross locations
 type RcLocResult = {
@@ -146,6 +153,37 @@ export async function fetchAdminAreaDetails(
     }
 }
 
+// Shape of a layer as returned by the events API. The API uses `dataType`/
+// `displayType`, whereas the front end's `LayerDto` uses `layerName`/`layerType`.
+type ApiEventLayer = {
+    resourceId: string;
+    dataType: LayerName;
+    displayType: LayerType;
+};
+
+// Shape of an event as returned by the events API (only the fields that need
+// remapping differ from `EventResponseDto`).
+type ApiEventResponse = Omit<EventResponseDto, 'availableLayers'> & {
+    availableLayers: ApiEventLayer[];
+};
+
+// Map an API event layer to the front end's `LayerDto`.
+function mapApiEventLayer(layer: ApiEventLayer): LayerDto {
+    return {
+        resourceId: layer.resourceId,
+        layerName: layer.dataType,
+        layerType: layer.displayType,
+    };
+}
+
+// Map an API event to the front end's `EventResponseDto`.
+function mapApiEvent(event: ApiEventResponse): EventResponseDto {
+    return {
+        ...event,
+        availableLayers: (event.availableLayers ?? []).map(mapApiEventLayer),
+    };
+}
+
 // Fetch events from the IBF API
 async function fetchEventsFromApi(
     countryCodeIso3: string,
@@ -156,7 +194,8 @@ async function fetchEventsFromApi(
         if (!response.ok) {
             return [];
         }
-        return (await response.json()) as EventResponseDto[];
+        const data = (await response.json()) as ApiEventResponse[];
+        return data.map(mapApiEvent);
     } catch {
         return [];
     }
