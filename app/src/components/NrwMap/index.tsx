@@ -34,7 +34,7 @@ export default function NrwMapContainer() {
             scopedCountries,
             selectedEventId: initialEventId,
             initialAdminCode,
-            initialLayerIds,
+            initialLayerKeys,
             initialMapView,
         },
         syncLayerIds,
@@ -56,21 +56,22 @@ export default function NrwMapContainer() {
         eventData,
         reloadCountryEventData,
         selectedEventLayers,
+        countryLayers,
         registerMapAddLayer,
         toggleMapLayer,
         hideAllLayers,
-        activeLayerIds: visibleLayerIds,
-        isMapReady,
+        activeLayerKeys: visibleLayerKeys,
+        getLayerKey,
         selectedEventDetails,
-    } = useNrwDataLoader(scopedCountries, [], selectedEventId, initialLayerIds);
+    } = useNrwDataLoader(scopedCountries, [], selectedEventId, initialLayerKeys);
 
     // Store map instance for PDF export
     const mapRef = useRef<MapOl | null>(null);
 
-    // Sync the active layer IDs to the URL
+    // Sync the visible layer keys to the URL
     useEffect(() => {
-        syncLayerIds(visibleLayerIds);
-    }, [visibleLayerIds, syncLayerIds]);
+        syncLayerIds(visibleLayerKeys);
+    }, [visibleLayerKeys, syncLayerIds]);
 
     // Refresh page and put in a default start state
     const handleRefreshAll = async () => {
@@ -104,7 +105,7 @@ export default function NrwMapContainer() {
         setEventParams({
             countries: scopedCountries,
             eventId,
-            layerIds: visibleLayerIds,
+            layerIds: visibleLayerKeys,
         });
     };
 
@@ -121,7 +122,7 @@ export default function NrwMapContainer() {
             eventId: selectedEventId,
             adminCode: placeCode,
             mapView,
-            layerIds: visibleLayerIds,
+            layerIds: visibleLayerKeys,
         });
     };
 
@@ -131,7 +132,7 @@ export default function NrwMapContainer() {
             eventId: selectedEventId,
             adminCode: selectedAdminPlaceCode ?? undefined,
             mapView,
-            layerIds: visibleLayerIds,
+            layerIds: visibleLayerKeys,
         });
     };
 
@@ -173,12 +174,11 @@ export default function NrwMapContainer() {
                             <div id={PrintElementId.LayerPanel}>
                                 <NrwLayerPanel
                                     eventLayers={selectedEventLayers}
-                                    countryCodes={scopedCountries}
+                                    countryLayers={countryLayers}
                                     onToggleMapLayer={toggleMapLayer}
                                     onHideAllLayers={hideAllLayers}
-                                    initialLayerIds={initialLayerIds}
-                                    visibleLayerResourceIds={visibleLayerIds}
-                                    isMapReady={isMapReady}
+                                    visibleLayerKeys={visibleLayerKeys}
+                                    getLayerKey={getLayerKey}
                                 />
                             </div>
                         )}

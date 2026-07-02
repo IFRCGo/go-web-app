@@ -32,7 +32,7 @@ interface InitialParams {
     scopedCountries: string[];
     selectedEventId: number | null;
     initialAdminCode: string | null;
-    initialLayerIds: string[];
+    initialLayerKeys: string[];
     initialMapView: MapSelectionView | null;
 }
 
@@ -79,7 +79,7 @@ export default function useNrwMapSearchParams() {
             scopedCountries: parseAndSanitizeCountryCodesParam(searchParams.get(countryParamsKey)),
             selectedEventId: sanitizeEventIdParam(searchParams.get(eventIdParamsKey)),
             initialAdminCode: sanitizeAdminCode(searchParams.get(adminParamsKey)) || null,
-            initialLayerIds: parseMapLayersParam(searchParams.get(mapLayersParamsKey)),
+            initialLayerKeys: parseMapLayersParam(searchParams.get(mapLayersParamsKey)),
             initialMapView,
         };
     });

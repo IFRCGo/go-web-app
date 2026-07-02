@@ -1,20 +1,9 @@
 // TODO: This component has debug UI, and much will be rewritten.
 // The same for the CSS file.
-// It will be rereviewed fully later.
-// The functions/callbacks passed in and calling out are planned to be kept though,
-// so those can be reviewed.
 
-import {
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-} from 'react';
 import { byPrefixAndName } from '@awesome.me/kit-92f09b5225/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { noCountrySelectedValue } from '#utils/nrw/nrwConstants';
-import { getCountryMapData } from '#utils/nrw/nrwDataFetchHelpers';
 import { type LayerDto } from '#utils/nrw/shared-dtos';
 import { LayerName } from '#utils/nrw/shared-enums';
 
@@ -32,87 +21,28 @@ function getLayerLabel(layer: LayerDto): string {
 }
 
 interface NrwLayerPanelProps {
-  eventLayers: LayerDto[];
-    countryCodes: string[];
-  onToggleMapLayer: (layerDetails: LayerDto) => void;
-  onHideAllLayers: () => void;
-  // Resource IDs of layers that should be on on initial view
-  initialLayerIds: string[];
-  // Resource IDs of currently visible layers
-  visibleLayerResourceIds: string[];
-  // Is the map setup complete
-  isMapReady: boolean;
+    eventLayers: LayerDto[];
+    countryLayers: Record<string, LayerDto[]>;
+    onToggleMapLayer: (layerDetails: LayerDto, country?: string) => void;
+    onHideAllLayers: () => void;
+    visibleLayerKeys: string[];
+    getLayerKey: (layer: LayerDto, country?: string) => string;
 }
 
 /**
- * Control panel showing layers that can be toggled for the selected country and event.
+ * Control panel showing layers that can be toggled for the selected event and scoped countries.
  */
 export default function NrwLayerPanel({
     eventLayers,
-    countryCodes,
+    countryLayers,
     onToggleMapLayer,
     onHideAllLayers,
-    initialLayerIds,
-    visibleLayerResourceIds,
-    isMapReady,
+    visibleLayerKeys,
+    getLayerKey,
 }: NrwLayerPanelProps) {
-    const countryCode = countryCodes[0] ?? noCountrySelectedValue;
-    // Whether the panel is still in its initial state (no user interaction yet).
-    const isInitialStateRef = useRef(true);
-
-    // Track which initial layer IDs still need to be auto-toggled on.
-    // Layers are removed from this set as they are toggled, so we never toggle
-    // the same layer twice.
-    const pendingInitialIdsRef = useRef<Set<string>>(new Set(initialLayerIds));
-
-    // Get the list of country-level layers available for a country
-    // TODO: use real data instead of mock. Pending IBF API
-    const [countryLayers, setCountryLayers] = useState<LayerDto[]>([]);
-
-    // Visible layers, passed in from useNrwDataLoader.
-    const visibleLayerIds = new Set(visibleLayerResourceIds);
-
-    useEffect(() => {
-        const loadCountryLayers = async () => {
-            const data = await getCountryMapData();
-            setCountryLayers(data[countryCode]?.availableLayers ?? []);
-        };
-        loadCountryLayers();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    // Toggle on any layer with a matching resource ID
-    // This only makes changes if the panel is still in its initial state
-    useEffect(() => {
-        if (!isInitialStateRef.current || !isMapReady) {
-            return;
-        }
-        if (pendingInitialIdsRef.current.size === 0) {
-            return;
-        }
-        const allLayers = [...eventLayers, ...countryLayers];
-        allLayers.forEach((layer) => {
-            if (pendingInitialIdsRef.current.has(layer.resourceId)) {
-                // Remove the layer id from the pending layer list, and toggle it on
-                pendingInitialIdsRef.current.delete(layer.resourceId);
-                onToggleMapLayer(layer);
-            }
-        });
-    }, [isMapReady, eventLayers, countryLayers, onToggleMapLayer]);
-
-    // Wrapper for the toggle callback that was passed in as a component prop
-    const handleToggleClick = useCallback((layer: LayerDto) => {
-        isInitialStateRef.current = false;
-        onToggleMapLayer(layer);
-    }, [onToggleMapLayer]);
-
-    // Wrapper for the hide all callback that was passed in as a component prop
-    const handleHideAllClick = useCallback(() => {
-        isInitialStateRef.current = false;
-        onHideAllLayers();
-    }, [onHideAllLayers]);
-
-    const hasAnyLayers = eventLayers.length > 0 || countryLayers.length > 0;
+    const hasAnyCountryLayers = Object.values(countryLayers)
+        .some((layers) => layers.length > 0);
+    const hasAnyLayers = eventLayers.length > 0 || hasAnyCountryLayers;
 
     if (!hasAnyLayers) {
         return (
@@ -123,56 +53,50 @@ export default function NrwLayerPanel({
         );
     }
 
+    const renderLayerButton = (layer: LayerDto, country?: string, labelPrefix?: string) => {
+        const key = getLayerKey(layer, country);
+        const isVisible = visibleLayerKeys.includes(key);
+        return (
+            <button
+                key={key}
+                name={`toggle_${key}`}
+                type="button"
+                className={styles.layerLink}
+                onClick={() => onToggleMapLayer(layer, country)}
+            >
+                {isVisible
+                    ? <FontAwesomeIcon icon={byPrefixAndName.fas!['square-check']!} />
+                    : <FontAwesomeIcon icon={byPrefixAndName.far!.square!} />}
+                {' '}
+                {labelPrefix ? `${labelPrefix}: ${getLayerLabel(layer)}` : getLayerLabel(layer)}
+            </button>
+        );
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.title}>Map Layers</div>
 
             {eventLayers.length > 0 && (
                 <div className={styles.buttonGroup}>
-                    {eventLayers.map((layer) => (
-                        <button
-                            key={`${layer.layerName}_${layer.resourceId}`}
-                            name={`toggle_${layer.layerName}_${layer.resourceId}`}
-                            type="button"
-                            className={styles.layerLink}
-                            onClick={() => handleToggleClick(layer)}
-                        >
-                            {visibleLayerIds.has(layer.resourceId)
-                                ? <FontAwesomeIcon icon={byPrefixAndName.fas!['square-check']!} />
-                                : <FontAwesomeIcon icon={byPrefixAndName.far!.square!} />}
-                            {' '}
-                            {getLayerLabel(layer)}
-                        </button>
-                    ))}
+                    {eventLayers.map((layer) => renderLayerButton(layer))}
                 </div>
             )}
 
-            {countryLayers.length > 0 && (
-                <div className={styles.buttonGroup}>
-                    {countryLayers.map((layer) => (
-                        <button
-                            key={`${layer.layerName}_${layer.resourceId}`}
-                            name={`toggle_country_${layer.layerName}_${layer.resourceId}`}
-                            type="button"
-                            className={styles.layerLink}
-                            onClick={() => handleToggleClick(layer)}
-                        >
-                            {visibleLayerIds.has(layer.resourceId)
-                                ? <FontAwesomeIcon icon={byPrefixAndName.fas!['square-check']!} />
-                                : <FontAwesomeIcon icon={byPrefixAndName.far!.square!} />}
-                            {' '}
-                            {getLayerLabel(layer)}
-                        </button>
-                    ))}
-                </div>
-            )}
+            {Object.entries(countryLayers).map(([countryCode, layers]) => (
+                layers.length > 0 && (
+                    <div key={countryCode} className={styles.buttonGroup}>
+                        {layers.map((layer) => renderLayerButton(layer, countryCode, countryCode))}
+                    </div>
+                )
+            ))}
 
             <div className={styles.hideAllButton}>
                 <button
                     name="hide-all-layers"
                     type="button"
                     className={styles.layerLink}
-                    onClick={handleHideAllClick}
+                    onClick={onHideAllLayers}
                 >
                     ✖️
                     {' '}

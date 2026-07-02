@@ -8,10 +8,9 @@ import {
 import type BaseLayer from 'ol/layer/Base';
 
 import useAlert from '#hooks/useAlert';
-import { noCountrySelectedValue } from '#utils/nrw/nrwConstants';
 import {
-    getCurrentCountryEventData,
-    getEventDetails,
+    getAllEventData,
+    getCountryMapData,
     makeClinicPointLayer,
     makeRcBranchesPointLayer,
 } from '#utils/nrw/nrwDataFetchHelpers';
@@ -47,17 +46,21 @@ export default function useNrwDataLoader(
     scopedCountries: string[],
     initialEventData: EventResponseDto[],
     selectedEventId: number | null,
-    initialLayerIds: string[],
+    initialLayerKeys: string[],
 ) {
     const alert = useAlert();
-    const selectedCountry = scopedCountries[0] ?? noCountrySelectedValue;
 
     // Data state: event data loaded from the API.
     const [eventData, setEventData] = useState<EventResponseDto[]>(initialEventData);
 
-    // Resource IDs of currently visible layers (population, flood depth, etc.)
-    // The starting value is any layer IDs in the deeplink.
-    const [visibleLayerIds, setVisibleLayerIds] = useState<string[]>(initialLayerIds);
+    // Country-level layers loaded for the current scoped country.
+    const [countryLayers, setCountryLayers] = useState<Record<string, LayerDto[]>>({});
+
+    // Composite keys (layerName_country) of currently visible layers.
+    // The same resourceId can appear for multiple countries and must be
+    // toggled independently in the UI, so keys (not resourceIds) are the
+    // canonical identifier — including for the URL deeplink.
+    const [visibleLayerKeys, setVisibleLayerKeys] = useState<string[]>(initialLayerKeys);
 
     // If the base map setup is complete.
     // This must be awaited before any layers can be added to the map.
@@ -65,10 +68,22 @@ export default function useNrwDataLoader(
 
     // Load initial event data asynchronously on mount.
     useEffect(() => {
+        const loadCountryLayers = async () => {
+            const data = await getCountryMapData(scopedCountries);
+            const layersByCountry = Object.fromEntries(
+                Object.entries(data).map(([countryCode, countryData]) => [
+                    countryCode,
+                    countryData.availableLayers,
+                ]),
+            );
+            setCountryLayers(layersByCountry);
+        };
+
+        loadCountryLayers();
+
+        // Load events data
         const loadInitialData = async () => {
-            const data = selectedEventId
-                ? await getEventDetails(selectedCountry, selectedEventId)
-                : await getCurrentCountryEventData(selectedCountry);
+            const data = await getAllEventData(scopedCountries);
             setEventData(data);
         };
         loadInitialData();
@@ -84,7 +99,13 @@ export default function useNrwDataLoader(
     // Cache of all loaded layers.
     // The key is fixed based on the layer details.
     const layersCache = useRef(new Map<string, BaseLayer>());
-    const getLayerKey = (layerDetails: LayerDto): string => `${layerDetails.layerName}_${selectedCountry}_${layerDetails.resourceId}`;
+    // Country layers key on country; event layers key on resourceId (which
+    // uniquely identifies the underlying resource for the selected event).
+    const getLayerKey = (layerDetails: LayerDto, country?: string): string => (
+        country
+            ? `${layerDetails.layerName}_${country}`
+            : `event_${layerDetails.resourceId}`
+    );
 
     // Register the map's addLayer function.
     // Called by OlDataMap when the map is ready.
@@ -96,21 +117,14 @@ export default function useNrwDataLoader(
         [],
     );
 
-    // Update the active layer ids
-    // Run this whenever a layer's visibility changes.
-    const updateActiveLayerIds = (resourceId: string, isVisible: boolean) => {
-        if (!resourceId) {
-            return;
-        }
-        setVisibleLayerIds((prev) => {
-            const has = prev.includes(resourceId);
-            if (isVisible && !has) {
-                return [...prev, resourceId];
+    // Update the visible layer keys whenever a layer's visibility changes.
+    const updateVisibleLayerKey = (key: string, isVisible: boolean) => {
+        setVisibleLayerKeys((prev) => {
+            const has = prev.includes(key);
+            if (isVisible === has) {
+                return prev;
             }
-            if (!isVisible && has) {
-                return prev.filter((id) => id !== resourceId);
-            }
-            return prev;
+            return isVisible ? [...prev, key] : prev.filter((k) => k !== key);
         });
     };
 
@@ -131,7 +145,7 @@ export default function useNrwDataLoader(
         if (existing) {
             const nextVisible = !existing.getVisible();
             existing.setVisible(nextVisible);
-            updateActiveLayerIds(layerDetails.resourceId, nextVisible);
+            updateVisibleLayerKey(key, nextVisible);
             return;
         }
 
@@ -139,7 +153,7 @@ export default function useNrwDataLoader(
             const layer = await loadLayer();
             layersCache.current.set(key, layer);
             addLayerToMapFunction.current(layer, layerDetails);
-            updateActiveLayerIds(layerDetails.resourceId, layer.getVisible());
+            updateVisibleLayerKey(key, layer.getVisible());
         } catch (error) {
             console.error(`[useNrwDataLoader] Failed to load layer ${key}:`, error);
             alert.show('Failed to load map layer', {
@@ -149,24 +163,32 @@ export default function useNrwDataLoader(
         }
     };
 
-    // Exposed function to toggle a map layer
+    // Exposed function to toggle a map layer.
     // If the layer is not cached, it will be loaded.
-    const toggleMapLayer = (layerDetails: LayerDto) => {
+    // `country` is omitted for event layers.
+    const toggleMapLayer = (layerDetails: LayerDto, country?: string) => {
         const { layerName, layerType, resourceId } = layerDetails;
+        const key = getLayerKey(layerDetails, country);
 
         switch (layerType) {
             case LayerType.raster:
                 switch (layerName) {
                     case LayerName.population:
+                        if (!country) {
+                            console.error(
+                                '[useNrwDataLoader] Population layer requires a country',
+                            );
+                            return;
+                        }
                         toggleLayer(
-                            getLayerKey(layerDetails),
+                            key,
                             layerDetails,
-                            () => makePopulationImageLayer(selectedCountry),
+                            () => makePopulationImageLayer(country),
                         );
                         break;
                     case LayerName.floodDepth:
                         toggleLayer(
-                            getLayerKey(layerDetails),
+                            key,
                             layerDetails,
                             () => makeEventImageLayer(resourceId),
                         );
@@ -178,19 +200,25 @@ export default function useNrwDataLoader(
                 }
                 break;
             case LayerType.point:
+                if (!country) {
+                    console.error(
+                        `[useNrwDataLoader] Point layer ${layerName} requires a country`,
+                    );
+                    return;
+                }
                 switch (layerName) {
                     case LayerName.redCrossBranches:
                         toggleLayer(
-                            getLayerKey(layerDetails),
+                            key,
                             layerDetails,
-                            () => makeRcBranchesPointLayer(selectedCountry, styleRcBranchPoint),
+                            () => makeRcBranchesPointLayer(country, styleRcBranchPoint),
                         );
                         break;
                     case LayerName.clinics:
                         toggleLayer(
-                            getLayerKey(layerDetails),
+                            key,
                             layerDetails,
-                            () => makeClinicPointLayer(selectedCountry, styleClinicPoint),
+                            () => makeClinicPointLayer(country, styleClinicPoint),
                         );
                         break;
                     default:
@@ -212,12 +240,12 @@ export default function useNrwDataLoader(
         layersCache.current.forEach((layer) => {
             layer.setVisible(false);
         });
-        setVisibleLayerIds([]);
+        setVisibleLayerKeys([]);
     };
 
     // Reload the current country's event data and update shared state
     const reloadCountryEventData = async () => {
-        const data = await getCurrentCountryEventData(selectedCountry);
+        const data = await getAllEventData(scopedCountries);
         setEventData(data);
     };
 
@@ -242,16 +270,44 @@ export default function useNrwDataLoader(
         }
     }, [selectedEventDetails, selectedEventId, alert]);
 
+    // Apply initial (deeplinked) layers once the map is ready and matching
+    // layer metadata has loaded. Each matching layer key is toggled on exactly
+    // once; we remove it from the pending set on match so it can never fire again.
+    const pendingInitialLayerKeysRef = useRef<Set<string>>(new Set(initialLayerKeys));
+    useEffect(() => {
+        if (!isMapReady || pendingInitialLayerKeysRef.current.size === 0) {
+            return;
+        }
+        const pending = pendingInitialLayerKeysRef.current;
+        selectedEventLayers.forEach((layer) => {
+            const key = getLayerKey(layer);
+            if (pending.delete(key)) {
+                toggleMapLayer(layer);
+            }
+        });
+        Object.entries(countryLayers).forEach(([countryCode, layers]) => {
+            layers.forEach((layer) => {
+                const key = getLayerKey(layer, countryCode);
+                if (pending.delete(key)) {
+                    toggleMapLayer(layer, countryCode);
+                }
+            });
+        });
+    // toggleMapLayer is intentionally omitted: it is re-created every render
+    // and we only want this to react to data / readiness changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isMapReady, selectedEventLayers, countryLayers]);
+
     return {
         eventData,
         reloadCountryEventData,
         selectedEventLayers,
+        countryLayers,
         selectedEventDetails,
         registerMapAddLayer,
         toggleMapLayer,
         hideAllLayers,
-        activeLayerIds: visibleLayerIds,
-        isMapReady,
-        initialLayerIds,
+        activeLayerKeys: visibleLayerKeys,
+        getLayerKey,
     };
 }
