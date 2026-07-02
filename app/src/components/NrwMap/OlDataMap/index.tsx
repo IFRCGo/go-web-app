@@ -46,7 +46,7 @@ import styles from './styles.module.css';
 
 interface OlDataMapProps {
     // ISO_A3 code list of selected countries
-    selectedCountries: string[];
+    scopedCountries: string[];
 
   // Details for the currently selected event (centroid, exposed areas)
   // Pass null when no event is selected
@@ -99,7 +99,7 @@ type AddAdminLayerFunction = (
  * @returns A component that can be either standalone, or nested in a NrwMapContainer.
  */
 export default function OlDataMap({
-    selectedCountries,
+    scopedCountries,
     selectedEventDetails,
     initialMapView,
     initialAdminCode,
@@ -110,7 +110,7 @@ export default function OlDataMap({
     layerPanel,
 }: OlDataMapProps) {
     const alert = useAlert();
-    const selectedCountry = selectedCountries[0] ?? noCountrySelectedValue;
+    const selectedCountry = scopedCountries[0] ?? noCountrySelectedValue;
     const mapRef = useRef<HTMLDivElement>(null);
     const [isLayerPanelOpen, setIsLayerPanelOpen] = useState(false);
     const mapInstanceRef = useRef<MapOl | null>(null);

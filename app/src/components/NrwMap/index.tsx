@@ -31,7 +31,7 @@ export default function NrwMapContainer() {
     // All URL search param handling lives in this hook.
     const {
         initialParams: {
-            selectedCountries,
+            scopedCountries,
             selectedEventId: initialEventId,
             initialAdminCode,
             initialLayerIds,
@@ -62,7 +62,7 @@ export default function NrwMapContainer() {
         activeLayerIds: visibleLayerIds,
         isMapReady,
         selectedEventDetails,
-    } = useNrwDataLoader(selectedCountries, [], selectedEventId, initialLayerIds);
+    } = useNrwDataLoader(scopedCountries, [], selectedEventId, initialLayerIds);
 
     // Store map instance for PDF export
     const mapRef = useRef<MapOl | null>(null);
@@ -74,7 +74,7 @@ export default function NrwMapContainer() {
 
     // Refresh page and put in a default start state
     const handleRefreshAll = async () => {
-        resetToCountries(selectedCountries);
+        resetToCountries(scopedCountries);
 
         // Deselect current event and admin areas
         setSelectedEventId(null);
@@ -102,7 +102,7 @@ export default function NrwMapContainer() {
         setAdminDetails(null);
         // Set search params for URL sharing only - does not reload data
         setEventParams({
-            countries: selectedCountries,
+            countries: scopedCountries,
             eventId,
             layerIds: visibleLayerIds,
         });
@@ -117,7 +117,7 @@ export default function NrwMapContainer() {
         setSelectedAdminPlaceCode(placeCode);
         setAdminDetails(details);
         setMapViewParams({
-            countries: selectedCountries,
+            countries: scopedCountries,
             eventId: selectedEventId,
             adminCode: placeCode,
             mapView,
@@ -127,7 +127,7 @@ export default function NrwMapContainer() {
 
     const handleMapViewChanged = (mapView: MapSelectionView) => {
         setMapViewParams({
-            countries: selectedCountries,
+            countries: scopedCountries,
             eventId: selectedEventId,
             adminCode: selectedAdminPlaceCode ?? undefined,
             mapView,
@@ -139,7 +139,7 @@ export default function NrwMapContainer() {
         <div className={styles.container}>
             <div id={PrintElementId.DataPanel}>
                 <NrwDataPanel
-                    selectedCountries={selectedCountries}
+                    scopedCountries={scopedCountries}
                     adminDetails={adminDetails}
                     mapRef={mapRef}
                     eventId={selectedEventId ?? undefined}
@@ -154,14 +154,14 @@ export default function NrwMapContainer() {
                             onEventClick={handleEventClick}
                             onRefreshAll={handleRefreshAll}
                             onDeselectEvent={handleDeselectEvent}
-                            countryCodes={selectedCountries}
+                            countryCodes={scopedCountries}
                             selectedAdminPlaceCode={selectedAdminPlaceCode}
                         />
                     </div>
                 </div>
                 <div className={styles.mapColumn} id={PrintElementId.Map}>
                     <OlDataMap
-                        selectedCountries={selectedCountries}
+                        scopedCountries={scopedCountries}
                         selectedEventDetails={selectedEventDetails}
                         initialMapView={initialMapView}
                         initialAdminCode={initialAdminCode}
@@ -173,7 +173,7 @@ export default function NrwMapContainer() {
                             <div id={PrintElementId.LayerPanel}>
                                 <NrwLayerPanel
                                     eventLayers={selectedEventLayers}
-                                    countryCodes={selectedCountries}
+                                    countryCodes={scopedCountries}
                                     onToggleMapLayer={toggleMapLayer}
                                     onHideAllLayers={hideAllLayers}
                                     initialLayerIds={initialLayerIds}

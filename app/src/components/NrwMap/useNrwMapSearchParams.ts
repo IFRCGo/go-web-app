@@ -29,7 +29,7 @@ import {
 } from '#utils/nrw/nrwSearchParamHelpers';
 
 interface InitialParams {
-    selectedCountries: string[];
+    scopedCountries: string[];
     selectedEventId: number | null;
     initialAdminCode: string | null;
     initialLayerIds: string[];
@@ -76,7 +76,7 @@ export default function useNrwMapSearchParams() {
             : null;
 
         return {
-            selectedCountries: parseAndSanitizeCountryCodesParam(searchParams.get(countryParamsKey)),
+            scopedCountries: parseAndSanitizeCountryCodesParam(searchParams.get(countryParamsKey)),
             selectedEventId: sanitizeEventIdParam(searchParams.get(eventIdParamsKey)),
             initialAdminCode: sanitizeAdminCode(searchParams.get(adminParamsKey)) || null,
             initialLayerIds: parseMapLayersParam(searchParams.get(mapLayersParamsKey)),

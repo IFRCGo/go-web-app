@@ -40,17 +40,17 @@ import {
  * - Load and cache data
  * - Create, cache, and toggle map data layers
  *
- * @param selectedCountries - ISO_A3 country code list for country-specific layers
+ * @param scopedCountries - ISO_A3 country code list for country-specific layers
  * @param selectedEventId - Currently selected event id (selection state owned by the container)
  */
 export default function useNrwDataLoader(
-    selectedCountries: string[],
+    scopedCountries: string[],
     initialEventData: EventResponseDto[],
     selectedEventId: number | null,
     initialLayerIds: string[],
 ) {
     const alert = useAlert();
-    const selectedCountry = selectedCountries[0] ?? noCountrySelectedValue;
+    const selectedCountry = scopedCountries[0] ?? noCountrySelectedValue;
 
     // Data state: event data loaded from the API.
     const [eventData, setEventData] = useState<EventResponseDto[]>(initialEventData);
