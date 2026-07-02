@@ -36,8 +36,8 @@ import {
  * Hook used to manage and share data for the NRW map components.
  *
  * Responsibilities:
- * - Load and cache data
- * - Create, cache, and toggle map data layers
+ * - Load shared data and cache it
+ * - Track shared states locally applied to that data
  *
  * @param scopedCountries - ISO_A3 country code list for country-specific layers
  * @param selectedEventId - Currently selected event id (selection state owned by the container)
@@ -53,42 +53,15 @@ export default function useNrwDataLoader(
     // Data state: event data loaded from the API.
     const [eventData, setEventData] = useState<EventResponseDto[]>(initialEventData);
 
-    // Country-level layers loaded for the current scoped country.
+    // Non-event data layers available for the current scoped countries.
     const [countryLayers, setCountryLayers] = useState<Record<string, LayerDto[]>>({});
 
-    // Keys of currently visible layer types. A key is the bare `layerName`
-    // for country layers (a single toggle affects that layer type across all
-    // scoped countries) or `event_${resourceId}` for event-scoped layers.
-    // These keys are also the canonical identifier for the URL deeplink.
+    // Keys of currently visible layer types.
     const [visibleLayerKeys, setVisibleLayerKeys] = useState<string[]>(initialLayerKeys);
 
     // If the base map setup is complete.
     // This must be awaited before any layers can be added to the map.
     const [isMapReady, setIsMapReady] = useState(false);
-
-    // Load initial event data asynchronously on mount.
-    useEffect(() => {
-        const loadCountryLayers = async () => {
-            const data = await getCountryMapData(scopedCountries);
-            const layersByCountry = Object.fromEntries(
-                Object.entries(data).map(([countryCode, countryData]) => [
-                    countryCode,
-                    countryData.availableLayers,
-                ]),
-            );
-            setCountryLayers(layersByCountry);
-        };
-
-        loadCountryLayers();
-
-        // Load events data
-        const loadInitialData = async () => {
-            const data = await getAllEventData(scopedCountries);
-            setEventData(data);
-        };
-        loadInitialData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     // Reference to the function (passed in by the map component) for adding layers to the map.
     const addLayerToMapFunction = useRef<(
@@ -111,7 +84,7 @@ export default function useNrwDataLoader(
     );
 
     // Register the map's addLayer function.
-    // Called by OlDataMap when the map is ready.
+    // Set when the map is ready.
     const registerMapAddLayer = useCallback(
         (addLayer: (layer: BaseLayer, layerInfo: LayerDto) => void) => {
             addLayerToMapFunction.current = addLayer;
@@ -169,9 +142,7 @@ export default function useNrwDataLoader(
         }
     };
 
-    // Resolve the loader for a single layer instance (for one country, or the
-    // current event). Returns null when the layer type/name is unsupported or a
-    // required country is missing.
+    // Get the loader function for a layer type
     const resolveLayerLoader = (
         layerDetails: LayerDto,
         country: string | undefined,
@@ -305,34 +276,55 @@ export default function useNrwDataLoader(
         }
     }, [selectedEventDetails, selectedEventId, alert]);
 
-    // Apply initial (deeplinked) layers once the map is ready and matching
-    // layer metadata has loaded. The keys are already present in
-    // `visibleLayerKeys` (seeded from the URL), so we force each matching layer
-    // visible rather than toggling — toggling would treat the seeded key as
-    // "already on" and turn it back off. Each key is removed from the pending
-    // set on match so it can never fire again.
-    const pendingInitialLayerKeysRef = useRef<Set<string>>(new Set(initialLayerKeys));
+    // Load shared country + event data once the map is ready, then apply any
+    // deeplinked layers inline. Waiting for `isMapReady` means layers can be
+    // added immediately, so applying the initial keys is a one-shot step here
+    // (this effect only fires when the map becomes ready) rather than a
+    // separate effect that has to race data + readiness.
     useEffect(() => {
-        if (!isMapReady || pendingInitialLayerKeysRef.current.size === 0) {
+        if (!isMapReady) {
             return;
         }
-        const pending = pendingInitialLayerKeysRef.current;
-        selectedEventLayers.forEach((layer) => {
-            const key = getLayerKey(layer);
-            if (pending.delete(key)) {
-                applyLayerVisibility(layer, false, true);
+        const loadInitialData = async () => {
+            const [countryData, events] = await Promise.all([
+                getCountryMapData(scopedCountries),
+                getAllEventData(scopedCountries),
+            ]);
+            const layersByCountry = Object.fromEntries(
+                Object.entries(countryData).map(([countryCode, data]) => [
+                    countryCode,
+                    data.availableLayers,
+                ]),
+            );
+            setCountryLayers(layersByCountry);
+            setEventData(events);
+
+            // Apply deeplinked layers using the freshly-loaded data (the state
+            // set above hasn't propagated yet, so resolve against locals).
+            if (initialLayerKeys.length === 0) {
+                return;
             }
-        });
-        countryLayerTypes.forEach((layer) => {
-            const key = getLayerKey(layer);
-            if (pending.delete(key)) {
-                applyLayerVisibility(layer, true, true);
-            }
-        });
-    // applyLayerVisibility is intentionally omitted: it is re-created every
-    // render and we only want this to react to data / readiness changes.
+            const initialKeys = new Set(initialLayerKeys);
+            const showLayer = (layer: LayerDto, country: string | undefined) => {
+                if (!initialKeys.has(getLayerKey(layer))) {
+                    return;
+                }
+                dispatchLayer(layer, country, true);
+                updateVisibleLayerKey(getLayerKey(layer), true);
+            };
+
+            // Event layers target a single resource (no country).
+            const deeplinkedEvent = events.find((event) => event.eventId === selectedEventId);
+            deeplinkedEvent?.availableLayers.forEach((layer) => showLayer(layer, undefined));
+
+            // Country layers fan out to every scoped country's instance.
+            Object.entries(layersByCountry).forEach(([countryCode, layers]) => {
+                layers.forEach((layer) => showLayer(layer, countryCode));
+            });
+        };
+        loadInitialData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isMapReady, selectedEventLayers, countryLayerTypes]);
+    }, [isMapReady]);
 
     return {
         eventData,
