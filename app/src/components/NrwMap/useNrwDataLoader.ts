@@ -224,12 +224,15 @@ export default function useNrwDataLoader(
         );
     };
 
-    // Public toggle used by the layer panel.
-    // Event layers toggle a single resource; country layer types toggle every
-    // scoped country's instance of that `layerName` in one go.
-    const toggleMapLayer = (layerDetails: LayerDto, isCountryLayer: boolean) => {
+    // Apply an explicit visibility to a layer. Event layers affect a single
+    // resource; country layer types fan out to every scoped country's instance
+    // of that `layerName` in one go.
+    const applyLayerVisibility = (
+        layerDetails: LayerDto,
+        isCountryLayer: boolean,
+        targetVisible: boolean,
+    ) => {
         const publicKey = getLayerKey(layerDetails);
-        const targetVisible = !visibleLayerKeys.includes(publicKey);
 
         if (!isCountryLayer) {
             dispatchLayer(layerDetails, undefined, targetVisible);
@@ -243,6 +246,12 @@ export default function useNrwDataLoader(
         }
 
         updateVisibleLayerKey(publicKey, targetVisible);
+    };
+
+    // Public toggle used by the layer panel.
+    const toggleMapLayer = (layerDetails: LayerDto, isCountryLayer: boolean) => {
+        const targetVisible = !visibleLayerKeys.includes(getLayerKey(layerDetails));
+        applyLayerVisibility(layerDetails, isCountryLayer, targetVisible);
     };
 
     // Set the visibility of all cached layers to false.
@@ -297,8 +306,11 @@ export default function useNrwDataLoader(
     }, [selectedEventDetails, selectedEventId, alert]);
 
     // Apply initial (deeplinked) layers once the map is ready and matching
-    // layer metadata has loaded. Each matching layer key is toggled on exactly
-    // once; we remove it from the pending set on match so it can never fire again.
+    // layer metadata has loaded. The keys are already present in
+    // `visibleLayerKeys` (seeded from the URL), so we force each matching layer
+    // visible rather than toggling — toggling would treat the seeded key as
+    // "already on" and turn it back off. Each key is removed from the pending
+    // set on match so it can never fire again.
     const pendingInitialLayerKeysRef = useRef<Set<string>>(new Set(initialLayerKeys));
     useEffect(() => {
         if (!isMapReady || pendingInitialLayerKeysRef.current.size === 0) {
@@ -308,17 +320,17 @@ export default function useNrwDataLoader(
         selectedEventLayers.forEach((layer) => {
             const key = getLayerKey(layer);
             if (pending.delete(key)) {
-                toggleMapLayer(layer, false);
+                applyLayerVisibility(layer, false, true);
             }
         });
         countryLayerTypes.forEach((layer) => {
             const key = getLayerKey(layer);
             if (pending.delete(key)) {
-                toggleMapLayer(layer, true);
+                applyLayerVisibility(layer, true, true);
             }
         });
-    // toggleMapLayer is intentionally omitted: it is re-created every render
-    // and we only want this to react to data / readiness changes.
+    // applyLayerVisibility is intentionally omitted: it is re-created every
+    // render and we only want this to react to data / readiness changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isMapReady, selectedEventLayers, countryLayerTypes]);
 
