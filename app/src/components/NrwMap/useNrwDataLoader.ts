@@ -169,83 +169,59 @@ export default function useNrwDataLoader(
         }
     };
 
-    // Dispatch a single layer instance (for one country, or the current event)
-    // to the correct loader with an explicit target visibility.
+    // Resolve the loader for a single layer instance (for one country, or the
+    // current event). Returns null when the layer type/name is unsupported or a
+    // required country is missing.
+    const resolveLayerLoader = (
+        layerDetails: LayerDto,
+        country: string | undefined,
+    ): (() => Promise<BaseLayer>) | null => {
+        const { layerName, layerType, resourceId } = layerDetails;
+
+        if (layerType === LayerType.raster && layerName === LayerName.floodDepth) {
+            return () => makeEventImageLayer(resourceId);
+        }
+
+        // The remaining supported layers are all country-scoped.
+        if (!country) {
+            return null;
+        }
+
+        if (layerType === LayerType.raster && layerName === LayerName.population) {
+            return () => makePopulationImageLayer(country);
+        }
+        if (layerType === LayerType.point && layerName === LayerName.redCrossBranches) {
+            return () => makeRcBranchesPointLayer(country, styleRcBranchPoint);
+        }
+        if (layerType === LayerType.point && layerName === LayerName.clinics) {
+            return () => makeClinicPointLayer(country, styleClinicPoint);
+        }
+
+        return null;
+    };
+
+    // Dispatch a single layer instance to its loader with an explicit target
+    // visibility.
     const dispatchLayer = (
         layerDetails: LayerDto,
         country: string | undefined,
         targetVisible: boolean,
     ) => {
-        const cacheKey = getCacheKey(layerDetails, country);
-        const { layerName, layerType, resourceId } = layerDetails;
-
-        switch (layerType) {
-            case LayerType.raster:
-                switch (layerName) {
-                    case LayerName.population:
-                        if (!country) {
-                            console.error(
-                                '[useNrwDataLoader] Population layer requires a country',
-                            );
-                            return;
-                        }
-                        setLayerVisibility(
-                            cacheKey,
-                            layerDetails,
-                            () => makePopulationImageLayer(country),
-                            targetVisible,
-                        );
-                        break;
-                    case LayerName.floodDepth:
-                        setLayerVisibility(
-                            cacheKey,
-                            layerDetails,
-                            () => makeEventImageLayer(resourceId),
-                            targetVisible,
-                        );
-                        break;
-                    default:
-                        console.error(
-                            `[useNrwDataLoader] Unsupported raster layer type: ${layerName}`,
-                        );
-                }
-                break;
-            case LayerType.point:
-                if (!country) {
-                    console.error(
-                        `[useNrwDataLoader] Point layer ${layerName} requires a country`,
-                    );
-                    return;
-                }
-                switch (layerName) {
-                    case LayerName.redCrossBranches:
-                        setLayerVisibility(
-                            cacheKey,
-                            layerDetails,
-                            () => makeRcBranchesPointLayer(country, styleRcBranchPoint),
-                            targetVisible,
-                        );
-                        break;
-                    case LayerName.clinics:
-                        setLayerVisibility(
-                            cacheKey,
-                            layerDetails,
-                            () => makeClinicPointLayer(country, styleClinicPoint),
-                            targetVisible,
-                        );
-                        break;
-                    default:
-                        console.error(
-                            `[useNrwDataLoader] Unsupported point layer type: ${layerName}`,
-                        );
-                }
-                break;
-            default:
-                // TODO: Handle other display types (Shape, VectorTile)
-                console.error(
-                    `[useNrwDataLoader] Unsupported display type: ${layerType}`,
-                );
+        const loadLayer = resolveLayerLoader(layerDetails, country);
+        if (!loadLayer) {
+            console.error(
+                `[useNrwDataLoader] Unsupported layer: ${layerDetails.layerName} `
+                + `(${layerDetails.layerType})`,
+            );
+            return;
         }
+
+        setLayerVisibility(
+            getCacheKey(layerDetails, country),
+            layerDetails,
+            loadLayer,
+            targetVisible,
+        );
     };
 
     // Public toggle used by the layer panel.

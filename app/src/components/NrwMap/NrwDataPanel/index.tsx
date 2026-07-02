@@ -35,12 +35,12 @@ export default function NrwDataPanel({
     eventId,
 }: NrwDataPanelProps) {
     const alert = useAlert();
-    const selectedCountry = scopedCountries[0] ?? noCountrySelectedValue;
+    const firstCountry = scopedCountries[0] ?? noCountrySelectedValue;
     const population = adminDetails?.population ?? null;
 
     const handleExportMapClick = useCallback(async () => {
         if (mapRef.current) {
-            const filenameParts = [selectedCountry];
+            const filenameParts = [firstCountry];
             if (eventId) {
                 filenameParts.push(`event_${eventId}`);
             }
@@ -51,7 +51,7 @@ export default function NrwDataPanel({
                 console.error('Map export error:', error);
             }
         }
-    }, [mapRef, selectedCountry, eventId, alert]);
+    }, [mapRef, firstCountry, eventId, alert]);
 
     return (
         <div className={styles.dataContainer}>
@@ -63,12 +63,12 @@ export default function NrwDataPanel({
                     Export
                 </Button>
             </div>
-            { selectedCountry ? (
+            { firstCountry ? (
                 <div>
                     <p>
                         <strong>
                             wwww:
-                            {selectedCountry}
+                            {firstCountry}
 
                         </strong>
                     </p>
