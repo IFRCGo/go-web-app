@@ -17,7 +17,7 @@ import {
 import {
     getSelectedEventDetails,
     makeEventImageLayer,
-    makePopulationImageLayer,
+    makeStaticImageLayer,
 } from '#utils/nrw/nrwMapHelpers';
 import {
     styleClinicPoint,
@@ -154,12 +154,14 @@ export default function useNrwDataLoader(
 
         switch (layerType) {
             case LayerType.raster:
+                // TODO: don't switch on exact layerName, but only on 'event' vs 'static'
+                // which is currently not available yet
                 switch (layerName) {
                     case LayerName.population:
                         toggleLayer(
                             getLayerKey(layerDetails),
                             layerDetails,
-                            () => makePopulationImageLayer(selectedCountry),
+                            () => makeStaticImageLayer(selectedCountry, layerName),
                         );
                         break;
                     case LayerName.floodDepth:
