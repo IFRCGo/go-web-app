@@ -23,7 +23,7 @@ function getLayerLabel(layer: LayerDto): string {
 interface NrwLayerPanelProps {
     eventLayers: LayerDto[];
     countryLayerTypes: LayerDto[];
-    onToggleMapLayer: (layerDetails: LayerDto, isCountryLayer: boolean) => void;
+    onToggleMapLayer: (layerName: string) => void;
     onHideAllLayers: () => void;
     visibleLayerNames: string[];
 }
@@ -51,7 +51,7 @@ export default function NrwLayerPanel({
         );
     }
 
-    const renderLayerButton = (layer: LayerDto, isCountryLayer: boolean) => {
+    const renderLayerButton = (layer: LayerDto) => {
         const key = layer.layerName;
         const isVisible = visibleLayerNames.includes(key);
         return (
@@ -60,7 +60,7 @@ export default function NrwLayerPanel({
                 name={`toggle_${key}`}
                 type="button"
                 className={styles.layerLink}
-                onClick={() => onToggleMapLayer(layer, isCountryLayer)}
+                onClick={() => onToggleMapLayer(layer.layerName)}
             >
                 {isVisible
                     ? <FontAwesomeIcon icon={byPrefixAndName.fas!['square-check']!} />
@@ -77,13 +77,13 @@ export default function NrwLayerPanel({
 
             {eventLayers.length > 0 && (
                 <div className={styles.buttonGroup}>
-                    {eventLayers.map((layer) => renderLayerButton(layer, false))}
+                    {eventLayers.map((layer) => renderLayerButton(layer))}
                 </div>
             )}
 
             {countryLayerTypes.length > 0 && (
                 <div className={styles.buttonGroup}>
-                    {countryLayerTypes.map((layer) => renderLayerButton(layer, true))}
+                    {countryLayerTypes.map((layer) => renderLayerButton(layer))}
                 </div>
             )}
 

@@ -65,45 +65,6 @@ export default function useNrwDataLoader(
     // This must be awaited before any layers can be added to the map.
     const [isMapReady, setIsMapReady] = useState(false);
 
-    // ----- Functions and values for external -----
-
-    // Reload the current country's event data and update shared state
-    const reloadCountryEventData = async () => {
-        const data = await getAllEventData(scopedCountries);
-        setEventData(data);
-    };
-
-    // Get available layers for the currently selected event
-    const selectedEvent = eventData.find((event) => event.eventId === selectedEventId) ?? null;
-    const selectedEventLayers: LayerDto[] = selectedEvent?.availableLayers ?? [];
-
-    // Unique country-scoped layer types across all scoped countries
-    const countryLayerTypes = useMemo<LayerDto[]>(() => {
-        const seen = new Set<LayerName>();
-        const result: LayerDto[] = [];
-        Object.values(countryLayers).forEach((layers) => {
-            layers.forEach((layer) => {
-                if (!seen.has(layer.layerName)) {
-                    seen.add(layer.layerName);
-                    result.push(layer);
-                }
-            });
-        });
-        return result;
-    }, [countryLayers]);
-
-    // Get details for the selected event
-    const selectedEventDetails = useMemo(() => {
-        const details = getSelectedEventDetails(eventData, selectedEventId);
-        if (details && Object.keys(details.exposedPopulationPerAreaByLevel).length === 0) {
-            alert.show('No exposed areas', {
-                variant: 'danger',
-                description: `No exposed areas found for event "${selectedEventId}".`,
-            });
-        }
-        return details;
-    }, [eventData, selectedEventId, alert]);
-
     // ----- Refs -----
 
     // Cache of all loaded layers, keyed per scoped country, per layer.
@@ -136,7 +97,7 @@ export default function useNrwDataLoader(
     // ----- Layer Logic -----
 
     // Set one public layer key's visibility in a single place.
-    const setLayerKeyVisibility = (key: string, isVisible: boolean) => {
+    const setLayerNameVisibility = (key: string, isVisible: boolean) => {
         setVisibleLayerNames((prev) => {
             const has = prev.includes(key);
             if (isVisible === has) {
@@ -226,35 +187,22 @@ export default function useNrwDataLoader(
         );
     };
 
-    // Apply an explicit visibility to a layer. Event layers affect a single
-    // resource; country layer types fan out to every scoped country's instance
-    // of that `layerName` in one go.
+    // FIX
     const applyLayerVisibility = (
-        layerDetails: LayerDto,
-        isCountryLayer: boolean,
+        layerName: string,
         targetVisible: boolean,
     ) => {
-        const publicKey = layerDetails.layerName;
+        Object.entries(countryLayers).forEach(([countryCode, layers]) => {
+            const match = layers.find((l) => l.layerName === layerName);
+            if (match) {
+                dispatchLayer(match, countryCode, targetVisible);
+            }
+        });
 
-        if (!isCountryLayer) {
-            dispatchLayer(layerDetails, undefined, targetVisible);
-        } else {
-            Object.entries(countryLayers).forEach(([countryCode, layers]) => {
-                const match = layers.find((l) => l.layerName === layerDetails.layerName);
-                if (match) {
-                    dispatchLayer(match, countryCode, targetVisible);
-                }
-            });
-        }
-
-        setLayerKeyVisibility(publicKey, targetVisible);
+        setLayerNameVisibility(layerName, targetVisible);
     };
 
-    // Public toggle used by the layer panel.
-    const toggleMapLayer = (layerDetails: LayerDto, isCountryLayer: boolean) => {
-        const targetVisible = !isLayerVisible(layerDetails.layerName);
-        applyLayerVisibility(layerDetails, isCountryLayer, targetVisible);
-    };
+    // ----- Functions and values for external -----
 
     // Set the visibility of all cached layers to false.
     const hideAllLayers = () => {
@@ -263,6 +211,49 @@ export default function useNrwDataLoader(
         });
         setVisibleLayerNames([]);
     };
+
+    // Public toggle used by the layer panel.
+    const toggleMapLayer = (layerName: string) => {
+        const targetVisible = !isLayerVisible(layerName);
+        applyLayerVisibility(layerName, targetVisible);
+    };
+
+    // Reload the current country's event data and update shared state
+    const reloadCountryEventData = async () => {
+        const data = await getAllEventData(scopedCountries);
+        setEventData(data);
+    };
+
+    // Get available layers for the currently selected event
+    const selectedEvent = eventData.find((event) => event.eventId === selectedEventId) ?? null;
+    const selectedEventLayers: LayerDto[] = selectedEvent?.availableLayers ?? [];
+
+    // Unique country-scoped layer types across all scoped countries
+    const countryLayerTypes = useMemo<LayerDto[]>(() => {
+        const seen = new Set<LayerName>();
+        const result: LayerDto[] = [];
+        Object.values(countryLayers).forEach((layers) => {
+            layers.forEach((layer) => {
+                if (!seen.has(layer.layerName)) {
+                    seen.add(layer.layerName);
+                    result.push(layer);
+                }
+            });
+        });
+        return result;
+    }, [countryLayers]);
+
+    // Get details for the selected event
+    const selectedEventDetails = useMemo(() => {
+        const details = getSelectedEventDetails(eventData, selectedEventId);
+        if (details && Object.keys(details.exposedPopulationPerAreaByLevel).length === 0) {
+            alert.show('No exposed areas', {
+                variant: 'danger',
+                description: `No exposed areas found for event "${selectedEventId}".`,
+            });
+        }
+        return details;
+    }, [eventData, selectedEventId, alert]);
 
     // ----- Init -----
 
@@ -291,22 +282,12 @@ export default function useNrwDataLoader(
             if (initialVisibleLayerNames.length === 0) {
                 return;
             }
-            const initialKeys = new Set(initialVisibleLayerNames);
-            const showLayer = (layer: LayerDto, country: string | undefined) => {
-                if (!initialKeys.has(layer.layerName)) {
-                    return;
-                }
-                dispatchLayer(layer, country, true);
-                setLayerKeyVisibility(layer.layerName, true);
-            };
 
-            // Event layers
-            const deeplinkedEvent = events.find((event) => event.eventId === selectedEventId);
-            deeplinkedEvent?.availableLayers.forEach((layer) => showLayer(layer, undefined));
-
-            // Country layers (show for all countries)
-            Object.entries(layersByCountry).forEach(([countryCode, layers]) => {
-                layers.forEach((layer) => showLayer(layer, countryCode));
+            initialVisibleLayerNames.forEach((layerName) => {
+                //             // Event layers
+            // const deeplinkedEvent = events.find((event) => event.eventId === selectedEventId);
+            // deeplinkedEvent?.availableLayers.forEach((layer) => showLayer(layer));
+                applyLayerVisibility(layerName, true);
             });
         };
         loadInitialData();
