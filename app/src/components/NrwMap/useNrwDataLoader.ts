@@ -95,20 +95,6 @@ export default function useNrwDataLoader(
     // Cache of all loaded layers, keyed by a composite of parent key and layer name.
     const layersCache = useRef(new Map<string, BaseLayer>());
 
-    // Set one public layer key's visibility in a single place.
-    const setLayerNameVisibility = (key: string, isVisible: boolean) => {
-        setVisibleLayerNames((prev) => {
-            const has = prev.includes(key);
-            if (isVisible === has) {
-                return prev;
-            }
-            if (isVisible) {
-                return [...prev, key];
-            }
-            return prev.filter((name) => name !== key);
-        });
-    };
-
     // Internal function for setting a single cached layer's visibility.
     // If not cached and the target is visible, loads it.
     const setLayerVisibility = async (
@@ -154,7 +140,25 @@ export default function useNrwDataLoader(
             // If the layer is not cached and the target is visible, load it.
             loadAndAddLayer();
         }
-        setLayerNameVisibility(layerDetails.layerName, targetVisible);
+
+        // Update the public list of visible layer names.
+        setVisibleLayerNames((prevList) => {
+            // Check if the layerName is in the list
+            const listHasLayerName = prevList.includes(layerDetails.layerName);
+
+            // If it's already in the list and is being made visible, do nothing.
+            if (targetVisible && listHasLayerName) {
+                return prevList;
+            }
+
+            // If it's not in the list and is now visible, add it.
+            if (targetVisible) {
+                return [...prevList, layerDetails.layerName];
+            }
+
+            // If it's now hidden, remove it.
+            return prevList.filter((name) => name !== layerDetails.layerName);
+        });
     };
 
     // Find the right layer loader function and run it for the layer type
