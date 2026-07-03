@@ -68,6 +68,10 @@ export default function useNrwDataLoader(
     // This must be awaited before any layers can be added to the map.
     const [isMapReady, setIsMapReady] = useState(false);
 
+    // If the shared country and event data has been loaded into state.
+    // Deeplinked layers are applied once this is true (and the data is in state).
+    const [isInitialDataLoaded, setIsInitialDataLoaded] = useState(false);
+
     // ----- Refs -----
 
     // Cache of all loaded layers, keyed by country and then by layer name.
@@ -125,8 +129,6 @@ export default function useNrwDataLoader(
         loadLayer: () => Promise<BaseLayer>,
         targetVisible: boolean,
     ) => {
-        console.error(`>>>a. show ${targetVisible} layer ${layerDetails.layerName}`);
-
         // Return early if not ready
         if (!addLayerToMapFunction.current) {
             console.error('[useNrwDataLoader] Map not ready');
@@ -178,8 +180,6 @@ export default function useNrwDataLoader(
     ) => {
         const { layerName, layerType, resourceId } = layerDetails;
 
-        console.error(`>>>ccc. show ${targetVisible} layer ${layerDetails.layerName}`);
-
         let loadLayer: (() => Promise<BaseLayer>) | null = null;
         if (layerType === LayerType.raster && layerName === LayerName.floodDepth) {
             loadLayer = () => makeEventImageLayer(resourceId);
@@ -214,8 +214,6 @@ export default function useNrwDataLoader(
         layerName: string,
         targetVisible: boolean,
     ) => {
-        console.error(`>>>ddd. show ${targetVisible} layer ${layerName}`);
-
         let toggleApplied = false;
 
         // Event layers (e.g. flood_depth) are not country-scoped; they come from
@@ -292,9 +290,9 @@ export default function useNrwDataLoader(
 
     // ----- Init -----
 
-    // Load shared country and event data, and then apply deeplinked layers.
-    // This is done once the map is ready (which is almost instant, but it must
-    // be waited for regardless to prevent a race condition).
+    // Load shared country and event data into state. This is done once the map
+    // is ready (which is almost instant, but it must be waited for regardless
+    // to prevent a race condition).
     useEffect(() => {
         if (!isMapReady) {
             return;
@@ -312,22 +310,25 @@ export default function useNrwDataLoader(
             );
             setCountryLayers(layersByCountry);
             setEventData(events);
-
-            // Apply deeplinked layers
-            if (initialVisibleLayerNames.length === 0) {
-                return;
-            }
-
-            initialVisibleLayerNames.forEach((layerName) => {
-                //             // Event layers
-            // const deeplinkedEvent = events.find((event) => event.eventId === selectedEventId);
-            // deeplinkedEvent?.availableLayers.forEach((layer) => showLayer(layer));
-                applyLayerVisibility(layerName, true);
-            });
+            setIsInitialDataLoaded(true);
         };
         loadInitialData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isMapReady]);
+
+    // Apply deeplinked layers once the shared data is in state. Running this in
+    // a separate effect ensures `countryLayers` and `selectedEventLayers`
+    // reflect the freshly loaded data (state updates are not visible within the
+    // same async run that sets them).
+    useEffect(() => {
+        if (!isInitialDataLoaded) {
+            return;
+        }
+        initialVisibleLayerNames.forEach((layerName) => {
+            applyLayerVisibility(layerName, true);
+        });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isInitialDataLoaded]);
 
     return {
         eventData,
