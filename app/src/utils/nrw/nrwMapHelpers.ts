@@ -114,10 +114,10 @@ export const makeEventImageLayer = async (resourceId: string) => {
     if (!metadataResponse.ok) {
         throw new Error(`Failed to fetch event raster metadata: ${metadataResponse.status}`);
     }
-    const metadata = await metadataResponse.json();
+    const metadataJson = await metadataResponse.json();
     const {
         xmin, ymin, xmax, ymax,
-    } = metadata.extent;
+    } = metadataJson.metadata.coloured.extent;
 
     const imageUrl = `${baseUrl}/${resourceId}/image`;
     return new ImageLayer({
@@ -138,10 +138,10 @@ export const makeStaticImageLayer = async (countryCodeIso3: string, layerName: s
     if (!metadataResponse.ok) {
         throw new Error(`Failed to fetch ${layerName} raster metadata: ${metadataResponse.status}`);
     }
-    const metadata = await metadataResponse.json();
+    const metadataJson = await metadataResponse.json();
     const {
         xmin, ymin, xmax, ymax,
-    } = metadata.extent;
+    } = metadataJson.metadata.coloured.extent;
 
     const imageUrl = `${baseUrl}/${countryCodeIso3}/${layerName}/image`;
     return new ImageLayer({
