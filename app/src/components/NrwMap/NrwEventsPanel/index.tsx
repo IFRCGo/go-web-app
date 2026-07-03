@@ -248,7 +248,10 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
                 <CollapsibleSection title="Infrastructure Exposure">
                     <div className={styles.infraGrid}>
                         {infraExposure.map((item) => (
-                            <div key={item.layerName} className={styles.infraItem}>
+                            <div
+                                key={`${item.layerName}-${item.exposed}-${item.total ?? 'null'}`}
+                                className={styles.infraItem}
+                            >
                                 <span className={styles.infraLabel}>
                                     Exposed
                                     {' '}
@@ -269,7 +272,7 @@ function EventDetailView({ event, onBack }: EventDetailViewProps) {
 
             {/* Data Sources Section */}
             <CollapsibleSection title="Data Sources">
-                {event.forecastSources.map((source, index) => (
+                {Array.from(new Set(event.forecastSources)).map((source, index) => (
                     <div key={source} className={styles.sourceItem}>
                         <span className={styles.sourceLabel}>
                             {index === 0 ? 'Forecast Source' : 'Data Source'}
