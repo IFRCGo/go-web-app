@@ -35,6 +35,9 @@ import {
 // Outer cache key used for layers without a country (e.g. event layers).
 const EVENT_DATA_CACHE_KEY = 'event_data';
 
+// Build a unique cache key from a parent key (country or event) and layer name.
+const makeCacheKey = (cacheParentKey: string, layerName: string) => `${cacheParentKey}::${layerName}`;
+
 /**
  * Hook used to manage and share data for the NRW map components.
  *
@@ -89,8 +92,8 @@ export default function useNrwDataLoader(
 
     // ----- Layer Logic -----
 
-    // Cache of all loaded layers, keyed by country and then by layer name.
-    const layersCache = useRef(new Map<string, Map<string, BaseLayer>>());
+    // Cache of all loaded layers, keyed by a composite of parent key and layer name.
+    const layersCache = useRef(new Map<string, BaseLayer>());
 
     // Set one public layer key's visibility in a single place.
     const setLayerNameVisibility = (key: string, isVisible: boolean) => {
@@ -123,10 +126,10 @@ export default function useNrwDataLoader(
         const loadAndAddLayer = async () => {
             try {
                 const layer = await loadLayer();
-                const countryCache = layersCache.current.get(cacheParentKey)
-                    ?? new Map<string, BaseLayer>();
-                countryCache.set(layerDetails.layerName, layer);
-                layersCache.current.set(cacheParentKey, countryCache);
+                layersCache.current.set(
+                    makeCacheKey(cacheParentKey, layerDetails.layerName),
+                    layer,
+                );
                 if (!addLayerToMapFunction.current) {
                     console.error('[useNrwDataLoader] Map add layer function not ready');
                     return;
@@ -142,7 +145,9 @@ export default function useNrwDataLoader(
             }
         };
 
-        const cachedLayer = layersCache.current.get(cacheParentKey)?.get(layerDetails.layerName);
+        const cachedLayer = layersCache.current.get(
+            makeCacheKey(cacheParentKey, layerDetails.layerName),
+        );
         if (cachedLayer) {
             cachedLayer.setVisible(targetVisible);
         } else if (targetVisible) {
@@ -264,10 +269,8 @@ export default function useNrwDataLoader(
 
     // Set the visibility of all cached layers to false.
     const hideAllLayers = () => {
-        layersCache.current.forEach((countryCache) => {
-            countryCache.forEach((layer) => {
-                layer.setVisible(false);
-            });
+        layersCache.current.forEach((layer) => {
+            layer.setVisible(false);
         });
         setVisibleLayerNames([]);
     };
