@@ -17,7 +17,7 @@ import {
 import {
     getSelectedEventDetails,
     makeEventImageLayer,
-    makePopulationImageLayer,
+    makeStaticImageLayer,
 } from '#utils/nrw/nrwMapHelpers';
 import {
     styleClinicPoint,

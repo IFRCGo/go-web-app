@@ -22,7 +22,6 @@ import { ibfApiBackend } from '#config';
 
 import { type MvtStyleCreator } from './nrwMapStyles';
 import type { SelectedEventDetails } from './nrwMapTypes';
-import { seedRepoPopDataUrl } from './nrwUrls';
 import type {
     EventResponseDto,
     LayerDto,
@@ -107,51 +106,6 @@ export const makeMvtLayerAsync = (
     style: (feature) => getMapStyle(feature, selectedCountry),
 });
 
-/**
- * Fetches the extents from the png metadata JSON file. *
- * @param baseUri base URL for the data source
- * @param name the same name as the image
- * @returns the extents in EPSG:3857, ordered [left, bottom, right, top]
- */
-const getRasterExtentsAsync = async (
-    baseUri: string,
-    name: string,
-): Promise<number[]> => {
-    const jsonUrl = `${baseUri}${name}_metadata.json`;
-
-    try {
-        const response = await fetch(jsonUrl);
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-        const data = await response.json();
-        if (data?.bounds) {
-            const {
-                left, bottom, right, top,
-            } = data.bounds;
-            return [left, bottom, right, top];
-        }
-        throw new Error('Invalid JSON structure: missing "bounds" property');
-    } catch (error) {
-    // Re-throw with a customized message
-        throw new Error(`Error loading image extents from ${jsonUrl}: ${error}`);
-    }
-};
-
-const makeStaticImageLayer = async (baseUri: string, name: string) => {
-    const extents = await getRasterExtentsAsync(baseUri, name);
-    const rasterUrl = `${baseUri}${name}.png`;
-    return new ImageLayer({
-        source: new ImageStatic({
-            url: rasterUrl,
-            projection: 'EPSG:3857',
-            interpolate: false,
-            imageExtent: extents,
-            crossOrigin: 'anonymous',
-        }),
-    });
-};
-
 // Raster layer functions
 export const makeEventImageLayer = async (resourceId: string) => {
     const baseUrl = `${ibfApiBackend}rasters/alert`;
@@ -160,16 +114,16 @@ export const makeEventImageLayer = async (resourceId: string) => {
     if (!metadataResponse.ok) {
         throw new Error(`Failed to fetch event raster metadata: ${metadataResponse.status}`);
     }
-    const metadata = await metadataResponse.json();
+    const metadataJson = await metadataResponse.json();
     const {
         xmin, ymin, xmax, ymax,
-    } = metadata.extent;
+    } = metadataJson.metadata.coloured.extent;
 
     const imageUrl = `${baseUrl}/${resourceId}/image`;
     return new ImageLayer({
         source: new ImageStatic({
             url: imageUrl,
-            projection: 'EPSG:4326',
+            projection: 'EPSG:3857', // TODO: switch to shared enum
             interpolate: false,
             imageExtent: [xmin, ymin, xmax, ymax],
             crossOrigin: 'anonymous',
@@ -177,12 +131,28 @@ export const makeEventImageLayer = async (resourceId: string) => {
     });
 };
 
-export const makePopulationImageLayer = async (country_code: string) => {
-    const baseUri = seedRepoPopDataUrl;
-    return makeStaticImageLayer(
-        baseUri,
-        `${country_code}_population`,
-    );
+export const makeStaticImageLayer = async (countryCodeIso3: string, layerName: string) => {
+    const baseUrl = `${ibfApiBackend}rasters/static`;
+    const metadataUrl = `${baseUrl}/${countryCodeIso3}/${layerName}`;
+    const metadataResponse = await fetch(metadataUrl);
+    if (!metadataResponse.ok) {
+        throw new Error(`Failed to fetch ${layerName} raster metadata: ${metadataResponse.status}`);
+    }
+    const metadataJson = await metadataResponse.json();
+    const {
+        xmin, ymin, xmax, ymax,
+    } = metadataJson.metadata.coloured.extent;
+
+    const imageUrl = `${baseUrl}/${countryCodeIso3}/${layerName}/image`;
+    return new ImageLayer({
+        source: new ImageStatic({
+            url: imageUrl,
+            projection: 'EPSG:3857',
+            interpolate: false,
+            imageExtent: [xmin, ymin, xmax, ymax],
+            crossOrigin: 'anonymous',
+        }),
+    });
 };
 
 export const isValidCoordinatePair = (
