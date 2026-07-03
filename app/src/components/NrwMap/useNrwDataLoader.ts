@@ -59,9 +59,12 @@ export default function useNrwDataLoader(
     const [eventData, setEventData] = useState<EventResponseDto[]>(initialEventData);
 
     // Non-event data layers available for the current scoped countries.
-    const [countryLayers, setCountryLayers] = useState<Record<string, LayerDto[]>>({});
+    const [countryNonEventLayers,
+        setCountryNonEventLayers] = useState<Record<string, LayerDto[]>>({});
 
     // List of visible layer names.
+    // These are not mapped to a country or event, but are just the layer names
+    // of all visible layers.
     const [visibleLayerNames, setVisibleLayerNames] = useState<string[]>(initialVisibleLayerNames);
 
     // If the base map setup is complete.
@@ -72,10 +75,7 @@ export default function useNrwDataLoader(
     // Deeplinked layers are applied once this is true (and the data is in state).
     const [isInitialDataLoaded, setIsInitialDataLoaded] = useState(false);
 
-    // ----- Refs -----
-
-    // Cache of all loaded layers, keyed by country and then by layer name.
-    const layersCache = useRef(new Map<string, Map<string, BaseLayer>>());
+    // ----- Exposed references -----
 
     // Reference to the function (passed in by the map component) for adding layers to the map.
     const addLayerToMapFunction = useRef<(
@@ -83,29 +83,14 @@ export default function useNrwDataLoader(
         >(null,
         );
 
-    // ----- Callbacks (to communicate with other functions) -----
-
-    // Callback for other components to see if a layer is visible.
-    const isLayerVisible = useCallback(
-        (key: string) => visibleLayerNames.includes(key),
-        [visibleLayerNames],
-    );
-
-    // A callback to register the map's addLayer function.
-    // This is set when the map is ready.
-    const registerMapAddLayer = useCallback(
-        (addLayer: (layer: BaseLayer, layerInfo: LayerDto) => void) => {
-            addLayerToMapFunction.current = addLayer;
-            setIsMapReady(true);
-        },
-        [],
-    );
-
-    // ----- Layer Logic -----
-
     // Get available layers for the currently selected event
     const selectedEvent = eventData.find((event) => event.eventId === selectedEventId) ?? null;
     const selectedEventLayers: LayerDto[] = selectedEvent?.availableLayers ?? [];
+
+    // ----- Layer Logic -----
+
+    // Cache of all loaded layers, keyed by country and then by layer name.
+    const layersCache = useRef(new Map<string, Map<string, BaseLayer>>());
 
     // Set one public layer key's visibility in a single place.
     const setLayerNameVisibility = (key: string, isVisible: boolean) => {
@@ -125,7 +110,7 @@ export default function useNrwDataLoader(
     // If not cached and the target is visible, loads it.
     const setLayerVisibility = async (
         layerDetails: LayerDto,
-        country: string | undefined,
+        cacheParentKey: string,
         loadLayer: () => Promise<BaseLayer>,
         targetVisible: boolean,
     ) => {
@@ -135,17 +120,13 @@ export default function useNrwDataLoader(
             return;
         }
 
-        // Country key for the outer cache. Layers without a country (e.g. event
-        // layers) are grouped under a shared key.
-        const countryKey = country ?? EVENT_DATA_CACHE_KEY;
-
         const loadAndAddLayer = async () => {
             try {
                 const layer = await loadLayer();
-                const countryCache = layersCache.current.get(countryKey)
+                const countryCache = layersCache.current.get(cacheParentKey)
                     ?? new Map<string, BaseLayer>();
                 countryCache.set(layerDetails.layerName, layer);
-                layersCache.current.set(countryKey, countryCache);
+                layersCache.current.set(cacheParentKey, countryCache);
                 if (!addLayerToMapFunction.current) {
                     console.error('[useNrwDataLoader] Map add layer function not ready');
                     return;
@@ -161,7 +142,7 @@ export default function useNrwDataLoader(
             }
         };
 
-        const cachedLayer = layersCache.current.get(countryKey)?.get(layerDetails.layerName);
+        const cachedLayer = layersCache.current.get(cacheParentKey)?.get(layerDetails.layerName);
         if (cachedLayer) {
             cachedLayer.setVisible(targetVisible);
         } else if (targetVisible) {
@@ -171,27 +152,53 @@ export default function useNrwDataLoader(
         setLayerNameVisibility(layerDetails.layerName, targetVisible);
     };
 
-    // Dispatch a single layer instance to its loader with an explicit target
-    // visibility.
-    const dispatchLayer = (
+    // Find the right layer loader function and run it for the layer type
+    const runEventLayerLoader = (
         layerDetails: LayerDto,
-        country: string | undefined,
         targetVisible: boolean,
     ) => {
         const { layerName, layerType, resourceId } = layerDetails;
 
         let loadLayer: (() => Promise<BaseLayer>) | null = null;
+
+        // First try event layers. If not, try the non-event layers
         if (layerType === LayerType.raster && layerName === LayerName.floodDepth) {
             loadLayer = () => makeEventImageLayer(resourceId);
-        } else if (country) {
-            // The remaining supported layers are all country-scoped.
-            if (layerType === LayerType.raster && layerName === LayerName.population) {
-                loadLayer = () => makePopulationImageLayer(country);
-            } else if (layerType === LayerType.point && layerName === LayerName.redCrossBranches) {
-                loadLayer = () => makeRcBranchesPointLayer(country, styleRcBranchPoint);
-            } else if (layerType === LayerType.point && layerName === LayerName.clinics) {
-                loadLayer = () => makeClinicPointLayer(country, styleClinicPoint);
-            }
+        }
+
+        if (!loadLayer) {
+            console.error(
+                `[useNrwDataLoader] Unsupported layer: ${layerDetails.layerName} `
+                + `(${layerDetails.layerType})`,
+            );
+            return;
+        }
+
+        setLayerVisibility(
+            layerDetails,
+            EVENT_DATA_CACHE_KEY,
+            loadLayer,
+            targetVisible,
+        );
+    };
+
+    // Find the right layer loader function and run it for the layer type
+    const runNonEventLayerLoader = (
+        layerDetails: LayerDto,
+        country: string,
+        targetVisible: boolean,
+    ) => {
+        const { layerName, layerType } = layerDetails;
+
+        let loadLayer: (() => Promise<BaseLayer>) | null = null;
+
+        // The remaining supported layers are all country-scoped.
+        if (layerType === LayerType.raster && layerName === LayerName.population) {
+            loadLayer = () => makeStaticImageLayer(country, layerName);
+        } else if (layerType === LayerType.point && layerName === LayerName.redCrossBranches) {
+            loadLayer = () => makeRcBranchesPointLayer(country, styleRcBranchPoint);
+        } else if (layerType === LayerType.point && layerName === LayerName.clinics) {
+            loadLayer = () => makeClinicPointLayer(country, styleClinicPoint);
         }
 
         if (!loadLayer) {
@@ -210,24 +217,24 @@ export default function useNrwDataLoader(
         );
     };
 
-    const applyLayerVisibility = (
+    const applyLayerVisibilityChange = (
         layerName: string,
         targetVisible: boolean,
     ) => {
-        let toggleApplied = false;
-
-        // Event layers (e.g. flood_depth) are not country-scoped; they come from
-        // the selected event's available layers and are dispatched without a country.
-        const eventLayerMatch = selectedEventLayers.find((l) => l.layerName === layerName);
+        // Get event layer info from the event data
+        const eventLayerMatch = selectedEventLayers.find((layer) => layer.layerName === layerName);
         if (eventLayerMatch) {
-            dispatchLayer(eventLayerMatch, undefined, targetVisible);
-            toggleApplied = true;
+            runEventLayerLoader(eventLayerMatch, targetVisible);
+            return;
         }
 
-        Object.entries(countryLayers).forEach(([countryCode, layers]) => {
-            const match = layers.find((l) => l.layerName === layerName);
+        // Handle non-event layers
+        // One layer can be applied to multiple countries, so check all of them
+        let toggleApplied = false;
+        Object.entries(countryNonEventLayers).forEach(([countryCode, layers]) => {
+            const match = layers.find((layer) => layer.layerName === layerName);
             if (match) {
-                dispatchLayer(match, countryCode, targetVisible);
+                runNonEventLayerLoader(match, countryCode, targetVisible);
                 toggleApplied = true;
             }
         });
@@ -237,7 +244,23 @@ export default function useNrwDataLoader(
         }
     };
 
-    // ----- Functions and values for external -----
+    // ----- Functions and values that are exposed -----
+
+    // Callback for other components to see if a layer is visible.
+    const isLayerVisible = useCallback(
+        (key: string) => visibleLayerNames.includes(key),
+        [visibleLayerNames],
+    );
+
+    // A callback to register the map's addLayer function.
+    // This is set when the map is ready.
+    const registerMapAddLayer = useCallback(
+        (addLayer: (layer: BaseLayer, layerInfo: LayerDto) => void) => {
+            addLayerToMapFunction.current = addLayer;
+            setIsMapReady(true);
+        },
+        [],
+    );
 
     // Set the visibility of all cached layers to false.
     const hideAllLayers = () => {
@@ -251,8 +274,10 @@ export default function useNrwDataLoader(
 
     // Public toggle used by the layer panel.
     const toggleMapLayer = (layerName: string) => {
+        // Get the opposite of the current visibility
         const targetVisible = !isLayerVisible(layerName);
-        applyLayerVisibility(layerName, targetVisible);
+        // Apply that visibility change
+        applyLayerVisibilityChange(layerName, targetVisible);
     };
 
     // Reload the current country's event data and update shared state
@@ -261,20 +286,20 @@ export default function useNrwDataLoader(
         setEventData(data);
     };
 
-    // Unique country-scoped layer types across all scoped countries
-    const countryLayerTypes = useMemo<LayerDto[]>(() => {
-        const seen = new Set<LayerName>();
-        const result: LayerDto[] = [];
-        Object.values(countryLayers).forEach((layers) => {
+    // Details for available non-event layers.
+    // This flattens the country layer data into a list of layer names that
+    // appear in any of the scoped countries.
+    const nonEventLayers = useMemo<LayerDto[]>(() => {
+        const byName = new Map<LayerName, LayerDto>();
+        Object.values(countryNonEventLayers).forEach((layers) => {
             layers.forEach((layer) => {
-                if (!seen.has(layer.layerName)) {
-                    seen.add(layer.layerName);
-                    result.push(layer);
+                if (!byName.has(layer.layerName)) {
+                    byName.set(layer.layerName, layer);
                 }
             });
         });
-        return result;
-    }, [countryLayers]);
+        return Array.from(byName.values());
+    }, [countryNonEventLayers]);
 
     // Get details for the selected event
     const selectedEventDetails = useMemo(() => {
@@ -308,7 +333,7 @@ export default function useNrwDataLoader(
                     data.availableLayers,
                 ]),
             );
-            setCountryLayers(layersByCountry);
+            setCountryNonEventLayers(layersByCountry);
             setEventData(events);
             setIsInitialDataLoaded(true);
         };
@@ -316,16 +341,14 @@ export default function useNrwDataLoader(
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isMapReady]);
 
-    // Apply deeplinked layers once the shared data is in state. Running this in
-    // a separate effect ensures `countryLayers` and `selectedEventLayers`
-    // reflect the freshly loaded data (state updates are not visible within the
-    // same async run that sets them).
+    // Set the deeplinked layers on initial load.
+    // This is done is a seperate callback because even if you set the data
     useEffect(() => {
         if (!isInitialDataLoaded) {
             return;
         }
         initialVisibleLayerNames.forEach((layerName) => {
-            applyLayerVisibility(layerName, true);
+            applyLayerVisibilityChange(layerName, true);
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isInitialDataLoaded]);
@@ -334,7 +357,7 @@ export default function useNrwDataLoader(
         eventData,
         reloadCountryEventData,
         selectedEventLayers,
-        countryLayerTypes,
+        nonEventLayers,
         selectedEventDetails,
         registerMapAddLayer,
         toggleMapLayer,

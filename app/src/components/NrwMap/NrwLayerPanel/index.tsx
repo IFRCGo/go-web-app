@@ -22,7 +22,7 @@ function getLayerLabel(layer: LayerDto): string {
 
 interface NrwLayerPanelProps {
     eventLayers: LayerDto[];
-    countryLayerTypes: LayerDto[];
+    nonEventLayers: LayerDto[];
     onToggleMapLayer: (layerName: string) => void;
     onHideAllLayers: () => void;
     visibleLayerNames: string[];
@@ -35,12 +35,12 @@ interface NrwLayerPanelProps {
  */
 export default function NrwLayerPanel({
     eventLayers,
-    countryLayerTypes,
+    nonEventLayers,
     onToggleMapLayer,
     onHideAllLayers,
     visibleLayerNames,
 }: NrwLayerPanelProps) {
-    const hasAnyLayers = eventLayers.length > 0 || countryLayerTypes.length > 0;
+    const hasAnyLayers = eventLayers.length > 0 || nonEventLayers.length > 0;
 
     if (!hasAnyLayers) {
         return (
@@ -81,9 +81,9 @@ export default function NrwLayerPanel({
                 </div>
             )}
 
-            {countryLayerTypes.length > 0 && (
+            {nonEventLayers.length > 0 && (
                 <div className={styles.buttonGroup}>
-                    {countryLayerTypes.map((layer) => renderLayerButton(layer))}
+                    {nonEventLayers.map((layer) => renderLayerButton(layer))}
                 </div>
             )}
 
