@@ -60,7 +60,7 @@ export default function NrwMapContainer() {
         registerMapAddLayer,
         toggleMapLayer,
         hideAllLayers,
-        visibleLayerKeys,
+        visibleLayerNames,
         selectedEventDetails,
     } = useNrwDataLoader(scopedCountries, [], selectedEventId, initialLayerKeys);
 
@@ -69,8 +69,8 @@ export default function NrwMapContainer() {
 
     // Sync the visible layer keys to the URL
     useEffect(() => {
-        syncLayerIds(visibleLayerKeys);
-    }, [visibleLayerKeys, syncLayerIds]);
+        syncLayerIds(visibleLayerNames);
+    }, [visibleLayerNames, syncLayerIds]);
 
     // Refresh page and put in a default start state
     const handleRefreshAll = async () => {
@@ -104,7 +104,7 @@ export default function NrwMapContainer() {
         setEventParams({
             countries: scopedCountries,
             eventId,
-            layerIds: visibleLayerKeys,
+            layerIds: visibleLayerNames,
         });
     };
 
@@ -121,7 +121,7 @@ export default function NrwMapContainer() {
             eventId: selectedEventId,
             adminCode: placeCode,
             mapView,
-            layerIds: visibleLayerKeys,
+            layerIds: visibleLayerNames,
         });
     };
 
@@ -131,7 +131,7 @@ export default function NrwMapContainer() {
             eventId: selectedEventId,
             adminCode: selectedAdminPlaceCode ?? undefined,
             mapView,
-            layerIds: visibleLayerKeys,
+            layerIds: visibleLayerNames,
         });
     };
 
@@ -176,7 +176,7 @@ export default function NrwMapContainer() {
                                     countryLayerTypes={countryLayerTypes}
                                     onToggleMapLayer={toggleMapLayer}
                                     onHideAllLayers={hideAllLayers}
-                                    visibleLayerKeys={visibleLayerKeys}
+                                    visibleLayerNames={visibleLayerNames}
                                 />
                             </div>
                         )}

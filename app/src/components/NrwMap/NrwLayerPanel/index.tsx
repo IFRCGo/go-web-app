@@ -25,7 +25,7 @@ interface NrwLayerPanelProps {
     countryLayerTypes: LayerDto[];
     onToggleMapLayer: (layerDetails: LayerDto, isCountryLayer: boolean) => void;
     onHideAllLayers: () => void;
-    visibleLayerKeys: string[];
+    visibleLayerNames: string[];
 }
 
 /**
@@ -38,7 +38,7 @@ export default function NrwLayerPanel({
     countryLayerTypes,
     onToggleMapLayer,
     onHideAllLayers,
-    visibleLayerKeys,
+    visibleLayerNames,
 }: NrwLayerPanelProps) {
     const hasAnyLayers = eventLayers.length > 0 || countryLayerTypes.length > 0;
 
@@ -53,7 +53,7 @@ export default function NrwLayerPanel({
 
     const renderLayerButton = (layer: LayerDto, isCountryLayer: boolean) => {
         const key = layer.layerName;
-        const isVisible = visibleLayerKeys.includes(key);
+        const isVisible = visibleLayerNames.includes(key);
         return (
             <button
                 key={key}
