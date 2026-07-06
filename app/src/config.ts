@@ -18,7 +18,6 @@ const {
     APP_VERSION,
     APP_PACKAGE_NAME,
     APP_REPOSITORY_URL,
-    APP_SEED_DATA_REPO,
     APP_NRW_PORTAL_MODE,
 } = import.meta.env;
 
@@ -36,7 +35,6 @@ export const mbtoken = APP_MAPBOX_ACCESS_TOKEN;
 export const maptilerApiKey = APP_MAPTILER_API_KEY;
 export const ibfApiBackend = APP_IBF_API_BACKEND;
 export const riskApi = APP_RISK_API_ENDPOINT;
-export const seedDataRepo = APP_SEED_DATA_REPO ?? 'https://raw.githubusercontent.com/rodekruis/IBF-seed-data/main/';
 export const sdtUrl = APP_SDT_URL;
 export const powerBiReportId1 = APP_POWER_BI_REPORT_ID_1;
 

@@ -2,8 +2,6 @@ import html2canvas from 'html2canvas';
 import JsPDF from 'jspdf';
 import type { Map as MapboxGLMap } from 'mapbox-gl-v3';
 
-import { PrintElementId } from './nrwMapToPdfExporter';
-
 interface CapturedElement {
     canvas: HTMLCanvasElement;
     width: number;
@@ -72,8 +70,10 @@ export async function exportMapboxToPdf(
 
     try {
         const [mapElement, controlPanel] = await Promise.all([
+
             captureMapCanvas(mapInstance),
-            captureElement(PrintElementId.ControlPanel),
+            // TODO: add IDs to everything and capture based on the IDs, not these string names
+            captureElement('control-panel'),
         ]);
 
         const pdf = new JsPDF({

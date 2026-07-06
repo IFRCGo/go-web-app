@@ -1,7 +1,6 @@
 import {
     ibfApiBackend,
     maptilerApiKey,
-    seedDataRepo,
 } from '#config';
 
 import {
@@ -17,13 +16,6 @@ const maptilerBaseUrl = 'https://api.maptiler.com';
 // ID of the map we created in Map Tiler.
 const mapGuid = '019eb13e-4bbd-743d-995d-970d7c3a2633';
 export const mapUrlStyleJson = `${maptilerBaseUrl}/maps/${mapGuid}/style.json?key=${maptilerApiKey}`;
-
-// Raw GitHub URLs for direct file access
-// TODO: Once we have working API, we'll need a conditional here to target either the
-// seed repo or the API
-// depending on the environment or another setting.
-export const seedRepoEventDataUrl = `${seedDataRepo}raster-data/mock-events/rgba/`;
-export const seedRepoPopDataUrl = `${seedDataRepo}raster-data/population/rgba/`;
 
 // IBF API events endpoint
 export const getEventsApiUrl = (countryIso3: string) => `${ibfApiBackend}events?countryCodeIso3=${countryIso3}&active=true`;

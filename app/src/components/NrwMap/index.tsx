@@ -10,10 +10,8 @@ import type MapOl from 'ol/Map';
 import { nrwPortalMode } from '#config';
 import { type AdminAreaDetails } from '#utils/nrw/nrwDataFetchHelpers';
 import type { MapSelectionView } from '#utils/nrw/nrwMapInteractionHelpers';
-import { PrintElementId } from '#utils/nrw/nrwMapToPdfExporter';
 
 import MapBoxDataMap from './MapBoxDataMap';
-import NrwDataPanel from './NrwDataPanel';
 import NrwEventsPanel from './NrwEventsPanel';
 import NrwLayerPanel from './NrwLayerPanel';
 import NrwLegendPanel from './NrwLegendPanel';
@@ -138,13 +136,7 @@ export default function NrwMapContainer() {
 
     return (
         <div className={styles.container}>
-            <div id={PrintElementId.DataPanel}>
-                <NrwDataPanel
-                    scopedCountries={scopedCountries}
-                    adminDetails={adminDetails}
-                    mapRef={mapRef}
-                    eventId={selectedEventId ?? undefined}
-                />
+            <div>
                 <MapBoxDataMap
                     scopedCountries={scopedCountries}
                     initialMapView={initialMapView}
@@ -154,7 +146,7 @@ export default function NrwMapContainer() {
             </div>
             <div className={styles.mainContent}>
                 <div className={styles.controlPanelColumn}>
-                    <div id={PrintElementId.ControlPanel}>
+                    <div >
                         <NrwEventsPanel
                             eventData={eventData}
                             activeEventId={selectedEventId}
@@ -166,7 +158,7 @@ export default function NrwMapContainer() {
                         />
                     </div>
                 </div>
-                <div className={styles.mapColumn} id={PrintElementId.Map}>
+                <div className={styles.mapColumn} >
                     <OlDataMap
                         scopedCountries={scopedCountries}
                         selectedEventDetails={selectedEventDetails}
@@ -177,7 +169,7 @@ export default function NrwMapContainer() {
                         onViewChange={handleMapViewChanged}
                         onMapReady={(map: MapOl) => { mapRef.current = map; }}
                         layerPanel={(
-                            <div id={PrintElementId.LayerPanel}>
+                            <div >
                                 <NrwLayerPanel
                                     eventLayers={selectedEventLayers}
                                     nonEventLayers={nonEventLayers}

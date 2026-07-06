@@ -21,7 +21,6 @@ import type { MapSelectionView } from '#utils/nrw/nrwMapInteractionHelpers';
 import {
     getHealthLocsApiUrl,
     getRcLocsApiUrl,
-    seedRepoPopDataUrl,
 } from '#utils/nrw/nrwUrls';
 import type { LayerDto } from '#utils/nrw/shared-dtos';
 import {
@@ -141,17 +140,21 @@ async function loadRasterLayer(
     let north: number;
 
     if (layerName === LayerName.population) {
-        const name = `${selectedCountry}_population`;
-        const metaRes = await fetch(`${seedRepoPopDataUrl}${name}_metadata.json`);
+        const baseUrl = `${ibfApiBackend}rasters/static`;
+        const metaRes = await fetch(`${baseUrl}/${selectedCountry}/${layerName}`);
         if (!metaRes.ok) throw new Error(`Metadata HTTP ${metaRes.status}`);
         const meta = await metaRes.json() as {
-            bounds: { left: number; bottom: number; right: number; top: number };
+            metadata: {
+                coloured: {
+                    extent: { xmin: number; ymin: number; xmax: number; ymax: number };
+                };
+            };
         };
-        west = mercatorToLon(meta.bounds.left);
-        south = mercatorToLat(meta.bounds.bottom);
-        east = mercatorToLon(meta.bounds.right);
-        north = mercatorToLat(meta.bounds.top);
-        imageUrl = `${seedRepoPopDataUrl}${name}.png`;
+        west = mercatorToLon(meta.metadata.coloured.extent.xmin);
+        south = mercatorToLat(meta.metadata.coloured.extent.ymin);
+        east = mercatorToLon(meta.metadata.coloured.extent.xmax);
+        north = mercatorToLat(meta.metadata.coloured.extent.ymax);
+        imageUrl = `${baseUrl}/${selectedCountry}/${layerName}/image`;
     } else {
         // FloodDepth — event-specific raster served by IBF API in WGS84
         const baseUrl = `${ibfApiBackend}rasters/alert`;
