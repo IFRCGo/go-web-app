@@ -96,9 +96,6 @@ export default function useNrwDataLoader(
     // Build a unique cache key from a parent key (country or event) and layer name.
     const makeCacheKey = (cacheParentKey: string, layerName: string) => `${cacheParentKey}::${layerName}`;
 
-    // Outer cache key used for layers without a country (e.g. event layers).
-    const EVENT_DATA_CACHE_KEY = 'event_data';
-
     // Load a layer, cache it, add it to the map, and apply the target visibility.
     const loadAndAddLayer = async (
         layerDetails: LayerDto,
@@ -207,6 +204,11 @@ export default function useNrwDataLoader(
         layerName: string,
         targetVisible: boolean,
     ) => {
+        if (selectedEventId === null) {
+            console.error('[useNrwDataLoader] No selected event id for event layer');
+            return;
+        }
+
         // Get event layer info from the event data
         const eventLayerMatch = selectedEventLayers.find((layer) => layer.layerName === layerName);
         if (eventLayerMatch) {
@@ -214,7 +216,7 @@ export default function useNrwDataLoader(
 
             setLayerVisibility(
                 eventLayerMatch,
-                EVENT_DATA_CACHE_KEY,
+                selectedEventId.toString(),
                 layerLoader,
                 targetVisible,
             );
