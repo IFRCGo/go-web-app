@@ -1,21 +1,16 @@
-import 'ol/ol.css';
-
 import {
     useEffect,
-    useRef,
     useState,
 } from 'react';
-import type MapOl from 'ol/Map';
 
 import { nrwPortalMode } from '#config';
 import { type AdminAreaDetails } from '#utils/nrw/nrwDataFetchHelpers';
-import type { MapSelectionView } from '#utils/nrw/nrwMapInteractionHelpers';
+import type { MapSelectionView } from '#utils/nrw/nrwMapTypes';
 
 import MapBoxDataMap from './MapBoxDataMap';
 import NrwEventsPanel from './NrwEventsPanel';
 import NrwLayerPanel from './NrwLayerPanel';
 import NrwLegendPanel from './NrwLegendPanel';
-import OlDataMap from './OlDataMap';
 import useNrwDataLoader from './useNrwDataLoader';
 import useNrwMapSearchParams from './useNrwMapSearchParams';
 
@@ -48,6 +43,7 @@ export default function NrwMapContainer() {
     const [selectedAdminPlaceCode, setSelectedAdminPlaceCode] = useState<
     string | null
     >(initialAdminCode);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [adminDetails, setAdminDetails] = useState<AdminAreaDetails | null>(null);
 
     // Data loader hook - manages layer loading, caching, and shared event data state
@@ -56,15 +52,12 @@ export default function NrwMapContainer() {
         reloadCountryEventData,
         selectedEventLayers,
         nonEventLayers,
-        registerMapAddLayer,
+        registerMapLayerFunctions,
         toggleMapLayer,
         hideAllLayers,
         visibleLayerNames,
         selectedEventDetails,
     } = useNrwDataLoader(scopedCountries, [], selectedEventId, initialLayerKeys);
-
-    // Store map instance for PDF export
-    const mapRef = useRef<MapOl | null>(null);
 
     // Sync the visible layer keys to the URL
     useEffect(() => {
@@ -108,6 +101,7 @@ export default function NrwMapContainer() {
     };
 
     // Callback to update search params based on user interactions.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handleMapItemSelected = (
         placeCode: string,
         details: AdminAreaDetails | null,
@@ -136,17 +130,9 @@ export default function NrwMapContainer() {
 
     return (
         <div className={styles.container}>
-            <div>
-                <MapBoxDataMap
-                    scopedCountries={scopedCountries}
-                    initialMapView={initialMapView}
-                    visibleLayerIds={visibleLayerNames}
-                    availableEventLayers={selectedEventLayers}
-                />
-            </div>
             <div className={styles.mainContent}>
                 <div className={styles.controlPanelColumn}>
-                    <div >
+                    <div>
                         <NrwEventsPanel
                             eventData={eventData}
                             activeEventId={selectedEventId}
@@ -158,18 +144,19 @@ export default function NrwMapContainer() {
                         />
                     </div>
                 </div>
-                <div className={styles.mapColumn} >
-                    <OlDataMap
+                <div className={styles.mapColumn}>
+                    <MapBoxDataMap
                         scopedCountries={scopedCountries}
-                        selectedEventDetails={selectedEventDetails}
+                        // selectedEventDetails={selectedEventDetails}
                         initialMapView={initialMapView}
-                        initialAdminCode={initialAdminCode}
-                        addLayerFunction={registerMapAddLayer}
-                        onSelect={handleMapItemSelected}
+                        registerMapLayerFunctions={registerMapLayerFunctions}
+                        //                         initialAdminCode={initialAdminCode}
+                        // addLayerFunction={registerMapAddLayer}
+                        // onSelect={handleMapItemSelected}
                         onViewChange={handleMapViewChanged}
-                        onMapReady={(map: MapOl) => { mapRef.current = map; }}
+                        // onMapReady={(map: MapOl) => { mapRef.current = map; }}
                         layerPanel={(
-                            <div >
+                            <div>
                                 <NrwLayerPanel
                                     eventLayers={selectedEventLayers}
                                     nonEventLayers={nonEventLayers}

@@ -1,36 +1,10 @@
-import { type FeatureLike } from 'ol/Feature';
-import {
-    Circle,
-    Fill,
-    Stroke,
-    Style,
-} from 'ol/style';
+import type { CircleLayerSpecification } from 'mapbox-gl-v3';
 
-import { COUNTRY_FIELD_KEY } from './nrwConstants';
 import { AlertClass } from './shared-enums';
 
-export type MvtStyleCreator = (feature: FeatureLike, selected: string) => Style;
-const defaultAdminAreaBorderWidth = 1;
-const defaultPointWidth = 2;
-
-type AdminLevel = 1 | 2 | 3 | 4;
-
-const noEventAdminAreaFillColors: Record<AdminLevel, string> = {
-    1: 'rgba(112, 119, 93, 0.38)',
-    2: 'rgba(87, 152, 227, 0.84)',
-    3: 'rgba(32, 194, 29, 0.72)',
-    4: 'rgba(255, 105, 180, 0.72)',
-};
-
-const noEventAdminAreaStrokeColors: Record<AdminLevel, string> = {
-    1: '#595959',
-    2: 'rgba(35, 113, 203, 0.84)',
-    3: '#169b248e',
-    4: '#ff1493',
-};
-
-const exposedAreaFillAlphaHex = 'A6'; // 0.65
-const exposedAreaFillAlphaHexLight = '33'; // 0.2
+const defaultPointStrokeWidth = 2;
+// const exposedAreaFillAlphaHex = 'A6'; // 0.65
+// const exposedAreaFillAlphaHexLight = '33'; // 0.2
 
 // Color steps for each alert class
 export const alertColors: Record<AlertClass, string[]> = {
@@ -70,6 +44,7 @@ export const numberToTierLevel = (
 };
 
 // Get the color string for an exposed area
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getExposureColor = (
     value: number,
     highestValue: number,
@@ -80,43 +55,7 @@ const getExposureColor = (
     return colors[index]!;
 };
 
-// TODO: review the styling for perf in terms of what to render, and how to reduce
-// the number of features that must be looped through when styling
-
-export const styleAdmin0 = (
-    feature: FeatureLike,
-    selectedCountry: string,
-) => {
-    const country = feature.get(COUNTRY_FIELD_KEY);
-    const isSelected = country === selectedCountry;
-    return new Style({
-        fill: new Fill({
-            color: isSelected ? 'rgba(112, 119, 93, 0.55)' : 'rgba(0, 0, 0, 0.07)',
-        }),
-        stroke: new Stroke({
-            color: '#8d8d8d',
-            width: 1,
-        }),
-    });
-};
-
-export const styleAdmin1 = (
-    feature: FeatureLike,
-    selectedCountry: string,
-) => {
-    const country = feature.get(COUNTRY_FIELD_KEY);
-    const isSelectedCountry = country === selectedCountry;
-    return new Style({
-        fill: new Fill({
-            color: isSelectedCountry ? 'rgba(87, 152, 227, 0.35)' : 'rgba(87, 152, 227, 0.2)',
-        }),
-        stroke: new Stroke({
-            color: 'rgba(35, 113, 203, 0.84)',
-            width: 1,
-        }),
-    });
-};
-
+/*
 // Style for an admin area when an event is selected
 export const styleAdminAreaForEvent = (
     placeCode: string,
@@ -155,53 +94,20 @@ export const styleAdminAreaForEvent = (
             width: defaultAdminAreaBorderWidth,
         }),
     });
+}; */
+
+// Mapbox circle paint for Red Cross branch point features
+export const rcBranchPointPaint: CircleLayerSpecification['paint'] = {
+    'circle-radius': 6,
+    'circle-color': '#cc1111',
+    'circle-stroke-color': '#ffffff',
+    'circle-stroke-width': defaultPointStrokeWidth,
 };
 
-// Simplified style for an admin area when no event is selected.
-// Color is chosen by admin level.
-// Note: Selected areas are not rendered, even at the lowest level.
-// This is part of the debug UI while we wait for design.
-export const styleAdminNoEvent = (
-    placeCode: string,
-    selectedCode: string | null,
-    adminLevel: AdminLevel,
-): Style => {
-    if (selectedCode && selectedCode.startsWith(placeCode)) {
-        return new Style({});
-    }
-    return new Style({
-        fill: new Fill({
-            color: noEventAdminAreaFillColors[adminLevel],
-        }),
-        stroke: new Stroke({
-            color: noEventAdminAreaStrokeColors[adminLevel],
-            width: defaultAdminAreaBorderWidth,
-        }),
-    });
+// Mapbox circle paint for clinic point features
+export const clinicPointPaint: CircleLayerSpecification['paint'] = {
+    'circle-radius': 6,
+    'circle-color': '#6a1b9a',
+    'circle-stroke-color': '#ffffff',
+    'circle-stroke-width': defaultPointStrokeWidth,
 };
-
-export const styleRcBranchPoint = new Style({
-    image: new Circle({
-        radius: 6,
-        fill: new Fill({
-            color: '#cc1111',
-        }),
-        stroke: new Stroke({
-            color: '#ffffff',
-            width: defaultPointWidth,
-        }),
-    }),
-});
-
-export const styleClinicPoint = new Style({
-    image: new Circle({
-        radius: 6,
-        fill: new Fill({
-            color: '#6a1b9a',
-        }),
-        stroke: new Stroke({
-            color: '#ffffff',
-            width: defaultPointWidth,
-        }),
-    }),
-});

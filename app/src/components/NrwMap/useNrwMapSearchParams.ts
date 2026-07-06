@@ -8,7 +8,7 @@ import {
     defaultMapZoom,
     noCountrySelectedValue,
 } from '#utils/nrw/nrwConstants';
-import type { MapSelectionView } from '#utils/nrw/nrwMapInteractionHelpers';
+import type { MapSelectionView } from '#utils/nrw/nrwMapTypes';
 import {
     adminParamsKey,
     countryParamsKey,

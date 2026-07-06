@@ -1,7 +1,38 @@
 // Data types and structures use for the Nrw Map components
 
+import type {
+    LayerSpecification,
+    SourceSpecification,
+} from 'mapbox-gl-v3';
+
 import { type LayerDto } from './shared-dtos';
 import type { AlertClass } from './shared-enums';
+
+// A zoom/center pair describing the current map view
+export interface MapSelectionView {
+    zoom: number;
+    center: {
+        lon: number;
+        lat: number;
+    };
+}
+
+// A data layer prepared for the Mapbox map: one source plus one layer that renders it.
+// The layer specification references the source by sourceId.
+export interface NrwMapboxLayer {
+    sourceId: string;
+    layerId: string;
+    source: SourceSpecification;
+    layer: LayerSpecification;
+}
+
+// Functions exposed by the map component so the data loader can manage layers.
+export interface MapLayerFunctions {
+    // Add a prepared layer (source + layer) to the map, ordered by the layer details
+    addLayer: (layer: NrwMapboxLayer, layerInfo: LayerDto) => void;
+    // Show or hide a layer that was previously added to the map
+    setLayerVisibility: (layer: NrwMapboxLayer, visible: boolean) => void;
+}
 
 // Country-level non-event data
 // This is a work in progress still and will either have more data added to it,

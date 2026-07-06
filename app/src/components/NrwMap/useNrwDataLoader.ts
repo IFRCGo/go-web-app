@@ -5,7 +5,6 @@ import {
     useRef,
     useState,
 } from 'react';
-import type BaseLayer from 'ol/layer/Base';
 
 import useAlert from '#hooks/useAlert';
 import {
@@ -20,9 +19,13 @@ import {
     makeStaticImageLayer,
 } from '#utils/nrw/nrwMapHelpers';
 import {
-    styleClinicPoint,
-    styleRcBranchPoint,
+    clinicPointPaint,
+    rcBranchPointPaint,
 } from '#utils/nrw/nrwMapStyles';
+import type {
+    MapLayerFunctions,
+    NrwMapboxLayer,
+} from '#utils/nrw/nrwMapTypes';
 import {
     type EventResponseDto,
     type LayerDto,
@@ -74,9 +77,9 @@ export default function useNrwDataLoader(
 
     // ----- Exposed references -----
 
-    // Reference to the function (passed in by the map component) for adding layers to the map.
-    type AddLayerToMapFunction = (layer: BaseLayer, layerInfo: LayerDto) => void;
-    const addLayerToMapFunction = useRef<AddLayerToMapFunction | null>(null);
+    // Reference to the map layer functions (registered by the map component)
+    // used for adding layers to the map and changing their visibility.
+    const mapLayerFunctionsRef = useRef<MapLayerFunctions | null>(null);
 
     // Get available layers for the currently selected event
     const selectedEvent = useMemo(
@@ -91,7 +94,7 @@ export default function useNrwDataLoader(
     // ----- Layer Logic -----
 
     // Cache of all loaded layers, keyed by a composite of parent key and layer name.
-    const layersCache = useRef(new Map<string, BaseLayer>());
+    const layersCache = useRef(new Map<string, NrwMapboxLayer>());
 
     // Build a unique cache key from a parent key (country or eventId) and layer name.
     const makeCacheKey = (cacheParentKey: string, layerName: string) => `${cacheParentKey}::${layerName}`;
@@ -100,18 +103,19 @@ export default function useNrwDataLoader(
     const loadAndAddLayer = async (
         layerDetails: LayerDto,
         cacheKey: string,
-        loadLayer: () => Promise<BaseLayer>,
+        loadLayer: () => Promise<NrwMapboxLayer>,
         targetVisible: boolean,
     ) => {
         try {
             const layer = await loadLayer();
             layersCache.current.set(cacheKey, layer);
-            if (!addLayerToMapFunction.current) {
-                console.error('[useNrwDataLoader] Map add layer function not ready');
+            const mapLayerFunctions = mapLayerFunctionsRef.current;
+            if (!mapLayerFunctions) {
+                console.error('[useNrwDataLoader] Map layer functions not ready');
                 return;
             }
-            addLayerToMapFunction.current(layer, layerDetails);
-            layer.setVisible(targetVisible);
+            mapLayerFunctions.addLayer(layer, layerDetails);
+            mapLayerFunctions.setLayerVisibility(layer, targetVisible);
         } catch (error) {
             console.error(`[useNrwDataLoader] Failed to load layer ${layerDetails.layerName}:`, error);
             alert.show('Failed to load map layer', {
@@ -126,7 +130,7 @@ export default function useNrwDataLoader(
     const setLayerVisibility = (
         layerDetails: LayerDto,
         cacheParentKey: string,
-        loadLayer: (() => Promise<BaseLayer>) | null,
+        loadLayer: (() => Promise<NrwMapboxLayer>) | null,
         targetVisible: boolean,
     ) => {
         // If no loader function, exit early.
@@ -135,8 +139,9 @@ export default function useNrwDataLoader(
             return;
         }
 
-        // Return early if map loading function not ready
-        if (!addLayerToMapFunction.current) {
+        // Return early if map layer functions not ready
+        const mapLayerFunctions = mapLayerFunctionsRef.current;
+        if (!mapLayerFunctions) {
             console.error('[useNrwDataLoader] Map not ready');
             return;
         }
@@ -144,7 +149,7 @@ export default function useNrwDataLoader(
         const cacheKey = makeCacheKey(cacheParentKey, layerDetails.layerName);
         const cachedLayer = layersCache.current.get(cacheKey);
         if (cachedLayer) {
-            cachedLayer.setVisible(targetVisible);
+            mapLayerFunctions.setLayerVisibility(cachedLayer, targetVisible);
         } else if (targetVisible) {
             // Not cached and should be shown: load it (fire-and-forget so the
             // visible layer names update immediately below).
@@ -175,7 +180,7 @@ export default function useNrwDataLoader(
     const resolveLayerLoader = (
         layerDetails: LayerDto,
         country: string,
-    ): (() => Promise<BaseLayer>) | null => {
+    ): (() => Promise<NrwMapboxLayer>) | null => {
         const { layerName, layerType, resourceId } = layerDetails;
 
         if (layerType === LayerType.raster && layerName === LayerName.floodDepth) {
@@ -186,10 +191,10 @@ export default function useNrwDataLoader(
         }
 
         if (layerType === LayerType.point && layerName === LayerName.redCrossBranches) {
-            return () => makeRcBranchesPointLayer(country, styleRcBranchPoint);
+            return () => makeRcBranchesPointLayer(country, rcBranchPointPaint);
         }
         if (layerType === LayerType.point && layerName === LayerName.clinics) {
-            return () => makeClinicPointLayer(country, styleClinicPoint);
+            return () => makeClinicPointLayer(country, clinicPointPaint);
         }
 
         console.error(
@@ -254,11 +259,11 @@ export default function useNrwDataLoader(
         [visibleLayerNames],
     );
 
-    // A callback to register the map's addLayer function.
+    // A callback to register the map's layer functions.
     // This is set when the map is ready.
-    const registerMapAddLayer = useCallback(
-        (addLayer: AddLayerToMapFunction) => {
-            addLayerToMapFunction.current = addLayer;
+    const registerMapLayerFunctions = useCallback(
+        (mapLayerFunctions: MapLayerFunctions) => {
+            mapLayerFunctionsRef.current = mapLayerFunctions;
             setIsMapReady(true);
         },
         [],
@@ -266,8 +271,9 @@ export default function useNrwDataLoader(
 
     // Set the visibility of all cached layers to false.
     const hideAllLayers = () => {
+        const mapLayerFunctions = mapLayerFunctionsRef.current;
         layersCache.current.forEach((layer) => {
-            layer.setVisible(false);
+            mapLayerFunctions?.setLayerVisibility(layer, false);
         });
         setVisibleLayerNames([]);
     };
@@ -373,7 +379,7 @@ export default function useNrwDataLoader(
         selectedEventLayers,
         nonEventLayers,
         selectedEventDetails,
-        registerMapAddLayer,
+        registerMapLayerFunctions,
         toggleMapLayer,
         hideAllLayers,
         isLayerVisible,

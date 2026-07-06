@@ -33,8 +33,60 @@
     background-color: #f3f4f6;
 }
 
-.map {
+.mapWrapper {
+    position: relative;
     block-size: calc(100% - 2.25rem);
     inline-size: 100%;
     min-block-size: 24rem;
+    --control-border-color: #32323250;
+    --control-bg: #ffffff;
+    --control-bg-hover: #f4f4f4;
+    --control-text: #323232;
+    --control-border-radius: 4px;
+    --control-shadow: drop-shadow(0 0 10px rgba(0, 0, 0, 0.08));
+}
+
+.map {
+    block-size: 100%;
+    inline-size: 100%;
+    min-block-size: 24rem;
+}
+
+/* Layers button rendered below the Mapbox navigation control */
+.layersButton {
+    display: flex;
+    position: absolute;
+    top: calc(10px + 95px + 8px);
+    right: 10px;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--control-border-color);
+    border-radius: var(--control-border-radius);
+    background-clip: padding-box;
+    background-color: var(--control-bg);
+    cursor: pointer;
+    width: 29px;
+    height: 29px;
+    line-height: 1;
+    color: var(--control-text);
+    font-size: 14px;
+    font-weight: 700;
+    filter: var(--control-shadow);
+}
+
+.layersButton:hover {
+    background-color: var(--control-bg-hover);
+}
+
+/* Layer panel overlay, opens to the left of the layers button */
+.layerPanelOverlay {
+    position: absolute;
+    top: calc(10px + 95px + 8px);
+    right: 3.5rem;
+    z-index: 10;
+    border-radius: var(--control-border-radius);
+    max-width: 300px;
+    max-height: calc(100% - 9rem);
+    overflow-y: auto;
+    filter: var(--control-shadow);
 }

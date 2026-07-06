@@ -1,27 +1,11 @@
-import { View } from 'ol';
-import {
-    buffer as bufferExtent,
-    type Extent,
-    getHeight,
-    getWidth,
-    isEmpty,
-} from 'ol/extent';
-import GeoJSON from 'ol/format/GeoJSON';
-import MVT from 'ol/format/MVT';
-import ImageLayer from 'ol/layer/Image';
-import VectorLayer from 'ol/layer/Vector';
-import VectorTileLayer from 'ol/layer/VectorTile';
-import type MapOl from 'ol/Map';
-import { fromLonLat } from 'ol/proj';
-import ImageStatic from 'ol/source/ImageStatic';
-import VectorSource from 'ol/source/Vector';
-import VectorTile from 'ol/source/VectorTile';
-import type Style from 'ol/style/Style';
+import type { CircleLayerSpecification } from 'mapbox-gl-v3';
 
 import { ibfApiBackend } from '#config';
 
-import { type MvtStyleCreator } from './nrwMapStyles';
-import type { SelectedEventDetails } from './nrwMapTypes';
+import type {
+    NrwMapboxLayer,
+    SelectedEventDetails,
+} from './nrwMapTypes';
 import type {
     EventResponseDto,
     LayerDto,
@@ -85,29 +69,71 @@ export function getSelectedEventDetails(
     };
 }
 
-/**
- * Create a vector tile layer for the map.
- * @param selectedCountry The ISO_A3 code of the selected country,
- * or noCountrySelectedValue for none.
- * @param mapVectorTileUrl The URL template for the vector tiles
- * @param getMapStyle A function for an MVT tile style creator
- * @returns A VectorTileLayer
- */
-export const makeMvtLayerAsync = (
-    selectedCountry: string,
-    mapVectorTileUrl: string,
-    getMapStyle: MvtStyleCreator,
-) => new VectorTileLayer({
-    source: new VectorTile({
-        url: mapVectorTileUrl,
-        format: new MVT(),
-        maxZoom: 2,
-    }),
-    style: (feature) => getMapStyle(feature, selectedCountry),
-});
+// Half of the earth's circumference in meters at the equator (EPSG:3857 bound)
+const webMercatorHalfCircumference = 20037508.34;
+
+// Convert EPSG:3857 meters to WGS84 longitude degrees
+function webMercatorToLongitude(x: number): number {
+    return (x / webMercatorHalfCircumference) * 180;
+}
+
+// Convert EPSG:3857 meters to WGS84 latitude degrees
+function webMercatorToLatitude(y: number): number {
+    return (
+        (Math.atan(Math.exp((y / webMercatorHalfCircumference) * Math.PI)) * 360) / Math.PI - 90
+    );
+}
+
+// Raster extent as returned by the IBF API raster metadata endpoints (EPSG:3857)
+interface RasterExtent {
+    xmin: number;
+    ymin: number;
+    xmax: number;
+    ymax: number;
+}
+
+// Build a mapbox image raster layer from an image URL and its EPSG:3857 extent
+function makeImageRasterLayer(
+    layerKey: string,
+    imageUrl: string,
+    extent: RasterExtent,
+): NrwMapboxLayer {
+    const west = webMercatorToLongitude(extent.xmin);
+    const south = webMercatorToLatitude(extent.ymin);
+    const east = webMercatorToLongitude(extent.xmax);
+    const north = webMercatorToLatitude(extent.ymax);
+
+    const sourceId = `nrw-source-${layerKey}`;
+    const layerId = `nrw-layer-${layerKey}`;
+
+    return {
+        sourceId,
+        layerId,
+        source: {
+            type: 'image',
+            url: imageUrl,
+            coordinates: [
+                [west, north],
+                [east, north],
+                [east, south],
+                [west, south],
+            ],
+        },
+        layer: {
+            id: layerId,
+            type: 'raster',
+            source: sourceId,
+            paint: {
+                'raster-opacity': 0.8,
+                // Use 'nearest' resampling to avoid blurring the raster when zoomed in
+                'raster-resampling': 'nearest',
+            },
+        },
+    };
+}
 
 // Raster layer functions
-export const makeEventImageLayer = async (resourceId: string) => {
+export const makeEventImageLayer = async (resourceId: string): Promise<NrwMapboxLayer> => {
     const baseUrl = `${ibfApiBackend}rasters/alert`;
     const metadataUrl = `${baseUrl}/${resourceId}`;
     const metadataResponse = await fetch(metadataUrl);
@@ -115,23 +141,16 @@ export const makeEventImageLayer = async (resourceId: string) => {
         throw new Error(`Failed to fetch event raster metadata: ${metadataResponse.status}`);
     }
     const metadataJson = await metadataResponse.json();
-    const {
-        xmin, ymin, xmax, ymax,
-    } = metadataJson.metadata.coloured.extent;
+    const extent = metadataJson.metadata.coloured.extent as RasterExtent;
 
     const imageUrl = `${baseUrl}/${resourceId}/image`;
-    return new ImageLayer({
-        source: new ImageStatic({
-            url: imageUrl,
-            projection: 'EPSG:3857', // TODO: switch to shared enum
-            interpolate: false,
-            imageExtent: [xmin, ymin, xmax, ymax],
-            crossOrigin: 'anonymous',
-        }),
-    });
+    return makeImageRasterLayer(`event-${resourceId}`, imageUrl, extent);
 };
 
-export const makeStaticImageLayer = async (countryCodeIso3: string, layerName: string) => {
+export const makeStaticImageLayer = async (
+    countryCodeIso3: string,
+    layerName: string,
+): Promise<NrwMapboxLayer> => {
     const baseUrl = `${ibfApiBackend}rasters/static`;
     const metadataUrl = `${baseUrl}/${countryCodeIso3}/${layerName}`;
     const metadataResponse = await fetch(metadataUrl);
@@ -139,20 +158,10 @@ export const makeStaticImageLayer = async (countryCodeIso3: string, layerName: s
         throw new Error(`Failed to fetch ${layerName} raster metadata: ${metadataResponse.status}`);
     }
     const metadataJson = await metadataResponse.json();
-    const {
-        xmin, ymin, xmax, ymax,
-    } = metadataJson.metadata.coloured.extent;
+    const extent = metadataJson.metadata.coloured.extent as RasterExtent;
 
     const imageUrl = `${baseUrl}/${countryCodeIso3}/${layerName}/image`;
-    return new ImageLayer({
-        source: new ImageStatic({
-            url: imageUrl,
-            projection: 'EPSG:3857',
-            interpolate: false,
-            imageExtent: [xmin, ymin, xmax, ymax],
-            crossOrigin: 'anonymous',
-        }),
-    });
+    return makeImageRasterLayer(`static-${countryCodeIso3}-${layerName}`, imageUrl, extent);
 };
 
 export const isValidCoordinatePair = (
@@ -163,42 +172,38 @@ export const isValidCoordinatePair = (
     && Math.abs(longitude) <= 180
     && Math.abs(latitude) <= 90;
 
+// Build a mapbox circle point layer from GeoJSON point features (WGS84 coordinates)
 export const makePointLayerFromFeatures = (
+    layerKey: string,
     features: GeoJSON.Feature[],
-    style: Style,
-): VectorLayer => {
-    const source = new VectorSource({
-        features: new GeoJSON().readFeatures(
-            {
+    paint: CircleLayerSpecification['paint'],
+): NrwMapboxLayer => {
+    const sourceId = `nrw-source-${layerKey}`;
+    const layerId = `nrw-layer-${layerKey}`;
+
+    return {
+        sourceId,
+        layerId,
+        source: {
+            type: 'geojson',
+            data: {
                 type: 'FeatureCollection',
                 features,
             },
-            {
-                dataProjection: 'EPSG:4326',
-                featureProjection: 'EPSG:3857',
-            },
-        ),
-    });
-
-    return new VectorLayer({
-        source,
-        style,
-    });
+        },
+        layer: {
+            id: layerId,
+            type: 'circle',
+            source: sourceId,
+            paint,
+        },
+    };
 };
-
-// Get the z index offset to make sure lower-level admin layers are not hidden by their parents
-export function getAdminAreaZIndex(level: number): number {
-    // Start with a base offset of 1000, and add the level
-    return 1000 + level;
-}
 
 // Get the map layer z index offset on which the layer is drawn.
 // Higher numbers are drawn on top of other layers.
 // Change the numbers in this function to change the layering order. Use ints.
 export function getZIndexOffset(layerDetails: LayerDto): number {
-    // Note: admin levels are handled by this function: getAdminAreaZIndex
-    // Set the number below in relation to what the admin layer is drawn at.
-
     switch (layerDetails.layerName) {
         case LayerName.population:
             return 500;
@@ -220,6 +225,7 @@ export function getZIndexOffset(layerDetails: LayerDto): number {
     }
 }
 
+/*
 // Get the extents that fits all the supplied vector data, with added padding
 export function getExtentForVectorData(
     source: VectorSource,
@@ -240,17 +246,10 @@ export function getExtentForVectorData(
     const paddingAmount = Math.max(extentWidth, extentHeight) * paddingRatio;
 
     return bufferExtent(extent, paddingAmount);
-}
+} */
 
-export interface InitialMapViewParams {
-    zoom?: number;
-    center?: {
-        lon: number;
-        lat: number;
-    };
-}
+/*
 
-/**
  * Initialize the map view with extent constraint and optional initial position.
  *
  * Behavior:
@@ -262,7 +261,7 @@ export interface InitialMapViewParams {
  * @param map - The OpenLayers map instance
  * @param extent - The extent to constrain panning to
  * @param initialView - Optional initial view params (center, zoom) from URL
- */
+
 export function initializeMapView(
     map: MapOl,
     extent: Extent,
@@ -305,3 +304,4 @@ export function initializeMapView(
         });
     }
 }
+*/

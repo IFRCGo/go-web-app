@@ -1,5 +1,4 @@
-import type VectorLayer from 'ol/layer/Vector';
-import type Style from 'ol/style/Style';
+import type { CircleLayerSpecification } from 'mapbox-gl-v3';
 
 import mockCountryData from './mockData/mock_CountryData';
 import {
@@ -12,7 +11,10 @@ import {
     isValidCoordinatePair,
     makePointLayerFromFeatures,
 } from './nrwMapHelpers';
-import { type CountryMapData } from './nrwMapTypes';
+import {
+    type CountryMapData,
+    type NrwMapboxLayer,
+} from './nrwMapTypes';
 import {
     getAdminAreaDetailsNoGeoUrl,
     getEventsApiUrl,
@@ -23,6 +25,7 @@ import type {
     EventResponseDto,
     LayerDto,
 } from './shared-dtos';
+import { LayerName } from './shared-enums';
 
 // Format of GO API result for Red Cross locations
 type RcLocResult = {
@@ -206,8 +209,8 @@ export async function getCountryMapData(
 
 export const makeRcBranchesPointLayer = async (
     selectedCountry: string,
-    style: Style,
-): Promise<VectorLayer> => {
+    paint: CircleLayerSpecification['paint'],
+): Promise<NrwMapboxLayer> => {
     const apiUrl = getRcLocsApiUrl(selectedCountry);
     const response = await fetch(apiUrl);
     if (!response.ok) {
@@ -255,13 +258,17 @@ export const makeRcBranchesPointLayer = async (
             } as GeoJSON.Feature];
         });
 
-    return makePointLayerFromFeatures(filteredFeatures, style);
+    return makePointLayerFromFeatures(
+        `${LayerName.redCrossBranches}-${selectedCountry}`,
+        filteredFeatures,
+        paint,
+    );
 };
 
 export const makeClinicPointLayer = async (
     selectedCountry: string,
-    style: Style,
-): Promise<VectorLayer> => {
+    paint: CircleLayerSpecification['paint'],
+): Promise<NrwMapboxLayer> => {
     const apiUrl = getHealthLocsApiUrl(selectedCountry);
     const response = await fetch(apiUrl);
     if (!response.ok) {
@@ -303,5 +310,9 @@ export const makeClinicPointLayer = async (
             } as GeoJSON.Feature];
         });
 
-    return makePointLayerFromFeatures(filteredFeatures, style);
+    return makePointLayerFromFeatures(
+        `${LayerName.clinics}-${selectedCountry}`,
+        filteredFeatures,
+        paint,
+    );
 };

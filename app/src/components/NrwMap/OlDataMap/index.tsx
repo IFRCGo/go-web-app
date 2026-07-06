@@ -1,3 +1,4 @@
+/*
 import {
     type ReactNode,
     useEffect,
@@ -90,14 +91,13 @@ type AddAdminLayerFunction = (
     parentCode?: string,
 ) => void;
 
-/**
- * OpenLayers map component for NRW data maps
- * This mainly handles interactivity of the map, with additional data layers added via the
- * exposed addLayerFunction.
- * Admin areas are the main interactive feature of the map, so they need to be added and
- * managed by this component.
- * @returns A component that can be either standalone, or nested in a NrwMapContainer.
- */
+// OpenLayers map component for NRW data maps
+//  This mainly handles interactivity of the map, with additional data layers added via the
+//  exposed addLayerFunction.
+//  Admin areas are the main interactive feature of the map, so they need to be added and
+//  managed by this component.
+//  @returns A component that can be either standalone, or nested in a NrwMapContainer.
+
 export default function OlDataMap({
     scopedCountries,
     selectedEventDetails,
@@ -202,7 +202,8 @@ export default function OlDataMap({
 
             // For deeper admin levels, just add child areas of a given parent code.
             if (parentCode === undefined) {
-                alert.show(`Parent code is required for admin level ${targetLevel}`, { variant: 'danger' });
+                alert.show(`Parent code is required for admin level ${targetLevel}`,
+                { variant: 'danger' });
                 return undefined;
             }
 
@@ -518,3 +519,4 @@ export default function OlDataMap({
         </div>
     );
 }
+*/

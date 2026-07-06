@@ -10,7 +10,7 @@ const uiCssExists = fs.existsSync(uiCssPath);
 const cssPaths = [
     path.resolve(__dirname, './src/index.css'),
     ...(uiCssExists ? [uiCssPath] : []),
-    path.resolve(__dirname, './src/components/NrwMap/OlDataMap/styles.module.css'),
+    path.resolve(__dirname, './src/components/NrwMap/MapBoxDataMap/styles.module.css'),
 ];
 
 /** @type {import('stylelint').Config} */
