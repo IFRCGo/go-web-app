@@ -101,9 +101,34 @@ export default function useNrwDataLoader(
     // Cache of all loaded layers, keyed by a composite of parent key and layer name.
     const layersCache = useRef(new Map<string, BaseLayer>());
 
+    // Load a layer, cache it, add it to the map, and apply the target visibility.
+    const loadAndAddLayer = async (
+        layerDetails: LayerDto,
+        cacheKey: string,
+        loadLayer: () => Promise<BaseLayer>,
+        targetVisible: boolean,
+    ) => {
+        try {
+            const layer = await loadLayer();
+            layersCache.current.set(cacheKey, layer);
+            if (!addLayerToMapFunction.current) {
+                console.error('[useNrwDataLoader] Map add layer function not ready');
+                return;
+            }
+            addLayerToMapFunction.current(layer, layerDetails);
+            layer.setVisible(targetVisible);
+        } catch (error) {
+            console.error(`[useNrwDataLoader] Failed to load layer ${layerDetails.layerName}:`, error);
+            alert.show('Failed to load map layer', {
+                variant: 'danger',
+                description: 'The map layer could not be loaded. Please try again.',
+            });
+        }
+    };
+
     // Internal function for setting a single cached layer's visibility.
     // If not cached and the target is visible, loads it.
-    const setLayerVisibility = async (
+    const setLayerVisibility = (
         layerDetails: LayerDto,
         cacheParentKey: string,
         loadLayer: () => Promise<BaseLayer>,
@@ -115,36 +140,14 @@ export default function useNrwDataLoader(
             return;
         }
 
-        const loadAndAddLayer = async () => {
-            try {
-                const layer = await loadLayer();
-                layersCache.current.set(
-                    makeCacheKey(cacheParentKey, layerDetails.layerName),
-                    layer,
-                );
-                if (!addLayerToMapFunction.current) {
-                    console.error('[useNrwDataLoader] Map add layer function not ready');
-                    return;
-                }
-                addLayerToMapFunction.current(layer, layerDetails);
-                layer.setVisible(targetVisible);
-            } catch (error) {
-                console.error(`[useNrwDataLoader] Failed to load layer ${layerDetails.layerName}:`, error);
-                alert.show('Failed to load map layer', {
-                    variant: 'danger',
-                    description: 'The map layer could not be loaded. Please try again.',
-                });
-            }
-        };
-
-        const cachedLayer = layersCache.current.get(
-            makeCacheKey(cacheParentKey, layerDetails.layerName),
-        );
+        const cacheKey = makeCacheKey(cacheParentKey, layerDetails.layerName);
+        const cachedLayer = layersCache.current.get(cacheKey);
         if (cachedLayer) {
             cachedLayer.setVisible(targetVisible);
         } else if (targetVisible) {
-            // If the layer is not cached and the target is visible, load it.
-            loadAndAddLayer();
+            // Not cached and should be shown: load it (fire-and-forget so the
+            // visible layer names update immediately below).
+            loadAndAddLayer(layerDetails, cacheKey, loadLayer, targetVisible);
         }
 
         // Update the public list of visible layer names.
