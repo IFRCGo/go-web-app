@@ -203,7 +203,7 @@ export default function useNrwDataLoader(
         return null;
     };
 
-    const applyLayerVisibilityChange = (
+    const resolveLayerAndSetVisibility = (
         layerName: string,
         targetVisible: boolean,
     ) => {
@@ -275,7 +275,7 @@ export default function useNrwDataLoader(
         // Get the opposite of the current visibility
         const targetVisible = !isLayerVisible(layerName);
         // Apply that visibility change
-        applyLayerVisibilityChange(layerName, targetVisible);
+        resolveLayerAndSetVisibility(layerName, targetVisible);
     };
 
     // Reload the current country's event data and update shared state
@@ -360,7 +360,7 @@ export default function useNrwDataLoader(
             return;
         }
         initialVisibleLayerNames.forEach((layerName) => {
-            applyLayerVisibilityChange(layerName, true);
+            resolveLayerAndSetVisibility(layerName, true);
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isInitialDataLoaded]);
