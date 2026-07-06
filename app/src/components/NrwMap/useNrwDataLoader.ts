@@ -32,15 +32,6 @@ import {
     LayerType,
 } from '#utils/nrw/shared-enums';
 
-// Outer cache key used for layers without a country (e.g. event layers).
-const EVENT_DATA_CACHE_KEY = 'event_data';
-
-// Function (provided by the map component) for adding a layer to the map.
-type AddLayerToMapFunction = (layer: BaseLayer, layerInfo: LayerDto) => void;
-
-// Build a unique cache key from a parent key (country or event) and layer name.
-const makeCacheKey = (cacheParentKey: string, layerName: string) => `${cacheParentKey}::${layerName}`;
-
 /**
  * Hook used to manage and share data for the NRW map components.
  *
@@ -84,6 +75,7 @@ export default function useNrwDataLoader(
     // ----- Exposed references -----
 
     // Reference to the function (passed in by the map component) for adding layers to the map.
+    type AddLayerToMapFunction = (layer: BaseLayer, layerInfo: LayerDto) => void;
     const addLayerToMapFunction = useRef<AddLayerToMapFunction | null>(null);
 
     // Get available layers for the currently selected event
@@ -100,6 +92,12 @@ export default function useNrwDataLoader(
 
     // Cache of all loaded layers, keyed by a composite of parent key and layer name.
     const layersCache = useRef(new Map<string, BaseLayer>());
+
+    // Build a unique cache key from a parent key (country or event) and layer name.
+    const makeCacheKey = (cacheParentKey: string, layerName: string) => `${cacheParentKey}::${layerName}`;
+
+    // Outer cache key used for layers without a country (e.g. event layers).
+    const EVENT_DATA_CACHE_KEY = 'event_data';
 
     // Load a layer, cache it, add it to the map, and apply the target visibility.
     const loadAndAddLayer = async (
