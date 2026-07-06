@@ -35,6 +35,9 @@ import {
 // Outer cache key used for layers without a country (e.g. event layers).
 const EVENT_DATA_CACHE_KEY = 'event_data';
 
+// Function (provided by the map component) for adding a layer to the map.
+type AddLayerToMapFunction = (layer: BaseLayer, layerInfo: LayerDto) => void;
+
 // Build a unique cache key from a parent key (country or event) and layer name.
 const makeCacheKey = (cacheParentKey: string, layerName: string) => `${cacheParentKey}::${layerName}`;
 
@@ -81,10 +84,7 @@ export default function useNrwDataLoader(
     // ----- Exposed references -----
 
     // Reference to the function (passed in by the map component) for adding layers to the map.
-    const addLayerToMapFunction = useRef<(
-      (layer: BaseLayer, layerInfo: LayerDto) => void) | null
-        >(null,
-        );
+    const addLayerToMapFunction = useRef<AddLayerToMapFunction | null>(null);
 
     // Get available layers for the currently selected event
     const selectedEvent = useMemo(
@@ -270,7 +270,7 @@ export default function useNrwDataLoader(
     // A callback to register the map's addLayer function.
     // This is set when the map is ready.
     const registerMapAddLayer = useCallback(
-        (addLayer: (layer: BaseLayer, layerInfo: LayerDto) => void) => {
+        (addLayer: AddLayerToMapFunction) => {
             addLayerToMapFunction.current = addLayer;
             setIsMapReady(true);
         },
