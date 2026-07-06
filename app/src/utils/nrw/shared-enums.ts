@@ -10,7 +10,7 @@ export enum EnsembleMemberType {
 
 export enum ForecastSource {
   glofas = 'glofas',
-  ecmwf = 'ECMWF',
+  ECMWF = 'ECMWF',
 }
 
 export enum HazardType {
@@ -21,32 +21,32 @@ export enum HazardType {
 export enum LayerName {
   // --- generic (cross-hazard) ---
   population = 'population',
-  populationExposed = 'population_exposed',
-  redCrossBranches = 'red_cross_branches',
+  populationExposed = 'populationExposed',
+  redCrossBranches = 'redCrossBranches',
   clinics = 'clinics',
 
   // --- floods-specific ---
-  floodDepth = 'flood_depth',
-  glofasStations = 'glofas_stations',
+  floodDepth = 'floodDepth',
+  glofasStations = 'glofasStations',
 }
 
 export enum LayerType {
   raster = 'raster',
   shape = 'shape',
   point = 'point',
-  vectorTile = 'vector_tile',
+  vectorTile = 'vectorTile',
 }
 
 // Not used by FE
 export enum SeverityKey {
-  returnPeriod = 'return_period',
+  returnPeriod = 'returnPeriod',
   percentile = 'percentile',
 }
 
 // START: Alert classification related enums
 // Allowed classification levels for: severityClass and probabilityClass - Not used by FE
 export enum AlertClassificationLevel {
-  singleThreshold = 'single_threshold',
+  singleThreshold = 'singleThreshold',
   low = 'low',
   medium = 'medium',
   high = 'high',
