@@ -57,6 +57,7 @@
         "html2canvas": "^1.4.1",
         "jspdf": "^4.2.1",
         "mapbox-gl": "^1.13.0",
+        "mapbox-gl-v3": "npm:mapbox-gl@^3.0.0",
         "ol": "^10.8.0",
         "ol-mapbox-style": "^13.3.0",
         "papaparse": "^5.4.1",

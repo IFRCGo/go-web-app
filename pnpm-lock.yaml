@@ -91,6 +91,9 @@ importers:
       mapbox-gl:
         specifier: ^1.13.0
         version: 1.13.3
+      mapbox-gl-v3:
+        specifier: npm:mapbox-gl@^3.0.0
+        version: mapbox-gl@3.25.0
       ol:
         specifier: ^10.8.0
         version: 10.8.0
@@ -4774,6 +4777,9 @@ packages:
   mapbox-gl@1.13.3:
     resolution: {integrity: sha512-p8lJFEiqmEQlyv+DQxFAOG/XPWN0Wp7j/Psq93Zywz7qt9CcUKFYDBOoOEKzqe6gudHVJY8/Bhqw6VDpX2lSBg==}
     engines: {node: '>=6.4.0'}
+
+  mapbox-gl@3.25.0:
+    resolution: {integrity: sha512-I+9oSkJVFu51xIAAQcjKophFe6zVAGWROHsszeRhX9E1OXEizgPH+8BkF7GaxmmLd9FbADdEfvULF8NxEFcB5w==}
 
   mapbox-to-css-font@3.2.0:
     resolution: {integrity: sha512-kvsEfzvLik34BiFj+S19bv5d70l9qSdkUzrq99dvZ9d5POaLyB4vJMQmq3BoJ5D6lFG1GYnMM7o7cm5Jh8YEEg==}
@@ -11834,6 +11840,8 @@ snapshots:
       supercluster: 7.1.5
       tinyqueue: 2.0.3
       vt-pbf: 3.1.3
+
+  mapbox-gl@3.25.0: {}
 
   mapbox-to-css-font@3.2.0: {}
 

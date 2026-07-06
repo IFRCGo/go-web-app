@@ -1,0 +1,40 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    block-size: 100%;
+    inline-size: 100%;
+    min-block-size: 24rem;
+}
+
+.debugToolbar {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.debugExportButton {
+    border: 1px solid #9ca3af;
+    border-radius: 0.25rem;
+    background-color: #ffffff;
+    cursor: pointer;
+    padding: 0.45rem 0.75rem;
+    line-height: 1.1;
+    color: #111827;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.debugExportButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.debugExportButton:hover:not(:disabled) {
+    background-color: #f3f4f6;
+}
+
+.map {
+    block-size: calc(100% - 2.25rem);
+    inline-size: 100%;
+    min-block-size: 24rem;
+}
