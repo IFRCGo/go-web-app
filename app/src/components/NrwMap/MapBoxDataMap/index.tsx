@@ -23,10 +23,10 @@ import {
     getRcLocsApiUrl,
     seedRepoPopDataUrl,
 } from '#utils/nrw/nrwUrls';
-import type { MapLayerDetailsDto } from '#utils/nrw/shared-dtos';
+import type { LayerDto } from '#utils/nrw/shared-dtos';
 import {
-    MapLayerDisplayType,
-    MapLayerInfoType,
+    LayerName,
+    LayerType,
 } from '#utils/nrw/shared-enums';
 
 import styles from './styles.module.css';
@@ -47,15 +47,16 @@ function mercatorToLat(y: number): number {
 interface MbLayerEntry {
     sourceId: string;
     layerId: string;
+    resourceId: string;
 }
 
 interface MapBoxDataMapProps {
-    selectedCountries: string[];
+    scopedCountries: string[];
     initialMapView?: MapSelectionView | null;
-    // Resource IDs of layers that should currently be visible
+    // Layer names that should currently be visible
     visibleLayerIds?: string[];
     // Layers from the currently selected event (if any)
-    availableEventLayers?: MapLayerDetailsDto[];
+    availableEventLayers?: LayerDto[];
 }
 
 function getViewConfig(initialMapView?: MapSelectionView | null) {
@@ -71,10 +72,10 @@ async function loadPointLayer(
     map: MapboxGLMap,
     sourceId: string,
     layerId: string,
-    dataType: MapLayerInfoType,
+    layerName: LayerName,
     selectedCountry: string,
 ): Promise<void> {
-    const apiUrl = dataType === MapLayerInfoType.RedCrossBranches
+    const apiUrl = layerName === LayerName.redCrossBranches
         ? getRcLocsApiUrl(selectedCountry)
         : getHealthLocsApiUrl(selectedCountry);
 
@@ -86,7 +87,7 @@ async function loadPointLayer(
         let longitude: number;
         let latitude: number;
 
-        if (dataType === MapLayerInfoType.RedCrossBranches) {
+        if (layerName === LayerName.redCrossBranches) {
             const locJson = item.location_geojson as { coordinates?: [number, number] } | null;
             const coords = locJson?.coordinates;
             if (!coords || coords.length < 2) return [];
@@ -118,7 +119,7 @@ async function loadPointLayer(
         source: sourceId,
         paint: {
             'circle-radius': 5,
-            'circle-color': dataType === MapLayerInfoType.RedCrossBranches ? '#e63636' : '#3694d1',
+            'circle-color': layerName === LayerName.redCrossBranches ? '#e63636' : '#3694d1',
             'circle-stroke-width': 1,
             'circle-stroke-color': '#ffffff',
         },
@@ -129,7 +130,7 @@ async function loadRasterLayer(
     map: MapboxGLMap,
     sourceId: string,
     layerId: string,
-    dataType: MapLayerInfoType,
+    layerName: LayerName,
     resourceId: string,
     selectedCountry: string,
 ): Promise<void> {
@@ -139,7 +140,7 @@ async function loadRasterLayer(
     let east: number;
     let north: number;
 
-    if (dataType === MapLayerInfoType.Population) {
+    if (layerName === LayerName.population) {
         const name = `${selectedCountry}_population`;
         const metaRes = await fetch(`${seedRepoPopDataUrl}${name}_metadata.json`);
         if (!metaRes.ok) throw new Error(`Metadata HTTP ${metaRes.status}`);
@@ -191,17 +192,17 @@ async function loadRasterLayer(
 
 async function loadMbLayer(
     map: MapboxGLMap,
-    layerInfo: MapLayerDetailsDto,
+    layerInfo: LayerDto,
     sourceId: string,
     layerId: string,
     selectedCountry: string,
 ): Promise<void> {
-    const { dataType, displayType, resourceId } = layerInfo;
+    const { layerName, layerType, resourceId } = layerInfo;
 
-    if (displayType === MapLayerDisplayType.Point) {
-        await loadPointLayer(map, sourceId, layerId, dataType, selectedCountry);
-    } else if (displayType === MapLayerDisplayType.Raster) {
-        await loadRasterLayer(map, sourceId, layerId, dataType, resourceId, selectedCountry);
+    if (layerType === LayerType.point) {
+        await loadPointLayer(map, sourceId, layerId, layerName, selectedCountry);
+    } else if (layerType === LayerType.raster) {
+        await loadRasterLayer(map, sourceId, layerId, layerName, resourceId, selectedCountry);
     }
 }
 
@@ -209,19 +210,31 @@ async function loadMbLayer(
  * Lightweight Mapbox v3 map for NRW, with support for the same data layers as OlDataMap.
  */
 export default function MapBoxDataMap({
-    selectedCountries,
+    scopedCountries,
     initialMapView,
     visibleLayerIds = [],
     availableEventLayers = [],
 }: MapBoxDataMapProps) {
     const alert = useAlert();
-    const selectedCountry = selectedCountries[0] ?? noCountrySelectedValue;
+    const selectedCountry = scopedCountries[0] ?? noCountrySelectedValue;
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<MapboxGLMap | null>(null);
     const [isMapLoaded, setIsMapLoaded] = useState(false);
-    const [countryLayers, setCountryLayers] = useState<MapLayerDetailsDto[]>([]);
-    // Tracks Mapbox source/layer IDs for each loaded resource, keyed by resourceId
+    const [countryLayers, setCountryLayers] = useState<LayerDto[]>([]);
+    // Tracks Mapbox source/layer IDs for each loaded layer, keyed by layerName
     const mbLayerMapRef = useRef<Map<string, MbLayerEntry>>(new Map());
+
+    const removeLayerAndSource = useCallback(
+        (map: MapboxGLMap, sourceId: string, layerId: string) => {
+            if (map.getLayer(layerId)) {
+                map.removeLayer(layerId);
+            }
+            if (map.getSource(sourceId)) {
+                map.removeSource(sourceId);
+            }
+        },
+        [],
+    );
 
     // Initialize the Mapbox map instance once
     useEffect(() => {
@@ -277,7 +290,7 @@ export default function MapBoxDataMap({
     // Fetch the layer definitions available for this country
     useEffect(() => {
         const load = async () => {
-            const data = await getCountryMapData();
+            const data = await getCountryMapData([selectedCountry]);
             setCountryLayers(data[selectedCountry]?.availableLayers ?? []);
         };
         load();
@@ -289,32 +302,70 @@ export default function MapBoxDataMap({
         if (!map || !isMapLoaded) return;
 
         const allLayers = [...availableEventLayers, ...countryLayers];
+        const availableLayerNames = new Set(allLayers.map((layerInfo) => layerInfo.layerName));
+
+        // Remove layers that are no longer available for current country/event state.
+        mbLayerMapRef.current.forEach((entry, loadedLayerName) => {
+            if (!availableLayerNames.has(loadedLayerName as LayerName)) {
+                removeLayerAndSource(map, entry.sourceId, entry.layerId);
+                mbLayerMapRef.current.delete(loadedLayerName);
+            }
+        });
 
         allLayers.forEach((layerInfo) => {
-            const { resourceId } = layerInfo;
-            const shouldBeVisible = visibleLayerIds.includes(resourceId);
-            const existing = mbLayerMapRef.current.get(resourceId);
+            const { layerName, resourceId } = layerInfo;
+            const shouldBeVisible = visibleLayerIds.includes(layerName);
+            const existing = mbLayerMapRef.current.get(layerName);
 
             if (existing) {
+                // Same semantic layer but different backing resource (e.g. event changed): reload.
+                if (existing.resourceId !== resourceId) {
+                    removeLayerAndSource(map, existing.sourceId, existing.layerId);
+                    mbLayerMapRef.current.delete(layerName);
+
+                    if (!shouldBeVisible) {
+                        return;
+                    }
+
+                    const sourceId = `nrw-src-${layerName}-${resourceId}`;
+                    const layerId = `nrw-lyr-${layerName}-${resourceId}`;
+
+                    loadMbLayer(map, layerInfo, sourceId, layerId, selectedCountry)
+                        .then(() => {
+                            mbLayerMapRef.current.set(layerName, { sourceId, layerId, resourceId });
+                        })
+                        .catch((err: unknown) => {
+                            console.error(`[MapBoxDataMap] Failed to load layer ${layerName}:`, err);
+                        });
+                    return;
+                }
+
                 map.setLayoutProperty(
                     existing.layerId,
                     'visibility',
                     shouldBeVisible ? 'visible' : 'none',
                 );
             } else if (shouldBeVisible) {
-                const sourceId = `nrw-src-${resourceId}`;
-                const layerId = `nrw-lyr-${resourceId}`;
+                const sourceId = `nrw-src-${layerName}-${resourceId}`;
+                const layerId = `nrw-lyr-${layerName}-${resourceId}`;
 
                 loadMbLayer(map, layerInfo, sourceId, layerId, selectedCountry)
                     .then(() => {
-                        mbLayerMapRef.current.set(resourceId, { sourceId, layerId });
+                        mbLayerMapRef.current.set(layerName, { sourceId, layerId, resourceId });
                     })
                     .catch((err: unknown) => {
-                        console.error(`[MapBoxDataMap] Failed to load layer ${resourceId}:`, err);
+                        console.error(`[MapBoxDataMap] Failed to load layer ${layerName}:`, err);
                     });
             }
         });
-    }, [visibleLayerIds, isMapLoaded, countryLayers, availableEventLayers, selectedCountry]);
+    }, [
+        visibleLayerIds,
+        isMapLoaded,
+        countryLayers,
+        availableEventLayers,
+        selectedCountry,
+        removeLayerAndSource,
+    ]);
 
     const handleDebugExport = useCallback(async () => {
         const mapInstance = mapInstanceRef.current;

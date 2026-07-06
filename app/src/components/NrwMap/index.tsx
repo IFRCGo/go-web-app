@@ -12,6 +12,7 @@ import { type AdminAreaDetails } from '#utils/nrw/nrwDataFetchHelpers';
 import type { MapSelectionView } from '#utils/nrw/nrwMapInteractionHelpers';
 import { PrintElementId } from '#utils/nrw/nrwMapToPdfExporter';
 
+import MapBoxDataMap from './MapBoxDataMap';
 import NrwDataPanel from './NrwDataPanel';
 import NrwEventsPanel from './NrwEventsPanel';
 import NrwLayerPanel from './NrwLayerPanel';
@@ -143,6 +144,12 @@ export default function NrwMapContainer() {
                     adminDetails={adminDetails}
                     mapRef={mapRef}
                     eventId={selectedEventId ?? undefined}
+                />
+                <MapBoxDataMap
+                    scopedCountries={scopedCountries}
+                    initialMapView={initialMapView}
+                    visibleLayerIds={visibleLayerNames}
+                    availableEventLayers={selectedEventLayers}
                 />
             </div>
             <div className={styles.mainContent}>
