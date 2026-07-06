@@ -129,10 +129,16 @@ export default function useNrwDataLoader(
     const setLayerVisibility = (
         layerDetails: LayerDto,
         cacheParentKey: string,
-        loadLayer: () => Promise<BaseLayer>,
+        loadLayer: (() => Promise<BaseLayer>) | null,
         targetVisible: boolean,
     ) => {
-        // Return early if not ready
+        // If no loader function, exit early.
+        if (!loadLayer) {
+            console.error(`[useNrwDataLoader] No loader function for layer ${layerDetails.layerName}`);
+            return;
+        }
+
+        // Return early if map loading function not ready
         if (!addLayerToMapFunction.current) {
             console.error('[useNrwDataLoader] Map not ready');
             return;
@@ -168,69 +174,33 @@ export default function useNrwDataLoader(
         });
     };
 
-    // Find the right layer loader function and run it for the layer type
-    const runEventLayerLoader = (
-        layerDetails: LayerDto,
-        targetVisible: boolean,
-    ) => {
-        const { layerName, layerType, resourceId } = layerDetails;
-
-        let loadLayer: (() => Promise<BaseLayer>) | null = null;
-
-        // First try event layers. If not, try the non-event layers
-        if (layerType === LayerType.raster && layerName === LayerName.floodDepth) {
-            loadLayer = () => makeEventImageLayer(resourceId);
-        }
-
-        if (!loadLayer) {
-            console.error(
-                `[useNrwDataLoader] Unsupported layer: ${layerDetails.layerName} `
-                + `(${layerDetails.layerType})`,
-            );
-            return;
-        }
-
-        setLayerVisibility(
-            layerDetails,
-            EVENT_DATA_CACHE_KEY,
-            loadLayer,
-            targetVisible,
-        );
-    };
-
-    // Find the right layer loader function and run it for the layer type
-    const runNonEventLayerLoader = (
+    // Find the right layer loader function and return it
+    const resolveLayerLoader = (
         layerDetails: LayerDto,
         country: string,
-        targetVisible: boolean,
-    ) => {
-        const { layerName, layerType } = layerDetails;
+    ): (() => Promise<BaseLayer>) | null => {
+        const { layerName, layerType, resourceId } = layerDetails;
 
-        let loadLayer: (() => Promise<BaseLayer>) | null = null;
-
-        // The remaining supported layers are all country-scoped.
+        if (layerType === LayerType.raster && layerName === LayerName.floodDepth) {
+            return () => makeEventImageLayer(resourceId);
+        }
         if (layerType === LayerType.raster && layerName === LayerName.population) {
-            loadLayer = () => makeStaticImageLayer(country, layerName);
-        } else if (layerType === LayerType.point && layerName === LayerName.redCrossBranches) {
-            loadLayer = () => makeRcBranchesPointLayer(country, styleRcBranchPoint);
-        } else if (layerType === LayerType.point && layerName === LayerName.clinics) {
-            loadLayer = () => makeClinicPointLayer(country, styleClinicPoint);
+            return () => makeStaticImageLayer(country, layerName);
         }
 
-        if (!loadLayer) {
-            console.error(
-                `[useNrwDataLoader] Unsupported layer: ${layerDetails.layerName} `
-                + `(${layerDetails.layerType})`,
-            );
-            return;
+        if (layerType === LayerType.point && layerName === LayerName.redCrossBranches) {
+            return () => makeRcBranchesPointLayer(country, styleRcBranchPoint);
+        }
+        if (layerType === LayerType.point && layerName === LayerName.clinics) {
+            return () => makeClinicPointLayer(country, styleClinicPoint);
         }
 
-        setLayerVisibility(
-            layerDetails,
-            country,
-            loadLayer,
-            targetVisible,
+        console.error(
+            `[useNrwDataLoader] Unsupported layer: ${layerDetails.layerName} `
+            + `(${layerDetails.layerType})`,
         );
+
+        return null;
     };
 
     const applyLayerVisibilityChange = (
@@ -240,27 +210,41 @@ export default function useNrwDataLoader(
         // Get event layer info from the event data
         const eventLayerMatch = selectedEventLayers.find((layer) => layer.layerName === layerName);
         if (eventLayerMatch) {
-            runEventLayerLoader(eventLayerMatch, targetVisible);
+            const layerLoader = resolveLayerLoader(eventLayerMatch, '');
+
+            setLayerVisibility(
+                eventLayerMatch,
+                EVENT_DATA_CACHE_KEY,
+                layerLoader,
+                targetVisible,
+            );
             return;
         }
 
         // Handle non-event layers
         // One layer can be applied to multiple countries, so check all of them
-        let toggleApplied = false;
+        let visibilityChangeApplied = false;
         Object.entries(countryNonEventLayers).forEach(([countryCode, layers]) => {
             const match = layers.find((layer) => layer.layerName === layerName);
             if (match) {
-                runNonEventLayerLoader(match, countryCode, targetVisible);
-                toggleApplied = true;
+                const layerLoader = resolveLayerLoader(match, countryCode);
+                visibilityChangeApplied = true;
+
+                setLayerVisibility(
+                    match,
+                    countryCode,
+                    layerLoader,
+                    targetVisible,
+                );
             }
         });
 
-        if (!toggleApplied) {
+        if (!visibilityChangeApplied) {
             console.error(`[useNrwDataLoader] No matching layer found for ${layerName}`);
         }
     };
 
-    // ----- Functions and values that are exposed -----
+    // ----- Other exposed functions and values -----
 
     // Callback for other components to see if a layer is visible.
     const isLayerVisible = useCallback(
