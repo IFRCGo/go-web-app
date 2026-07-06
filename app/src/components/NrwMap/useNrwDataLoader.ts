@@ -87,8 +87,14 @@ export default function useNrwDataLoader(
         );
 
     // Get available layers for the currently selected event
-    const selectedEvent = eventData.find((event) => event.eventId === selectedEventId) ?? null;
-    const selectedEventLayers: LayerDto[] = selectedEvent?.availableLayers ?? [];
+    const selectedEvent = useMemo(
+        () => eventData.find((event) => event.eventId === selectedEventId) ?? null,
+        [eventData, selectedEventId],
+    );
+    const selectedEventLayers = useMemo<LayerDto[]>(
+        () => selectedEvent?.availableLayers ?? [],
+        [selectedEvent],
+    );
 
     // ----- Layer Logic -----
 
@@ -309,16 +315,21 @@ export default function useNrwDataLoader(
     }, [countryNonEventLayers]);
 
     // Get details for the selected event
-    const selectedEventDetails = useMemo(() => {
-        const details = getSelectedEventDetails(eventData, selectedEventId);
-        if (details && Object.keys(details.exposedPopulationPerAreaByLevel).length === 0) {
+    const selectedEventDetails = useMemo(
+        () => getSelectedEventDetails(eventData, selectedEventId),
+        [eventData, selectedEventId],
+    );
+
+    // Warn when the selected event has no exposed areas.
+    useEffect(() => {
+        if (selectedEventDetails
+            && Object.keys(selectedEventDetails.exposedPopulationPerAreaByLevel).length === 0) {
             alert.show('No exposed areas', {
                 variant: 'danger',
                 description: `No exposed areas found for event "${selectedEventId}".`,
             });
         }
-        return details;
-    }, [eventData, selectedEventId, alert]);
+    }, [selectedEventDetails, selectedEventId, alert]);
 
     // ----- Init -----
 
@@ -330,26 +341,35 @@ export default function useNrwDataLoader(
             return;
         }
         const loadInitialData = async () => {
-            const [countryData, events] = await Promise.all([
-                getCountryMapData(scopedCountries),
-                getAllEventData(scopedCountries),
-            ]);
-            const layersByCountry = Object.fromEntries(
-                Object.entries(countryData).map(([countryCode, data]) => [
-                    countryCode,
-                    data.availableLayers,
-                ]),
-            );
-            setCountryNonEventLayers(layersByCountry);
-            setEventData(events);
-            setIsInitialDataLoaded(true);
+            try {
+                const [countryData, events] = await Promise.all([
+                    getCountryMapData(scopedCountries),
+                    getAllEventData(scopedCountries),
+                ]);
+                const layersByCountry = Object.fromEntries(
+                    Object.entries(countryData).map(([countryCode, data]) => [
+                        countryCode,
+                        data.availableLayers,
+                    ]),
+                );
+                setCountryNonEventLayers(layersByCountry);
+                setEventData(events);
+                setIsInitialDataLoaded(true);
+            } catch (error) {
+                console.error('[useNrwDataLoader] Failed to load initial map data:', error);
+                alert.show('Failed to load map data', {
+                    variant: 'danger',
+                    description: 'The map data could not be loaded. Please try again.',
+                });
+            }
         };
         loadInitialData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isMapReady]);
 
     // Set the deeplinked layers on initial load.
-    // This is done is a seperate callback because even if you set the data
+    // This is done in a separate effect so it only runs after the loaded
+    // data has been committed to state.
     useEffect(() => {
         if (!isInitialDataLoaded) {
             return;
