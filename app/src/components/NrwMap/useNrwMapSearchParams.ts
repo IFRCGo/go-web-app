@@ -4,10 +4,7 @@ import {
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import {
-    defaultMapZoom,
-    noCountrySelectedValue,
-} from '#utils/nrw/nrwConstants';
+import { defaultMapZoom } from '#utils/nrw/nrwConstants';
 import type { MapSelectionView } from '#utils/nrw/nrwMapTypes';
 import {
     adminParamsKey,
@@ -102,7 +99,7 @@ export default function useNrwMapSearchParams() {
     const resetToCountries = useCallback((countries: string[]) => {
         const serializedCountries = serializeCountryCodesParam(countries);
         setSearchParams({
-            [countryParamsKey]: serializedCountries || noCountrySelectedValue,
+            [countryParamsKey]: serializedCountries,
         });
     }, [setSearchParams]);
 
@@ -110,7 +107,7 @@ export default function useNrwMapSearchParams() {
     const setEventParams = useCallback(({ countries, eventId, layerIds }: EventParams) => {
         const serializedCountries = serializeCountryCodesParam(countries);
         const nextParams: Record<string, string> = {
-            [countryParamsKey]: serializedCountries || noCountrySelectedValue,
+            [countryParamsKey]: serializedCountries,
             [eventIdParamsKey]: String(eventId),
         };
         const layersValue = serializeMapLayersParam(layerIds);
@@ -130,7 +127,7 @@ export default function useNrwMapSearchParams() {
     }: MapViewParams) => {
         const serializedCountries = serializeCountryCodesParam(countries);
         const nextParams: Record<string, string> = {
-            [countryParamsKey]: serializedCountries || noCountrySelectedValue,
+            [countryParamsKey]: serializedCountries,
         };
 
         if (eventId) {

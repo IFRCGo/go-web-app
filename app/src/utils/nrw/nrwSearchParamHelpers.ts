@@ -2,8 +2,6 @@
  * Helper functions related to URL search parameters used for the NRW map
  */
 
-import { noCountrySelectedValue } from './nrwConstants';
-
 // URL search parameter keys
 export const countryParamsKey = 'c';
 export const eventIdParamsKey = 'e';
@@ -28,10 +26,11 @@ export function sanitizeEventIdParam(value: string | null | undefined): number |
 }
 
 // Convert to uppercase and accept only 3 letter length codes
-export function sanitizeCountryCode(value: string | null | undefined): string {
+// Returns null if the value is not a valid ISO_A3 code
+export function sanitizeCountryCode(value: string | null | undefined): string | null {
     const countryRegex = /^[A-Z]{3}$/;
     const cleanedValue = value?.trim().toUpperCase() ?? '';
-    return countryRegex.test(cleanedValue) ? cleanedValue : noCountrySelectedValue;
+    return countryRegex.test(cleanedValue) ? cleanedValue : null;
 }
 
 // Parse comma-separated country codes from URL param
@@ -44,7 +43,7 @@ export function parseAndSanitizeCountryCodesParam(value: string | null | undefin
     return value
         .split(',')
         .map((countryCode) => sanitizeCountryCode(countryCode))
-        .filter((countryCode) => countryCode !== noCountrySelectedValue);
+        .filter((countryCode): countryCode is string => countryCode !== null);
 }
 
 // Serialize country codes array to comma-separated string for URL param
@@ -52,7 +51,7 @@ export function parseAndSanitizeCountryCodesParam(value: string | null | undefin
 export function serializeCountryCodesParam(countryCodes: string[]): string {
     return countryCodes
         .map((countryCode) => sanitizeCountryCode(countryCode))
-        .filter((countryCode) => countryCode !== noCountrySelectedValue)
+        .filter((countryCode): countryCode is string => countryCode !== null)
         .join(',');
 }
 

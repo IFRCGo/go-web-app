@@ -4,7 +4,6 @@ import {
     test,
 } from 'vitest';
 
-import { noCountrySelectedValue } from './nrwConstants';
 import {
     parseAndSanitizeCountryCodesParam,
     parseMapLayersParam,
@@ -35,21 +34,21 @@ describe('nrwSearchParamHelpers', () => {
             expect(sanitizeCountryCode('\tMWI\n')).toBe('MWI');
         });
 
-        test('should return noCountrySelectedValue for invalid codes', () => {
-            expect(sanitizeCountryCode('US')).toBe(noCountrySelectedValue);
-            expect(sanitizeCountryCode('KENA')).toBe(noCountrySelectedValue);
-            expect(sanitizeCountryCode('1AB')).toBe(noCountrySelectedValue);
-            expect(sanitizeCountryCode('ab#')).toBe(noCountrySelectedValue);
+        test('should return null for invalid codes', () => {
+            expect(sanitizeCountryCode('US')).toBeNull();
+            expect(sanitizeCountryCode('KENA')).toBeNull();
+            expect(sanitizeCountryCode('1AB')).toBeNull();
+            expect(sanitizeCountryCode('ab#')).toBeNull();
         });
 
-        test('should return noCountrySelectedValue for null/undefined', () => {
-            expect(sanitizeCountryCode(null)).toBe(noCountrySelectedValue);
-            expect(sanitizeCountryCode(undefined)).toBe(noCountrySelectedValue);
+        test('should return null for null/undefined', () => {
+            expect(sanitizeCountryCode(null)).toBeNull();
+            expect(sanitizeCountryCode(undefined)).toBeNull();
         });
 
-        test('should return noCountrySelectedValue for empty strings', () => {
-            expect(sanitizeCountryCode('')).toBe(noCountrySelectedValue);
-            expect(sanitizeCountryCode('   ')).toBe(noCountrySelectedValue);
+        test('should return null for empty strings', () => {
+            expect(sanitizeCountryCode('')).toBeNull();
+            expect(sanitizeCountryCode('   ')).toBeNull();
         });
     });
 
@@ -68,7 +67,7 @@ describe('nrwSearchParamHelpers', () => {
 
         test('should filter out invalid country values', () => {
             expect(parseAndSanitizeCountryCodesParam('KEN,XX,1AB,UGA')).toEqual(['KEN', 'UGA']);
-            expect(parseAndSanitizeCountryCodesParam(noCountrySelectedValue)).toEqual([]);
+            expect(parseAndSanitizeCountryCodesParam('None')).toEqual([]);
         });
 
         test('should return empty array for null/undefined/empty', () => {
@@ -94,7 +93,7 @@ describe('nrwSearchParamHelpers', () => {
 
         test('should return empty string for empty or invalid input', () => {
             expect(serializeCountryCodesParam([])).toBe('');
-            expect(serializeCountryCodesParam([noCountrySelectedValue, 'XX'])).toBe('');
+            expect(serializeCountryCodesParam(['None', 'XX'])).toBe('');
         });
     });
 

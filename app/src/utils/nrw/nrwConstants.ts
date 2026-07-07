@@ -1,7 +1,3 @@
-// TODO: NNN Get rid of this if possible
-// Map property strings
-export const noCountrySelectedValue = 'None';
-
 // -------- Mapbox style constants --------
 // Default map values
 export const defaultMapZoom = 3;

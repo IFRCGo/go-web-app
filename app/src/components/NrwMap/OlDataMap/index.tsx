@@ -18,7 +18,6 @@ import { toLonLat } from 'ol/proj';
 import { apply } from 'ol-mapbox-style';
 
 import useAlert from '#hooks/useAlert';
-import { noCountrySelectedValue } from '#utils/nrw/nrwConstants';
 import {
     type AdminAreaDetails,
     fetchAdminAreaDetails,
@@ -110,7 +109,7 @@ export default function OlDataMap({
     layerPanel,
 }: OlDataMapProps) {
     const alert = useAlert();
-    const selectedCountry = scopedCountries[0] ?? noCountrySelectedValue;
+    const selectedCountry = scopedCountries[0] ?? '';
     const mapRef = useRef<HTMLDivElement>(null);
     const [isLayerPanelOpen, setIsLayerPanelOpen] = useState(false);
     const mapInstanceRef = useRef<MapOl | null>(null);

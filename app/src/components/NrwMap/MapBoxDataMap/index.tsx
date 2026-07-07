@@ -13,10 +13,7 @@ import mapboxgl, { type Map as MapboxGLMap } from 'mapbox-gl-v3';
 
 import { mbtoken } from '#config';
 import useAlert from '#hooks/useAlert';
-import {
-    defaultMapZoom,
-    noCountrySelectedValue,
-} from '#utils/nrw/nrwConstants';
+import { defaultMapZoom } from '#utils/nrw/nrwConstants';
 import { fetchExposedAdminAreasFeatures } from '#utils/nrw/nrwDataFetchHelpers';
 import { exportMapboxToPdf } from '#utils/nrw/nrwMapboxToPdfExporter';
 import {
@@ -273,7 +270,7 @@ export default function MapBoxDataMap({
     layerPanel,
 }: MapBoxDataMapProps) {
     const alert = useAlert();
-    const selectedCountry = scopedCountries[0] ?? noCountrySelectedValue;
+    const selectedCountry = scopedCountries[0] ?? '';
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<MapboxGLMap | null>(null);
     const [isMapLoaded, setIsMapLoaded] = useState(false);
