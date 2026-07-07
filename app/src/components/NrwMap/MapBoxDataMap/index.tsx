@@ -15,30 +15,25 @@ import useAlert from '#hooks/useAlert';
 import { defaultMapZoom } from '#utils/nrw/nrwConstants';
 import { fetchExposedAdminAreasFeatures } from '#utils/nrw/nrwDataFetchHelpers';
 import {
+    animationDurationMs,
+    drawScopedCountriesAdmin0Layer,
+    getBoundsFromFeatures,
+    getPaddedSquareBounds,
     getZIndexOffset,
     makeExposedAreasFillLayerFromFeatures,
+    paddingRatio,
 } from '#utils/nrw/nrwMapHelpers';
-import {
-    scopedCountriesAdmin0BorderPaint,
-    scopedCountriesAdmin0FillPaint,
-    setExposureColorsOnFeatures,
-} from '#utils/nrw/nrwMapStyles';
+import { setExposureColorsOnFeatures } from '#utils/nrw/nrwMapStyles';
 import type {
     MapLayerFunctions,
     MapSelectionView,
     NrwMapboxLayer,
     SelectedEventDetails,
 } from '#utils/nrw/nrwMapTypes';
-import { getAdminAreaUrl } from '#utils/nrw/nrwUrls';
 
 import styles from './styles.module.css';
 
 const defaultCenter: [number, number] = [0, 0];
-const scopedCountriesAdminSourceId = 'nrw-source-scoped-countries-admin0';
-const scopedCountriesAdminFillLayerId = 'nrw-layer-scoped-countries-admin0-fill';
-const scopedCountriesAdminBorderLayerId = 'nrw-layer-scoped-countries-admin0-border';
-const animationDurationMs = 500;
-const paddingRatio = 0.1;
 
 // Z index offset for the exposed admin areas fill layer.
 // Keep this above the rasters but below the point layers (see getZIndexOffset).
@@ -74,187 +69,6 @@ function getViewConfig(initialMapView?: MapSelectionView | null) {
             : defaultCenter,
         zoom: initialMapView?.zoom ?? defaultMapZoom,
     };
-}
-
-function hasValidInitialMapCenter(initialMapView?: MapSelectionView | null): boolean {
-    return Boolean(
-        initialMapView
-        && Number.isFinite(initialMapView.center.lon)
-        && Number.isFinite(initialMapView.center.lat),
-    );
-}
-
-// Build a square lon/lat bounding box centered on the data, sized to the larger
-// of the width/height dimensions, plus padding on all sides.
-// Using the larger dimension means the map can zoom out to fit the full extent
-// (height or width) and still leaves room to pan.
-function getPaddedSquareBounds(
-    bounds: [[number, number], [number, number]],
-    paddingRatioPercent: number,
-): [[number, number], [number, number]] {
-    const [[minLongitude, minLatitude], [maxLongitude, maxLatitude]] = bounds;
-
-    const centerLongitude = (minLongitude + maxLongitude) / 2;
-    const centerLatitude = (minLatitude + maxLatitude) / 2;
-
-    const width = maxLongitude - minLongitude;
-    const height = maxLatitude - minLatitude;
-
-    // Fit to the larger dimension, then pad.
-    const largerDimension = Math.max(width, height);
-    const halfSide = (largerDimension * (1 + paddingRatioPercent)) / 2;
-
-    return [
-        [centerLongitude - halfSide, centerLatitude - halfSide],
-        [centerLongitude + halfSide, centerLatitude + halfSide],
-    ];
-}
-
-function getBoundsFromFeatures(
-    features: GeoJSON.Feature[],
-): [[number, number], [number, number]] | null {
-    let minLongitude = Infinity;
-    let minLatitude = Infinity;
-    let maxLongitude = -Infinity;
-    let maxLatitude = -Infinity;
-    let hasAtLeastOneCoordinate = false;
-
-    const addCoordinate = (coordinate: unknown) => {
-        if (!Array.isArray(coordinate) || coordinate.length < 2) {
-            return;
-        }
-        const longitude = Number(coordinate[0]);
-        const latitude = Number(coordinate[1]);
-        if (!Number.isFinite(longitude) || !Number.isFinite(latitude)) {
-            return;
-        }
-
-        hasAtLeastOneCoordinate = true;
-        minLongitude = Math.min(minLongitude, longitude);
-        minLatitude = Math.min(minLatitude, latitude);
-        maxLongitude = Math.max(maxLongitude, longitude);
-        maxLatitude = Math.max(maxLatitude, latitude);
-    };
-
-    const traverseCoordinates = (coordinates: unknown) => {
-        if (!Array.isArray(coordinates)) {
-            return;
-        }
-
-        if (coordinates.length > 0 && typeof coordinates[0] === 'number') {
-            addCoordinate(coordinates);
-            return;
-        }
-
-        coordinates.forEach(traverseCoordinates);
-    };
-
-    const traverseGeometry = (geometry: GeoJSON.Geometry | undefined) => {
-        if (!geometry) {
-            return;
-        }
-
-        if (geometry.type === 'GeometryCollection') {
-            geometry.geometries.forEach(traverseGeometry);
-            return;
-        }
-
-        traverseCoordinates(geometry.coordinates);
-    };
-
-    features.forEach((feature) => {
-        traverseGeometry(feature.geometry ?? undefined);
-    });
-
-    if (!hasAtLeastOneCoordinate) {
-        return null;
-    }
-
-    return [
-        [minLongitude, minLatitude],
-        [maxLongitude, maxLatitude],
-    ];
-}
-
-async function drawScopedCountriesAdmin0Layer(
-    map: MapboxGLMap,
-    scopedCountries: string[],
-    initialMapView?: MapSelectionView | null,
-): Promise<[[number, number], [number, number]]> {
-    const admin0GeoJson = await Promise.allSettled(
-        scopedCountries.map(async (countryCodeIso3) => {
-            const response = await fetch(getAdminAreaUrl(countryCodeIso3, 0));
-            if (!response.ok) {
-                throw new Error(`Failed to load admin0 for ${countryCodeIso3}`);
-            }
-            return response.json() as Promise<GeoJSON.FeatureCollection>;
-        }),
-    );
-
-    const features = admin0GeoJson.flatMap((result) => (
-        result.status === 'fulfilled'
-            ? (result.value.features ?? [])
-            : []
-    ));
-
-    if (features.length === 0) {
-        throw new Error('Failed to load scoped countries admin0 features');
-    }
-
-    if (map.getLayer(scopedCountriesAdminBorderLayerId)) {
-        map.removeLayer(scopedCountriesAdminBorderLayerId);
-    }
-    if (map.getLayer(scopedCountriesAdminFillLayerId)) {
-        map.removeLayer(scopedCountriesAdminFillLayerId);
-    }
-    if (map.getSource(scopedCountriesAdminSourceId)) {
-        map.removeSource(scopedCountriesAdminSourceId);
-    }
-
-    map.addSource(scopedCountriesAdminSourceId, {
-        type: 'geojson',
-        data: {
-            type: 'FeatureCollection',
-            features,
-        },
-    });
-
-    map.addLayer({
-        id: scopedCountriesAdminFillLayerId,
-        type: 'fill',
-        source: scopedCountriesAdminSourceId,
-        paint: scopedCountriesAdmin0FillPaint,
-    });
-
-    map.addLayer({
-        id: scopedCountriesAdminBorderLayerId,
-        type: 'line',
-        source: scopedCountriesAdminSourceId,
-        paint: scopedCountriesAdmin0BorderPaint,
-    });
-
-    const bounds = getBoundsFromFeatures(features);
-    if (!bounds) {
-        throw new Error('Failed to compute bounds for scoped countries admin0 features');
-    }
-
-    // The pan constraint box must be much larger than the fit box. setMaxBounds
-    // caps how far you can zoom out (the viewport must stay inside the box), and
-    // with a landscape viewport the horizontal edges bind first. A generously
-    // padded constraint box lets the user zoom out far enough to fit the full
-    // vertical extent while still preventing panning off into empty space.
-    const constraintBounds = getPaddedSquareBounds(bounds, 2);
-    map.setMaxBounds(constraintBounds);
-
-    // Respect URL-supplied view; otherwise fit map to scoped countries on first
-    // load, framing the country with a smaller padding.
-    if (!hasValidInitialMapCenter(initialMapView)) {
-        map.fitBounds(getPaddedSquareBounds(bounds, paddingRatio), {
-            duration: animationDurationMs,
-        });
-    }
-
-    return bounds;
 }
 
 /**
