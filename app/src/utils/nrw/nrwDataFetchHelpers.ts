@@ -188,8 +188,9 @@ export async function getCountryMapData(
 
 // Fetch the exposed admin areas for the selected event and return their GeoJSON features.
 // The areas are the deepest (lowest) admin level that has exposure data.
+// Geometry is fetched for each scoped country and the features are merged.
 export const fetchExposedAdminAreasFeatures = async (
-    selectedCountry: string,
+    scopedCountries: string[],
     selectedEventDetails: SelectedEventDetails,
 ): Promise<GeoJSON.Feature[]> => {
     const {
@@ -206,18 +207,26 @@ export const fetchExposedAdminAreasFeatures = async (
         throw new Error(`Event ${eventId} has no exposed population data`);
     }
 
-    // Fetch the geometry for only the exposed admin areas
+    // Fetch the geometry for only the exposed admin areas, per scoped country.
     const placeCodes = Object.keys(exposedPopulationByPlaceCode);
-    const url = getAdminAreasByCodesUrl(selectedCountry, deepestExposedLevel, placeCodes);
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new Error(
-            `Failed to load exposed admin areas: HTTP ${response.status} ${response.statusText}`,
-        );
-    }
-    const data = await response.json() as GeoJSON.FeatureCollection;
+    const results = await Promise.allSettled(
+        scopedCountries.map(async (countryIso3) => {
+            const url = getAdminAreasByCodesUrl(countryIso3, deepestExposedLevel, placeCodes);
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(
+                    `Failed to load exposed admin areas for ${countryIso3}: `
+                    + `HTTP ${response.status} ${response.statusText}`,
+                );
+            }
+            const data = await response.json() as GeoJSON.FeatureCollection;
+            return data.features ?? [];
+        }),
+    );
 
-    return data.features ?? [];
+    return results.flatMap((result) => (
+        result.status === 'fulfilled' ? result.value : []
+    ));
 };
 
 export const fetchRcBranchesFeatures = async (

@@ -270,7 +270,6 @@ export default function MapBoxDataMap({
     layerPanel,
 }: MapBoxDataMapProps) {
     const alert = useAlert();
-    const selectedCountry = scopedCountries[0] ?? '';
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<MapboxGLMap | null>(null);
     const [isMapLoaded, setIsMapLoaded] = useState(false);
@@ -448,7 +447,7 @@ export default function MapBoxDataMap({
         // Ignore the fetch result if the selection changed while it was in flight
         let isStale = false;
 
-        fetchExposedAdminAreasFeatures(selectedCountry, selectedEventDetails)
+        fetchExposedAdminAreasFeatures(scopedCountries, selectedEventDetails)
             .then((features) => {
                 const coloredFeatures = setExposureColorsOnFeatures(
                     features,
@@ -489,7 +488,7 @@ export default function MapBoxDataMap({
         return () => {
             isStale = true;
         };
-    }, [selectedEventDetails, selectedCountry, isMapLoaded, alert]);
+    }, [selectedEventDetails, scopedCountries, isMapLoaded, alert]);
 
     const handleDebugExport = useCallback(async () => {
         const mapInstance = mapInstanceRef.current;
@@ -499,12 +498,12 @@ export default function MapBoxDataMap({
         }
 
         try {
-            await exportMapboxToPdf(mapInstance, [selectedCountry]);
+            await exportMapboxToPdf(mapInstance, scopedCountries);
         } catch (error) {
             alert.show('Failed to export Mapbox PDF. Please try again.', { variant: 'danger' });
             console.error('[MapBoxDataMap] Export failed:', error);
         }
-    }, [alert, selectedCountry]);
+    }, [alert, scopedCountries]);
 
     return (
         <div className={styles.container}>
