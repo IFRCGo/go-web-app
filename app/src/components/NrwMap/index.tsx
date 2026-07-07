@@ -32,7 +32,7 @@ export default function NrwMapContainer() {
             initialMapView,
         },
         syncLayerIds,
-        resetToCountries,
+        resetParams,
         setEventParams,
         setMapViewParams,
     } = useNrwMapSearchParams();
@@ -66,7 +66,7 @@ export default function NrwMapContainer() {
 
     // Refresh page and put in a default start state
     const handleRefreshAll = async () => {
-        resetToCountries(scopedCountries);
+        resetParams(scopedCountries);
 
         // Deselect current event and admin areas
         setSelectedEventId(null);
@@ -76,14 +76,6 @@ export default function NrwMapContainer() {
 
         // Reload event data
         await reloadCountryEventData();
-    };
-
-    // Handle event deselection (e.g. user goes back to all events view)
-    const handleDeselectEvent = () => {
-        setSelectedEventId(null);
-        hideAllLayers();
-        setSelectedAdminPlaceCode(null);
-        setAdminDetails(null);
     };
 
     // Handle event selection from control panel
@@ -138,7 +130,7 @@ export default function NrwMapContainer() {
                             activeEventId={selectedEventId}
                             onEventClick={handleEventClick}
                             onRefreshAll={handleRefreshAll}
-                            onDeselectEvent={handleDeselectEvent}
+                            onDeselectEvent={handleRefreshAll}
                             countryCodes={scopedCountries}
                             selectedAdminPlaceCode={selectedAdminPlaceCode}
                         />

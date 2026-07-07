@@ -95,8 +95,8 @@ export default function useNrwMapSearchParams() {
         }, { replace: true });
     }, [setSearchParams]);
 
-    // Reset URL to only contain the countries (used by "refresh all").
-    const resetToCountries = useCallback((countries: string[]) => {
+    // Reset URL to only contain the countries.
+    const resetParams = useCallback((countries: string[]) => {
         const serializedCountries = serializeCountryCodesParam(countries);
         setSearchParams({
             [countryParamsKey]: serializedCountries,
@@ -157,7 +157,7 @@ export default function useNrwMapSearchParams() {
     return {
         initialParams,
         syncLayerIds,
-        resetToCountries,
+        resetParams,
         setEventParams,
         setMapViewParams,
     };
