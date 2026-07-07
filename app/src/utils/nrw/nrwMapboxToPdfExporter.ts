@@ -59,7 +59,8 @@ async function captureMapCanvas(mapInstance: MapboxGLMap): Promise<CapturedEleme
 }
 
 /**
- * Captures the Mapbox map and NRW control panel and generates a PDF.
+ * Captures the Mapbox map with the legend below it on the first page, and the
+ * NRW events panel on the second page, then generates a PDF.
  */
 export async function exportMapboxToPdf(
     mapInstance: MapboxGLMap,
@@ -69,11 +70,10 @@ export async function exportMapboxToPdf(
     filename = filename.replace(/[^a-zA-Z0-9._-]/g, '_');
 
     try {
-        const [mapElement, controlPanel] = await Promise.all([
-
+        const [mapElement, legendPanel, eventsPanel] = await Promise.all([
             captureMapCanvas(mapInstance),
-            // TODO: add IDs to everything and capture based on the IDs, not these string names
-            captureElement('control-panel'),
+            captureElement('nrw-legend-panel'),
+            captureElement('nrw-events-panel'),
         ]);
 
         const pdf = new JsPDF({
@@ -88,17 +88,29 @@ export async function exportMapboxToPdf(
         const contentWidth = pageWidth - 2 * margin;
         const contentHeight = pageHeight - 2 * margin;
 
+        // First page: map on top, legend below it.
+        const legendSpacing = legendPanel ? 5 : 0;
+        let legendWidth = 0;
+        let legendHeight = 0;
+
+        if (legendPanel) {
+            const legendAspectRatio = legendPanel.width / legendPanel.height;
+            legendWidth = contentWidth;
+            legendHeight = legendWidth / legendAspectRatio;
+        }
+
         const mapAspectRatio = mapElement.width / mapElement.height;
         let mapWidth = contentWidth;
         let mapHeight = mapWidth / mapAspectRatio;
 
-        if (mapHeight > contentHeight) {
-            mapHeight = contentHeight;
+        const availableMapHeight = contentHeight - legendHeight - legendSpacing;
+        if (mapHeight > availableMapHeight) {
+            mapHeight = availableMapHeight;
             mapWidth = mapHeight * mapAspectRatio;
         }
 
         const mapX = margin + (contentWidth - mapWidth) / 2;
-        const mapY = margin + (contentHeight - mapHeight) / 2;
+        const mapY = margin;
 
         pdf.addImage(
             mapElement.canvas.toDataURL('image/png'),
@@ -109,9 +121,24 @@ export async function exportMapboxToPdf(
             mapHeight,
         );
 
-        if (controlPanel) {
+        if (legendPanel) {
+            const legendX = margin + (contentWidth - legendWidth) / 2;
+            const legendY = mapY + mapHeight + legendSpacing;
+
+            pdf.addImage(
+                legendPanel.canvas.toDataURL('image/png'),
+                'PNG',
+                legendX,
+                legendY,
+                legendWidth,
+                legendHeight,
+            );
+        }
+
+        // Second page: events panel.
+        if (eventsPanel) {
             pdf.addPage();
-            const panelAspectRatio = controlPanel.width / controlPanel.height;
+            const panelAspectRatio = eventsPanel.width / eventsPanel.height;
             let panelWidth = contentWidth;
             let panelHeight = panelWidth / panelAspectRatio;
 
@@ -121,7 +148,7 @@ export async function exportMapboxToPdf(
             }
 
             pdf.addImage(
-                controlPanel.canvas.toDataURL('image/png'),
+                eventsPanel.canvas.toDataURL('image/png'),
                 'PNG',
                 margin,
                 margin,

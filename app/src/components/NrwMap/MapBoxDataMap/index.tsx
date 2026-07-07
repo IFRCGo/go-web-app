@@ -35,10 +35,12 @@ import { getAdminAreaUrl } from '#utils/nrw/nrwUrls';
 
 import styles from './styles.module.css';
 
-const defaultCenter: [number, number] = [10.4515, 51.1657];
+const defaultCenter: [number, number] = [0, 0];
 const scopedCountriesAdminSourceId = 'nrw-source-scoped-countries-admin0';
 const scopedCountriesAdminFillLayerId = 'nrw-layer-scoped-countries-admin0-fill';
 const scopedCountriesAdminBorderLayerId = 'nrw-layer-scoped-countries-admin0-border';
+const animationDurationMs = 500;
+const paddingRatio = 0.1;
 
 // Z index offset for the exposed admin areas fill layer.
 // Keep this above the rasters but below the point layers (see getZIndexOffset).
@@ -90,7 +92,7 @@ function hasValidInitialMapCenter(initialMapView?: MapSelectionView | null): boo
 // (height or width) and still leaves room to pan.
 function getPaddedSquareBounds(
     bounds: [[number, number], [number, number]],
-    paddingRatio: number,
+    paddingRatioPercent: number,
 ): [[number, number], [number, number]] {
     const [[minLongitude, minLatitude], [maxLongitude, maxLatitude]] = bounds;
 
@@ -102,7 +104,7 @@ function getPaddedSquareBounds(
 
     // Fit to the larger dimension, then pad.
     const largerDimension = Math.max(width, height);
-    const halfSide = (largerDimension * (1 + paddingRatio)) / 2;
+    const halfSide = (largerDimension * (1 + paddingRatioPercent)) / 2;
 
     return [
         [centerLongitude - halfSide, centerLatitude - halfSide],
@@ -249,8 +251,8 @@ async function drawScopedCountriesAdmin0Layer(
     // Respect URL-supplied view; otherwise fit map to scoped countries on first
     // load, framing the country with a smaller padding.
     if (!hasValidInitialMapCenter(initialMapView)) {
-        map.fitBounds(getPaddedSquareBounds(bounds, 0.2), {
-            duration: 500,
+        map.fitBounds(getPaddedSquareBounds(bounds, paddingRatio), {
+            duration: animationDurationMs,
         });
     }
 
@@ -456,6 +458,15 @@ export default function MapBoxDataMap({
                     { layerId: newLayer.layerId, zIndex: exposedAreasZIndex },
                 ].sort((a, b) => a.zIndex - b.zIndex);
                 exposedAreasLayerRef.current = newLayer;
+
+                // Zoom to the exposed admin areas. The initial panning extent
+                // (setMaxBounds) is left untouched, so fitBounds stays within it.
+                const exposedAreasBounds = getBoundsFromFeatures(features);
+                if (exposedAreasBounds) {
+                    currentMap.fitBounds(getPaddedSquareBounds(exposedAreasBounds, paddingRatio), {
+                        duration: animationDurationMs,
+                    });
+                }
             })
             .catch((error) => {
                 if (isStale) {

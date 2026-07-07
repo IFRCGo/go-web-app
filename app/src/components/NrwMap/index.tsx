@@ -124,7 +124,7 @@ export default function NrwMapContainer() {
         <div className={styles.container}>
             <div className={styles.mainContent}>
                 <div className={styles.controlPanelColumn}>
-                    <div>
+                    <div id="nrw-events-panel">
                         <NrwEventsPanel
                             eventData={eventData}
                             activeEventId={selectedEventId}
@@ -159,9 +159,11 @@ export default function NrwMapContainer() {
                             </div>
                         )}
                     />
-                    <NrwLegendPanel
-                        selectedEventDetails={selectedEventDetails}
-                    />
+                    <div id="nrw-legend-panel">
+                        <NrwLegendPanel
+                            selectedEventDetails={selectedEventDetails}
+                        />
+                    </div>
                 </div>
             </div>
             {nrwPortalMode === 'STANDALONE' && (
