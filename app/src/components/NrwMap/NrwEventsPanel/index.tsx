@@ -386,7 +386,7 @@ interface NrwEventsPanelProps {
 }
 
 /**
- * Control panel showing upcoming events for the selected country.
+ * Control panel showing upcoming events for the scoped country.
  * Each event displays affected admin1 areas and total population.
  */
 export default function NrwEventsPanel({

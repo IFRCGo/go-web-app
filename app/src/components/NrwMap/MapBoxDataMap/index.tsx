@@ -30,7 +30,7 @@ import styles from './styles.module.css';
 const defaultCenter: [number, number] = [10.4515, 51.1657];
 
 interface MapBoxDataMapProps {
-    // ISO_A3 code list of selected countries
+    // ISO_A3 code list of countries that the map is scoped to.
     scopedCountries: string[];
 
     // Initial map view from URL search params, if available

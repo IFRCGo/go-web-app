@@ -46,7 +46,7 @@ import { createMapPopupPanel } from '../NrwMapPopupPanel';
 import styles from './styles.module.css';
 
 interface OlDataMapProps {
-    // ISO_A3 code list of selected countries
+    // ISO_A3 code list of scoped countries
     scopedCountries: string[];
 
   // Details for the currently selected event (centroid, exposed areas)

@@ -21,10 +21,7 @@ import {
     getHealthLocsApiUrl,
     getRcLocsApiUrl,
 } from './nrwUrls';
-import type {
-    EventResponseDto,
-    LayerDto,
-} from './shared-dtos';
+import type { EventResponseDto } from './shared-dtos';
 import { LayerName } from './shared-enums';
 
 // Format of GO API result for Red Cross locations
@@ -152,19 +149,6 @@ export async function fetchAdminAreaDetails(
     }
 }
 
-// Shape of an event as returned by the events API.
-type ApiEventResponse = Omit<EventResponseDto, 'availableLayers'> & {
-    availableLayers: LayerDto[];
-};
-
-// Map an API event to the front end's `EventResponseDto`.
-function mapApiEvent(event: ApiEventResponse): EventResponseDto {
-    return {
-        ...event,
-        availableLayers: event.availableLayers ?? [],
-    };
-}
-
 // Fetch events from the IBF API
 async function fetchEventsFromApi(
     countryCodeIso3: string,
@@ -176,8 +160,8 @@ async function fetchEventsFromApi(
             return [];
         }
         const rawText = await response.text();
-        const data = JSON.parse(rawText) as ApiEventResponse[];
-        return data.map(mapApiEvent);
+        const data = JSON.parse(rawText) as EventResponseDto[];
+        return data;
     } catch {
         return [];
     }
