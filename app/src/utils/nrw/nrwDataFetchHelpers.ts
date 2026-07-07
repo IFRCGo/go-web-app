@@ -1,5 +1,3 @@
-import type { CircleLayerSpecification } from 'mapbox-gl-v3';
-
 import mockCountryData from './mockData/mock_CountryData';
 import {
     ADMIN_LEVEL_FIELD_KEY,
@@ -9,15 +7,10 @@ import {
     PLACE_CODE_FIELD_KEY,
     POPULATION_ATTRIBUTE_KEY,
 } from './nrwConstants';
-import {
-    isValidCoordinatePair,
-    makeExposedAreasFillLayerFromFeatures,
-    makePointLayerFromFeatures,
-} from './nrwMapHelpers';
+import { isValidCoordinatePair } from './nrwMapHelpers';
 import { getExposureColor } from './nrwMapStyles';
 import {
     type CountryMapData,
-    type NrwMapboxLayer,
     type SelectedEventDetails,
 } from './nrwMapTypes';
 import {
@@ -28,7 +21,6 @@ import {
     getRcLocsApiUrl,
 } from './nrwUrls';
 import type { EventResponseDto } from './shared-dtos';
-import { LayerName } from './shared-enums';
 
 // Format of GO API result for Red Cross locations
 type RcLocResult = {
@@ -197,15 +189,14 @@ export async function getCountryMapData(
     );
 }
 
-// TODO: NNN Wrong class. move it to helpers
-// Build a fill layer of the exposed admin areas for the selected event.
-// The areas are drawn at the deepest (lowest) admin level that has exposure data,
+// Fetch the exposed admin areas for the selected event and return their GeoJSON features.
+// The areas are the deepest (lowest) admin level that has exposure data,
 // with each area colored by its exposed population relative to the highest
-// exposed population at that level.
-export const makeExposedAdminAreasLayer = async (
+// exposed population at that level (color precomputed per feature).
+export const fetchExposedAdminAreasFeatures = async (
     selectedCountry: string,
     selectedEventDetails: SelectedEventDetails,
-): Promise<NrwMapboxLayer> => {
+): Promise<GeoJSON.Feature[]> => {
     const {
         eventId,
         alertClass,
@@ -236,7 +227,8 @@ export const makeExposedAdminAreasLayer = async (
 
     // Attach the precomputed exposure color to each feature so the map layer
     // can color the areas with a data-driven paint expression.
-    const features: GeoJSON.Feature[] = (data.features ?? []).map((feature) => {
+    // TODO: NNN
+    return (data.features ?? []).map((feature) => {
         const placeCode = feature.properties?.[PLACE_CODE_FIELD_KEY];
         const exposedPopulation = typeof placeCode === 'string'
             ? exposedPopulationByPlaceCode[placeCode] ?? 0
@@ -253,17 +245,11 @@ export const makeExposedAdminAreasLayer = async (
             },
         };
     });
-
-    return makeExposedAreasFillLayerFromFeatures(
-        `exposed-areas-event-${eventId}`,
-        features,
-    );
 };
 
-export const makeRcBranchesPointLayer = async (
+export const fetchRcBranchesFeatures = async (
     selectedCountry: string,
-    paint: CircleLayerSpecification['paint'],
-): Promise<NrwMapboxLayer> => {
+): Promise<GeoJSON.Feature[]> => {
     const apiUrl = getRcLocsApiUrl(selectedCountry);
     const response = await fetch(apiUrl);
     if (!response.ok) {
@@ -273,7 +259,7 @@ export const makeRcBranchesPointLayer = async (
     }
 
     const data: GoDataResults<RcLocResult> = await response.json();
-    const filteredFeatures: GeoJSON.Feature[] = (data.results ?? [])
+    return (data.results ?? [])
         .flatMap((item) => {
             const coordinates = item.location_geojson?.coordinates;
             if (!coordinates || coordinates.length < 2) {
@@ -310,18 +296,11 @@ export const makeRcBranchesPointLayer = async (
                 },
             } as GeoJSON.Feature];
         });
-
-    return makePointLayerFromFeatures(
-        `${LayerName.redCrossBranches}-${selectedCountry}`,
-        filteredFeatures,
-        paint,
-    );
 };
 
-export const makeClinicPointLayer = async (
+export const fetchClinicFeatures = async (
     selectedCountry: string,
-    paint: CircleLayerSpecification['paint'],
-): Promise<NrwMapboxLayer> => {
+): Promise<GeoJSON.Feature[]> => {
     const apiUrl = getHealthLocsApiUrl(selectedCountry);
     const response = await fetch(apiUrl);
     if (!response.ok) {
@@ -331,7 +310,7 @@ export const makeClinicPointLayer = async (
     }
 
     const data: GoDataResults<ClinicLocResult> = await response.json();
-    const filteredFeatures: GeoJSON.Feature[] = (data.results ?? [])
+    return (data.results ?? [])
         .flatMap((item) => {
             const longitude = Number(item.location?.lng);
             const latitude = Number(item.location?.lat);
@@ -362,10 +341,4 @@ export const makeClinicPointLayer = async (
                 },
             } as GeoJSON.Feature];
         });
-
-    return makePointLayerFromFeatures(
-        `${LayerName.clinics}-${selectedCountry}`,
-        filteredFeatures,
-        paint,
-    );
 };

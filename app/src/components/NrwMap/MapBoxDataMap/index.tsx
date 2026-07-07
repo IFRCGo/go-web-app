@@ -17,9 +17,12 @@ import {
     defaultMapZoom,
     noCountrySelectedValue,
 } from '#utils/nrw/nrwConstants';
-import { makeExposedAdminAreasLayer } from '#utils/nrw/nrwDataFetchHelpers';
+import { fetchExposedAdminAreasFeatures } from '#utils/nrw/nrwDataFetchHelpers';
 import { exportMapboxToPdf } from '#utils/nrw/nrwMapboxToPdfExporter';
-import { getZIndexOffset } from '#utils/nrw/nrwMapHelpers';
+import {
+    getZIndexOffset,
+    makeExposedAreasFillLayerFromFeatures,
+} from '#utils/nrw/nrwMapHelpers';
 import {
     scopedCountriesAdmin0BorderPaint,
     scopedCountriesAdmin0FillPaint,
@@ -447,8 +450,12 @@ export default function MapBoxDataMap({
         // Ignore the fetch result if the selection changed while it was in flight
         let isStale = false;
 
-        makeExposedAdminAreasLayer(selectedCountry, selectedEventDetails)
-            .then((newLayer) => {
+        fetchExposedAdminAreasFeatures(selectedCountry, selectedEventDetails)
+            .then((features) => {
+                const newLayer = makeExposedAreasFillLayerFromFeatures(
+                    `exposed-areas-event-${selectedEventDetails.eventId}`,
+                    features,
+                );
                 const currentMap = mapInstanceRef.current;
                 if (isStale || !currentMap) {
                     return;

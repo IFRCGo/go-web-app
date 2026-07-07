@@ -2,9 +2,7 @@ import type { CircleLayerSpecification } from 'mapbox-gl-v3';
 
 import { ibfApiBackend } from '#config';
 
-// TODO: NNN why is this here and not in style
-import { EXPOSURE_COLOR_FIELD_KEY } from './nrwConstants';
-import { exposedAreaFillOpacity } from './nrwMapStyles';
+import { exposedAreasFillPaint } from './nrwMapStyles';
 import type {
     NrwMapboxLayer,
     SelectedEventDetails,
@@ -228,11 +226,7 @@ export const makeExposedAreasFillLayerFromFeatures = (
             id: layerId,
             type: 'fill',
             source: sourceId,
-            paint: {
-                'fill-color': ['get', EXPOSURE_COLOR_FIELD_KEY],
-                'fill-opacity': exposedAreaFillOpacity,
-                'fill-outline-color': ['get', EXPOSURE_COLOR_FIELD_KEY],
-            },
+            paint: exposedAreasFillPaint,
         },
     };
 };

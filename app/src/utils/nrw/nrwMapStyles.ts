@@ -4,6 +4,7 @@ import type {
     LineLayerSpecification,
 } from 'mapbox-gl-v3';
 
+import { EXPOSURE_COLOR_FIELD_KEY } from './nrwConstants';
 import { AlertClass } from './shared-enums';
 
 const defaultPointStrokeWidth = 2;
@@ -121,6 +122,15 @@ export const clinicPointPaint: CircleLayerSpecification['paint'] = {
 export const scopedCountriesAdmin0FillPaint: FillLayerSpecification['paint'] = {
     'fill-color': '#ffffff',
     'fill-opacity': 0,
+};
+
+// Fill paint for exposed admin area polygons.
+// Each feature must carry its precomputed exposure color property
+// (EXPOSURE_COLOR_FIELD_KEY), which drives the fill and outline colors.
+export const exposedAreasFillPaint: FillLayerSpecification['paint'] = {
+    'fill-color': ['get', EXPOSURE_COLOR_FIELD_KEY],
+    'fill-opacity': exposedAreaFillOpacity,
+    'fill-outline-color': ['get', EXPOSURE_COLOR_FIELD_KEY],
 };
 
 // Border paint for scoped-country admin0 polygons on initial map load.

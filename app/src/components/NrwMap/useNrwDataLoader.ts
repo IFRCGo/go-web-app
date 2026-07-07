@@ -8,14 +8,15 @@ import {
 
 import useAlert from '#hooks/useAlert';
 import {
+    fetchClinicFeatures,
+    fetchRcBranchesFeatures,
     getAllEventData,
     getCountryMapData,
-    makeClinicPointLayer,
-    makeRcBranchesPointLayer,
 } from '#utils/nrw/nrwDataFetchHelpers';
 import {
     getSelectedEventDetails,
     makeEventImageLayer,
+    makePointLayerFromFeatures,
     makeStaticImageLayer,
 } from '#utils/nrw/nrwMapHelpers';
 import {
@@ -191,10 +192,24 @@ export default function useNrwDataLoader(
         }
 
         if (layerType === LayerType.point && layerName === LayerName.redCrossBranches) {
-            return () => makeRcBranchesPointLayer(country, rcBranchPointPaint);
+            return async () => {
+                const features = await fetchRcBranchesFeatures(country);
+                return makePointLayerFromFeatures(
+                    `${LayerName.redCrossBranches}-${country}`,
+                    features,
+                    rcBranchPointPaint,
+                );
+            };
         }
         if (layerType === LayerType.point && layerName === LayerName.clinics) {
-            return () => makeClinicPointLayer(country, clinicPointPaint);
+            return async () => {
+                const features = await fetchClinicFeatures(country);
+                return makePointLayerFromFeatures(
+                    `${LayerName.clinics}-${country}`,
+                    features,
+                    clinicPointPaint,
+                );
+            };
         }
 
         console.error(
