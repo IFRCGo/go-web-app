@@ -201,7 +201,6 @@ export const makePointLayerFromFeatures = (
     };
 };
 
-// TODO: NNN see above. also look at other code added here
 // Build a mapbox fill layer for exposed admin areas from GeoJSON polygon features.
 // Each feature must carry its precomputed exposure color property
 // (EXPOSURE_COLOR_FIELD_KEY), which drives the fill and outline colors.
@@ -255,84 +254,3 @@ export function getZIndexOffset(layerDetails: LayerDto): number {
             return 1; // draw on the lowest layer above the base map
     }
 }
-
-/*
-// Get the extents that fits all the supplied vector data, with added padding
-export function getExtentForVectorData(
-    source: VectorSource,
-): Extent | null {
-    const extent = source.getExtent();
-
-    if (!extent || isEmpty(extent)) {
-        return null;
-    }
-
-    // Padding ratio for all sides.
-    // 0.1 = 10%
-    const paddingRatio = 0.1;
-
-    // Set the padding amount by the larger of the two dimensions
-    const extentWidth = getWidth(extent);
-    const extentHeight = getHeight(extent);
-    const paddingAmount = Math.max(extentWidth, extentHeight) * paddingRatio;
-
-    return bufferExtent(extent, paddingAmount);
-} */
-
-/*
-
- * Initialize the map view with extent constraint and optional initial position.
- *
- * Behavior:
- * - Always constrains panning to the given extent
- * - If valid center coords provided, centers there
- * - If valid zoom provided with center, applies that zoom
- * - If no valid center, fits the view to the extent
- *
- * @param map - The OpenLayers map instance
- * @param extent - The extent to constrain panning to
- * @param initialView - Optional initial view params (center, zoom) from URL
-
-export function initializeMapView(
-    map: MapOl,
-    extent: Extent,
-    initialView?: InitialMapViewParams | null,
-): void {
-    const currentView = map.getView();
-
-    // Create constrained view that limits panning to the extent
-    const constrainedView = new View({
-        center: currentView.getCenter(),
-        resolution: currentView.getResolution(),
-        rotation: currentView.getRotation(),
-        projection: currentView.getProjection(),
-        extent,
-        constrainOnlyCenter: true,
-    });
-    map.setView(constrainedView);
-
-    const hasValidCenter = initialView?.center
-        && Number.isFinite(initialView.center.lon)
-        && Number.isFinite(initialView.center.lat);
-
-    if (hasValidCenter) {
-        // Apply center from URL params
-        constrainedView.setCenter(
-            fromLonLat([
-                initialView!.center!.lon,
-                initialView!.center!.lat,
-            ]),
-        );
-
-        // Apply zoom if valid
-        if (initialView?.zoom !== undefined && Number.isFinite(initialView.zoom)) {
-            constrainedView.setZoom(initialView.zoom);
-        }
-    } else {
-        // No valid center - fit to extent (default behavior)
-        constrainedView.fit(extent, {
-            duration: 500,
-        });
-    }
-}
-*/

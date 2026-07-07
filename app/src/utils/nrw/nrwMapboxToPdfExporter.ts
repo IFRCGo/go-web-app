@@ -1,6 +1,5 @@
 import html2canvas from 'html2canvas';
 import JsPDF from 'jspdf';
-import type { Map as MapboxGLMap } from 'mapbox-gl-v3';
 
 interface CapturedElement {
     canvas: HTMLCanvasElement;
@@ -27,34 +26,21 @@ async function captureElement(elementId: string): Promise<CapturedElement | null
     };
 }
 
-function waitForMapIdle(mapInstance: MapboxGLMap): Promise<void> {
-    return new Promise((resolve) => {
-        let resolved = false;
+// Grab the Mapbox WebGL canvas straight from the DOM by its container id. The
+// map is guaranteed to be rendered when the user triggers an export, and the
+// map is created with preserveDrawingBuffer so the canvas is readable.
+function captureMapCanvas(containerId: string): CapturedElement | null {
+    const container = document.getElementById(containerId);
+    const canvas = container?.querySelector('canvas') ?? null;
+    if (!canvas) {
+        console.error(`[MapboxPdfExport] Map canvas not found in "${containerId}"`);
+        return null;
+    }
 
-        const finish = () => {
-            if (resolved) {
-                return;
-            }
-            resolved = true;
-            resolve();
-        };
-
-        mapInstance.once('idle', finish);
-        mapInstance.triggerRepaint();
-
-        // Fallback to avoid hanging exports if the map never emits `idle`.
-        window.setTimeout(finish, 1200);
-    });
-}
-
-async function captureMapCanvas(mapInstance: MapboxGLMap): Promise<CapturedElement> {
-    await waitForMapIdle(mapInstance);
-
-    const mapCanvas = mapInstance.getCanvas();
     return {
-        canvas: mapCanvas,
-        width: mapCanvas.width,
-        height: mapCanvas.height,
+        canvas,
+        width: canvas.width,
+        height: canvas.height,
     };
 }
 
@@ -63,15 +49,18 @@ async function captureMapCanvas(mapInstance: MapboxGLMap): Promise<CapturedEleme
  * NRW events panel on the second page, then generates a PDF.
  */
 export async function exportMapboxToPdf(
-    mapInstance: MapboxGLMap,
     filenameSections: string[] = [],
 ): Promise<void> {
     let filename = `nrw-mapbox-map-${filenameSections.join('-')}.pdf`;
     filename = filename.replace(/[^a-zA-Z0-9._-]/g, '_');
 
     try {
-        const [mapElement, legendPanel, eventsPanel] = await Promise.all([
-            captureMapCanvas(mapInstance),
+        const mapElement = captureMapCanvas('nrw-mapbox-map');
+        if (!mapElement) {
+            throw new Error('Map canvas not found');
+        }
+
+        const [legendPanel, eventsPanel] = await Promise.all([
             captureElement('nrw-legend-panel'),
             captureElement('nrw-events-panel'),
         ]);

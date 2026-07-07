@@ -2,7 +2,6 @@ import 'mapbox-gl-v3/dist/mapbox-gl.css';
 
 import {
     type ReactNode,
-    useCallback,
     useEffect,
     useRef,
     useState,
@@ -15,7 +14,6 @@ import { mbtoken } from '#config';
 import useAlert from '#hooks/useAlert';
 import { defaultMapZoom } from '#utils/nrw/nrwConstants';
 import { fetchExposedAdminAreasFeatures } from '#utils/nrw/nrwDataFetchHelpers';
-import { exportMapboxToPdf } from '#utils/nrw/nrwMapboxToPdfExporter';
 import {
     getZIndexOffset,
     makeExposedAreasFillLayerFromFeatures,
@@ -391,6 +389,7 @@ export default function MapBoxDataMap({
             setIsMapLoaded(false);
         };
     }, [initialMapView, registerMapLayerFunctions, scopedCountries, alert]);
+
     // When the event selection changes, draw the exposed admin areas for the
     // selected event as a colored fill layer (or remove them on deselection).
     useEffect(() => {
@@ -481,35 +480,11 @@ export default function MapBoxDataMap({
         };
     }, [selectedEventDetails, scopedCountries, isMapLoaded, alert]);
 
-    const handleDebugExport = useCallback(async () => {
-        const mapInstance = mapInstanceRef.current;
-        if (!mapInstance) {
-            alert.show('Map is not ready yet.', { variant: 'warning' });
-            return;
-        }
-
-        try {
-            await exportMapboxToPdf(mapInstance, scopedCountries);
-        } catch (error) {
-            alert.show('Failed to export Mapbox PDF. Please try again.', { variant: 'danger' });
-            console.error('[MapBoxDataMap] Export failed:', error);
-        }
-    }, [alert, scopedCountries]);
-
     return (
         <div className={styles.container}>
-            <div className={styles.debugToolbar}>
-                <button
-                    type="button"
-                    className={styles.debugExportButton}
-                    onClick={handleDebugExport}
-                    disabled={!isMapLoaded}
-                >
-                    Debug Export PDF (Mapbox)
-                </button>
-            </div>
             <div className={styles.mapWrapper}>
                 <div
+                    id="nrw-mapbox-map"
                     ref={mapContainerRef}
                     className={styles.map}
                 />

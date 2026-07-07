@@ -4,7 +4,9 @@ import {
 } from 'react';
 
 import { nrwPortalMode } from '#config';
+import useAlert from '#hooks/useAlert';
 import { type AdminAreaDetails } from '#utils/nrw/nrwDataFetchHelpers';
+import { exportMapboxToPdf } from '#utils/nrw/nrwMapboxToPdfExporter';
 import type { MapSelectionView } from '#utils/nrw/nrwMapTypes';
 
 import MapBoxDataMap from './MapBoxDataMap';
@@ -22,6 +24,8 @@ import styles from './styles.module.css';
  * @returns A standalone component
  */
 export default function NrwMapContainer() {
+    const alert = useAlert();
+
     // All URL search param handling lives in this hook.
     const {
         initialParams: {
@@ -120,6 +124,15 @@ export default function NrwMapContainer() {
         });
     };
 
+    const handlePdfExport = async () => {
+        try {
+            await exportMapboxToPdf(scopedCountries);
+        } catch (error) {
+            alert.show('Failed to export Mapbox PDF. Please try again.', { variant: 'danger' });
+            console.error('[NrwMapContainer] Export failed:', error);
+        }
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.mainContent}>
@@ -137,6 +150,15 @@ export default function NrwMapContainer() {
                     </div>
                 </div>
                 <div className={styles.mapColumn}>
+                    <div className={styles.debugToolbar}>
+                        <button
+                            type="button"
+                            className={styles.debugExportButton}
+                            onClick={handlePdfExport}
+                        >
+                            Debug Export PDF (Mapbox)
+                        </button>
+                    </div>
                     <MapBoxDataMap
                         scopedCountries={scopedCountries}
                         selectedEventDetails={selectedEventDetails}
