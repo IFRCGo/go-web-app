@@ -16,3 +16,8 @@ export const ADMIN_PCODE_KEY_BASE = 'placeCodeLevel';
 
 // Keys within the `attributes` JSON payload on an admin-area feature
 export const POPULATION_ATTRIBUTE_KEY = 'POPULATION';
+
+// TODO: NNN Get rid of this if possible
+// Key for the precomputed exposure color we add to exposed admin area features,
+// read by the map layer paint via a data-driven expression.
+export const EXPOSURE_COLOR_FIELD_KEY = 'exposureColor';

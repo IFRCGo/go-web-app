@@ -1,10 +1,16 @@
-import type { CircleLayerSpecification } from 'mapbox-gl-v3';
+import type {
+    CircleLayerSpecification,
+    FillLayerSpecification,
+    LineLayerSpecification,
+} from 'mapbox-gl-v3';
 
 import { AlertClass } from './shared-enums';
 
 const defaultPointStrokeWidth = 2;
-// const exposedAreaFillAlphaHex = 'A6'; // 0.65
 // const exposedAreaFillAlphaHexLight = '33'; // 0.2
+
+// Fill opacity for exposed admin area polygons
+export const exposedAreaFillOpacity = 0.65;
 
 // Color steps for each alert class
 export const alertColors: Record<AlertClass, string[]> = {
@@ -44,8 +50,7 @@ export const numberToTierLevel = (
 };
 
 // Get the color string for an exposed area
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getExposureColor = (
+export const getExposureColor = (
     value: number,
     highestValue: number,
     alertClass: AlertClass,
@@ -110,4 +115,16 @@ export const clinicPointPaint: CircleLayerSpecification['paint'] = {
     'circle-color': '#6a1b9a',
     'circle-stroke-color': '#ffffff',
     'circle-stroke-width': defaultPointStrokeWidth,
+};
+
+// Fill paint for scoped-country admin0 polygons on initial map load.
+export const scopedCountriesAdmin0FillPaint: FillLayerSpecification['paint'] = {
+    'fill-color': '#ffffff',
+    'fill-opacity': 0,
+};
+
+// Border paint for scoped-country admin0 polygons on initial map load.
+export const scopedCountriesAdmin0BorderPaint: LineLayerSpecification['paint'] = {
+    'line-color': '#ffffff',
+    'line-width': 3,
 };

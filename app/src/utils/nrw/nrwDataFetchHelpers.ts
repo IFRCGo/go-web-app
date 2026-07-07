@@ -5,18 +5,24 @@ import {
     ADMIN_LEVEL_FIELD_KEY,
     ADMIN_PCODE_KEY_BASE,
     ATTRIBUTES_FIELD_KEY,
+    EXPOSURE_COLOR_FIELD_KEY,
+    PLACE_CODE_FIELD_KEY,
     POPULATION_ATTRIBUTE_KEY,
 } from './nrwConstants';
 import {
     isValidCoordinatePair,
+    makeExposedAreasFillLayerFromFeatures,
     makePointLayerFromFeatures,
 } from './nrwMapHelpers';
+import { getExposureColor } from './nrwMapStyles';
 import {
     type CountryMapData,
     type NrwMapboxLayer,
+    type SelectedEventDetails,
 } from './nrwMapTypes';
 import {
     getAdminAreaDetailsNoGeoUrl,
+    getAdminAreasByCodesUrl,
     getEventsApiUrl,
     getHealthLocsApiUrl,
     getRcLocsApiUrl,
@@ -190,6 +196,69 @@ export async function getCountryMapData(
         ),
     );
 }
+
+// TODO: NNN Wrong class. move it to helpers
+// Build a fill layer of the exposed admin areas for the selected event.
+// The areas are drawn at the deepest (lowest) admin level that has exposure data,
+// with each area colored by its exposed population relative to the highest
+// exposed population at that level.
+export const makeExposedAdminAreasLayer = async (
+    selectedCountry: string,
+    selectedEventDetails: SelectedEventDetails,
+): Promise<NrwMapboxLayer> => {
+    const {
+        eventId,
+        alertClass,
+        exposedPopulationPerAreaByLevel,
+        highestExposedPopulationByLevel,
+    } = selectedEventDetails;
+
+    // Find the deepest (lowest) admin level that has exposed areas.
+    const deepestExposedLevel = Number(
+        Object.keys(exposedPopulationPerAreaByLevel).at(-1),
+    );
+    const exposedPopulationByPlaceCode = exposedPopulationPerAreaByLevel[deepestExposedLevel];
+    if (!deepestExposedLevel || !exposedPopulationByPlaceCode) {
+        throw new Error(`Event ${eventId} has no exposed population data`);
+    }
+    const highestExposedPopulation = highestExposedPopulationByLevel[deepestExposedLevel] ?? 0;
+
+    // Fetch the geometry for only the exposed admin areas
+    const placeCodes = Object.keys(exposedPopulationByPlaceCode);
+    const url = getAdminAreasByCodesUrl(selectedCountry, deepestExposedLevel, placeCodes);
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(
+            `Failed to load exposed admin areas: HTTP ${response.status} ${response.statusText}`,
+        );
+    }
+    const data = await response.json() as GeoJSON.FeatureCollection;
+
+    // Attach the precomputed exposure color to each feature so the map layer
+    // can color the areas with a data-driven paint expression.
+    const features: GeoJSON.Feature[] = (data.features ?? []).map((feature) => {
+        const placeCode = feature.properties?.[PLACE_CODE_FIELD_KEY];
+        const exposedPopulation = typeof placeCode === 'string'
+            ? exposedPopulationByPlaceCode[placeCode] ?? 0
+            : 0;
+        return {
+            ...feature,
+            properties: {
+                ...feature.properties,
+                [EXPOSURE_COLOR_FIELD_KEY]: getExposureColor(
+                    exposedPopulation,
+                    highestExposedPopulation,
+                    alertClass,
+                ),
+            },
+        };
+    });
+
+    return makeExposedAreasFillLayerFromFeatures(
+        `exposed-areas-event-${eventId}`,
+        features,
+    );
+};
 
 export const makeRcBranchesPointLayer = async (
     selectedCountry: string,

@@ -147,7 +147,7 @@ export default function NrwMapContainer() {
                 <div className={styles.mapColumn}>
                     <MapBoxDataMap
                         scopedCountries={scopedCountries}
-                        // selectedEventDetails={selectedEventDetails}
+                        selectedEventDetails={selectedEventDetails}
                         initialMapView={initialMapView}
                         registerMapLayerFunctions={registerMapLayerFunctions}
                         //                         initialAdminCode={initialAdminCode}

@@ -2,6 +2,9 @@ import type { CircleLayerSpecification } from 'mapbox-gl-v3';
 
 import { ibfApiBackend } from '#config';
 
+// TODO: NNN why is this here and not in style
+import { EXPOSURE_COLOR_FIELD_KEY } from './nrwConstants';
+import { exposedAreaFillOpacity } from './nrwMapStyles';
 import type {
     NrwMapboxLayer,
     SelectedEventDetails,
@@ -196,6 +199,40 @@ export const makePointLayerFromFeatures = (
             type: 'circle',
             source: sourceId,
             paint,
+        },
+    };
+};
+
+// TODO: NNN see above. also look at other code added here
+// Build a mapbox fill layer for exposed admin areas from GeoJSON polygon features.
+// Each feature must carry its precomputed exposure color property
+// (EXPOSURE_COLOR_FIELD_KEY), which drives the fill and outline colors.
+export const makeExposedAreasFillLayerFromFeatures = (
+    layerKey: string,
+    features: GeoJSON.Feature[],
+): NrwMapboxLayer => {
+    const sourceId = `nrw-source-${layerKey}`;
+    const layerId = `nrw-layer-${layerKey}`;
+
+    return {
+        sourceId,
+        layerId,
+        source: {
+            type: 'geojson',
+            data: {
+                type: 'FeatureCollection',
+                features,
+            },
+        },
+        layer: {
+            id: layerId,
+            type: 'fill',
+            source: sourceId,
+            paint: {
+                'fill-color': ['get', EXPOSURE_COLOR_FIELD_KEY],
+                'fill-opacity': exposedAreaFillOpacity,
+                'fill-outline-color': ['get', EXPOSURE_COLOR_FIELD_KEY],
+            },
         },
     };
 };
