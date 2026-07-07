@@ -299,7 +299,7 @@ export default function MapBoxDataMap({
 
         const map = new mapboxgl.Map({
             container: mapContainerRef.current,
-            style: 'mapbox://styles/mapbox/standard',
+            style: 'mapbox://styles/e2r2i2k2/cmraet1zi001s01qu7a6a1d07',
             projection: 'mercator',
             center,
             zoom,

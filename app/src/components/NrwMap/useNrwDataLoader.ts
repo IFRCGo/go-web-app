@@ -209,14 +209,14 @@ export default function useNrwDataLoader(
         layerName: string,
         targetVisible: boolean,
     ) => {
-        if (selectedEventId === null) {
-            console.error('[useNrwDataLoader] No selected event id for event layer');
-            return;
-        }
-
         // Get event layer info from the event data
         const eventLayerMatch = selectedEventLayers.find((layer) => layer.layerName === layerName);
         if (eventLayerMatch) {
+            if (selectedEventId === null) {
+                console.error('[useNrwDataLoader] No selected event id for event layer');
+                return;
+            }
+
             const layerLoader = resolveLayerLoader(eventLayerMatch, '');
 
             setLayerVisibility(
