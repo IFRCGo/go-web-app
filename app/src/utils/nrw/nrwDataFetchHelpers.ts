@@ -3,12 +3,9 @@ import {
     ADMIN_LEVEL_FIELD_KEY,
     ADMIN_PCODE_KEY_BASE,
     ATTRIBUTES_FIELD_KEY,
-    EXPOSURE_COLOR_FIELD_KEY,
-    PLACE_CODE_FIELD_KEY,
     POPULATION_ATTRIBUTE_KEY,
 } from './nrwConstants';
 import { isValidCoordinatePair } from './nrwMapHelpers';
-import { getExposureColor } from './nrwMapStyles';
 import {
     type CountryMapData,
     type SelectedEventDetails,
@@ -190,18 +187,14 @@ export async function getCountryMapData(
 }
 
 // Fetch the exposed admin areas for the selected event and return their GeoJSON features.
-// The areas are the deepest (lowest) admin level that has exposure data,
-// with each area colored by its exposed population relative to the highest
-// exposed population at that level (color precomputed per feature).
+// The areas are the deepest (lowest) admin level that has exposure data.
 export const fetchExposedAdminAreasFeatures = async (
     selectedCountry: string,
     selectedEventDetails: SelectedEventDetails,
 ): Promise<GeoJSON.Feature[]> => {
     const {
         eventId,
-        alertClass,
         exposedPopulationPerAreaByLevel,
-        highestExposedPopulationByLevel,
     } = selectedEventDetails;
 
     // Find the deepest (lowest) admin level that has exposed areas.
@@ -212,7 +205,6 @@ export const fetchExposedAdminAreasFeatures = async (
     if (!deepestExposedLevel || !exposedPopulationByPlaceCode) {
         throw new Error(`Event ${eventId} has no exposed population data`);
     }
-    const highestExposedPopulation = highestExposedPopulationByLevel[deepestExposedLevel] ?? 0;
 
     // Fetch the geometry for only the exposed admin areas
     const placeCodes = Object.keys(exposedPopulationByPlaceCode);
@@ -225,26 +217,7 @@ export const fetchExposedAdminAreasFeatures = async (
     }
     const data = await response.json() as GeoJSON.FeatureCollection;
 
-    // Attach the precomputed exposure color to each feature so the map layer
-    // can color the areas with a data-driven paint expression.
-    // TODO: NNN
-    return (data.features ?? []).map((feature) => {
-        const placeCode = feature.properties?.[PLACE_CODE_FIELD_KEY];
-        const exposedPopulation = typeof placeCode === 'string'
-            ? exposedPopulationByPlaceCode[placeCode] ?? 0
-            : 0;
-        return {
-            ...feature,
-            properties: {
-                ...feature.properties,
-                [EXPOSURE_COLOR_FIELD_KEY]: getExposureColor(
-                    exposedPopulation,
-                    highestExposedPopulation,
-                    alertClass,
-                ),
-            },
-        };
-    });
+    return data.features ?? [];
 };
 
 export const fetchRcBranchesFeatures = async (

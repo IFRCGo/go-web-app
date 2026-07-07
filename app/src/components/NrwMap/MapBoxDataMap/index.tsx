@@ -26,6 +26,7 @@ import {
 import {
     scopedCountriesAdmin0BorderPaint,
     scopedCountriesAdmin0FillPaint,
+    setExposureColorsOnFeatures,
 } from '#utils/nrw/nrwMapStyles';
 import type {
     MapLayerFunctions,
@@ -452,9 +453,13 @@ export default function MapBoxDataMap({
 
         fetchExposedAdminAreasFeatures(selectedCountry, selectedEventDetails)
             .then((features) => {
+                const coloredFeatures = setExposureColorsOnFeatures(
+                    features,
+                    selectedEventDetails,
+                );
                 const newLayer = makeExposedAreasFillLayerFromFeatures(
                     `exposed-areas-event-${selectedEventDetails.eventId}`,
-                    features,
+                    coloredFeatures,
                 );
                 const currentMap = mapInstanceRef.current;
                 if (isStale || !currentMap) {

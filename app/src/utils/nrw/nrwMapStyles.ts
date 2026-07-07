@@ -4,7 +4,11 @@ import type {
     LineLayerSpecification,
 } from 'mapbox-gl-v3';
 
-import { EXPOSURE_COLOR_FIELD_KEY } from './nrwConstants';
+import {
+    EXPOSURE_COLOR_FIELD_KEY,
+    PLACE_CODE_FIELD_KEY,
+} from './nrwConstants';
+import { type SelectedEventDetails } from './nrwMapTypes';
 import { AlertClass } from './shared-enums';
 
 const defaultPointStrokeWidth = 2;
@@ -61,46 +65,49 @@ export const getExposureColor = (
     return colors[index]!;
 };
 
-/*
-// Style for an admin area when an event is selected
-export const styleAdminAreaForEvent = (
-    placeCode: string,
-    selectedChildCode: string | null,
-    exposedPopulation: Record<string, number> | null,
-    highestExposedPopulationNumber: number,
-    alertClass: AlertClass,
-    isDeepestAdminLevel: boolean,
-): Style => {
-    // Only color the deepest level
-    if (!isDeepestAdminLevel) {
-        return new Style({});
+// Attach the precomputed exposure color to each feature so the map layer
+// can color the areas with a data-driven paint expression.
+// The color is based on the feature's exposed population relative to the
+// highest exposed population at the deepest (lowest) admin level.
+export const setExposureColorsOnFeatures = (
+    features: GeoJSON.Feature[],
+    selectedEventDetails: SelectedEventDetails,
+): GeoJSON.Feature[] => {
+    const {
+        eventId,
+        alertClass,
+        exposedPopulationPerAreaByLevel,
+        highestExposedPopulationByLevel,
+    } = selectedEventDetails;
+
+    // Find the deepest (lowest) admin level that has exposed areas.
+    const deepestExposedLevel = Number(
+        Object.keys(exposedPopulationPerAreaByLevel).at(-1),
+    );
+    const exposedPopulationByPlaceCode = exposedPopulationPerAreaByLevel[deepestExposedLevel];
+    if (!deepestExposedLevel || !exposedPopulationByPlaceCode) {
+        throw new Error(`Event ${eventId} has no exposed population data`);
     }
+    const highestExposedPopulation = highestExposedPopulationByLevel[deepestExposedLevel] ?? 0;
 
-    // Unexposed areas not displayed
-    if (!exposedPopulation || exposedPopulation[placeCode] === undefined) {
-        return new Style({});
-    }
-
-    // Color based on exposed population
-    const population = exposedPopulation[placeCode] ?? 0;
-    const baseColor = getExposureColor(population, highestExposedPopulationNumber, alertClass);
-
-    // If nothing selected at the deepest level is selected, or if the current area is selected,
-    // render at standard opacity.
-    // Else, render at a lighter opacity.
-    const isStandardOpacity = selectedChildCode === null || selectedChildCode === placeCode;
-    const alphaHex = isStandardOpacity ? exposedAreaFillAlphaHex : exposedAreaFillAlphaHexLight;
-
-    return new Style({
-        fill: new Fill({
-            color: `${baseColor}${alphaHex}`,
-        }),
-        stroke: new Stroke({
-            color: baseColor,
-            width: defaultAdminAreaBorderWidth,
-        }),
+    return features.map((feature) => {
+        const placeCode = feature.properties?.[PLACE_CODE_FIELD_KEY];
+        const exposedPopulation = typeof placeCode === 'string'
+            ? exposedPopulationByPlaceCode[placeCode] ?? 0
+            : 0;
+        return {
+            ...feature,
+            properties: {
+                ...feature.properties,
+                [EXPOSURE_COLOR_FIELD_KEY]: getExposureColor(
+                    exposedPopulation,
+                    highestExposedPopulation,
+                    alertClass,
+                ),
+            },
+        };
     });
-}; */
+};
 
 // Mapbox circle paint for Red Cross branch point features
 export const rcBranchPointPaint: CircleLayerSpecification['paint'] = {
