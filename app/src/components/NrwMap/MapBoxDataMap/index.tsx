@@ -84,35 +84,30 @@ function hasValidInitialMapCenter(initialMapView?: MapSelectionView | null): boo
     );
 }
 
-function clampNumber(value: number, min: number, max: number): number {
-    return Math.min(Math.max(value, min), max);
-}
-
-function getConstrainedCenter(
-    center: { lng: number; lat: number },
+// Build a square lon/lat bounding box centered on the data, sized to the larger
+// of the width/height dimensions, plus padding on all sides.
+// Using the larger dimension means the map can zoom out to fit the full extent
+// (height or width) and still leaves room to pan.
+function getPaddedSquareBounds(
     bounds: [[number, number], [number, number]],
-): [number, number] {
-    const [southWest, northEast] = bounds;
-    const constrainedLongitude = clampNumber(center.lng, southWest[0], northEast[0]);
-    const constrainedLatitude = clampNumber(center.lat, southWest[1], northEast[1]);
+    paddingRatio: number,
+): [[number, number], [number, number]] {
+    const [[minLongitude, minLatitude], [maxLongitude, maxLatitude]] = bounds;
 
-    return [constrainedLongitude, constrainedLatitude];
-}
+    const centerLongitude = (minLongitude + maxLongitude) / 2;
+    const centerLatitude = (minLatitude + maxLatitude) / 2;
 
-function constrainMapPanToBounds(
-    map: MapboxGLMap,
-    bounds: [[number, number], [number, number]],
-): boolean {
-    const mapCenter = map.getCenter();
-    const [constrainedLongitude, constrainedLatitude] = getConstrainedCenter(mapCenter, bounds);
+    const width = maxLongitude - minLongitude;
+    const height = maxLatitude - minLatitude;
 
-    if (constrainedLongitude === mapCenter.lng && constrainedLatitude === mapCenter.lat) {
-        return false;
-    }
+    // Fit to the larger dimension, then pad.
+    const largerDimension = Math.max(width, height);
+    const halfSide = (largerDimension * (1 + paddingRatio)) / 2;
 
-    map.setCenter([constrainedLongitude, constrainedLatitude]);
-
-    return true;
+    return [
+        [centerLongitude - halfSide, centerLatitude - halfSide],
+        [centerLongitude + halfSide, centerLatitude + halfSide],
+    ];
 }
 
 function getBoundsFromFeatures(
@@ -243,10 +238,18 @@ async function drawScopedCountriesAdmin0Layer(
         throw new Error('Failed to compute bounds for scoped countries admin0 features');
     }
 
-    // Respect URL-supplied view; otherwise fit map to scoped countries on first load.
+    // The pan constraint box must be much larger than the fit box. setMaxBounds
+    // caps how far you can zoom out (the viewport must stay inside the box), and
+    // with a landscape viewport the horizontal edges bind first. A generously
+    // padded constraint box lets the user zoom out far enough to fit the full
+    // vertical extent while still preventing panning off into empty space.
+    const constraintBounds = getPaddedSquareBounds(bounds, 2);
+    map.setMaxBounds(constraintBounds);
+
+    // Respect URL-supplied view; otherwise fit map to scoped countries on first
+    // load, framing the country with a smaller padding.
     if (!hasValidInitialMapCenter(initialMapView)) {
-        map.fitBounds(bounds, {
-            padding: 30,
+        map.fitBounds(getPaddedSquareBounds(bounds, 0.2), {
             duration: 500,
         });
     }
@@ -274,8 +277,6 @@ export default function MapBoxDataMap({
     const mapInstanceRef = useRef<MapboxGLMap | null>(null);
     const [isMapLoaded, setIsMapLoaded] = useState(false);
     const [isLayerPanelOpen, setIsLayerPanelOpen] = useState(false);
-    const scopedCountriesBoundsRef = useRef<[[number, number], [number, number]] | null>(null);
-    const isApplyingPanConstraintRef = useRef(false);
     // Layer ids of added data layers with their z index, sorted by z index.
     // Used to insert new layers at the right position (mapbox orders by list position).
     const orderedLayersRef = useRef<{ layerId: string; zIndex: number }[]>([]);
@@ -313,9 +314,6 @@ export default function MapBoxDataMap({
             setIsMapLoaded(true);
 
             drawScopedCountriesAdmin0Layer(map, scopedCountries, initialMapView)
-                .then((scopedCountriesBounds) => {
-                    scopedCountriesBoundsRef.current = scopedCountriesBounds;
-                })
                 .catch((error) => {
                     alert.show('Failed to load country boundaries for the map.', {
                         variant: 'danger',
@@ -362,22 +360,6 @@ export default function MapBoxDataMap({
             }
         });
 
-        // Keep panning constrained continuously (no moveend snap-back)
-        map.on('move', () => {
-            if (isApplyingPanConstraintRef.current) {
-                return;
-            }
-
-            const scopedCountriesBounds = scopedCountriesBoundsRef.current;
-            if (!scopedCountriesBounds) {
-                return;
-            }
-
-            isApplyingPanConstraintRef.current = true;
-            constrainMapPanToBounds(map, scopedCountriesBounds);
-            isApplyingPanConstraintRef.current = false;
-        });
-
         // Update map view state after each pan/zoom end
         map.on('moveend', () => {
             const mapCenter = map.getCenter();
@@ -402,8 +384,6 @@ export default function MapBoxDataMap({
         return () => {
             orderedLayersRef.current = [];
             exposedAreasLayerRef.current = null;
-            scopedCountriesBoundsRef.current = null;
-            isApplyingPanConstraintRef.current = false;
             mapInstanceRef.current?.remove();
             mapInstanceRef.current = null;
             setIsMapLoaded(false);
