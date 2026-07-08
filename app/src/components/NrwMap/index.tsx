@@ -5,9 +5,12 @@ import {
 
 import { nrwPortalMode } from '#config';
 import useAlert from '#hooks/useAlert';
-import { type AdminAreaDetails } from '#utils/nrw/nrwDataFetchHelpers';
+import {
+    type AdminAreaDetails,
+    getAdminAreaDetailsFromCode,
+} from '#utils/nrw/nrwDataFetchHelpers';
 import { exportMapboxToPdf } from '#utils/nrw/nrwMapboxToPdfExporter';
-import type { MapSelectionView } from '#utils/nrw/nrwMapTypes';
+import type { MapViewParameters } from '#utils/nrw/nrwMapTypes';
 
 import MapBoxDataMap from './MapBoxDataMap';
 import NrwEventsPanel from './NrwEventsPanel';
@@ -30,25 +33,22 @@ export default function NrwMapContainer() {
     const {
         initialParams: {
             scopedCountries,
-            selectedEventId: initialEventId,
+            initialEventId,
             initialAdminCode,
             initialLayerKeys,
             initialMapView,
         },
-        syncLayerIds,
-        resetParams,
+        setLayerIds,
         setEventParams,
         setMapViewParams,
     } = useNrwMapSearchParams();
 
-    // Selection / view state owned by the container.
+    // Selected items states owned by the container.
     const [selectedEventId, setSelectedEventId] = useState<number | null>(initialEventId);
-
-    const [selectedAdminPlaceCode, setSelectedAdminPlaceCode] = useState<
-    string | null
-    >(initialAdminCode);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [adminDetails, setAdminDetails] = useState<AdminAreaDetails | null>(null);
+    const [selectedAdminAreaDetails,
+        setSelectedAdminAreaDetails] = useState<AdminAreaDetails | null>(
+            initialAdminCode ? getAdminAreaDetailsFromCode(initialAdminCode) : null,
+        );
 
     // Data loader hook - manages layer loading, caching, and shared event data state
     const {
@@ -63,32 +63,29 @@ export default function NrwMapContainer() {
         selectedEventDetails,
     } = useNrwDataLoader(scopedCountries, [], selectedEventId, initialLayerKeys);
 
-    // Sync the visible layer keys to the URL
+    // Update the layer search params when the visible layers change
     useEffect(() => {
-        syncLayerIds(visibleLayerNames);
-    }, [visibleLayerNames, syncLayerIds]);
+        setLayerIds(visibleLayerNames);
+    }, [visibleLayerNames, setLayerIds]);
 
-    // Refresh page and put in a default start state
+    // Clear all selections and reload event data
     const handleRefreshAll = async () => {
-        resetParams(scopedCountries);
-
         // Deselect current event and admin areas
         setSelectedEventId(null);
         hideAllLayers();
-        setSelectedAdminPlaceCode(null);
-        setAdminDetails(null);
+        setSelectedAdminAreaDetails(null);
 
         // Reload event data
         await reloadCountryEventData();
     };
 
-    // Handle event selection from control panel
-    const handleEventClick = (eventId: number) => {
-        setSelectedEventId(eventId);
+    // Set event selection and related search params when user selects and event.
+    const handleEventSelection = (eventId: number) => {
         // Clear any user-selected admin area when changing events
-        setSelectedAdminPlaceCode(null);
-        setAdminDetails(null);
-        // Set search params for URL sharing only - does not reload data
+        setSelectedAdminAreaDetails(null);
+        // Select the event
+        setSelectedEventId(eventId);
+        // Update the search params
         setEventParams({
             countries: scopedCountries,
             eventId,
@@ -96,15 +93,13 @@ export default function NrwMapContainer() {
         });
     };
 
-    // Callback to update search params based on user interactions.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handleMapItemSelected = (
+    // Callback to handle the user selecting an admin area on the map.
+    const handleAdminAreaSelected = (
         placeCode: string,
         details: AdminAreaDetails | null,
-        mapView?: MapSelectionView,
+        mapView?: MapViewParameters,
     ) => {
-        setSelectedAdminPlaceCode(placeCode);
-        setAdminDetails(details);
+        setSelectedAdminAreaDetails(details ?? getAdminAreaDetailsFromCode(placeCode));
         setMapViewParams({
             countries: scopedCountries,
             eventId: selectedEventId,
@@ -114,17 +109,19 @@ export default function NrwMapContainer() {
         });
     };
 
-    const handleMapViewChanged = (mapView: MapSelectionView) => {
+    // Callback to set search params with any map interaction, such as panning or zooming.
+    const handleMapViewChanged = (mapView: MapViewParameters) => {
         setMapViewParams({
             countries: scopedCountries,
             eventId: selectedEventId,
-            adminCode: selectedAdminPlaceCode ?? undefined,
+            adminCode: selectedAdminAreaDetails?.code ?? undefined,
             mapView,
             layerIds: visibleLayerNames,
         });
     };
 
-    const handlePdfExport = async () => {
+    // Export to PDF button handler
+    const handlePdfExportClicked = async () => {
         try {
             await exportMapboxToPdf(scopedCountries);
         } catch (error) {
@@ -141,11 +138,12 @@ export default function NrwMapContainer() {
                         <NrwEventsPanel
                             eventData={eventData}
                             activeEventId={selectedEventId}
-                            onEventClick={handleEventClick}
+                            onEventClick={handleEventSelection}
                             onRefreshAll={handleRefreshAll}
                             onDeselectEvent={handleRefreshAll}
                             countryCodes={scopedCountries}
-                            selectedAdminPlaceCode={selectedAdminPlaceCode}
+                            selectedAdminPlaceCode={selectedAdminAreaDetails?.code ?? null}
+                            adminDetails={selectedAdminAreaDetails}
                         />
                     </div>
                 </div>
@@ -154,7 +152,7 @@ export default function NrwMapContainer() {
                         <button
                             type="button"
                             className={styles.debugExportButton}
-                            onClick={handlePdfExport}
+                            onClick={handlePdfExportClicked}
                         >
                             Debug Export PDF (Mapbox)
                         </button>
@@ -164,11 +162,8 @@ export default function NrwMapContainer() {
                         selectedEventDetails={selectedEventDetails}
                         initialMapView={initialMapView}
                         registerMapLayerFunctions={registerMapLayerFunctions}
-                        //                         initialAdminCode={initialAdminCode}
-                        // addLayerFunction={registerMapAddLayer}
-                        // onSelect={handleMapItemSelected}
+                        onSelect={handleAdminAreaSelected}
                         onViewChange={handleMapViewChanged}
-                        // onMapReady={(map: MapOl) => { mapRef.current = map; }}
                         layerPanel={(
                             <div>
                                 <NrwLayerPanel

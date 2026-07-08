@@ -9,7 +9,7 @@ import { type LayerDto } from './shared-dtos';
 import type { AlertClass } from './shared-enums';
 
 // A zoom/center pair describing the current map view
-export interface MapSelectionView {
+export interface MapViewParameters {
     zoom: number;
     center: {
         lon: number;

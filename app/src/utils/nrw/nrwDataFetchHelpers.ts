@@ -89,6 +89,20 @@ export interface AdminAreaDetails {
     population: number | null;
 }
 
+// Build admin area details from just a place code, leaving the remaining
+// fields at their default/null values until they are populated later.
+export function getAdminAreaDetailsFromCode(code: string): AdminAreaDetails {
+    return {
+        code,
+        adminLevel: 0,
+        admin1Pcode: null,
+        admin2Pcode: null,
+        admin3Pcode: null,
+        admin4Pcode: null,
+        population: null,
+    };
+}
+
 // Parse the population value from the attributes field
 function parsePopulation(rawAttributes: unknown): number | null {
     if (!rawAttributes || typeof rawAttributes !== 'object') {

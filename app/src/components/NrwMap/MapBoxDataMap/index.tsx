@@ -13,7 +13,10 @@ import mapboxgl, { type Map as MapboxGLMap } from 'mapbox-gl-v3';
 import { mbtoken } from '#config';
 import useAlert from '#hooks/useAlert';
 import { defaultMapZoom } from '#utils/nrw/nrwConstants';
-import { fetchExposedAdminAreasFeatures } from '#utils/nrw/nrwDataFetchHelpers';
+import {
+    type AdminAreaDetails,
+    fetchExposedAdminAreasFeatures,
+} from '#utils/nrw/nrwDataFetchHelpers';
 import {
     animationDurationMs,
     drawScopedCountriesAdmin0Layer,
@@ -26,7 +29,7 @@ import {
 import { setExposureColorsOnFeatures } from '#utils/nrw/nrwMapStyles';
 import type {
     MapLayerFunctions,
-    MapSelectionView,
+    MapViewParameters,
     NrwMapboxLayer,
     SelectedEventDetails,
 } from '#utils/nrw/nrwMapTypes';
@@ -48,21 +51,28 @@ interface MapBoxDataMapProps {
     selectedEventDetails?: SelectedEventDetails | null;
 
     // Initial map view from URL search params, if available
-    initialMapView?: MapSelectionView | null;
+    initialMapView?: MapViewParameters | null;
 
     // Optional arg to expose the map layer functions to the data loader.
     // It is a function that takes the layer functions object as an argument.
     registerMapLayerFunctions?: (mapLayerFunctions: MapLayerFunctions) => void;
 
+    // Interactable feature click callback (i.e. on clicking admin area)
+    onSelect: (
+        placeCode: string,
+        details: AdminAreaDetails | null,
+        mapView?: MapViewParameters,
+    ) => void;
+
     // Callback for when map center/zoom change finishes
     // This will be hit a lot through map interaction, so don't run costly actions on it
-    onViewChange?: (mapView: MapSelectionView) => void;
+    onViewChange?: (mapView: MapViewParameters) => void;
 
     // Layer panel rendered as an overlay when the layers button is pressed
     layerPanel: ReactNode;
 }
 
-function getViewConfig(initialMapView?: MapSelectionView | null) {
+function getViewConfig(initialMapView?: MapViewParameters | null) {
     return {
         center: initialMapView
             ? [initialMapView.center.lon, initialMapView.center.lat] as [number, number]
@@ -83,6 +93,8 @@ export default function MapBoxDataMap({
     selectedEventDetails,
     initialMapView,
     registerMapLayerFunctions,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onSelect,
     onViewChange,
     layerPanel,
 }: MapBoxDataMapProps) {

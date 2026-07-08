@@ -12,7 +12,6 @@ import { type SelectedEventDetails } from './nrwMapTypes';
 import { AlertClass } from './shared-enums';
 
 const defaultPointStrokeWidth = 2;
-// const exposedAreaFillAlphaHexLight = '33'; // 0.2
 
 // Fill opacity for exposed admin area polygons
 export const exposedAreaFillOpacity = 0.65;
@@ -142,6 +141,6 @@ export const exposedAreasFillPaint: FillLayerSpecification['paint'] = {
 
 // Border paint for scoped-country admin0 polygons on initial map load.
 export const scopedCountriesAdmin0BorderPaint: LineLayerSpecification['paint'] = {
-    'line-color': '#ffffff',
+    'line-color': '#ff60ea',
     'line-width': 3,
 };

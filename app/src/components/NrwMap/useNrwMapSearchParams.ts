@@ -5,7 +5,7 @@ import {
 import { useSearchParams } from 'react-router-dom';
 
 import { defaultMapZoom } from '#utils/nrw/nrwConstants';
-import type { MapSelectionView } from '#utils/nrw/nrwMapTypes';
+import type { MapViewParameters } from '#utils/nrw/nrwMapTypes';
 import {
     adminParamsKey,
     countryParamsKey,
@@ -27,17 +27,17 @@ import {
 
 interface InitialParams {
     scopedCountries: string[];
-    selectedEventId: number | null;
+    initialEventId: number | null;
     initialAdminCode: string | null;
     initialLayerKeys: string[];
-    initialMapView: MapSelectionView | null;
+    initialMapView: MapViewParameters | null;
 }
 
 interface MapViewParams {
     countries: string[];
     eventId?: number | null;
     adminCode?: string;
-    mapView?: MapSelectionView;
+    mapView?: MapViewParameters;
     layerIds: string[];
 }
 
@@ -74,7 +74,7 @@ export default function useNrwMapSearchParams() {
 
         return {
             scopedCountries: parseAndSanitizeCountryCodesParam(searchParams.get(countryParamsKey)),
-            selectedEventId: sanitizeEventIdParam(searchParams.get(eventIdParamsKey)),
+            initialEventId: sanitizeEventIdParam(searchParams.get(eventIdParamsKey)),
             initialAdminCode: sanitizeAdminCode(searchParams.get(adminParamsKey)) || null,
             initialLayerKeys: parseMapLayersParam(searchParams.get(mapLayersParamsKey)),
             initialMapView,
@@ -82,7 +82,7 @@ export default function useNrwMapSearchParams() {
     });
 
     // Sync the active layer IDs into the existing URL params.
-    const syncLayerIds = useCallback((layerIds: string[]) => {
+    const setLayerIds = useCallback((layerIds: string[]) => {
         setSearchParams((prev) => {
             const next = new URLSearchParams(prev);
             const value = serializeMapLayersParam(layerIds);
@@ -93,14 +93,6 @@ export default function useNrwMapSearchParams() {
             }
             return next;
         }, { replace: true });
-    }, [setSearchParams]);
-
-    // Reset URL to only contain the countries.
-    const resetParams = useCallback((countries: string[]) => {
-        const serializedCountries = serializeCountryCodesParam(countries);
-        setSearchParams({
-            [countryParamsKey]: serializedCountries,
-        });
     }, [setSearchParams]);
 
     // Set params on event selection (does not include map view).
@@ -156,9 +148,8 @@ export default function useNrwMapSearchParams() {
 
     return {
         initialParams,
-        syncLayerIds,
-        resetParams,
         setEventParams,
         setMapViewParams,
+        setLayerIds,
     };
 }

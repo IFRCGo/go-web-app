@@ -11,7 +11,7 @@ import {
     scopedCountriesAdmin0FillPaint,
 } from './nrwMapStyles';
 import type {
-    MapSelectionView,
+    MapViewParameters,
     NrwMapboxLayer,
     SelectedEventDetails,
 } from './nrwMapTypes';
@@ -270,7 +270,7 @@ const scopedCountriesAdminBorderLayerId = 'nrw-layer-scoped-countries-admin0-bor
 export const animationDurationMs = 500;
 export const paddingRatio = 0.1;
 
-function hasValidInitialMapCenter(initialMapView?: MapSelectionView | null): boolean {
+function hasValidInitialMapCenter(initialMapView?: MapViewParameters | null): boolean {
     return Boolean(
         initialMapView
         && Number.isFinite(initialMapView.center.lon)
@@ -373,7 +373,7 @@ export function getBoundsFromFeatures(
 export async function drawScopedCountriesAdmin0Layer(
     map: MapboxGLMap,
     scopedCountries: string[],
-    initialMapView?: MapSelectionView | null,
+    initialMapView?: MapViewParameters | null,
 ): Promise<[[number, number], [number, number]]> {
     const admin0GeoJson = await Promise.allSettled(
         scopedCountries.map(async (countryCodeIso3) => {
