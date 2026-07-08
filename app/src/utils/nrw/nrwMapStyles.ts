@@ -124,12 +124,6 @@ export const clinicPointPaint: CircleLayerSpecification['paint'] = {
     'circle-stroke-width': defaultPointStrokeWidth,
 };
 
-// Fill paint for scoped-country admin0 polygons on initial map load.
-export const scopedCountriesAdmin0FillPaint: FillLayerSpecification['paint'] = {
-    'fill-color': '#ffffff',
-    'fill-opacity': 0,
-};
-
 // Fill paint for exposed admin area polygons.
 // Each feature must carry its precomputed exposure color property
 // (EXPOSURE_COLOR_FIELD_KEY), which drives the fill and outline colors.

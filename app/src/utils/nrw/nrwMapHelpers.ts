@@ -8,11 +8,11 @@ import { ibfApiBackend } from '#config';
 import {
     exposedAreasFillPaint,
     scopedCountriesAdmin0BorderPaint,
-    scopedCountriesAdmin0FillPaint,
 } from './nrwMapStyles';
 import type {
     MapViewParameters,
     NrwMapboxLayer,
+    OrderedMapLayer,
     SelectedEventDetails,
 } from './nrwMapTypes';
 import { getAdminAreaUrl } from './nrwUrls';
@@ -239,6 +239,31 @@ export const makeExposedAreasFillLayerFromFeatures = (
     };
 };
 
+// Add a prepared exposed admin areas fill layer to the map, inserting it below
+// any data layer with a higher z index (i.e. point layers) so the layer ordering
+// matches the offsets. Returns the updated ordered layers list, sorted by z index.
+export function addExposedAreasFillLayer(
+    map: MapboxGLMap,
+    newLayer: NrwMapboxLayer,
+    orderedLayers: OrderedMapLayer[],
+    zIndex: number,
+): OrderedMapLayer[] {
+    if (!map.getSource(newLayer.sourceId)) {
+        map.addSource(newLayer.sourceId, newLayer.source);
+    }
+
+    // Insert below any data layer with a higher z index (i.e. point layers)
+    const layerAbove = orderedLayers.find(
+        (entry) => entry.zIndex > zIndex,
+    );
+    map.addLayer(newLayer.layer, layerAbove?.layerId);
+
+    return [
+        ...orderedLayers,
+        { layerId: newLayer.layerId, zIndex },
+    ].sort((a, b) => a.zIndex - b.zIndex);
+}
+
 // Get the map layer z index offset on which the layer is drawn.
 // Higher numbers are drawn on top of other layers.
 // Change the numbers in this function to change the layering order. Use ints.
@@ -264,25 +289,25 @@ export function getZIndexOffset(layerDetails: LayerDto): number {
     }
 }
 
+// Mapbox requires unique names for every layer.
+// If you have the source data, the polygon fill, and the polygon outline,
+// Mapbox treats these as 3 layers, so each would need a unique id.
+// If we add too many layers, consider using a function for name generation.
 const scopedCountriesAdminSourceId = 'nrw-source-scoped-countries-admin0';
-const scopedCountriesAdminFillLayerId = 'nrw-layer-scoped-countries-admin0-fill';
 const scopedCountriesAdminBorderLayerId = 'nrw-layer-scoped-countries-admin0-border';
-export const animationDurationMs = 500;
-export const paddingRatio = 0.1;
 
-function hasValidInitialMapCenter(initialMapView?: MapViewParameters | null): boolean {
-    return Boolean(
-        initialMapView
-        && Number.isFinite(initialMapView.center.lon)
-        && Number.isFinite(initialMapView.center.lat),
-    );
-}
+// Time in ms for map panning and zooming animations
+export const animationDurationMs = 500;
+// Extent padding ratio for constraining the panning/zooming to the scoped countries
+export const constraintPaddingRatio = 2;
+// Padding around 'zoom to fit' logic when zooming in on exposed areas or scoped countries
+export const zoomToFitPaddingRatio = 0.1;
 
 // Build a square lon/lat bounding box centered on the data, sized to the larger
 // of the width/height dimensions, plus padding on all sides.
 // Using the larger dimension means the map can zoom out to fit the full extent
 // (height or width) and still leaves room to pan.
-export function getPaddedSquareBounds(
+function getPaddedSquareBounds(
     bounds: [[number, number], [number, number]],
     paddingRatioPercent: number,
 ): [[number, number], [number, number]] {
@@ -302,6 +327,12 @@ export function getPaddedSquareBounds(
         [centerLongitude - halfSide, centerLatitude - halfSide],
         [centerLongitude + halfSide, centerLatitude + halfSide],
     ];
+}
+
+export function getZoomToFitBounds(
+    bounds: [[number, number], [number, number]],
+): [[number, number], [number, number]] {
+    return getPaddedSquareBounds(bounds, zoomToFitPaddingRatio);
 }
 
 export function getBoundsFromFeatures(
@@ -398,9 +429,6 @@ export async function drawScopedCountriesAdmin0Layer(
     if (map.getLayer(scopedCountriesAdminBorderLayerId)) {
         map.removeLayer(scopedCountriesAdminBorderLayerId);
     }
-    if (map.getLayer(scopedCountriesAdminFillLayerId)) {
-        map.removeLayer(scopedCountriesAdminFillLayerId);
-    }
     if (map.getSource(scopedCountriesAdminSourceId)) {
         map.removeSource(scopedCountriesAdminSourceId);
     }
@@ -411,13 +439,6 @@ export async function drawScopedCountriesAdmin0Layer(
             type: 'FeatureCollection',
             features,
         },
-    });
-
-    map.addLayer({
-        id: scopedCountriesAdminFillLayerId,
-        type: 'fill',
-        source: scopedCountriesAdminSourceId,
-        paint: scopedCountriesAdmin0FillPaint,
     });
 
     map.addLayer({
@@ -432,18 +453,19 @@ export async function drawScopedCountriesAdmin0Layer(
         throw new Error('Failed to compute bounds for scoped countries admin0 features');
     }
 
-    // The pan constraint box must be much larger than the fit box. setMaxBounds
-    // caps how far you can zoom out (the viewport must stay inside the box), and
-    // with a landscape viewport the horizontal edges bind first. A generously
-    // padded constraint box lets the user zoom out far enough to fit the full
-    // vertical extent while still preventing panning off into empty space.
-    const constraintBounds = getPaddedSquareBounds(bounds, 2);
+    // Create bounds to constrain panning and zooming
+    const constraintBounds = getPaddedSquareBounds(bounds, constraintPaddingRatio);
     map.setMaxBounds(constraintBounds);
 
-    // Respect URL-supplied view; otherwise fit map to scoped countries on first
-    // load, framing the country with a smaller padding.
-    if (!hasValidInitialMapCenter(initialMapView)) {
-        map.fitBounds(getPaddedSquareBounds(bounds, paddingRatio), {
+    // If there is not deeplinked view, fit the map to scoped countries on load
+    const hasValidInitialMapCenter = (
+        initialMapView
+        && Number.isFinite(initialMapView.center.lon)
+        && Number.isFinite(initialMapView.center.lat)
+    );
+
+    if (!hasValidInitialMapCenter) {
+        map.fitBounds(getPaddedSquareBounds(bounds, zoomToFitPaddingRatio), {
             duration: animationDurationMs,
         });
     }

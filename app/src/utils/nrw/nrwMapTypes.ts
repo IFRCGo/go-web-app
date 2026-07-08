@@ -26,6 +26,13 @@ export interface NrwMapboxLayer {
     layer: LayerSpecification;
 }
 
+// An added map layer tracked by its layer id and z index.
+// Used to insert new layers at the right position (mapbox orders by list position).
+export interface OrderedMapLayer {
+    layerId: string;
+    zIndex: number;
+}
+
 // Functions exposed by the map component so the data loader can manage layers.
 export interface MapLayerFunctions {
     // Add a prepared layer (source + layer) to the map, ordered by the layer details

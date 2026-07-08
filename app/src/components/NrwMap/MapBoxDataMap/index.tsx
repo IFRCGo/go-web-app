@@ -18,13 +18,13 @@ import {
     fetchExposedAdminAreasFeatures,
 } from '#utils/nrw/nrwDataFetchHelpers';
 import {
+    addExposedAreasFillLayer,
     animationDurationMs,
     drawScopedCountriesAdmin0Layer,
     getBoundsFromFeatures,
-    getPaddedSquareBounds,
     getZIndexOffset,
+    getZoomToFitBounds,
     makeExposedAreasFillLayerFromFeatures,
-    paddingRatio,
 } from '#utils/nrw/nrwMapHelpers';
 import { setExposureColorsOnFeatures } from '#utils/nrw/nrwMapStyles';
 import type {
@@ -115,7 +115,7 @@ export default function MapBoxDataMap({
         onViewChangeRef.current = onViewChange;
     }, [onViewChange]);
 
-    // Initialize the Mapbox map instance once
+    // Initialize the Mapbox map instance
     useEffect(() => {
         if (!mapContainerRef.current || mapInstanceRef.current) {
             return undefined;
@@ -214,10 +214,11 @@ export default function MapBoxDataMap({
             mapInstanceRef.current = null;
             setIsMapLoaded(false);
         };
-    }, [initialMapView, registerMapLayerFunctions, scopedCountries, alert]);
+    // Set the dependencies to empty since this only runs on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-    // When the event selection changes, draw the exposed admin areas for the
-    // selected event as a colored fill layer (or remove them on deselection).
+    // Handle loading event data on the map when the selected event changes.
     useEffect(() => {
         const map = mapInstanceRef.current;
         if (!map || !isMapLoaded) {
@@ -252,49 +253,46 @@ export default function MapBoxDataMap({
         }
 
         // Ignore the fetch result if the selection changed while it was in flight
-        let isStale = false;
+        let isOutdated = false;
 
+        // Fetch the exposed admin areas
         fetchExposedAdminAreasFeatures(scopedCountries, selectedEventDetails)
             .then((features) => {
+                // Set the exposure color properties on the features
                 const coloredFeatures = setExposureColorsOnFeatures(
                     features,
                     selectedEventDetails,
                 );
+
+                // Create the map layer and add it to the map
                 const newLayer = makeExposedAreasFillLayerFromFeatures(
                     `exposed-areas-event-${selectedEventDetails.eventId}`,
                     coloredFeatures,
                 );
                 const currentMap = mapInstanceRef.current;
-                if (isStale || !currentMap) {
+                if (isOutdated || !currentMap) {
                     return;
                 }
-                if (!currentMap.getSource(newLayer.sourceId)) {
-                    currentMap.addSource(newLayer.sourceId, newLayer.source);
-                }
-
-                // Insert below any data layer with a higher z index (i.e. point layers)
-                const layerAbove = orderedLayersRef.current.find(
-                    (entry) => entry.zIndex > exposedAreasZIndex,
+                orderedLayersRef.current = addExposedAreasFillLayer(
+                    currentMap,
+                    newLayer,
+                    orderedLayersRef.current,
+                    exposedAreasZIndex,
                 );
-                currentMap.addLayer(newLayer.layer, layerAbove?.layerId);
-
-                orderedLayersRef.current = [
-                    ...orderedLayersRef.current,
-                    { layerId: newLayer.layerId, zIndex: exposedAreasZIndex },
-                ].sort((a, b) => a.zIndex - b.zIndex);
                 exposedAreasLayerRef.current = newLayer;
 
-                // Zoom to the exposed admin areas. The initial panning extent
-                // (setMaxBounds) is left untouched, so fitBounds stays within it.
+                // Zoom to the exposed admin areas
                 const exposedAreasBounds = getBoundsFromFeatures(features);
                 if (exposedAreasBounds) {
-                    currentMap.fitBounds(getPaddedSquareBounds(exposedAreasBounds, paddingRatio), {
+                    currentMap.fitBounds(getZoomToFitBounds(
+                        exposedAreasBounds,
+                    ), {
                         duration: animationDurationMs,
                     });
                 }
             })
             .catch((error) => {
-                if (isStale) {
+                if (isOutdated) {
                     return;
                 }
                 alert.show('Failed to load exposed areas for the event.', { variant: 'danger' });
@@ -302,7 +300,9 @@ export default function MapBoxDataMap({
             });
 
         return () => {
-            isStale = true;
+            // If this call is cancelled by React (e.g., it starts a new fetch), this block will get
+            // hit before the fetch promise resolves, so we know we can ignore the result.
+            isOutdated = true;
         };
     }, [selectedEventDetails, scopedCountries, isMapLoaded, alert]);
 
