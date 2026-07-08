@@ -16,6 +16,7 @@ import { defaultMapZoom } from '#utils/nrw/nrwConstants';
 import {
     type AdminAreaDetails,
     fetchExposedAdminAreasFeatures,
+    getAdminAreaDetailsFromProperties,
 } from '#utils/nrw/nrwDataFetchHelpers';
 import {
     addExposedAreasFillLayer,
@@ -85,7 +86,7 @@ function getViewConfig(initialMapView?: MapViewParameters | null) {
  * Mapbox v3 map component for NRW data maps.
  * Data layers are added via the map layer functions exposed through
  * registerMapLayerFunctions, which is driven by the useNrwDataLoader hook.
- * Map click interactions (admin area selection, popups) are not implemented yet.
+ * Exposed admin areas can be selected by clicking on the map.
  * @returns A component that can be either standalone, or nested in a NrwMapContainer.
  */
 export default function MapBoxDataMap({
@@ -93,7 +94,6 @@ export default function MapBoxDataMap({
     selectedEventDetails,
     initialMapView,
     registerMapLayerFunctions,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onSelect,
     onViewChange,
     layerPanel,
@@ -109,7 +109,12 @@ export default function MapBoxDataMap({
     // The exposed admin areas layer for the currently selected event, if any
     const exposedAreasLayerRef = useRef<NrwMapboxLayer | null>(null);
     // Callback tracked by ref in case it changes
+    const onSelectRef = useRef(onSelect);
     const onViewChangeRef = useRef(onViewChange);
+
+    useEffect(() => {
+        onSelectRef.current = onSelect;
+    }, [onSelect]);
 
     useEffect(() => {
         onViewChangeRef.current = onViewChange;
@@ -203,6 +208,46 @@ export default function MapBoxDataMap({
                     lat: mapCenter.lat,
                 },
             });
+        });
+
+        // Handle selecting exposed admin areas by clicking on the fill layer.
+        map.on('click', (event) => {
+            const exposedLayerId = exposedAreasLayerRef.current?.layerId;
+            if (!exposedLayerId || !map.getLayer(exposedLayerId)) {
+                return;
+            }
+
+            const clickedFeatures = map.queryRenderedFeatures(event.point, {
+                layers: [exposedLayerId],
+            });
+            const clickedFeature = clickedFeatures[0];
+            if (!clickedFeature || typeof clickedFeature.properties !== 'object'
+                || clickedFeature.properties === null) {
+                return;
+            }
+
+            const details = getAdminAreaDetailsFromProperties(
+                clickedFeature.properties as Record<string, unknown>,
+            );
+            if (!details) {
+                return;
+            }
+
+            const mapCenter = map.getCenter();
+            const mapZoom = map.getZoom();
+            const mapView = Number.isFinite(mapCenter.lng)
+                && Number.isFinite(mapCenter.lat)
+                && Number.isFinite(mapZoom)
+                ? {
+                    zoom: mapZoom,
+                    center: {
+                        lon: mapCenter.lng,
+                        lat: mapCenter.lat,
+                    },
+                }
+                : undefined;
+
+            onSelectRef.current(details.code, details, mapView);
         });
 
         mapInstanceRef.current = map;

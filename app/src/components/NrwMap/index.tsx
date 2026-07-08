@@ -38,6 +38,7 @@ export default function NrwMapContainer() {
             initialLayerKeys,
             initialMapView,
         },
+        resetToCountryParamsOnly,
         setLayerIds,
         setEventParams,
         setMapViewParams,
@@ -74,6 +75,9 @@ export default function NrwMapContainer() {
         setSelectedEventId(null);
         hideAllLayers();
         setSelectedAdminAreaDetails(null);
+
+        // Reset search params
+        resetToCountryParamsOnly(scopedCountries);
 
         // Reload event data
         await reloadCountryEventData();

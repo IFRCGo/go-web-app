@@ -95,6 +95,14 @@ export default function useNrwMapSearchParams() {
         }, { replace: true });
     }, [setSearchParams]);
 
+    // Reset URL to only contain the countries.
+    const resetToCountryParamsOnly = useCallback((countries: string[]) => {
+        const serializedCountries = serializeCountryCodesParam(countries);
+        setSearchParams({
+            [countryParamsKey]: serializedCountries,
+        });
+    }, [setSearchParams]);
+
     // Set params on event selection (does not include map view).
     const setEventParams = useCallback(({ countries, eventId, layerIds }: EventParams) => {
         const serializedCountries = serializeCountryCodesParam(countries);
@@ -148,6 +156,7 @@ export default function useNrwMapSearchParams() {
 
     return {
         initialParams,
+        resetToCountryParamsOnly,
         setEventParams,
         setMapViewParams,
         setLayerIds,
