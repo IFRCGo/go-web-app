@@ -34,10 +34,6 @@ import renderSelectedEventExposedAreasOnMap from '#utils/nrw/nrwSelectedEventMap
 
 import styles from './styles.module.css';
 
-// Z index offset for the exposed admin areas fill layer.
-// Keep this above the rasters but below the point layers (see getZIndexOffset).
-const exposedAreasZIndex = 1200;
-
 interface MapBoxDataMapProps {
     // ISO_A3 code list of countries that the map is scoped to.
     scopedCountries: string[];
@@ -245,7 +241,6 @@ export default function MapBoxDataMap({
             scopedCountries,
             selectedEventDetails,
             orderedLayers: orderedLayersRef.current,
-            zIndex: exposedAreasZIndex,
             isOutdated: () => isOutdated,
         })
             .then((result) => {

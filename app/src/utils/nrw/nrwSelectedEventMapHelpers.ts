@@ -20,7 +20,6 @@ interface RenderSelectedEventExposedAreasOnMapParams {
     scopedCountries: string[];
     selectedEventDetails: SelectedEventDetails;
     orderedLayers: OrderedMapLayer[];
-    zIndex: number;
     isOutdated?: () => boolean;
 }
 
@@ -41,7 +40,6 @@ export default async function renderSelectedEventExposedAreasOnMap({
     scopedCountries,
     selectedEventDetails,
     orderedLayers,
-    zIndex,
     isOutdated,
 }: RenderSelectedEventExposedAreasOnMapParams):
 Promise<RenderSelectedEventExposedAreasOnMapResult |
@@ -65,7 +63,6 @@ null> {
         map,
         layer,
         orderedLayers,
-        zIndex,
     );
 
     const exposedAreasBounds = getBoundsFromFeatures(features);

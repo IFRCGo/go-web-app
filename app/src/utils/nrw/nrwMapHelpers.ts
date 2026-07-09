@@ -273,20 +273,18 @@ export const makeExposedAreasFillLayerFromFeatures = (
     };
 };
 
-// Add a prepared exposed admin areas fill layer to the map, inserting it below
-// any data layer with a higher z index (i.e. point layers) so the layer ordering
-// matches the offsets. Returns the updated ordered layers list, sorted by z index.
+// Add an exposed admin areas fill layer to the map, inserting it below
+// all other data layers.
 export function addExposedAreasFillLayer(
     map: MapboxGLMap,
     newLayer: NrwMapboxLayer,
     orderedLayers: OrderedMapLayer[],
-    zIndex: number,
 ): OrderedMapLayer[] {
     if (!map.getSource(newLayer.sourceId)) {
         map.addSource(newLayer.sourceId, newLayer.source);
     }
 
-    // Insert below any data layer with a higher z index (i.e. point layers)
+    const zIndex = 1000;
     const layerAbove = orderedLayers.find(
         (entry) => entry.zIndex > zIndex,
     );
@@ -298,33 +296,31 @@ export function addExposedAreasFillLayer(
     ].sort((a, b) => a.zIndex - b.zIndex);
 }
 
-// Get the map layer z index offset on which the layer is drawn.
-// Higher numbers are drawn on top of other layers.
-// Change the numbers in this function to change the layering order. Use ints.
-export function getZIndexOffset(layerDetails: LayerDto): number {
-    switch (layerDetails.layerName) {
+// Get the map layer draw order to decide what is drawn above what.
+// Lower numbers are drawn on the bottom of the stack. Other than that,
+// the actual values used are arbitrarty.
+export function getDrawOrder(layerName: LayerName): number {
+    switch (layerName) {
         case LayerName.population:
-            return 500;
+            return 10;
         case LayerName.floodDepth:
-            return 1100;
+            return 100;
         case LayerName.redCrossBranches:
-            // Give point data a higher offset
-            return 1201;
+            return 200;
         case LayerName.clinics:
-            // Give point data a higher offset
-            return 1202;
+            return 201;
         default:
             // No need for a user facing error, but we should log this to correctly handle it later.
             console.error(
                 'Unknown layer data type for z-indexing:',
-                layerDetails.layerName,
+                layerName,
             );
-            return 1; // draw on the lowest layer above the base map
+            return 1; // draw on the lowest layer
     }
 }
 
-// Add a prepared layer to the map, inserting it below the first existing
-// data layer that has a higher z index. Returns the updated ordered layer list.
+// Add a layer to the map, inserting it into a list sorted by draw order.
+// Returns the updated ordered layer list.
 export function addOrderedLayer(
     map: MapboxGLMap,
     newLayer: NrwMapboxLayer,
@@ -339,7 +335,7 @@ export function addOrderedLayer(
         map.addSource(newLayer.sourceId, newLayer.source);
     }
 
-    const zIndex = getZIndexOffset(layerDetails);
+    const zIndex = getDrawOrder(layerDetails.layerName);
     const layerAbove = orderedLayers.find((entry) => entry.zIndex > zIndex);
     map.addLayer(newLayer.layer, layerAbove?.layerId);
 
