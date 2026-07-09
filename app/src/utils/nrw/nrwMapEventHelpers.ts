@@ -2,19 +2,80 @@ import { type Map as MapboxGLMap } from 'mapbox-gl-v3';
 
 import { fetchExposedAdminAreasFeatures } from './nrwDataFetchHelpers';
 import {
-    addOrderedLayer,
-    animationDurationMs,
     exposedAreasDrawOrder,
     getBoundsFromFeatures,
     getZoomToFitBounds,
     makeExposedAreasFillLayerFromFeatures,
 } from './nrwMapHelpers';
+import {
+    addOrderedLayer,
+    animationDurationMs,
+} from './nrwMapLayerHelpers';
 import { setExposureColorsOnFeatures } from './nrwMapStyles';
 import type {
     NrwMapboxLayer,
     OrderedMapLayer,
     SelectedEventDetails,
 } from './nrwMapTypes';
+import type { EventResponseDto } from './shared-dtos';
+import { LayerName } from './shared-enums';
+
+// Extract the map-relevant details from event data for a selected event
+// Returns null if no event is selected or event not found
+export function getSelectedEventDetails(
+    eventData: EventResponseDto[],
+    eventId: number | null,
+): SelectedEventDetails | null {
+    if (!eventId) return null;
+
+    const event = eventData.find((e) => e.eventId === eventId);
+    if (!event) return null;
+
+    // Values needed for building the SelectedEventDetails:
+    // Exposed admin areas with their exposed population, per admin level.
+    const exposedPopulationPerAreaByLevel: Record<number, Record<string, number>> = {};
+    // Highest exposed population value per admin level
+    const highestExposedPopulationByLevel: Record<number, number> = {};
+
+    if (event.exposedAdminAreas) {
+        // Parse the list of exposed admin areas, grouping by admin level
+        // to build the SelectedEventDetails.
+        event.exposedAdminAreas.forEach((area) => {
+            const { adminLevel: level } = area;
+
+            // Get the value of the exposed population for this admin area, if any
+            const eventPopulationData = area.exposure.find(
+                (layer) => layer.layerName === LayerName.populationExposed,
+            );
+            const exposedPopulationValue = eventPopulationData?.exposed ?? 0;
+
+            // Store the value for this admin area, keyed by level then place code
+            if (!exposedPopulationPerAreaByLevel[level]) {
+                exposedPopulationPerAreaByLevel[level] = {};
+                highestExposedPopulationByLevel[level] = 0;
+            }
+            exposedPopulationPerAreaByLevel[level][area.placeCode] = exposedPopulationValue;
+
+            // Update the highest exposed population value for this level if needed
+            const currentHighest = highestExposedPopulationByLevel[level] ?? 0;
+            if (exposedPopulationValue > currentHighest) {
+                highestExposedPopulationByLevel[level] = exposedPopulationValue;
+            }
+        });
+    } else {
+    // Log error and let caller handle the empty map.
+        console.error('No exposedAdminAreas found for event:', eventId);
+    }
+
+    // Return a SelectedEventDetails object with the extracted data
+    return {
+        eventId,
+        centroid: event.centroid,
+        alertClass: event.alertClass,
+        exposedPopulationPerAreaByLevel,
+        highestExposedPopulationByLevel,
+    };
+}
 
 interface RenderExposedAreasOnMapParams {
     map: MapboxGLMap;

@@ -13,8 +13,8 @@ import {
     getAllEventData,
     getCountryMapData,
 } from '#utils/nrw/nrwDataFetchHelpers';
+import { getSelectedEventDetails } from '#utils/nrw/nrwMapEventHelpers';
 import {
-    getSelectedEventDetails,
     makeEventImageLayer,
     makePointLayerFromFeatures,
     makeStaticImageLayer,

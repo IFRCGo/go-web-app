@@ -22,13 +22,15 @@ import {
 } from '#utils/nrw/nrwDataFetchHelpers';
 import renderSelectedEventExposedAreasOnMap from '#utils/nrw/nrwMapEventHelpers';
 import {
-    addOrderedLayer,
-    drawScopedCountriesAdmin0Layer,
     getDrawOrder,
     getInitialMapViewConfig,
+} from '#utils/nrw/nrwMapHelpers';
+import {
+    addOrderedLayer,
+    drawScopedCountriesAdmin0Layer,
     getMapViewParametersFromMap,
     removeLayerAndSource,
-} from '#utils/nrw/nrwMapHelpers';
+} from '#utils/nrw/nrwMapLayerHelpers';
 import type {
     MapLayerFunctions,
     MapViewParameters,

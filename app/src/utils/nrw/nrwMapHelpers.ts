@@ -1,26 +1,16 @@
 import getBbox from '@turf/bbox';
-import type {
-    CircleLayerSpecification,
-    Map as MapboxGLMap,
-} from 'mapbox-gl-v3';
+import type { CircleLayerSpecification } from 'mapbox-gl-v3';
 
 import { ibfApiBackend } from '#config';
 
 import { defaultMapZoom } from './nrwConstants';
 import fetchJson from './nrwDataFetchHelpers';
-import {
-    exposedAreasFillPaint,
-    scopedCountriesAdmin0BorderPaint,
-} from './nrwMapStyles';
+import { exposedAreasFillPaint } from './nrwMapStyles';
 import type {
     LonLatBounds,
     MapViewParameters,
     NrwMapboxLayer,
-    OrderedMapLayer,
-    SelectedEventDetails,
 } from './nrwMapTypes';
-import { getAdminAreaUrl } from './nrwUrls';
-import type { EventResponseDto } from './shared-dtos';
 import { LayerName } from './shared-enums';
 
 const defaultMapCenter: [number, number] = [0, 0];
@@ -33,83 +23,6 @@ export function getInitialMapViewConfig(
             ? [initialMapView.center.lon, initialMapView.center.lat]
             : defaultMapCenter,
         zoom: initialMapView?.zoom ?? defaultMapZoom,
-    };
-}
-
-export function getMapViewParametersFromMap(
-    map: MapboxGLMap,
-): MapViewParameters | undefined {
-    const mapCenter = map.getCenter();
-    const mapZoom = map.getZoom();
-
-    if (!Number.isFinite(mapCenter.lng) || !Number.isFinite(mapCenter.lat)
-        || !Number.isFinite(mapZoom)) {
-        return undefined;
-    }
-
-    return {
-        zoom: mapZoom,
-        center: {
-            lon: mapCenter.lng,
-            lat: mapCenter.lat,
-        },
-    };
-}
-
-// Extract the map-relevant details from event data for a selected event
-// Returns null if no event is selected or event not found
-export function getSelectedEventDetails(
-    eventData: EventResponseDto[],
-    eventId: number | null,
-): SelectedEventDetails | null {
-    if (!eventId) return null;
-
-    const event = eventData.find((e) => e.eventId === eventId);
-    if (!event) return null;
-
-    // Values needed for building the SelectedEventDetails:
-    // Exposed admin areas with their exposed population, per admin level.
-    const exposedPopulationPerAreaByLevel: Record<number, Record<string, number>> = {};
-    // Highest exposed population value per admin level
-    const highestExposedPopulationByLevel: Record<number, number> = {};
-
-    if (event.exposedAdminAreas) {
-        // Parse the list of exposed admin areas, grouping by admin level
-        // to build the SelectedEventDetails.
-        event.exposedAdminAreas.forEach((area) => {
-            const { adminLevel: level } = area;
-
-            // Get the value of the exposed population for this admin area, if any
-            const eventPopulationData = area.exposure.find(
-                (layer) => layer.layerName === LayerName.populationExposed,
-            );
-            const exposedPopulationValue = eventPopulationData?.exposed ?? 0;
-
-            // Store the value for this admin area, keyed by level then place code
-            if (!exposedPopulationPerAreaByLevel[level]) {
-                exposedPopulationPerAreaByLevel[level] = {};
-                highestExposedPopulationByLevel[level] = 0;
-            }
-            exposedPopulationPerAreaByLevel[level][area.placeCode] = exposedPopulationValue;
-
-            // Update the highest exposed population value for this level if needed
-            const currentHighest = highestExposedPopulationByLevel[level] ?? 0;
-            if (exposedPopulationValue > currentHighest) {
-                highestExposedPopulationByLevel[level] = exposedPopulationValue;
-            }
-        });
-    } else {
-    // Log error and let caller handle the empty map.
-        console.error('No exposedAdminAreas found for event:', eventId);
-    }
-
-    // Return a SelectedEventDetails object with the extracted data
-    return {
-        eventId,
-        centroid: event.centroid,
-        alertClass: event.alertClass,
-        exposedPopulationPerAreaByLevel,
-        highestExposedPopulationByLevel,
     };
 }
 
@@ -309,59 +222,6 @@ export function getDrawOrder(layerName: LayerName): number {
     }
 }
 
-// Add a layer to the map, inserting it into a list sorted by draw order.
-// Returns the updated ordered layer list.
-export function addOrderedLayer(
-    map: MapboxGLMap,
-    newLayer: NrwMapboxLayer,
-    drawOrder: number,
-    orderedLayers: OrderedMapLayer[],
-): OrderedMapLayer[] {
-    if (map.getLayer(newLayer.layerId)) {
-        return orderedLayers;
-    }
-
-    if (!map.getSource(newLayer.sourceId)) {
-        map.addSource(newLayer.sourceId, newLayer.source);
-    }
-
-    const layerAbove = orderedLayers.find((entry) => entry.drawOrder > drawOrder);
-    map.addLayer(newLayer.layer, layerAbove?.layerId);
-
-    return [
-        ...orderedLayers,
-        { layerId: newLayer.layerId, drawOrder },
-    ].sort((a, b) => a.drawOrder - b.drawOrder);
-}
-
-// Remove a tracked layer and its source if present, and remove it from
-// ordered layer bookkeeping.
-export function removeLayerAndSource(
-    map: MapboxGLMap,
-    layer: NrwMapboxLayer,
-    orderedLayers: OrderedMapLayer[],
-): OrderedMapLayer[] {
-    if (map.getLayer(layer.layerId)) {
-        map.removeLayer(layer.layerId);
-    }
-    if (map.getSource(layer.sourceId)) {
-        map.removeSource(layer.sourceId);
-    }
-
-    return orderedLayers.filter((entry) => entry.layerId !== layer.layerId);
-}
-
-// Mapbox requires unique names for every layer.
-// If you have the source data, the polygon fill, and the polygon outline,
-// Mapbox treats these as 3 layers, so each would need a unique id.
-// If we add too many layers, consider using a function for name generation.
-const scopedCountriesAdminSourceId = 'nrw-source-scoped-countries-admin0';
-const scopedCountriesAdminBorderLayerId = 'nrw-layer-scoped-countries-admin0-border';
-
-// Time in ms for map panning and zooming animations
-export const animationDurationMs = 500;
-// Extent padding ratio for constraining the panning/zooming to the scoped countries
-export const constraintPaddingRatio = 2;
 // Padding around 'zoom to fit' logic when zooming in on exposed areas or scoped countries
 export const zoomToFitPaddingRatio = 0.1;
 
@@ -369,7 +229,7 @@ export const zoomToFitPaddingRatio = 0.1;
 // of the width/height dimensions, plus padding on all sides.
 // Using the larger dimension means the map can zoom out to fit the full extent
 // (height or width) and still leaves room to pan.
-function getPaddedSquareBounds(
+export function getPaddedSquareBounds(
     bounds: LonLatBounds,
     paddingRatio: number,
 ): LonLatBounds {
@@ -420,81 +280,4 @@ export function getBoundsFromFeatures(
         [west, south],
         [east, north],
     ];
-}
-
-// Draw the admin0 borders for the scoped countries and constrain the map
-// view to them. Never rejects: returns null when the features cannot be
-// fetched or their bounds computed.
-export async function drawScopedCountriesAdmin0Layer(
-    map: MapboxGLMap,
-    scopedCountries: string[],
-    initialMapView?: MapViewParameters | null,
-): Promise<LonLatBounds | null> {
-    try {
-        const admin0GeoJson = await Promise.allSettled(
-            scopedCountries.map((countryCodeIso3) => fetchJson<GeoJSON.FeatureCollection>(
-                getAdminAreaUrl(countryCodeIso3, 0),
-                `admin0 for ${countryCodeIso3}`,
-            )),
-        );
-
-        const features = admin0GeoJson.flatMap((result) => (
-            result.status === 'fulfilled'
-                ? (result.value.features ?? [])
-                : []
-        ));
-
-        if (features.length === 0) {
-            throw new Error('Failed to load scoped countries admin0 features');
-        }
-
-        if (map.getLayer(scopedCountriesAdminBorderLayerId)) {
-            map.removeLayer(scopedCountriesAdminBorderLayerId);
-        }
-        if (map.getSource(scopedCountriesAdminSourceId)) {
-            map.removeSource(scopedCountriesAdminSourceId);
-        }
-
-        map.addSource(scopedCountriesAdminSourceId, {
-            type: 'geojson',
-            data: {
-                type: 'FeatureCollection',
-                features,
-            },
-        });
-
-        map.addLayer({
-            id: scopedCountriesAdminBorderLayerId,
-            type: 'line',
-            source: scopedCountriesAdminSourceId,
-            paint: scopedCountriesAdmin0BorderPaint,
-        });
-
-        const bounds = getBoundsFromFeatures(features);
-        if (!bounds) {
-            throw new Error('Failed to compute bounds for scoped countries admin0 features');
-        }
-
-        // Create bounds to constrain panning and zooming
-        const constraintBounds = getPaddedSquareBounds(bounds, constraintPaddingRatio);
-        map.setMaxBounds(constraintBounds);
-
-        // If there is not deeplinked view, fit the map to scoped countries on load
-        const hasValidInitialMapCenter = (
-            initialMapView
-            && Number.isFinite(initialMapView.center.lon)
-            && Number.isFinite(initialMapView.center.lat)
-        );
-
-        if (!hasValidInitialMapCenter) {
-            map.fitBounds(getPaddedSquareBounds(bounds, zoomToFitPaddingRatio), {
-                duration: animationDurationMs,
-            });
-        }
-
-        return bounds;
-    } catch (error) {
-        console.error('[drawScopedCountriesAdmin0Layer] Failed to draw scoped countries admin0:', error);
-        return null;
-    }
 }
