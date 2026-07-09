@@ -14,7 +14,7 @@ import { mbtoken } from '#config';
 import useAlert from '#hooks/useAlert';
 import {
     MAP_CONTAINER_ELEMENT_ID,
-    MAPBOX_STYLE_URL,
+    NRW_MAPBOX_STYLE_URL,
 } from '#utils/nrw/nrwConstants';
 import {
     type AdminAreaDetails,
@@ -117,7 +117,7 @@ export default function MapboxDataMap({
 
         const map = new mapboxgl.Map({
             container: mapContainerRef.current,
-            style: MAPBOX_STYLE_URL,
+            style: NRW_MAPBOX_STYLE_URL,
             projection: 'mercator',
             center,
             zoom,
