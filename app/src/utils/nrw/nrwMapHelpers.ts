@@ -227,14 +227,6 @@ export const makeStaticImageLayer = (
     layerName,
 );
 
-export const isValidCoordinatePair = (
-    longitude: number,
-    latitude: number,
-): boolean => Number.isFinite(longitude)
-    && Number.isFinite(latitude)
-    && Math.abs(longitude) <= 180
-    && Math.abs(latitude) <= 90;
-
 // Build a mapbox circle point layer from GeoJSON point features (WGS84 coordinates)
 export const makePointLayerFromFeatures = (
     layerKey: string,

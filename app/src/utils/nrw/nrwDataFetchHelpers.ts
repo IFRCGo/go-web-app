@@ -5,7 +5,6 @@ import {
     ATTRIBUTES_FIELD_KEY,
     POPULATION_ATTRIBUTE_KEY,
 } from './nrwConstants';
-import { isValidCoordinatePair } from './nrwMapHelpers';
 import {
     type CountryMapData,
     type SelectedEventDetails,
@@ -248,6 +247,14 @@ export const fetchExposedAdminAreasFeatures = async (
         result.status === 'fulfilled' ? result.value : []
     ));
 };
+
+const isValidCoordinatePair = (
+    longitude: number,
+    latitude: number,
+): boolean => Number.isFinite(longitude)
+    && Number.isFinite(latitude)
+    && Math.abs(longitude) <= 180
+    && Math.abs(latitude) <= 90;
 
 // Build the GeoJSON point feature for a GO API local unit (RC branch or clinic).
 // Returns an empty array when the coordinates are invalid, so callers can flatMap.

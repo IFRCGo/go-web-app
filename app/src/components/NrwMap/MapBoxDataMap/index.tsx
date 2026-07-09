@@ -20,6 +20,7 @@ import {
     type AdminAreaDetails,
     getAdminAreaDetailsFromProperties,
 } from '#utils/nrw/nrwDataFetchHelpers';
+import renderSelectedEventExposedAreasOnMap from '#utils/nrw/nrwMapEventHelpers';
 import {
     addOrderedLayer,
     drawScopedCountriesAdmin0Layer,
@@ -35,7 +36,6 @@ import type {
     OrderedMapLayer,
     SelectedEventDetails,
 } from '#utils/nrw/nrwMapTypes';
-import renderSelectedEventExposedAreasOnMap from '#utils/nrw/nrwSelectedEventMapHelpers';
 
 import styles from './styles.module.css';
 

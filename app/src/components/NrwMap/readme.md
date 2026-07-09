@@ -38,7 +38,7 @@ The NRW frontend can be launched either from this project, or from the [standalo
 
 The base map is provided through [MapBox](https://www.mapbox.com/). You can modify the existing map or create a map there. For the NLRC MapBox account credentials, see BitWarden. The map 'style' url is set in `nrwConstants.ts`.
 
-The `.env` var must be set to match the API key of either the NLRC or IFRC MapTiler account (MapTiler > API Keys).
+The `.env` var must be set to match the API key of either the NLRC or IFRC Mapbox account (Mapbox > API Keys).
 
 ## Testing
 

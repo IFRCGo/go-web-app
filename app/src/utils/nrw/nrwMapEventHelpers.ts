@@ -16,7 +16,7 @@ import type {
     SelectedEventDetails,
 } from './nrwMapTypes';
 
-interface RenderSelectedEventExposedAreasOnMapParams {
+interface RenderExposedAreasOnMapParams {
     map: MapboxGLMap;
     scopedCountries: string[];
     selectedEventDetails: SelectedEventDetails;
@@ -24,7 +24,7 @@ interface RenderSelectedEventExposedAreasOnMapParams {
     isOutdated?: () => boolean;
 }
 
-interface RenderSelectedEventExposedAreasOnMapResult {
+interface RenderExposedAreasOnMapResult {
     layer: NrwMapboxLayer;
     orderedLayers: OrderedMapLayer[];
 }
@@ -37,14 +37,14 @@ function hasExposedPopulationData(selectedEventDetails: SelectedEventDetails): b
 // Fetch, prepare, render, and zoom to a selected event's exposed admin areas.
 // Returns null when the caller marks this render request as
 // outdated, or when the data cannot be fetched or rendered.
-export default async function renderSelectedEventExposedAreasOnMap({
+export default async function renderExposedAreasOnMap({
     map,
     scopedCountries,
     selectedEventDetails,
     orderedLayers,
     isOutdated,
-}: RenderSelectedEventExposedAreasOnMapParams): Promise<
-RenderSelectedEventExposedAreasOnMapResult | null
+}: RenderExposedAreasOnMapParams): Promise<
+RenderExposedAreasOnMapResult | null
 > {
     if (!hasExposedPopulationData(selectedEventDetails)) {
         console.error(`[renderSelectedEventExposedAreasOnMap] No exposed population data for event ${selectedEventDetails.eventId}`);
