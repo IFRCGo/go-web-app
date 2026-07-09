@@ -41,15 +41,18 @@ export default async function renderSelectedEventExposedAreasOnMap({
     selectedEventDetails,
     orderedLayers,
     isOutdated,
-}: RenderSelectedEventExposedAreasOnMapParams):
-Promise<RenderSelectedEventExposedAreasOnMapResult |
-null> {
+}: RenderSelectedEventExposedAreasOnMapParams): Promise<
+RenderSelectedEventExposedAreasOnMapResult | null
+> {
     if (!hasExposedPopulationData(selectedEventDetails)) {
         console.error(`[renderSelectedEventExposedAreasOnMap] No exposed population data for event ${selectedEventDetails.eventId}`);
         return null;
     }
 
-    const features = await fetchExposedAdminAreasFeatures(scopedCountries, selectedEventDetails);
+    const features = await fetchExposedAdminAreasFeatures(
+        scopedCountries,
+        selectedEventDetails,
+    );
     if (isOutdated?.()) {
         return null;
     }

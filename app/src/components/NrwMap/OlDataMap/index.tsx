@@ -251,7 +251,9 @@ export default function OlDataMap({
                         currentState.selectedAdminCodes.set(1, details.admin1Pcode);
                         currentState.selectedAdminCodes.set(2, details.admin2Pcode);
                         currentState.selectedAdminCodes.set(3, details.admin3Pcode);
-                        currentState.selectedAdminCodes.set(details.adminLevel, details.code);
+                        if (details.adminLevel !== null) {
+                            currentState.selectedAdminCodes.set(details.adminLevel, details.code);
+                        }
                     }
 
                     shouldApplyInitialAdminRef.current = false;

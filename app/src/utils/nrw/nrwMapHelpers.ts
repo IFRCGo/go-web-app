@@ -1,3 +1,4 @@
+import getBbox from '@turf/bbox';
 import type {
     CircleLayerSpecification,
     Map as MapboxGLMap,
@@ -11,6 +12,7 @@ import {
     scopedCountriesAdmin0BorderPaint,
 } from './nrwMapStyles';
 import type {
+    LonLatBounds,
     MapViewParameters,
     NrwMapboxLayer,
     OrderedMapLayer,
@@ -136,6 +138,14 @@ interface RasterExtent {
     ymax: number;
 }
 
+// Generate the paired Mapbox source/layer ids for an NRW layer key
+function makeLayerIds(layerKey: string): { sourceId: string; layerId: string } {
+    return {
+        sourceId: `nrw-source-${layerKey}`,
+        layerId: `nrw-layer-${layerKey}`,
+    };
+}
+
 // Build a mapbox image raster layer from an image URL and its EPSG:3857 extent
 function makeImageRasterLayer(
     layerKey: string,
@@ -147,8 +157,7 @@ function makeImageRasterLayer(
     const east = webMercatorToLongitude(extent.xmax);
     const north = webMercatorToLatitude(extent.ymax);
 
-    const sourceId = `nrw-source-${layerKey}`;
-    const layerId = `nrw-layer-${layerKey}`;
+    const { sourceId, layerId } = makeLayerIds(layerKey);
 
     return {
         sourceId,
@@ -222,8 +231,7 @@ export const makePointLayerFromFeatures = (
     features: GeoJSON.Feature[],
     paint: CircleLayerSpecification['paint'],
 ): NrwMapboxLayer => {
-    const sourceId = `nrw-source-${layerKey}`;
-    const layerId = `nrw-layer-${layerKey}`;
+    const { sourceId, layerId } = makeLayerIds(layerKey);
 
     return {
         sourceId,
@@ -251,8 +259,7 @@ export const makeExposedAreasFillLayerFromFeatures = (
     layerKey: string,
     features: GeoJSON.Feature[],
 ): NrwMapboxLayer => {
-    const sourceId = `nrw-source-${layerKey}`;
-    const layerId = `nrw-layer-${layerKey}`;
+    const { sourceId, layerId } = makeLayerIds(layerKey);
 
     return {
         sourceId,
@@ -381,9 +388,9 @@ export const zoomToFitPaddingRatio = 0.1;
 // Using the larger dimension means the map can zoom out to fit the full extent
 // (height or width) and still leaves room to pan.
 function getPaddedSquareBounds(
-    bounds: [[number, number], [number, number]],
-    paddingRatioPercent: number,
-): [[number, number], [number, number]] {
+    bounds: LonLatBounds,
+    paddingRatio: number,
+): LonLatBounds {
     const [[minLongitude, minLatitude], [maxLongitude, maxLatitude]] = bounds;
 
     const centerLongitude = (minLongitude + maxLongitude) / 2;
@@ -394,7 +401,7 @@ function getPaddedSquareBounds(
 
     // Fit to the larger dimension, then pad.
     const largerDimension = Math.max(width, height);
-    const halfSide = (largerDimension * (1 + paddingRatioPercent)) / 2;
+    const halfSide = (largerDimension * (1 + paddingRatio)) / 2;
 
     return [
         [centerLongitude - halfSide, centerLatitude - halfSide],
@@ -403,74 +410,33 @@ function getPaddedSquareBounds(
 }
 
 export function getZoomToFitBounds(
-    bounds: [[number, number], [number, number]],
-): [[number, number], [number, number]] {
+    bounds: LonLatBounds,
+): LonLatBounds {
     return getPaddedSquareBounds(bounds, zoomToFitPaddingRatio);
 }
 
+// Compute the lon/lat bounding box of the given features.
+// Returns null when the features contain no valid coordinates.
 export function getBoundsFromFeatures(
     features: GeoJSON.Feature[],
-): [[number, number], [number, number]] | null {
-    let minLongitude = Infinity;
-    let minLatitude = Infinity;
-    let maxLongitude = -Infinity;
-    let maxLatitude = -Infinity;
-    let hasAtLeastOneCoordinate = false;
+): LonLatBounds | null {
+    if (features.length === 0) {
+        return null;
+    }
 
-    const addCoordinate = (coordinate: unknown) => {
-        if (!Array.isArray(coordinate) || coordinate.length < 2) {
-            return;
-        }
-        const longitude = Number(coordinate[0]);
-        const latitude = Number(coordinate[1]);
-        if (!Number.isFinite(longitude) || !Number.isFinite(latitude)) {
-            return;
-        }
-
-        hasAtLeastOneCoordinate = true;
-        minLongitude = Math.min(minLongitude, longitude);
-        minLatitude = Math.min(minLatitude, latitude);
-        maxLongitude = Math.max(maxLongitude, longitude);
-        maxLatitude = Math.max(maxLatitude, latitude);
-    };
-
-    const traverseCoordinates = (coordinates: unknown) => {
-        if (!Array.isArray(coordinates)) {
-            return;
-        }
-
-        if (coordinates.length > 0 && typeof coordinates[0] === 'number') {
-            addCoordinate(coordinates);
-            return;
-        }
-
-        coordinates.forEach(traverseCoordinates);
-    };
-
-    const traverseGeometry = (geometry: GeoJSON.Geometry | undefined) => {
-        if (!geometry) {
-            return;
-        }
-
-        if (geometry.type === 'GeometryCollection') {
-            geometry.geometries.forEach(traverseGeometry);
-            return;
-        }
-
-        traverseCoordinates(geometry.coordinates);
-    };
-
-    features.forEach((feature) => {
-        traverseGeometry(feature.geometry ?? undefined);
+    const [west, south, east, north] = getBbox({
+        type: 'FeatureCollection',
+        features,
     });
 
-    if (!hasAtLeastOneCoordinate) {
+    if (!Number.isFinite(west) || !Number.isFinite(south)
+        || !Number.isFinite(east) || !Number.isFinite(north)) {
         return null;
     }
 
     return [
-        [minLongitude, minLatitude],
-        [maxLongitude, maxLatitude],
+        [west, south],
+        [east, north],
     ];
 }
 
@@ -478,7 +444,7 @@ export async function drawScopedCountriesAdmin0Layer(
     map: MapboxGLMap,
     scopedCountries: string[],
     initialMapView?: MapViewParameters | null,
-): Promise<[[number, number], [number, number]]> {
+): Promise<LonLatBounds> {
     const admin0GeoJson = await Promise.allSettled(
         scopedCountries.map(async (countryCodeIso3) => {
             const response = await fetch(getAdminAreaUrl(countryCodeIso3, 0));

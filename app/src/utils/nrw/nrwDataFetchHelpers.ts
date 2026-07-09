@@ -81,7 +81,8 @@ type GoDataResults<T> = {
 // This is used for finding info on selected admin areas.
 export interface AdminAreaDetails {
     code: string;
-    adminLevel: number;
+    // null when the details have not been populated yet (see getAdminAreaDetailsFromCode)
+    adminLevel: number | null;
     admin1Pcode: string | null;
     admin2Pcode: string | null;
     admin3Pcode: string | null;
@@ -94,7 +95,7 @@ export interface AdminAreaDetails {
 export function getAdminAreaDetailsFromCode(code: string): AdminAreaDetails {
     return {
         code,
-        adminLevel: 0,
+        adminLevel: null,
         admin1Pcode: null,
         admin2Pcode: null,
         admin3Pcode: null,
@@ -172,8 +173,7 @@ async function fetchEventsFromApi(
         if (!response.ok) {
             return [];
         }
-        const rawText = await response.text();
-        const data = JSON.parse(rawText) as EventResponseDto[];
+        const data = await response.json() as EventResponseDto[];
         return data;
     } catch {
         return [];
@@ -210,6 +210,7 @@ export async function getCountryMapData(
 export const fetchExposedAdminAreasFeatures = async (
     scopedCountries: string[],
     selectedEventDetails: SelectedEventDetails,
+    signal?: AbortSignal,
 ): Promise<GeoJSON.Feature[]> => {
     const {
         eventId,
@@ -230,7 +231,7 @@ export const fetchExposedAdminAreasFeatures = async (
     const results = await Promise.allSettled(
         scopedCountries.map(async (countryIso3) => {
             const url = getAdminAreasByCodesUrl(countryIso3, deepestExposedLevel, placeCodes);
-            const response = await fetch(url);
+            const response = await fetch(url, { signal });
             if (!response.ok) {
                 throw new Error(
                     `Failed to load exposed admin areas for ${countryIso3}: `
