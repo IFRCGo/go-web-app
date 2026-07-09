@@ -115,8 +115,12 @@ function parsePopulation(rawAttributes: unknown): number | null {
 
 // Build admin area details from feature properties
 export function getAdminAreaDetailsFromProperties(
-    props: Record<string, unknown>,
+    properties: GeoJSON.GeoJsonProperties,
 ): AdminAreaDetails | null {
+    if (!properties) {
+        return null;
+    }
+    const props = properties as Record<string, unknown>;
     const adminLevel = Number(props[ADMIN_LEVEL_FIELD_KEY]);
     if (!Number.isFinite(adminLevel)) {
         return null;

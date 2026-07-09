@@ -45,7 +45,8 @@ export default async function renderSelectedEventExposedAreasOnMap({
 Promise<RenderSelectedEventExposedAreasOnMapResult |
 null> {
     if (!hasExposedPopulationData(selectedEventDetails)) {
-        throw new Error('Event has no exposed population data');
+        console.error(`[renderSelectedEventExposedAreasOnMap] No exposed population data for event ${selectedEventDetails.eventId}`);
+        return null;
     }
 
     const features = await fetchExposedAdminAreasFeatures(scopedCountries, selectedEventDetails);

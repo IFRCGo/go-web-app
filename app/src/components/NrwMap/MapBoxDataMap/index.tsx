@@ -34,6 +34,9 @@ import renderSelectedEventExposedAreasOnMap from '#utils/nrw/nrwSelectedEventMap
 
 import styles from './styles.module.css';
 
+const MAPBOX_STYLE_URL = 'mapbox://styles/e2r2i2k2/cmraet1zi001s01qu7a6a1d07';
+const MAP_CONTAINER_ELEMENT_ID = 'nrw-mapbox-map';
+
 interface MapBoxDataMapProps {
     // ISO_A3 code list of countries that the map is scoped to.
     scopedCountries: string[];
@@ -113,11 +116,12 @@ export default function MapBoxDataMap({
 
         const map = new mapboxgl.Map({
             container: mapContainerRef.current,
-            style: 'mapbox://styles/e2r2i2k2/cmraet1zi001s01qu7a6a1d07',
+            style: MAPBOX_STYLE_URL,
             projection: 'mercator',
             center,
             zoom,
             attributionControl: true,
+            // Required so the map canvas can be captured for PDF export.
             preserveDrawingBuffer: true,
         });
 
@@ -181,14 +185,11 @@ export default function MapBoxDataMap({
                 layers: [exposedLayerId],
             });
             const clickedFeature = clickedFeatures[0];
-            if (!clickedFeature || typeof clickedFeature.properties !== 'object'
-                || clickedFeature.properties === null) {
+            if (!clickedFeature) {
                 return;
             }
 
-            const details = getAdminAreaDetailsFromProperties(
-                clickedFeature.properties as Record<string, unknown>,
-            );
+            const details = getAdminAreaDetailsFromProperties(clickedFeature.properties);
             if (!details) {
                 return;
             }
@@ -244,26 +245,17 @@ export default function MapBoxDataMap({
             isOutdated: () => isOutdated,
         })
             .then((result) => {
-                if (!result || isOutdated) {
+                if (isOutdated) {
+                    return;
+                }
+
+                if (!result) {
+                    alert.show('No exposed areas data available for this event.', { variant: 'danger' });
                     return;
                 }
 
                 orderedLayersRef.current = result.orderedLayers;
                 exposedAreasLayerRef.current = result.layer;
-            })
-            .catch((error) => {
-                if (isOutdated) {
-                    return;
-                }
-
-                if (error instanceof Error
-                    && error.message === 'Event has no exposed population data') {
-                    alert.show('Event has no exposed population data', { variant: 'danger' });
-                    return;
-                }
-
-                alert.show('Failed to load exposed areas for the event.', { variant: 'danger' });
-                console.error('[MapBoxDataMap] Failed to load exposed areas:', error);
             });
 
         return () => {
@@ -277,7 +269,7 @@ export default function MapBoxDataMap({
         <div className={styles.container}>
             <div className={styles.mapWrapper}>
                 <div
-                    id="nrw-mapbox-map"
+                    id={MAP_CONTAINER_ELEMENT_ID}
                     ref={mapContainerRef}
                     className={styles.map}
                 />

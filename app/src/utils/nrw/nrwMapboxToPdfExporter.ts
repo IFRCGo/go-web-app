@@ -60,6 +60,7 @@ export async function exportMapboxToPdf(
             throw new Error('Map canvas not found');
         }
 
+        // TODO: const shared
         const [legendPanel, eventsPanel] = await Promise.all([
             captureElement('nrw-legend-panel'),
             captureElement('nrw-events-panel'),
