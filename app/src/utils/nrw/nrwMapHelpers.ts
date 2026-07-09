@@ -274,7 +274,7 @@ export const makeExposedAreasFillLayerFromFeatures = (
 };
 
 // Add an exposed admin areas fill layer to the map, inserting it below
-// all other data layers.
+// all other data layers (at the head of the draw list).
 export function addExposedAreasFillLayer(
     map: MapboxGLMap,
     newLayer: NrwMapboxLayer,
@@ -284,16 +284,16 @@ export function addExposedAreasFillLayer(
         map.addSource(newLayer.sourceId, newLayer.source);
     }
 
-    const zIndex = 1000;
-    const layerAbove = orderedLayers.find(
-        (entry) => entry.zIndex > zIndex,
-    );
+    // Insert below all existing layers so exposed areas render at the bottom.
+    const layerAbove = orderedLayers[0];
+    // Add a layer before an existing one
     map.addLayer(newLayer.layer, layerAbove?.layerId);
 
+    // Append to head of the list and return
     return [
+        { layerId: newLayer.layerId, drawOrder: 0 },
         ...orderedLayers,
-        { layerId: newLayer.layerId, zIndex },
-    ].sort((a, b) => a.zIndex - b.zIndex);
+    ];
 }
 
 // Get the map layer draw order to decide what is drawn above what.
@@ -335,14 +335,14 @@ export function addOrderedLayer(
         map.addSource(newLayer.sourceId, newLayer.source);
     }
 
-    const zIndex = getDrawOrder(layerDetails.layerName);
-    const layerAbove = orderedLayers.find((entry) => entry.zIndex > zIndex);
+    const drawOrder = getDrawOrder(layerDetails.layerName);
+    const layerAbove = orderedLayers.find((entry) => entry.drawOrder > drawOrder);
     map.addLayer(newLayer.layer, layerAbove?.layerId);
 
     return [
         ...orderedLayers,
-        { layerId: newLayer.layerId, zIndex },
-    ].sort((a, b) => a.zIndex - b.zIndex);
+        { layerId: newLayer.layerId, drawOrder },
+    ].sort((a, b) => a.drawOrder - b.drawOrder);
 }
 
 // Remove a tracked layer and its source if present, and remove it from

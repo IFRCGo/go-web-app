@@ -297,8 +297,8 @@ export default function OlDataMap({
             if (addLayerFunction) {
                 addLayerFunction(
                     (newLayer: BaseLayer, layerDetails: LayerDto) => {
-                        const zIndex = getZIndexOffset(layerDetails);
-                        newLayer.setZIndex(zIndex);
+                        const drawOrder = getZIndexOffset(layerDetails);
+                        newLayer.setZIndex(drawOrder);
                         if (layerDetails.layerType === LayerType.point) {
                             pointLayers.add(newLayer);
                         }

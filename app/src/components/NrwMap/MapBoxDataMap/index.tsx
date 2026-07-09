@@ -85,8 +85,8 @@ export default function MapBoxDataMap({
     const mapInstanceRef = useRef<MapboxGLMap | null>(null);
     const [isMapLoaded, setIsMapLoaded] = useState(false);
     const [isLayerPanelOpen, setIsLayerPanelOpen] = useState(false);
-    // Layer ids of added data layers with their z index, sorted by z index.
-    // Used to insert new layers at the right position (mapbox orders by list position).
+    // Layer ids of added data layers and draw order value, sorted by draw order.
+    // Mapbox uses list position to determine draw order.
     const orderedLayersRef = useRef<OrderedMapLayer[]>([]);
     // The exposed admin areas layer for the currently selected event, if any
     const exposedAreasLayerRef = useRef<NrwMapboxLayer | null>(null);
