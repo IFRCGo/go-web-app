@@ -35,7 +35,8 @@ function hasExposedPopulationData(selectedEventDetails: SelectedEventDetails): b
 }
 
 // Fetch, prepare, render, and zoom to a selected event's exposed admin areas.
-// Returns null when the caller marks this render request as outdated.
+// Returns null when the caller marks this render request as
+// outdated, or when the data cannot be fetched or rendered.
 export default async function renderSelectedEventExposedAreasOnMap({
     map,
     scopedCountries,
@@ -50,37 +51,42 @@ RenderSelectedEventExposedAreasOnMapResult | null
         return null;
     }
 
-    const features = await fetchExposedAdminAreasFeatures(
-        scopedCountries,
-        selectedEventDetails,
-    );
-    if (isOutdated?.()) {
+    try {
+        const features = await fetchExposedAdminAreasFeatures(
+            scopedCountries,
+            selectedEventDetails,
+        );
+        if (isOutdated?.()) {
+            return null;
+        }
+
+        const coloredFeatures = setExposureColorsOnFeatures(features, selectedEventDetails);
+        const layer = makeExposedAreasFillLayerFromFeatures(
+            `exposed-areas-event-${selectedEventDetails.eventId}`,
+            coloredFeatures,
+        );
+
+        // Insert below all other data layers so exposed areas render at the bottom.
+        const updatedOrderedLayers = addOrderedLayer(
+            map,
+            layer,
+            exposedAreasDrawOrder,
+            orderedLayers,
+        );
+
+        const exposedAreasBounds = getBoundsFromFeatures(features);
+        if (exposedAreasBounds) {
+            map.fitBounds(getZoomToFitBounds(exposedAreasBounds), {
+                duration: animationDurationMs,
+            });
+        }
+
+        return {
+            layer,
+            orderedLayers: updatedOrderedLayers,
+        };
+    } catch (error) {
+        console.error(`[renderSelectedEventExposedAreasOnMap] Failed to render exposed areas for event ${selectedEventDetails.eventId}:`, error);
         return null;
     }
-
-    const coloredFeatures = setExposureColorsOnFeatures(features, selectedEventDetails);
-    const layer = makeExposedAreasFillLayerFromFeatures(
-        `exposed-areas-event-${selectedEventDetails.eventId}`,
-        coloredFeatures,
-    );
-
-    // Insert below all other data layers so exposed areas render at the bottom.
-    const updatedOrderedLayers = addOrderedLayer(
-        map,
-        layer,
-        exposedAreasDrawOrder,
-        orderedLayers,
-    );
-
-    const exposedAreasBounds = getBoundsFromFeatures(features);
-    if (exposedAreasBounds) {
-        map.fitBounds(getZoomToFitBounds(exposedAreasBounds), {
-            duration: animationDurationMs,
-        });
-    }
-
-    return {
-        layer,
-        orderedLayers: updatedOrderedLayers,
-    };
 }

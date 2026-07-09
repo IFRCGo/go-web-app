@@ -133,11 +133,12 @@ export default function MapboxDataMap({
             setIsMapLoaded(true);
 
             drawScopedCountriesAdmin0Layer(map, scopedCountries, initialMapView)
-                .catch((error) => {
-                    alert.show('Failed to load country boundaries for the map.', {
-                        variant: 'danger',
-                    });
-                    console.error('[MapboxDataMap] Failed to load scoped admin0:', error);
+                .then((latLonBounds) => {
+                    if (!latLonBounds) {
+                        alert.show('Failed to load country boundaries for the map.', {
+                            variant: 'danger',
+                        });
+                    }
                 });
 
             // Expose the layer functions to the data loader once the style has

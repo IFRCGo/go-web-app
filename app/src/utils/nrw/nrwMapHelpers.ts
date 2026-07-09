@@ -430,71 +430,79 @@ export function getBoundsFromFeatures(
     ];
 }
 
+// Draw the admin0 borders for the scoped countries and constrain the map
+// view to them. Never rejects: returns null when the features cannot be
+// fetched or their bounds computed.
 export async function drawScopedCountriesAdmin0Layer(
     map: MapboxGLMap,
     scopedCountries: string[],
     initialMapView?: MapViewParameters | null,
-): Promise<LonLatBounds> {
-    const admin0GeoJson = await Promise.allSettled(
-        scopedCountries.map((countryCodeIso3) => fetchJson<GeoJSON.FeatureCollection>(
-            getAdminAreaUrl(countryCodeIso3, 0),
-            `admin0 for ${countryCodeIso3}`,
-        )),
-    );
+): Promise<LonLatBounds | null> {
+    try {
+        const admin0GeoJson = await Promise.allSettled(
+            scopedCountries.map((countryCodeIso3) => fetchJson<GeoJSON.FeatureCollection>(
+                getAdminAreaUrl(countryCodeIso3, 0),
+                `admin0 for ${countryCodeIso3}`,
+            )),
+        );
 
-    const features = admin0GeoJson.flatMap((result) => (
-        result.status === 'fulfilled'
-            ? (result.value.features ?? [])
-            : []
-    ));
+        const features = admin0GeoJson.flatMap((result) => (
+            result.status === 'fulfilled'
+                ? (result.value.features ?? [])
+                : []
+        ));
 
-    if (features.length === 0) {
-        throw new Error('Failed to load scoped countries admin0 features');
-    }
+        if (features.length === 0) {
+            throw new Error('Failed to load scoped countries admin0 features');
+        }
 
-    if (map.getLayer(scopedCountriesAdminBorderLayerId)) {
-        map.removeLayer(scopedCountriesAdminBorderLayerId);
-    }
-    if (map.getSource(scopedCountriesAdminSourceId)) {
-        map.removeSource(scopedCountriesAdminSourceId);
-    }
+        if (map.getLayer(scopedCountriesAdminBorderLayerId)) {
+            map.removeLayer(scopedCountriesAdminBorderLayerId);
+        }
+        if (map.getSource(scopedCountriesAdminSourceId)) {
+            map.removeSource(scopedCountriesAdminSourceId);
+        }
 
-    map.addSource(scopedCountriesAdminSourceId, {
-        type: 'geojson',
-        data: {
-            type: 'FeatureCollection',
-            features,
-        },
-    });
-
-    map.addLayer({
-        id: scopedCountriesAdminBorderLayerId,
-        type: 'line',
-        source: scopedCountriesAdminSourceId,
-        paint: scopedCountriesAdmin0BorderPaint,
-    });
-
-    const bounds = getBoundsFromFeatures(features);
-    if (!bounds) {
-        throw new Error('Failed to compute bounds for scoped countries admin0 features');
-    }
-
-    // Create bounds to constrain panning and zooming
-    const constraintBounds = getPaddedSquareBounds(bounds, constraintPaddingRatio);
-    map.setMaxBounds(constraintBounds);
-
-    // If there is not deeplinked view, fit the map to scoped countries on load
-    const hasValidInitialMapCenter = (
-        initialMapView
-        && Number.isFinite(initialMapView.center.lon)
-        && Number.isFinite(initialMapView.center.lat)
-    );
-
-    if (!hasValidInitialMapCenter) {
-        map.fitBounds(getPaddedSquareBounds(bounds, zoomToFitPaddingRatio), {
-            duration: animationDurationMs,
+        map.addSource(scopedCountriesAdminSourceId, {
+            type: 'geojson',
+            data: {
+                type: 'FeatureCollection',
+                features,
+            },
         });
-    }
 
-    return bounds;
+        map.addLayer({
+            id: scopedCountriesAdminBorderLayerId,
+            type: 'line',
+            source: scopedCountriesAdminSourceId,
+            paint: scopedCountriesAdmin0BorderPaint,
+        });
+
+        const bounds = getBoundsFromFeatures(features);
+        if (!bounds) {
+            throw new Error('Failed to compute bounds for scoped countries admin0 features');
+        }
+
+        // Create bounds to constrain panning and zooming
+        const constraintBounds = getPaddedSquareBounds(bounds, constraintPaddingRatio);
+        map.setMaxBounds(constraintBounds);
+
+        // If there is not deeplinked view, fit the map to scoped countries on load
+        const hasValidInitialMapCenter = (
+            initialMapView
+            && Number.isFinite(initialMapView.center.lon)
+            && Number.isFinite(initialMapView.center.lat)
+        );
+
+        if (!hasValidInitialMapCenter) {
+            map.fitBounds(getPaddedSquareBounds(bounds, zoomToFitPaddingRatio), {
+                duration: animationDurationMs,
+            });
+        }
+
+        return bounds;
+    } catch (error) {
+        console.error('[drawScopedCountriesAdmin0Layer] Failed to draw scoped countries admin0:', error);
+        return null;
+    }
 }
