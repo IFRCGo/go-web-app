@@ -43,7 +43,9 @@ export default async function renderSelectedEventExposedAreasOnMap({
     orderedLayers,
     zIndex,
     isOutdated,
-}: RenderSelectedEventExposedAreasOnMapParams): Promise<RenderSelectedEventExposedAreasOnMapResult | null> {
+}: RenderSelectedEventExposedAreasOnMapParams):
+Promise<RenderSelectedEventExposedAreasOnMapResult |
+null> {
     if (!hasExposedPopulationData(selectedEventDetails)) {
         throw new Error('Event has no exposed population data');
     }
