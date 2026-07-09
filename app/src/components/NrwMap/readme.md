@@ -21,12 +21,6 @@ The "Nrw..." prefix naming of the files and components is to help tell the new c
 - `NrwEventsPanel` and `NrwLayerPanel` are the UI interaction layers.
 - `NrwLegendPanel` displays map legend information
 
-### Prototype components
-
-These are not being brought out of the prototype branch.
-
-- `NrwDataPanel`: This is just a debug panel used while the `NrwEventsPanel` design was being worked out.
-
 ## Running Locally
 
 (Note: This is the temporary setup process and will change as dev progresses)
@@ -42,11 +36,11 @@ The NRW frontend can be launched either from this project, or from the [standalo
 
 ## Base Map
 
-The base map is provided through [MapTiler](https://www.maptiler.com/). You can modify or create a map there. For the NLRC MapTiler account credentials, see BitWarden. Once created or if you wish to change the map, you can get the map guid from the MapTiler website (MapTiler > Maps > Your map, and then see the sample code there). Set the `mapGuid` to match your map in `nrwUrls.ts`.
+The base map is provided through [MapBox](https://www.mapbox.com/). You can modify the existing map or create a map there. For the NLRC MapBox account credentials, see BitWarden. The map 'style' url is set in `nrwConstants.ts`.
 
-The `.env` var must be set to match the API key of your MapTiler account (MapTiler > API Keys).
+The `.env` var must be set to match the API key of either the NLRC or IFRC MapTiler account (MapTiler > API Keys).
 
 ## Testing
 
-- Unit testing is under development, but will be added as part of this repo.
+- Unit testing is under development, but will be added later.
 - End-to-end testing for IBF backend integration will be carried out in the [IBF repo](https://github.com/rodekruis/IBF).
