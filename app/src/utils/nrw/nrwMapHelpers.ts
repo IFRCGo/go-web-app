@@ -7,6 +7,7 @@ import type {
 import { ibfApiBackend } from '#config';
 
 import { defaultMapZoom } from './nrwConstants';
+import fetchJson from './nrwDataFetchHelpers';
 import {
     exposedAreasFillPaint,
     scopedCountriesAdmin0BorderPaint,
@@ -19,10 +20,7 @@ import type {
     SelectedEventDetails,
 } from './nrwMapTypes';
 import { getAdminAreaUrl } from './nrwUrls';
-import type {
-    EventResponseDto,
-    LayerDto,
-} from './shared-dtos';
+import type { EventResponseDto } from './shared-dtos';
 import { LayerName } from './shared-enums';
 
 const defaultMapCenter: [number, number] = [0, 0];
@@ -130,6 +128,14 @@ function webMercatorToLatitude(y: number): number {
     );
 }
 
+// Generate the paired Mapbox source/layer ids for an NRW layer key
+function makeLayerIds(layerKey: string): { sourceId: string; layerId: string } {
+    return {
+        sourceId: `nrw-source-${layerKey}`,
+        layerId: `nrw-layer-${layerKey}`,
+    };
+}
+
 // Raster extent as returned by the IBF API raster metadata endpoints (EPSG:3857)
 interface RasterExtent {
     xmin: number;
@@ -138,11 +144,12 @@ interface RasterExtent {
     ymax: number;
 }
 
-// Generate the paired Mapbox source/layer ids for an NRW layer key
-function makeLayerIds(layerKey: string): { sourceId: string; layerId: string } {
-    return {
-        sourceId: `nrw-source-${layerKey}`,
-        layerId: `nrw-layer-${layerKey}`,
+// Relevant fields of the raster metadata responses from the IBF API
+interface RasterMetadataResponse {
+    metadata: {
+        coloured: {
+            extent: RasterExtent;
+        };
     };
 }
 
@@ -186,36 +193,39 @@ function makeImageRasterLayer(
 }
 
 // Raster layer functions
-export const makeEventImageLayer = async (resourceId: string): Promise<NrwMapboxLayer> => {
-    const baseUrl = `${ibfApiBackend}rasters/alert`;
-    const metadataUrl = `${baseUrl}/${resourceId}`;
-    const metadataResponse = await fetch(metadataUrl);
-    if (!metadataResponse.ok) {
-        throw new Error(`Failed to fetch event raster metadata: ${metadataResponse.status}`);
-    }
-    const metadataJson = await metadataResponse.json();
-    const extent = metadataJson.metadata.coloured.extent as RasterExtent;
 
-    const imageUrl = `${baseUrl}/${resourceId}/image`;
-    return makeImageRasterLayer(`event-${resourceId}`, imageUrl, extent);
+// Fetch raster metadata from the IBF API and build an image raster layer.
+// The API serves metadata at `{baseResourceUrl}` and the image at `{baseResourceUrl}/image`.
+const makeRasterLayerFromApi = async (
+    layerKey: string,
+    baseResourceUrl: string,
+    layerDescription: string,
+): Promise<NrwMapboxLayer> => {
+    const metadataJson = await fetchJson<RasterMetadataResponse>(
+        baseResourceUrl,
+        `${layerDescription} raster metadata`,
+    );
+    const { extent } = metadataJson.metadata.coloured;
+
+    return makeImageRasterLayer(layerKey, `${baseResourceUrl}/image`, extent);
 };
 
-export const makeStaticImageLayer = async (
+export const makeEventImageLayer = (
+    resourceId: string,
+): Promise<NrwMapboxLayer> => makeRasterLayerFromApi(
+    `event-${resourceId}`,
+    `${ibfApiBackend}rasters/alert/${resourceId}`,
+    'event',
+);
+
+export const makeStaticImageLayer = (
     countryCodeIso3: string,
     layerName: string,
-): Promise<NrwMapboxLayer> => {
-    const baseUrl = `${ibfApiBackend}rasters/static`;
-    const metadataUrl = `${baseUrl}/${countryCodeIso3}/${layerName}`;
-    const metadataResponse = await fetch(metadataUrl);
-    if (!metadataResponse.ok) {
-        throw new Error(`Failed to fetch ${layerName} raster metadata: ${metadataResponse.status}`);
-    }
-    const metadataJson = await metadataResponse.json();
-    const extent = metadataJson.metadata.coloured.extent as RasterExtent;
-
-    const imageUrl = `${baseUrl}/${countryCodeIso3}/${layerName}/image`;
-    return makeImageRasterLayer(`static-${countryCodeIso3}-${layerName}`, imageUrl, extent);
-};
+): Promise<NrwMapboxLayer> => makeRasterLayerFromApi(
+    `static-${countryCodeIso3}-${layerName}`,
+    `${ibfApiBackend}rasters/static/${countryCodeIso3}/${layerName}`,
+    layerName,
+);
 
 export const isValidCoordinatePair = (
     longitude: number,
@@ -280,28 +290,9 @@ export const makeExposedAreasFillLayerFromFeatures = (
     };
 };
 
-// Add an exposed admin areas fill layer to the map, inserting it below
-// all other data layers (at the head of the draw list).
-export function addExposedAreasFillLayer(
-    map: MapboxGLMap,
-    newLayer: NrwMapboxLayer,
-    orderedLayers: OrderedMapLayer[],
-): OrderedMapLayer[] {
-    if (!map.getSource(newLayer.sourceId)) {
-        map.addSource(newLayer.sourceId, newLayer.source);
-    }
-
-    // Insert below all existing layers so exposed areas render at the bottom.
-    const layerAbove = orderedLayers[0];
-    // Add a layer before an existing one
-    map.addLayer(newLayer.layer, layerAbove?.layerId);
-
-    // Append to head of the list and return
-    return [
-        { layerId: newLayer.layerId, drawOrder: 0 },
-        ...orderedLayers,
-    ];
-}
+// Draw order for exposed admin area fills: below all other data layers,
+// which all have a draw order of at least 1 (see getDrawOrder).
+export const exposedAreasDrawOrder = 0;
 
 // Get the map layer draw order to decide what is drawn above what.
 // Lower numbers are drawn on the bottom of the stack. Other than that,
@@ -331,7 +322,7 @@ export function getDrawOrder(layerName: LayerName): number {
 export function addOrderedLayer(
     map: MapboxGLMap,
     newLayer: NrwMapboxLayer,
-    layerDetails: LayerDto,
+    drawOrder: number,
     orderedLayers: OrderedMapLayer[],
 ): OrderedMapLayer[] {
     if (map.getLayer(newLayer.layerId)) {
@@ -342,7 +333,6 @@ export function addOrderedLayer(
         map.addSource(newLayer.sourceId, newLayer.source);
     }
 
-    const drawOrder = getDrawOrder(layerDetails.layerName);
     const layerAbove = orderedLayers.find((entry) => entry.drawOrder > drawOrder);
     map.addLayer(newLayer.layer, layerAbove?.layerId);
 
@@ -446,13 +436,10 @@ export async function drawScopedCountriesAdmin0Layer(
     initialMapView?: MapViewParameters | null,
 ): Promise<LonLatBounds> {
     const admin0GeoJson = await Promise.allSettled(
-        scopedCountries.map(async (countryCodeIso3) => {
-            const response = await fetch(getAdminAreaUrl(countryCodeIso3, 0));
-            if (!response.ok) {
-                throw new Error(`Failed to load admin0 for ${countryCodeIso3}`);
-            }
-            return response.json() as Promise<GeoJSON.FeatureCollection>;
-        }),
+        scopedCountries.map((countryCodeIso3) => fetchJson<GeoJSON.FeatureCollection>(
+            getAdminAreaUrl(countryCodeIso3, 0),
+            `admin0 for ${countryCodeIso3}`,
+        )),
     );
 
     const features = admin0GeoJson.flatMap((result) => (

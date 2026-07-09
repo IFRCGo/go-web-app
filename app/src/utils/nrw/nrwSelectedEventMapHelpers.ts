@@ -2,8 +2,9 @@ import { type Map as MapboxGLMap } from 'mapbox-gl-v3';
 
 import { fetchExposedAdminAreasFeatures } from './nrwDataFetchHelpers';
 import {
-    addExposedAreasFillLayer,
+    addOrderedLayer,
     animationDurationMs,
+    exposedAreasDrawOrder,
     getBoundsFromFeatures,
     getZoomToFitBounds,
     makeExposedAreasFillLayerFromFeatures,
@@ -63,9 +64,11 @@ RenderSelectedEventExposedAreasOnMapResult | null
         coloredFeatures,
     );
 
-    const updatedOrderedLayers = addExposedAreasFillLayer(
+    // Insert below all other data layers so exposed areas render at the bottom.
+    const updatedOrderedLayers = addOrderedLayer(
         map,
         layer,
+        exposedAreasDrawOrder,
         orderedLayers,
     );
 

@@ -23,6 +23,7 @@ import {
 import {
     addOrderedLayer,
     drawScopedCountriesAdmin0Layer,
+    getDrawOrder,
     getInitialMapViewConfig,
     getMapViewParametersFromMap,
     removeLayerAndSource,
@@ -147,7 +148,7 @@ export default function MapboxDataMap({
                         orderedLayersRef.current = addOrderedLayer(
                             map,
                             newLayer,
-                            layerDetails,
+                            getDrawOrder(layerDetails.layerName),
                             orderedLayersRef.current,
                         );
                     },
