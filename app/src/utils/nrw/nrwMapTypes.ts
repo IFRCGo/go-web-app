@@ -27,7 +27,7 @@ export interface NrwMapboxLayer {
 }
 
 // An added map layer tracked by its layer id and draw order.
-// MapBox uses an ordered list to determine draw order.
+// Mapbox uses an ordered list to determine draw order.
 export interface OrderedMapLayer {
     layerId: string;
     drawOrder: number;

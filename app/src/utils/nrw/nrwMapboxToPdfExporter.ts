@@ -1,6 +1,12 @@
 import html2canvas from 'html2canvas';
 import JsPDF from 'jspdf';
 
+import {
+    EVENTS_PANEL_ELEMENT_ID,
+    LEGEND_PANEL_ELEMENT_ID,
+    MAP_CONTAINER_ELEMENT_ID,
+} from '#utils/nrw/nrwConstants';
+
 interface CapturedElement {
     canvas: HTMLCanvasElement;
     width: number;
@@ -55,15 +61,14 @@ export async function exportMapboxToPdf(
     filename = filename.replace(/[^a-zA-Z0-9._-]/g, '_');
 
     try {
-        const mapElement = captureMapCanvas('nrw-mapbox-map');
+        const mapElement = captureMapCanvas(MAP_CONTAINER_ELEMENT_ID);
         if (!mapElement) {
             throw new Error('Map canvas not found');
         }
 
-        // TODO: const shared
         const [legendPanel, eventsPanel] = await Promise.all([
-            captureElement('nrw-legend-panel'),
-            captureElement('nrw-events-panel'),
+            captureElement(LEGEND_PANEL_ELEMENT_ID),
+            captureElement(EVENTS_PANEL_ELEMENT_ID),
         ]);
 
         const pdf = new JsPDF({

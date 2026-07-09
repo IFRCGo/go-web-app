@@ -13,6 +13,10 @@ import mapboxgl, { type Map as MapboxGLMap } from 'mapbox-gl-v3';
 import { mbtoken } from '#config';
 import useAlert from '#hooks/useAlert';
 import {
+    MAP_CONTAINER_ELEMENT_ID,
+    MAPBOX_STYLE_URL,
+} from '#utils/nrw/nrwConstants';
+import {
     type AdminAreaDetails,
     getAdminAreaDetailsFromProperties,
 } from '#utils/nrw/nrwDataFetchHelpers';
@@ -34,10 +38,7 @@ import renderSelectedEventExposedAreasOnMap from '#utils/nrw/nrwSelectedEventMap
 
 import styles from './styles.module.css';
 
-const MAPBOX_STYLE_URL = 'mapbox://styles/e2r2i2k2/cmraet1zi001s01qu7a6a1d07';
-const MAP_CONTAINER_ELEMENT_ID = 'nrw-mapbox-map';
-
-interface MapBoxDataMapProps {
+interface MapboxDataMapProps {
     // ISO_A3 code list of countries that the map is scoped to.
     scopedCountries: string[];
 
@@ -74,7 +75,7 @@ interface MapBoxDataMapProps {
  * Exposed admin areas can be selected by clicking on the map.
  * @returns A component that can be either standalone, or nested in a NrwMapContainer.
  */
-export default function MapBoxDataMap({
+export default function MapboxDataMap({
     scopedCountries,
     selectedEventDetails,
     initialMapView,
@@ -82,7 +83,7 @@ export default function MapBoxDataMap({
     onSelect,
     onViewChange,
     layerPanel,
-}: MapBoxDataMapProps) {
+}: MapboxDataMapProps) {
     const alert = useAlert();
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<MapboxGLMap | null>(null);
@@ -135,7 +136,7 @@ export default function MapBoxDataMap({
                     alert.show('Failed to load country boundaries for the map.', {
                         variant: 'danger',
                     });
-                    console.error('[MapBoxDataMap] Failed to load scoped admin0:', error);
+                    console.error('[MapboxDataMap] Failed to load scoped admin0:', error);
                 });
 
             // Expose the layer functions to the data loader once the style has

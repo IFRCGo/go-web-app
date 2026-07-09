@@ -17,7 +17,7 @@ The "Nrw..." prefix naming of the files and components is to help tell the new c
 
 ### Components
 
-- `MapBoxDataMap` is the map component for NRW. It displays data from the `useNrwDataLoader` hook via the layer functions it registers with that hook. Map click interactions (admin area selection/rendering, feature popups) are not implemented yet; see the git history of `OlDataMap` and `NrwMapPopupPanel` for the previous OpenLayers implementations.
+- `MapboxDataMap` is the map component for NRW. It displays data from the `useNrwDataLoader` hook via the layer functions it registers with that hook. Map click interactions (admin area selection/rendering, feature popups) are not implemented yet; see the git history of `OlDataMap` and `NrwMapPopupPanel` for the previous OpenLayers implementations.
 - `NrwEventsPanel` and `NrwLayerPanel` are the UI interaction layers.
 - `NrwLegendPanel` displays map legend information
 

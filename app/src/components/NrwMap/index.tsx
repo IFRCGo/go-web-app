@@ -6,13 +6,17 @@ import {
 import { nrwPortalMode } from '#config';
 import useAlert from '#hooks/useAlert';
 import {
+    EVENTS_PANEL_ELEMENT_ID,
+    LEGEND_PANEL_ELEMENT_ID,
+} from '#utils/nrw/nrwConstants';
+import {
     type AdminAreaDetails,
     getAdminAreaDetailsFromCode,
 } from '#utils/nrw/nrwDataFetchHelpers';
 import { exportMapboxToPdf } from '#utils/nrw/nrwMapboxToPdfExporter';
 import type { MapViewParameters } from '#utils/nrw/nrwMapTypes';
 
-import MapBoxDataMap from './MapBoxDataMap';
+import MapboxDataMap from './MapboxDataMap';
 import NrwEventsPanel from './NrwEventsPanel';
 import NrwLayerPanel from './NrwLayerPanel';
 import NrwLegendPanel from './NrwLegendPanel';
@@ -138,7 +142,7 @@ export default function NrwMapContainer() {
         <div className={styles.container}>
             <div className={styles.mainContent}>
                 <div className={styles.controlPanelColumn}>
-                    <div id="nrw-events-panel">
+                    <div id={EVENTS_PANEL_ELEMENT_ID}>
                         <NrwEventsPanel
                             eventData={eventData}
                             activeEventId={selectedEventId}
@@ -161,7 +165,7 @@ export default function NrwMapContainer() {
                             Debug Export PDF (Mapbox)
                         </button>
                     </div>
-                    <MapBoxDataMap
+                    <MapboxDataMap
                         scopedCountries={scopedCountries}
                         selectedEventDetails={selectedEventDetails}
                         initialMapView={initialMapView}
@@ -180,7 +184,7 @@ export default function NrwMapContainer() {
                             </div>
                         )}
                     />
-                    <div id="nrw-legend-panel">
+                    <div id={LEGEND_PANEL_ELEMENT_ID}>
                         <NrwLegendPanel
                             selectedEventDetails={selectedEventDetails}
                         />
