@@ -12,32 +12,27 @@ import mapboxgl, { type Map as MapboxGLMap } from 'mapbox-gl-v3';
 
 import { mbtoken } from '#config';
 import useAlert from '#hooks/useAlert';
-import { defaultMapZoom } from '#utils/nrw/nrwConstants';
 import {
     type AdminAreaDetails,
-    fetchExposedAdminAreasFeatures,
     getAdminAreaDetailsFromProperties,
 } from '#utils/nrw/nrwDataFetchHelpers';
 import {
-    addExposedAreasFillLayer,
-    animationDurationMs,
+    addOrderedLayer,
     drawScopedCountriesAdmin0Layer,
-    getBoundsFromFeatures,
-    getZIndexOffset,
-    getZoomToFitBounds,
-    makeExposedAreasFillLayerFromFeatures,
+    getInitialMapViewConfig,
+    getMapViewParametersFromMap,
+    removeLayerAndSource,
 } from '#utils/nrw/nrwMapHelpers';
-import { setExposureColorsOnFeatures } from '#utils/nrw/nrwMapStyles';
 import type {
     MapLayerFunctions,
     MapViewParameters,
     NrwMapboxLayer,
+    OrderedMapLayer,
     SelectedEventDetails,
 } from '#utils/nrw/nrwMapTypes';
+import renderSelectedEventExposedAreasOnMap from '#utils/nrw/nrwSelectedEventMapHelpers';
 
 import styles from './styles.module.css';
-
-const defaultCenter: [number, number] = [0, 0];
 
 // Z index offset for the exposed admin areas fill layer.
 // Keep this above the rasters but below the point layers (see getZIndexOffset).
@@ -73,15 +68,6 @@ interface MapBoxDataMapProps {
     layerPanel: ReactNode;
 }
 
-function getViewConfig(initialMapView?: MapViewParameters | null) {
-    return {
-        center: initialMapView
-            ? [initialMapView.center.lon, initialMapView.center.lat] as [number, number]
-            : defaultCenter,
-        zoom: initialMapView?.zoom ?? defaultMapZoom,
-    };
-}
-
 /**
  * Mapbox v3 map component for NRW data maps.
  * Data layers are added via the map layer functions exposed through
@@ -105,7 +91,7 @@ export default function MapBoxDataMap({
     const [isLayerPanelOpen, setIsLayerPanelOpen] = useState(false);
     // Layer ids of added data layers with their z index, sorted by z index.
     // Used to insert new layers at the right position (mapbox orders by list position).
-    const orderedLayersRef = useRef<{ layerId: string; zIndex: number }[]>([]);
+    const orderedLayersRef = useRef<OrderedMapLayer[]>([]);
     // The exposed admin areas layer for the currently selected event, if any
     const exposedAreasLayerRef = useRef<NrwMapboxLayer | null>(null);
     // Callback tracked by ref in case it changes
@@ -127,7 +113,7 @@ export default function MapBoxDataMap({
         }
 
         mapboxgl.accessToken = mbtoken;
-        const { center, zoom } = getViewConfig(initialMapView);
+        const { center, zoom } = getInitialMapViewConfig(initialMapView);
 
         const map = new mapboxgl.Map({
             container: mapContainerRef.current,
@@ -157,25 +143,12 @@ export default function MapBoxDataMap({
             if (registerMapLayerFunctions) {
                 registerMapLayerFunctions({
                     addLayer: (newLayer: NrwMapboxLayer, layerDetails) => {
-                        if (map.getLayer(newLayer.layerId)) {
-                            return;
-                        }
-                        if (!map.getSource(newLayer.sourceId)) {
-                            map.addSource(newLayer.sourceId, newLayer.source);
-                        }
-
-                        // Insert the new layer before the first data layer with a
-                        // higher z index, so layer ordering matches the offsets.
-                        const zIndex = getZIndexOffset(layerDetails);
-                        const layerAbove = orderedLayersRef.current.find(
-                            (entry) => entry.zIndex > zIndex,
+                        orderedLayersRef.current = addOrderedLayer(
+                            map,
+                            newLayer,
+                            layerDetails,
+                            orderedLayersRef.current,
                         );
-                        map.addLayer(newLayer.layer, layerAbove?.layerId);
-
-                        orderedLayersRef.current = [
-                            ...orderedLayersRef.current,
-                            { layerId: newLayer.layerId, zIndex },
-                        ].sort((a, b) => a.zIndex - b.zIndex);
                     },
                     setLayerVisibility: (layer: NrwMapboxLayer, visible: boolean) => {
                         if (!map.getLayer(layer.layerId)) {
@@ -193,21 +166,12 @@ export default function MapBoxDataMap({
 
         // Update map view state after each pan/zoom end
         map.on('moveend', () => {
-            const mapCenter = map.getCenter();
-            const mapZoom = map.getZoom();
-
-            if (!Number.isFinite(mapCenter.lng) || !Number.isFinite(mapCenter.lat)
-                || !Number.isFinite(mapZoom)) {
+            const mapView = getMapViewParametersFromMap(map);
+            if (!mapView) {
                 return;
             }
 
-            onViewChangeRef.current?.({
-                zoom: mapZoom,
-                center: {
-                    lon: mapCenter.lng,
-                    lat: mapCenter.lat,
-                },
-            });
+            onViewChangeRef.current?.(mapView);
         });
 
         // Handle selecting exposed admin areas by clicking on the fill layer.
@@ -233,19 +197,7 @@ export default function MapBoxDataMap({
                 return;
             }
 
-            const mapCenter = map.getCenter();
-            const mapZoom = map.getZoom();
-            const mapView = Number.isFinite(mapCenter.lng)
-                && Number.isFinite(mapCenter.lat)
-                && Number.isFinite(mapZoom)
-                ? {
-                    zoom: mapZoom,
-                    center: {
-                        lon: mapCenter.lng,
-                        lat: mapCenter.lat,
-                    },
-                }
-                : undefined;
+            const mapView = getMapViewParametersFromMap(map);
 
             onSelectRef.current(details.code, details, mapView);
         });
@@ -273,14 +225,10 @@ export default function MapBoxDataMap({
         // Remove the exposed areas of the previously selected event, if any
         const previousLayer = exposedAreasLayerRef.current;
         if (previousLayer) {
-            if (map.getLayer(previousLayer.layerId)) {
-                map.removeLayer(previousLayer.layerId);
-            }
-            if (map.getSource(previousLayer.sourceId)) {
-                map.removeSource(previousLayer.sourceId);
-            }
-            orderedLayersRef.current = orderedLayersRef.current.filter(
-                (entry) => entry.layerId !== previousLayer.layerId,
+            orderedLayersRef.current = removeLayerAndSource(
+                map,
+                previousLayer,
+                orderedLayersRef.current,
             );
             exposedAreasLayerRef.current = null;
         }
@@ -289,57 +237,36 @@ export default function MapBoxDataMap({
             return undefined;
         }
 
-        // Guard against missing/invalid exposed population data
-        const { exposedPopulationPerAreaByLevel } = selectedEventDetails;
-        if (!exposedPopulationPerAreaByLevel
-            || Object.keys(exposedPopulationPerAreaByLevel).length === 0) {
-            alert.show('Event has no exposed population data', { variant: 'danger' });
-            return undefined;
-        }
-
         // Ignore the fetch result if the selection changed while it was in flight
         let isOutdated = false;
 
-        // Fetch the exposed admin areas
-        fetchExposedAdminAreasFeatures(scopedCountries, selectedEventDetails)
-            .then((features) => {
-                // Set the exposure color properties on the features
-                const coloredFeatures = setExposureColorsOnFeatures(
-                    features,
-                    selectedEventDetails,
-                );
-
-                // Create the map layer and add it to the map
-                const newLayer = makeExposedAreasFillLayerFromFeatures(
-                    `exposed-areas-event-${selectedEventDetails.eventId}`,
-                    coloredFeatures,
-                );
-                const currentMap = mapInstanceRef.current;
-                if (isOutdated || !currentMap) {
+        renderSelectedEventExposedAreasOnMap({
+            map,
+            scopedCountries,
+            selectedEventDetails,
+            orderedLayers: orderedLayersRef.current,
+            zIndex: exposedAreasZIndex,
+            isOutdated: () => isOutdated,
+        })
+            .then((result) => {
+                if (!result || isOutdated) {
                     return;
                 }
-                orderedLayersRef.current = addExposedAreasFillLayer(
-                    currentMap,
-                    newLayer,
-                    orderedLayersRef.current,
-                    exposedAreasZIndex,
-                );
-                exposedAreasLayerRef.current = newLayer;
 
-                // Zoom to the exposed admin areas
-                const exposedAreasBounds = getBoundsFromFeatures(features);
-                if (exposedAreasBounds) {
-                    currentMap.fitBounds(getZoomToFitBounds(
-                        exposedAreasBounds,
-                    ), {
-                        duration: animationDurationMs,
-                    });
-                }
+                orderedLayersRef.current = result.orderedLayers;
+                exposedAreasLayerRef.current = result.layer;
             })
             .catch((error) => {
                 if (isOutdated) {
                     return;
                 }
+
+                if (error instanceof Error
+                    && error.message === 'Event has no exposed population data') {
+                    alert.show('Event has no exposed population data', { variant: 'danger' });
+                    return;
+                }
+
                 alert.show('Failed to load exposed areas for the event.', { variant: 'danger' });
                 console.error('[MapBoxDataMap] Failed to load exposed areas:', error);
             });

@@ -5,6 +5,7 @@ import type {
 
 import { ibfApiBackend } from '#config';
 
+import { defaultMapZoom } from './nrwConstants';
 import {
     exposedAreasFillPaint,
     scopedCountriesAdmin0BorderPaint,
@@ -21,6 +22,39 @@ import type {
     LayerDto,
 } from './shared-dtos';
 import { LayerName } from './shared-enums';
+
+const defaultMapCenter: [number, number] = [0, 0];
+
+export function getInitialMapViewConfig(
+    initialMapView?: MapViewParameters | null,
+): { center: [number, number]; zoom: number } {
+    return {
+        center: initialMapView
+            ? [initialMapView.center.lon, initialMapView.center.lat]
+            : defaultMapCenter,
+        zoom: initialMapView?.zoom ?? defaultMapZoom,
+    };
+}
+
+export function getMapViewParametersFromMap(
+    map: MapboxGLMap,
+): MapViewParameters | undefined {
+    const mapCenter = map.getCenter();
+    const mapZoom = map.getZoom();
+
+    if (!Number.isFinite(mapCenter.lng) || !Number.isFinite(mapCenter.lat)
+        || !Number.isFinite(mapZoom)) {
+        return undefined;
+    }
+
+    return {
+        zoom: mapZoom,
+        center: {
+            lon: mapCenter.lng,
+            lat: mapCenter.lat,
+        },
+    };
+}
 
 // Extract the map-relevant details from event data for a selected event
 // Returns null if no event is selected or event not found
@@ -287,6 +321,49 @@ export function getZIndexOffset(layerDetails: LayerDto): number {
             );
             return 1; // draw on the lowest layer above the base map
     }
+}
+
+// Add a prepared layer to the map, inserting it below the first existing
+// data layer that has a higher z index. Returns the updated ordered layer list.
+export function addOrderedLayer(
+    map: MapboxGLMap,
+    newLayer: NrwMapboxLayer,
+    layerDetails: LayerDto,
+    orderedLayers: OrderedMapLayer[],
+): OrderedMapLayer[] {
+    if (map.getLayer(newLayer.layerId)) {
+        return orderedLayers;
+    }
+
+    if (!map.getSource(newLayer.sourceId)) {
+        map.addSource(newLayer.sourceId, newLayer.source);
+    }
+
+    const zIndex = getZIndexOffset(layerDetails);
+    const layerAbove = orderedLayers.find((entry) => entry.zIndex > zIndex);
+    map.addLayer(newLayer.layer, layerAbove?.layerId);
+
+    return [
+        ...orderedLayers,
+        { layerId: newLayer.layerId, zIndex },
+    ].sort((a, b) => a.zIndex - b.zIndex);
+}
+
+// Remove a tracked layer and its source if present, and remove it from
+// ordered layer bookkeeping.
+export function removeLayerAndSource(
+    map: MapboxGLMap,
+    layer: NrwMapboxLayer,
+    orderedLayers: OrderedMapLayer[],
+): OrderedMapLayer[] {
+    if (map.getLayer(layer.layerId)) {
+        map.removeLayer(layer.layerId);
+    }
+    if (map.getSource(layer.sourceId)) {
+        map.removeSource(layer.sourceId);
+    }
+
+    return orderedLayers.filter((entry) => entry.layerId !== layer.layerId);
 }
 
 // Mapbox requires unique names for every layer.
