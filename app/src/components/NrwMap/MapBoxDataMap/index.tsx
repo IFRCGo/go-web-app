@@ -72,9 +72,7 @@ interface MapboxDataMapProps {
 
 /**
  * Mapbox v3 map component for NRW data maps.
- * Data layers are added via the map layer functions exposed through
- * registerMapLayerFunctions, which is driven by the useNrwDataLoader hook.
- * Exposed admin areas can be selected by clicking on the map.
+ * Data layers are added via the exposed map layer functions.
  * @returns A component that can be either standalone, or nested in a NrwMapContainer.
  */
 export default function MapboxDataMap({
@@ -191,6 +189,7 @@ export default function MapboxDataMap({
         mapInstanceRef.current = map;
 
         return () => {
+            // Clean up on unmount
             orderedLayersRef.current = [];
             exposedAreasLayerRef.current = null;
             mapInstanceRef.current?.remove();
