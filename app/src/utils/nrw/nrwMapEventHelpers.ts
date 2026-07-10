@@ -9,10 +9,12 @@ import {
     addOrderedLayer,
     animationDurationMs,
     exposedAreasDrawOrder,
-    getBoundsFromFeatures,
-    getZoomToFitBounds,
     makeExposedAreasFillLayerFromFeatures,
 } from './nrwMapHelpers';
+import {
+    getBoundsFromFeatures,
+    getZoomToFitBounds,
+} from './nrwMapViewHelpers';
 import { getExposureColor } from './nrwMapStyles';
 import type {
     OrderedMapLayer,

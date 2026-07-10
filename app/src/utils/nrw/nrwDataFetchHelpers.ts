@@ -10,7 +10,6 @@ import {
     type SelectedEventDetails,
 } from './nrwMapTypes';
 import {
-    getAdminAreaDetailsNoGeoNoCountryUrl,
     getAdminAreaDetailsNoGeoUrl,
     getAdminAreasByCodesUrl,
     getEventsApiUrl,
@@ -137,28 +136,9 @@ export function getAdminAreaDetailsFromProperties(
 
 // Fetch admin area details directly
 export async function fetchAdminAreaDetails(
-    country: string,
     code: string,
 ): Promise<AdminAreaDetails | null> {
-    const url = getAdminAreaDetailsNoGeoUrl(country, code);
-    try {
-        const data = await fetchJson<GeoJSON.FeatureCollection>(url, 'admin area details');
-        const firstFeature = data.features[0];
-        if (!firstFeature) {
-            return null;
-        }
-        return getAdminAreaDetailsFromProperties(firstFeature.properties);
-    } catch {
-        return null;
-    }
-}
-
-// Fetch admin area details by place code without a country context.
-// Used to resolve a deeplinked admin place code that has no country context.
-export async function fetchAdminAreaDetailsByCode(
-    code: string,
-): Promise<AdminAreaDetails | null> {
-    const url = getAdminAreaDetailsNoGeoNoCountryUrl(code);
+    const url = getAdminAreaDetailsNoGeoUrl(code);
     try {
         const data = await fetchJson<GeoJSON.FeatureCollection>(url, 'admin area details');
         const firstFeature = data.features[0];

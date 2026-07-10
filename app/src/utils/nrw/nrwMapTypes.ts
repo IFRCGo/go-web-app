@@ -60,6 +60,23 @@ export enum EventDataSources {
   Mrw = 'mrw',
 }
 
+// Extents for the raster metadata
+export interface RasterExtent {
+    xmin: number;
+    ymin: number;
+    xmax: number;
+    ymax: number;
+}
+
+// Metadata for a raster image from the IBF API
+export interface RasterMetadataResponse {
+    metadata: {
+        coloured: {
+            extent: RasterExtent;
+        };
+    };
+}
+
 // Details needed by the map when an event is selected
 // This is derived from EventResponseDto and passed to the map component
 export interface SelectedEventDetails {

@@ -1,4 +1,3 @@
-import getBbox from '@turf/bbox';
 import type {
     CircleLayerSpecification,
     Map as MapboxGLMap,
@@ -6,7 +5,6 @@ import type {
 
 import { ibfApiBackend } from '#config';
 
-import { defaultMapZoom } from './nrwConstants';
 import fetchJson from './nrwDataFetchHelpers';
 import {
     exposedAreasFillPaint,
@@ -16,28 +14,26 @@ import type {
     MapViewParameters,
     NrwMapboxLayer,
     OrderedMapLayer,
+    RasterExtent,
+    RasterMetadataResponse,
 } from './nrwMapTypes';
+import type { LonLatBounds } from './nrwMapViewHelpers';
+import {
+    getBoundsFromFeatures,
+    getPaddedSquareBounds,
+    getZoomToFitBounds,
+} from './nrwMapViewHelpers';
 import { getAdminAreaUrl } from './nrwUrls';
 import { LayerName } from './shared-enums';
 
-const defaultMapCenter: [number, number] = [0, 0];
+// Time in ms for map panning and zooming animations
+export const animationDurationMs = 500;
+// Extent padding ratio for constraining the panning/zooming to the scoped countries
+const constraintPaddingRatio = 2;
 
-// Lon/lat bounds as [[west, south], [east, north]].
-// A plain tuple is used instead of mapboxgl.LngLatBounds to avoid needing to
-// construct a class instance when passing bounds to the map component.
-type LonLatBounds = [[number, number], [number, number]];
-
-export function getInitialMapViewConfig(
-    initialMapView?: MapViewParameters | null,
-): { center: [number, number]; zoom: number } {
-    return {
-        center: initialMapView
-            ? [initialMapView.center.lon, initialMapView.center.lat]
-            : defaultMapCenter,
-        zoom: initialMapView?.zoom ?? defaultMapZoom,
-    };
-}
-
+// Mapbox renders in EPSG:3857, but takes lon/lat coordinates in WGS84
+// Because of this, image data is stored in EPSG:3857, but
+// The API still needs WGS84 coordinates to define the image extent.
 // Half of the earth's circumference in meters at the equator (EPSG:3857 bound)
 const webMercatorHalfCircumference = 20037508.34;
 
@@ -61,28 +57,12 @@ function makeLayerIds(layerKey: string): { sourceId: string; layerId: string } {
     };
 }
 
-// Raster extent as returned by the IBF API raster metadata endpoints (EPSG:3857)
-interface RasterExtent {
-    xmin: number;
-    ymin: number;
-    xmax: number;
-    ymax: number;
-}
-
-// Relevant fields of the raster metadata responses from the IBF API
-interface RasterMetadataResponse {
-    metadata: {
-        coloured: {
-            extent: RasterExtent;
-        };
-    };
-}
-
 // Build a mapbox image raster layer from an image URL and its EPSG:3857 extent
 function makeImageRasterLayer(
     layerKey: string,
     imageUrl: string,
-    extent: RasterExtent,
+    extent: RasterExtent
+    ,
 ): NrwMapboxLayer {
     const west = webMercatorToLongitude(extent.xmin);
     const south = webMercatorToLatitude(extent.ymin);
@@ -116,8 +96,6 @@ function makeImageRasterLayer(
         },
     };
 }
-
-// Raster layer functions
 
 // Fetch raster metadata from the IBF API and build an image raster layer.
 // The API serves metadata at `{baseResourceUrl}` and the image at `{baseResourceUrl}/image`.
@@ -179,9 +157,8 @@ export const makePointLayerFromFeatures = (
     };
 };
 
-// Build a mapbox fill layer for exposed admin areas from GeoJSON polygon features.
-// Each feature must carry its precomputed exposure color property
-// (EXPOSURE_COLOR_FIELD_KEY), which drives the fill and outline colors.
+// Create a mapbox fill layer for exposed admin areas from GeoJSON polygon features.
+// The fill color is the precomputed exposure color property.
 export const makeExposedAreasFillLayerFromFeatures = (
     layerKey: string,
     features: GeoJSON.Feature[],
@@ -230,93 +207,8 @@ export function getDrawOrder(layerName: LayerName): number {
                 'Unknown layer data type for z-indexing:',
                 layerName,
             );
-            return 1; // draw on the lowest layer
+            return 1; // draw on the lowest layer above exposed areas
     }
-}
-
-// Padding around 'zoom to fit' logic when zooming in on exposed areas or scoped countries
-export const zoomToFitPaddingRatio = 0.1;
-
-// Build a square lon/lat bounding box centered on the data, sized to the larger
-// of the width/height dimensions, plus padding on all sides.
-// Using the larger dimension means the map can zoom out to fit the full extent
-// (height or width) and still leaves room to pan.
-export function getPaddedSquareBounds(
-    bounds: LonLatBounds,
-    paddingRatio: number,
-): LonLatBounds {
-    const [[minLongitude, minLatitude], [maxLongitude, maxLatitude]] = bounds;
-
-    const centerLongitude = (minLongitude + maxLongitude) / 2;
-    const centerLatitude = (minLatitude + maxLatitude) / 2;
-
-    const width = maxLongitude - minLongitude;
-    const height = maxLatitude - minLatitude;
-
-    // Fit to the larger dimension, then pad.
-    const largerDimension = Math.max(width, height);
-    const halfSide = (largerDimension * (1 + paddingRatio)) / 2;
-
-    return [
-        [centerLongitude - halfSide, centerLatitude - halfSide],
-        [centerLongitude + halfSide, centerLatitude + halfSide],
-    ];
-}
-
-export function getZoomToFitBounds(
-    bounds: LonLatBounds,
-): LonLatBounds {
-    return getPaddedSquareBounds(bounds, zoomToFitPaddingRatio);
-}
-
-// Compute the lon/lat bounding box of the given features.
-// Returns null when the features contain no valid coordinates.
-export function getBoundsFromFeatures(
-    features: GeoJSON.Feature[],
-): LonLatBounds | null {
-    if (features.length === 0) {
-        return null;
-    }
-
-    const [west, south, east, north] = getBbox({
-        type: 'FeatureCollection',
-        features,
-    });
-
-    if (!Number.isFinite(west) || !Number.isFinite(south)
-        || !Number.isFinite(east) || !Number.isFinite(north)) {
-        return null;
-    }
-
-    return [
-        [west, south],
-        [east, north],
-    ];
-}
-
-// Time in ms for map panning and zooming animations
-export const animationDurationMs = 500;
-// Extent padding ratio for constraining the panning/zooming to the scoped countries
-export const constraintPaddingRatio = 2;
-
-export function getMapViewParametersFromMap(
-    map: MapboxGLMap,
-): MapViewParameters | undefined {
-    const mapCenter = map.getCenter();
-    const mapZoom = map.getZoom();
-
-    if (!Number.isFinite(mapCenter.lng) || !Number.isFinite(mapCenter.lat)
-        || !Number.isFinite(mapZoom)) {
-        return undefined;
-    }
-
-    return {
-        zoom: mapZoom,
-        center: {
-            lon: mapCenter.lng,
-            lat: mapCenter.lat,
-        },
-    };
 }
 
 // Add a layer to the map, inserting it into a list sorted by draw order.
@@ -340,7 +232,7 @@ export function addOrderedLayer(
 
     return [
         ...orderedLayers,
-        { layerId: newLayer.renderLayerId, drawOrder },
+        { renderLayerId: newLayer.renderLayerId, drawOrder },
     ].sort((a, b) => a.drawOrder - b.drawOrder);
 }
 
@@ -360,13 +252,6 @@ export function removeLayerAndSource(
 
     return orderedLayers.filter((entry) => entry.renderLayerId !== layer.renderLayerId);
 }
-
-// Mapbox requires unique names for every layer.
-// If you have the source data, the polygon fill, and the polygon outline,
-// Mapbox treats these as 3 layers, so each would need a unique id.
-// If we add too many layers, consider using a function for name generation.
-const scopedCountriesAdminSourceId = 'nrw-source-scoped-countries-admin0';
-const scopedCountriesAdminBorderLayerId = 'nrw-layer-scoped-countries-admin0-border';
 
 // Draw the admin0 borders for the scoped countries and constrain the map
 // view to them. Never rejects: returns null when the features cannot be
@@ -393,6 +278,13 @@ export async function drawScopedCountriesAdmin0Layer(
         if (features.length === 0) {
             throw new Error('Failed to load scoped countries admin0 features');
         }
+
+        // Mapbox requires unique names for every layer.
+        // If you have the source data, the polygon fill, and the polygon outline,
+        // Mapbox treats these as 3 layers, so each would need a unique id.
+        // If we add too many layers, consider using a function for name generation.
+        const scopedCountriesAdminSourceId = 'nrw-source-scoped-countries-admin0';
+        const scopedCountriesAdminBorderLayerId = 'nrw-layer-scoped-countries-admin0-border';
 
         if (map.getLayer(scopedCountriesAdminBorderLayerId)) {
             map.removeLayer(scopedCountriesAdminBorderLayerId);

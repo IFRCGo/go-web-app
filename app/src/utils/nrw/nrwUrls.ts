@@ -106,7 +106,7 @@ export const getAdminAreasByCodesUrl = (
 
 // Get a single admin area by its code (for initial selection from URL)
 // Excludes geometry to reduce payload size
-export const getAdminAreaDetailsNoGeoNoCountryUrl = (
+export const getAdminAreaDetailsNoGeoUrl = (
     code: string,
 ): string => {
     const codeParam = `${PLACE_CODE_FIELD_KEY}=%27${code}%27`;
@@ -125,29 +125,4 @@ export const getAdminAreaDetailsNoGeoNoCountryUrl = (
     ].join(',')}`;
 
     return `${baseQuery}${codeParam}&${limitParam}&${propsParam}`;
-};
-
-// Get a single admin area by its code (for initial selection from URL)
-// Excludes geometry to reduce payload size
-export const getAdminAreaDetailsNoGeoUrl = (
-    countryIso3: string,
-    code: string,
-): string => {
-    const countryParam = `${COUNTRY_FIELD_KEY}=%27${countryIso3}%27`;
-    const codeParam = `${PLACE_CODE_FIELD_KEY}=%27${code}%27`;
-    const limitParam = 'limit=1';
-    // Only fetch needed properties for the admin area. Exclude geometry.
-    // The per-level place code fields are needed so parent admin selections
-    // can be reconstructed from a deep-linked URL.
-    const propsParam = `properties=${[
-        ADMIN_LEVEL_FIELD_KEY,
-        PLACE_CODE_FIELD_KEY,
-        `${ADMIN_PCODE_KEY_BASE}1`,
-        `${ADMIN_PCODE_KEY_BASE}2`,
-        `${ADMIN_PCODE_KEY_BASE}3`,
-        `${ADMIN_PCODE_KEY_BASE}4`,
-        ATTRIBUTES_FIELD_KEY,
-    ].join(',')}`;
-
-    return `${baseQuery}${countryParam}${and}${codeParam}&${limitParam}&${propsParam}`;
 };

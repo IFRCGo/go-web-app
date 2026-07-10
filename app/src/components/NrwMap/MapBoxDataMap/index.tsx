@@ -25,8 +25,6 @@ import {
     addOrderedLayer,
     drawScopedCountriesAdmin0Layer,
     getDrawOrder,
-    getInitialMapViewConfig,
-    getMapViewParametersFromMap,
     removeLayerAndSource,
 } from '#utils/nrw/nrwMapHelpers';
 import type {
@@ -36,6 +34,10 @@ import type {
     OrderedMapLayer,
     SelectedEventDetails,
 } from '#utils/nrw/nrwMapTypes';
+import {
+    getMapViewFromParameters,
+    getMapViewParametersFromMap,
+} from '#utils/nrw/nrwMapViewHelpers';
 
 import styles from './styles.module.css';
 
@@ -114,7 +116,7 @@ export default function MapboxDataMap({
         }
 
         mapboxgl.accessToken = mbtoken;
-        const { center, zoom } = getInitialMapViewConfig(initialMapView);
+        const { center, zoom } = getMapViewFromParameters(initialMapView);
 
         const map = new mapboxgl.Map({
             container: mapContainerRef.current,

@@ -11,7 +11,7 @@ import {
 } from '#utils/nrw/nrwConstants';
 import {
     type AdminAreaDetails,
-    fetchAdminAreaDetailsByCode,
+    fetchAdminAreaDetails,
 } from '#utils/nrw/nrwDataFetchHelpers';
 import exportNrwDataMapToPdf from '#utils/nrw/nrwMapToPdfExporter';
 import type { MapViewParameters } from '#utils/nrw/nrwMapTypes';
@@ -64,7 +64,7 @@ export default function NrwMapContainer() {
 
         let isCancelled = false;
 
-        fetchAdminAreaDetailsByCode(initialAdminCode)
+        fetchAdminAreaDetails(initialAdminCode)
             .then((details) => {
                 if (!isCancelled) {
                     setSelectedAdminAreaDetails(details);
