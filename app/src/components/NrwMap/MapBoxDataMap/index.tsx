@@ -16,10 +16,7 @@ import {
     MAP_CONTAINER_ELEMENT_ID,
     NRW_MAPBOX_STYLE_URL,
 } from '#utils/nrw/nrwConstants';
-import {
-    type AdminAreaDetails,
-    getAdminAreaDetailsFromProperties,
-} from '#utils/nrw/nrwDataFetchHelpers';
+import { type AdminAreaDetails } from '#utils/nrw/nrwDataFetchHelpers';
 import renderSelectedEventExposedAreasOnMap from '#utils/nrw/nrwMapEventHelpers';
 import {
     addOrderedLayer,
@@ -38,6 +35,8 @@ import {
     getMapViewFromParameters,
     getMapViewParametersFromMap,
 } from '#utils/nrw/nrwMapViewHelpers';
+
+import handleMapClick from './nrwMapInteractions';
 
 import styles from './styles.module.css';
 
@@ -179,29 +178,14 @@ export default function MapboxDataMap({
             onViewChangeRef.current?.(mapView);
         });
 
-        // Handle selecting exposed admin areas by clicking on the fill layer.
+        // Handle map interactions
         map.on('click', (event) => {
-            const exposedLayerId = exposedAreasLayerRef.current?.renderLayerId;
-            if (!exposedLayerId || !map.getLayer(exposedLayerId)) {
-                return;
-            }
-
-            const clickedFeatures = map.queryRenderedFeatures(event.point, {
-                layers: [exposedLayerId],
+            handleMapClick({
+                map,
+                event,
+                exposedLayerId: exposedAreasLayerRef.current?.renderLayerId,
+                onMapItemSelect: onSelectRef.current,
             });
-            const clickedFeature = clickedFeatures[0];
-            if (!clickedFeature) {
-                return;
-            }
-
-            const details = getAdminAreaDetailsFromProperties(clickedFeature.properties);
-            if (!details) {
-                return;
-            }
-
-            const mapView = getMapViewParametersFromMap(map);
-
-            onSelectRef.current(details.code, details, mapView);
         });
 
         mapInstanceRef.current = map;

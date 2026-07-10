@@ -56,33 +56,6 @@ export default function NrwMapContainer() {
     const [selectedAdminAreaDetails,
         setSelectedAdminAreaDetails] = useState<AdminAreaDetails | null>(null);
 
-    // When the admin area is deeplinked via URL, fetch its details once on mount.
-    useEffect(() => {
-        if (!initialAdminCode) {
-            return undefined;
-        }
-
-        let isCancelled = false;
-
-        fetchAdminAreaDetails(initialAdminCode)
-            .then((details) => {
-                if (!isCancelled) {
-                    setSelectedAdminAreaDetails(details);
-                }
-            })
-            .catch(() => {
-                if (!isCancelled) {
-                    setSelectedAdminAreaDetails(null);
-                }
-            });
-
-        return () => {
-            isCancelled = true;
-        };
-    // Mount-only: the deeplinked admin details are resolved a single time.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     // Data loader hook - manages layer loading, caching, and shared event data state
     const {
         eventData,
@@ -95,11 +68,6 @@ export default function NrwMapContainer() {
         visibleLayerNames,
         selectedEventDetails,
     } = useNrwDataLoader(scopedCountries, [], selectedEventId, initialLayerKeys);
-
-    // Update the layer search params when the visible layers change
-    useEffect(() => {
-        setLayerIds(visibleLayerNames);
-    }, [visibleLayerNames, setLayerIds]);
 
     // Clear all selections and reload event data
     const handleRefreshAll = async () => {
@@ -168,6 +136,38 @@ export default function NrwMapContainer() {
             console.error('[NrwMapContainer] Export failed:', error);
         }
     };
+
+    // When the admin area is deeplinked via URL, fetch its details once on mount.
+    useEffect(() => {
+        if (!initialAdminCode) {
+            return undefined;
+        }
+
+        let isCancelled = false;
+
+        fetchAdminAreaDetails(initialAdminCode)
+            .then((details) => {
+                if (!isCancelled) {
+                    setSelectedAdminAreaDetails(details);
+                }
+            })
+            .catch(() => {
+                if (!isCancelled) {
+                    setSelectedAdminAreaDetails(null);
+                }
+            });
+
+        return () => {
+            isCancelled = true;
+        };
+    // Mount-only: the deeplinked admin details are resolved a single time.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // Update the layer search params when the visible layers change
+    useEffect(() => {
+        setLayerIds(visibleLayerNames);
+    }, [visibleLayerNames, setLayerIds]);
 
     return (
         <div className={styles.container}>
