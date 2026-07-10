@@ -10,6 +10,7 @@ import {
     type SelectedEventDetails,
 } from './nrwMapTypes';
 import {
+    getAdminAreaDetailsNoGeoNoCountryUrl,
     getAdminAreaDetailsNoGeoUrl,
     getAdminAreasByCodesUrl,
     getEventsApiUrl,
@@ -89,27 +90,12 @@ type GoDataResults<T> = {
 // This is used for finding info on selected admin areas.
 export interface AdminAreaDetails {
     code: string;
-    // null when the details have not been populated yet (see getAdminAreaDetailsFromCode)
-    adminLevel: number | null;
+    adminLevel: number;
     admin1Pcode: string | null;
     admin2Pcode: string | null;
     admin3Pcode: string | null;
     admin4Pcode: string | null;
     population: number | null;
-}
-
-// Build admin area details from just a place code, leaving the remaining
-// fields at their default/null values until they are populated later.
-export function getAdminAreaDetailsFromCode(code: string): AdminAreaDetails {
-    return {
-        code,
-        adminLevel: null,
-        admin1Pcode: null,
-        admin2Pcode: null,
-        admin3Pcode: null,
-        admin4Pcode: null,
-        population: null,
-    };
 }
 
 // Parse the population value from the attributes field
@@ -155,6 +141,24 @@ export async function fetchAdminAreaDetails(
     code: string,
 ): Promise<AdminAreaDetails | null> {
     const url = getAdminAreaDetailsNoGeoUrl(country, code);
+    try {
+        const data = await fetchJson<GeoJSON.FeatureCollection>(url, 'admin area details');
+        const firstFeature = data.features[0];
+        if (!firstFeature) {
+            return null;
+        }
+        return getAdminAreaDetailsFromProperties(firstFeature.properties);
+    } catch {
+        return null;
+    }
+}
+
+// Fetch admin area details by place code without a country context.
+// Used to resolve a deeplinked admin place code that has no country context.
+export async function fetchAdminAreaDetailsByCode(
+    code: string,
+): Promise<AdminAreaDetails | null> {
+    const url = getAdminAreaDetailsNoGeoNoCountryUrl(code);
     try {
         const data = await fetchJson<GeoJSON.FeatureCollection>(url, 'admin area details');
         const firstFeature = data.features[0];

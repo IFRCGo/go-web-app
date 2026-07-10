@@ -12,13 +12,6 @@ export const NRW_MAPBOX_STYLE_URL = 'mapbox://styles/510global/cmrdb6i91000a01qr
 // among objects of the same layer. This key indicates the color for exposed admin areas.
 export const EXPOSURE_COLOR_FIELD_KEY = 'exposureColor';
 
-// -------- NRW component constants --------
-
-// Element ids used to capture DOM nodes for PDF export.
-export const MAP_CONTAINER_ELEMENT_ID = 'nrw-mapbox-map';
-export const LEGEND_PANEL_ELEMENT_ID = 'nrw-legend-panel';
-export const EVENTS_PANEL_ELEMENT_ID = 'nrw-events-panel';
-
 // -------- Admin area data constants (used in the GeoJSON data) --------
 
 // Top-level feature properties on api-service.admin-area
@@ -34,3 +27,10 @@ export const ADMIN_PCODE_KEY_BASE = 'placeCodeLevel';
 
 // Keys within the `attributes` JSON payload on an admin-area feature
 export const POPULATION_ATTRIBUTE_KEY = 'POPULATION';
+
+// -------- NRW component constants --------
+
+// Element ids used to capture DOM nodes for PDF export.
+export const MAP_CONTAINER_ELEMENT_ID = 'nrw-mapbox-map';
+export const LEGEND_PANEL_ELEMENT_ID = 'nrw-legend-panel';
+export const EVENTS_PANEL_ELEMENT_ID = 'nrw-events-panel';

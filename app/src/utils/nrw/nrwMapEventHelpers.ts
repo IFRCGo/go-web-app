@@ -1,19 +1,20 @@
 import { type Map as MapboxGLMap } from 'mapbox-gl-v3';
 
+import {
+    EXPOSURE_COLOR_FIELD_KEY,
+    PLACE_CODE_FIELD_KEY,
+} from './nrwConstants';
 import { fetchExposedAdminAreasFeatures } from './nrwDataFetchHelpers';
 import {
+    addOrderedLayer,
+    animationDurationMs,
     exposedAreasDrawOrder,
     getBoundsFromFeatures,
     getZoomToFitBounds,
     makeExposedAreasFillLayerFromFeatures,
 } from './nrwMapHelpers';
-import {
-    addOrderedLayer,
-    animationDurationMs,
-} from './nrwMapLayerHelpers';
-import { setExposureColorsOnFeatures } from './nrwMapStyles';
+import { getExposureColor } from './nrwMapStyles';
 import type {
-    NrwMapboxLayer,
     OrderedMapLayer,
     SelectedEventDetails,
 } from './nrwMapTypes';
@@ -77,19 +78,53 @@ export function getSelectedEventDetails(
     };
 }
 
-interface RenderExposedAreasOnMapParams {
-    map: MapboxGLMap;
-    scopedCountries: string[];
-    selectedEventDetails: SelectedEventDetails;
-    orderedLayers: OrderedMapLayer[];
-    isOutdated?: () => boolean;
-}
+// Add the exposure color to each admin area as a feature property.
+// Mapbox needs the color to be a property of the vector data if colors differ
+// among objects of the same layer.
+export const setExposureColorsOnFeatures = (
+    features: GeoJSON.Feature[],
+    selectedEventDetails: SelectedEventDetails,
+): GeoJSON.Feature[] => {
+    const {
+        eventId,
+        alertClass,
+        exposedPopulationPerAreaByLevel,
+        highestExposedPopulationByLevel,
+    } = selectedEventDetails;
 
-interface RenderExposedAreasOnMapResult {
-    layer: NrwMapboxLayer;
-    orderedLayers: OrderedMapLayer[];
-}
+    // Find the deepest (lowest) admin level that has exposed areas.
+    // Note: this is prototype behavior and we'd need colors for each level
+    // depending on the final design.
+    const deepestExposedLevel = Number(
+        Object.keys(exposedPopulationPerAreaByLevel).at(-1),
+    );
+    const exposedPopulationByPlaceCode = exposedPopulationPerAreaByLevel[deepestExposedLevel];
+    if (!deepestExposedLevel || !exposedPopulationByPlaceCode) {
+        throw new Error(`Event ${eventId} has no exposed population data`);
+    }
+    const highestExposedPopulation = highestExposedPopulationByLevel[deepestExposedLevel] ?? 0;
 
+    // Set the exposure color property for each feature
+    return features.map((feature) => {
+        const placeCode = feature.properties?.[PLACE_CODE_FIELD_KEY];
+        const exposedPopulation = typeof placeCode === 'string'
+            ? exposedPopulationByPlaceCode[placeCode] ?? 0
+            : 0;
+        return {
+            ...feature,
+            properties: {
+                ...feature.properties,
+                [EXPOSURE_COLOR_FIELD_KEY]: getExposureColor(
+                    exposedPopulation,
+                    highestExposedPopulation,
+                    alertClass,
+                ),
+            },
+        };
+    });
+};
+
+// Check if the selected event has any exposed population data
 function hasExposedPopulationData(selectedEventDetails: SelectedEventDetails): boolean {
     const { exposedPopulationPerAreaByLevel } = selectedEventDetails;
     return Object.keys(exposedPopulationPerAreaByLevel).length > 0;
@@ -104,8 +139,17 @@ export default async function renderExposedAreasOnMap({
     selectedEventDetails,
     orderedLayers,
     isOutdated,
-}: RenderExposedAreasOnMapParams): Promise<
-RenderExposedAreasOnMapResult | null
+}: {
+    map: MapboxGLMap;
+    scopedCountries: string[];
+    selectedEventDetails: SelectedEventDetails;
+    orderedLayers: OrderedMapLayer[];
+    isOutdated?: () => boolean;
+}): Promise<
+{
+    layer: ReturnType<typeof makeExposedAreasFillLayerFromFeatures>;
+    orderedLayers: OrderedMapLayer[];
+} | null
 > {
     if (!hasExposedPopulationData(selectedEventDetails)) {
         console.error(`[renderSelectedEventExposedAreasOnMap] No exposed population data for event ${selectedEventDetails.eventId}`);
@@ -135,6 +179,7 @@ RenderExposedAreasOnMapResult | null
             orderedLayers,
         );
 
+        // Zoom to fit the exposed admin area bounds
         const exposedAreasBounds = getBoundsFromFeatures(features);
         if (exposedAreasBounds) {
             map.fitBounds(getZoomToFitBounds(exposedAreasBounds), {

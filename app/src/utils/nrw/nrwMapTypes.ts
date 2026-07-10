@@ -17,16 +17,11 @@ export interface MapViewParameters {
     };
 }
 
-// Lon/lat bounds as [[west, south], [east, north]].
-// This is used instead of mapboxgl.LngLatBounds because mapbox-gl-v3
-// type aliases can mismatch with the runtime classes.
-export type LonLatBounds = [[number, number], [number, number]];
-
-// A data layer prepared for the Mapbox map: one source plus one layer that renders it.
-// The layer specification references the source by sourceId.
+// A Mapbox layer set with the data source and its render layer.
+// Mapbox keeps the data source and render layer as separate objects.
 export interface NrwMapboxLayer {
     sourceId: string;
-    layerId: string;
+    renderLayerId: string;
     source: SourceSpecification;
     layer: LayerSpecification;
 }
@@ -34,7 +29,7 @@ export interface NrwMapboxLayer {
 // An added map layer tracked by its layer id and draw order.
 // Mapbox uses an ordered list to determine draw order.
 export interface OrderedMapLayer {
-    layerId: string;
+    renderLayerId: string;
     drawOrder: number;
 }
 

@@ -22,15 +22,13 @@ import {
 } from '#utils/nrw/nrwDataFetchHelpers';
 import renderSelectedEventExposedAreasOnMap from '#utils/nrw/nrwMapEventHelpers';
 import {
-    getDrawOrder,
-    getInitialMapViewConfig,
-} from '#utils/nrw/nrwMapHelpers';
-import {
     addOrderedLayer,
     drawScopedCountriesAdmin0Layer,
+    getDrawOrder,
+    getInitialMapViewConfig,
     getMapViewParametersFromMap,
     removeLayerAndSource,
-} from '#utils/nrw/nrwMapLayerHelpers';
+} from '#utils/nrw/nrwMapHelpers';
 import type {
     MapLayerFunctions,
     MapViewParameters,
@@ -156,11 +154,11 @@ export default function MapboxDataMap({
                         );
                     },
                     setLayerVisibility: (layer: NrwMapboxLayer, visible: boolean) => {
-                        if (!map.getLayer(layer.layerId)) {
+                        if (!map.getLayer(layer.renderLayerId)) {
                             return;
                         }
                         map.setLayoutProperty(
-                            layer.layerId,
+                            layer.renderLayerId,
                             'visibility',
                             visible ? 'visible' : 'none',
                         );
@@ -181,7 +179,7 @@ export default function MapboxDataMap({
 
         // Handle selecting exposed admin areas by clicking on the fill layer.
         map.on('click', (event) => {
-            const exposedLayerId = exposedAreasLayerRef.current?.layerId;
+            const exposedLayerId = exposedAreasLayerRef.current?.renderLayerId;
             if (!exposedLayerId || !map.getLayer(exposedLayerId)) {
                 return;
             }

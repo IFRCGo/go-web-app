@@ -32,9 +32,7 @@ async function captureElement(elementId: string): Promise<CapturedElement | null
     };
 }
 
-// Grab the Mapbox WebGL canvas straight from the DOM by its container id. The
-// map is guaranteed to be rendered when the user triggers an export, and the
-// map is created with preserveDrawingBuffer so the canvas is readable.
+// Grab the Mapbox WebGL canvas straight from the DOM by its container id
 function captureMapCanvas(containerId: string): CapturedElement | null {
     const container = document.getElementById(containerId);
     const canvas = container?.querySelector('canvas') ?? null;
@@ -50,11 +48,8 @@ function captureMapCanvas(containerId: string): CapturedElement | null {
     };
 }
 
-/**
- * Captures the Mapbox map with the legend below it on the first page, and the
- * NRW events panel on the second page, then generates a PDF.
- */
-export async function exportMapboxToPdf(
+// Captures the Mapbox map and other tagged elements, and exports them in a pdf
+export default async function exportNrwDataMapToPdf(
     filenameSections: string[] = [],
 ): Promise<void> {
     let filename = `nrw-mapbox-map-${filenameSections.join('-')}.pdf`;
@@ -66,11 +61,13 @@ export async function exportMapboxToPdf(
             throw new Error('Map canvas not found');
         }
 
+        // Grab other elements to include by DOM id
         const [legendPanel, eventsPanel] = await Promise.all([
             captureElement(LEGEND_PANEL_ELEMENT_ID),
             captureElement(EVENTS_PANEL_ELEMENT_ID),
         ]);
 
+        // Set PDF size and page properties
         const pdf = new JsPDF({
             orientation: 'portrait',
             unit: 'mm',
@@ -83,7 +80,8 @@ export async function exportMapboxToPdf(
         const contentWidth = pageWidth - 2 * margin;
         const contentHeight = pageHeight - 2 * margin;
 
-        // First page: map on top, legend below it.
+        // Set up the first page: map and legend panel.
+        // This is debug design and will be covered by a design item later
         const legendSpacing = legendPanel ? 5 : 0;
         let legendWidth = 0;
         let legendHeight = 0;
@@ -158,5 +156,3 @@ export async function exportMapboxToPdf(
         throw error;
     }
 }
-
-export default exportMapboxToPdf;

@@ -4,11 +4,7 @@ import type {
     LineLayerSpecification,
 } from 'mapbox-gl-v3';
 
-import {
-    EXPOSURE_COLOR_FIELD_KEY,
-    PLACE_CODE_FIELD_KEY,
-} from './nrwConstants';
-import { type SelectedEventDetails } from './nrwMapTypes';
+import { EXPOSURE_COLOR_FIELD_KEY } from './nrwConstants';
 import { AlertClass } from './shared-enums';
 
 const defaultPointStrokeWidth = 2;
@@ -64,54 +60,10 @@ export const getExposureColor = (
     return colors[index]!;
 };
 
-// Attach the precomputed exposure color to each feature so the map layer
-// can color the areas with a data-driven paint expression.
-// The color is based on the feature's exposed population relative to the
-// highest exposed population at the deepest (lowest) admin level.
-export const setExposureColorsOnFeatures = (
-    features: GeoJSON.Feature[],
-    selectedEventDetails: SelectedEventDetails,
-): GeoJSON.Feature[] => {
-    const {
-        eventId,
-        alertClass,
-        exposedPopulationPerAreaByLevel,
-        highestExposedPopulationByLevel,
-    } = selectedEventDetails;
-
-    // Find the deepest (lowest) admin level that has exposed areas.
-    const deepestExposedLevel = Number(
-        Object.keys(exposedPopulationPerAreaByLevel).at(-1),
-    );
-    const exposedPopulationByPlaceCode = exposedPopulationPerAreaByLevel[deepestExposedLevel];
-    if (!deepestExposedLevel || !exposedPopulationByPlaceCode) {
-        throw new Error(`Event ${eventId} has no exposed population data`);
-    }
-    const highestExposedPopulation = highestExposedPopulationByLevel[deepestExposedLevel] ?? 0;
-
-    return features.map((feature) => {
-        const placeCode = feature.properties?.[PLACE_CODE_FIELD_KEY];
-        const exposedPopulation = typeof placeCode === 'string'
-            ? exposedPopulationByPlaceCode[placeCode] ?? 0
-            : 0;
-        return {
-            ...feature,
-            properties: {
-                ...feature.properties,
-                [EXPOSURE_COLOR_FIELD_KEY]: getExposureColor(
-                    exposedPopulation,
-                    highestExposedPopulation,
-                    alertClass,
-                ),
-            },
-        };
-    });
-};
-
 // Mapbox circle paint for Red Cross branch point features
 export const rcBranchPointPaint: CircleLayerSpecification['paint'] = {
     'circle-radius': 6,
-    'circle-color': '#cc1111',
+    'circle-color': '#cc1111', // Debug color
     'circle-stroke-color': '#ffffff',
     'circle-stroke-width': defaultPointStrokeWidth,
 };
@@ -119,14 +71,13 @@ export const rcBranchPointPaint: CircleLayerSpecification['paint'] = {
 // Mapbox circle paint for clinic point features
 export const clinicPointPaint: CircleLayerSpecification['paint'] = {
     'circle-radius': 6,
-    'circle-color': '#6a1b9a',
+    'circle-color': '#6a1b9a', // Debug color
     'circle-stroke-color': '#ffffff',
     'circle-stroke-width': defaultPointStrokeWidth,
 };
 
-// Fill paint for exposed admin area polygons.
-// Each feature must carry its precomputed exposure color property
-// (EXPOSURE_COLOR_FIELD_KEY), which drives the fill and outline colors.
+// Set the fill for exposed admin areas based on the precomputed exposure
+// color property in the feature properties.
 export const exposedAreasFillPaint: FillLayerSpecification['paint'] = {
     'fill-color': ['get', EXPOSURE_COLOR_FIELD_KEY],
     'fill-opacity': exposedAreaFillOpacity,
@@ -135,6 +86,6 @@ export const exposedAreasFillPaint: FillLayerSpecification['paint'] = {
 
 // Border paint for scoped-country admin0 polygons on initial map load.
 export const scopedCountriesAdmin0BorderPaint: LineLayerSpecification['paint'] = {
-    'line-color': '#ff60ea',
+    'line-color': '#ff60ea', // Debug color
     'line-width': 3,
 };

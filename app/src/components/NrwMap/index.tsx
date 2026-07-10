@@ -11,9 +11,9 @@ import {
 } from '#utils/nrw/nrwConstants';
 import {
     type AdminAreaDetails,
-    getAdminAreaDetailsFromCode,
+    fetchAdminAreaDetailsByCode,
 } from '#utils/nrw/nrwDataFetchHelpers';
-import { exportMapboxToPdf } from '#utils/nrw/nrwMapboxToPdfExporter';
+import exportNrwDataMapToPdf from '#utils/nrw/nrwMapToPdfExporter';
 import type { MapViewParameters } from '#utils/nrw/nrwMapTypes';
 
 import MapboxDataMap from './MapboxDataMap';
@@ -50,10 +50,38 @@ export default function NrwMapContainer() {
 
     // Selected items states owned by the container.
     const [selectedEventId, setSelectedEventId] = useState<number | null>(initialEventId);
+    const [selectedAdminPlaceCode, setSelectedAdminPlaceCode] = useState<string | null>(
+        initialAdminCode ?? null,
+    );
     const [selectedAdminAreaDetails,
-        setSelectedAdminAreaDetails] = useState<AdminAreaDetails | null>(
-            initialAdminCode ? getAdminAreaDetailsFromCode(initialAdminCode) : null,
-        );
+        setSelectedAdminAreaDetails] = useState<AdminAreaDetails | null>(null);
+
+    // When the admin area is deeplinked via URL, fetch its details once on mount.
+    useEffect(() => {
+        if (!initialAdminCode) {
+            return undefined;
+        }
+
+        let isCancelled = false;
+
+        fetchAdminAreaDetailsByCode(initialAdminCode)
+            .then((details) => {
+                if (!isCancelled) {
+                    setSelectedAdminAreaDetails(details);
+                }
+            })
+            .catch(() => {
+                if (!isCancelled) {
+                    setSelectedAdminAreaDetails(null);
+                }
+            });
+
+        return () => {
+            isCancelled = true;
+        };
+    // Mount-only: the deeplinked admin details are resolved a single time.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // Data loader hook - manages layer loading, caching, and shared event data state
     const {
@@ -78,6 +106,7 @@ export default function NrwMapContainer() {
         // Deselect current event and admin areas
         setSelectedEventId(null);
         hideAllLayers();
+        setSelectedAdminPlaceCode(null);
         setSelectedAdminAreaDetails(null);
 
         // Reset search params
@@ -90,6 +119,7 @@ export default function NrwMapContainer() {
     // Set event selection and related search params when user selects and event.
     const handleEventSelection = (eventId: number) => {
         // Clear any user-selected admin area when changing events
+        setSelectedAdminPlaceCode(null);
         setSelectedAdminAreaDetails(null);
         // Select the event
         setSelectedEventId(eventId);
@@ -107,7 +137,8 @@ export default function NrwMapContainer() {
         details: AdminAreaDetails | null,
         mapView?: MapViewParameters,
     ) => {
-        setSelectedAdminAreaDetails(details ?? getAdminAreaDetailsFromCode(placeCode));
+        setSelectedAdminPlaceCode(placeCode);
+        setSelectedAdminAreaDetails(details);
         setMapViewParams({
             countries: scopedCountries,
             eventId: selectedEventId,
@@ -122,7 +153,7 @@ export default function NrwMapContainer() {
         setMapViewParams({
             countries: scopedCountries,
             eventId: selectedEventId,
-            adminCode: selectedAdminAreaDetails?.code ?? undefined,
+            adminCode: selectedAdminPlaceCode ?? undefined,
             mapView,
             layerIds: visibleLayerNames,
         });
@@ -131,7 +162,7 @@ export default function NrwMapContainer() {
     // Export to PDF button handler
     const handlePdfExportClicked = async () => {
         try {
-            await exportMapboxToPdf(scopedCountries);
+            await exportNrwDataMapToPdf(scopedCountries);
         } catch (error) {
             alert.show('Failed to export Mapbox PDF. Please try again.', { variant: 'danger' });
             console.error('[NrwMapContainer] Export failed:', error);
@@ -150,7 +181,7 @@ export default function NrwMapContainer() {
                             onRefreshAll={handleRefreshAll}
                             onDeselectEvent={handleRefreshAll}
                             countryCodes={scopedCountries}
-                            selectedAdminPlaceCode={selectedAdminAreaDetails?.code ?? null}
+                            selectedAdminPlaceCode={selectedAdminPlaceCode}
                             adminDetails={selectedAdminAreaDetails}
                         />
                     </div>
