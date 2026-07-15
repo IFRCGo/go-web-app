@@ -12,6 +12,7 @@ import generateMigration from './commands/generateMigration';
 import exportMigration from './commands/exportMigration';
 import pushStringsFromExcel from './commands/pushStringsFromExcel';
 import exportServerStringsToExcel from './commands/exportServerStringsToExcel';
+import exportStringsForMock from './commands/exportStringsForMock';
 import clearServerStrings from './commands/clearServerStrings';
 import pushMigrationsToIfrc from './commands/pushMigrationsToIfrc';
 import pushStringsFromExcelToIfrc from './commands/pushStringsFromExcelToIfrc';
@@ -375,6 +376,48 @@ yargs(hideBin(process.argv))
                 argv.API_URL as string,
                 argv.authToken as string | undefined,
                 argv.outputFileName as string | undefined
+            );
+        },
+    )
+    .command(
+        'export-strings-for-mock <TRANSLATION_FILE..>',
+        'Export local i18n strings to an excel file in the IFRC translation service export format, filling translations from the service (mock source for the translation cache server)',
+        (yargs) => {
+            yargs.positional('TRANSLATION_FILE', {
+                type: 'string',
+                describe: 'Read the files from TRANSLATION_FILE',
+            });
+            yargs.options({
+                'api-url': {
+                    type: 'string',
+                    describe: 'URL for the IFRC translation service API',
+                    require: true,
+                },
+                'api-key': {
+                    type: 'string',
+                    describe: 'API key to access the IFRC translation service',
+                    require: true,
+                },
+                'application-id': {
+                    type: 'string',
+                    describe: 'Application ID in the translation service',
+                    require: true,
+                },
+                'output-file-name': {
+                    type: 'string',
+                    describe: 'Output excel file name (default: translations)',
+                    require: false,
+                },
+            });
+        },
+        async (argv) => {
+            await exportStringsForMock(
+                currentDir,
+                argv.TRANSLATION_FILE as string[],
+                argv.apiUrl as string,
+                argv.apiKey as string,
+                argv.applicationId as string,
+                argv.outputFileName as string | undefined,
             );
         },
     )

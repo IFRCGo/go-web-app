@@ -2,8 +2,12 @@ import { join, isAbsolute, basename } from 'path';
 import { promisify } from 'util';
 import { readFile, writeFile, unlink } from 'fs';
 import glob from 'fast-glob';
+import { CellValue, Row } from 'exceljs';
 import {
+    encodeDate,
     isDefined,
+    isFalsyString,
+    isNotDefined,
     intersection,
     listToMap,
     mapToList,
@@ -42,6 +46,82 @@ export function resolveUrl(base: string, endpoint: string): string {
         : endpoint;
 
     return new URL(normalizedEndpoint, normalizedBase).toString();
+}
+
+export function resolveCellValue(cellValue: CellValue): string | number | boolean | undefined {
+    if (isNotDefined(cellValue)) {
+        return undefined;
+    }
+
+    if (
+        typeof cellValue === 'number'
+        || typeof cellValue === 'string'
+        || typeof cellValue === 'boolean'
+    ) {
+        return cellValue;
+    }
+
+    if (cellValue instanceof Date) {
+        return encodeDate(cellValue);
+    }
+
+    if ('error' in cellValue) {
+        return undefined;
+    }
+
+    if ('richText' in cellValue) {
+        return cellValue.richText.map(({ text }) => text).join('');
+    }
+
+    if ('hyperlink' in cellValue) {
+        const MAIL_IDENTIFIER = 'mailto:';
+        if (cellValue.hyperlink.startsWith(MAIL_IDENTIFIER)) {
+            return cellValue.hyperlink.substring(MAIL_IDENTIFIER.length);
+        }
+
+        return cellValue.hyperlink;
+    }
+
+    if (isNotDefined(cellValue.result)) {
+        return undefined;
+    }
+
+    if (typeof cellValue.result === 'object' && 'error' in cellValue.result) {
+        return undefined;
+    }
+
+    // Formula result
+    return resolveCellValue(cellValue.result);
+}
+
+export function getStringValueFromCellValue(cellValue: CellValue | undefined) {
+    if (isNotDefined(cellValue)) {
+        return undefined;
+    }
+
+    const resolvedValue = resolveCellValue(cellValue);
+
+    if (isNotDefined(resolvedValue)) {
+        return undefined;
+    }
+
+    const stringValue = String(resolvedValue);
+
+    if (isFalsyString(stringValue.trim())) {
+        return undefined;
+    }
+
+    return stringValue;
+}
+
+export function getCellValueFromRow(row: Row, columnIndex: number | undefined) {
+    if (isNotDefined(row) || isNotDefined(columnIndex)) {
+        return undefined;
+    }
+
+    const cellValue = row.getCell(columnIndex).value;
+
+    return getStringValueFromCellValue(cellValue);
 }
 
 async function fetchLanguageStrings(language: Language, apiUrl: string, authToken?: string) {
@@ -389,7 +469,7 @@ export async function removeFiles(files: string[]) {
     await Promise.all(removePromises);
 }
 
-const languages: Language[] = ['en', 'fr', 'es', 'ar'];
+export const languages: Language[] = ['en', 'fr', 'es', 'ar'];
 
 export async function fetchServerState(apiUrl: string, authToken?: string) {
     const responsePromises = languages.map(

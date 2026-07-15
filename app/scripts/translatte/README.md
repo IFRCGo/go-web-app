@@ -57,3 +57,23 @@ We can use the following command to list all migrations:
 ```bash
 pnpm translatte list-migrations ./src/translationMigrations
 ```
+
+### Exporting a mock translations file
+
+For QA, the translation cache server (cacheppuccino) can pull its strings from a
+plain XLSX URL (`TRANSLATION_SOURCE=url`) instead of the IFRC translation service.
+The following command produces that file in the service's export format: local
+`i18n.json` files define which strings exist (and their English values), and
+fr/es/ar translations are filled in from the service where available.
+
+```bash
+pnpm translatte export-strings-for-mock './src/**/i18n.json' '../packages/ui/src/**/i18n.json' \
+    --api-url https://<translation-service-base-url> \
+    --api-key "$IFRC_TRANSLATION_API_KEY" \
+    --application-id <application-id> \
+    --output-file-name translations
+```
+
+The output (`translations.xlsx`, sheet `Translations`, header
+`page | key | en | fr | es | ar`) can be edited and hosted at any HTTPS URL for
+the cache server to consume.

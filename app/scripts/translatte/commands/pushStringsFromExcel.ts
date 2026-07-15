@@ -1,9 +1,9 @@
-import xlsx, { CellValue, Row } from 'exceljs';
+import xlsx from 'exceljs';
 import { Md5 } from 'ts-md5';
-import { encodeDate, isDefined, isFalsyString, isNotDefined, listToMap } from '@togglecorp/fujs';
+import { isDefined, isFalsyString, isNotDefined, listToMap } from '@togglecorp/fujs';
 
 import { Language, ServerActionItem } from '../types';
-import { postLanguageStrings, writeFilePromisify } from '../utils';
+import { getCellValueFromRow, postLanguageStrings, writeFilePromisify } from '../utils';
 
 type Translation = {
     key: string;
@@ -13,82 +13,6 @@ type Translation = {
     es: string | undefined;
     ar: string | undefined;
     hash: string;
-}
-
-function resolveCellValue(cellValue: CellValue) {
-    if (isNotDefined(cellValue)) {
-        return undefined;
-    }
-
-    if (
-        typeof cellValue === 'number'
-        || typeof cellValue === 'string'
-        || typeof cellValue === 'boolean'
-    ) {
-        return cellValue;
-    }
-
-    if (cellValue instanceof Date) {
-        return encodeDate(cellValue);
-    }
-
-    if ('error' in cellValue) {
-        return undefined;
-    }
-
-    if ('richText' in cellValue) {
-        return cellValue.richText.map(({ text }) => text).join('');
-    }
-
-    if ('hyperlink' in cellValue) {
-        const MAIL_IDENTIFIER = 'mailto:';
-        if (cellValue.hyperlink.startsWith(MAIL_IDENTIFIER)) {
-            return cellValue.hyperlink.substring(MAIL_IDENTIFIER.length);
-        }
-
-        return cellValue.hyperlink;
-    }
-
-    if (isNotDefined(cellValue.result)) {
-        return undefined;
-    }
-
-    if (typeof cellValue.result === 'object' && 'error' in cellValue.result) {
-        return undefined;
-    }
-
-    // Formula result
-    return resolveCellValue(cellValue.result);
-}
-
-function getStringValueFromCellValue(cellValue: CellValue | undefined) {
-    if (isNotDefined(cellValue)) {
-        return undefined;
-    }
-
-    const resolvedValue = resolveCellValue(cellValue);
-
-    if (isNotDefined(resolvedValue)) {
-        return undefined;
-    }
-
-    const stringValue = String(resolvedValue);
-
-    if (isFalsyString(stringValue.trim())) {
-        return undefined;
-    }
-
-    return stringValue;
-}
-
-function getCellValueFromRow(row: Row, columnIndex: number | undefined) {
-    if (isNotDefined(row) || isNotDefined(columnIndex)) {
-        return undefined;
-    }
-
-    const cellValue = row.getCell(columnIndex).value;
-
-    return getStringValueFromCellValue(cellValue);
 }
 
 async function getExcelTranslations(excelFilePath: string) {
