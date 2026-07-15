@@ -194,8 +194,7 @@ export function Component() {
                             {strings.externalConnectionMontandonDescription}
                             &nbsp;
                             <Link
-                                external
-                                href="https://docs.google.com/document/d/1USM6IQwBB1jUuyIHe_Bmmc0_gTFibzxBwZ9Oy4YiYx0/edit?usp=sharing"
+                                to="montandonLandingPage"
                                 withLinkIcon
                                 withUnderline
                             >
