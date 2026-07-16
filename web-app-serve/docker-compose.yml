@@ -1,0 +1,37 @@
+# NOTE: The name is mandatory and should be unique
+name: ${COMPOSE_PROJECT_NAME:-ifrcgo-go-web-app}
+
+services:
+  web-app-serve:
+    build:
+      context: ../
+      target: web-app-serve
+    environment:
+      # web-app-serve config: dumps unreplaced placeholders + diffs at /__debug/
+      APPLY_CONFIG__ENABLE_DEBUG: "true"
+      # NOTE: APP_TITLE is intentionally absent — it is a default (overridable)
+      # var baked as an ENV ("IFRC GO") in the Dockerfile final stage. Passing it
+      # here (even as ${APP_TITLE:-IFRC GO}) would mask the baked-default test.
+      # Override it at runtime by setting APP_TITLE in the environment / local .env.
+      # Dynamic configs (local defaults; override via an optional local .env)
+      APP_ENVIRONMENT: "${APP_ENVIRONMENT:-development}"
+      APP_API_ENDPOINT: "${APP_API_ENDPOINT:-https://goadmin-stage.ifrc.org/}"
+      APP_TRANSLATION_API_ENDPOINT: "${APP_TRANSLATION_API_ENDPOINT:-https://cacheppuccino-stage.ifrc.org/}"
+      APP_ADMIN_URL: "${APP_ADMIN_URL:-}"
+      APP_MAPBOX_ACCESS_TOKEN: "${APP_MAPBOX_ACCESS_TOKEN:-dummy-token}"
+      APP_TINY_API_KEY: "${APP_TINY_API_KEY:-dummy-api-key}"
+      APP_RISK_API_ENDPOINT: "${APP_RISK_API_ENDPOINT:-https://go-risk-api-stage.ifrc.org/}"
+      APP_SDT_URL: "${APP_SDT_URL:-}"
+      APP_POWER_BI_REPORT_ID_1: "${APP_POWER_BI_REPORT_ID_1:-}"
+      APP_SENTRY_DSN: "${APP_SENTRY_DSN:-}"
+      APP_SENTRY_TRACES_SAMPLE_RATE: "${APP_SENTRY_TRACES_SAMPLE_RATE:-}"
+      APP_SENTRY_REPLAYS_SESSION_SAMPLE_RATE: "${APP_SENTRY_REPLAYS_SESSION_SAMPLE_RATE:-}"
+      APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE: "${APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE:-}"
+      # NOTE: APP_GOOGLE_ANALYTICS_ID / APP_HOTJAR_ID are intentionally absent —
+      # they are build-time-only (VitePluginRadar), not web-app-serve runtime vars.
+    # NOTE: See the repo-root "Dockerfile" for the full set of dynamic env variables.
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - '8050:80'

@@ -10,7 +10,7 @@ The monorepo is organized as follows
 
 * [packages/go-ui-storybook/](../packages/go-ui-storybook/) contains the Storybook configuration and stories for the IFRC GO UI library.
 
-* [nginx-serve](../nginx-serve) contains the nginx configuration and helm charts for Kubernetes deployment.
+* [web-app-serve](../web-app-serve) contains the [web-app-serve](https://github.com/toggle-corp/web-app-serve) local test setup (docker-compose) and the wrapper Helm chart for Kubernetes deployment.
 
 ### `app` Directory
 
@@ -52,9 +52,9 @@ The [packages/go-ui-storybook](../packages/go-ui-storybook/) directory contains 
 * [src/stories/](../packages/go-ui-storybook/src/stories/): Houses all the UI component stories.
 * [.storybook/](../packages/go-ui-storybook/storybook): Contains the configuration for Storybook.
 
-### `nginx-serve` Directory
+### `web-app-serve` Directory
 
-The [nginx-serve](../nginx-serve) directory contains nginx config and helm charts to run the web application.
+The [web-app-serve](../web-app-serve) directory packages the app with [web-app-serve](https://github.com/toggle-corp/web-app-serve) so its configuration is injected at container start (not baked at build). It contains a `docker-compose.yml` for local testing and a wrapper Helm chart (`helm/`) that CI publishes to GHCR for Kubernetes deployment.
 
 ### Submodules
 
