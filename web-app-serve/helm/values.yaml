@@ -1,0 +1,7 @@
+app:
+  fullnameOverride: go-web-app
+  image:
+    name: SET-BY-CICD-IMAGE   # CI seds these to the just-built image
+    tag: SET-BY-CICD-TAG
+  ingress:
+    annotations: {}           # pre-seed: the provenance writer FAILS if this parent node is missing
