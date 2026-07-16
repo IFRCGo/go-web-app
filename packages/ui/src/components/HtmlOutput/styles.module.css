@@ -3,6 +3,11 @@
         margin: var(--go-ui-spacing-xs);
     }
 
+    img {
+        max-width: 100%;
+        object-fit: contain;
+    }
+
     iframe {
         width: 100%;
     }

@@ -65,6 +65,7 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
     pendingMessage?: React.ReactNode;
     withoutMessageIcon?: boolean;
     withCompactMessage?: boolean;
+    withoutMessage?: boolean;
 
     withBackground?: boolean;
     withDarkBackground?: boolean;
@@ -123,6 +124,7 @@ function Container(props: Props) {
         errorMessage,
         withoutMessageIcon,
         withCompactMessage,
+        withoutMessage = false,
 
         withBackground,
         withDarkBackground,
@@ -174,20 +176,22 @@ function Container(props: Props) {
 
     const mainContent = (children || empty || pending || errored || filtered) && (
         <>
-            <DefaultMessage
-                className={styles.message}
-                pending={pending}
-                filtered={filtered}
-                errored={errored}
-                empty={empty}
-                overlayPending={overlayPending}
-                emptyMessage={emptyMessage}
-                filteredEmptyMessage={filteredEmptyMessage}
-                pendingMessage={pendingMessage}
-                errorMessage={errorMessage}
-                withoutIcon={withoutMessageIcon}
-                compact={withCompactMessage}
-            />
+            {!withoutMessage && (
+                <DefaultMessage
+                    className={styles.message}
+                    pending={pending}
+                    filtered={filtered}
+                    errored={errored}
+                    empty={empty}
+                    overlayPending={overlayPending}
+                    emptyMessage={emptyMessage}
+                    filteredEmptyMessage={filteredEmptyMessage}
+                    pendingMessage={pendingMessage}
+                    errorMessage={errorMessage}
+                    withoutIcon={withoutMessageIcon}
+                    compact={withCompactMessage}
+                />
+            )}
             {!empty && !errored && (!pending || overlayPending) && overflowChildren}
         </>
     );

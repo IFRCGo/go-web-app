@@ -15,6 +15,7 @@ type PickedButtonLayoutProps =
     | 'spacing'
     | 'spacingOffset'
     | 'withoutPadding'
+    | 'withoutAdditionalInlinePadding'
     | 'withFullWidth'
     | 'children'
     | 'before'
@@ -35,6 +36,7 @@ function Button<const NAME>(props: Props<NAME>) {
         spacingOffset = -3,
         withoutPadding,
         withFullWidth,
+        withoutAdditionalInlinePadding,
         before,
         after,
         textSize,
@@ -82,6 +84,7 @@ function Button<const NAME>(props: Props<NAME>) {
                 spacing={spacing}
                 spacingOffset={spacingOffset}
                 withoutPadding={withoutPadding}
+                withoutAdditionalInlinePadding={withoutAdditionalInlinePadding}
                 withFullWidth={withFullWidth}
                 before={before}
                 after={after}

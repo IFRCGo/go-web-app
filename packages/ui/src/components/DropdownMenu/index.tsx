@@ -34,6 +34,7 @@ export interface Props {
     labelColorVariant?: ButtonProps<undefined>['colorVariant'];
     labelStyleVariant?: ButtonProps<undefined>['styleVariant'];
     labelWithoutPadding?: boolean;
+    labelWithoutAdditionalInlinePadding?: boolean;
 
     children?: React.ReactNode;
 
@@ -60,6 +61,7 @@ function DropdownMenu(props: Props) {
         labelColorVariant,
         labelStyleVariant,
         labelWithoutPadding,
+        labelWithoutAdditionalInlinePadding,
 
         withoutDropdownIcon,
         componentRef,
@@ -146,6 +148,7 @@ function DropdownMenu(props: Props) {
                     </>
                 ) : undefined}
                 before={labelBefore}
+                withoutAdditionalInlinePadding={labelWithoutAdditionalInlinePadding}
             >
                 {label}
             </Button>
