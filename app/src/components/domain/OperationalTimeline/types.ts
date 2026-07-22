@@ -54,5 +54,9 @@ export interface TimelineGroup {
     id: string;
     /** Sector name shown on the collapsible group header. */
     label: ReactNode;
+    /** Sector summary shown alongside the bars when the group is expanded. */
+    description?: ReactNode;
+    /** SharePoint root folder for the sector, opened from the header link. */
+    url?: string;
     bars: TimelineBar[];
 }

@@ -80,6 +80,12 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
 
     withCenteredContent?: boolean;
     withOverflow?: boolean;
+    /**
+     * Pins the header actions to the inline-end so they stay visible while the
+     * container is scrolled horizontally (e.g. a wide table inside an
+     * `overflow-x` ancestor). No-op without a horizontally scrolling ancestor.
+     */
+    withHorizontallyStickyHeader?: boolean;
 }
 
 function Container(props: Props) {
@@ -136,6 +142,7 @@ function Container(props: Props) {
 
         withCenteredContent,
         withOverflow,
+        withHorizontallyStickyHeader,
 
         ...divProps
     } = props;
@@ -245,6 +252,12 @@ function Container(props: Props) {
                             spacingOffset={spacingOffset - 1}
                             withoutSpacingOpticalCorrection={withoutSpacingOpticalCorrection}
                             wrapBreakpoint={headerWrapBreakpoint}
+                            childrenContainerClassName={_cs(
+                                withHorizontallyStickyHeader && styles.stickyHeading,
+                            )}
+                            afterContainerClassName={_cs(
+                                withHorizontallyStickyHeader && styles.stickyHeaderActions,
+                            )}
                             before={headerIcons}
                             after={headerActions && (
                                 <ListView

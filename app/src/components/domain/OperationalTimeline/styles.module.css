@@ -1,63 +1,149 @@
 .operational-timeline {
+    /* breathing room so the expandable-container shadows aren't clipped by the
+       horizontal scroll box (which clips overflow on both axes) */
+    margin: calc(-1 * var(--go-ui-spacing-xs));
+    padding: var(--go-ui-spacing-xs);
     width: 100%;
     overflow-x: auto;
 
     .timeline {
-        min-width: 60rem;
-
-        .phase-header,
-        .phase-area {
-            display: grid;
-            grid-template-columns: repeat(10, minmax(6rem, 1fr));
-            background-image: repeating-linear-gradient(
-                to right,
-                transparent,
-                transparent calc(10% - var(--go-ui-width-separator-thin)),
-                var(--go-ui-color-separator-light) calc(10% - var(--go-ui-width-separator-thin)),
-                var(--go-ui-color-separator-light) 10%
-            );
-        }
+        --desc-col-width: 16rem;
+        /* Pre-Disaster (first) and Transition (last) columns run a touch wider */
+        /* Pre-Disaster (first) and Transition (last) columns run a touch wider.
+           Column minimums are kept small enough that the desc column + phase
+           columns + the card's inline padding all fit within min-width, so the
+           phase area keeps its right padding instead of overflowing the card. */
+        --phase-columns: minmax(8rem, 2fr) repeat(4, minmax(2.5rem, 1fr)) repeat(4, minmax(3.6rem, 1.3fr)) minmax(6rem, 1.2fr);
+        min-width: 78rem;
 
         .header-row {
-            position: sticky;
-            top: 0;
-            z-index: 1;
+            display: grid;
+            /* match the ExpandableContainer's inline padding so the phase-label
+               row lines up with the columns inside each (padded) sector card */
+            padding-inline: var(--go-ui-spacing-md);
             border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+            background-color: var(--go-ui-color-gray-10);
+            grid-template-columns: var(--desc-col-width) 1fr;
 
-            .phase-header-cell {
-                padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-2xs);
-                text-align: center;
+            .label-column-header {
+                border-right: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator-light);
+            }
+
+            .phase-header {
+                display: grid;
+                grid-template-columns: var(--phase-columns);
+
+                .phase-header-cell {
+                    padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-2xs);
+                    text-align: center;
+
+                    &:not(:last-child) {
+                        border-right: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator-light);
+                    }
+
+                    &.phase-header-cell--edge {
+                        background-color: var(--go-ui-color-gray-30);
+                    }
+                }
             }
         }
 
         .group {
-            display: flex;
-            flex-direction: column;
+            /* clip the shaded edge columns / separators to the card's rounded
+               corners. `clip` (not `hidden`) avoids becoming a scroll container,
+               so it neither captures the sticky header nor re-clips the shadow. */
+            overflow: clip;
 
-            .group-header {
-                justify-content: flex-start;
-                background-color: var(--go-ui-color-gray-10);
-                padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-sm);
-                width: 100%;
-                text-align: start;
+            .group-body {
+                display: grid;
+                grid-template-columns: var(--desc-col-width) 1fr;
 
-                .arrow-icon {
-                    flex-shrink: 0;
-                    font-size: var(--go-ui-height-icon-multiplier);
+                .group-description {
+                    border-right: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator-light);
+                    padding: var(--go-ui-spacing-sm);
+                    color: var(--go-ui-color-text-light);
+                    font-size: var(--go-ui-font-size-sm);
                 }
 
-                .group-label {
-                    position: sticky;
-                    left: var(--go-ui-spacing-sm);
-                    font-weight: var(--go-ui-font-weight-bold);
-                }
-            }
+                .phase-area {
+                    display: grid;
+                    align-items: center;
+                    grid-template-columns: var(--phase-columns);
+                    gap: var(--go-ui-spacing-3xs) 0;
+                    padding-block: var(--go-ui-spacing-xs);
 
-            .phase-area {
-                align-items: center;
-                gap: var(--go-ui-spacing-3xs) 0;
-                padding-block: var(--go-ui-spacing-xs);
-                border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator-light);
+                    /* Column backgrounds track the real (unequal) column widths.
+                       Bleed over the block padding so the shaded edge columns and
+                       the separators cover the full expanded-row height. */
+                    .phase-column {
+                        align-self: stretch;
+                        min-height: 0;
+                        margin-block: calc(-1 * var(--go-ui-spacing-xs));
+
+                        &.phase-column--separator {
+                            border-right: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator-light);
+                        }
+
+                        &.phase-column--edge {
+                            background-color: var(--go-ui-color-gray-10);
+                        }
+                    }
+
+                    /* Pre-crisis connectors: ONE dotted red spine drops from the
+                       lane-0 pre-disaster anchor to the deepest connected lane,
+                       and each branch adds a single horizontal run to its bar. The
+                       spine is rendered once (not per branch) to avoid overlap. */
+                    .connector-spine,
+                    .connector-branch {
+                        /* number of lanes the element spans; set inline */
+                        --connector-span: 1;
+                        position: relative;
+                        /* fill the spanned lane area; the grid centres items by default */
+                        align-self: stretch;
+                        z-index: 1;
+                        pointer-events: none;
+
+                        .connector-dot {
+                            position: absolute;
+                            border-radius: 50%;
+                            background-color: var(--go-ui-color-red);
+                            width: 0.4rem;
+                            height: 0.4rem;
+                        }
+                    }
+
+                    .connector-spine {
+                        .connector-line {
+                            position: absolute;
+                            top: calc(50% / var(--connector-span));
+                            bottom: calc(50% / var(--connector-span));
+                            left: 0;
+                            border-left: var(--go-ui-width-separator-sm) dotted var(--go-ui-color-red);
+                        }
+
+                        .connector-dot {
+                            top: calc(50% / var(--connector-span));
+                            left: 0;
+                            transform: translate(-50%, -50%);
+                        }
+                    }
+
+                    .connector-branch {
+                        .connector-line {
+                            position: absolute;
+                            right: 0;
+                            bottom: calc(50% / var(--connector-span));
+                            left: 0;
+                            border-top: var(--go-ui-width-separator-sm) dotted var(--go-ui-color-red);
+                        }
+
+                        .connector-dot {
+                            right: 0;
+                            bottom: calc(50% / var(--connector-span));
+                            transform: translate(50%, 50%);
+                        }
+                    }
+                }
             }
         }
     }

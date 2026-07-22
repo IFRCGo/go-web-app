@@ -16,21 +16,14 @@ import i18n from './i18n.json';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const fundingCoverageDescription = resolveToComponent(
-        strings.weAreLookingFor,
+    const feedbackDescription = resolveToComponent(
+        strings.overviewFeedback,
         {
-            here: (
-                <Link
-                    href="https://ifrcorg.sharepoint.com/:x:/s/IFRCSharing/EZrYT-ysYfFFn9skPZxClN8B2sQPuY-GVvi3ddwdc5ZPHw"
-                    external
-                >
-                    {strings.here}
-                </Link>
-            ),
             emailOne: (
                 <Link
                     href="mailto:antoine.belair@ifrc.org"
                     external
+                    withUnderline
                 >
                     antoine.belair@ifrc.org
                 </Link>
@@ -39,6 +32,7 @@ export function Component() {
                 <Link
                     href="mailto:marshal.mukuvare@ifrc.org"
                     external
+                    withUnderline
                 >
                     marshal.mukuvare@ifrc.org
                 </Link>
@@ -49,24 +43,29 @@ export function Component() {
     return (
         <TabPage>
             <Container
-                // FIXME: use strings
-                heading="Operational Toolbox"
-                headerDescription={strings.surgeOperationalToolboxHeadingDescription}
+                heading={strings.operationalToolboxHeading}
+                headerDescription={strings.operationalToolboxSubHeading}
                 withCenteredHeading
-                headingLevel={2}
                 withCenteredHeaderDescription
             >
                 {null}
             </Container>
-            <OperationalTimeline />
             <Container
-                withDarkBackground
-                withPadding
+                heading={strings.overviewHeading}
+                withHeaderBorder
+                spacing="sm"
             >
                 <Description>
-                    {fundingCoverageDescription}
+                    {strings.overviewIntroOne}
+                </Description>
+                <Description>
+                    {strings.overviewIntroTwo}
+                </Description>
+                <Description>
+                    {feedbackDescription}
                 </Description>
             </Container>
+            <OperationalTimeline />
         </TabPage>
     );
 }

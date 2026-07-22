@@ -1,21 +1,19 @@
 import {
-    useCallback,
+    type CSSProperties,
     useMemo,
-    useState,
 } from 'react';
 import {
-    ArrowDownSmallFillIcon,
-    ArrowRightSmallFillIcon,
-} from '@ifrc-go/icons';
-import {
-    Heading,
-    InlineLayout,
+    ExpandableContainer,
     Label,
     ListView,
-    RawButton,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
+
+import Link from '#components/Link';
 
 import Bar from './Bar';
 import {
@@ -23,7 +21,10 @@ import {
     PHASES,
     type TimelineGroup,
 } from './types';
-import { packLanes } from './utils';
+import {
+    computeConnectors,
+    packLanes,
+} from './utils';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -36,19 +37,6 @@ function OperationalTimeline(props: Props) {
     const { className } = props;
 
     const strings = useTranslation(i18n);
-
-    // Each sector is a collapsible group; they start collapsed.
-    const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
-
-    const handleGroupToggle = useCallback(
-        (groupId: string) => {
-            setExpandedGroups((prevValue) => ({
-                ...prevValue,
-                [groupId]: !prevValue[groupId],
-            }));
-        },
-        [],
-    );
 
     const phaseLabels: Record<PhaseKey, string> = {
         pre_disaster: strings.phasePreDisaster,
@@ -63,23 +51,29 @@ function OperationalTimeline(props: Props) {
         closure: strings.phaseClosure,
     };
 
-    // NOTE: Generated from the IFRC "Ops Toolbox Content" spreadsheet (May 2026).
-    // Each sector (Category/sector column) becomes a group; bars come from its
-    // timeline rows. `startPhase`/`endPhase` are mapped from the "Timeline" column
-    // (Pre-disaster, Week 1-4, Month 2-4, Month 5-12, Closure); the card description
-    // is the popup text and `document.url` is the row's SharePoint hyperlink.
+    // FIXME(frozenhelium): remove this comment after content is finalized
+    // Generated from the IFRC "Ops Toolbox Content" spreadsheet (May 2026).
+    // Each sector becomes a group: its label, description and root folder come
+    // from the sector header rows, and bars come from its timeline rows.
+    // `startPhase`/`endPhase` map the "Timeline" column (Pre-disaster, Week 1-4,
+    // Month 2-4, Month 5-12, Transition); the card text is the "Popup
+    // description" and `document.url` is the row's SharePoint hyperlink. A
+    // `[empty]` marker in the Link column flags a linked-but-empty folder.
     // Re-run the generator against an updated sheet to refresh this data.
     const groups = useMemo<TimelineGroup[]>(
         () => [
             {
                 id: 'cea',
                 label: strings.groupCea,
+                description: strings.groupCeaDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CEA?csf=1&web=1&e=XX2MRS',
                 bars: [
                     {
                         id: 'cea-pre',
                         label: strings.preparednessLabel,
                         startPhase: 'pre_disaster',
                         endPhase: 'pre_disaster',
+                        description: strings.preparednessDescription,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CEA/0.%20PRE-DISASTER?csf=1&web=1&e=oGl66K',
@@ -90,7 +84,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCea1,
                         startPhase: 'w1',
                         endPhase: 'w2',
-                        description: strings.barCea1Desc,
+                        description: strings.barCea1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CEA/W1-2.%20Identify%20a%20CEA%20surge%20focal%20point%20(NS,%20IFRC%20or%20PNS)?csf=1&web=1&e=hKNgjT',
@@ -101,7 +95,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCea2,
                         startPhase: 'w2',
                         endPhase: 'w4',
-                        description: strings.barCea2Desc,
+                        description: strings.barCea2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CEA/W2-W4.%20Brief%20staff%20and%20volunteers%20on%20CEA%20requirements%20%E2%80%93%20inc.%20assessment%20teams?csf=1&web=1&e=gCVNx9',
@@ -112,7 +106,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCea3,
                         startPhase: 'w2',
                         endPhase: 'month_5_12',
-                        description: strings.barCea3Desc,
+                        description: strings.barCea3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CEA/W2-M12.%20Regularly%20share%20information%20with%20communities%20about%20the%20response?csf=1&web=1&e=rKo84d',
@@ -123,7 +117,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCea4,
                         startPhase: 'w3',
                         endPhase: 'month_5_12',
-                        description: strings.barCea4Desc,
+                        description: strings.barCea4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CEA/W3-M12%20Establish%20approaches%20for%20community%20participation%E2%80%8B?csf=1&web=1&e=PmwfVE',
@@ -134,7 +128,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCea5,
                         startPhase: 'w3',
                         endPhase: 'month_5_12',
-                        description: strings.barCea5Desc,
+                        description: strings.barCea5Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CEA/W3-M12.%20Set%20up%20a%20community%20feedback%20mechanism.%20Use%20community%20feedback%20to%20inform%20operational%20decisions?csf=1&web=1&e=Nchoao',
@@ -145,7 +139,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCea6,
                         startPhase: 'closure',
                         endPhase: 'closure',
-                        description: strings.barCea6Desc,
+                        description: strings.barCea6Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CEA/Clousure%26Transition.%20Discuss%20response%20closure%20with%20communities?csf=1&web=1&e=83cErz',
@@ -156,7 +150,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCea7,
                         startPhase: 'closure',
                         endPhase: 'closure',
-                        description: strings.barCea7Desc,
+                        description: strings.barCea7Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CEA/Clousure%26Transition.%20Support%20NS%20long-term%20CEA%20plan?csf=1&web=1&e=BcCXQd',
@@ -167,12 +161,15 @@ function OperationalTimeline(props: Props) {
             {
                 id: 'communications',
                 label: strings.groupCommunications,
+                description: strings.groupCommunicationsDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/COMMUNICATIONS?csf=1&web=1&e=rlzExf',
                 bars: [
                     {
                         id: 'communications-pre',
                         label: strings.preparednessLabel,
                         startPhase: 'pre_disaster',
                         endPhase: 'pre_disaster',
+                        description: strings.preparednessDescription,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/COMMUNICATIONS/0.%20Pre-disaster?csf=1&web=1&e=LZo8QA',
@@ -183,7 +180,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCommunications1,
                         startPhase: 'w1',
                         endPhase: 'w2',
-                        description: strings.barCommunications1Desc,
+                        description: strings.barCommunications1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/COMMUNICATIONS/W1-W2.%20Identify%20spokesperson%20in%20country,%20at%20regional%20and%20global%20level?csf=1&web=1&e=Z7aaVL',
@@ -194,7 +191,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCommunications2,
                         startPhase: 'w1',
                         endPhase: 'w2',
-                        description: strings.barCommunications2Desc,
+                        description: strings.barCommunications2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/COMMUNICATIONS/W1-W2.%20Issue%20press%20release%20focusing%20on%20humanitarian%20needs%20and%20RCRC%20response?csf=1&web=1&e=eX52Ka',
@@ -205,7 +202,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCommunications3,
                         startPhase: 'w1',
                         endPhase: 'w3',
-                        description: strings.barCommunications3Desc,
+                        description: strings.barCommunications3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/COMMUNICATIONS/W1-W3.%20Define%20key%20messages%20and%20reactive%20lines%20%E2%80%8B?csf=1&web=1&e=fcOYJw',
@@ -216,7 +213,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCommunications4,
                         startPhase: 'w1',
                         endPhase: 'w4',
-                        description: strings.barCommunications4Desc,
+                        description: strings.barCommunications4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/COMMUNICATIONS/W3-W4.%20Develop%20communications%20plans%20and%20strategy?csf=1&web=1&e=47vgu8',
@@ -227,7 +224,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCommunications5,
                         startPhase: 'w1',
                         endPhase: 'month_5_12',
-                        description: strings.barCommunications5Desc,
+                        description: strings.barCommunications5Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/COMMUNICATIONS/W1-M12.%20Gather%20communication%20materials%20and%20ensure%20proper%20dissemination?csf=1&web=1&e=IpSp4H',
@@ -235,11 +232,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'communications-6',
-                        isEmpty: true,
                         label: strings.barCommunications6,
                         startPhase: 'w1',
                         endPhase: 'month_5_12',
-                        description: strings.barCommunications6Desc,
+                        isEmpty: true,
+                        description: strings.barCommunications6Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/COMMUNICATIONS/W1-M12.%20Media%20and%20social%20media%20listening%20and%20monitoring?csf=1&web=1&e=IyaT0e',
@@ -250,12 +247,15 @@ function OperationalTimeline(props: Props) {
             {
                 id: 'cva',
                 label: strings.groupCva,
+                description: strings.groupCvaDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CVA?csf=1&web=1&e=5n9dKw',
                 bars: [
                     {
                         id: 'cva-pre',
                         label: strings.preparednessLabel,
                         startPhase: 'pre_disaster',
                         endPhase: 'pre_disaster',
+                        description: strings.preparednessDescription,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CVA/0.%20Preparedness?csf=1&web=1&e=NJLjTC',
@@ -266,7 +266,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCva1,
                         startPhase: 'w1',
                         endPhase: 'w3',
-                        description: strings.barCva1Desc,
+                        description: strings.barCva1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CVA/W1-W3.%20Assessments?csf=1&web=1&e=tzGwpc',
@@ -277,7 +277,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCva2,
                         startPhase: 'w2',
                         endPhase: 'month_2',
-                        description: strings.barCva2Desc,
+                        description: strings.barCva2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CVA/W2-M2.%20Response%20Analysis?csf=1&web=1&e=hctGfG',
@@ -288,7 +288,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCva3,
                         startPhase: 'w2',
                         endPhase: 'closure',
-                        description: strings.barCva3Desc,
+                        description: strings.barCva3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CVA/W2-Clousure%26Transition.%20Monitoring%20and%20evaluation?csf=1&web=1&e=dtcVq6',
@@ -299,7 +299,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barCva4,
                         startPhase: 'month_3',
                         endPhase: 'month_5_12',
-                        description: strings.barCva4Desc,
+                        description: strings.barCva4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/CVA/M3-M12.%20Implementation?csf=1&web=1&e=7wFhVQ',
@@ -310,13 +310,15 @@ function OperationalTimeline(props: Props) {
             {
                 id: 'green-response',
                 label: strings.groupGreenResponse,
+                description: strings.groupGreenResponseDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/GREEN%20RESPONSE?csf=1&web=1&e=akEBLH',
                 bars: [
                     {
                         id: 'green-response-1',
                         label: strings.barGreenResponse1,
                         startPhase: 'w1',
                         endPhase: 'w4',
-                        description: strings.barGreenResponse1Desc,
+                        description: strings.barGreenResponse1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/GREEN%20RESPONSE/W1-W4.%20Ensure%20climate%20change%20projections%20%26%20local%20environmental%20risks%20are%20considered%20in%20assessments%20%26%20planning%20%20%20%20%20%20%20%20%20%20%20%20%20%E2%80%8B%20%20Encourage%20sector%20leads%20to%20plan%20for%20%27green%27%20innovations%20and%20solutions?csf=1&web=1&e=7EgKcQ',
@@ -324,11 +326,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'green-response-2',
-                        isEmpty: true,
                         label: strings.barGreenResponse2,
                         startPhase: 'month_2',
                         endPhase: 'month_3',
-                        description: strings.barGreenResponse2Desc,
+                        isEmpty: true,
+                        description: strings.barGreenResponse2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/GREEN%20RESPONSE/M2-M3%20Conduct%20Environmental%20Screening?csf=1&web=1&e=sG1Enf',
@@ -339,7 +341,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barGreenResponse3,
                         startPhase: 'month_2',
                         endPhase: 'month_4',
-                        description: strings.barGreenResponse3Desc,
+                        description: strings.barGreenResponse3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/GREEN%20RESPONSE/M2-M4.%20Take%20steps%20to%20reduce%20environmental%20footprint%20of%20offices,%20warehouses,%20logistics%20and%20supply%20chain%20etc%20by%20energy%20efficiency,%20clean%20energy,%20reduce%20%26%20manage%20waste,%20sustainable%20procurement%20etc?csf=1&web=1&e=3mWA7k',
@@ -347,11 +349,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'green-response-4',
-                        isEmpty: true,
                         label: strings.barGreenResponse4,
                         startPhase: 'month_4',
                         endPhase: 'month_5_12',
-                        description: strings.barGreenResponse4Desc,
+                        isEmpty: true,
+                        description: strings.barGreenResponse4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/GREEN%20RESPONSE/M4-M12%20Integrate%20awareness%20raising%20and%20behaviour%20change%20key%20messages%20into%20relevant%20activities,%20to%20encourage%20positive%20environmental%20practices%20in%20communities?csf=1&web=1&e=qmLRAs',
@@ -362,7 +364,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barGreenResponse5,
                         startPhase: 'closure',
                         endPhase: 'closure',
-                        description: strings.barGreenResponse5Desc,
+                        description: strings.barGreenResponse5Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/GREEN%20RESPONSE/Clousure%26Transition.%20Build%20on%20successes%20and%20encourage%20NS%20to%20consider%20a%20new%20or%20updated%20Environmental%20and,or%20Climate%20Policy?csf=1&web=1&e=8M42Y7',
@@ -373,13 +375,15 @@ function OperationalTimeline(props: Props) {
             {
                 id: 'health',
                 label: strings.groupHealth,
+                description: strings.groupHealthDescription,
                 bars: [
                     {
                         id: 'health-pre',
-                        isEmpty: true,
                         label: strings.preparednessLabel,
                         startPhase: 'pre_disaster',
                         endPhase: 'pre_disaster',
+                        isEmpty: true,
+                        description: strings.preparednessDescription,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/HEALTH/0.%20Pre-Disaster?csf=1&web=1&e=qpIKw3',
@@ -387,11 +391,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'health-1',
-                        isEmpty: true,
                         label: strings.barHealth1,
                         startPhase: 'w1',
                         endPhase: 'w1',
-                        description: strings.barHealth1Desc,
+                        isEmpty: true,
+                        description: strings.barHealth1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/HEALTH/1.%20W1.%20Identify%20HR,%20ERU,%20and%20technical%20expertise%20needed%20to%20meet%20health%20gaps?csf=1&web=1&e=Cb3AM6',
@@ -402,7 +406,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barHealth2,
                         startPhase: 'w1',
                         endPhase: 'w2',
-                        description: strings.barHealth2Desc,
+                        description: strings.barHealth2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/HEALTH/2.%20W1-W2.%20Conduct%20health%20assessment,%20identify%20response%20gaps%20and%20RCRC%20health%20capacities?csf=1&web=1&e=UV6b61',
@@ -413,7 +417,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barHealth3,
                         startPhase: 'w1',
                         endPhase: 'month_2',
-                        description: strings.barHealth3Desc,
+                        description: strings.barHealth3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/HEALTH/3.%20W1-M2.%20Adapt%20and%20scale%20up%20existing%20health%20services%20and%20implement%20new%20health%20programming%20adapted%20to%20emergency%20needs?csf=1&web=1&e=HynpUm',
@@ -424,7 +428,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barHealth4,
                         startPhase: 'w1',
                         endPhase: 'month_5_12',
-                        description: strings.barHealth4Desc,
+                        description: strings.barHealth4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/HEALTH/4.%20W1-M5.%20Data%20collection,%20quality%20assurance,%20M%26E%20and%20KPIs?csf=1&web=1&e=b17wv2',
@@ -432,11 +436,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'health-5',
-                        isEmpty: true,
                         label: strings.barHealth5,
                         startPhase: 'month_3',
                         endPhase: 'month_5_12',
-                        description: strings.barHealth5Desc,
+                        isEmpty: true,
+                        description: strings.barHealth5Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/HEALTH/5.%20M3-M5.%20Transition%20to%20long-term%20health%20approach%20(recovery%20or%20sustained%20response)?csf=1&web=1&e=Jc386Y',
@@ -447,12 +451,15 @@ function OperationalTimeline(props: Props) {
             {
                 id: 'humanitarian-diplomacy',
                 label: strings.groupHumanitarianDiplomacy,
+                description: strings.groupHumanitarianDiplomacyDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/HUMANITARIAN%20DIPLOMACY?csf=1&web=1&e=XUyWxt',
                 bars: [
                     {
                         id: 'humanitarian-diplomacy-pre',
                         label: strings.preparednessLabel,
                         startPhase: 'pre_disaster',
                         endPhase: 'pre_disaster',
+                        description: strings.preparednessDescription,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/HUMANITARIAN%20DIPLOMACY/0.%20Pre-Disaster?csf=1&web=1&e=qJQIGI',
@@ -463,7 +470,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barHumanitarianDiplomacy1,
                         startPhase: 'w1',
                         endPhase: 'month_4',
-                        description: strings.barHumanitarianDiplomacy1Desc,
+                        description: strings.barHumanitarianDiplomacy1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/HUMANITARIAN%20DIPLOMACY/W1-M4.%20Develop%26Update%20stakeholders%20mapping%20and%20engagement%20plan?csf=1&web=1&e=I8Nl5h',
@@ -474,7 +481,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barHumanitarianDiplomacy2,
                         startPhase: 'w1',
                         endPhase: 'month_5_12',
-                        description: strings.barHumanitarianDiplomacy2Desc,
+                        description: strings.barHumanitarianDiplomacy2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/HUMANITARIAN%20DIPLOMACY/W1-M5.%20Develop%26Update%20Key%20messages%20on%20identified%20issues?csf=1&web=1&e=QMqxMk',
@@ -485,7 +492,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barHumanitarianDiplomacy3,
                         startPhase: 'w2',
                         endPhase: 'w3',
-                        description: strings.barHumanitarianDiplomacy3Desc,
+                        description: strings.barHumanitarianDiplomacy3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/HUMANITARIAN%20DIPLOMACY/W2-W3%20Develop%20trackers%20of%20positions%20and%20%20engagements?csf=1&web=1&e=EdFtxo',
@@ -496,7 +503,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barHumanitarianDiplomacy4,
                         startPhase: 'w3',
                         endPhase: 'w4',
-                        description: strings.barHumanitarianDiplomacy4Desc,
+                        description: strings.barHumanitarianDiplomacy4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/HUMANITARIAN%20DIPLOMACY/W3-W4%20Set%20up%20an%20HD%20support%20group%20(Coordination)?csf=1&web=1&e=Vsyheg',
@@ -507,12 +514,15 @@ function OperationalTimeline(props: Props) {
             {
                 id: 'idl',
                 label: strings.groupIdl,
+                description: strings.groupIdlDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/IDL?csf=1&web=1&e=F7kY5r',
                 bars: [
                     {
                         id: 'idl-pre',
                         label: strings.preparednessLabel,
                         startPhase: 'pre_disaster',
                         endPhase: 'pre_disaster',
+                        description: strings.preparednessDescription,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/IDL/0.%20Pre-Disaster?csf=1&web=1&e=4Ma9n5',
@@ -523,7 +533,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barIdl1,
                         startPhase: 'w1',
                         endPhase: 'w1',
-                        description: strings.barIdl1Desc,
+                        description: strings.barIdl1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/IDL/W1.%20Request%20humanitarian%20access%20to%20authorities?csf=1&web=1&e=kqD5CO',
@@ -534,7 +544,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barIdl2,
                         startPhase: 'w1',
                         endPhase: 'w4',
-                        description: strings.barIdl2Desc,
+                        description: strings.barIdl2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/IDL/W1-W4.%20Develop%20IDRL%20factsheet%20to%20inform%20log%20and%20operations%20and%20keep%20updating?csf=1&web=1&e=LM2r4C',
@@ -545,13 +555,15 @@ function OperationalTimeline(props: Props) {
             {
                 id: 'im',
                 label: strings.groupIm,
+                description: strings.groupImDescription,
                 bars: [
                     {
                         id: 'im-pre',
-                        isEmpty: true,
                         label: strings.preparednessLabel,
                         startPhase: 'pre_disaster',
                         endPhase: 'pre_disaster',
+                        isEmpty: true,
+                        description: strings.preparednessDescription,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/IM/0.%20Pre-Disaster?csf=1&web=1&e=q70uhc',
@@ -559,11 +571,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'im-1',
-                        isEmpty: true,
                         label: strings.barIm1,
                         startPhase: 'w1',
                         endPhase: 'w4',
-                        description: strings.barIm1Desc,
+                        isEmpty: true,
+                        description: strings.barIm1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/IM/W1-4%20Task%20SIMS?csf=1&web=1&e=kSaVAg',
@@ -574,7 +586,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barIm2,
                         startPhase: 'w1',
                         endPhase: 'month_5_12',
-                        description: strings.barIm2Desc,
+                        description: strings.barIm2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/IM/W1-M12%20Maintain%20GO%20emergency%20page?csf=1&web=1&e=VUx4s6',
@@ -582,11 +594,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'im-3',
-                        isEmpty: true,
                         label: strings.barIm3,
                         startPhase: 'w1',
                         endPhase: 'month_5_12',
-                        description: strings.barIm3Desc,
+                        isEmpty: true,
+                        description: strings.barIm3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/IM/W1-M12.%20Support%20Situational%20Overview?csf=1&web=1&e=GGPvjs',
@@ -594,11 +606,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'im-4',
-                        isEmpty: true,
                         label: strings.barIm4,
                         startPhase: 'w2',
                         endPhase: 'w4',
-                        description: strings.barIm4Desc,
+                        isEmpty: true,
+                        description: strings.barIm4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/IM/W2-4%20Define%20IM%20strategy?csf=1&web=1&e=Jf95aJ',
@@ -609,7 +621,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barIm5,
                         startPhase: 'w2',
                         endPhase: 'w4',
-                        description: strings.barIm5Desc,
+                        description: strings.barIm5Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/IM/W2-4%20Produce%20membership%20picture?csf=1&web=1&e=QigzEE',
@@ -620,13 +632,15 @@ function OperationalTimeline(props: Props) {
             {
                 id: 'logistics',
                 label: strings.groupLogistics,
+                description: strings.groupLogisticsDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/LOGISTICS?csf=1&web=1&e=v7Fb6I',
                 bars: [
                     {
                         id: 'logistics-1',
                         label: strings.barLogistics1,
                         startPhase: 'w1',
                         endPhase: 'w1',
-                        description: strings.barLogistics1Desc,
+                        description: strings.barLogistics1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/LOGISTICS/W1.%20LOGISTICS%20ASSESSMENT%20INCLUDING%20INFRASTRUCTURE,%20DAMAGE%20AND%20ACCESS?csf=1&web=1&e=y4uxN2',
@@ -637,7 +651,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barLogistics2,
                         startPhase: 'w1',
                         endPhase: 'w1',
-                        description: strings.barLogistics2Desc,
+                        description: strings.barLogistics2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/LOGISTICS/W1.%20MOBILIZATION%20TABLE%20IN%20PLACE%20%26%20MODIFIED%20AS%20OPERATION%20PROGRESSES?csf=1&web=1&e=TTZcn2',
@@ -648,7 +662,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barLogistics3,
                         startPhase: 'w1',
                         endPhase: 'w1',
-                        description: strings.barLogistics3Desc,
+                        description: strings.barLogistics3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/LOGISTICS/W1.%20SUPPLY%20CHAIN%20REPORTING?csf=1&web=1&e=QLZ96n',
@@ -659,7 +673,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barLogistics4,
                         startPhase: 'w2',
                         endPhase: 'w2',
-                        description: strings.barLogistics4Desc,
+                        description: strings.barLogistics4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/LOGISTICS/W2.%20ANALYZE%20NEEDS%20FOR%20SURGE%20HR%20NEEDS?csf=1&web=1&e=0dsmsY',
@@ -670,7 +684,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barLogistics5,
                         startPhase: 'w2',
                         endPhase: 'w2',
-                        description: strings.barLogistics5Desc,
+                        description: strings.barLogistics5Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/LOGISTICS/W2.%20GATHER%20PRELIMINARY%20DATA%20OF%20THE%20NEEDS%20TO%20DEVELOP%20A%20DRAFT%20PROCUREMENT%20PLAN?csf=1&web=1&e=qEXsN3',
@@ -681,7 +695,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barLogistics6,
                         startPhase: 'w2',
                         endPhase: 'w3',
-                        description: strings.barLogistics6Desc,
+                        description: strings.barLogistics6Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/LOGISTICS/W2-3.%20SET%20UP%20FLEET%20PLAN%20(INCL.%20IN-COUNTRY%20RESOURCES%20FOR%20CAR%20RENTAL)?csf=1&web=1&e=B8lAql',
@@ -692,7 +706,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barLogistics7,
                         startPhase: 'w2',
                         endPhase: 'w4',
-                        description: strings.barLogistics7Desc,
+                        description: strings.barLogistics7Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/LOGISTICS/W2-4.%20CREATE%20LOG%20PLAN%20OF%20ACTION%20(INCL.%20IDENTIFYING%20IMPORT%20OPTIONS%20FOR%20AIR-SEA-ROAD,%20AGENTS,%20WH%26TRANSPORT)?csf=1&web=1&e=RZiOde',
@@ -700,11 +714,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'logistics-8',
-                        isEmpty: true,
                         label: strings.barLogistics8,
                         startPhase: 'w3',
                         endPhase: 'w4',
-                        description: strings.barLogistics8Desc,
+                        isEmpty: true,
+                        description: strings.barLogistics8Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/LOGISTICS/W3-4.%20DEVELOP%20A%20PROCUREMENT%20PLAN?csf=1&web=1&e=awvqma',
@@ -715,7 +729,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barLogistics9,
                         startPhase: 'w4',
                         endPhase: 'w4',
-                        description: strings.barLogistics9Desc,
+                        description: strings.barLogistics9Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/LOGISTICS/W4.%20REVISE%20PROCUREMENT%20PLAN%20(CONTINUOS%20PROCESS%20BASED%20ON%20THE%20OPERATIONAL%20NEEDS)?csf=1&web=1&e=pvRi3H',
@@ -726,7 +740,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barLogistics10,
                         startPhase: 'w4',
                         endPhase: 'w4',
-                        description: strings.barLogistics10Desc,
+                        description: strings.barLogistics10Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/LOGISTICS/W4.%20SET%20UP%20FLEET,%20START%20MOBILIZATION%20OF%20REGIONAL%20FLEET?csf=1&web=1&e=fMYGEt',
@@ -737,7 +751,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barLogistics11,
                         startPhase: 'month_2',
                         endPhase: 'month_4',
-                        description: strings.barLogistics11Desc,
+                        description: strings.barLogistics11Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/LOGISTICS/M2-4.%20REVISE%20LOG%20PLAN%20OF%20ACTION%20BASED%20ON%20THE%20LONG-TERM%20OPERATIONAL%20PLAN?csf=1&web=1&e=nxL8ek',
@@ -746,15 +760,48 @@ function OperationalTimeline(props: Props) {
                 ],
             },
             {
-                id: 'monitoring-evaluation-reporting',
-                label: strings.groupMonitoringEvaluationReporting,
+                id: 'migration-displacement',
+                label: strings.groupMigrationDisplacement,
+                description: strings.groupMigrationDisplacementDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MIGRATION%20%26%20DISPLACEMENT?csf=1&web=1&e=l7AeYo',
                 bars: [
                     {
-                        id: 'monitoring-evaluation-reporting-pre',
-                        isEmpty: true,
+                        id: 'migration-displacement-pre',
                         label: strings.preparednessLabel,
                         startPhase: 'pre_disaster',
                         endPhase: 'pre_disaster',
+                        description: strings.preparednessDescription,
+                        document: {
+                            label: strings.openResourceLabel,
+                            url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MIGRATION%20%26%20DISPLACEMENT/0.%20Pre-crisis?csf=1&web=1&e=a8o81D',
+                        },
+                    },
+                    {
+                        id: 'migration-displacement-1',
+                        label: strings.barMigrationDisplacement1,
+                        startPhase: 'closure',
+                        endPhase: 'closure',
+                        description: strings.barMigrationDisplacement1Description,
+                        document: {
+                            label: strings.openResourceLabel,
+                            url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MIGRATION%20%26%20DISPLACEMENT/10.%20Closure-Transition?csf=1&web=1&e=42Ig8y',
+                        },
+                    },
+                ],
+            },
+            {
+                id: 'monitoring-evaluation-reporting',
+                label: strings.groupMonitoringEvaluationReporting,
+                description: strings.groupMonitoringEvaluationReportingDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING?csf=1&web=1&e=A0Xmgn',
+                bars: [
+                    {
+                        id: 'monitoring-evaluation-reporting-pre',
+                        label: strings.preparednessLabel,
+                        startPhase: 'pre_disaster',
+                        endPhase: 'pre_disaster',
+                        isEmpty: true,
+                        description: strings.preparednessDescription,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING/PRE-DISASTER?csf=1&web=1&e=5apdbA',
@@ -762,11 +809,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'monitoring-evaluation-reporting-1',
-                        isEmpty: true,
                         label: strings.barMonitoringEvaluationReporting1,
                         startPhase: 'w1',
                         endPhase: 'w2',
-                        description: strings.barMonitoringEvaluationReporting1Desc,
+                        isEmpty: true,
+                        description: strings.barMonitoringEvaluationReporting1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING/W1-2.%20Create%20sit%20reps%20every%20two%20days?csf=1&web=1&e=9NzUHx',
@@ -774,11 +821,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'monitoring-evaluation-reporting-2',
-                        isEmpty: true,
                         label: strings.barMonitoringEvaluationReporting2,
                         startPhase: 'w3',
                         endPhase: 'w4',
-                        description: strings.barMonitoringEvaluationReporting2Desc,
+                        isEmpty: true,
+                        description: strings.barMonitoringEvaluationReporting2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING/W3-4.%20Create%20sit%20reps%20weekly?csf=1&web=1&e=93SGOM',
@@ -786,11 +833,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'monitoring-evaluation-reporting-3',
-                        isEmpty: true,
                         label: strings.barMonitoringEvaluationReporting3,
                         startPhase: 'w3',
                         endPhase: 'w4',
-                        description: strings.barMonitoringEvaluationReporting3Desc,
+                        isEmpty: true,
+                        description: strings.barMonitoringEvaluationReporting3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING/W3-4.%20Develop%20Ops%20update%201?csf=1&web=1&e=pmeRgb',
@@ -798,11 +845,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'monitoring-evaluation-reporting-4',
-                        isEmpty: true,
                         label: strings.barMonitoringEvaluationReporting4,
                         startPhase: 'w4',
                         endPhase: 'month_2',
-                        description: strings.barMonitoringEvaluationReporting4Desc,
+                        isEmpty: true,
+                        description: strings.barMonitoringEvaluationReporting4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING/W4-M2.%20Develop%20Monitoring%20and%20Evaluation%20Plan?csf=1&web=1&e=jEQwE2',
@@ -810,11 +857,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'monitoring-evaluation-reporting-5',
-                        isEmpty: true,
                         label: strings.barMonitoringEvaluationReporting5,
                         startPhase: 'w4',
                         endPhase: 'month_2',
-                        description: strings.barMonitoringEvaluationReporting5Desc,
+                        isEmpty: true,
+                        description: strings.barMonitoringEvaluationReporting5Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING/W4-M2.%20Develop%20Ops%20update%202?csf=1&web=1&e=g8yyuj',
@@ -822,11 +869,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'monitoring-evaluation-reporting-6',
-                        isEmpty: true,
                         label: strings.barMonitoringEvaluationReporting6,
                         startPhase: 'month_2',
                         endPhase: 'month_4',
-                        description: strings.barMonitoringEvaluationReporting6Desc,
+                        isEmpty: true,
+                        description: strings.barMonitoringEvaluationReporting6Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING/M2-M4.%20Create%20indicator%20tracking%20table?csf=1&web=1&e=RfaIab',
@@ -834,11 +881,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'monitoring-evaluation-reporting-7',
-                        isEmpty: true,
                         label: strings.barMonitoringEvaluationReporting7,
                         startPhase: 'month_3',
                         endPhase: 'month_4',
-                        description: strings.barMonitoringEvaluationReporting7Desc,
+                        isEmpty: true,
+                        description: strings.barMonitoringEvaluationReporting7Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING/M3-4.%20Conduct%20RTE%E2%80%8B?csf=1&web=1&e=uuj5WC',
@@ -846,11 +893,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'monitoring-evaluation-reporting-8',
-                        isEmpty: true,
                         label: strings.barMonitoringEvaluationReporting8,
                         startPhase: 'month_3',
                         endPhase: 'month_4',
-                        description: strings.barMonitoringEvaluationReporting8Desc,
+                        isEmpty: true,
+                        description: strings.barMonitoringEvaluationReporting8Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING/M3-M4.%20Conduct%20Federation-Wide%20reporting?csf=1&web=1&e=z1678V',
@@ -858,11 +905,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'monitoring-evaluation-reporting-9',
-                        isEmpty: true,
                         label: strings.barMonitoringEvaluationReporting9,
                         startPhase: 'month_3',
                         endPhase: 'month_4',
-                        description: strings.barMonitoringEvaluationReporting9Desc,
+                        isEmpty: true,
+                        description: strings.barMonitoringEvaluationReporting9Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING/M3-M4.%20Revise%20Monitoring%20and%20Evaluation%20plan?csf=1&web=1&e=07h7UT',
@@ -870,11 +917,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'monitoring-evaluation-reporting-10',
-                        isEmpty: true,
                         label: strings.barMonitoringEvaluationReporting10,
                         startPhase: 'month_5_12',
                         endPhase: 'month_5_12',
-                        description: strings.barMonitoringEvaluationReporting10Desc,
+                        isEmpty: true,
+                        description: strings.barMonitoringEvaluationReporting10Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING/M5-M12.%20Communicate%20decisions%20on%20the%20future%20of%20operations%20in%20the%2012-month%20Ops%20update?csf=1&web=1&e=8Zcsh8',
@@ -882,11 +929,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'monitoring-evaluation-reporting-11',
-                        isEmpty: true,
                         label: strings.barMonitoringEvaluationReporting11,
                         startPhase: 'closure',
                         endPhase: 'closure',
-                        description: strings.barMonitoringEvaluationReporting11Desc,
+                        isEmpty: true,
+                        description: strings.barMonitoringEvaluationReporting11Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING/Closure-Transition;%20Communicate%20decisions%20on%20the%20future%20of%20%20the%20operation?csf=1&web=1&e=hqruqA',
@@ -894,11 +941,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'monitoring-evaluation-reporting-12',
-                        isEmpty: true,
                         label: strings.barMonitoringEvaluationReporting12,
                         startPhase: 'closure',
                         endPhase: 'closure',
-                        description: strings.barMonitoringEvaluationReporting12Desc,
+                        isEmpty: true,
+                        description: strings.barMonitoringEvaluationReporting12Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/MONITORING,%20EVALUATION%20%26%20REPORTING/Closure-Transition;%20Use%20the%20template%20in%20the%20case%20of%20a%20final%20report%E2%80%8B?csf=1&web=1&e=uGONfq',
@@ -909,12 +956,15 @@ function OperationalTimeline(props: Props) {
             {
                 id: 'nsd',
                 label: strings.groupNsd,
+                description: strings.groupNsdDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/NSD?csf=1&web=1&e=zL6jK3',
                 bars: [
                     {
                         id: 'nsd-pre',
                         label: strings.preparednessLabel,
                         startPhase: 'pre_disaster',
                         endPhase: 'pre_disaster',
+                        description: strings.preparednessDescription,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/NSD/0.%20Pre-Disaster?csf=1&web=1&e=30vbvE',
@@ -925,7 +975,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barNsd1,
                         startPhase: 'w1',
                         endPhase: 'w1',
-                        description: strings.barNsd1Desc,
+                        description: strings.barNsd1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/NSD/W1.%20Mapping%20NSD%20support%20services?csf=1&web=1&e=T8RzpA',
@@ -936,7 +986,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barNsd2,
                         startPhase: 'w1',
                         endPhase: 'w3',
-                        description: strings.barNsd2Desc,
+                        description: strings.barNsd2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/NSD/W1-W3.%20Run%20NSDiE%20rapid%20review%20and%20assessment?csf=1&web=1&e=Awa9oX',
@@ -947,7 +997,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barNsd3,
                         startPhase: 'w2',
                         endPhase: 'month_5_12',
-                        description: strings.barNsd3Desc,
+                        description: strings.barNsd3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/NSD/W2-M12.%20Establish%20and%20maintain%20NSD%20Task%20Force%20(steering%20committee,%20working%20group,%20coordination%20group)?csf=1&web=1&e=6012Qq',
@@ -958,7 +1008,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barNsd4,
                         startPhase: 'w3',
                         endPhase: 'month_5_12',
-                        description: strings.barNsd4Desc,
+                        description: strings.barNsd4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/NSD/W3-M12,%20Identify%20and%20implement%20NSD%20priorities,%20develop%20or%20update%20one%20NSD%20plan?csf=1&web=1&e=eMIvMI',
@@ -969,12 +1019,15 @@ function OperationalTimeline(props: Props) {
             {
                 id: 'per',
                 label: strings.groupPer,
+                description: strings.groupPerDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/PER?csf=1&web=1&e=QGD3lx',
                 bars: [
                     {
                         id: 'per-pre',
                         label: strings.preparednessLabel,
                         startPhase: 'pre_disaster',
                         endPhase: 'pre_disaster',
+                        description: strings.preparednessDescription,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/PER/0.%20Pre-Disaster?csf=1&web=1&e=lose6D',
@@ -985,7 +1038,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barPer1,
                         startPhase: 'w3',
                         endPhase: 'w4',
-                        description: strings.barPer1Desc,
+                        description: strings.barPer1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/PER/W3-W4.%20Design%20NS%20response%20capacity%20strengthening%20actions?csf=1&web=1&e=WCyNzp',
@@ -996,7 +1049,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barPer2,
                         startPhase: 'w1',
                         endPhase: 'w2',
-                        description: strings.barPer2Desc,
+                        description: strings.barPer2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/PER/W1-W2.%20Analyse%20and%20verify%20NS%20response%20capacity?csf=1&web=1&e=FI3RP2',
@@ -1007,7 +1060,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barPer3,
                         startPhase: 'month_2',
                         endPhase: 'month_5_12',
-                        description: strings.barPer3Desc,
+                        description: strings.barPer3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/PER/M2-M12.%20Continuous%20monitoring%20of%20NS%20response%20capacity?csf=1&web=1&e=y6ZXaN',
@@ -1018,7 +1071,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barPer4,
                         startPhase: 'closure',
                         endPhase: 'closure',
-                        description: strings.barPer4Desc,
+                        description: strings.barPer4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/PER/Clousure%26Transition.%20Carry%20out%20operational%20learning%20review?csf=1&web=1&e=BjDBNY',
@@ -1029,13 +1082,16 @@ function OperationalTimeline(props: Props) {
             {
                 id: 'safety-security',
                 label: strings.groupSafetySecurity,
+                description: strings.groupSafetySecurityDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SAFETY%20%26%20SECURITY?csf=1&web=1&e=pBGHeN',
                 bars: [
                     {
                         id: 'safety-security-pre',
-                        isEmpty: true,
                         label: strings.preparednessLabel,
                         startPhase: 'pre_disaster',
                         endPhase: 'pre_disaster',
+                        isEmpty: true,
+                        description: strings.preparednessDescription,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SAFETY%20%26%20SECURITY/0.%20Pre-Disaster?csf=1&web=1&e=mjGY4L',
@@ -1046,7 +1102,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSafetySecurity1,
                         startPhase: 'w1',
                         endPhase: 'w1',
-                        description: strings.barSafetySecurity1Desc,
+                        description: strings.barSafetySecurity1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SAFETY%20%26%20SECURITY/W1.%20Security%20Risk%20Assessment?csf=1&web=1&e=ff7cK3',
@@ -1057,7 +1113,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSafetySecurity2,
                         startPhase: 'w1',
                         endPhase: 'w2',
-                        description: strings.barSafetySecurity2Desc,
+                        description: strings.barSafetySecurity2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SAFETY%20%26%20SECURITY/W1-W2.%20Develop%20Medevac%20plan?csf=1&web=1&e=DeYNjX',
@@ -1068,7 +1124,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSafetySecurity3,
                         startPhase: 'w2',
                         endPhase: 'w4',
-                        description: strings.barSafetySecurity3Desc,
+                        description: strings.barSafetySecurity3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SAFETY%20%26%20SECURITY/W2-W4.%20Develop%20and%20update%20security%20management%20system%20according%20to%20IFRC%20minimum%20security%20requirement%20(in%20case%20no%20IFRC%20presence%20prior%20to%20disaster)?csf=1&web=1&e=XnNfO9',
@@ -1079,7 +1135,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSafetySecurity4,
                         startPhase: 'month_2',
                         endPhase: 'month_5_12',
-                        description: strings.barSafetySecurity4Desc,
+                        description: strings.barSafetySecurity4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SAFETY%20%26%20SECURITY/M2-M12.%20Continuously%20monitoring%20of%20security%20situation%20in%20country%20and%20adjust%20accordingly?csf=1&web=1&e=SB2oOp',
@@ -1090,13 +1146,16 @@ function OperationalTimeline(props: Props) {
             {
                 id: 'sprm',
                 label: strings.groupSprm,
+                description: strings.groupSprmDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SPRM?csf=1&web=1&e=p3Q29W',
                 bars: [
                     {
                         id: 'sprm-pre',
-                        isEmpty: true,
                         label: strings.preparednessLabel,
                         startPhase: 'pre_disaster',
                         endPhase: 'pre_disaster',
+                        isEmpty: true,
+                        description: strings.preparednessDescription,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SPRM/Pre-disaster?csf=1&web=1&e=GNTqZY',
@@ -1104,11 +1163,11 @@ function OperationalTimeline(props: Props) {
                     },
                     {
                         id: 'sprm-1',
-                        isEmpty: true,
                         label: strings.barSprm1,
                         startPhase: 'w1',
                         endPhase: 'w1',
-                        description: strings.barSprm1Desc,
+                        isEmpty: true,
+                        description: strings.barSprm1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SPRM/(access)%20W1.%20Create%20RM%20funding%20table?csf=1&web=1&e=UDcXGl',
@@ -1119,7 +1178,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSprm2,
                         startPhase: 'w1',
                         endPhase: 'w1',
-                        description: strings.barSprm2Desc,
+                        description: strings.barSprm2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SPRM/(access)%20W1.%20Schedule%20partners%20calls%20and%20briefings%20to%20present%20EA?csf=1&web=1&e=qud4et',
@@ -1130,7 +1189,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSprm3,
                         startPhase: 'w1',
                         endPhase: 'w3',
-                        description: strings.barSprm3Desc,
+                        description: strings.barSprm3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SPRM/W1-W3.%20Develop%20RM%20plan%20for%20emergency%20phase?csf=1&web=1&e=DV2MDv',
@@ -1141,7 +1200,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSprm4,
                         startPhase: 'w2',
                         endPhase: 'w4',
-                        description: strings.barSprm4Desc,
+                        description: strings.barSprm4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SPRM/(access)%20W2-W4.%20Schedule%20partner%20calls%20and%20briefings%20to%20present%20OS?csf=1&web=1&e=woPPba',
@@ -1152,7 +1211,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSprm5,
                         startPhase: 'w2',
                         endPhase: 'closure',
-                        description: strings.barSprm5Desc,
+                        description: strings.barSprm5Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SPRM/(access)%20W2-Transition.%20Manage%20the%20update%20of%20RM%20funding%20table%20and%20pledge%20status?csf=1&web=1&e=FoXblQ',
@@ -1163,7 +1222,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSprm6,
                         startPhase: 'w2',
                         endPhase: 'closure',
-                        description: strings.barSprm6Desc,
+                        description: strings.barSprm6Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SPRM/(access)%20W2-Transition.%20Support%20the%20appeal%20and%20operations%20manager%20to%20monitor%20pledges,%20donor%20requirements%20and%20interest?csf=1&web=1&e=EEv9fS',
@@ -1174,7 +1233,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSprm7,
                         startPhase: 'month_2',
                         endPhase: 'closure',
-                        description: strings.barSprm7Desc,
+                        description: strings.barSprm7Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SPRM/M2-Transition.%20Schedule%20regular%20partners%20calls%20and%20briefings%20to%20update%20EA%20and%20OS%20revisions?csf=1&web=1&e=B6wWMO',
@@ -1185,7 +1244,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSprm8,
                         startPhase: 'month_2',
                         endPhase: 'month_5_12',
-                        description: strings.barSprm8Desc,
+                        description: strings.barSprm8Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SPRM/M3-M12.%20Update%20RM%20Plan%20and%20Strategy%20regularly?csf=1&web=1&e=HirHGn',
@@ -1196,13 +1255,15 @@ function OperationalTimeline(props: Props) {
             {
                 id: 'surge-hr',
                 label: strings.groupSurgeHr,
+                description: strings.groupSurgeHrDescription,
+                url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SURGE%20%26%20HR?csf=1&web=1&e=JQPyPf',
                 bars: [
                     {
                         id: 'surge-hr-1',
                         label: strings.barSurgeHr1,
                         startPhase: 'w1',
                         endPhase: 'month_2',
-                        description: strings.barSurgeHr1Desc,
+                        description: strings.barSurgeHr1Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SURGE%20%26%20HR/W1-M2.%20Send%20Surge%20alerts%20and%20mobilize%20Surge%20personnel?csf=1&web=1&e=ZSejly',
@@ -1213,7 +1274,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSurgeHr2,
                         startPhase: 'w1',
                         endPhase: 'closure',
-                        description: strings.barSurgeHr2Desc,
+                        description: strings.barSurgeHr2Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SURGE%20%26%20HR/W1-Transition.%20Managing%20staff%20well-being?csf=1&web=1&e=sDDt4A',
@@ -1224,7 +1285,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSurgeHr3,
                         startPhase: 'w1',
                         endPhase: 'closure',
-                        description: strings.barSurgeHr3Desc,
+                        description: strings.barSurgeHr3Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SURGE%20%26%20HR/W1-Transition.%20Safeguarding%20%26%20reporting%20concerns?csf=1&web=1&e=2B80SE',
@@ -1235,7 +1296,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSurgeHr4,
                         startPhase: 'w2',
                         endPhase: 'month_5_12',
-                        description: strings.barSurgeHr4Desc,
+                        description: strings.barSurgeHr4Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SURGE%20%26%20HR/W2-M12.%20Workforce%20planning%20%26%20identifying%20HR%20priorities%20with%20NS?csf=1&web=1&e=1gsLL9',
@@ -1246,7 +1307,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSurgeHr5,
                         startPhase: 'w3',
                         endPhase: 'month_5_12',
-                        description: strings.barSurgeHr5Desc,
+                        description: strings.barSurgeHr5Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SURGE%20%26%20HR/W3-M2.%20Staff%20recruitment%20%26%20contracting%20approaches?csf=1&web=1&e=kjdfoj',
@@ -1257,7 +1318,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSurgeHr6,
                         startPhase: 'month_2',
                         endPhase: 'closure',
-                        description: strings.barSurgeHr6Desc,
+                        description: strings.barSurgeHr6Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SURGE%20%26%20HR/M2-Transition.%20Complete%20End%20of%20Mission%20(EOM)%20requirements?csf=1&web=1&e=pm7kep',
@@ -1268,7 +1329,7 @@ function OperationalTimeline(props: Props) {
                         label: strings.barSurgeHr7,
                         startPhase: 'month_3',
                         endPhase: 'month_4',
-                        description: strings.barSurgeHr7Desc,
+                        description: strings.barSurgeHr7Description,
                         document: {
                             label: strings.openResourceLabel,
                             url: 'https://ifrcorg.sharepoint.com/:f:/r/sites/IFRCSharing/Shared%20Documents/GLOBAL%20SURGE/Operational%20Toolbox/SURGE%20%26%20HR/M3-M4.%20Inductions%20%26%20onboarding?csf=1&web=1&e=OzkXlw',
@@ -1288,13 +1349,17 @@ function OperationalTimeline(props: Props) {
                 spacing="2xs"
             >
                 <div className={styles.headerRow}>
+                    <div className={styles.labelColumnHeader} />
                     <div className={styles.phaseHeader}>
-                        {PHASES.map((phase) => (
+                        {PHASES.map((phase, index) => (
                             <Label
                                 key={phase}
                                 strong
-                                withUppercaseLetters
-                                className={styles.phaseHeaderCell}
+                                className={_cs(
+                                    styles.phaseHeaderCell,
+                                    (index === 0 || index === PHASES.length - 1)
+                                        && styles.phaseHeaderCellEdge,
+                                )}
                             >
                                 {phaseLabels[phase]}
                             </Label>
@@ -1302,38 +1367,63 @@ function OperationalTimeline(props: Props) {
                     </div>
                 </div>
                 {groups.map((group) => {
-                    const expanded = expandedGroups[group.id] ?? false;
                     const { positioned, laneCount } = packLanes(group.bars);
+                    const connectors = computeConnectors(positioned, laneCount);
+                    const deepestConnectorLane = connectors.reduce(
+                        (acc, connector) => Math.max(acc, connector.targetLane),
+                        0,
+                    );
 
                     return (
-                        <div
+                        <ExpandableContainer
                             key={group.id}
                             className={styles.group}
-                        >
-                            <RawButton
-                                name={group.id}
-                                onClick={handleGroupToggle}
-                                className={styles.groupHeader}
-                                aria-expanded={expanded}
-                            >
-                                <InlineLayout
-                                    spacing="2xs"
-                                    before={expanded
-                                        ? <ArrowDownSmallFillIcon className={styles.arrowIcon} />
-                                        : <ArrowRightSmallFillIcon className={styles.arrowIcon} />}
+                            withBackground
+                            withShadow
+                            withPadding
+                            headingLevel={5}
+                            withHeaderBorder
+                            withHorizontallyStickyHeader
+                            heading={isDefined(group.url) ? (
+                                <Link
+                                    href={group.url}
+                                    external
+                                    withLinkIcon
+                                    className={styles.groupLink}
                                 >
-                                    <Heading level={5}>
-                                        {group.label}
-                                    </Heading>
-                                </InlineLayout>
-                            </RawButton>
-                            {expanded && (
+                                    {group.label}
+                                </Link>
+                            ) : (
+                                group.label
+                            )}
+                        >
+                            <div className={styles.groupBody}>
+                                <div className={styles.groupDescription}>
+                                    {group.description}
+                                </div>
                                 <div
                                     className={styles.phaseArea}
                                     style={{
                                         gridTemplateRows: `repeat(${laneCount}, auto)`,
                                     }}
                                 >
+                                    {PHASES.map((phase, index) => (
+                                        <div
+                                            key={phase}
+                                            className={_cs(
+                                                styles.phaseColumn,
+                                                (index === 0 || index === PHASES.length - 1)
+                                                    && styles.phaseColumnEdge,
+                                                index !== PHASES.length - 1
+                                                    && styles.phaseColumnSeparator,
+                                            )}
+                                            style={{
+                                                gridColumnStart: index + 1,
+                                                gridColumnEnd: index + 2,
+                                                gridRow: '1 / -1',
+                                            }}
+                                        />
+                                    ))}
                                     {positioned.map((bar) => (
                                         <Bar
                                             key={bar.id}
@@ -1341,9 +1431,40 @@ function OperationalTimeline(props: Props) {
                                             lastUpdateLabel={strings.lastUpdateLabel}
                                         />
                                     ))}
+                                    {connectors.length > 0 && (
+                                        <div
+                                            className={styles.connectorSpine}
+                                            style={{
+                                                gridColumnStart: 2,
+                                                gridColumnEnd: 3,
+                                                gridRowStart: 1,
+                                                gridRowEnd: deepestConnectorLane + 2,
+                                                '--connector-span': deepestConnectorLane + 1,
+                                            } as CSSProperties}
+                                        >
+                                            <span className={styles.connectorLine} />
+                                            <span className={styles.connectorDot} />
+                                        </div>
+                                    )}
+                                    {connectors.map((connector) => (
+                                        <div
+                                            key={`connector-${connector.targetLane}`}
+                                            className={styles.connectorBranch}
+                                            style={{
+                                                gridColumnStart: 2,
+                                                gridColumnEnd: connector.targetStartIndex + 1,
+                                                gridRowStart: 1,
+                                                gridRowEnd: connector.targetLane + 2,
+                                                '--connector-span': connector.targetLane + 1,
+                                            } as CSSProperties}
+                                        >
+                                            <span className={styles.connectorLine} />
+                                            <span className={styles.connectorDot} />
+                                        </div>
+                                    ))}
                                 </div>
-                            )}
-                        </div>
+                            </div>
+                        </ExpandableContainer>
                     );
                 })}
             </ListView>
