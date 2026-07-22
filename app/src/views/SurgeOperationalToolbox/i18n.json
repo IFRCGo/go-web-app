@@ -1,8 +1,11 @@
 {
     "namespace": "surgeOperationalToolbox",
     "strings": {
-        "surgeOperationalToolboxHeadingDescription": "For Orange and Red Emergencies",
-        "weAreLookingFor": "We are looking forward to receiving your feedback and improvement suggestions, please share them with us {here}. For additional questions please email: {emailOne} and {emailTwo}.",
-        "here": "approach can be found here"
+        "operationalToolboxHeading": "Operational Toolbox",
+        "operationalToolboxSubHeading": "For Orange & Red Emergencies",
+        "overviewHeading": "Overview of the Toolbox",
+        "overviewIntroOne": "This operational toolbox is a central repository with key operational documents helpful for your mission like templates, checklists, guidance and examples.",
+        "overviewIntroTwo": "The timeline below outlines the expected actions throughout the first 12 months of the response cycle. This timeline functions as a guide for RCRC personnel and represents key milestones, deliverables and documents linked to them.",
+        "overviewFeedback": "If you have any feedback or improvement suggestions, please email {emailOne} and {emailTwo}."
     }
 }

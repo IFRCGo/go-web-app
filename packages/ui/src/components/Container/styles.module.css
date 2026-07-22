@@ -83,3 +83,25 @@
         }
     }
 }
+
+/* Keep the heading and the actions in view while scrolled sideways. Applied to
+   the header grid cells themselves (not their contents): a cell's own overflow
+   doesn't trap its own stickiness, so these stick to the outer scroll container
+   even though the heading cell has an inner overflow. */
+.sticky-heading {
+    /* shrink the heading cell to its content so it has room to stick (a full
+       1fr cell has no slack to pin); offset by the header's inline padding so
+       the pinned title lines up with its resting position instead of jumping */
+    position: sticky;
+    inset-inline-start: var(--go-ui-spacing-md);
+    justify-self: start;
+    z-index: 1;
+    background-color: var(--go-ui-color-foreground);
+}
+
+.sticky-header-actions {
+    position: sticky;
+    inset-inline-end: var(--go-ui-spacing-md);
+    z-index: 2;
+    background-color: var(--go-ui-color-foreground);
+}
