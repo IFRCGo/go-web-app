@@ -120,6 +120,12 @@ export function Component() {
             withLinkIcon: true,
         },
         {
+            title: strings.publicHealthAnalyst,
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/IQAr-ZmOmRooTZr023tipXAEAQ5_l-Vo4rnDBVyVYraedZc',
+            external: true,
+            withLinkIcon: true,
+        },
+        {
             title: strings.publicHealthCoordinator,
             href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQQznuV_sHtGi7HH1PJ96Q0BWaetAeQgBdZlNg9vFsXOhw',
             external: true,
