@@ -187,6 +187,8 @@ function EapExportModal(props: Props) {
                             href={exportStatusResponse?.pdf_file}
                             before={<DownloadLineIcon className={styles.icon} />}
                             external
+                            data-document-type="eap_export"
+                            data-source="eap_export_modal"
                         >
                             {strings.downloadLinkLabel}
                         </Link>

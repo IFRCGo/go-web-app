@@ -34,6 +34,7 @@ import {
     KEY_LANGUAGE_STORAGE,
     KEY_USER_STORAGE,
 } from '#utils/constants';
+import { attachDownloadClickLogger } from '#utils/documentDownloadLog';
 import {
     getFromStorage,
     removeFromStorage,
@@ -203,6 +204,12 @@ function Application() {
         const language = getFromStorage<Language>(KEY_LANGUAGE_STORAGE);
         setCurrentLanguage(language ?? 'en');
     }, [hydrateUserAuth]);
+
+    useEffect(() => {
+        const detachDownloadClickLogger = attachDownloadClickLogger();
+
+        return detachDownloadClickLogger;
+    }, []);
 
     const userContextValue = useMemo<UserContextProps>(
         () => ({

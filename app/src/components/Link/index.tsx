@@ -22,6 +22,26 @@ import { type WrappedRoutes } from '../../App/routes';
 
 import styles from './styles.module.css';
 
+const IFRC_SHAREPOINT_HOST = 'ifrcorg.sharepoint.com';
+const SURGE_CATALOGUE_PATH_PREFIX = '/surge/catalogue';
+
+function shouldApplySurgeCatalogueDownloadMetadata(url: string) {
+    if (typeof window === 'undefined') {
+        return false;
+    }
+
+    if (!window.location.pathname.startsWith(SURGE_CATALOGUE_PATH_PREFIX)) {
+        return false;
+    }
+
+    try {
+        const parsedUrl = new URL(url.trim(), window.location.href);
+        return parsedUrl.hostname.toLowerCase() === IFRC_SHAREPOINT_HOST;
+    } catch {
+        return false;
+    }
+}
+
 type PickedButtonLayoutProps =
     | 'className'
     | 'colorVariant'
@@ -142,12 +162,20 @@ function Link(props: Props) {
     }
 
     if (external) {
+        const externalDownloadMetadata = shouldApplySurgeCatalogueDownloadMetadata(toLink)
+            ? {
+                'data-document-type': 'surge_catalogue_resource',
+            }
+            : undefined;
+
         return (
             <a
                 className={styles.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 href={toLink}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...externalDownloadMetadata}
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...linkProps}
             >

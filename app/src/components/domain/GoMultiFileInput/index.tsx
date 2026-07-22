@@ -263,6 +263,9 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                                 <Link
                                     href={valueUrl.url}
                                     external
+                                    data-document-type="uploaded_file"
+                                    data-object-id={valueUrl.id}
+                                    data-source="go_multi_file_input"
                                 >
                                     {getFileNameFromUrl(valueUrl.url)}
                                 </Link>

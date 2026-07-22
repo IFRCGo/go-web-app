@@ -232,6 +232,9 @@ export function Component() {
                         <Link
                             external
                             href={item.document ?? item.document_url ?? undefined}
+                            data-document-type="appeal_document"
+                            data-object-id={item.id}
+                            data-source="emergency_report_and_document"
                         >
                             <DownloadFillIcon />
                         </Link>
@@ -263,6 +266,9 @@ export function Component() {
             before: <DownloadFillIcon />,
             external: true,
             href: value.document ?? value.document_url,
+            'data-document-type': 'situation_report',
+            'data-object-id': value.id,
+            'data-source': 'emergency_report_and_document',
             children: value.name,
             title: value.name,
         }),
@@ -307,6 +313,9 @@ export function Component() {
                                         href={featuredDocument.file}
                                         external
                                         before={<DownloadFillIcon />}
+                                        data-document-type="featured_document"
+                                        data-object-id={featuredDocument.id}
+                                        data-source="emergency_report_and_document"
                                     >
                                         {featuredDocument.title}
                                     </Link>
