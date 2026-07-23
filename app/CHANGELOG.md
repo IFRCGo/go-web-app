@@ -1,5 +1,13 @@
 # go-web-app
 
+## 7.26.3
+
+### Patch Changes
+
+- Update Montandon section in account details page
+
+  - Update "View more details" link top point to montandon landing page instead of opening a google docs
+
 ## 7.26.2
 
 ### Patch Changes
