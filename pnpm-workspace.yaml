@@ -7,3 +7,9 @@ onlyBuiltDependencies:
   - core-js
   - core-js-pure
   - esbuild
+patchedDependencies:
+  openapi-typescript@6.5.5: patches/openapi-typescript@6.5.5.patch
+  '@togglecorp/re-map@0.3.0': patches/@togglecorp__re-map@0.3.0.patch
+  vite-plugin-webfont-dl@3.12.0: patches/vite-plugin-webfont-dl@3.12.0.patch
+overrides:
+  stylelint-config-concentric@2.0.2>stylelint-order: ^8.1.1

@@ -34,15 +34,5 @@
         "@changesets/cli": "^2.30.0",
         "knip": "^6.0.0"
     },
-    "packageManager": "pnpm@10.6.1+sha512.40ee09af407fa9fbb5fbfb8e1cb40fbb74c0af0c3e10e9224d7b53c7658528615b2c92450e74cfad91e3a2dcafe3ce4050d80bda71d757756d2ce2b66213e9a3",
-    "pnpm": {
-        "patchedDependencies": {
-            "openapi-typescript@6.5.5": "patches/openapi-typescript@6.5.5.patch",
-            "@togglecorp/re-map@0.3.0": "patches/@togglecorp__re-map@0.3.0.patch",
-            "vite-plugin-webfont-dl@3.12.0": "patches/vite-plugin-webfont-dl@3.12.0.patch"
-        },
-        "overrides": {
-            "stylelint-config-concentric@2.0.2>stylelint-order": "^8.1.1"
-        }
-    }
+    "packageManager": "pnpm@10.6.1+sha512.40ee09af407fa9fbb5fbfb8e1cb40fbb74c0af0c3e10e9224d7b53c7658528615b2c92450e74cfad91e3a2dcafe3ce4050d80bda71d757756d2ce2b66213e9a3"
 }
