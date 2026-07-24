@@ -69,6 +69,8 @@ function FlashUpdateExportModal(props: Props) {
                             colorVariant="primary"
                             href={exportResponse?.url}
                             external
+                            data-document-type="flash_update_export"
+                            data-source="flash_update_export_modal"
                         >
                             {strings.flashUpdateDownload}
                         </Link>

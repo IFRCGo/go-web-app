@@ -14,6 +14,7 @@ import OperationalTimelineBody from '#assets/content/operational_timeline_body.s
 import OperationalTimelineTitle from '#assets/content/operational_timeline_title.svg?react';
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
+import { logDocumentDownload } from '#utils/documentDownloadLog';
 
 import i18n from './i18n.json';
 
@@ -440,6 +441,11 @@ export function Component() {
         if (clickedElement) {
             const clickedContent = operationTimelineContent.find((value) => value.id === clickedElement.getAttribute('id'));
             if (clickedContent) {
+                logDocumentDownload({
+                    documentType: 'surge_operational_toolbox_resource',
+                    source: 'surge_operational_toolbox',
+                    url: clickedContent.url,
+                });
                 window.open(clickedContent.url, '_blank');
             }
         }

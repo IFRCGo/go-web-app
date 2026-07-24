@@ -130,6 +130,8 @@ function PerExportModal(props: Props) {
                             styleVariant="outline"
                             href={exportStatusResponse?.pdf_file}
                             external
+                            data-document-type="per_export"
+                            data-source="per_export_modal"
                         >
                             {strings.perDownloadPDF}
                         </Link>

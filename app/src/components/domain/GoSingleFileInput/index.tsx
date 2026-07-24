@@ -188,6 +188,9 @@ function GoSingleFileInput<const NAME>(props: Props<NAME>) {
                         <Link
                             href={selectedFileUrl}
                             external
+                            data-document-type="uploaded_file"
+                            data-object-id={value}
+                            data-source="go_single_file_input"
                         >
                             {selectedFileUrl.split('/').pop()}
                         </Link>

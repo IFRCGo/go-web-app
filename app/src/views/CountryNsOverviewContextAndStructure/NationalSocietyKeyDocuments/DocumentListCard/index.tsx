@@ -53,6 +53,9 @@ function DocumentListCard(props: Props) {
                             <Link
                                 external
                                 href={document.url}
+                                data-document-type="country_document"
+                                data-object-id={document.id}
+                                data-source="country_ns_key_documents"
                             >
                                 <DownloadFillIcon />
                             </Link>

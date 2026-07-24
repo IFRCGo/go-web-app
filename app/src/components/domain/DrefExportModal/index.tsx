@@ -223,6 +223,8 @@ function DrefExportModal(props: Props) {
                             href={exportStatusResponse?.pdf_file}
                             before={<DownloadLineIcon className={styles.icon} />}
                             external
+                            data-document-type="dref_export"
+                            data-source="dref_export_modal"
                         >
                             {strings.drefDownloadPDF}
                         </Link>
