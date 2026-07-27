@@ -2,21 +2,30 @@ import {
     useCallback,
     useState,
 } from 'react';
-import { randomString } from '@togglecorp/fujs';
-
-import type { Props as ButtonLayoutProps } from '#components/ButtonLayout';
-import ButtonLayout from '#components/ButtonLayout';
+import {
+    _cs,
+    randomString,
+} from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
-export type CommonRawFileInputProps<NAME> = Omit<ButtonLayoutProps, 'elementRef' | 'onChange'> & {
+export interface CommonRawFileInputProps<NAME> {
     accept?: string;
+    /**
+     * Visible trigger content; the whole component acts as a label
+     * for the hidden file input, so clicking any child opens the
+     * file picker
+     */
+    children?: React.ReactNode;
+    className?: string;
     disabled?: boolean;
+    /** Props forwarded to the hidden file input element */
     inputProps?: React.ComponentPropsWithoutRef<'input'>;
+    /** Ref to the hidden file input element */
     inputRef?: React.RefObject<HTMLInputElement | null>;
     name: NAME;
     readOnly?: boolean;
-};
+}
 
 export interface MultipleRawFileInputProps<NAME> {
     multiple: true;
@@ -32,9 +41,19 @@ export type Props<NAME> = CommonRawFileInputProps<NAME> & (
     SingleRawFileInputProps<NAME> | MultipleRawFileInputProps<NAME>
 );
 
+/**
+ * Unstyled file input primitive (raw layer).
+ *
+ * Renders only the hidden file input and its change/reset plumbing,
+ * wrapped in a `display: contents` label so the children act as the
+ * trigger. Carries no visuals; use FileInputButton for the styled,
+ * button-like file input.
+ */
 function RawFileInput<NAME>(props: Props<NAME>) {
     const {
         accept,
+        children,
+        className,
         disabled,
         inputProps,
         inputRef,
@@ -42,8 +61,6 @@ function RawFileInput<NAME>(props: Props<NAME>) {
         name,
         onChange,
         readOnly,
-        spacingOffset = -3,
-        ...buttonLayoutProps
     } = props;
 
     const [inputId] = useState(randomString);
@@ -65,15 +82,9 @@ function RawFileInput<NAME>(props: Props<NAME>) {
     return (
         <label
             htmlFor={inputId}
-            className={styles.fileInput}
+            className={_cs(styles.rawFileInput, className)}
         >
-            <ButtonLayout
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...buttonLayoutProps}
-                spacingOffset={spacingOffset}
-                disabled={disabled}
-                readOnly={readOnly}
-            />
+            {children}
             <input
                 id={inputId}
                 className={styles.input}

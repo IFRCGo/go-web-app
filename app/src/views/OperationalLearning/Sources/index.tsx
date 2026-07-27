@@ -3,7 +3,7 @@ import {
     Button,
     Container,
     ListView,
-    Pager,
+    Pagination,
     RawList,
 } from '@ifrc-go/ui';
 import {
@@ -86,7 +86,7 @@ function Sources(props: Props) {
     });
 
     const pager = (
-        <Pager
+        <Pagination
             activePage={appealDocumentActivePage}
             onActivePageChange={setAppealDocumentActivePage}
             itemsCount={appealDocumentResponse?.count ?? 0}

@@ -1,4 +1,4 @@
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
 
@@ -259,7 +259,7 @@ export function Component() {
                 </Link>
                 <div>{strings.imagerySourcesInternationalSpaceTextOne}</div>
                 <div>{strings.imagerySourcesInternationalSpaceTextTwo}</div>
-                <TextOutput
+                <DataDisplay
                     label={strings.imagerySourcesInternationalSpaceTextThree}
                     value={(
                         <Link

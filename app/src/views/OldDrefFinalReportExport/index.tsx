@@ -5,17 +5,17 @@ import {
 } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-    DateOutput,
-    NumberOutput,
+    DateDisplay,
+    NumberDisplay,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     Container,
+    DataDisplay,
+    type DataDisplayProps,
     DescriptionText,
     Heading,
     Image,
-    TextOutput,
-    type TextOutputProps,
 } from '@ifrc-go/ui/printable';
 import { DEFAULT_PRINT_DATE_FORMAT } from '@ifrc-go/ui/utils';
 import {
@@ -46,12 +46,13 @@ import { useRequest } from '#utils/restRequest';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-function BlockTextOutput(props: TextOutputProps & { variant?: never, withoutLabelColon?: never }) {
+function BlockTextOutput(props: DataDisplayProps
+    & { styleVariant?: never, withoutLabelColon?: never }) {
     return (
-        <TextOutput
+        <DataDisplay
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...props}
-            variant="contents"
+            styleVariant="contents"
             withoutLabelColon
         />
     );
@@ -327,13 +328,13 @@ export function Component() {
                     </Container>
                 )}
             <Container childrenContainerClassName={styles.metaSection}>
-                <TextOutput
+                <DataDisplay
                     className={styles.metaItem}
                     label={strings.appealLabel}
                     value={drefResponse?.appeal_code}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     className={styles.metaItem}
                     label={strings.drefAllocationLabel}
                     value={drefResponse?.total_dref_allocation}
@@ -341,7 +342,7 @@ export function Component() {
                     prefix={strings.chfPrefix}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     className={styles.metaItem}
                     label={strings.crisisCategoryLabel}
                     value={drefResponse?.disaster_category_display}
@@ -353,19 +354,19 @@ export function Component() {
                     )}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     className={styles.metaItem}
                     label={strings.hazardLabel}
                     value={drefResponse?.disaster_type_details?.name}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     className={styles.metaItem}
                     label={strings.glideNumberLabel}
                     value={drefResponse?.glide_code}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     className={styles.metaItem}
                     label={strings.peopleAffectedLabel}
                     value={drefResponse?.number_of_people_affected}
@@ -373,7 +374,7 @@ export function Component() {
                     suffix={strings.peopleSuffix}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     className={styles.metaItem}
                     label={strings.peopleTargetedLabel}
                     value={drefResponse?.total_targeted_population}
@@ -381,7 +382,7 @@ export function Component() {
                     valueType="number"
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     className={styles.metaItem}
                     label={strings.peopleAssistedLabel}
                     value={drefResponse?.num_assisted}
@@ -389,27 +390,27 @@ export function Component() {
                     valueType="number"
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     className={styles.metaItem}
                     label={strings.eventOnsetLabel}
                     value={drefResponse?.type_of_onset_display}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     className={styles.metaItem}
                     label={strings.operationStartDateLabel}
                     value={drefResponse?.operation_start_date}
                     valueType="date"
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     className={styles.metaItem}
                     label={strings.operationEndDateLabel}
                     value={drefResponse?.operation_end_date}
                     valueType="date"
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     className={styles.metaItem}
                     label={strings.operationTimeframeLabel}
                     value={drefResponse?.total_operation_timeframe}
@@ -417,7 +418,7 @@ export function Component() {
                     suffix={strings.monthsSuffix}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     className={styles.targetedAreas}
                     label={strings.targetedAreasLabel}
                     value={drefResponse?.district_details?.map(
@@ -460,7 +461,7 @@ export function Component() {
                                 ? strings.dateWhenTriggerWasMetHeading
                                 : strings.dateOfEventSlowHeading}
                         >
-                            <DateOutput
+                            <DateDisplay
                                 value={drefResponse?.event_date}
                                 format={DEFAULT_PRINT_DATE_FORMAT}
                             />
@@ -620,7 +621,7 @@ export function Component() {
                         />
                     )}
                     {majorCoordinationMechanismDefined && (
-                        <TextOutput
+                        <DataDisplay
                             className={styles.otherActionsMajorCoordinationMechanism}
                             label={strings.majorCoordinationMechanismLabel}
                             value={drefResponse?.major_coordination_mechanism}
@@ -853,7 +854,7 @@ export function Component() {
                         </>
                     )}
                     {riskSecurityConcernDefined && (
-                        <TextOutput
+                        <DataDisplay
                             className={styles.riskSecurityConcern}
                             label={strings.safetyConcernHeading}
                             value={drefResponse?.risk_security_concern}
@@ -888,32 +889,32 @@ export function Component() {
                                     {plannedIntervention.title_display}
                                 </Heading>
                                 <Container>
-                                    <TextOutput
+                                    <DataDisplay
                                         label={strings.budgetLabel}
                                         value={plannedIntervention.budget}
                                         valueType="number"
                                         prefix={strings.chfPrefix}
                                         strongLabel
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         label={strings.targetedPersonsLabel}
                                         value={plannedIntervention.person_targeted}
                                         valueType="number"
                                         strongLabel
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         label={strings.assistedPersonsLabel}
                                         value={plannedIntervention.person_assisted}
                                         valueType="number"
                                         strongLabel
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         label={strings.targetedMaleLabel}
                                         value={plannedIntervention.male}
                                         valueType="number"
                                         strongLabel
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         label={strings.targetedFemaleLabel}
                                         value={plannedIntervention.female}
                                         valueType="number"
@@ -942,11 +943,11 @@ export function Component() {
                                                 <div className={styles.title}>
                                                     {indicator.title}
                                                 </div>
-                                                <NumberOutput
+                                                <NumberDisplay
                                                     className={styles.target}
                                                     value={indicator.target}
                                                 />
-                                                <NumberOutput
+                                                <NumberDisplay
                                                     className={styles.actual}
                                                     value={indicator.actual}
                                                 />
@@ -1036,7 +1037,7 @@ export function Component() {
                     </Container>
                     <Container childrenContainerClassName={styles.contactList}>
                         {nsContactDefined && (
-                            <TextOutput
+                            <DataDisplay
                                 labelClassName={styles.contactPersonLabel}
                                 label={strings.nsContactHeading}
                                 value={nsContactText}
@@ -1044,7 +1045,7 @@ export function Component() {
                             />
                         )}
                         {appealManagerContactDefined && (
-                            <TextOutput
+                            <DataDisplay
                                 labelClassName={styles.contactPersonLabel}
                                 label={strings.appealManagerContactHeading}
                                 value={appealManagerContactText}
@@ -1052,7 +1053,7 @@ export function Component() {
                             />
                         )}
                         {projectManagerContactDefined && (
-                            <TextOutput
+                            <DataDisplay
                                 labelClassName={styles.contactPersonLabel}
                                 label={strings.projectManagerContactHeading}
                                 value={projectManagerContactText}
@@ -1060,7 +1061,7 @@ export function Component() {
                             />
                         )}
                         {focalPointContactDefined && (
-                            <TextOutput
+                            <DataDisplay
                                 labelClassName={styles.contactPersonLabel}
                                 label={strings.focalPointContactHeading}
                                 value={focalPointContactText}
@@ -1068,7 +1069,7 @@ export function Component() {
                             />
                         )}
                         {mediaContactDefined && (
-                            <TextOutput
+                            <DataDisplay
                                 labelClassName={styles.contactPersonLabel}
                                 label={strings.mediaContactHeading}
                                 value={mediaContactText}
@@ -1076,7 +1077,7 @@ export function Component() {
                             />
                         )}
                         {nationalSocietyIntegrityContactDefined && (
-                            <TextOutput
+                            <DataDisplay
                                 labelClassName={styles.contactPersonLabel}
                                 label={strings.nationalSocietyIntegrityHeading}
                                 value={nationalSocietyIntegrityContactText}
@@ -1084,7 +1085,7 @@ export function Component() {
                             />
                         )}
                         {nationalSocietyHotlineDefined && (
-                            <TextOutput
+                            <DataDisplay
                                 labelClassName={styles.contactPersonLabel}
                                 label={strings.nationalSocietyHotlineHeading}
                                 value={drefResponse?.national_society_hotline_phone_number}

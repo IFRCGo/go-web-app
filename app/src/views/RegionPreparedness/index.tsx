@@ -2,9 +2,12 @@ import { useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
-    HtmlOutput,
-    List,
+    DefaultMessage,
+    HtmlDisplay,
+    ListView,
+    RawList,
 } from '@ifrc-go/ui';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import {
     type RegionOutletContext,
@@ -36,7 +39,7 @@ function Snippet(props: SnippetProps) {
             heading={title}
             withHeaderBorder
         >
-            <HtmlOutput
+            <HtmlDisplay
                 value={snippet}
             />
         </Container>
@@ -52,17 +55,26 @@ export function Component() {
         snippet: data.snippet,
     }), []);
 
+    const snippets = regionResponse?.preparedness_snippets;
+
     return (
-        <List
+        <ListView
             className={styles.regionPreparedness}
-            data={regionResponse?.preparedness_snippets}
-            keySelector={keySelector}
-            rendererParams={snippetListRendererParams}
-            renderer={Snippet}
-            pending={false}
-            errored={false}
-            filtered={false}
-        />
+            layout="block"
+        >
+            <RawList
+                data={snippets}
+                keySelector={keySelector}
+                rendererParams={snippetListRendererParams}
+                renderer={Snippet}
+            />
+            <DefaultMessage
+                pending={false}
+                errored={false}
+                filtered={false}
+                empty={isNotDefined(snippets) || snippets.length === 0}
+            />
+        </ListView>
     );
 }
 

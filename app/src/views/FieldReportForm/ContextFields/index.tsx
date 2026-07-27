@@ -6,12 +6,12 @@ import { useParams } from 'react-router-dom';
 import {
     BooleanInput,
     Container,
+    DataDisplay,
     DateInput,
     InputSection,
     ListView,
     RadioInput,
     TextInput,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -317,7 +317,7 @@ function ContextFields(props: Props) {
                                         id={value.id}
                                     />
                                 ) : (
-                                    <TextOutput
+                                    <DataDisplay
                                         value={value.summary}
                                         label={isDefined(fieldReportId)
                                             ? strings.originalTitle : strings.generatedTitlePreview}

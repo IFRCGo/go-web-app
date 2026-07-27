@@ -15,8 +15,14 @@ import Description from '#components/Description';
 import Heading, { type Props as HeadingProps } from '#components/Heading';
 import InlineView, { Props as InlineViewProps } from '#components/InlineView';
 import ListView from '#components/ListView';
-import useSpacingToken from '#hooks/useSpacingToken';
 import {
+    BackgroundColorType,
+    BorderRadiusType,
+    BoxShadowType,
+    getBackgroundColorClassName,
+    getBorderRadiusClassName,
+    getBoxShadowClassName,
+    getSpacingClassName,
     getSpacingValue,
     paddingSpacings,
     SpacingType,
@@ -25,10 +31,16 @@ import {
 import styles from './styles.module.css';
 
 export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
+    /** Ref to the root DOM node */
     elementRef?: RefObject<HTMLDivElement | null>;
     className?: string;
 
     heading?: React.ReactNode;
+    /**
+     * id on the heading element; used for aria-labelledby wiring
+     * (e.g. Dialog points its aria-labelledby here)
+     */
+    headingId?: string;
     withEllipsizedHeading?: boolean;
     headingLevel?: HeadingProps['level'];
     headerDescription?: React.ReactNode;
@@ -38,7 +50,8 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
     withCenteredHeaderDescription?: boolean;
     withCenteredHeading?: boolean;
     withoutWrapInHeader?: boolean;
-    variant?: 'form' | 'default';
+    /** 'form' adds a separator below the header and a foreground header well */
+    styleVariant?: 'form' | 'default';
 
     filters?: React.ReactNode;
     children: React.ReactNode;
@@ -66,9 +79,15 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
     withoutMessageIcon?: boolean;
     withCompactMessage?: boolean;
 
-    withBackground?: boolean;
-    withDarkBackground?: boolean;
-    withShadow?: boolean;
+    /** Surface color token for the container root */
+    backgroundColor?: BackgroundColorType;
+    /**
+     * Corner radius token; defaults to 'lg' whenever backgroundColor
+     * or withBorder is set
+     */
+    borderRadius?: BorderRadiusType;
+    /** Shadow token (the old withShadow boolean meant 'md') */
+    boxShadow?: BoxShadowType;
     withPadding?: boolean;
 
     withBorder?: boolean;
@@ -82,12 +101,17 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
     withOverflow?: boolean;
 }
 
+/**
+ * Layout container with optional header, filters, footer and
+ * empty/pending/errored content states (generic layer).
+ */
 function Container(props: Props) {
     const {
         className,
         elementRef,
 
         heading,
+        headingId,
         withEllipsizedHeading,
         headingLevel = 3,
         headerIcons,
@@ -98,7 +122,7 @@ function Container(props: Props) {
         withCenteredHeaderDescription,
         withoutWrapInHeader,
         withLargeBreakpointInHeader,
-        variant = 'default',
+        styleVariant = 'default',
 
         filters,
 
@@ -124,9 +148,9 @@ function Container(props: Props) {
         withoutMessageIcon,
         withCompactMessage,
 
-        withBackground,
-        withDarkBackground,
-        withShadow,
+        backgroundColor,
+        borderRadius: borderRadiusFromProps,
+        boxShadow,
         withPadding,
         withBorder,
         withFixedHeight,
@@ -150,7 +174,12 @@ function Container(props: Props) {
         || isDefined(footerIcons)
         || isDefined(footerActions);
 
-    const contentSpacingClassName = useSpacingToken({
+    // A set background or border implies a rounded container; the design uses
+    // a ~4px (md) card radius.
+    const borderRadius = borderRadiusFromProps
+        ?? ((isDefined(backgroundColor) || withBorder) ? 'md' : undefined);
+
+    const contentSpacingClassName = getSpacingClassName({
         spacing,
         offset: spacingOffset,
         modes: paddingSpacings,
@@ -215,14 +244,14 @@ function Container(props: Props) {
             elementRef={elementRef}
             className={_cs(
                 styles.container,
-                withBackground && styles.withBackground,
-                withDarkBackground && styles.withDarkBackground,
-                withShadow && styles.withShadow,
+                getBackgroundColorClassName(backgroundColor),
+                getBorderRadiusClassName(borderRadius),
+                getBoxShadowClassName(boxShadow),
                 withContentWell && styles.withContentWell,
                 withFixedHeight && styles.withFixedHeight,
                 withCenteredContent && styles.withCenteredContent,
                 withBorder && styles.withBorder,
-                variant === 'form' && styles.formVariant,
+                styleVariant === 'form' && styles.formVariant,
                 className,
             )}
             spacing={spacing}
@@ -236,8 +265,8 @@ function Container(props: Props) {
                     spacingOffset={spacingOffset}
                     layout="block"
                     withSpacingOpticalCorrection
-                    withBackground={variant === 'form'}
-                    withPadding={variant === 'form'}
+                    backgroundColor={styleVariant === 'form' ? 'foreground' : undefined}
+                    withPadding={styleVariant === 'form'}
                 >
                     {shouldShowHeadingRow && (
                         <InlineView
@@ -257,6 +286,7 @@ function Container(props: Props) {
                             )}
                         >
                             <Heading
+                                id={headingId}
                                 level={headingLevel}
                                 ellipsize={withEllipsizedHeading}
                                 spacing={spacing}

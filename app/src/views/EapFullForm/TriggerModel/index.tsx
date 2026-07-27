@@ -4,8 +4,8 @@ import {
     Button,
     Container,
     Description,
+    DisplayLabel,
     InputSection,
-    Label,
     ListView,
     NumberInput,
     SelectInput,
@@ -141,9 +141,9 @@ function TriggerModel(props: Props) {
                     heading={strings.triggerSectionHeading}
                     content={(
                         <ListView withSpacingOpticalCorrection layout="block">
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.triggerSectionCriteriaIntroduction1}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.triggerSectionCriteriaComment11}
@@ -158,9 +158,9 @@ function TriggerModel(props: Props) {
                                     {strings.triggerSectionCriteriaComment14}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.triggerSectionCriteriaIntroduction2}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.triggerSectionCriteriaComment21}
@@ -169,9 +169,9 @@ function TriggerModel(props: Props) {
                                     {strings.triggerSectionCriteriaComment22}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.triggerSectionCriteriaIntroduction3}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.triggerSectionCriteriaComment31}
@@ -180,9 +180,9 @@ function TriggerModel(props: Props) {
                                     {strings.triggerSectionCriteriaComment32}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.triggerSectionCriteriaIntroduction4}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.triggerSectionCriteriaComment41}
@@ -191,16 +191,16 @@ function TriggerModel(props: Props) {
                                     {strings.triggerSectionCriteriaComment42}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.triggerSectionCriteriaIntroduction5}
-                            </Label>
+                            </DisplayLabel>
                             <Description>
                                 {strings.triggerSectionCriteriaComment5}
                             </Description>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                <Label strong>
+                                <DisplayLabel strong>
                                     {strings.triggerSectionCriteriaIntroduction6}
-                                </Label>
+                                </DisplayLabel>
                                 <Description>
                                     <ol>
                                         <li>{strings.triggerSectionCriteriaIntroduction61}</li>
@@ -244,7 +244,7 @@ function TriggerModel(props: Props) {
                         />
                     </ListView>
                 )}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView layout="block" spacing="sm">
                     <InputSection
@@ -256,9 +256,9 @@ function TriggerModel(props: Props) {
                                 title={strings.triggerStatementTitle}
                                 content={(
                                     <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                        <Label strong>
+                                        <DisplayLabel strong>
                                             {strings.triggerExplanatoryNoteLabel}
-                                        </Label>
+                                        </DisplayLabel>
                                         <Description>
                                             {strings.triggerStatementExplanatoryNote}
                                         </Description>
@@ -351,17 +351,17 @@ function TriggerModel(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.triggerExplanatoryNoteLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.forecastExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.triggerRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>{strings.forecastRequiredPoint1}</li>
@@ -423,12 +423,10 @@ function TriggerModel(props: Props) {
                             value={value.forecast_table_file}
                             error={getErrorString(error?.forecast_table_file)}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            required
                             clearable
                             disabled={disabled}
                             readOnly={readOnly}
                             useCurrentLanguageForMutation
-                            label={strings.attachRelevantFilesUploadLabel}
                         >
                             {strings.triggerUploadTableLabel}
                         </GoSingleFileInput>
@@ -443,17 +441,17 @@ function TriggerModel(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.triggerExplanatoryNoteLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.definitionJustificationExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.triggerRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>{strings.definitionRequiredPoint1}</li>
@@ -514,17 +512,17 @@ function TriggerModel(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.triggerExplanatoryNoteLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.identificationInterventionExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.triggerRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>

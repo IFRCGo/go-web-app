@@ -83,7 +83,7 @@ function SituationFields(props: Props) {
                         layout="grid"
                         numPreferredGridColumns={3}
                         withPadding
-                        withBackground
+                        backgroundColor="foreground"
                         spacing="lg"
                     >
                         <NumberInput

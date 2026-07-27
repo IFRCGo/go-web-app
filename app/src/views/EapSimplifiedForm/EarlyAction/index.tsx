@@ -1,10 +1,10 @@
 import {
     Container,
     Description,
+    DisplayLabel,
     Heading,
     InlineLayout,
     InputSection,
-    Label,
     ListView,
     NumberInput,
     SelectInput,
@@ -85,9 +85,9 @@ function EarlyAction(props: Props) {
                             <Heading level={5}>
                                 {strings.triggerModelSectionHeading}
                             </Heading>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.earlySectionCriteriaIntroduction1}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.earlySectionCriteriaComment11}
@@ -105,9 +105,9 @@ function EarlyAction(props: Props) {
                             <Heading level={5}>
                                 {strings.eapActivationSectionCriteriaHeading}
                             </Heading>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.earlySectionCriteriaIntroduction2}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.earlySectionCriteriaComment21}
@@ -116,9 +116,9 @@ function EarlyAction(props: Props) {
                                     {strings.earlySectionCriteriaComment22}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.earlySectionCriteriaIntroduction3}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.earlySectionCriteriaComment31}
@@ -137,7 +137,7 @@ function EarlyAction(props: Props) {
         >
             <Container
                 heading={strings.actionHeading}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"
@@ -268,7 +268,7 @@ function EarlyAction(props: Props) {
                     <ListView
                         layout="block"
                         spacing="none"
-                        withBackground
+                        backgroundColor="foreground"
                     >
                         <InputSection
                             title={strings.actionOperation}
@@ -346,9 +346,9 @@ function EarlyAction(props: Props) {
                                             {strings.actionsStatementTooltipDescriptionOne}
                                         </Description>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.actionsStatementTooltipDescriptionTwo}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.actionsStatementTooltipDescriptionThree}
                                             </Description>
@@ -370,9 +370,9 @@ function EarlyAction(props: Props) {
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.actionsStatementTooltipDescriptionFour}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.actionsStatementTooltipDescriptionFive}
                                             </Description>
@@ -484,9 +484,9 @@ function EarlyAction(props: Props) {
                                             {strings.justificationTooltipDescriptionOne}
                                         </Description>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.justificationTooltipDescriptionTwo}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.justificationTooltipDescriptionThree}
                                             </Description>

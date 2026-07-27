@@ -6,9 +6,9 @@ import {
     Checklist,
     Container,
     Description,
+    DisplayLabel,
     Heading,
     InputSection,
-    Label,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -117,9 +117,9 @@ function EnablingApproaches(props: Props) {
                             <Heading level={5}>
                                 {strings.eapEnablingSectionHeading}
                             </Heading>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.enablingSectionCriteriaIntroduction1}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.enablingSectionCriteriaComment11}
@@ -128,9 +128,9 @@ function EnablingApproaches(props: Props) {
                                     {strings.enablingSectionCriteriaComment12}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.enablingSectionCriteriaIntroduction2}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.enablingSectionCriteriaComment21}
@@ -145,9 +145,9 @@ function EnablingApproaches(props: Props) {
                             <Heading level={5}>
                                 {strings.enablingMonitoringSectionCriteriaHeading}
                             </Heading>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.enablingSectionCriteriaIntroduction3}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.enablingSectionCriteriaComment31}
@@ -163,7 +163,7 @@ function EnablingApproaches(props: Props) {
         >
             <Container
                 heading={strings.enablingApproachesTitle}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"

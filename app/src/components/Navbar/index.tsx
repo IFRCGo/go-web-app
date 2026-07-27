@@ -1,8 +1,8 @@
 import {
     ButtonLayout,
     Description,
-    DropdownMenu,
     ListView,
+    Menu,
     NavigationTabList,
     PageContainer,
     Tab,
@@ -115,9 +115,8 @@ function Navbar(props: Props) {
                             </>
                         )}
                         <AuthenticatedUserDropdown />
-                        <DropdownMenu
+                        <Menu
                             label={strings.headerCreateAReportLabel}
-                            labelColorVariant="primary"
                             labelSpacing="lg"
                         >
                             <DropdownMenuItem
@@ -144,7 +143,7 @@ function Navbar(props: Props) {
                             >
                                 {strings.headerDropdownNewFlashUpdate}
                             </DropdownMenuItem>
-                        </DropdownMenu>
+                        </Menu>
                     </NavigationTabList>
                 </ListView>
             </PageContainer>

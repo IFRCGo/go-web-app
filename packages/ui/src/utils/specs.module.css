@@ -1,0 +1,237 @@
+/*
+ * Static utility classes for the token-spec system (see utils/style.ts).
+ *
+ * Each spec follows the same shape: one class per token on the scale, applied
+ * by components through the get<Spec>ClassName resolvers. Property-carrying
+ * selectors are doubled (.x.x) so a spec value set via props wins over
+ * same-specificity component rules regardless of bundle order — matching the
+ * behavior of the runtime-injected spacing styles this system replaces.
+ *
+ * Spacing splits token and mode: token classes only set custom properties;
+ * mode classes apply them to padding/gap so one element can combine any
+ * subset of modes with a single token class.
+ */
+
+.spacing-none {
+    --spec-spacing: 0rem;
+    --spec-spacing-correction: 0rem;
+    --spec-spacing-additional: 0rem;
+}
+
+.spacing-5xs {
+    --spec-spacing: var(--go-ui-spacing-5xs);
+    --spec-spacing-correction: var(--go-ui-spacing-optical-correction);
+    --spec-spacing-additional: calc(var(--go-ui-spacing-5xs) * 1.5 + var(--go-ui-spacing-2xs));
+}
+
+.spacing-4xs {
+    --spec-spacing: var(--go-ui-spacing-4xs);
+    --spec-spacing-correction: var(--go-ui-spacing-optical-correction);
+    --spec-spacing-additional: calc(var(--go-ui-spacing-4xs) * 1.5 + var(--go-ui-spacing-2xs));
+}
+
+.spacing-3xs {
+    --spec-spacing: var(--go-ui-spacing-3xs);
+    --spec-spacing-correction: var(--go-ui-spacing-optical-correction);
+    --spec-spacing-additional: calc(var(--go-ui-spacing-3xs) * 1.5 + var(--go-ui-spacing-2xs));
+}
+
+.spacing-2xs {
+    --spec-spacing: var(--go-ui-spacing-2xs);
+    --spec-spacing-correction: var(--go-ui-spacing-optical-correction);
+    --spec-spacing-additional: calc(var(--go-ui-spacing-2xs) * 1.5 + var(--go-ui-spacing-2xs));
+}
+
+.spacing-xs {
+    --spec-spacing: var(--go-ui-spacing-xs);
+    --spec-spacing-correction: var(--go-ui-spacing-optical-correction);
+    --spec-spacing-additional: calc(var(--go-ui-spacing-xs) * 1.5 + var(--go-ui-spacing-2xs));
+}
+
+.spacing-sm {
+    --spec-spacing: var(--go-ui-spacing-sm);
+    --spec-spacing-correction: var(--go-ui-spacing-optical-correction);
+    --spec-spacing-additional: calc(var(--go-ui-spacing-sm) * 1.5 + var(--go-ui-spacing-2xs));
+}
+
+.spacing-md {
+    --spec-spacing: var(--go-ui-spacing-md);
+    --spec-spacing-correction: var(--go-ui-spacing-optical-correction);
+    --spec-spacing-additional: calc(var(--go-ui-spacing-md) * 1.5 + var(--go-ui-spacing-2xs));
+}
+
+.spacing-lg {
+    --spec-spacing: var(--go-ui-spacing-lg);
+    --spec-spacing-correction: var(--go-ui-spacing-optical-correction);
+    --spec-spacing-additional: calc(var(--go-ui-spacing-lg) * 1.5 + var(--go-ui-spacing-2xs));
+}
+
+.spacing-xl {
+    --spec-spacing: var(--go-ui-spacing-xl);
+    --spec-spacing-correction: var(--go-ui-spacing-optical-correction);
+    --spec-spacing-additional: calc(var(--go-ui-spacing-xl) * 1.5 + var(--go-ui-spacing-2xs));
+}
+
+.spacing-2xl {
+    --spec-spacing: var(--go-ui-spacing-2xl);
+    --spec-spacing-correction: var(--go-ui-spacing-optical-correction);
+    --spec-spacing-additional: calc(var(--go-ui-spacing-2xl) * 1.5 + var(--go-ui-spacing-2xs));
+}
+
+.spacing-3xl {
+    --spec-spacing: var(--go-ui-spacing-3xl);
+    --spec-spacing-correction: var(--go-ui-spacing-optical-correction);
+    --spec-spacing-additional: calc(var(--go-ui-spacing-3xl) * 1.5 + var(--go-ui-spacing-2xs));
+}
+
+.spacing-4xl {
+    --spec-spacing: var(--go-ui-spacing-4xl);
+    --spec-spacing-correction: var(--go-ui-spacing-optical-correction);
+    --spec-spacing-additional: calc(var(--go-ui-spacing-4xl) * 1.5 + var(--go-ui-spacing-2xs));
+}
+
+.spacing-5xl {
+    --spec-spacing: var(--go-ui-spacing-5xl);
+    --spec-spacing-correction: var(--go-ui-spacing-optical-correction);
+    --spec-spacing-additional: calc(var(--go-ui-spacing-5xl) * 1.5 + var(--go-ui-spacing-2xs));
+}
+
+.spacing-padding-inline.spacing-padding-inline {
+    padding-inline: var(--spec-spacing);
+}
+
+.spacing-padding-inline-additional.spacing-padding-inline-additional {
+    padding-inline: var(--spec-spacing-additional);
+}
+
+.spacing-padding-block.spacing-padding-block {
+    padding-block: calc(var(--spec-spacing) + var(--spec-spacing-correction));
+}
+
+.spacing-padding-block-plain.spacing-padding-block-plain {
+    padding-block: var(--spec-spacing);
+}
+
+.spacing-row-gap.spacing-row-gap {
+    row-gap: calc(var(--spec-spacing) + var(--spec-spacing-correction));
+}
+
+.spacing-row-gap-plain.spacing-row-gap-plain {
+    row-gap: var(--spec-spacing);
+}
+
+.spacing-column-gap.spacing-column-gap {
+    column-gap: var(--spec-spacing);
+}
+
+.text-size-2xs.text-size-2xs {
+    font-size: var(--go-ui-font-size-2xs);
+}
+
+.text-size-xs.text-size-xs {
+    font-size: var(--go-ui-font-size-xs);
+}
+
+.text-size-sm.text-size-sm {
+    font-size: var(--go-ui-font-size-sm);
+}
+
+.text-size-md.text-size-md {
+    font-size: var(--go-ui-font-size-md);
+}
+
+.text-size-lg.text-size-lg {
+    font-size: var(--go-ui-font-size-lg);
+}
+
+.text-size-xl.text-size-xl {
+    font-size: var(--go-ui-font-size-xl);
+}
+
+.text-size-2xl.text-size-2xl {
+    font-size: var(--go-ui-font-size-2xl);
+}
+
+.text-size-3xl.text-size-3xl {
+    font-size: var(--go-ui-font-size-3xl);
+}
+
+.text-size-4xl.text-size-4xl {
+    font-size: var(--go-ui-font-size-4xl);
+}
+
+.background-color-foreground.background-color-foreground {
+    background-color: var(--go-ui-color-foreground);
+}
+
+.background-color-background.background-color-background {
+    background-color: var(--go-ui-color-background);
+}
+
+.background-color-element.background-color-element {
+    background-color: var(--go-ui-color-element-background);
+}
+
+.background-color-surface-raised.background-color-surface-raised {
+    background-color: var(--go-ui-color-gray-10);
+}
+
+.border-radius-none.border-radius-none {
+    border-radius: var(--go-ui-border-radius-none);
+}
+
+.border-radius-sm.border-radius-sm {
+    border-radius: var(--go-ui-border-radius-sm);
+}
+
+.border-radius-md.border-radius-md {
+    border-radius: var(--go-ui-border-radius-md);
+}
+
+.border-radius-lg.border-radius-lg {
+    border-radius: var(--go-ui-border-radius-lg);
+}
+
+.border-radius-xl.border-radius-xl {
+    border-radius: var(--go-ui-border-radius-xl);
+}
+
+.border-radius-2xl.border-radius-2xl {
+    border-radius: var(--go-ui-border-radius-2xl);
+}
+
+.border-radius-3xl.border-radius-3xl {
+    border-radius: var(--go-ui-border-radius-3xl);
+}
+
+.border-radius-full.border-radius-full {
+    border-radius: var(--go-ui-border-radius-full);
+}
+
+.box-shadow-none.box-shadow-none {
+    box-shadow: var(--go-ui-box-shadow-none);
+}
+
+.box-shadow-xs.box-shadow-xs {
+    box-shadow: var(--go-ui-box-shadow-xs);
+}
+
+.box-shadow-sm.box-shadow-sm {
+    box-shadow: var(--go-ui-box-shadow-sm);
+}
+
+.box-shadow-md.box-shadow-md {
+    box-shadow: var(--go-ui-box-shadow-md);
+}
+
+.box-shadow-lg.box-shadow-lg {
+    box-shadow: var(--go-ui-box-shadow-lg);
+}
+
+.box-shadow-xl.box-shadow-xl {
+    box-shadow: var(--go-ui-box-shadow-xl);
+}
+
+.box-shadow-2xl.box-shadow-2xl {
+    box-shadow: var(--go-ui-box-shadow-2xl);
+}

@@ -4,7 +4,7 @@ import {
     PencilFillIcon,
     ShareBoxLineIcon,
 } from '@ifrc-go/icons';
-import { DropdownMenu } from '@ifrc-go/ui';
+import { Menu } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
@@ -25,11 +25,12 @@ function ActivityActions(props: Props) {
     const strings = useTranslation(i18n);
 
     return (
-        <DropdownMenu
+        <Menu
             className={className}
-            labelStyleVariant="action"
+            labelVariant="tertiary"
             withoutDropdownIcon
             label={<MoreFillIcon />}
+            ariaLabel="Actions"
             persistent
         >
             <DropdownMenuItem
@@ -56,7 +57,7 @@ function ActivityActions(props: Props) {
             >
                 {strings.threeWDuplicate}
             </DropdownMenuItem>
-        </DropdownMenu>
+        </Menu>
     );
 }
 

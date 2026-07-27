@@ -9,6 +9,7 @@
 
     .blank-icon {
         /* FIXME: use variables */
+        color: var(--go-ui-color-gray-40);
         font-size: 1.25rem;
     }
 
@@ -20,5 +21,16 @@
         width: 0;
         height: 0;
         pointer-events: none;
+    }
+
+    /* The native input is visually hidden, so surface the keyboard focus ring
+       on the visible radio icon instead. */
+    &:has(.input:focus-visible) {
+        .active-icon,
+        .blank-icon {
+            outline: var(--go-ui-width-separator-md) solid var(--go-ui-color-primary-blue);
+            outline-offset: var(--go-ui-width-separator-sm);
+            border-radius: var(--go-ui-border-radius-full);
+        }
     }
 }

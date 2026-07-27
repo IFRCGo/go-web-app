@@ -111,7 +111,7 @@ export const WithBackground: Story = {
         heading: 'Container with Background',
         headerDescription: 'This container has a background',
         children: 'Content goes here',
-        withBackground: true,
+        backgroundColor: 'foreground',
         withPadding: true,
     },
 };
@@ -120,7 +120,7 @@ export const WithShadow: Story = {
     args: {
         heading: 'Container with Shadow',
         children: 'Content with shadow',
-        withShadow: true,
+        boxShadow: 'md',
         withPadding: true,
     },
 };
@@ -130,7 +130,7 @@ export const WithPadding: Story = {
         heading: 'Container with Padding',
         children: 'Content with internal padding',
         withPadding: true,
-        withBackground: true,
+        backgroundColor: 'foreground',
     },
 };
 

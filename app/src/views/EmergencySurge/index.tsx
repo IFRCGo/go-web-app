@@ -4,7 +4,7 @@ import {
     EmergencyResponseUnitIcon,
 } from '@ifrc-go/icons';
 import {
-    KeyFigureView,
+    KeyFigureCard,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -41,23 +41,23 @@ export function Component() {
                 layout="grid"
                 numPreferredGridColumns={4}
             >
-                <KeyFigureView
+                <KeyFigureCard
                     icon={<DeployedIcon />}
                     className={styles.keyFigure}
                     value={deploymentResponse?.active_rapid_response_personnel}
                     valueType="number"
-                    valueOptions={{ compact: true }}
+                    compact
                     label={strings.emergencyActiveDeployments}
-                    withShadow
+                    boxShadow="md"
                 />
-                <KeyFigureView
+                <KeyFigureCard
                     icon={<EmergencyResponseUnitIcon />}
                     className={styles.keyFigure}
                     value={deploymentResponse?.active_emergency_response_units}
                     valueType="number"
-                    valueOptions={{ compact: true }}
+                    compact
                     label={strings.emergencyActiveErus}
-                    withShadow
+                    boxShadow="md"
                 />
             </ListView>
             <SurgeTable emergencyId={emergencyId} />

@@ -1,7 +1,7 @@
 import {
     Container,
+    DataDisplay,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { _cs } from '@togglecorp/fujs';
@@ -46,7 +46,7 @@ function PointDetails(props: Props) {
             filtered={false}
             errored={false}
             empty={!data}
-            withDarkBackground
+            backgroundColor="background"
         >
             <ListView
                 layout="block"
@@ -56,7 +56,7 @@ function PointDetails(props: Props) {
                     withSpacingOpticalCorrection
                     spacing="sm"
                 >
-                    <TextOutput
+                    <DataDisplay
                         icon={<div className={styles.emergencyAppealPointIcon} />}
                         label={strings.timelineChartEmergencyAppealLabel}
                         value={data?.emergencyAppeal?.count ?? 0}
@@ -64,13 +64,13 @@ function PointDetails(props: Props) {
                         strongValue
                         strongLabel
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.timelineChartAmountFundedLabel}
                         value={data?.emergencyAppeal?.amount_funded}
                         valueType="number"
                         strongValue
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.timelineChartPeopleTargetedLabel}
                         value={data?.emergencyAppeal?.beneficiaries}
                         valueType="number"
@@ -82,7 +82,7 @@ function PointDetails(props: Props) {
                     withSpacingOpticalCorrection
                     spacing="sm"
                 >
-                    <TextOutput
+                    <DataDisplay
                         icon={<div className={styles.drefPointIcon} />}
                         label={strings.timelineChartDrefLabel}
                         value={data?.dref?.count ?? 0}
@@ -90,13 +90,13 @@ function PointDetails(props: Props) {
                         strongValue
                         strongLabel
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.timelineChartAmountFundedLabel}
                         value={data?.dref?.amount_funded}
                         valueType="number"
                         strongValue
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.timelineChartPeopleTargetedLabel}
                         value={Number(data?.dref?.beneficiaries)}
                         valueType="number"

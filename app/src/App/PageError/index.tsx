@@ -58,7 +58,7 @@ function PageError() {
                     <Button
                         name={undefined}
                         onClick={toggleFullErrorVisibility}
-                        styleVariant="action"
+                        variant="tertiary"
                     >
                         {fullErrorVisible ? strings.errorPageHide : strings.errorPageShowError}
                     </Button>

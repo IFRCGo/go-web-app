@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
 
@@ -110,12 +110,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.personnel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.totalPersonnelValue}
                     label={strings.totalPersonnelLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.personnelCompositionValue}
                     label={strings.personnelCompositionLabel}
                     strongLabel
@@ -125,37 +125,37 @@ export function Component() {
                 heading={strings.standardComponents}
             >
                 <div>{strings.standardComponentsDetails}</div>
-                <TextOutput
+                <DataDisplay
                     value={strings.moduleOneValue}
                     label={strings.moduleOneLabel}
                     withoutLabelColon
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.moduleTwoValue}
                     label={strings.moduleTwoLabel}
                     withoutLabelColon
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.moduleThreeValue}
                     label={strings.moduleThreeLabel}
                     withoutLabelColon
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.moduleFourValue}
                     label={strings.moduleFourLabel}
                     withoutLabelColon
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.moduleFiveValue}
                     label={strings.moduleFiveLabel}
                     withoutLabelColon
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.moduleSixValue}
                     label={strings.moduleSixLabel}
                     withoutLabelColon
@@ -165,22 +165,22 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.specifications}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsWeightValue}
                     label={strings.specificationsWeightLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsVolumeValue}
                     label={strings.specificationsVolumeLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsCostValue}
                     label={strings.specificationsCostLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsNationalSocietyValue}
                     label={strings.specificationsNationalSocietyLabel}
                     strongLabel

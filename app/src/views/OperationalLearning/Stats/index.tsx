@@ -7,10 +7,10 @@ import {
     BarChart,
     ColorPreview,
     Container,
-    KeyFigureView,
+    DataDisplay,
+    KeyFigureCard,
     LegendItem,
     ListView,
-    TextOutput,
     TimeSeriesChart,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -191,29 +191,29 @@ function Stats(props: Props) {
                     layout="grid"
                     numPreferredGridColumns={4}
                 >
-                    <KeyFigureView
+                    <KeyFigureCard
                         value={learningStatsResponse?.operations_included}
                         valueType="number"
                         label={strings.operationsIncluded}
-                        withShadow
+                        boxShadow="md"
                     />
-                    <KeyFigureView
+                    <KeyFigureCard
                         value={learningStatsResponse?.sources_used}
                         valueType="number"
                         label={strings.sourcesUsed}
-                        withShadow
+                        boxShadow="md"
                     />
-                    <KeyFigureView
+                    <KeyFigureCard
                         value={learningStatsResponse?.learning_extracts}
                         valueType="number"
                         label={strings.learningExtract}
-                        withShadow
+                        boxShadow="md"
                     />
-                    <KeyFigureView
+                    <KeyFigureCard
                         value={learningStatsResponse?.sectors_covered}
                         valueType="number"
                         label={strings.sectorsCovered}
-                        withShadow
+                        boxShadow="md"
                     />
                 </ListView>
                 <ListView
@@ -231,8 +231,8 @@ function Stats(props: Props) {
                             empty={isNotDefined(learningStatsResponse?.learning_by_sector)
                                 || learningStatsResponse.learning_by_sector.length === 0}
                             withPadding
-                            withShadow
-                            withBackground
+                            boxShadow="md"
+                            backgroundColor="foreground"
                         >
                             <BarChart
                                 data={learningStatsResponse?.learning_by_sector}
@@ -248,8 +248,8 @@ function Stats(props: Props) {
                             empty={isNotDefined(learningStatsResponse?.learning_by_region)
                                 || learningStatsResponse?.learning_by_region.length === 0}
                             withPadding
-                            withShadow
-                            withBackground
+                            boxShadow="md"
+                            backgroundColor="foreground"
                         >
                             <BarChart
                                 data={learningStatsResponse?.learning_by_region}
@@ -264,33 +264,33 @@ function Stats(props: Props) {
                             pending={learningStatsPending}
                             empty={dateList.length === 0}
                             withPadding
-                            withShadow
-                            withBackground
+                            boxShadow="md"
+                            backgroundColor="foreground"
                             footer={isDefined(activePointKey) ? (
                                 <ListView
                                     withWrap
                                     spacing="sm"
                                     withSpacingOpticalCorrection
                                 >
-                                    <TextOutput
+                                    <DataDisplay
                                         value={activePointKey}
                                         valueType="date"
                                         format="yyyy"
                                         strongValue
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         icon={<ColorPreview value="var(--color-source-dref)" />}
                                         label={strings.sourceDREF}
                                         value={activePointData?.dref}
                                         valueType="number"
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         icon={<ColorPreview value="var(--color-source-emergency-appeal)" />}
                                         label={strings.sourceEmergencyAppeal}
                                         value={activePointData?.emergencyAppeal}
                                         valueType="number"
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         icon={<ColorPreview value="var(--color-source-emergency-appeal)" />}
                                         label={strings.sourceOthers}
                                         value={activePointData?.others}
@@ -298,7 +298,7 @@ function Stats(props: Props) {
                                     />
                                 </ListView>
                             ) : (
-                                <TextOutput
+                                <DataDisplay
                                     label={strings.sourcesTypeLegendLabel}
                                     value={(
                                         <ListView

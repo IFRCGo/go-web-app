@@ -15,7 +15,7 @@ import {
 import {
     Breadcrumbs,
     Button,
-    KeyFigureView,
+    KeyFigureCard,
     ListView,
     NavigationTabList,
 } from '@ifrc-go/ui';
@@ -300,30 +300,30 @@ export function Component() {
                     numPreferredGridColumns={3}
                 >
                     {isDefined(peopleTargeted) && (
-                        <KeyFigureView
+                        <KeyFigureCard
                             icon={<TargetedPopulationIcon />}
                             value={peopleTargeted}
                             valueType="number"
-                            valueOptions={{ compact: true }}
+                            compact
                             label={strings.emergencyPeopleTargetedLabel}
                         />
                     )}
                     {isDefined(fundingRequirements) && (
-                        <KeyFigureView
+                        <KeyFigureCard
                             icon={<FundingIcon />}
                             value={fundingRequirements}
                             valueType="number"
-                            valueOptions={{ compact: true }}
+                            compact
                             label={strings.emergencyFundingRequirementsLabel}
                         />
 
                     )}
                     {isDefined(funding) && (
-                        <KeyFigureView
+                        <KeyFigureCard
                             icon={<FundingCoverageIcon />}
                             value={funding}
                             valueType="number"
-                            valueOptions={{ compact: true }}
+                            compact
                             label={strings.emergencyFundingLabel}
                         />
                     )}

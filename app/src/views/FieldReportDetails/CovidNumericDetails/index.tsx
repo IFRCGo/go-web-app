@@ -1,6 +1,6 @@
 import {
+    DataDisplay,
     KeyFigure,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
@@ -53,7 +53,7 @@ function CovidNumericDetails(props: Props) {
                 valueType="number"
             />
             {/* FIXME: This is not there in old details */}
-            <TextOutput
+            <DataDisplay
                 label={strings.covidSourceLabel}
                 value={value?.other_sources}
                 strongLabel

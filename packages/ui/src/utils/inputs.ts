@@ -8,7 +8,7 @@ export function extractInputContainerProps<MIXED_PROPS extends Partial<InputCont
 ): [Pick<MIXED_PROPS, keyof InputContainerProps>, Omit<MIXED_PROPS, keyof InputContainerProps>] {
     const keysToExtract: Record<(keyof InputContainerProps), boolean> = {
         className: true,
-        containerRef: true,
+        elementRef: true,
         inputSectionRef: true,
         label: true,
         icons: true,
@@ -23,11 +23,14 @@ export function extractInputContainerProps<MIXED_PROPS extends Partial<InputCont
         withPrevValue: true,
         highlightMode: true,
         required: true,
-        variant: true,
+        inputId: true,
+        hintId: true,
+        errorId: true,
+        role: true,
+        styleVariant: true,
         withAsterisk: true,
         spacing: true,
-        withBackground: true,
-        withDarkBackground: true,
+        backgroundColor: true,
         withPadding: true,
         withoutInputSectionPadding: true,
     };

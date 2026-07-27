@@ -2,9 +2,9 @@ import { useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
+    DataDisplay,
     ListView,
     RawList,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -50,7 +50,7 @@ function NationalSocietyDirectoryInitiatives() {
             footerActions={isDefined(countryResponse)
                 && isDefined(countryResponse.initiatives)
                 && countryResponse.initiatives.length > 0 && (
-                <TextOutput
+                <DataDisplay
                     label={strings.source}
                     value={(
                         <Link

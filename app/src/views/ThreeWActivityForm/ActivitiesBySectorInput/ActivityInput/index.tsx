@@ -236,7 +236,7 @@ function ActivityInput(props: Props) {
                 </Button>
             )}
             heading={type === 'custom' ? `${strings.customActivityHeading} #${itemNumber}` : actionDetails?.title}
-            withDarkBackground
+            backgroundColor="background"
             withPadding
         >
             <ListView layout="block">
@@ -460,7 +460,7 @@ function ActivityInput(props: Props) {
                                 headerActions={(
                                     <Button
                                         name={undefined}
-                                        styleVariant="translucent"
+                                        variant="subtle"
                                         disabled={disabled}
                                         before={(
                                             <AddLineIcon />

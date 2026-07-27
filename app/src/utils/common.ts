@@ -25,6 +25,27 @@ export const defaultRanking: Record<SearchResponseKeys, number> = {
     rapid_response_deployments: 9,
 };
 
+/**
+ * Resolve a CSS custom property (design token) to its computed value.
+ *
+ * Use where a literal color string is required and `var(...)` cannot be
+ * used — notably Mapbox GL paint expressions, which don't evaluate CSS
+ * variables. Falls back to the provided value when the token is
+ * unavailable (no DOM, or stylesheet not yet applied), so callers always
+ * get a valid color.
+ */
+export function resolveCssColor(token: string, fallback: string): string {
+    if (typeof document === 'undefined') {
+        return fallback;
+    }
+
+    const value = getComputedStyle(document.documentElement)
+        .getPropertyValue(token)
+        .trim();
+
+    return value || fallback;
+}
+
 export function downloadFile(
     blob: Blob,
     filename: string,

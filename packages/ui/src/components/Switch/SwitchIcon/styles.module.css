@@ -2,7 +2,7 @@
     --gap: .05em;
     --border-width: var(--go-ui-width-separator-sm);
     --knob-diameter: calc(1em - 2 * var(--gap) - 2 * var(--border-width));
-    --background-color: var(--go-ui-color-gray-50);
+    --background-color: var(--go-ui-color-gray-30);
     --border-color: var(--go-ui-color-gray-30);
     --knob-color: var(--go-ui-color-white);
 

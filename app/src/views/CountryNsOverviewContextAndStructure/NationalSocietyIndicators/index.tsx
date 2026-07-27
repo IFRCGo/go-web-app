@@ -3,14 +3,14 @@ import { HumanResourcesIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
+    DataDisplay,
+    Dialog,
     Heading,
-    InfoPopup,
     ListView,
     Message,
-    Modal,
-    NumberOutput,
+    MoreInfo,
+    NumberDisplay,
     ProgressBar,
-    TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
 import {
@@ -47,14 +47,12 @@ function YearPopup(props: YearPopupProps) {
     }
 
     return (
-        <InfoPopup
-            description={(
-                <TextOutput
-                    label="Data year"
-                    value={year}
-                />
-            )}
-        />
+        <MoreInfo>
+            <DataDisplay
+                label="Data year"
+                value={year}
+            />
+        </MoreInfo>
     );
 }
 
@@ -269,7 +267,7 @@ function NationalSocietyIndicators(props: Props) {
             withHeaderBorder
             footerActions={isDefined(countryResponse?.fdrs)
                 && isDefined(countryResponse.society_name) && (
-                <TextOutput
+                <DataDisplay
                     label={strings.indicatorSourceLabel}
                     value={(
                         <Link
@@ -293,13 +291,13 @@ function NationalSocietyIndicators(props: Props) {
                 withSpacingOpticalCorrection
                 spacing="sm"
             >
-                <TextOutput
+                <DataDisplay
                     label={strings.nationalSocietyFoundedDateLabel}
                     value={founded_date}
                     valueType="date"
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.nationalSocietyTrainedInFirstAidLabel}
                     value={fdrs_trained_in_first_aid}
                     valueType="number"
@@ -307,7 +305,7 @@ function NationalSocietyIndicators(props: Props) {
                         && <YearPopup year={fdrs_trained_in_first_aid_data_year} />)}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.nationalSocietyIncomeLabel}
                     value={fdrs_income}
                     valueType="number"
@@ -315,7 +313,7 @@ function NationalSocietyIndicators(props: Props) {
                         && <YearPopup year={fdrs_income_data_year} />}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.nationalSocietyVolunteersLabel}
                     value={fdrs_volunteer_total}
                     valueType="number"
@@ -327,7 +325,7 @@ function NationalSocietyIndicators(props: Props) {
                                 <Button
                                     name={undefined}
                                     onClick={setShowVolunteerDisaggregationTrue}
-                                    styleVariant="action"
+                                    variant="tertiary"
                                     // FIXME: use strings
                                     title="Show disaggregation"
                                 >
@@ -337,7 +335,7 @@ function NationalSocietyIndicators(props: Props) {
                         </ListView>
                     )}
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.nationalSocietyYouthLabel}
                     value={youthValue}
                     valueType="number"
@@ -345,7 +343,7 @@ function NationalSocietyIndicators(props: Props) {
                         && <YearPopup year={fdrs_volunteer_data_year} />}
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.nationalSocietyExpendituresLabel}
                     value={fdrs_expenditures}
                     description={(isDefined(fdrs_expenditures)
@@ -353,7 +351,7 @@ function NationalSocietyIndicators(props: Props) {
                     valueType="number"
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.nationalSocietyBranchesLabel}
                     value={fdrs_branches}
                     description={(isDefined(fdrs_branches)
@@ -361,7 +359,7 @@ function NationalSocietyIndicators(props: Props) {
                     valueType="number"
                     strongValue
                 />
-                <TextOutput
+                <DataDisplay
                     label={strings.nationalSocietyStaffLabel}
                     value={fdrs_staff_total}
                     valueType="number"
@@ -373,7 +371,7 @@ function NationalSocietyIndicators(props: Props) {
                                 <Button
                                     name={undefined}
                                     onClick={setShowStaffDisaggregationTrue}
-                                    styleVariant="action"
+                                    variant="tertiary"
                                     // FIXME: use strings
                                     title="Show disaggregation"
                                 >
@@ -385,7 +383,7 @@ function NationalSocietyIndicators(props: Props) {
                 />
             </ListView>
             {showVolunteerDisaggregation && (
-                <Modal
+                <Dialog
                     empty={false}
                     pending={false}
                     filtered={false}
@@ -403,7 +401,7 @@ function NationalSocietyIndicators(props: Props) {
                         <ListView layout="block">
                             <div className={styles.volunteer}>
                                 <div />
-                                <TextOutput
+                                <DataDisplay
                                     className={styles.maleLabel}
                                     description={strings.maleLabel}
                                     value={getPercentage(
@@ -420,7 +418,7 @@ function NationalSocietyIndicators(props: Props) {
                                 >
                                     {strings.ageLabel}
                                 </Heading>
-                                <TextOutput
+                                <DataDisplay
                                     label="Female"
                                     value={getPercentage(
                                         totalFemaleVolunteer,
@@ -439,7 +437,7 @@ function NationalSocietyIndicators(props: Props) {
                                         key={volunteer.label}
                                         className={styles.volunteer}
                                     >
-                                        <NumberOutput
+                                        <NumberDisplay
                                             className={styles.malePercentage}
                                             value={getPercentage(
                                                 volunteer.male,
@@ -456,7 +454,7 @@ function NationalSocietyIndicators(props: Props) {
                                                 title={strings.volunteerTooltipMaleLabel}
                                                 description={(
                                                     <>
-                                                        <TextOutput
+                                                        <DataDisplay
                                                             label={resolveToString(
                                                                 strings.tooltipAgeLabel,
                                                                 { ageRange: volunteer.label },
@@ -465,7 +463,7 @@ function NationalSocietyIndicators(props: Props) {
                                                             valueType="number"
                                                             strongValue
                                                         />
-                                                        <TextOutput
+                                                        <DataDisplay
                                                             label={strings.totalLabel}
                                                             value={totalMaleVolunteer}
                                                             valueType="number"
@@ -483,13 +481,13 @@ function NationalSocietyIndicators(props: Props) {
                                             className={styles.femaleDisaggregation}
                                             value={volunteer.female}
                                             totalValue={maxVolunteerInDisaggregation}
-                                            colorVariant="primary"
+                                            variant="primary"
                                         >
                                             <Tooltip
                                                 title={strings.volunteerTooltipFemaleLabel}
                                                 description={(
                                                     <>
-                                                        <TextOutput
+                                                        <DataDisplay
                                                             label={resolveToString(
                                                                 strings.tooltipAgeLabel,
                                                                 { ageRange: volunteer.label },
@@ -498,7 +496,7 @@ function NationalSocietyIndicators(props: Props) {
                                                             valueType="number"
                                                             strongValue
                                                         />
-                                                        <TextOutput
+                                                        <DataDisplay
                                                             label={strings.totalLabel}
                                                             value={totalFemaleVolunteer}
                                                             valueType="number"
@@ -509,7 +507,7 @@ function NationalSocietyIndicators(props: Props) {
 
                                             />
                                         </ProgressBar>
-                                        <NumberOutput
+                                        <NumberDisplay
                                             className={styles.femalePercentage}
                                             value={getPercentage(
                                                 volunteer.female,
@@ -522,10 +520,10 @@ function NationalSocietyIndicators(props: Props) {
                             )}
                         </ListView>
                     )}
-                </Modal>
+                </Dialog>
             )}
             {showStaffDisaggregation && (
-                <Modal
+                <Dialog
                     empty={false}
                     pending={false}
                     filtered={false}
@@ -543,7 +541,7 @@ function NationalSocietyIndicators(props: Props) {
                         <ListView layout="block">
                             <div className={styles.staff}>
                                 <div />
-                                <TextOutput
+                                <DataDisplay
                                     className={styles.maleLabel}
                                     description={strings.maleLabel}
                                     value={getPercentage(
@@ -560,7 +558,7 @@ function NationalSocietyIndicators(props: Props) {
                                 >
                                     {strings.ageLabel}
                                 </Heading>
-                                <TextOutput
+                                <DataDisplay
                                     label={strings.femaleLabel}
                                     value={getPercentage(
                                         totalFemaleStaff,
@@ -579,7 +577,7 @@ function NationalSocietyIndicators(props: Props) {
                                         key={staff.label}
                                         className={styles.staff}
                                     >
-                                        <NumberOutput
+                                        <NumberDisplay
                                             className={styles.malePercentage}
                                             value={getPercentage(
                                                 staff.male ?? 0,
@@ -596,7 +594,7 @@ function NationalSocietyIndicators(props: Props) {
                                                 title={strings.staffTooltipMaleLabel}
                                                 description={(
                                                     <>
-                                                        <TextOutput
+                                                        <DataDisplay
                                                             label={resolveToString(
                                                                 strings.tooltipAgeLabel,
                                                                 { ageRange: staff.label },
@@ -605,7 +603,7 @@ function NationalSocietyIndicators(props: Props) {
                                                             valueType="number"
                                                             strongValue
                                                         />
-                                                        <TextOutput
+                                                        <DataDisplay
                                                             label={strings.totalLabel}
                                                             value={totalMaleStaff}
                                                             valueType="number"
@@ -628,7 +626,7 @@ function NationalSocietyIndicators(props: Props) {
                                                 title={strings.staffTooltipFemaleLabel}
                                                 description={(
                                                     <>
-                                                        <TextOutput
+                                                        <DataDisplay
                                                             label={resolveToString(
                                                                 strings.tooltipAgeLabel,
                                                                 { ageRange: staff.label },
@@ -637,7 +635,7 @@ function NationalSocietyIndicators(props: Props) {
                                                             valueType="number"
                                                             strongValue
                                                         />
-                                                        <TextOutput
+                                                        <DataDisplay
                                                             label={strings.totalLabel}
                                                             value={totalFemaleStaff}
                                                             valueType="number"
@@ -648,7 +646,7 @@ function NationalSocietyIndicators(props: Props) {
 
                                             />
                                         </ProgressBar>
-                                        <NumberOutput
+                                        <NumberDisplay
                                             className={styles.femalePercentage}
                                             value={getPercentage(
                                                 staff.female ?? 0,
@@ -661,7 +659,7 @@ function NationalSocietyIndicators(props: Props) {
                             )}
                         </ListView>
                     )}
-                </Modal>
+                </Dialog>
             )}
         </Container>
     );

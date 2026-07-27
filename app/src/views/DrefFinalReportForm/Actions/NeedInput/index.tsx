@@ -72,7 +72,7 @@ function NeedInput(props: Props) {
                     <Button
                         name={index}
                         onClick={onRemove}
-                        styleVariant="action"
+                        variant="tertiary"
                         title={strings.drefFinalReportFormRemoveNeed}
                         disabled={disabled || readOnly}
                     >

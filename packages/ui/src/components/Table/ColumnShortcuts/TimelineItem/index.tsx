@@ -3,7 +3,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
-import TextOutput from '#components/TextOutput';
+import DataDisplay from '#components/DataDisplay';
 import Tooltip from '#components/Tooltip';
 import {
     type DateLike,
@@ -22,6 +22,10 @@ export interface Props {
     } | undefined;
 }
 
+/**
+ * Specific table cell component that draws a single date-range bar on a
+ * shared timeline, with a tooltip of the start/end dates.
+ */
 function TimelineItem(props: Props) {
     const {
         className,
@@ -71,13 +75,13 @@ function TimelineItem(props: Props) {
             <Tooltip
                 description={(
                     <>
-                        <TextOutput
+                        <DataDisplay
                             valueType="date"
                             // FIXME: use translation
                             label="Start Date"
                             value={startDate}
                         />
-                        <TextOutput
+                        <DataDisplay
                             // FIXME: use translation
                             label="End Date"
                             value={endDate}

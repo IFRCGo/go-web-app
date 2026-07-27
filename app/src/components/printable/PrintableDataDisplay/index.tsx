@@ -1,19 +1,19 @@
 import { useMemo } from 'react';
 import {
-    BooleanOutput,
-    type BooleanOutputProps,
-    DateOutput,
-    type DateOutputProps,
+    BooleanDisplay,
+    type BooleanDisplayProps,
+    DateDisplay,
+    type DateDisplayProps,
     ListView,
-    NumberOutput,
-    type NumberOutputProps,
+    NumberDisplay,
+    type NumberDisplayProps,
 } from '@ifrc-go/ui';
-import { useSpacingToken } from '@ifrc-go/ui/hooks';
 import {
     DEFAULT_INVALID_TEXT,
     DEFAULT_PRINT_DATE_FORMAT,
     fullSpacings,
     gapSpacings,
+    getSpacingClassName,
     paddingSpacings,
     type SpacingType,
 } from '@ifrc-go/ui/utils';
@@ -40,17 +40,17 @@ interface BaseProps {
     withDiff: boolean;
 }
 
-interface BooleanProps extends BooleanOutputProps {
+interface BooleanProps extends BooleanDisplayProps {
     valueType: 'boolean',
-    prevValue?: BooleanOutputProps['value'];
+    prevValue?: BooleanDisplayProps['value'];
 }
 
-interface NumberProps extends NumberOutputProps {
+interface NumberProps extends NumberDisplayProps {
     valueType: 'number',
-    prevValue?: NumberOutputProps['value'];
+    prevValue?: NumberDisplayProps['value'];
 }
 
-interface DateProps extends DateOutputProps {
+interface DateProps extends DateDisplayProps {
     valueType: 'date',
     prevValue?: DateProps['value'];
 }
@@ -96,7 +96,7 @@ function PrintableDataDisplay(props: Props) {
 
         if (componentProps.valueType === 'number') {
             return (
-                <NumberOutput
+                <NumberDisplay
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...componentProps}
                     invalidText={invalidText}
@@ -106,7 +106,7 @@ function PrintableDataDisplay(props: Props) {
 
         if (componentProps.valueType === 'date') {
             return (
-                <DateOutput
+                <DateDisplay
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...componentProps}
                     invalidText={invalidText}
@@ -117,7 +117,7 @@ function PrintableDataDisplay(props: Props) {
 
         if (componentProps.valueType === 'boolean') {
             return (
-                <BooleanOutput
+                <BooleanDisplay
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...componentProps}
                     invalidText={invalidText}
@@ -145,7 +145,7 @@ function PrintableDataDisplay(props: Props) {
 
         if (componentProps.valueType === 'number') {
             return (
-                <NumberOutput
+                <NumberDisplay
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...componentProps}
                     invalidText={invalidText}
@@ -156,7 +156,7 @@ function PrintableDataDisplay(props: Props) {
 
         if (componentProps.valueType === 'date') {
             return (
-                <DateOutput
+                <DateDisplay
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...componentProps}
                     invalidText={invalidText}
@@ -168,7 +168,7 @@ function PrintableDataDisplay(props: Props) {
 
         if (componentProps.valueType === 'boolean') {
             return (
-                <BooleanOutput
+                <BooleanDisplay
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...componentProps}
                     invalidText={invalidText}
@@ -208,13 +208,13 @@ function PrintableDataDisplay(props: Props) {
 
     const spacingOffset = -3;
 
-    const spacingClassName = useSpacingToken({
+    const spacingClassName = getSpacingClassName({
         spacing,
         offset: spacingOffset,
         modes: withPadding ? fullSpacings : gapSpacings,
     });
 
-    const innerPaddingClassName = useSpacingToken({
+    const innerPaddingClassName = getSpacingClassName({
         spacing,
         offset: spacingOffset,
         modes: paddingSpacings,

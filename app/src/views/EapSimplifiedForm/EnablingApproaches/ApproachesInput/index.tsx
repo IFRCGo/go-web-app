@@ -71,7 +71,7 @@ function OperationsBySectorInput(props: Props) {
                 <Button
                     name={index}
                     onClick={onRemove}
-                    styleVariant="action"
+                    variant="tertiary"
                     title={strings.approachRemoveButton}
                     disabled={disabled || readOnly}
                 >
@@ -79,7 +79,7 @@ function OperationsBySectorInput(props: Props) {
                 </Button>
             )}
             withPadding
-            withBackground
+            backgroundColor="foreground"
             initiallyExpanded
             withHeaderBorder
         >

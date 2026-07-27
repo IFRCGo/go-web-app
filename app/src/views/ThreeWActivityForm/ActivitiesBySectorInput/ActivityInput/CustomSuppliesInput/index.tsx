@@ -71,7 +71,6 @@ function CustomSupplyInput(props: Props) {
             />
             <IconButton
                 name={index}
-                styleVariant="action"
                 title={strings.removeCustomSupplyLabel}
                 ariaLabel={strings.removeCustomSupplyLabel}
                 onClick={onRemove}

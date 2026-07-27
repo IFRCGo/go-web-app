@@ -4,8 +4,8 @@ import {
     Button,
     Container,
     Description,
+    DisplayLabel,
     InputSection,
-    Label,
     ListView,
     NumberInput,
     TextArea,
@@ -89,9 +89,9 @@ function EapActivationProcess(props: Props) {
                     heading={strings.activationSectionHeading}
                     content={(
                         <ListView layout="block" withSpacingOpticalCorrection>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.activationSectionCriteriaIntroduction1}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.activationSectionCriteriaComment11}
@@ -103,15 +103,15 @@ function EapActivationProcess(props: Props) {
                                     {strings.activationSectionCriteriaComment13}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.activationSectionCriteriaIntroduction2}
-                            </Label>
+                            </DisplayLabel>
                             <Description>
                                 {strings.activationSectionCriteriaComment2}
                             </Description>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.activationSectionCriteriaIntroduction3}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.activationSectionCriteriaComment31}
@@ -141,7 +141,7 @@ function EapActivationProcess(props: Props) {
                         />
                     </ListView>
                 )}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"
@@ -157,17 +157,17 @@ function EapActivationProcess(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.activationProcessExplanatoryLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.activationImplementationExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.activationProcessRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>
@@ -232,17 +232,17 @@ function EapActivationProcess(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.activationProcessExplanatoryLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.activationTriggerExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.activationProcessRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>
@@ -318,17 +318,17 @@ function EapActivationProcess(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.activationProcessExplanatoryLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.activationSelectionExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.activationProcessRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>
@@ -377,17 +377,17 @@ function EapActivationProcess(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.activationProcessExplanatoryLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.activationStopMechanismExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.activationProcessRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>{strings.activationStopDescription1}</li>

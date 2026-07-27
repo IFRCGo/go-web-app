@@ -8,8 +8,8 @@ import {
     ChartAxes,
     ChartContainer,
     Container,
+    DataDisplay,
     SelectInput,
-    TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -28,6 +28,7 @@ import {
 
 import useInputState from '#hooks/useInputState';
 import useTemporalChartData from '#hooks/useTemporalChartData';
+import { resolveCssColor } from '#utils/common';
 import {
     COLOR_HAZARD_CYCLONE,
     COLOR_HAZARD_DROUGHT,
@@ -77,12 +78,14 @@ function isValidDisaster(
     return validDisastersForChart[disaster.id]!;
 }
 
+// Sourced from @ifrc-go/ui --go-ui-color-hazard-* tokens; COLOR_HAZARD_*
+// are load-time fallbacks (see utils/common.ts resolveCssColor).
 const hazardIdToColorMap: Record<number, string> = {
-    [DISASTER_FLOOD]: COLOR_HAZARD_FLOOD,
-    [DISASTER_FLASH_FLOOD]: COLOR_HAZARD_FLOOD,
-    [DISASTER_CYCLONE]: COLOR_HAZARD_CYCLONE,
-    [DISASTER_FOOD_INSECURITY]: COLOR_HAZARD_FOOD_INSECURITY,
-    [DISASTER_DROUGHT]: COLOR_HAZARD_DROUGHT,
+    [DISASTER_FLOOD]: resolveCssColor('--go-ui-color-hazard-flood', COLOR_HAZARD_FLOOD),
+    [DISASTER_FLASH_FLOOD]: resolveCssColor('--go-ui-color-hazard-flood', COLOR_HAZARD_FLOOD),
+    [DISASTER_CYCLONE]: resolveCssColor('--go-ui-color-hazard-cyclone', COLOR_HAZARD_CYCLONE),
+    [DISASTER_FOOD_INSECURITY]: resolveCssColor('--go-ui-color-hazard-fi', COLOR_HAZARD_FOOD_INSECURITY),
+    [DISASTER_DROUGHT]: resolveCssColor('--go-ui-color-hazard-drought', COLOR_HAZARD_DROUGHT),
 };
 
 const hazardIdToIconMap: Record<number, React.ReactNode> = {
@@ -250,26 +253,26 @@ function HistoricalDataChart(props: Props) {
                                         title={point.originalData.dtype.name}
                                         description={(
                                             <>
-                                                <TextOutput
+                                                <DataDisplay
                                                     label="Start date"
                                                     value={point.originalData.disaster_start_date}
                                                     valueType="date"
                                                     strongValue
                                                 />
-                                                <TextOutput
+                                                <DataDisplay
                                                     value={point.originalData.num_affected}
                                                     label={strings.peopleAffectedLabel}
                                                     valueType="number"
                                                     strongValue
                                                 />
-                                                <TextOutput
+                                                <DataDisplay
                                                     value={funded}
                                                     label={strings.fundedLabel}
                                                     valueType="number"
                                                     strongValue
                                                     maximumFractionDigits={0}
                                                 />
-                                                <TextOutput
+                                                <DataDisplay
                                                     value={coverage}
                                                     valueType="number"
                                                     suffix="%"

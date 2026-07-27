@@ -6,9 +6,9 @@ import {
     Checklist,
     Container,
     Description,
+    DisplayLabel,
     Heading,
     InputSection,
-    Label,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -116,9 +116,9 @@ function PlannedOperations(props: Props) {
                             <Heading level={5}>
                                 {strings.eapPlannedSectionHeading}
                             </Heading>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.plannedSectionCriteriaIntroduction1}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.plannedSectionCriteriaComment11}
@@ -127,9 +127,9 @@ function PlannedOperations(props: Props) {
                                     {strings.plannedSectionCriteriaComment12}
                                 </Description>
                             </ListView>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.plannedSectionCriteriaIntroduction2}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.plannedSectionCriteriaComment21}
@@ -144,9 +144,9 @@ function PlannedOperations(props: Props) {
                             <Heading level={5}>
                                 {strings.monitoringSectionCriteriaHeading}
                             </Heading>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.plannedSectionCriteriaIntroduction3}
-                            </Label>
+                            </DisplayLabel>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
                                 <Description>
                                     {strings.plannedSectionCriteriaComment31}
@@ -162,7 +162,7 @@ function PlannedOperations(props: Props) {
         >
             <Container
                 heading={strings.plannedOperationsTitle}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"

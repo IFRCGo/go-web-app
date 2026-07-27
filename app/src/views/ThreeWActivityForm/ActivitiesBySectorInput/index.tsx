@@ -171,7 +171,7 @@ function ActivitiesBySectorInput(props: Props) {
             heading={sectorDetails?.title}
             withHeaderBorder
             withPadding
-            withBackground
+            backgroundColor="foreground"
         >
             <ListView layout="block">
                 <ListView
@@ -194,7 +194,7 @@ function ActivitiesBySectorInput(props: Props) {
                         <Button
                             name={undefined}
                             onClick={handleCustomActivityAdd}
-                            styleVariant="translucent"
+                            variant="subtle"
                             disabled={disabled}
                             before={(
                                 <AddLineIcon />

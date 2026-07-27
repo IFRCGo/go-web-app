@@ -7,7 +7,7 @@ import {
     Container,
     LegendItem,
     ListView,
-    Pager,
+    Pagination,
     Table,
     TableBodyContent,
 } from '@ifrc-go/ui';
@@ -284,7 +284,7 @@ function OngoingRapidResponseDeployments() {
             heading={strings.rapidResponseDeploymentHeading}
             withHeaderBorder
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={rapidResponse?.count ?? 0}
                     maxItemsPerPage={limit}

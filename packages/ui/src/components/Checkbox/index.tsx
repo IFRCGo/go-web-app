@@ -1,7 +1,19 @@
-import { useCallback } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import {
+    useCallback,
+    useEffect,
+    useRef,
+} from 'react';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
 
-import InputError from '../InputError';
+import InputError from '#components/InputError';
+import {
+    BackgroundColorType,
+    getBackgroundColorClassName,
+} from '#utils/style';
+
 import DefaultCheckmark, { CheckmarkProps } from './Checkmark';
 
 import styles from './styles.module.css';
@@ -25,10 +37,25 @@ export interface Props<NAME> {
     tooltip?: string;
     value: boolean | undefined | null;
     description?: React.ReactNode;
-    withBackground?: boolean;
-    withDarkBackground?: boolean;
+    /** Surface color token; setting it also adds padding and rounded corners */
+    backgroundColor?: BackgroundColorType;
+    /**
+     * ARIA role for the control input. Switch passes `'switch'` so it is
+     * announced as a switch rather than a checkbox.
+     */
+    role?: React.AriaRole;
+    /**
+     * Explicit `aria-checked` for the control. Only needed when `role`
+     * overrides the native checkbox semantics (e.g. Switch); otherwise
+     * the native `checked` attribute conveys the state.
+     */
+    'aria-checked'?: boolean | 'mixed';
 }
 
+/**
+ * Checkbox input with label, description and optional custom checkmark
+ * (specific layer).
+ */
 function Checkbox<const NAME>(props: Props<NAME>) {
     const {
         className: classNameFromProps,
@@ -48,8 +75,9 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         tooltip,
         value,
         description,
-        withBackground,
-        withDarkBackground,
+        backgroundColor,
+        role,
+        'aria-checked': ariaChecked,
         ...otherProps
     } = props;
 
@@ -66,12 +94,23 @@ function Checkbox<const NAME>(props: Props<NAME>) {
 
     const checked = invertedLogic ? !value : value;
 
+    const inputRef = useRef<HTMLInputElement>(null);
+    // `indeterminate` is a DOM property, not an attribute, so React can't set
+    // it declaratively — apply it imperatively (and re-apply on checked change,
+    // since toggling `checked` clears the indeterminate flag).
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.indeterminate = !!indeterminate;
+        }
+    }, [indeterminate, checked]);
+
     const className = _cs(
         styles.checkbox,
         classNameFromProps,
         !indeterminate && checked && styles.checked,
-        withBackground && styles.withBackground,
-        withDarkBackground && styles.withDarkBackground,
+        indeterminate && styles.indeterminate,
+        getBackgroundColorClassName(backgroundColor),
+        isDefined(backgroundColor) && styles.withBackgroundColor,
         disabled && styles.disabled,
         readOnly && styles.readOnly,
     );
@@ -83,9 +122,12 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         >
             <div className={_cs(styles.checkmarkContainer, checkmarkContainerClassName)}>
                 <input
+                    ref={inputRef}
                     onChange={handleChange}
                     className={_cs(styles.input, inputClassName)}
                     type="checkbox"
+                    role={role}
+                    aria-checked={ariaChecked ?? (indeterminate ? 'mixed' : undefined)}
                     checked={checked ?? false}
                     disabled={disabled || readOnly}
                     readOnly={readOnly}

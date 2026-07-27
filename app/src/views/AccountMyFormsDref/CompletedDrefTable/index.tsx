@@ -5,7 +5,7 @@ import {
 } from 'react';
 import {
     Container,
-    Pager,
+    Pagination,
     Table,
     TableBodyContent,
 } from '@ifrc-go/ui';
@@ -236,7 +236,7 @@ function CompletedDrefTable(props: Props) {
             heading={strings.completedDrefTitle}
             headerActions={actions}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={completedDrefResponse?.count ?? 0}
                     maxItemsPerPage={limit}

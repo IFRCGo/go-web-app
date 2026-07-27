@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import {
     ChartPoint,
-    TextOutput,
+    DataDisplay,
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -77,13 +77,13 @@ function FiChartPoint(props: Props) {
                 description={(
                     <>
                         {isDefined(originalData.analysis_date) && (
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.foodInsecurityAnalysisDate}
                                 value={originalData.analysis_date}
                                 valueType="date"
                             />
                         )}
-                        <TextOutput
+                        <DataDisplay
                             label={strings.foodInsecurityPeopleExposed}
                             value={originalData.total_displacement}
                             valueType="number"

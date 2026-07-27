@@ -256,7 +256,7 @@ function Actions(props: Props) {
                         </InlineLayout>
                     </InputSection>
                     <ListView
-                        withBackground
+                        backgroundColor="foreground"
                         withPadding
                     >
                         <NonFieldError

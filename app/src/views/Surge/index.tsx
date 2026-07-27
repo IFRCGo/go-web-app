@@ -6,7 +6,7 @@ import {
 } from '@ifrc-go/icons';
 import {
     Container,
-    KeyFigureView,
+    KeyFigureCard,
     ListView,
     NavigationTabList,
 } from '@ifrc-go/ui';
@@ -38,35 +38,35 @@ export function Component() {
             info={(
                 <Container pending={surgeAggregatedResponsePending}>
                     <ListView layout="grid" numPreferredGridColumns={4}>
-                        <KeyFigureView
+                        <KeyFigureCard
                             icon={<DeployedIcon />}
                             value={aggregatedResponse?.active_rapid_response_personnel}
                             valueType="number"
                             label={strings.activeRapidResponsePersonnel}
-                            size="lg"
+                            textSize="4xl"
                         />
-                        <KeyFigureView
+                        <KeyFigureCard
                             icon={<DeployedIcon />}
                             value={aggregatedResponse?.rapid_response_deployments_this_year}
                             valueType="number"
                             label={strings.rapidResponseDeployments}
-                            size="lg"
+                            textSize="4xl"
                         />
-                        <KeyFigureView
+                        <KeyFigureCard
                             icon={<EmergencyResponseUnitIcon />}
                             value={aggregatedResponse?.active_emergency_response_units}
                             valueType="number"
                             label={strings.activeErus}
-                            size="lg"
+                            textSize="4xl"
                         />
-                        <KeyFigureView
+                        <KeyFigureCard
                             icon={<ClinicIcon />}
                             value={
                                 aggregatedResponse?.emergency_response_unit_deployed_this_year
                             }
                             valueType="number"
                             label={strings.eruDeploymentsThisYear}
-                            size="lg"
+                            textSize="4xl"
                         />
                     </ListView>
                 </Container>

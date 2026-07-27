@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { listToMap } from '@togglecorp/fujs';
 
 interface Props<VALUE, OPTION> {
@@ -40,12 +40,12 @@ function MultiSelectOutput<VALUE extends string | number, OPTION>(props: Props<V
     );
 
     return (
-        <TextOutput
+        <DataDisplay
             className={className}
             label={label}
             value={valueLabel}
             strongLabel
-            withBackground={withBackground}
+            backgroundColor={withBackground ? 'background' : undefined}
         />
     );
 }

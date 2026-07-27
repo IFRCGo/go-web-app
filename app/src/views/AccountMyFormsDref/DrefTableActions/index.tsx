@@ -15,9 +15,9 @@ import {
 import type { ButtonProps } from '@ifrc-go/ui';
 import {
     Button,
+    Dialog,
     ListView,
     Message,
-    Modal,
     RadioInput,
     TableActions,
 } from '@ifrc-go/ui';
@@ -734,7 +734,7 @@ function DrefTableActions(props: Props) {
                 />
             )}
             {showOperationConfirmModal && (
-                <Modal
+                <Dialog
                     heading={strings.dropdownActionImminentNewOpsUpdateConfirmationHeading}
                     onClose={setShowOperationConfirmModalFalse}
                     footerActions={(
@@ -768,10 +768,10 @@ function DrefTableActions(props: Props) {
                             </>
                         )}
                     </ListView>
-                </Modal>
+                </Dialog>
             )}
             {showFinalReportConfirmModal && (
-                <Modal
+                <Dialog
                     heading={strings.dropdownActionNewFinalReportConfirmationHeading}
                     onClose={setShowFinalReportConfirmModalFalse}
                     footerActions={(
@@ -805,15 +805,15 @@ function DrefTableActions(props: Props) {
                             </>
                         )}
                     </ListView>
-                </Modal>
+                </Dialog>
             )}
             {drefApprovalPending && (
-                <Modal>
+                <Dialog>
                     <Message
                         pending
                         title={strings.drefApprovalInProgressTitle}
                     />
-                </Modal>
+                </Dialog>
             )}
         </TableActions>
     );

@@ -5,8 +5,8 @@ import {
 import {
     Button,
     Container,
+    Dialog,
     ListView,
-    Modal,
     RadioInput,
     TextArea,
 } from '@ifrc-go/ui';
@@ -158,7 +158,7 @@ function LocalUnitValidateModal(props: Props) {
     }, [validateLocalUnit, revertChanges, rejectionReason]);
 
     return (
-        <Modal
+        <Dialog
             onClose={onClose}
             heading={
                 resolveToString(
@@ -212,7 +212,7 @@ function LocalUnitValidateModal(props: Props) {
                     />
                 )}
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

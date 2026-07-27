@@ -185,7 +185,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                 layout="block"
                                 spacing="xs"
                                 withSpacingOpticalCorrection
-                                withDarkBackground
+                                backgroundColor="background"
                                 withPadding
                             >
                                 <InlineLayout

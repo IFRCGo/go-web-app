@@ -24,7 +24,7 @@ function EruReadinessList(props: Props) {
         <Container
             heading={heading}
             headingLevel={6}
-            withDarkBackground
+            backgroundColor="background"
             withPadding
         >
             <ListView

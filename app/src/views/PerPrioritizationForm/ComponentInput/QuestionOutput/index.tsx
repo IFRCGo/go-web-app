@@ -1,8 +1,9 @@
 import {
     Description,
+    DisplayLabel,
     InlineLayout,
-    Label,
     ListView,
+    type ListViewProps,
 } from '@ifrc-go/ui';
 import { isNotDefined } from '@togglecorp/fujs';
 
@@ -13,7 +14,7 @@ interface Props {
     questionNum: number | undefined | null;
     componentNum: number;
     notes?: string | null;
-    withDarkBackground?: boolean;
+    backgroundColor?: ListViewProps['backgroundColor'];
 }
 
 function QuestionOutput(props: Props) {
@@ -23,7 +24,7 @@ function QuestionOutput(props: Props) {
         question,
         answer,
         notes,
-        withDarkBackground,
+        backgroundColor,
     } = props;
 
     if (isNotDefined(questionNum)) {
@@ -35,15 +36,15 @@ function QuestionOutput(props: Props) {
             layout="block"
             withSpacingOpticalCorrection
             withPadding
-            withDarkBackground={withDarkBackground}
+            backgroundColor={backgroundColor}
             spacing="sm"
         >
             <InlineLayout
                 before={`${componentNum}.${questionNum}.`}
                 after={(
-                    <Label strong>
+                    <DisplayLabel strong>
                         {answer}
-                    </Label>
+                    </DisplayLabel>
                 )}
             >
                 {question}

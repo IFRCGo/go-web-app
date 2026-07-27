@@ -2,7 +2,7 @@ import {
     Fragment,
     useMemo,
 } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
 
@@ -44,7 +44,7 @@ function CountryRiskSourcesOutput() {
     );
 
     return (
-        <TextOutput
+        <DataDisplay
             label={strings.source}
             value={
                 riskByMonthSources.map((source, i) => (

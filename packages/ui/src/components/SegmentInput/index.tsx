@@ -29,6 +29,8 @@ function Segment<NAME>(props: SegmentProps<NAME>) {
             className={styles.rawButton}
             name={name}
             onClick={onClick}
+            role="radio"
+            aria-checked={value}
         >
             <ButtonLayout
                 // eslint-disable-next-line react/jsx-props-no-spreading
@@ -53,7 +55,7 @@ export type Props<
     VALUE,
 > = Omit<
     RadioInputProps<NAME, OPTION, VALUE, SegmentProps<VALUE>>,
-    'radioListLayout' | 'radioListLayoutPreferredGridColumns' | 'withDarkBackground'
+    'radioListLayout' | 'radioListLayoutPreferredGridColumns' | 'backgroundColor'
 > & {
     value: VALUE | undefined | null;
     onChange: (value: VALUE, name: NAME) => void;
@@ -62,6 +64,10 @@ export type Props<
     labelSelector: RadioInputProps<NAME, OPTION, VALUE, SegmentProps<VALUE>>['labelSelector'];
 }
 
+/**
+ * Single-select input rendered as a row of segments (a RadioInput with
+ * a button-like renderer on a page-gray track) (specific layer).
+ */
 function SegmentInput<
     const NAME,
     OPTION extends object,
@@ -84,7 +90,7 @@ function SegmentInput<
             rendererParams={rendererParams}
             keySelector={keySelector}
             labelSelector={labelSelector}
-            withDarkBackground
+            backgroundColor="background"
             spacing="none"
         />
     );

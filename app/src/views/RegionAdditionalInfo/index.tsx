@@ -3,9 +3,9 @@ import { useOutletContext } from 'react-router-dom';
 import {
     Container,
     Description,
-    HtmlOutput,
-    type HtmlOutputProps,
-    KeyFigureView,
+    HtmlDisplay,
+    type HtmlDisplayProps,
+    KeyFigureCard,
     ListView,
     RawList,
 } from '@ifrc-go/ui';
@@ -47,7 +47,7 @@ function RegionKeyFigure(props: RegionKeyFigureProps) {
     const strings = useTranslation(i18n);
 
     return (
-        <KeyFigureView
+        <KeyFigureCard
             // FIXME: fix typings from server (medium priority)
             // FIXME: Do we need to round this similar to EmergencyDetails/KeyFigure?
             value={Number.parseFloat(figure)}
@@ -69,7 +69,7 @@ function RegionKeyFigure(props: RegionKeyFigureProps) {
                     </Description>
                 </ListView>
             )}
-            withShadow
+            boxShadow="md"
         />
     );
 }
@@ -101,7 +101,7 @@ export function Component() {
     );
 
     const regionSnippetParams = useCallback(
-        (_: number, data: RegionSnippetType): HtmlOutputProps => ({
+        (_: number, data: RegionSnippetType): HtmlDisplayProps => ({
             value: data.snippet,
         }),
         [],
@@ -139,7 +139,7 @@ export function Component() {
                         <RawList
                             data={snippets}
                             keySelector={snippetKeySelector}
-                            renderer={HtmlOutput}
+                            renderer={HtmlDisplay}
                             rendererParams={regionSnippetParams}
                         />
                     </ListView>

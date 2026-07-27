@@ -1,10 +1,10 @@
 import {
     BlockLoading,
     Button,
+    DataDisplay,
     Description,
+    Dialog,
     ListView,
-    Modal,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -54,7 +54,7 @@ function EapObsoleteResolutionModal(props: Props) {
     const pending = fullEapPending || simplifiedEapPending;
 
     return (
-        <Modal
+        <Dialog
             heading={strings.changesConflictWhileSaving}
             headingLevel={3}
             withoutCloseButton
@@ -75,20 +75,20 @@ function EapObsoleteResolutionModal(props: Props) {
         >
             {pending ? <BlockLoading /> : (
                 <ListView layout="block">
-                    <TextOutput
+                    <DataDisplay
                         label={strings.conflictWhileSaving}
                         strongValue
                         value={getUserName(response?.modified_by_details)}
                     />
                     <Description>{strings.changesWillBeOverridden}</Description>
-                    <TextOutput
+                    <DataDisplay
                         label={strings.changesNoteLabel}
                         strongLabel
                         value={strings.changesWillBeOverridden}
                     />
                 </ListView>
             )}
-        </Modal>
+        </Dialog>
     );
 }
 

@@ -4,8 +4,8 @@ import {
 } from 'react';
 import {
     Button,
+    Dialog,
     ListView,
-    Modal,
     SelectInput,
     TextInput,
 } from '@ifrc-go/ui';
@@ -207,7 +207,7 @@ function EditAccountInfo(props: Props) {
     const profileError = getErrorObject(fieldError?.profile);
 
     return (
-        <Modal
+        <Dialog
             heading={strings.editUserProfileHeading}
             headingLevel={3}
             onClose={handleModalCloseButton}
@@ -224,7 +224,7 @@ function EditAccountInfo(props: Props) {
                         name={undefined}
                         onClick={handleFormSubmit}
                         disabled={updateAccountPending}
-                        styleVariant="filled"
+                        variant="primary"
                     >
                         {strings.editProfileConfirmButtonLabel}
                     </Button>
@@ -334,7 +334,7 @@ function EditAccountInfo(props: Props) {
                     disabled={updateAccountPending}
                 />
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

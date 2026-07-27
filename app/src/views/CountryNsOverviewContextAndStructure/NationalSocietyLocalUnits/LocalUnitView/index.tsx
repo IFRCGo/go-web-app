@@ -4,8 +4,8 @@ import {
 } from 'react';
 import {
     Container,
+    DataDisplay,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -146,7 +146,7 @@ function LocalUnitView(props: Props) {
             emptyMessage={strings.localUnitViewNoChanges}
             footer={isDefined(newValue?.update_reason_overview)
                 && isNotDefined(locallyChangedValue) && (
-                <TextOutput
+                <DataDisplay
                     valueClassName={styles.updateReasonText}
                     strongLabel
                     value={newValue?.update_reason_overview}
@@ -202,13 +202,13 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.location_json?.lat}
                     value={newValue?.location_json?.lat}
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewLatitude}
                         value={newValue?.location_json?.lat}
                         valueType="number"
                         maximumFractionDigits={10}
-                        withBackground
+                        backgroundColor="background"
                     />
                 </DiffWrapper>
                 <DiffWrapper
@@ -217,13 +217,13 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.location_json?.lng}
                     value={newValue?.location_json?.lng}
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewLongitude}
                         value={newValue?.location_json?.lng}
                         valueType="number"
                         maximumFractionDigits={10}
-                        withBackground
+                        backgroundColor="background"
                     />
                 </DiffWrapper>
                 <DiffWrapper
@@ -232,12 +232,12 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.date_of_data}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewDateOfUpdate}
                         value={newValue?.date_of_data}
                         valueType="date"
-                        withBackground
+                        backgroundColor="background"
                     />
                 </DiffWrapper>
                 <DiffWrapper
@@ -246,11 +246,11 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.subtype}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewSubtype}
                         value={newValue?.subtype}
-                        withBackground
+                        backgroundColor="background"
                     />
                 </DiffWrapper>
                 <DiffWrapper
@@ -259,11 +259,11 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.english_branch_name}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewLocalUnitNameEn}
                         value={newValue?.english_branch_name}
-                        withBackground
+                        backgroundColor="background"
                     />
                 </DiffWrapper>
                 <DiffWrapper
@@ -272,11 +272,11 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.local_branch_name}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewLocalUnitNameLocal}
                         value={newValue?.local_branch_name}
-                        withBackground
+                        backgroundColor="background"
                     />
                 </DiffWrapper>
                 {newValue?.type !== TYPE_HEALTH_CARE && (
@@ -307,11 +307,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.focal_person_en}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewFocalPersonEn}
                                 value={newValue?.focal_person_en}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -320,11 +320,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.focal_person_loc}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewFocalPersonLocal}
                                 value={newValue?.focal_person_loc}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                     </>
@@ -337,11 +337,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.source_en}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewSourceEn}
                                 value={newValue?.source_en}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -350,11 +350,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.source_loc}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewSourceLocal}
                                 value={newValue?.source_loc}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                     </>
@@ -385,11 +385,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.other_affiliation}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewOtherAffiliation}
                                 value={newValue?.health?.other_affiliation}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <SelectDiffWrapper
@@ -436,12 +436,12 @@ function LocalUnitView(props: Props) {
                             }
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewTeachingHospital}
                                 value={newValue?.health?.is_teaching_hospital}
                                 valueType="boolean"
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -452,12 +452,12 @@ function LocalUnitView(props: Props) {
                             }
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewInPatientCapacity}
                                 value={newValue?.health?.is_in_patient_capacity}
                                 valueType="boolean"
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -468,12 +468,12 @@ function LocalUnitView(props: Props) {
                             }
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewIsolationRoomsWards}
                                 value={newValue?.health?.is_isolation_rooms_wards}
                                 valueType="boolean"
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <SelectDiffWrapper
@@ -502,11 +502,11 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.address_en}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewAddressEn}
                         value={newValue?.address_en}
-                        withBackground
+                        backgroundColor="background"
                     />
                 </DiffWrapper>
                 <DiffWrapper
@@ -515,11 +515,11 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.address_loc}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewAddressLocal}
                         value={newValue?.address_loc}
-                        withBackground
+                        backgroundColor="background"
                     />
                 </DiffWrapper>
                 <DiffWrapper
@@ -528,11 +528,11 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.city_en}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewLocalityEn}
                         value={newValue?.city_en}
-                        withBackground
+                        backgroundColor="background"
                     />
                 </DiffWrapper>
                 <DiffWrapper
@@ -541,11 +541,11 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.city_loc}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewLocalityLocal}
                         value={newValue?.city_loc}
-                        withBackground
+                        backgroundColor="background"
                     />
                 </DiffWrapper>
                 <DiffWrapper
@@ -554,11 +554,11 @@ function LocalUnitView(props: Props) {
                     previousValue={oldValue?.postcode}
                     diffViewEnabled
                 >
-                    <TextOutput
+                    <DataDisplay
                         strongLabel
                         label={strings.localUnitViewPostCode}
                         value={newValue?.postcode}
-                        withBackground
+                        backgroundColor="background"
                     />
                 </DiffWrapper>
                 {newValue?.type !== TYPE_HEALTH_CARE && (
@@ -569,11 +569,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.phone}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewPhone}
                                 value={newValue?.phone}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -582,11 +582,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.email}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewEmail}
                                 value={newValue?.email}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -595,12 +595,12 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.link}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewWebsite}
                                 value={newValue?.link}
                                 valueType="text"
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                     </>
@@ -631,11 +631,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.other_facility_type}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewOtherFacilityType}
                                 value={newValue?.health?.other_facility_type}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <SelectDiffWrapper
@@ -662,11 +662,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.speciality}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewSpecialties}
                                 value={newValue?.health?.speciality}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <MultiSelectDiffWrapper
@@ -712,11 +712,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.other_services}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewOtherServices}
                                 value={newValue?.health?.other_services}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <MultiSelectDiffWrapper
@@ -761,11 +761,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.number_of_isolation_rooms}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewNumberOfIsolationRooms}
                                 value={newValue?.health?.number_of_isolation_rooms}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -774,11 +774,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.maximum_capacity}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewMaximumCapacity}
                                 value={newValue?.health?.maximum_capacity}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -787,12 +787,12 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.is_warehousing}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 valueType="boolean"
                                 label={strings.localUnitViewWarehousing}
                                 value={newValue?.health?.is_warehousing}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -801,12 +801,12 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.is_cold_chain}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 valueType="boolean"
                                 label={strings.localUnitViewColdChain}
                                 value={newValue?.health?.is_cold_chain}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -815,11 +815,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.ambulance_type_a}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewAmbulanceTypeA}
                                 value={newValue?.health?.ambulance_type_a}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -828,11 +828,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.ambulance_type_b}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewAmbulanceTypeB}
                                 value={newValue?.health?.ambulance_type_b}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -841,11 +841,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.ambulance_type_c}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewAmbulanceTypeC}
                                 value={newValue?.health?.ambulance_type_c}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -854,11 +854,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.total_number_of_human_resource}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewTotalNumberOfHumanResources}
                                 value={newValue?.health?.total_number_of_human_resource}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -867,11 +867,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.general_practitioner}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewGeneralPractitioner}
                                 value={newValue?.health?.general_practitioner}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -880,11 +880,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.specialist}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewSpecialist}
                                 value={newValue?.health?.specialist}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -893,11 +893,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.residents_doctor}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewResidentsDoctor}
                                 value={newValue?.health?.residents_doctor}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -906,11 +906,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.nurse}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewNurse}
                                 value={newValue?.health?.nurse}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -919,11 +919,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.dentist}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewDentist}
                                 value={newValue?.health?.dentist}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -932,11 +932,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.nursing_aid}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewNursingAid}
                                 value={newValue?.health?.nursing_aid}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -945,11 +945,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.midwife}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewMidwife}
                                 value={newValue?.health?.midwife}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -958,11 +958,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.pharmacists}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewPharmacists}
                                 value={newValue?.health?.pharmacists}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         {isDefined(changedOtherProfiles) && changedOtherProfiles.length > 0 && (
@@ -975,7 +975,7 @@ function LocalUnitView(props: Props) {
                                         key={profile.client_id}
                                         newValue={profile}
                                         oldValue={getPreviousProfileValue(profile.client_id)}
-                                        withBackground
+                                        backgroundColor="foreground"
                                     />
                                 ))}
                             </>
@@ -990,7 +990,7 @@ function LocalUnitView(props: Props) {
                                         key={profile.client_id}
                                         newValue={profile}
                                         oldValue={undefined}
-                                        withBackground
+                                        backgroundColor="foreground"
                                     />
                                 ))}
                             </>
@@ -1001,12 +1001,12 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.other_medical_heal}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 valueType="boolean"
                                 label={strings.localUnitViewOtherMedicalHeal}
                                 value={newValue?.health?.other_medical_heal}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -1015,11 +1015,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.feedback}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewCommentsNS}
                                 value={newValue?.health?.feedback}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -1028,11 +1028,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.focal_point_position}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewFocalPointPosition}
                                 value={newValue?.health?.focal_point_position}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -1041,11 +1041,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.focal_point_email}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewFocalPointEmail}
                                 value={newValue?.health?.focal_point_email}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                         <DiffWrapper
@@ -1054,11 +1054,11 @@ function LocalUnitView(props: Props) {
                             previousValue={oldValue?.health?.focal_point_phone_number}
                             diffViewEnabled
                         >
-                            <TextOutput
+                            <DataDisplay
                                 strongLabel
                                 label={strings.localUnitViewFocalPointPhoneNumber}
                                 value={newValue?.health?.focal_point_phone_number}
-                                withBackground
+                                backgroundColor="background"
                             />
                         </DiffWrapper>
                     </>

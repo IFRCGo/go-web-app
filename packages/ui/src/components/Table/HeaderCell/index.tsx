@@ -14,7 +14,7 @@ import {
 } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
-import InfoPopup from '#components/InfoPopup';
+import MoreInfo from '#components/MoreInfo';
 import useTranslation from '#hooks/useTranslation';
 
 import type {
@@ -27,12 +27,18 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface HeaderCellProps extends BaseHeader {
+    /** Show the sort toggle button and wire it to the surrounding SortContext */
     sortable?: boolean;
+    /** Direction applied on the first sort interaction (default 'asc') */
     defaultSortDirection?: SortDirection;
     infoTitle?: React.ReactNode;
     infoDescription?: React.ReactNode;
 }
 
+/**
+ * Specific component for a table column header cell with optional
+ * sorting control and info popup.
+ */
 function HeaderCell(props: HeaderCellProps) {
     const {
         className,
@@ -92,7 +98,7 @@ function HeaderCell(props: HeaderCellProps) {
             {sortable && (
                 <Button
                     name={undefined}
-                    styleVariant="action"
+                    variant="tertiary"
                     onClick={handleSortClick}
                     title={strings.sortTableButtonTitle}
                     className={styles.sortButton}
@@ -107,11 +113,12 @@ function HeaderCell(props: HeaderCellProps) {
                 {title}
             </div>
             {(infoTitle || infoDescription) && (
-                <InfoPopup
+                <MoreInfo
                     className={styles.infoPopupIcon}
                     title={infoTitle}
-                    description={infoDescription}
-                />
+                >
+                    {infoDescription}
+                </MoreInfo>
             )}
         </div>
     );

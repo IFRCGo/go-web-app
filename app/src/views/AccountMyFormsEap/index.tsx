@@ -5,7 +5,7 @@ import {
 } from 'react';
 import {
     Container,
-    Pager,
+    Pagination,
     type RowOptions,
     Table,
     TableBodyContent,
@@ -352,7 +352,7 @@ export function Component() {
                 </Link>
             )}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={eapListResponse?.count ?? 0}
                     maxItemsPerPage={limit}

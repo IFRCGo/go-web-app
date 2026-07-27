@@ -115,7 +115,7 @@ function PrioritizedActionInput(props: Props) {
                 <NonFieldError error={error} />
             )}
             withPadding
-            withBackground
+            backgroundColor="foreground"
         >
             <ListView
                 layout="grid"

@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import {
     Container,
     ListView,
-    Pager,
+    Pagination,
     RawList,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -78,7 +78,7 @@ export function Component() {
                 heading={strings.operationFollowingHeading}
                 withHeaderBorder
                 footerActions={(
-                    <Pager
+                    <Pagination
                         activePage={page}
                         itemsCount={subscribedEventsResponse?.count ?? 0}
                         maxItemsPerPage={limit}

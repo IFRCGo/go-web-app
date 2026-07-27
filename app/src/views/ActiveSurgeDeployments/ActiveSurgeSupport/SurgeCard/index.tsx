@@ -4,10 +4,10 @@ import {
 } from 'react';
 import {
     Container,
+    DataDisplay,
     KeyFigure,
     ListView,
-    ReducedListDisplay,
-    TextOutput,
+    TruncatedList,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -120,7 +120,7 @@ function SurgeCard(props: Props) {
                 </Link>
             )}
             headerDescription={(
-                <TextOutput
+                <DataDisplay
                     label={strings.operationStartDateLabel}
                     value={operationStartDate}
                     valueType="date"
@@ -135,8 +135,8 @@ function SurgeCard(props: Props) {
                 />
             )}
             withPadding
-            withBackground
-            withShadow
+            backgroundColor="foreground"
+            boxShadow="md"
         >
             <ListView
                 layout="block"
@@ -157,9 +157,9 @@ function SurgeCard(props: Props) {
                                 value={deployedERUCount}
                                 label={strings.surgeEmergencyResponseUnit}
                                 valueType="number"
-                                valueOptions={{ compact: true }}
+                                compact
                             />
-                            <ReducedListDisplay
+                            <TruncatedList
                                 list={deployedERUTypes}
                                 keySelector={stringNameSelector}
                                 renderer={DisplayName}
@@ -167,10 +167,10 @@ function SurgeCard(props: Props) {
                                 maxItems={3}
                             />
                         </ListView>
-                        <TextOutput
+                        <DataDisplay
                             className={styles.deployingOrganizations}
                             value={(
-                                <ReducedListDisplay
+                                <TruncatedList
                                     list={eruDeployingOrganizations}
                                     keySelector={stringNameSelector}
                                     renderer={DisplayName}
@@ -200,9 +200,9 @@ function SurgeCard(props: Props) {
                                 value={deployedPersonnelCount}
                                 label={strings.surgeRapidResponsePersonnel}
                                 valueType="number"
-                                valueOptions={{ compact: true }}
+                                compact
                             />
-                            <ReducedListDisplay
+                            <TruncatedList
                                 list={deployedPersonnelTypes}
                                 keySelector={stringNameSelector}
                                 renderer={DisplayName}
@@ -210,10 +210,10 @@ function SurgeCard(props: Props) {
                                 maxItems={3}
                             />
                         </ListView>
-                        <TextOutput
+                        <DataDisplay
                             className={styles.deployingOrganizations}
                             value={(
-                                <ReducedListDisplay
+                                <TruncatedList
                                     list={personnelDeployingOrganizations}
                                     keySelector={stringNameSelector}
                                     renderer={DisplayName}

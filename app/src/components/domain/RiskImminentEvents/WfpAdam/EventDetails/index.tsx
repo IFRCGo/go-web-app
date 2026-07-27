@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import {
     Container,
+    DataDisplay,
     ListView,
-    TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -268,13 +268,13 @@ function EventDetails(props: Props) {
                 )}
                 <div>
                     {isDefined(eventDetails?.wind_speed) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpWindSpeed}
                             value={eventDetails?.wind_speed}
                         />
                     )}
                     {isDefined(populationImpact) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpPeopleExposed}
                             value={populationImpact}
                             valueType="number"
@@ -284,53 +284,53 @@ function EventDetails(props: Props) {
                 </div>
                 <div>
                     {isDefined(eventDetails?.source) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpSource}
                             value={eventDetails?.source}
                         />
                     )}
                     {isDefined(eventDetails?.sitrep) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpSitrep}
                             value={eventDetails?.sitrep}
                         />
                     )}
                     {isDefined(eventDetails?.mag) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpMagnitude}
                             value={eventDetails?.mag}
                             valueType="number"
                         />
                     )}
                     {isDefined(eventDetails?.depth) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpDepth}
                             value={eventDetails?.depth}
                             valueType="number"
                         />
                     )}
                     {isDefined(eventDetails?.alert_level) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpAlertType}
                             value={eventDetails?.alert_level}
                         />
                     )}
                     {isDefined(eventDetails?.effective_date) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpEffective}
                             value={eventDetails?.effective_date}
                             valueType="date"
                         />
                     )}
                     {isDefined(eventDetails?.from_date) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpFromDate}
                             value={eventDetails?.from_date}
                             valueType="date"
                         />
                     )}
                     {isDefined(eventDetails?.to_date) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpToDate}
                             value={eventDetails?.to_date}
                             valueType="date"
@@ -339,7 +339,7 @@ function EventDetails(props: Props) {
                 </div>
                 <div>
                     {isDefined(populationExposure?.exposure_60_kmh) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpExposed60}
                             value={populationExposure?.exposure_60_kmh}
                             valueType="number"
@@ -347,7 +347,7 @@ function EventDetails(props: Props) {
                         />
                     )}
                     {isDefined(populationExposure?.exposure_90_kmh) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpExposed90}
                             value={populationExposure?.exposure_90_kmh}
                             valueType="number"
@@ -355,7 +355,7 @@ function EventDetails(props: Props) {
                         />
                     )}
                     {isDefined(populationExposure?.exposure_120_kmh) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpExposed120}
                             value={populationExposure?.exposure_120_kmh}
                             valueType="number"
@@ -363,7 +363,7 @@ function EventDetails(props: Props) {
                         />
                     )}
                     {isDefined(eventDetails?.flood_area) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpFloodArea}
                             value={eventDetails?.flood_area}
                             valueType="number"
@@ -371,7 +371,7 @@ function EventDetails(props: Props) {
                         />
                     )}
                     {isDefined(eventDetails?.fl_croplnd) && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.wfpFloodCropland}
                             value={eventDetails?.fl_croplnd}
                             valueType="number"

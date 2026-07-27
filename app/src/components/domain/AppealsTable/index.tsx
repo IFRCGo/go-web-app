@@ -7,7 +7,7 @@ import {
     Button,
     Container,
     DateInput,
-    Pager,
+    Pagination,
     SelectInput,
     Table,
 } from '@ifrc-go/ui';
@@ -338,7 +338,7 @@ function AppealsTable(props: Props) {
                 </>
             )}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={appealsResponse?.count ?? 0}
                     maxItemsPerPage={limit}

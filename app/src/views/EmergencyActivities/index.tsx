@@ -3,11 +3,11 @@ import { useOutletContext } from 'react-router-dom';
 import { InformationLineIcon } from '@ifrc-go/icons';
 import {
     Container,
-    InfoPopup,
     InlineLayout,
     KeyFigure,
     ListView,
-    Pager,
+    MoreInfo,
+    Pagination,
     PieChart,
     Table,
 } from '@ifrc-go/ui';
@@ -352,9 +352,9 @@ export function Component() {
                     numPreferredGridColumns={3}
                 >
                     <Container
-                        withShadow
+                        boxShadow="md"
                         withPadding
-                        withBackground
+                        backgroundColor="foreground"
                     >
                         <ListView
                             layout="grid"
@@ -368,13 +368,13 @@ export function Component() {
                             <KeyFigure
                                 value={peopleReached}
                                 valueType="number"
-                                valueOptions={{ compact: true }}
+                                compact
                                 label={(
                                     <InlineLayout
                                         after={(
-                                            <InfoPopup
-                                                description={strings.peopleReachedTooltip}
-                                            />
+                                            <MoreInfo>
+                                                {strings.peopleReachedTooltip}
+                                            </MoreInfo>
                                         )}
                                     >
                                         {strings.peopleInNeedReached}
@@ -384,9 +384,9 @@ export function Component() {
                         </ListView>
                     </Container>
                     <Container
-                        withShadow
+                        boxShadow="md"
                         withPadding
-                        withBackground
+                        backgroundColor="foreground"
                     >
                         <ListView
                             layout="grid"
@@ -409,9 +409,9 @@ export function Component() {
                         </ListView>
                     </Container>
                     <Container
-                        withShadow
+                        boxShadow="md"
                         withPadding
-                        withBackground
+                        backgroundColor="foreground"
                     >
                         <ListView
                             layout="grid"
@@ -445,7 +445,7 @@ export function Component() {
                     />
                 )}
                 footerActions={(
-                    <Pager
+                    <Pagination
                         activePage={activePage}
                         onActivePageChange={setActivePage}
                         itemsCount={filteredProjectList.length}
@@ -463,8 +463,8 @@ export function Component() {
                             emptyMessage={strings.dataNotAvailable}
                             headingLevel={4}
                             withContentOverflow
-                            withBackground
-                            withShadow
+                            backgroundColor="foreground"
+                            boxShadow="md"
                             withPadding
                             withoutSpacingOpticalCorrection
                         >

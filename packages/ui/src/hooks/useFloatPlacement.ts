@@ -3,150 +3,76 @@ import {
     useEffect,
     useState,
 } from 'react';
-import {
-    bound,
-    isDefined,
-    isNotDefined,
-} from '@togglecorp/fujs';
+import { isNotDefined } from '@togglecorp/fujs';
 
-const ONE_REM = parseFloat(getComputedStyle(document.documentElement).fontSize);
-// px
-const MIN_WIDTH = 16 * ONE_REM;
-const VERTICAL_OFFSET = 0.5 * ONE_REM;
-
-type Orientation = {
-    vertical: 'top' | 'bottom';
-    horizontal: 'left' | 'right';
-};
-
-const defaultOrientation: Orientation = {
-    vertical: 'bottom',
-    horizontal: 'right',
-};
-
-function getPreferredOrientation(position: DOMRect): Orientation {
-    const windowCenterX = window.innerWidth / 2;
-    const windowCenterY = window.innerHeight / 2;
-
-    const centerX = position.x + position.width / 2;
-    const centerY = position.y + position.height / 2;
-
-    return {
-        horizontal: centerX < windowCenterX ? 'left' : 'right',
-        vertical: centerY < windowCenterY ? 'top' : 'bottom',
-    };
-}
+export type Orientation = 'top' | 'bottom';
 
 interface Placement {
-    top: string;
-    left: string;
-    right: string;
-    bottom: string;
+    style: React.CSSProperties;
+    orientation: Orientation;
 }
 
 const defaultPlacement: Placement = {
-    top: 'unset',
-    left: 'unset',
-    right: 'unset',
-    bottom: 'unset',
+    style: { position: 'fixed' },
+    orientation: 'bottom',
 };
 
-function useFloatPlacement(
-    parentRef: React.RefObject<HTMLElement | null>,
-    preferredWidth?: number,
-) {
-    const [placements, setPlacements] = useState<{
-        content: Placement,
-        pointer: Placement,
-        width: string,
-        orientation: Orientation,
-    }>({
-        content: defaultPlacement,
-        pointer: defaultPlacement,
-        width: 'auto',
-        orientation: defaultOrientation,
-    });
+/**
+ * Minimal fixed-position placement for a floating element next to `parentRef`.
+ *
+ * Deliberately simple: the element is placed directly below the parent, or
+ * above it when there is more room above than below. No horizontal clamping,
+ * width sizing, centering or other adjustments.
+ */
+function useFloatPlacement(parentRef: React.RefObject<HTMLElement | null>) {
+    const [placement, setPlacement] = useState<Placement>(defaultPlacement);
 
-    const calculatePlacement = useCallback(() => {
-        if (isNotDefined(parentRef.current)) {
-            return;
-        }
+    const calculatePlacement = useCallback(
+        () => {
+            const parent = parentRef.current;
+            if (isNotDefined(parent)) {
+                return;
+            }
 
-        const parentBCR = parentRef.current.getBoundingClientRect();
-        const {
-            x: parentX,
-            y: parentY,
-            width: parentWidth,
-            height: parentHeight,
-        } = parentBCR;
+            const rect = parent.getBoundingClientRect();
+            const showAbove = rect.top > (window.innerHeight - rect.bottom);
 
-        const horizontalPadding = ONE_REM;
-        const minX = horizontalPadding;
-        const maxX = window.innerWidth - horizontalPadding;
-        const maxWidth = window.innerWidth - 2 * horizontalPadding;
+            setPlacement({
+                orientation: showAbove ? 'top' : 'bottom',
+                style: showAbove
+                    ? {
+                        position: 'fixed',
+                        left: rect.left,
+                        bottom: window.innerHeight - rect.top,
+                    }
+                    : {
+                        position: 'fixed',
+                        left: rect.left,
+                        top: rect.bottom,
+                    },
+            });
+        },
+        [parentRef],
+    );
 
-        const orientation = getPreferredOrientation(parentBCR);
-        const parentCenterX = parentX + parentWidth / 2;
+    useEffect(
+        () => {
+            // measure-then-position: the initial placement must be computed from
+            // the DOM rect on mount, which requires a synchronous setState
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            calculatePlacement();
+            window.addEventListener('scroll', calculatePlacement, true);
+            window.addEventListener('resize', calculatePlacement);
 
-        const width = bound(
-            isDefined(preferredWidth) ? preferredWidth * ONE_REM : parentWidth,
-            MIN_WIDTH,
-            maxWidth,
-        );
+            return () => {
+                window.removeEventListener('scroll', calculatePlacement, true);
+                window.removeEventListener('resize', calculatePlacement);
+            };
+        },
+        [calculatePlacement],
+    );
 
-        let x1 = parentCenterX - width / 2;
-        let x2 = parentCenterX + width / 2;
-
-        if (x1 < minX) {
-            const diff = minX - x1 - horizontalPadding;
-            x1 = minX;
-            x2 += diff;
-        }
-
-        if (x2 > maxX) {
-            const diff = x2 - maxX - horizontalPadding;
-            x2 = maxX;
-            x1 -= diff;
-        }
-
-        setPlacements({
-            content: {
-                bottom: orientation.vertical === 'bottom'
-                    ? `${window.innerHeight - parentY + VERTICAL_OFFSET}px`
-                    : 'unset',
-                top: orientation.vertical === 'top'
-                    ? `${parentY + parentHeight + VERTICAL_OFFSET}px`
-                    : 'unset',
-                left: orientation.horizontal === 'left' ? `${x1}px` : 'unset',
-                right: orientation.horizontal === 'right' ? `${window.innerWidth - x2}px` : 'unset',
-            },
-            pointer: {
-                left: `${parentCenterX}px`,
-                top: orientation.vertical === 'top' ? `${parentY + parentHeight}px` : `${parentY - VERTICAL_OFFSET}px`,
-                right: 'unset',
-                bottom: 'unset',
-            },
-            width: `${x2 - x1}px`,
-            orientation,
-        });
-    }, [parentRef, preferredWidth]);
-
-    useEffect(() => {
-        calculatePlacement();
-        // TODO: throttle and debounce callbacks
-        const handleScroll = calculatePlacement;
-        const handleResize = calculatePlacement;
-
-        window.addEventListener('scroll', handleScroll, true);
-        window.addEventListener('resize', handleResize, true);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll, true);
-            window.removeEventListener('resize', handleResize, true);
-        };
-    }, [calculatePlacement]);
-
-    return placements;
+    return placement;
 }
 
 export default useFloatPlacement;

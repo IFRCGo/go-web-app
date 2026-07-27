@@ -41,7 +41,7 @@ function ShareUserItem(props: Props) {
                 <Button
                     name={userId}
                     onClick={onUserRemove}
-                    styleVariant="action"
+                    variant="tertiary"
                     title={strings.removeUser}
                 >
                     <CloseLineIcon />

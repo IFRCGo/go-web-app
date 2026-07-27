@@ -84,7 +84,6 @@ function PointInput(props: Props) {
             <IconButton
                 className={styles.removeButton}
                 name={index}
-                styleVariant="action"
                 title={strings.removeLabel}
                 ariaLabel={strings.removeLabel}
                 onClick={onRemove}

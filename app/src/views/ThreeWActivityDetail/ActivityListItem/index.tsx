@@ -1,8 +1,8 @@
 import {
     Container,
-    Label,
+    DataDisplay,
+    DisplayLabel,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
@@ -58,31 +58,31 @@ function ActivityListItem(props: Props) {
                     spacing="2xs"
                     withSpacingOpticalCorrection
                 >
-                    <TextOutput
+                    <DataDisplay
                         label={strings.emergencySector}
                         value={sector_details?.title}
                         strongLabel
                     />
-                    <Label>
+                    <DisplayLabel>
                         {action_details?.title}
-                    </Label>
+                    </DisplayLabel>
                     {is_simplified_report && people_households === 'people' && (
                         <>
                             {(isDefined(male_count) || isDefined(female_count)) && (
                                 <>
-                                    <TextOutput
+                                    <DataDisplay
                                         label={strings.emergencyMale}
                                         value={male_count}
                                         strongLabel
                                     />
-                                    <TextOutput
+                                    <DataDisplay
                                         label={strings.emergencyFemale}
                                         value={female_count}
                                         strongLabel
                                     />
                                 </>
                             )}
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.emergencyTotalPeople}
                                 value={people_count}
                                 strongLabel
@@ -90,7 +90,7 @@ function ActivityListItem(props: Props) {
                         </>
                     )}
                     {people_households === 'households' && (
-                        <TextOutput
+                        <DataDisplay
                             label={strings.emergencyTotalHouseholds}
                             value={household_count}
                             strongLabel
@@ -110,7 +110,7 @@ function ActivityListItem(props: Props) {
                             spacing="2xs"
                         >
                             {Object.entries(supplies).map(([supply, value]) => (
-                                <TextOutput
+                                <DataDisplay
                                     key={supply}
                                     label={supplyMapping?.[Number(supply)]?.title}
                                     value={value}
@@ -132,7 +132,7 @@ function ActivityListItem(props: Props) {
                             spacing="2xs"
                         >
                             {Object.entries(custom_supplies).map(([supply, value]) => (
-                                <TextOutput
+                                <DataDisplay
                                     key={supply}
                                     label={supply}
                                     value={value}

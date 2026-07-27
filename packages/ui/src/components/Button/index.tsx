@@ -1,36 +1,61 @@
-import { useMemo } from 'react';
-import { isDefined } from '@togglecorp/fujs';
+import { _cs } from '@togglecorp/fujs';
 
-import ButtonLayout, {
-    ButtonColorVariant,
-    Props as ButtonLayoutProps,
-} from '#components/ButtonLayout';
+import ButtonLayout, { Props as ButtonLayoutProps } from '#components/ButtonLayout';
 import RawButton, { Props as RawButtonProps } from '#components/RawButton';
 
 import styles from './styles.module.css';
 
-type PickedButtonLayoutProps =
-    | 'styleVariant'
-    | 'colorVariant'
-    | 'spacing'
-    | 'spacingOffset'
-    | 'withoutPadding'
-    | 'withFullWidth'
-    | 'children'
-    | 'before'
-    | 'textSize'
-    | 'after'
+export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'subtle';
 
-export type Props<NAME> = Omit<RawButtonProps<NAME>, 'elementRef' | 'children'>
-& Pick<ButtonLayoutProps, PickedButtonLayoutProps>
-& {
-    layoutElementRef?: ButtonLayoutProps['elementRef'];
+const variantToLayoutVariant: Record<
+    ButtonVariant,
+    Required<Pick<ButtonLayoutProps, 'colorVariant' | 'styleVariant'>>
+> = {
+    primary: { colorVariant: 'primary', styleVariant: 'filled' },
+    secondary: { colorVariant: 'primary', styleVariant: 'outline' },
+    tertiary: { colorVariant: 'text', styleVariant: 'action' },
+    subtle: { colorVariant: 'primary', styleVariant: 'translucent' },
 };
 
+type PickedButtonLayoutProps =
+    | 'after'
+    | 'before'
+    | 'children'
+    | 'elementRef'
+    | 'spacing'
+    | 'spacingOffset'
+    | 'textSize'
+    | 'withFullWidth'
+    | 'withoutPadding';
+
+export type Props<NAME> = Omit<RawButtonProps<NAME>, 'children' | 'elementRef'>
+& Pick<ButtonLayoutProps, PickedButtonLayoutProps>
+& {
+    /**
+     * Curated visual variant, mapped internally to the ButtonLayout
+     * colorVariant + styleVariant axes:
+     * primary=(primary, filled), secondary=(primary, outline),
+     * tertiary=(text, action), subtle=(primary, translucent)
+     */
+    variant?: ButtonVariant;
+};
+
+/**
+ * Standard button (specific layer).
+ *
+ * Composes RawButton (behavior) with ButtonLayout (visuals) and exposes
+ * a single curated `variant` prop instead of ButtonLayout's two-axis
+ * colorVariant + styleVariant API. For axis pairs outside the curated
+ * set, compose RawButton + ButtonLayout directly.
+ *
+ * Note on `elementRef`: it references the root element rendered by
+ * ButtonLayout, which is the visual root of the component (the native
+ * button element wrapping it has `display: contents` and generates
+ * no box).
+ */
 function Button<const NAME>(props: Props<NAME>) {
     const {
-        colorVariant: colorVariantFromProps,
-        styleVariant = 'outline',
+        variant = 'secondary',
         spacing,
         spacingOffset = -3,
         withoutPadding,
@@ -39,7 +64,7 @@ function Button<const NAME>(props: Props<NAME>) {
         after,
         textSize,
 
-        layoutElementRef,
+        elementRef,
 
         name,
         onClick,
@@ -52,23 +77,16 @@ function Button<const NAME>(props: Props<NAME>) {
         ...rawButtonProps
     } = props;
 
-    const colorVariant = useMemo<ButtonColorVariant>(() => {
-        if (isDefined(colorVariantFromProps)) {
-            return colorVariantFromProps;
-        }
-
-        if (styleVariant === 'action' || styleVariant === 'transparent') {
-            return 'text';
-        }
-
-        return 'primary';
-    }, [styleVariant, colorVariantFromProps]);
+    const {
+        colorVariant,
+        styleVariant,
+    } = variantToLayoutVariant[variant];
 
     return (
         <RawButton
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...rawButtonProps}
-            className={styles.button}
+            className={_cs(styles.button, withFullWidth && styles.fullWidth)}
             name={name}
             onClick={onClick}
             type={type}
@@ -76,7 +94,7 @@ function Button<const NAME>(props: Props<NAME>) {
         >
             <ButtonLayout
                 className={className}
-                elementRef={layoutElementRef}
+                elementRef={elementRef}
                 colorVariant={colorVariant}
                 styleVariant={styleVariant}
                 spacing={spacing}

@@ -1,6 +1,6 @@
 import {
+    Dialog,
     Message,
-    Modal,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
@@ -44,7 +44,7 @@ function FlashUpdateExportModal(props: Props) {
     });
 
     return (
-        <Modal
+        <Dialog
             heading={strings.flashUpdateExportTitle}
             onClose={onClose}
         >
@@ -75,7 +75,7 @@ function FlashUpdateExportModal(props: Props) {
                     )}
                 />
             )}
-        </Modal>
+        </Dialog>
     );
 }
 

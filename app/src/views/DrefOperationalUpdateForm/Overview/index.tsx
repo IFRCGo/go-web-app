@@ -17,10 +17,10 @@ import {
     BooleanInput,
     Button,
     Container,
+    Dialog,
     InlineLayout,
     InputSection,
     ListView,
-    Modal,
     NumberInput,
     RawList,
     SelectInput,
@@ -223,7 +223,7 @@ function Overview(props: Props) {
                 && !isPreviousImminent
                 && showChangeDrefTypeModal
                 && value?.type_of_dref === TYPE_ASSESSMENT && (
-                <Modal
+                <Dialog
                     size="sm"
                     heading={strings.changeToResponseHeading}
                     onClose={setShowChangeDrefTypeModalFalse}
@@ -245,7 +245,7 @@ function Overview(props: Props) {
                     )}
                 >
                     {strings.isDrefChangingToResponse}
-                </Modal>
+                </Dialog>
             )}
             <Container heading={strings.drefFormSharingHeading}>
                 <InputSection

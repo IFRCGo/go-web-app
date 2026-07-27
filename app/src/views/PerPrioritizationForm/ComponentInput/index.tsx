@@ -5,10 +5,10 @@ import {
 import {
     ButtonLayout,
     Checkbox,
+    DataDisplay,
     ExpandableContainer,
     ListView,
     TextArea,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
@@ -212,7 +212,7 @@ function ComponentInput(props: Props) {
                                         readOnly
                                         // FIXME: use tag component
                                     >
-                                        <TextOutput
+                                        <DataDisplay
                                             key={answerStat.answer}
                                             label={answerStat.answer}
                                             value={answerStat.num}
@@ -239,7 +239,7 @@ function ComponentInput(props: Props) {
             )}
             pending={formQuestionsPending}
             withPadding
-            withBackground
+            backgroundColor="foreground"
             spacing="lg"
         >
             <ListView
@@ -260,7 +260,7 @@ function ComponentInput(props: Props) {
                             componentNum={componentNum}
                             answer={mappedQuestionResponses?.[perFormQuestion.id]?.answerDisplay}
                             notes={mappedQuestionResponses?.[perFormQuestion.id]?.notes}
-                            withDarkBackground={i % 2 === 0}
+                            backgroundColor={i % 2 === 0 ? 'background' : undefined}
                         />
                     ),
                 )}

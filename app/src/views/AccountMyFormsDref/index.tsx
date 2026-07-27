@@ -46,7 +46,7 @@ export function Component() {
                         <Button
                             name="completed"
                             onClick={setCurrentView}
-                            styleVariant="action"
+                            variant="tertiary"
                             after={<ChevronRightLineIcon className={styles.icon} />}
                         >
                             {strings.showCompletedButtonLabel}
@@ -60,7 +60,7 @@ export function Component() {
                         <Button
                             name="active"
                             onClick={setCurrentView}
-                            styleVariant="action"
+                            variant="tertiary"
                             before={<ChevronLeftLineIcon className={styles.icon} />}
                         >
                             {strings.backToActiveButtonLabel}

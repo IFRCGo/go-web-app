@@ -1,11 +1,11 @@
 import { type MouseEventHandler } from 'react';
 import {
     Container,
+    DataDisplay,
     Description,
+    DisplayLabel,
     ExpandableContainer,
-    Label,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
@@ -585,17 +585,17 @@ export function Component() {
 
     return (
         <TabPage>
-            <Label
+            <DisplayLabel
                 strong
                 textSize="lg"
             >
                 {strings.surgeOperationalToolboxHeadingDescription}
-            </Label>
+            </DisplayLabel>
             <ListView layout="block">
                 <ExpandableContainer
                     heading={strings.operationalToolboxOverviewHeading}
                     initiallyExpanded
-                    withDarkBackground
+                    backgroundColor="background"
                     withPadding
                     spacing="lg"
                     headerDescription={strings.overviewSectionHeader}
@@ -606,13 +606,13 @@ export function Component() {
                         withContentWell
                     >
                         <ListView layout="block">
-                            <TextOutput
+                            <DataDisplay
                                 value={strings.toolboxValue}
                                 label={strings.toolboxLabel}
                                 strongLabel
                                 withBlockLayout
                             />
-                            <TextOutput
+                            <DataDisplay
                                 value={strings.timelineValue}
                                 label={strings.timelineLabel}
                                 withBlockLayout
@@ -634,7 +634,7 @@ export function Component() {
                     layout="block"
                     withSpacingOpticalCorrection
                     withPadding
-                    withDarkBackground
+                    backgroundColor="background"
                 >
                     <div>{fundingCoverageDescription}</div>
                     <div>{perSectionHeading}</div>

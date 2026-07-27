@@ -50,7 +50,7 @@ function Summary(props: Props) {
             )}
             headerDescription={summaryContent}
             withPadding
-            withDarkBackground
+            backgroundColor="background"
             withToggleButtonOnFooter
             toggleButtonLabel={[strings.seeSources, strings.closeSources]}
             spacing="lg"

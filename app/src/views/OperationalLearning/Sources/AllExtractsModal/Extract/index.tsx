@@ -1,6 +1,6 @@
 import {
     Container,
-    TextOutput,
+    DataDisplay,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
@@ -56,7 +56,7 @@ function Extract(props: Props) {
                 </Link>
             )}
             footer={(
-                <TextOutput
+                <DataDisplay
                     label={strings.dateOfOperation}
                     value={operationStartDate}
                     strongValue
@@ -64,7 +64,7 @@ function Extract(props: Props) {
                 />
             )}
             withPadding
-            withDarkBackground
+            backgroundColor="background"
         >
             {extract}
         </Container>

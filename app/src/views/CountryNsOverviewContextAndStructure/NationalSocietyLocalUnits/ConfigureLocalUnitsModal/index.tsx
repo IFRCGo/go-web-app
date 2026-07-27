@@ -6,8 +6,8 @@ import { useOutletContext } from 'react-router-dom';
 import {
     Button,
     Container,
+    Dialog,
     ListView,
-    Modal,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
@@ -175,7 +175,7 @@ function ConfigureLocalUnitsModal(props: Props) {
         || externallyManagedUpdatePending;
 
     return (
-        <Modal
+        <Dialog
             heading={resolveToString(
                 strings.modalHeading,
                 { countryName: countryResponse?.name ?? '--' },
@@ -213,7 +213,7 @@ function ConfigureLocalUnitsModal(props: Props) {
                     ))}
                 </ListView>
             </Container>
-        </Modal>
+        </Dialog>
     );
 }
 

@@ -33,15 +33,13 @@ function OCACListItem(props: Props) {
             }
             headingLevel={4}
             withPadding
-            withBackground
-            withShadow
+            backgroundColor="foreground"
+            boxShadow="md"
         >
             <KeyFigure
                 value={capacity.submission_date}
                 valueType="date"
-                valueOptions={{
-                    format: 'MMM yyyy',
-                }}
+                format="MMM yyyy"
                 label={strings.capacityListItemDateOfAssessment}
             />
         </Container>

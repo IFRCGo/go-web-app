@@ -114,7 +114,7 @@ export const WithShadow: Story = {
     args: {
         title: 'Shadowed Section',
         description: 'Container shadow enabled.',
-        withShadow: true,
+        boxShadow: 'md',
         children: Items(1),
     },
 };

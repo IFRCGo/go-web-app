@@ -1,9 +1,9 @@
 import {
     Container,
     Description,
+    DisplayLabel,
+    Iframe,
     Image,
-    InlineFrame,
-    Label,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -43,7 +43,7 @@ export function Component() {
             heading={strings.aboutResources}
             description={strings.resourcesDescription}
             info={(
-                <InlineFrame
+                <Iframe
                     className={styles.introductionVideo}
                     title="GO introduction video"
                     src="https://www.youtube.com/embed/dwPsQzla9A4"
@@ -65,9 +65,9 @@ export function Component() {
                         heading={strings.goReferenceMaterial}
                         headerDescription={strings.goUserReferenceMaterial}
                         withHeaderBorder
-                        withBackground
+                        backgroundColor="foreground"
                         withPadding
-                        withShadow
+                        boxShadow="md"
                         headingLevel={5}
                     >
                         <ListView
@@ -142,8 +142,8 @@ export function Component() {
                         heading={strings.aboutSurgeLinks}
                         withHeaderBorder
                         withPadding
-                        withBackground
-                        withShadow
+                        backgroundColor="foreground"
+                        boxShadow="md"
                         headingLevel={5}
                     >
                         <ListView
@@ -199,8 +199,8 @@ export function Component() {
                         heading={strings.aboutGuidanceMaterial}
                         withHeaderBorder
                         withPadding
-                        withBackground
-                        withShadow
+                        backgroundColor="foreground"
+                        boxShadow="md"
                         headingLevel={5}
                     >
                         <ListView
@@ -242,8 +242,8 @@ export function Component() {
                         heading={strings.aboutOtherResources}
                         withHeaderBorder
                         withPadding
-                        withBackground
-                        withShadow
+                        backgroundColor="foreground"
+                        boxShadow="md"
                         headingLevel={5}
                     >
                         <ListView
@@ -311,17 +311,17 @@ export function Component() {
                                 heading={contact.extent}
                                 headingLevel={6}
                                 withPadding
-                                withShadow
-                                withBackground
+                                boxShadow="md"
+                                backgroundColor="foreground"
                             >
                                 <ListView
                                     layout="block"
                                     withSpacingOpticalCorrection
                                     spacing="sm"
                                 >
-                                    <Label strong>
+                                    <DisplayLabel strong>
                                         {contact.name}
-                                    </Label>
+                                    </DisplayLabel>
                                     <Link
                                         href={`mailto:${contact.email}`}
                                         external

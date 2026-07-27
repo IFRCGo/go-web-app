@@ -3,6 +3,12 @@
 }
 
 .segment-input {
-    border-radius: var(--go-ui-border-radius-full);
+    border-radius: var(--go-ui-border-radius-md);
     width: fit-content;
+
+    /* Square the inner segment buttons to match the squared track
+       (overrides ButtonLayout's full radius via descendant specificity). */
+    .segment {
+        border-radius: var(--go-ui-border-radius-md);
+    }
 }

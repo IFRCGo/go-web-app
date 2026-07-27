@@ -8,6 +8,7 @@
         "exportButtonLabel": "Export Local Units",
         "configureDropdownLabel": "Configure Local Units",
         "importDropdownLabel": "Import Local Units",
-        "viewPreviousImportsDropdownLabel": "View previous imports"
+        "viewPreviousImportsDropdownLabel": "View previous imports",
+        "moreOptionsLabel": "More options"
     }
 }

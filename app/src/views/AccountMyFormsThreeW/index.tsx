@@ -4,7 +4,7 @@ import {
 } from 'react';
 import {
     Container,
-    Pager,
+    Pagination,
     Table,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -258,7 +258,7 @@ export function Component(props: Props) {
                 )}
                 withHeaderBorder
                 footerActions={(
-                    <Pager
+                    <Pagination
                         activePage={activityActivePage}
                         onActivePageChange={setActivityActivePage}
                         itemsCount={activityResponse?.count ?? 0}

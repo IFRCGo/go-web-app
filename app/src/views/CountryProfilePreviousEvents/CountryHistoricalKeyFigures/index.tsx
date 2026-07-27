@@ -6,9 +6,9 @@ import {
     TargetedPopulationIcon,
 } from '@ifrc-go/icons';
 import {
-    InfoPopup,
-    KeyFigureView,
+    KeyFigureCard,
     ListView,
+    MoreInfo,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { getPercentage } from '@ifrc-go/ui/utils';
@@ -37,63 +37,61 @@ function CountryHistoricalKeyFigures(props: Props) {
             numPreferredGridColumns={5}
             className={className}
         >
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<DrefIcon />}
                 value={data.active_drefs}
                 valueType="number"
                 info={(
-                    <InfoPopup
+                    <MoreInfo
                         title={strings.keyFiguresDrefTitle}
-                        description={strings.keyFiguresDref}
-                    />
+                    >
+                        {strings.keyFiguresDref}
+                    </MoreInfo>
                 )}
                 label={strings.countryHistoricalDREFOperations}
-                withShadow
+                boxShadow="md"
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<AppealsIcon />}
                 value={data.active_appeals}
                 valueType="number"
                 info={(
-                    <InfoPopup
+                    <MoreInfo
                         title={strings.keyFiguresEmergencyAppealTitle}
-                        description={
-                            strings.countryHistoricalFigureEmergencyAppealDescription
-                        }
-                    />
+                    >
+                        {strings.countryHistoricalFigureEmergencyAppealDescription}
+                    </MoreInfo>
                 )}
                 label={strings.keyFiguresEmergencyAppeals}
-                withShadow
+                boxShadow="md"
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<TargetedPopulationIcon />}
                 value={data.target_population}
                 valueType="number"
-                valueOptions={{ compact: true }}
+                compact
                 label={strings.keyFiguresTargetPopulation}
-                withShadow
+                boxShadow="md"
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<FundingIcon />}
                 value={data.amount_requested_dref_included}
                 valueType="number"
-                valueOptions={{ compact: true }}
+                compact
                 label={strings.keyFiguresFundingRequirements}
-                withShadow
+                boxShadow="md"
             />
-            <KeyFigureView
+            <KeyFigureCard
                 icon={<FundingCoverageIcon />}
                 value={getPercentage(
                     data.amount_funded_dref_included,
                     data.amount_requested_dref_included,
                 )}
                 valueType="number"
-                valueOptions={{
-                    suffix: '%',
-                    compact: true,
-                }}
+                suffix="%"
+                compact
                 label={strings.keyFiguresAppealsFundingCoverage}
-                withShadow
+                boxShadow="md"
             />
         </ListView>
     );

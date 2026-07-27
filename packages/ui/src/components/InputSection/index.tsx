@@ -1,7 +1,8 @@
 import Container from '#components/Container';
 import Description from '#components/Description';
-import InfoPopup from '#components/InfoPopup';
 import ListView from '#components/ListView';
+import MoreInfo from '#components/MoreInfo';
+import { BoxShadowType } from '#utils/style';
 
 type NumColumn = 1 | 2 | 3 | 4;
 export interface Props {
@@ -14,13 +15,19 @@ export interface Props {
     withoutTitleSection?: boolean;
     withFullWidthContent?: boolean;
     withoutPadding?: boolean;
+    /** Drops the default foreground surface */
     withoutBackground?: boolean;
     withAsteriskOnTitle?: boolean;
     numPreferredColumns?: NumColumn;
-    withShadow?: boolean;
+    /** Shadow token forwarded to the underlying Container */
+    boxShadow?: BoxShadowType;
     headerActions?: React.ReactNode;
 }
 
+/**
+ * Form section grouping inputs under a titled, padded card
+ * (specific layer).
+ */
 function InputSection(props: Props) {
     const {
         // className,
@@ -35,7 +42,7 @@ function InputSection(props: Props) {
         withAsteriskOnTitle,
         numPreferredColumns = 1,
         withFullWidthContent,
-        withShadow,
+        boxShadow,
         headerActions,
     } = props;
 
@@ -53,7 +60,7 @@ function InputSection(props: Props) {
                     )}
                     headerActions={(
                         <>
-                            {tooltip && <InfoPopup description={tooltip} />}
+                            {tooltip && <MoreInfo>{tooltip}</MoreInfo>}
                             {headerActions}
                         </>
                     )}
@@ -84,8 +91,8 @@ function InputSection(props: Props) {
     return (
         <Container
             withPadding={!withoutPadding}
-            withBackground={!withoutBackground}
-            withShadow={withShadow}
+            backgroundColor={withoutBackground ? undefined : 'foreground'}
+            boxShadow={boxShadow}
             spacing="lg"
             // className={_cs(
             //     styles.inputSection,

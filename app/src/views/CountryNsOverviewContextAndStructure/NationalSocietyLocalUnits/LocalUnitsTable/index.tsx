@@ -5,7 +5,7 @@ import {
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
-    Pager,
+    Pagination,
     Table,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -239,7 +239,7 @@ function LocalUnitsTable(props: Props) {
         <Container
             footerActions={isDefined(localUnitsResponse)
                 && isDefined(localUnitsResponse.count) && (
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={localUnitsResponse.count}
                     maxItemsPerPage={limit}

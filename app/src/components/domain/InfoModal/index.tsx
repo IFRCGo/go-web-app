@@ -1,8 +1,8 @@
 import {
     Button,
     type ButtonProps,
+    Dialog,
     IconButton,
-    Modal,
 } from '@ifrc-go/ui';
 import { useBooleanState } from '@ifrc-go/ui/hooks';
 
@@ -22,7 +22,7 @@ type LabelButtonProps = {
 type ButtonTypeProps = IconButtonProps | LabelButtonProps;
 
 // FIXME: make the props consistent with other similar components
-// e.g. DropdownMenu
+// e.g. Menu
 interface BaseProps extends ButtonProps<undefined> {
     heading?: string;
     modalContent: React.ReactNode;
@@ -72,13 +72,13 @@ function InfoModal(props: Props) {
                 </Button>
             )}
             {showInfoModal && (
-                <Modal
+                <Dialog
                     onClose={setShowInfoModalFalse}
                     heading={heading}
                     size="auto"
                 >
                     {modalContent}
-                </Modal>
+                </Dialog>
             )}
         </>
     );

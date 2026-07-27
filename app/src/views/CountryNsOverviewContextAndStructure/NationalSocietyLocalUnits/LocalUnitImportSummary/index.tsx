@@ -5,10 +5,11 @@ import {
 } from '@ifrc-go/icons';
 import {
     Container,
+    type ContainerProps,
+    DataDisplay,
     ListView,
-    NumberOutput,
+    NumberDisplay,
     ProgressBar,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
@@ -34,14 +35,14 @@ const BULK_UPLOAD_PENDING = 3 satisfies BulkStatusKey;
 interface Props {
     value: BulkUploadResponse | undefined;
     withPadding?: boolean;
-    withBackground?: boolean;
+    backgroundColor?: ContainerProps['backgroundColor'];
 }
 
 function LocalUnitImportSummary(props: Props) {
     const {
         value,
         withPadding,
-        withBackground,
+        backgroundColor,
     } = props;
     const strings = useTranslation(i18n);
 
@@ -55,7 +56,7 @@ function LocalUnitImportSummary(props: Props) {
             pending={value?.status === BULK_UPLOAD_PENDING}
             pendingMessage={strings.processingMessage}
             withPadding={withPadding}
-            withBackground={withBackground}
+            backgroundColor={backgroundColor}
         >
             <ListView layout="block">
                 {isDefined(totalCount) && (
@@ -66,12 +67,12 @@ function LocalUnitImportSummary(props: Props) {
                             strings.rowsSuccessLabel,
                             {
                                 numRows: (
-                                    <NumberOutput
+                                    <NumberDisplay
                                         value={value?.success_count}
                                     />
                                 ),
                                 total: (
-                                    <NumberOutput
+                                    <NumberDisplay
                                         value={totalCount}
                                     />
                                 ),
@@ -90,7 +91,7 @@ function LocalUnitImportSummary(props: Props) {
                     layout="block"
                     withSpacingOpticalCorrection
                 >
-                    <TextOutput
+                    <DataDisplay
                         label={strings.statusLabel}
                         value={value?.status_details}
                         strongValue

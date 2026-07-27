@@ -6,7 +6,7 @@ import {
     useOutletContext,
     useParams,
 } from 'react-router-dom';
-import { HtmlOutput } from '@ifrc-go/ui';
+import { HtmlDisplay } from '@ifrc-go/ui';
 import { isDefined } from '@togglecorp/fujs';
 
 import TabPage from '#components/TabPage';
@@ -52,7 +52,7 @@ export function Component(props: Props) {
     return (
         <TabPage>
             {additionalTab?.snippets?.map((snippet) => (
-                <HtmlOutput
+                <HtmlDisplay
                     key={snippet.id}
                     value={snippet.snippet}
                 />

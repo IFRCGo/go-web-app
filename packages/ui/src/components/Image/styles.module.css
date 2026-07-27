@@ -21,14 +21,19 @@
         object-position: center center;
     }
 
+    .expand-button {
+        display: block;
+        width: 100%;
+    }
+
     &:not(.without-background) {
-        >.img-element {
+        .img-element {
             background-color: var(--go-ui-color-background);
         }
     }
 
     &.with-contained-fit {
-        >.img-element {
+        .img-element {
             object-fit: contain;
         }
     }

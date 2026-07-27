@@ -4,13 +4,13 @@ import {
     Button,
     ButtonLayout,
     Container,
-    DateOutput,
+    DataDisplay,
+    DateDisplay,
+    DisplayLabel,
     KeyFigure,
-    Label,
     ListView,
-    NumberOutput,
+    NumberDisplay,
     ProgressBar,
-    TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -118,8 +118,8 @@ function OperationCard(props: Props) {
         <Container
             className={className}
             withPadding
-            withBackground
-            withShadow
+            backgroundColor="foreground"
+            boxShadow="md"
             pending={false}
             empty={false}
             filtered={false}
@@ -147,9 +147,9 @@ function OperationCard(props: Props) {
                                 <ListView spacing="xs">
                                     <SeverityIndicator level={ifrc_severity_level} />
                                     {ifrc_severity_level_display}
-                                    <DateOutput value={ifrc_severity_level_update_date} />
+                                    <DateDisplay value={ifrc_severity_level_update_date} />
                                 </ListView>
-                                <TextOutput
+                                <DataDisplay
                                     label={<FocusLineIcon />}
                                     value={countriesInfoDisplay}
                                     withoutLabelColon
@@ -192,7 +192,7 @@ function OperationCard(props: Props) {
                             {appealTypes.join(', ')}
                         </ButtonLayout>
                     ) : <div />}
-                    <TextOutput
+                    <DataDisplay
                         label={strings.operationCardLastUpdated}
                         value={updated_at}
                         valueType="date"
@@ -211,10 +211,10 @@ function OperationCard(props: Props) {
                             spacing="xs"
                             withSpaceBetweenContents
                         >
-                            <Label withUppercaseLetters>
+                            <DisplayLabel withUppercaseLetters>
                                 {strings.operationCardFundingCoverage}
-                            </Label>
-                            <NumberOutput
+                            </DisplayLabel>
+                            <NumberDisplay
                                 value={coverage}
                                 suffix="%"
                             />
@@ -240,7 +240,7 @@ function OperationCard(props: Props) {
                     )}
                     value={targetedPopulation}
                     valueType="number"
-                    valueOptions={{ compact: true }}
+                    compact
                 />
                 <KeyFigure
                     value={amountRequested}
@@ -254,7 +254,7 @@ function OperationCard(props: Props) {
                         </Link>
                     )}
                     valueType="number"
-                    valueOptions={{ compact: true }}
+                    compact
                 />
             </ListView>
         </Container>

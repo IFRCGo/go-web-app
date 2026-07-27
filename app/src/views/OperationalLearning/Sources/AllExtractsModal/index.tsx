@@ -1,9 +1,9 @@
 import {
-    Chip,
+    Dialog,
     ListView,
-    Modal,
-    Pager,
+    Pagination,
     RawList,
+    Tag,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -83,15 +83,14 @@ function AllExtractsModal(props: Props) {
     const opsLearningCount = opsLearningResponse?.count ?? 0;
 
     return (
-        <Modal
+        <Dialog
             heading={strings.allExtractsModalHeading}
             onClose={onCancel}
             pending={opsLearningPending}
             size="full"
             headerDescription={(
                 <ListView>
-                    <Chip
-                        name="extractsCount"
+                    <Tag
                         label={(opsLearningCount > 1) ? (
                             resolveToString(
                                 strings.allExtractsModalExtractsCount,
@@ -103,12 +102,12 @@ function AllExtractsModal(props: Props) {
                                 { count: opsLearningCount },
                             )
                         )}
-                        variant="tertiary"
+                        colorVariant="tertiary"
                     />
                 </ListView>
             )}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={opsLearningActivePage}
                     onActivePageChange={setOpsLearningActivePage}
                     itemsCount={opsLearningCount}
@@ -132,7 +131,7 @@ function AllExtractsModal(props: Props) {
                     rendererParams={extractsRendererParams}
                 />
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

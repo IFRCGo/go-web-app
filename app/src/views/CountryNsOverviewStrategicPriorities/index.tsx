@@ -6,10 +6,10 @@ import {
 } from '@ifrc-go/icons';
 import {
     Container,
+    DataDisplay,
     Description,
-    KeyFigureView,
+    KeyFigureCard,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
@@ -199,7 +199,7 @@ export function Component() {
                     empty={false}
                     heading={strings.nsStrategicPrioritiesHeading}
                     footerActions={(
-                        <TextOutput
+                        <DataDisplay
                             label={strings.source}
                             value={strings.unifiedPlanning}
                             strongValue
@@ -260,19 +260,19 @@ export function Component() {
                                 layout="grid"
                                 minGridColumnSize="6rem"
                             >
-                                <KeyFigureView
+                                <KeyFigureCard
                                     value={countryPlanResponse.requested_amount}
                                     label={strings.countryPlanKeyFigureRequestedAmount}
                                     valueType="number"
-                                    valueOptions={{ compact: true }}
-                                    withShadow
+                                    compact
+                                    boxShadow="md"
                                 />
-                                <KeyFigureView
+                                <KeyFigureCard
                                     value={countryPlanResponse.people_targeted}
                                     label={strings.countryPlanPeopleTargeted}
                                     valueType="number"
-                                    valueOptions={{ compact: true }}
-                                    withShadow
+                                    compact
+                                    boxShadow="md"
                                 />
                             </ListView>
                         </ListView>
@@ -309,8 +309,8 @@ export function Component() {
                                                     key={strengthComponent.component}
                                                     className={styles.strengthComponent}
                                                     withPadding
-                                                    withShadow
-                                                    withBackground
+                                                    boxShadow="md"
+                                                    backgroundColor="foreground"
                                                 >
                                                     {strengthComponent?.component_details.title}
                                                 </Container>
@@ -333,8 +333,8 @@ export function Component() {
                                                 )}
                                                 className={styles.strengthComponent}
                                                 withPadding
-                                                withShadow
-                                                withBackground
+                                                boxShadow="md"
+                                                backgroundColor="foreground"
                                             >
                                                 {strengthComponent?.component_details.title}
                                             </Container>
@@ -366,8 +366,8 @@ export function Component() {
                                                     key={keyDevelopmentComponent.component}
                                                     className={styles.priorityComponent}
                                                     withPadding
-                                                    withShadow
-                                                    withBackground
+                                                    boxShadow="md"
+                                                    backgroundColor="foreground"
                                                 >
                                                     {keyDevelopmentComponent
                                                         ?.component_details.title}
@@ -390,8 +390,8 @@ export function Component() {
                                                 )}
                                                 className={styles.priorityComponent}
                                                 withPadding
-                                                withShadow
-                                                withBackground
+                                                boxShadow="md"
+                                                backgroundColor="foreground"
                                             >
                                                 {keyDevelopmentComponent
                                                     ?.component_details.title}

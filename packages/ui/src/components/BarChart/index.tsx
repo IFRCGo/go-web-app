@@ -5,7 +5,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
-import NumberOutput from '#components/NumberOutput';
+import NumberDisplay from '#components/NumberDisplay';
 import Tooltip from '#components/Tooltip';
 import {
     getPercentage,
@@ -27,6 +27,10 @@ export interface Props<D> {
     compactValue?: boolean;
 }
 
+/**
+ * BarChart renders a sorted horizontal bar visualization of the data.
+ * Specific (data-viz) layer.
+ */
 function BarChart<D>(props: Props<D>) {
     const {
         className,
@@ -98,7 +102,7 @@ function BarChart<D>(props: Props<D>) {
                             }}
                         />
                     </div>
-                    <NumberOutput
+                    <NumberDisplay
                         className={styles.value}
                         value={datum.value}
                         compact={compactValue}

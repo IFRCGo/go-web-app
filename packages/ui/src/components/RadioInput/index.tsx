@@ -1,5 +1,9 @@
-import React, { useMemo } from 'react';
+import React, {
+    useId,
+    useMemo,
+} from 'react';
 import {
+    isDefined,
     isNotDefined,
     listToMap,
     OptionKey,
@@ -9,7 +13,10 @@ import InputContainer from '#components/InputContainer';
 import ListView from '#components/ListView';
 import RawList from '#components/RawList';
 import { getHighlightMode } from '#utils/common';
-import { SpacingType } from '#utils/style';
+import {
+    BackgroundColorType,
+    SpacingType,
+} from '#utils/style';
 
 import Radio, { Props as RadioProps } from './Radio';
 
@@ -35,8 +42,8 @@ export interface CommonProps<NAME, OPTION, VALUE, RADIO_RENDERER_PROPS extends R
     radioListLayoutPreferredGridColumns?: number;
     spacing?: SpacingType;
     withPadding?: boolean;
-    withBackground?: boolean;
-    withDarkBackground?: boolean;
+    /** Surface color token for the input container root */
+    backgroundColor?: BackgroundColorType;
 
     prevValue?: VALUE | undefined | null;
     withPrevValue?: boolean;
@@ -62,6 +69,10 @@ RADIO_RENDERER_PROPS extends RadioProps<VALUE>
     ClearableProps<VALUE, NAME> | NonClearableProps<VALUE, NAME>
 )
 
+/**
+ * Single-select radio list driven by options and selectors; renderer
+ * can be swapped (e.g. SegmentInput) (specific layer).
+ */
 function RadioInput<
     const NAME,
     OPTION extends object,
@@ -90,8 +101,7 @@ function RadioInput<
         radioListLayoutPreferredGridColumns,
         spacing,
         withPadding,
-        withBackground,
-        withDarkBackground,
+        backgroundColor,
 
         prevValue,
         withDiffView,
@@ -99,6 +109,13 @@ function RadioInput<
 
         ...otherOptions
     } = props;
+
+    const generatedId = useId();
+    const errorId = isDefined(error) ? `${generatedId}-error` : undefined;
+    const hintId = isDefined(hint) ? `${generatedId}-hint` : undefined;
+    // A shared name across every radio makes them a single native radio group,
+    // which provides arrow-key navigation between options for free.
+    const inputName = `${generatedId}-radio`;
 
     const highlightMode = useMemo(
         () => getHighlightMode(value, prevValue, withDiffView),
@@ -140,7 +157,7 @@ function RadioInput<
         k: VALUE,
         i: OPTION,
     ) => RADIO_RENDERER_PROPS = React.useCallback((key: VALUE, item: OPTION) => {
-        const radioProps: Pick<RADIO_RENDERER_PROPS, 'children' | 'name' | 'onClick' | 'value' | 'disabled' | 'readOnly' | 'description'> = {
+        const radioProps: Pick<RADIO_RENDERER_PROPS, 'children' | 'name' | 'onClick' | 'value' | 'disabled' | 'readOnly' | 'description' | 'inputName'> = {
             children: labelSelector(item),
             description: descriptionSelector ? descriptionSelector(item) : undefined,
             name: key,
@@ -148,6 +165,7 @@ function RadioInput<
             value: key === value,
             disabled,
             readOnly,
+            inputName,
         };
 
         const combinedProps = {
@@ -164,6 +182,7 @@ function RadioInput<
         disabled,
         readOnly,
         descriptionSelector,
+        inputName,
     ]);
 
     const radioList = (
@@ -179,9 +198,11 @@ function RadioInput<
 
     return (
         <InputContainer
+            role="radiogroup"
+            hintId={hintId}
+            errorId={errorId}
             className={className}
-            withBackground={withBackground}
-            withDarkBackground={withDarkBackground}
+            backgroundColor={backgroundColor}
             withPadding={withPadding}
             disabled={disabled}
             required={required}
@@ -193,7 +214,7 @@ function RadioInput<
             withPrevValue={withPrevValue}
             withAsterisk={withAsterisk}
             errorOnTooltip={errorOnTooltip}
-            variant="transparent"
+            styleVariant="transparent"
             withoutInputSectionPadding
             input={(
                 <>

@@ -1,7 +1,11 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import TabContext, { type TabKey } from '#contexts/tab';
+import TabContext, {
+    getTabNodeId,
+    getTabPanelNodeId,
+    type TabKey,
+} from '#contexts/tab';
 
 import styles from './styles.module.css';
 
@@ -32,12 +36,15 @@ export default function TabPanel(props: Props) {
         <div
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
+            id={getTabPanelNodeId(context.idBase, name)}
             className={_cs(
                 styles.tabPanel,
                 withContentsOnly && styles.withContentsOnly,
                 className,
             )}
             role="tabpanel"
+            aria-labelledby={getTabNodeId(context.idBase, name)}
+            tabIndex={0}
             ref={elementRef}
         />
     );

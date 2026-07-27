@@ -6,8 +6,8 @@ import {
 import { useOutletContext } from 'react-router-dom';
 import {
     Button,
+    Dialog,
     ListView,
-    Modal,
     Switch,
     TextInput,
 } from '@ifrc-go/ui';
@@ -61,11 +61,11 @@ function SwitchWithConfirmation<const NAME extends number>(props: Props<NAME>) {
                 label={label}
                 value={value}
                 withInvertedView
-                withDarkBackground
+                backgroundColor="background"
                 onChange={setNewValue}
             />
             {newValue !== value && (
-                <Modal
+                <Dialog
                     onClose={handleCancelButtonClick}
                     heading={strings.confirmationModalHeading}
                     headerDescription={strings.confirmationModalDescription}
@@ -81,7 +81,7 @@ function SwitchWithConfirmation<const NAME extends number>(props: Props<NAME>) {
                             <Button
                                 name={undefined}
                                 onClick={handleConfirmButtonClick}
-                                styleVariant="filled"
+                                variant="primary"
                                 disabled={confirmDisabled}
                             >
                                 {strings.confirmButtonLabel}
@@ -105,7 +105,7 @@ function SwitchWithConfirmation<const NAME extends number>(props: Props<NAME>) {
                                 { localUnitType: label },
                             )}
                     </ListView>
-                </Modal>
+                </Dialog>
             )}
         </>
     );

@@ -32,8 +32,8 @@ function DocumentListCard(props: Props) {
             headingLevel={4}
             withHeaderBorder
             withPadding
-            withShadow
-            withBackground
+            boxShadow="md"
+            backgroundColor="foreground"
             withContentOverflow
             withFixedHeight
         >

@@ -86,7 +86,7 @@ function ResultList(props: Props) {
                             <ListView
                                 key={result.id}
                                 withCenteredContents
-                                withDarkBackground
+                                backgroundColor="background"
                             >
                                 {resultKey === 'regions' && (
                                     <Link

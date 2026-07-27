@@ -7,10 +7,10 @@ import { UploadLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Description,
-    Label,
+    Dialog,
+    DisplayLabel,
+    FileInputButton,
     ListView,
-    Modal,
-    RawFileInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
@@ -100,7 +100,7 @@ function BudgetFileInput(props: Props) {
                 {hasBudgetFile ? strings.updateBudgetFileLabel : strings.newBudgetFileUploadLabel}
             </Button>
             {showUploadModal && (
-                <Modal
+                <Dialog
                     heading={strings.newBudgetFileUploadLabel}
                     onClose={handleUploadModalClose}
                     footerActions={(
@@ -119,18 +119,18 @@ function BudgetFileInput(props: Props) {
                         <Description>
                             {strings.uploadFileDescription}
                         </Description>
-                        <RawFileInput
+                        <FileInputButton
                             name={undefined}
                             onChange={setBudgetFile}
                             before={<UploadLineIcon />}
                         >
                             {strings.fileInputLabel}
-                        </RawFileInput>
-                        <Label>
+                        </FileInputButton>
+                        <DisplayLabel>
                             {isDefined(budgetFile) && budgetFile.name}
-                        </Label>
+                        </DisplayLabel>
                     </ListView>
-                </Modal>
+                </Dialog>
             )}
         </>
     );

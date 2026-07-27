@@ -1,4 +1,4 @@
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
 
@@ -39,7 +39,7 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.communityBasedPersonnel}
             >
-                <TextOutput
+                <DataDisplay
                     value={(
                         <ul>
                             <li>{strings.communityBasedPersonnelListItemOne}</li>
@@ -63,22 +63,22 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.communityBasedSpecificationsLabel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.communityBasedSpecificationsWeightValue}
                     label={strings.communityBasedSpecificationsWeightLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.communityBasedSpecificationsVolumeLabel}
                     label={strings.communityBasedSpecificationsVolumeValue}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.communityBasedSpecificationsCostValue}
                     label={strings.communityBasedSpecificationsCostLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.communityBasedSpecificationsNationValue}
                     label={strings.communityBasedSpecificationsNationLabel}
                     strongLabel

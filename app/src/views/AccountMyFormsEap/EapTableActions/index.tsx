@@ -9,9 +9,11 @@ import {
 } from '@ifrc-go/icons';
 import {
     Button,
+    ButtonLayout,
     ConfirmButton,
+    Dialog,
     ListView,
-    Modal,
+    RawButton,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -42,6 +44,7 @@ import { type EapExpandedListItem } from '../utils';
 import BudgetFileInput from './BudgetFileInput';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 export interface Props {
     expandedListItem: EapExpandedListItem;
@@ -270,16 +273,21 @@ function EapTableActions(props: Props) {
                         && (isDefined(details?.data.theory_of_change_table_file_details)
                         || isDefined(details?.data.forecast_table_file_details))
                         && (
-                            <Button
+                            <RawButton
+                                className={styles.additionalFilesButton}
                                 name={undefined}
                                 onClick={setShowAdditionalFileModalTrue}
-                                colorVariant="text"
-                                styleVariant="transparent"
-                                before={<DownloadTwoLineIcon />}
-                                withoutPadding
                             >
-                                {strings.additionalFilesButtonLabel}
-                            </Button>
+                                <ButtonLayout
+                                    colorVariant="text"
+                                    styleVariant="transparent"
+                                    spacingOffset={-3}
+                                    before={<DownloadTwoLineIcon />}
+                                    withoutPadding
+                                >
+                                    {strings.additionalFilesButtonLabel}
+                                </ButtonLayout>
+                            </RawButton>
                         )}
                     {isDefined(details?.data.version)
                         && details.data.version > 1
@@ -289,7 +297,7 @@ function EapTableActions(props: Props) {
                                     name
                                     onClick={setShowExportModalTrue}
                                     before={<DownloadTwoLineIcon />}
-                                    styleVariant="action"
+                                    variant="tertiary"
                                 >
                                     {resolveToString(
                                         strings.exportWithChangesButtonLabel,
@@ -468,7 +476,7 @@ function EapTableActions(props: Props) {
                         name={false}
                         onClick={setShowExportModalTrue}
                         before={<DownloadTwoLineIcon />}
-                        styleVariant="action"
+                        variant="tertiary"
                     >
                         {strings.exportButtonLabel}
                     </Button>
@@ -517,7 +525,7 @@ function EapTableActions(props: Props) {
                                 name={false}
                                 onClick={setShowSummaryExportTrue}
                                 before={<DownloadTwoLineIcon />}
-                                styleVariant="action"
+                                variant="tertiary"
                             >
                                 {strings.exportSummaryButtonLabel}
                             </Button>
@@ -538,7 +546,7 @@ function EapTableActions(props: Props) {
                 />
             )}
             {showAdditionalFileModal && details?.eapType === EAP_TYPE_FULL && (
-                <Modal
+                <Dialog
                     heading={strings.additionalFilesButtonLabel}
                     onClose={setShowAdditionalFileModalFalse}
                 >
@@ -562,7 +570,7 @@ function EapTableActions(props: Props) {
                             </Link>
                         )}
                     </ListView>
-                </Modal>
+                </Dialog>
             )}
         </ListView>
     );

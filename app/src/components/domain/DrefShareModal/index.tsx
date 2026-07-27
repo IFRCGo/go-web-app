@@ -5,8 +5,8 @@ import {
 import {
     Button,
     Container,
+    Dialog,
     ListView,
-    Modal,
     RawList,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -102,7 +102,7 @@ function DrefShareModal(props: Props) {
     ]);
 
     return (
-        <Modal
+        <Dialog
             heading={strings.drefShareTitle}
             headerDescription={strings.drefShareDescription}
             onClose={onCancel}
@@ -150,7 +150,7 @@ function DrefShareModal(props: Props) {
                     </ListView>
                 </Container>
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

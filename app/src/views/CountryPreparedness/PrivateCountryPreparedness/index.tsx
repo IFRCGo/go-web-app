@@ -14,10 +14,11 @@ import {
 import {
     Button,
     Container,
+    DataDisplay,
     Description,
+    DisplayLabel,
     InlineLayout,
     KeyFigure,
-    Label,
     LegendItem,
     ListView,
     Message,
@@ -25,7 +26,6 @@ import {
     ProgressBar,
     RawList,
     StackedProgressBar,
-    TextOutput,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -458,7 +458,7 @@ function PrivateCountryPreparedness() {
             >
                 <Container
                     headerDescription={(
-                        <TextOutput
+                        <DataDisplay
                             label={strings.lastUpdatedLabel}
                             value={processStatusResponse?.updated_at}
                             valueType="date"
@@ -466,42 +466,42 @@ function PrivateCountryPreparedness() {
                         />
                     )}
                     withPadding
-                    withBackground
-                    withShadow
+                    backgroundColor="foreground"
+                    boxShadow="md"
                     spacing="lg"
                 >
                     <ListView
                         layout="grid"
                         numPreferredGridColumns={3}
                     >
-                        <TextOutput
+                        <DataDisplay
                             label={strings.startDateLabel}
                             value={perOverview?.date_of_assessment}
                             valueType="date"
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.perPhaseLabel}
                             value={processStatusResponse?.phase_display}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.focalPointNameLabel}
                             value={perOverview?.ns_focal_point_name}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.perCycleLabel}
                             value={perOverview?.assessment_number}
                             valueType="number"
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.typeOfAssessmentLabel}
                             value={perOverview?.type_of_assessment?.name}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.focalPointEmailTitle}
                             value={perOverview?.ns_focal_point_email}
                             strongValue
@@ -596,7 +596,7 @@ function PrivateCountryPreparedness() {
                                             )}
                                             withoutWrapInHeader
                                             withPadding
-                                            withDarkBackground
+                                            backgroundColor="background"
                                         >
                                             {component.details.title}
                                         </Container>
@@ -619,17 +619,17 @@ function PrivateCountryPreparedness() {
 
                                         return (
                                             <Fragment key={priorityComponent.id}>
-                                                <Label strong>
+                                                <DisplayLabel strong>
                                                     {getFormattedComponentName({
                                                         component_num: priorityComponent.num,
                                                         component_letter: priorityComponent.letter,
                                                         title: priorityComponent.label,
                                                     })}
-                                                </Label>
+                                                </DisplayLabel>
                                                 <ProgressBar
                                                     value={priorityComponent.rating?.value ?? 0}
                                                     totalValue={5}
-                                                    colorVariant="custom"
+                                                    variant="custom"
                                                     color={progressBarColor}
                                                 />
                                             </Fragment>
@@ -647,10 +647,10 @@ function PrivateCountryPreparedness() {
                     withHeaderBorder
                     footer={(
                         <ListView
-                            withDarkBackground
+                            backgroundColor="background"
                             withPadding
                         >
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.perAreas}
                                 value={(
                                     <ListView
@@ -698,22 +698,22 @@ function PrivateCountryPreparedness() {
                                     withPadding
                                     spacing="sm"
                                 >
-                                    <Label strong>
+                                    <DisplayLabel strong>
                                         {getFormattedComponentName(component.details)}
-                                    </Label>
+                                    </DisplayLabel>
                                     <InlineLayout contentAlignment="center">
                                         <ProgressBar
                                             value={component.rating?.value ?? 0}
                                             totalValue={5}
-                                            colorVariant="custom"
+                                            variant="custom"
                                             color={progressBarColor}
                                         />
                                     </InlineLayout>
-                                    <Label strong>
+                                    <DisplayLabel strong>
                                         {isDefined(component.rating)
                                             ? `${component.rating.value} - ${component.rating.title}`
                                             : strings.componentNotReviewed}
-                                    </Label>
+                                    </DisplayLabel>
                                     <Description>
                                         {component.notes}
                                     </Description>

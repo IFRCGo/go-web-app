@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import {
-    Modal,
+    Dialog,
     Table,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -228,7 +228,7 @@ function ConditionalModal(props: Props) {
     );
 
     return (
-        <Modal
+        <Dialog
             heading={strings.hereConditionTitle}
             onClose={onClose}
             size="full"
@@ -241,7 +241,7 @@ function ConditionalModal(props: Props) {
                 data={tableData}
                 pending={false}
             />
-        </Modal>
+        </Dialog>
     );
 }
 

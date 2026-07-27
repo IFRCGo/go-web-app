@@ -4,7 +4,7 @@ import {
     Description,
     ExpandableContainer,
     ListView,
-    NumberOutput,
+    NumberDisplay,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -37,7 +37,7 @@ function KeyInsights(props: Props) {
         <Container
             heading={strings.opsLearningSummariesHeading}
             withPadding
-            withDarkBackground
+            backgroundColor="background"
             headingLevel={5}
             spacing="lg"
         >
@@ -78,12 +78,12 @@ function KeyInsights(props: Props) {
                 <Description withLightText>
                     {resolveToComponent(strings.keyInsightsDisclaimer, {
                         numOfExtractsUsed: (
-                            <NumberOutput
+                            <NumberDisplay
                                 value={opsLearningSummaryResponse.used_extracts_count}
                             />
                         ),
                         totalNumberOfExtracts: (
-                            <NumberOutput
+                            <NumberDisplay
                                 value={opsLearningSummaryResponse.total_extracts_count}
                             />
                         ),

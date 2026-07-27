@@ -48,7 +48,7 @@ function NavDropdownTabDetails(props: Props) {
                     <ListView
                         layout="block"
                         withSpacingOpticalCorrection
-                        withDarkBackground
+                        backgroundColor="background"
                         withPadding
                     >
                         {footer}

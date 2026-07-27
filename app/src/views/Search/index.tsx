@@ -222,7 +222,7 @@ export function Component() {
             return (
                 <Button
                     name={undefined}
-                    styleVariant="action"
+                    variant="tertiary"
                     before={(
                         <ChevronLeftLineIcon
                             className={styles.backIcon}
@@ -270,13 +270,13 @@ export function Component() {
                         <TextInput
                             name="search"
                             className={styles.searchInput}
-                            variant="general"
+                            styleVariant="general"
                             hint={strings.searchHint}
                             icons={<SearchLineIcon />}
                             actions={searchStringTemp && (
                                 <Button
                                     name={undefined}
-                                    styleVariant="action"
+                                    variant="tertiary"
                                     onClick={handleClearSearchInput}
                                 >
                                     <CloseLineIcon className={styles.closeIcon} />
@@ -352,7 +352,7 @@ export function Component() {
                         const action = data.length > MAX_VIEW_PER_SECTION ? (
                             <Button
                                 name={searchResponseKey}
-                                styleVariant="action"
+                                variant="tertiary"
                                 after={(
                                     <ChevronRightLineIcon
                                         className={styles.forwardIcon}

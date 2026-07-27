@@ -1,13 +1,13 @@
 import { useCallback } from 'react';
 import {
     Container,
+    DataDisplay,
     Description,
+    DisplayLabel,
     InputSection,
-    Label,
     ListView,
     NumberInput,
     TextArea,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { sumSafe } from '@ifrc-go/ui/utils';
@@ -108,29 +108,29 @@ function FinanceLogistics(props: Props) {
                     content={(
                         <ListView layout="block" withSpacingOpticalCorrection>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                <Label strong>
+                                <DisplayLabel strong>
                                     {strings.financeCriteriaIntroduction11}
-                                </Label>
-                                <Label>
+                                </DisplayLabel>
+                                <DisplayLabel>
                                     {strings.financeCriteriaIntroduction12}
-                                </Label>
+                                </DisplayLabel>
                             </ListView>
                             <Description>
                                 {strings.financeCriteriaComment1}
                             </Description>
-                            <Label strong>
+                            <DisplayLabel strong>
                                 {strings.financeCriteriaIntroduction2}
-                            </Label>
+                            </DisplayLabel>
                             <Description>
                                 {strings.financeCriteriaComment2}
                             </Description>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                <Label strong>
+                                <DisplayLabel strong>
                                     {strings.financeCriteriaIntroduction31}
-                                </Label>
-                                <Label>
+                                </DisplayLabel>
+                                <DisplayLabel>
                                     {strings.financeCriteriaIntroduction32}
-                                </Label>
+                                </DisplayLabel>
                             </ListView>
                             <Description>
                                 {strings.financeCriteriaComment3}
@@ -142,7 +142,7 @@ function FinanceLogistics(props: Props) {
         >
             <Container
                 heading={strings.financeHeading}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView layout="block" spacing="sm">
                     <InputSection
@@ -154,9 +154,9 @@ function FinanceLogistics(props: Props) {
                                 title={strings.financeBudgetTitle}
                                 content={(
                                     <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                        <Label strong>
+                                        <DisplayLabel strong>
                                             {strings.financeExplanatoryNoteLabel}
-                                        </Label>
+                                        </DisplayLabel>
                                         <Description>
                                             {strings.financeExplanatoryNote}
                                         </Description>
@@ -174,7 +174,7 @@ function FinanceLogistics(props: Props) {
                         )}
                         withAsteriskOnTitle
                     >
-                        <TextOutput
+                        <DataDisplay
                             valueType="number"
                             strongLabel
                             label={strings.financeTotalBudgetLabel}
@@ -212,12 +212,10 @@ function FinanceLogistics(props: Props) {
                             value={value?.budget_file}
                             error={getErrorString(error?.budget_file)}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            required
                             clearable
                             disabled={disabled}
                             readOnly={readOnly}
                             useCurrentLanguageForMutation
-                            label={strings.financeUploadBudgetLabel}
                         >
                             {strings.financeUploadButtonLabel}
                         </GoSingleFileInput>
@@ -232,17 +230,17 @@ function FinanceLogistics(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.financeExplanatoryNoteLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.financeReadinessCostExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.financeRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>
@@ -297,17 +295,17 @@ function FinanceLogistics(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.financeExplanatoryNoteLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.financePrePositioningExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.financeRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>
@@ -366,17 +364,17 @@ function FinanceLogistics(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.financeExplanatoryNoteLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.financeEarlyActionCostExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.financeRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>
@@ -433,7 +431,7 @@ function FinanceLogistics(props: Props) {
             </Container>
             <Container
                 heading={strings.financeEapEndorsementHeading}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView layout="block" spacing="sm">
                     <InputSection
@@ -445,9 +443,9 @@ function FinanceLogistics(props: Props) {
                                 title={strings.financeEapEndorsementTitle}
                                 content={(
                                     <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                        <Label strong>
+                                        <DisplayLabel strong>
                                             {strings.financeExplanatoryNoteLabel}
-                                        </Label>
+                                        </DisplayLabel>
                                         <Description>
                                             {strings.financeEapEndorsementExplanatoryNote}
                                         </Description>

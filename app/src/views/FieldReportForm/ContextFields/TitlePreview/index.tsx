@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import useAlert from '#hooks/useAlert';
@@ -63,7 +63,7 @@ function TitlePreview(props: Props) {
     });
 
     return (
-        <TextOutput
+        <DataDisplay
             value={generateTitleResponse?.title}
             label={strings.titlePreview}
             strongLabel

@@ -61,7 +61,7 @@ function ImminentEventListItem(props: Props) {
                 <Button
                     name={eventId}
                     onClick={onExpandClick}
-                    styleVariant="action"
+                    variant="tertiary"
                     // FIXME: use strings
                     title={expanded ? 'Hide details' : 'Show details'}
                 >
@@ -72,7 +72,7 @@ function ImminentEventListItem(props: Props) {
             )}
             headerDescription={description}
             spacing="sm"
-            withDarkBackground
+            backgroundColor="background"
             withPadding
             withoutSpacingOpticalCorrection
             withContentWell

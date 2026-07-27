@@ -5,11 +5,11 @@ import {
 } from 'react';
 import {
     Container,
+    DataDisplay,
     Description,
     LegendItem,
     ListView,
     RadioInput,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -344,7 +344,7 @@ function EmergenciesMap(props: Props) {
                                         headingLevel={6}
                                         spacing="2xs"
                                     >
-                                        <TextOutput
+                                        <DataDisplay
                                             label={strings.emergenciesPeopleAffected}
                                             value={getNumAffected(event.details)}
                                             valueType="number"

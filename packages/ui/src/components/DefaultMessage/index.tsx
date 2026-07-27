@@ -24,6 +24,11 @@ export interface Props {
     withoutIcon?: boolean;
 }
 
+/**
+ * DefaultMessage maps common data states (pending, errored, filtered,
+ * empty) to a Message with sensible default texts.
+ * Specific layer: composes the generic Message.
+ */
 function DefaultMessage(props: Props) {
     const {
         className,
@@ -91,6 +96,7 @@ function DefaultMessage(props: Props) {
             compact={compact}
             title={messageTitle}
             pending={pending}
+            variant={errored && !pending ? 'error' : undefined}
         />
     );
 }

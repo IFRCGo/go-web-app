@@ -6,10 +6,16 @@ import styles from './styles.module.css';
 
 export interface Props extends InlineLayoutProps {
     layoutClassName?: string;
+    /** Ref to the inner InlineLayout node (elementRef refers to the root) */
     layoutElementRef?: InlineLayoutProps['elementRef'];
+    /** Container width below which before/children/after stack vertically */
     wrapBreakpoint?: 'sm' | 'md' | 'lg' | 'none';
 }
 
+/**
+ * InlineLayout wrapped in a container that stacks its slots below a
+ * configurable container breakpoint (generic layer).
+ */
 function InlineView(props: Props) {
     const {
         layoutElementRef,

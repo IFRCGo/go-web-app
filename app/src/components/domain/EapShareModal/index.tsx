@@ -5,8 +5,8 @@ import {
 import {
     Button,
     Container,
+    Dialog,
     ListView,
-    Modal,
     RawList,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -120,7 +120,7 @@ function EapShareModal(props: Props) {
     ]);
 
     return (
-        <Modal
+        <Dialog
             heading={strings.eapShareTitle}
             headerDescription={strings.eapShareDescription}
             onClose={onCancel}
@@ -166,7 +166,7 @@ function EapShareModal(props: Props) {
                     </ListView>
                 </Container>
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

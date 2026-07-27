@@ -26,7 +26,12 @@ const meta = {
         onClick: fn(),
     },
     tags: ['autodocs'],
-    argTypes: {},
+    argTypes: {
+        variant: {
+            options: ['primary', 'secondary', 'tertiary', 'subtle'],
+            control: { type: 'select' },
+        },
+    },
 } satisfies Meta<typeof Button>;
 
 export default meta;
@@ -35,302 +40,79 @@ type Story = StoryObj<typeof meta>;
 function AllVariant() {
     return (
         <ListView layout="block">
-            <Container heading="Primary">
+            <Container heading="Variants">
                 <ListView>
                     <Button
-                        name="filled"
-                        styleVariant="filled"
-                        colorVariant="primary"
+                        name="primary"
+                        variant="primary"
                         textSize="md"
                         onClick={fn()}
                     >
-                        Filled
+                        Primary
                     </Button>
                     <Button
-                        name="outline"
-                        styleVariant="outline"
-                        colorVariant="primary"
+                        name="secondary"
+                        variant="secondary"
                         textSize="md"
                         onClick={fn()}
                     >
-                        Outline
+                        Secondary
                     </Button>
                     <Button
-                        name="action"
-                        styleVariant="action"
-                        colorVariant="primary"
+                        name="tertiary"
+                        variant="tertiary"
                         textSize="md"
                         onClick={fn()}
                     >
-                        Action
+                        Tertiary
                     </Button>
                     <Button
-                        name="translucent"
-                        styleVariant="translucent"
-                        colorVariant="primary"
+                        name="subtle"
+                        variant="subtle"
                         textSize="md"
                         onClick={fn()}
                     >
-                        Translucent
-                    </Button>
-                    <Button
-                        name="transparent"
-                        styleVariant="transparent"
-                        colorVariant="primary"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Transparent
-                    </Button>
-                </ListView>
-            </Container>
-            <Container heading="Secondary">
-                <ListView>
-                    <Button
-                        name="filled"
-                        styleVariant="filled"
-                        colorVariant="secondary"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Filled
-                    </Button>
-                    <Button
-                        name="outline"
-                        styleVariant="outline"
-                        colorVariant="secondary"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Outline
-                    </Button>
-                    <Button
-                        name="action"
-                        styleVariant="action"
-                        colorVariant="secondary"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Action
-                    </Button>
-                    <Button
-                        name="translucent"
-                        styleVariant="translucent"
-                        colorVariant="secondary"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Translucent
-                    </Button>
-                    <Button
-                        name="transparent"
-                        styleVariant="transparent"
-                        colorVariant="secondary"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Transparent
-                    </Button>
-                </ListView>
-            </Container>
-            <Container heading="Success">
-                <ListView>
-                    <Button
-                        name="filled"
-                        styleVariant="filled"
-                        colorVariant="success"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Filled
-                    </Button>
-                    <Button
-                        name="outline"
-                        styleVariant="outline"
-                        colorVariant="success"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Outline
-                    </Button>
-                    <Button
-                        name="action"
-                        styleVariant="action"
-                        colorVariant="success"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Action
-                    </Button>
-                    <Button
-                        name="translucent"
-                        styleVariant="translucent"
-                        colorVariant="success"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Translucent
-                    </Button>
-                    <Button
-                        name="transparent"
-                        styleVariant="transparent"
-                        colorVariant="success"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Transparent
-                    </Button>
-                </ListView>
-            </Container>
-            <Container heading="Danger">
-                <ListView>
-                    <Button
-                        name="filled"
-                        styleVariant="filled"
-                        colorVariant="danger"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Filled
-                    </Button>
-                    <Button
-                        name="outline"
-                        styleVariant="outline"
-                        colorVariant="danger"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Outline
-                    </Button>
-                    <Button
-                        name="action"
-                        styleVariant="action"
-                        colorVariant="danger"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Action
-                    </Button>
-                    <Button
-                        name="translucent"
-                        styleVariant="translucent"
-                        colorVariant="danger"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Translucent
-                    </Button>
-                    <Button
-                        name="transparent"
-                        styleVariant="transparent"
-                        colorVariant="danger"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Transparent
-                    </Button>
-                </ListView>
-            </Container>
-            <Container heading="Text">
-                <ListView>
-                    <Button
-                        name="filled"
-                        styleVariant="filled"
-                        colorVariant="text"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Filled
-                    </Button>
-                    <Button
-                        name="outline"
-                        styleVariant="outline"
-                        colorVariant="text"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Outline
-                    </Button>
-                    <Button
-                        name="action"
-                        styleVariant="action"
-                        colorVariant="text"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Action
-                    </Button>
-                    <Button
-                        name="translucent"
-                        styleVariant="translucent"
-                        colorVariant="text"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Translucent
-                    </Button>
-                    <Button
-                        name="transparent"
-                        styleVariant="transparent"
-                        colorVariant="text"
-                        textSize="md"
-                        onClick={fn()}
-                    >
-                        Transparent
+                        Subtle
                     </Button>
                 </ListView>
             </Container>
             <Container heading="Disabled">
                 <ListView>
                     <Button
-                        name="filled"
-                        styleVariant="filled"
-                        colorVariant="primary"
+                        name="primary"
+                        variant="primary"
                         textSize="md"
                         onClick={fn()}
                         disabled
                     >
-                        Filled
+                        Primary
                     </Button>
                     <Button
-                        name="outline"
-                        styleVariant="outline"
-                        colorVariant="primary"
+                        name="secondary"
+                        variant="secondary"
                         textSize="md"
                         onClick={fn()}
                         disabled
                     >
-                        Outline
+                        Secondary
                     </Button>
                     <Button
-                        name="action"
-                        styleVariant="action"
-                        colorVariant="primary"
+                        name="tertiary"
+                        variant="tertiary"
                         textSize="md"
                         onClick={fn()}
                         disabled
                     >
-                        Action
+                        Tertiary
                     </Button>
                     <Button
-                        name="translucent"
-                        styleVariant="translucent"
-                        colorVariant="primary"
+                        name="subtle"
+                        variant="subtle"
                         textSize="md"
                         onClick={fn()}
                         disabled
                     >
-                        Translucent
-                    </Button>
-                    <Button
-                        name="transparent"
-                        styleVariant="transparent"
-                        colorVariant="primary"
-                        textSize="md"
-                        disabled
-                        onClick={fn()}
-                    >
-                        Transparent
+                        Subtle
                     </Button>
                 </ListView>
             </Container>
@@ -345,8 +127,7 @@ function AllSpacing() {
                 <ListView>
                     <Button
                         name="small"
-                        styleVariant="filled"
-                        colorVariant="primary"
+                        variant="primary"
                         textSize="md"
                         onClick={fn()}
                         spacing="xs"
@@ -355,8 +136,7 @@ function AllSpacing() {
                     </Button>
                     <Button
                         name="small"
-                        styleVariant="filled"
-                        colorVariant="primary"
+                        variant="primary"
                         textSize="md"
                         onClick={fn()}
                         spacing="sm"
@@ -365,8 +145,7 @@ function AllSpacing() {
                     </Button>
                     <Button
                         name="medium"
-                        styleVariant="filled"
-                        colorVariant="primary"
+                        variant="primary"
                         textSize="md"
                         onClick={fn()}
                         spacing="md"
@@ -375,8 +154,7 @@ function AllSpacing() {
                     </Button>
                     <Button
                         name="large"
-                        styleVariant="filled"
-                        colorVariant="primary"
+                        variant="primary"
                         textSize="md"
                         onClick={fn()}
                         spacing="lg"
@@ -385,8 +163,7 @@ function AllSpacing() {
                     </Button>
                     <Button
                         name="small"
-                        styleVariant="filled"
-                        colorVariant="primary"
+                        variant="primary"
                         textSize="md"
                         onClick={fn()}
                         spacing="xl"
@@ -399,8 +176,7 @@ function AllSpacing() {
                 <ListView>
                     <Button
                         name="small"
-                        styleVariant="filled"
-                        colorVariant="secondary"
+                        variant="secondary"
                         textSize="sm"
                         onClick={fn()}
                         spacing="sm"
@@ -409,8 +185,7 @@ function AllSpacing() {
                     </Button>
                     <Button
                         name="medium"
-                        styleVariant="filled"
-                        colorVariant="secondary"
+                        variant="secondary"
                         textSize="md"
                         onClick={fn()}
                         spacing="md"
@@ -419,8 +194,7 @@ function AllSpacing() {
                     </Button>
                     <Button
                         name="large"
-                        styleVariant="filled"
-                        colorVariant="secondary"
+                        variant="secondary"
                         textSize="lg"
                         onClick={fn()}
                         spacing="lg"

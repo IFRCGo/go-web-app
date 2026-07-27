@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import {
     ColorPreview,
     Container,
-    TextOutput,
+    DataDisplay,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { formatNumber } from '@ifrc-go/ui/utils';
@@ -80,14 +80,14 @@ function TooltipContent(props: Props) {
                 )}
                 spacing="sm"
             >
-                <TextOutput
+                <DataDisplay
                     label={strings.riskScoreLabel}
                     strongValue
                     value={riskCategoryToLabelMap[riskCategory]}
                     textSize="sm"
                 />
                 {selectedRiskMetric !== 'riskScore' && (
-                    <TextOutput
+                    <DataDisplay
                         label={riskMetricLabelMap[selectedRiskMetric]}
                         strongValue
                         value={formatNumber(Math.ceil(value), { maximumFractionDigits: 0 })}

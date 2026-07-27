@@ -5,8 +5,8 @@ import {
 } from 'react';
 import {
     Container,
-    NumberOutput,
-    Pager,
+    NumberDisplay,
+    Pagination,
     Table,
     TextInput,
 } from '@ifrc-go/ui';
@@ -343,7 +343,7 @@ export function Component() {
 
     const heading = resolveToComponent(
         strings.allSurgeAlertsHeading,
-        { numSurgeAlerts: <NumberOutput value={surgeResponse?.count} invalidText="--" /> },
+        { numSurgeAlerts: <NumberDisplay value={surgeResponse?.count} invalidText="--" /> },
     );
 
     return (
@@ -389,7 +389,7 @@ export function Component() {
                     </>
                 )}
                 footerActions={(
-                    <Pager
+                    <Pagination
                         activePage={page}
                         onActivePageChange={setPage}
                         itemsCount={surgeResponse?.count ?? 0}

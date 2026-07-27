@@ -60,7 +60,7 @@ function IndicatorInput(props: Props) {
                 <Button
                     name={index}
                     onClick={onRemove}
-                    styleVariant="action"
+                    variant="tertiary"
                     title={strings.drefIndicatorRemoveButtonLabel}
                     disabled={disabled || readOnly}
                 >

@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 import { ArrowLeftLineIcon } from '@ifrc-go/icons';
 import {
     Container,
-    Label,
+    DataDisplay,
+    DisplayLabel,
     ListView,
     Message,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -155,7 +155,7 @@ function PublicCountryPreparedness() {
             >
                 <Container
                     headerDescription={(
-                        <TextOutput
+                        <DataDisplay
                             label={strings.publicLastUpdatedLabel}
                             value={processStatusResponse?.updated_at}
                             valueType="date"
@@ -167,34 +167,34 @@ function PublicCountryPreparedness() {
                         layout="grid"
                         numPreferredGridColumns={3}
                     >
-                        <TextOutput
+                        <DataDisplay
                             label={strings.publicStartDateLabel}
                             value={perStats?.date_of_assessment}
                             valueType="date"
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.publicPerPhaseLabel}
                             value={processStatusResponse?.phase_display}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.publicFocalPointNameLabel}
                             value={perStats?.ns_focal_point_name}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.publicPerCycleLabel}
                             value={perStats?.assessment_number}
                             valueType="number"
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.publicTypeOfAssessmentLabel}
                             value={perStats?.type_of_assessment?.name}
                             strongValue
                         />
-                        <TextOutput
+                        <DataDisplay
                             label={strings.publicFocalPointEmailTitle}
                             value={perStats?.ns_focal_point_email}
                             strongValue
@@ -217,7 +217,7 @@ function PublicCountryPreparedness() {
                                     (component) => (
                                         <Container
                                             key={component.details.id}
-                                            withDarkBackground
+                                            backgroundColor="background"
                                             withPadding
                                         >
                                             {component.details.title}
@@ -238,7 +238,7 @@ function PublicCountryPreparedness() {
                             >
                                 {componentsToBeStrengthened.map(
                                     (priorityComponent) => (
-                                        <Label
+                                        <DisplayLabel
                                             key={priorityComponent.id}
                                             strong
                                         >
@@ -247,7 +247,7 @@ function PublicCountryPreparedness() {
                                                 component_letter: priorityComponent.componentLetter,
                                                 title: priorityComponent.label,
                                             })}
-                                        </Label>
+                                        </DisplayLabel>
                                     ),
                                 )}
                             </ListView>

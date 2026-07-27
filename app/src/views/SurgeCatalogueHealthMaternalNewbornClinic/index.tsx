@@ -1,4 +1,4 @@
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
@@ -38,12 +38,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.personnel}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.totalPersonnelValue}
                     label={strings.totalPersonnelLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.personnelCompositionValue}
                     label={strings.personnelCompositionLabel}
                     strongLabel
@@ -53,31 +53,31 @@ export function Component() {
                 heading={strings.standardComponents}
             >
                 <div>{strings.standardComponentsDetails}</div>
-                <TextOutput
+                <DataDisplay
                     value={strings.moduleOneValue}
                     label={strings.moduleOneLabel}
                     withoutLabelColon
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.moduleTwoValue}
                     label={strings.moduleTwoLabel}
                     withoutLabelColon
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.moduleThreeValue}
                     label={strings.moduleThreeLabel}
                     withoutLabelColon
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.moduleFourValue}
                     label={strings.moduleFourLabel}
                     withoutLabelColon
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.moduleFiveValue}
                     label={strings.moduleFiveLabel}
                     withoutLabelColon
@@ -87,7 +87,7 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.specifications}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.specificationsNationalSocietyValue}
                     label={strings.specificationsNationalSocietyLabel}
                     strongLabel

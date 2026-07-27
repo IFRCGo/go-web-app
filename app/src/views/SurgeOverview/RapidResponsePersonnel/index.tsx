@@ -108,8 +108,8 @@ export function Component() {
                     withHeaderBorder
                     pending={pending}
                     withPadding
-                    withBackground
-                    withShadow
+                    backgroundColor="foreground"
+                    boxShadow="md"
                 >
                     <BarChart
                         data={deploymentsByNationalSocietyResponse ?? []}
@@ -123,8 +123,8 @@ export function Component() {
                     withHeaderBorder
                     pending={pending}
                     withPadding
-                    withBackground
-                    withShadow
+                    backgroundColor="foreground"
+                    boxShadow="md"
                 >
                     {deploymentsByNationalSocietyResponse && (
                         <TimeSeriesChart

@@ -58,8 +58,8 @@ function CatalogueInfoCard(props: Props) {
             withHeaderBorder
             headerDescription={description}
             withPadding
-            withBackground
-            withShadow
+            backgroundColor="foreground"
+            boxShadow="md"
         >
             <ListView
                 layout="block"

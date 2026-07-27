@@ -9,7 +9,7 @@ import {
     Description,
     Image,
     ListView,
-    Pager,
+    Pagination,
     RawList,
     Table,
 } from '@ifrc-go/ui';
@@ -288,8 +288,8 @@ export function Component() {
                         {emergencyResponse.featured_documents.map((featuredDocument) => (
                             <Container
                                 key={featuredDocument.id}
-                                withBackground
-                                withShadow
+                                backgroundColor="foreground"
+                                boxShadow="md"
                                 withPadding
                                 withoutSpacingOpticalCorrection
                                 spacing="sm"
@@ -351,8 +351,8 @@ export function Component() {
                                 headingLevel={6}
                                 withHeaderBorder
                                 withPadding
-                                withShadow
-                                withBackground
+                                boxShadow="md"
+                                backgroundColor="foreground"
                                 withContentOverflow
                                 withFixedHeight
                                 spacing="sm"
@@ -384,7 +384,7 @@ export function Component() {
                     )}
                     withHeaderBorder
                     footerActions={(
-                        <Pager
+                        <Pagination
                             activePage={fieldReportsPage}
                             itemsCount={emergencyResponse?.field_reports.length ?? 0}
                             maxItemsPerPage={PAGE_SIZE}
@@ -411,7 +411,7 @@ export function Component() {
                     )}
                     withHeaderBorder
                     footerActions={(
-                        <Pager
+                        <Pagination
                             activePage={appealDocumentsPage}
                             itemsCount={appealDocumentsResponse?.count ?? 0}
                             maxItemsPerPage={PAGE_SIZE}

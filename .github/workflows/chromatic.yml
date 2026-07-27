@@ -91,7 +91,9 @@ jobs:
       - name: Run Chromatic
         uses: chromaui/action@v1
         with:
-          exitZeroOnChanges: true
+          # exitZeroOnChanges removed: visual diffs on a PR now fail the
+          # check so they require explicit review/acceptance. Trunk
+          # (develop) still auto-accepts via autoAcceptChanges below.
           exitOnceUploaded: true
           onlyChanged: true
           skip: "@(renovate/**|dependabot/**)"

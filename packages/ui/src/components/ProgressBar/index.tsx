@@ -3,28 +3,31 @@ import {
     isDefined,
 } from '@togglecorp/fujs';
 
-import NumberOutput from '#components/NumberOutput';
+import NumberDisplay from '#components/NumberDisplay';
 
 import styles from './styles.module.css';
 
-type ProgressColorVariant = 'text' | 'text-on-dark' | 'primary' | 'secondary' | 'success' | 'danger';
+type ProgressBarVariant = 'text' | 'text-on-dark' | 'primary' | 'secondary' | 'success' | 'danger';
 
-const colorVariantToClassName: Record<ProgressColorVariant, string> = {
-    text: styles.colorVariantText,
-    primary: styles.colorVariantPrimary,
-    secondary: styles.colorVariantSecondary,
-    success: styles.colorVariantSuccess,
-    danger: styles.colorVariantDanger,
-    'text-on-dark': styles.colorVariantTextOnDark,
+const variantToClassName: Record<ProgressBarVariant, string> = {
+    text: styles.variantText,
+    primary: styles.variantPrimary,
+    secondary: styles.variantSecondary,
+    success: styles.variantSuccess,
+    danger: styles.variantDanger,
+    'text-on-dark': styles.variantTextOnDark,
 };
 
-type PreDefinedColorVariantProps = {
-    colorVariant?: ProgressColorVariant;
+type PreDefinedVariantProps = {
+    /** Predefined color scheme for the progress track */
+    variant?: ProgressBarVariant;
     color?: never;
 }
 
-type CustomColorVariantProps = {
-    colorVariant: 'custom';
+type CustomVariantProps = {
+    /** Data-driven visualization escape: requires an explicit `color` */
+    variant: 'custom';
+    /** CSS color for the progress track (only with `variant="custom"`) */
     color: string;
 }
 
@@ -39,9 +42,15 @@ interface BaseProps {
 }
 
 export type Props = BaseProps & (
-    PreDefinedColorVariantProps | CustomColorVariantProps
+    PreDefinedVariantProps | CustomVariantProps
 );
 
+/**
+ * ProgressBar visualizes a value against a total as a horizontal bar.
+ * Specific (data-viz) layer: exposes a single `variant` prop, with the
+ * blessed data-driven escape `variant="custom"` + `color` for
+ * visualizations whose colors come from data.
+ */
 function ProgressBar(props: Props) {
     const {
         className,
@@ -51,7 +60,7 @@ function ProgressBar(props: Props) {
         value: valueUnsafe,
         showPercentageInTitle,
         children,
-        colorVariant = 'secondary',
+        variant = 'secondary',
         color,
     } = props;
 
@@ -73,8 +82,8 @@ function ProgressBar(props: Props) {
         <div
             className={_cs(
                 styles.progressWrapper,
-                colorVariant !== 'custom'
-                    && colorVariantToClassName[colorVariant],
+                variant !== 'custom'
+                    && variantToClassName[variant],
                 className,
             )}
         >
@@ -82,7 +91,7 @@ function ProgressBar(props: Props) {
                 <div className={styles.title}>
                     {title}
                     {showPercentageInTitle && (
-                        <NumberOutput
+                        <NumberDisplay
                             value={percentage}
                             suffix="%"
                         />
@@ -94,7 +103,7 @@ function ProgressBar(props: Props) {
                     className={styles.progress}
                     style={{
                         width: `${percentage}%`,
-                        backgroundColor: colorVariant === 'custom' ? color : undefined,
+                        backgroundColor: variant === 'custom' ? color : undefined,
                     }}
                 />
             </div>

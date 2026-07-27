@@ -3,8 +3,8 @@ import { useOutletContext } from 'react-router-dom';
 import {
     Button,
     Description,
+    Dialog,
     ListView,
-    Modal,
     SelectInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -101,7 +101,7 @@ function LocalUnitsExportModal(props: Props) {
     });
 
     return (
-        <Modal
+        <Dialog
             heading={resolveToString(strings.modalHeading, {
                 countryName: countryResponse?.name ?? '--',
             })}
@@ -131,7 +131,7 @@ function LocalUnitsExportModal(props: Props) {
                     <Button
                         name={null}
                         disabled={isNotDefined(countryId) || isNotDefined(selectedLocalUnitType)}
-                        styleVariant="filled"
+                        variant="primary"
                         onClick={triggerExport}
                     >
                         {strings.generateExportButtonLabel}
@@ -140,7 +140,7 @@ function LocalUnitsExportModal(props: Props) {
                 <NonFieldError error={exportError?.value.messageForNotification} />
                 <div />
             </ListView>
-        </Modal>
+        </Dialog>
     );
 }
 

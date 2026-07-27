@@ -7,11 +7,11 @@ import { useOutletContext } from 'react-router-dom';
 import {
     Button,
     Container,
+    DateDisplay,
     DateInput,
-    DateOutput,
-    Label,
+    Dialog,
+    DisplayLabel,
     ListView,
-    Modal,
     SelectInput,
     Switch,
     TextArea,
@@ -188,7 +188,7 @@ function LocalUnitsFormModal(props: Props) {
                 {
                     variant: 'danger',
                     description: messageForNotification,
-                    // FIXME: debug message copy button cannot be clicked because of Modal
+                    // FIXME: debug message copy button cannot be clicked because of Dialog
                     // debugMessage,
                 },
             );
@@ -230,7 +230,7 @@ function LocalUnitsFormModal(props: Props) {
                 {
                     variant: 'danger',
                     description: messageForNotification,
-                    // FIXME: debug message copy button cannot be clicked because of Modal
+                    // FIXME: debug message copy button cannot be clicked because of Dialog
                     // debugMessage,
                 },
             );
@@ -472,7 +472,7 @@ function LocalUnitsFormModal(props: Props) {
         : '??';
 
     return (
-        <Modal
+        <Dialog
             heading={resolveToString(
                 strings.localUnitsModalHeading,
                 { localUnitType: localUnitName },
@@ -519,7 +519,7 @@ function LocalUnitsFormModal(props: Props) {
                                     strings.lastUpdateLabel,
                                     {
                                         modifiedAt: (
-                                            <DateOutput
+                                            <DateDisplay
                                                 value={localUnitDetailsResponse.modified_at}
                                             />
                                         ),
@@ -571,9 +571,9 @@ function LocalUnitsFormModal(props: Props) {
                         withWrap
                         withSpacingOpticalCorrection
                     >
-                        <Label strong>
+                        <DisplayLabel strong>
                             {strings.type}
-                        </Label>
+                        </DisplayLabel>
                         <SelectInput
                             required
                             name="type"
@@ -592,9 +592,9 @@ function LocalUnitsFormModal(props: Props) {
                         withWrap
                         withSpacingOpticalCorrection
                     >
-                        <Label strong>
+                        <DisplayLabel strong>
                             {strings.visibility}
-                        </Label>
+                        </DisplayLabel>
                         <SelectInput
                             name="visibility"
                             required
@@ -984,7 +984,7 @@ function LocalUnitsFormModal(props: Props) {
                     onActionSuccess={handleLocalUnitValidate}
                 />
             )}
-        </Modal>
+        </Dialog>
     );
 }
 

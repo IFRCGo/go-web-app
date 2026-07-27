@@ -76,7 +76,7 @@ function EapIndicatorListInput<const NAME extends FormName>(props: Props<NAME>) 
     return (
         <Container
             spacing="sm"
-            withDarkBackground
+            backgroundColor="background"
             withHeaderBorder
             withPadding
             heading={(

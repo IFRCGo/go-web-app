@@ -55,7 +55,7 @@ function CountryListItem(props: Props) {
                 )}
                 spacing="sm"
                 withPadding
-                withDarkBackground
+                backgroundColor="background"
                 withoutSpacingOpticalCorrection
             >
                 <ListView

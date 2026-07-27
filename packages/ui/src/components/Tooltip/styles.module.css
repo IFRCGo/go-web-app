@@ -5,16 +5,15 @@
 }
 
 .tooltip-content {
+    position: fixed;
     opacity: 0;
-    padding: 0;
+    border-radius: var(--go-ui-border-radius-xl);
+    box-shadow: var(--go-ui-box-shadow-2xl);
+    background-color: var(--go-ui-color-white);
+    max-height: 50vh;
+    overflow: auto;
     animation: slide-down var(--go-ui-duration-transition-medium) ease-in forwards;
     animation-delay: var(--go-ui-duration-transition-fast);
-}
-
-.pointer {
-    opacity: 0;
-    animation: fade-in var(--go-ui-duration-transition-medium) ease-in forwards;
-    animation-delay: var(--go-ui-duration-transition-medium);
 }
 
 @keyframes slide-down {
@@ -24,15 +23,6 @@
     }
     to {
         transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes fade-in {
-    from {
-        opacity: 0;
-    }
-    to {
         opacity: 1;
     }
 }

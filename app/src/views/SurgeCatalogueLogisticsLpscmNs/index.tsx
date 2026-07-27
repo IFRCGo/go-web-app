@@ -1,4 +1,4 @@
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
 
@@ -40,12 +40,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.logisticsDesignedFor}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.logisticsDesignedForMobilizationValue}
                     label={strings.logisticsDesignedForMobilizationLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={(
                         <div>
                             <div>{strings.logisticsDesignedForProcurementValueOne}</div>
@@ -56,27 +56,27 @@ export function Component() {
                     label={strings.logisticsDesignedForProcurementLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.logisticsDesignedForQAValue}
                     label={strings.logisticsDesignedForQALabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.logisticsDesignedForFleetValue}
                     label={strings.logisticsDesignedForFleetLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.logisticsDesignedForWarehousingValue}
                     label={strings.logisticsDesignedForWarehousingLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.logisticsDesignedForStockValue}
                     label={strings.logisticsDesignedForStockLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.logisticsDesignedForSupportValue}
                     label={strings.logisticsDesignedForSupportLabel}
                     strongLabel

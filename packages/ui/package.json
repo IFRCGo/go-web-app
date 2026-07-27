@@ -22,7 +22,9 @@
         "lint:js": "eslint src",
         "lint:css": "stylelint \"./src/**/*.css\"",
         "lint": "pnpm lint:js && pnpm lint:css",
-        "lint:fix": "pnpm lint:js --fix && pnpm lint:css --fix"
+        "lint:fix": "pnpm lint:js --fix && pnpm lint:css --fix",
+        "test": "vitest run",
+        "test:watch": "vitest"
     },
     "files": [
         "dist/*"
@@ -57,7 +59,6 @@
         "@ifrc-go/icons": "^2.0.1",
         "@togglecorp/fujs": "^2.2.0",
         "jiti": "^2.6.1",
-        "react-focus-on": "^3.10.2",
         "sanitize-html": "^2.17.2"
     },
     "peerDependencies": {
@@ -69,6 +70,10 @@
         "@eslint/eslintrc": "^3.3.5",
         "@eslint/js": "^9.39.4",
         "@eslint/json": "^1.0.0",
+        "@testing-library/dom": "^10.4.1",
+        "@testing-library/jest-dom": "^6.9.1",
+        "@testing-library/react": "^16.3.2",
+        "@testing-library/user-event": "^14.6.1",
         "@types/node": "^20.19.37",
         "@types/react": "^19.0.0",
         "@types/react-dom": "^19.0.0",
@@ -82,17 +87,18 @@
         "eslint-import-resolver-typescript": "^4.0.0",
         "eslint-plugin-import": "^2.32.0",
         "eslint-plugin-import-newlines": "^1.4.1",
+        "eslint-plugin-jsdoc": "^63.0.4",
         "eslint-plugin-jsx-a11y": "^6.10.2",
         "eslint-plugin-react": "^7.37.5",
         "eslint-plugin-react-hooks": "^7.0.0",
         "eslint-plugin-react-refresh": "^0.4.26",
         "eslint-plugin-simple-import-sort": "^12.1.1",
         "glob": "^13.0.0",
+        "happy-dom": "^20.0.0",
         "postcss": "^8.5.8",
         "postcss-nested": "^7.0.2",
         "postcss-normalize": "^13.0.1",
         "postcss-preset-env": "^11.0.0",
-        "react-focus-on": "^3.9.1",
         "sanitize-html": "^2.11.0",
         "stylelint": "^17.0.0",
         "stylelint-config-concentric": "^2.0.2",
@@ -104,6 +110,6 @@
         "vite-plugin-dts": "^4.0.0",
         "vite-plugin-lib-inject-css": "^2.0.0",
         "vite-tsconfig-paths": "^6.0.0",
-        "vitest": "^4.0.0"
+        "vitest": "^4.1.2"
     }
 }

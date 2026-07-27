@@ -1,10 +1,10 @@
 import {
+    DataDisplay,
+    DisplayLabel,
     ExpandableContainer,
-    Label,
     ListView,
     ProgressBar,
     StackedProgressBar,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -209,7 +209,7 @@ function PerAssessmentSummary(props: Props) {
             headerDescription={description}
             withHeaderBorder
             withPadding
-            withBackground
+            backgroundColor="foreground"
             spacing="lg"
         >
             <ListView
@@ -234,7 +234,7 @@ function PerAssessmentSummary(props: Props) {
                         <ListView>
                             {groupedResponseList.map(
                                 (groupedResponse) => (
-                                    <TextOutput
+                                    <DataDisplay
                                         key={groupedResponse.answer}
                                         label={groupedResponse.answerDisplay}
                                         value={groupedResponse.responses.length}
@@ -261,7 +261,7 @@ function PerAssessmentSummary(props: Props) {
                                 spacing="none"
                                 className={styles.rating}
                             >
-                                <TextOutput
+                                <DataDisplay
                                     value={rating.rating}
                                     valueType="number"
                                     strongValue
@@ -276,12 +276,12 @@ function PerAssessmentSummary(props: Props) {
                                         }}
                                     />
                                 </div>
-                                <Label
+                                <DisplayLabel
                                     strong
                                     textSize="sm"
                                 >
                                     {rating.areaDisplay}
-                                </Label>
+                                </DisplayLabel>
                             </ListView>
                         ),
                     )}

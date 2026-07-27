@@ -30,7 +30,7 @@
         &.with-color-inverted-icon {
             > * {
                 transform: scale(1.2);
-                color: #000;
+                color: var(--go-ui-color-black);
                 filter: invert(1);
             }
         }

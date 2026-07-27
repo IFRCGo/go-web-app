@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 import {
     Button,
     Container,
+    DataDisplay,
+    Dialog,
     ListView,
-    Modal,
-    TextOutput,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -81,7 +81,7 @@ function EmergencyResponseUnitTypeCard(props: Props) {
             heading={typeDisplay}
             headingLevel={4}
             headerDescription={(
-                <TextOutput
+                <DataDisplay
                     label={strings.emergencyResponseUnitOwnerCardLastUpdated}
                     value={updatedAt}
                     valueType="date"
@@ -93,18 +93,18 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                 <Button
                     name={undefined}
                     onClick={setShowReadinessInfoTrue}
-                    styleVariant="action"
+                    variant="tertiary"
                     title={strings.eruSeeReadinessInfoButton}
                 >
                     {strings.eruSeeReadinessInfoButton}
                 </Button>
             )}
             withPadding
-            withBackground
-            withShadow
+            backgroundColor="foreground"
+            boxShadow="md"
         >
             <ListView layout="block">
-                <TextOutput
+                <DataDisplay
                     label={strings.emergencyResponseUnitNationalSociety}
                     value={nationalSocieties}
                     strongValue
@@ -122,7 +122,7 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                 </ListView>
             </ListView>
             {showReadinessInfo && (
-                <Modal
+                <Dialog
                     heading={typeDisplay}
                     headerDescription={strings.eruReadinessInformationHeading}
                     onClose={setShowReadinessInfoFalse}
@@ -187,7 +187,7 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                             )}
                         </ListView>
                     )}
-                </Modal>
+                </Dialog>
             )}
         </Container>
     );

@@ -1,24 +1,32 @@
 import {
     useCallback,
     useContext,
+    useState,
 } from 'react';
 import {
     Button,
+    ButtonLayout,
     type ButtonProps,
-    ConfirmButton,
     type ConfirmButtonProps,
+    Dialog,
+    ListView,
+    RawButton,
 } from '@ifrc-go/ui';
-import { DropdownMenuContext } from '@ifrc-go/ui/contexts';
+import { MenuContext } from '@ifrc-go/ui/contexts';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
 
 import Link, { type Props as LinkProps } from '#components/Link';
+
+import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 type CommonProp = {
     persist?: boolean;
     withoutFullWidth?: boolean;
 }
 
-type ButtonTypeProps<NAME> = Omit<ButtonProps<NAME>, 'type'> & {
+type ButtonTypeProps<NAME> = Omit<ButtonProps<NAME>, 'type' | 'variant' | 'withFullWidth'> & {
     type: 'button';
 }
 
@@ -27,7 +35,7 @@ type LinkTypeProps = LinkProps & {
     onClick?: never;
 }
 
-type ConfirmButtonTypeProps<NAME> = Omit<ConfirmButtonProps<NAME>, 'type'> & {
+type ConfirmButtonTypeProps<NAME> = Omit<ConfirmButtonProps<NAME>, 'type' | 'variant' | 'withFullWidth'> & {
     type: 'confirm-button',
 }
 
@@ -43,7 +51,13 @@ function DropdownMenuItem<NAME>(props: Props<NAME>) {
         ...remainingProps
     } = props;
 
-    const { setShowDropdown } = useContext(DropdownMenuContext);
+    const strings = useTranslation(i18n);
+    const { setShowDropdown } = useContext(MenuContext);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+
+    const onConfirm = remainingProps.type === 'confirm-button'
+        ? remainingProps.onConfirm
+        : undefined;
 
     const handleLinkClick = useCallback(
         () => {
@@ -68,6 +82,24 @@ function DropdownMenuItem<NAME>(props: Props<NAME>) {
             }
         },
         [setShowDropdown, persist, onClick, remainingProps.type],
+    );
+
+    const handleConfirmButtonClick = useCallback(
+        (name: NAME, e: React.MouseEvent<HTMLButtonElement>) => {
+            handleButtonClick(name, e);
+            setShowConfirmation(true);
+        },
+        [handleButtonClick],
+    );
+
+    const handleConfirmClick = useCallback(
+        (name: NAME) => {
+            setShowConfirmation(false);
+            if (isDefined(onConfirm)) {
+                onConfirm(name);
+            }
+        },
+        [onConfirm],
     );
 
     if (remainingProps.type === 'link') {
@@ -98,18 +130,47 @@ function DropdownMenuItem<NAME>(props: Props<NAME>) {
         const {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             type: _,
-            styleVariant = 'transparent',
+            after,
+            before,
+            children,
+            className,
+            disabled,
+            elementRef,
+            spacing,
+            spacingOffset = -3,
+            textSize,
+            withoutPadding,
             ...otherProps
         } = remainingProps;
 
+        // NOTE: composing RawButton + ButtonLayout to preserve the old
+        // (text, transparent) menu item look, which is not in Button's
+        // curated variant set
         return (
-            <Button
+            <RawButton
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...otherProps}
-                styleVariant={styleVariant}
+                className={styles.menuItem}
                 onClick={handleButtonClick}
-                withFullWidth={!withoutFullWidth}
-            />
+                disabled={disabled}
+            >
+                <ButtonLayout
+                    className={className}
+                    elementRef={elementRef}
+                    colorVariant="text"
+                    styleVariant="transparent"
+                    spacing={spacing}
+                    spacingOffset={spacingOffset}
+                    withoutPadding={withoutPadding}
+                    withFullWidth={!withoutFullWidth}
+                    before={before}
+                    after={after}
+                    textSize={textSize}
+                    disabled={disabled}
+                >
+                    {children}
+                </ButtonLayout>
+            </RawButton>
         );
     }
 
@@ -117,18 +178,82 @@ function DropdownMenuItem<NAME>(props: Props<NAME>) {
         const {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             type: _,
-            styleVariant = 'transparent',
+            after,
+            before,
+            children,
+            className,
+            confirmHeading = strings.confirmation,
+            confirmMessage = strings.confirmMessage,
+            disabled,
+            elementRef,
+            name,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            onConfirm: _unusedOnConfirm,
+            spacing,
+            spacingOffset = -3,
+            textSize,
+            withoutPadding,
             ...otherProps
         } = remainingProps;
 
+        // NOTE: composing RawButton + ButtonLayout to preserve the old
+        // (text, transparent) menu item look, which is not in
+        // ConfirmButton's curated variant set; the confirmation dialog
+        // is replicated from ConfirmButton
         return (
-            <ConfirmButton
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...otherProps}
-                styleVariant={styleVariant}
-                onClick={handleButtonClick}
-                withFullWidth={!withoutFullWidth}
-            />
+            <>
+                <RawButton
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...otherProps}
+                    name={name}
+                    className={styles.menuItem}
+                    onClick={handleConfirmButtonClick}
+                    disabled={disabled}
+                >
+                    <ButtonLayout
+                        className={className}
+                        elementRef={elementRef}
+                        colorVariant="text"
+                        styleVariant="transparent"
+                        spacing={spacing}
+                        spacingOffset={spacingOffset}
+                        withoutPadding={withoutPadding}
+                        withFullWidth={!withoutFullWidth}
+                        before={before}
+                        after={after}
+                        textSize={textSize}
+                        disabled={disabled}
+                    >
+                        {children}
+                    </ButtonLayout>
+                </RawButton>
+                {showConfirmation && (
+                    <Dialog
+                        heading={confirmHeading}
+                        closeOnEscape={false}
+                        size="sm"
+                        footerActions={(
+                            <ListView spacing="sm">
+                                <Button
+                                    name={false}
+                                    onClick={setShowConfirmation}
+                                >
+                                    {strings.buttonCancel}
+                                </Button>
+                                <Button
+                                    name={name}
+                                    variant="primary"
+                                    onClick={handleConfirmClick}
+                                >
+                                    {strings.buttonOk}
+                                </Button>
+                            </ListView>
+                        )}
+                    >
+                        {confirmMessage}
+                    </Dialog>
+                )}
+            </>
         );
     }
 }

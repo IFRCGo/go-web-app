@@ -9,11 +9,10 @@ import {
     ButtonLayout,
     Container,
     Description,
-    DismissableListOutput,
-    DismissableMultiListOutput,
-    DismissableTextOutput,
     ListView,
     RawList,
+    Selection,
+    SelectionList,
     Tab,
     TabList,
     TabPanel,
@@ -426,15 +425,15 @@ export function Component() {
                         withWrap
                         spacing="xs"
                     >
-                        <DismissableListOutput
+                        <Selection
                             name="region"
                             value={rawFilter.region}
-                            onDismiss={onFilterChange}
+                            onDismiss={(_value: unknown, name: 'region') => onFilterChange(undefined, name)}
                             options={regionList}
                             labelSelector={stringValueSelector}
                             keySelector={regionKeySelector}
                         />
-                        <DismissableMultiListOutput
+                        <SelectionList
                             name="countries"
                             onDismiss={onFilterChange}
                             value={rawFilter.countries}
@@ -442,7 +441,7 @@ export function Component() {
                             labelSelector={stringNameSelector}
                             keySelector={numericIdSelector}
                         />
-                        <DismissableMultiListOutput
+                        <SelectionList
                             name="disasterTypes"
                             onDismiss={onFilterChange}
                             value={rawFilter.disasterTypes}
@@ -450,7 +449,7 @@ export function Component() {
                             labelSelector={disasterTypeLabelSelector}
                             keySelector={numericIdSelector}
                         />
-                        <DismissableMultiListOutput
+                        <SelectionList
                             name="secondarySectors"
                             onDismiss={onFilterChange}
                             value={rawFilter.secondarySectors}
@@ -458,7 +457,7 @@ export function Component() {
                             labelSelector={stringLabelSelector}
                             keySelector={numericKeySelector}
                         />
-                        <DismissableMultiListOutput
+                        <SelectionList
                             name="perComponents"
                             onDismiss={onFilterChange}
                             value={rawFilter.perComponents}
@@ -466,7 +465,7 @@ export function Component() {
                             labelSelector={getFormattedComponentName}
                             keySelector={numericIdSelector}
                         />
-                        <DismissableMultiListOutput
+                        <SelectionList
                             name="organizationTypes"
                             onDismiss={onFilterChange}
                             value={rawFilter.organizationTypes}
@@ -474,7 +473,7 @@ export function Component() {
                             labelSelector={stringTitleSelector}
                             keySelector={numericIdSelector}
                         />
-                        <DismissableMultiListOutput
+                        <SelectionList
                             name="perLearningTypes"
                             onDismiss={onFilterChange}
                             value={rawFilter.perLearningTypes}
@@ -482,17 +481,17 @@ export function Component() {
                             labelSelector={stringValueSelector}
                             keySelector={perLearningTypeKeySelector}
                         />
-                        <DismissableTextOutput
+                        <Selection
                             name="appealStartDateAfter"
                             value={rawFilter.appealStartDateAfter}
                             onDismiss={onFilterChange}
                         />
-                        <DismissableTextOutput
+                        <Selection
                             name="appealStartDateBefore"
                             value={rawFilter.appealStartDateBefore}
                             onDismiss={onFilterChange}
                         />
-                        <DismissableTextOutput
+                        <Selection
                             name="appealSearchText"
                             value={rawFilter.appealSearchText}
                             onDismiss={onFilterChange}

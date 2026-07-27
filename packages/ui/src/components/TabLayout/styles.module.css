@@ -63,6 +63,7 @@
         --background-color: transparent;
 
         &.active {
+            --background-color: var(--go-ui-color-foreground);
             color: var(--go-ui-color-primary-red);
             border-inline-start: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
             border-inline-end: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
@@ -81,6 +82,16 @@
 
         &.active {
             --text-color: var(--variant-color);
+
+            /* Active accent underline in the variant color (design: red nav). */
+            &::after {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                border-bottom: var(--go-ui-width-separator-md) solid var(--variant-color);
+                content: '';
+            }
         }
     }
 

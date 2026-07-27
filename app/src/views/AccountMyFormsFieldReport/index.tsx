@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import {
     Container,
-    NumberOutput,
-    Pager,
+    NumberDisplay,
+    Pagination,
     Table,
 } from '@ifrc-go/ui';
 import { SortContext } from '@ifrc-go/ui/contexts';
@@ -118,7 +118,7 @@ export function Component() {
             strings.pageHeading,
             {
                 numFieldReports: (
-                    <NumberOutput
+                    <NumberDisplay
                         value={fieldReportResponse?.count}
                     />
                 ),
@@ -141,7 +141,7 @@ export function Component() {
                 </Link>
             )}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={fieldReportResponse?.count ?? 0}
                     maxItemsPerPage={limit}

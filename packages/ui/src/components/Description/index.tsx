@@ -1,16 +1,28 @@
 import { _cs } from '@togglecorp/fujs';
 
+import {
+    getTextSizeClassName,
+    type TextSizeType,
+} from '#utils/style';
+
 import styles from './styles.module.css';
 
 export interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'ref'> {
     className?: string;
     children?: React.ReactNode;
+    /** Center the text and cap its width to the content max-width */
     withCenteredContent?: boolean;
+    /** Ref to the root DOM node */
     elementRef?: React.RefObject<HTMLDivElement | null>;
-    textSize?: 'xs' | 'sm' | 'md' | 'lg';
+    /** Text size token from the shared scale (default 'md') */
+    textSize?: Extract<TextSizeType, 'xs' | 'sm' | 'md' | 'lg'>;
+    /** Render in the light (muted) text color */
     withLightText?: boolean;
 }
 
+/**
+ * Generic typography component for secondary, descriptive body text.
+ */
 function Description(props: Props) {
     const {
         className,
@@ -30,10 +42,7 @@ function Description(props: Props) {
             className={_cs(
                 styles.description,
                 withCenteredContent && styles.withCenteredContent,
-                textSize === 'xs' && styles.textSizeExtraSmall,
-                textSize === 'sm' && styles.textSizeSmall,
-                textSize === 'md' && styles.textSizeMedium,
-                textSize === 'lg' && styles.textSizeLarge,
+                getTextSizeClassName(textSize),
                 withLightText && styles.withLightText,
                 className,
             )}

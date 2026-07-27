@@ -10,7 +10,7 @@ import {
 } from '@togglecorp/fujs';
 
 import InlineLayout from '#components/InlineLayout';
-import Popup from '#components/Popup';
+import Popover from '#components/Popover';
 
 import styles from './styles.module.css';
 
@@ -19,14 +19,22 @@ export interface Props {
     children?: React.ReactNode;
     disabled?: boolean;
     floating?: boolean;
+    /** Id wired from the field's `aria-describedby` */
+    id?: string;
 }
 
+/**
+ * Form-field error message (generic layer). Carries `role="alert"` so
+ * validation errors are announced by assistive tech; can also float in
+ * a Popover when `floating` is set.
+ */
 function InputError(props: Props) {
     const {
         children,
         className,
         disabled,
         floating,
+        id,
     } = props;
 
     const [hasParentRef, setHasParentRef] = useState(false);
@@ -60,6 +68,8 @@ function InputError(props: Props) {
 
     const content = (
         <InlineLayout
+            id={id}
+            role="alert"
             className={styles.errorContent}
             before={(
                 <AlertLineIcon className={styles.icon} />
@@ -83,13 +93,13 @@ function InputError(props: Props) {
                 />
             )}
             {children && !disabled && (
-                <Popup
+                <Popover
                     className={_cs(styles.inputError, className)}
                     pointerClassName={styles.pointer}
                     parentRef={parentRef}
                 >
                     {content}
-                </Popup>
+                </Popover>
             )}
         </>
     );

@@ -5,8 +5,8 @@ import {
 } from 'react';
 import {
     Container,
-    NumberOutput,
-    TextOutput,
+    DataDisplay,
+    NumberDisplay,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { maxSafe } from '@ifrc-go/ui/utils';
@@ -294,7 +294,7 @@ function PopulationMap(props: Props) {
             className={styles.populationMap}
             withHeaderBorder
             footer={(
-                <TextOutput
+                <DataDisplay
                     label={strings.populationLegendLabel}
                     value={(
                         <div className={styles.legendContent}>
@@ -303,8 +303,8 @@ function PopulationMap(props: Props) {
                                 style={{ background: `linear-gradient(90deg, ${COLOR_LIGHT_BLUE}, ${COLOR_PRIMARY_BLUE})` }}
                             />
                             <div className={styles.labelList}>
-                                <NumberOutput value={0} />
-                                <NumberOutput
+                                <NumberDisplay value={0} />
+                                <NumberDisplay
                                     value={maxPopulation}
                                     compact
                                     maximumFractionDigits={0}
@@ -315,7 +315,7 @@ function PopulationMap(props: Props) {
                 />
             )}
             footerActions={(
-                <TextOutput
+                <DataDisplay
                     label={strings.populationMapSource}
                     value={(
                         <Link
@@ -392,13 +392,13 @@ function PopulationMap(props: Props) {
                         coordinates={clickedPointProperties.lngLat}
                         heading={clickedPointProperties.feature.properties.name}
                     >
-                        <TextOutput
+                        <DataDisplay
                             label={strings.populationPopupYearLabel}
                             value={selectedDistrict.year}
                         />
-                        <TextOutput
+                        <DataDisplay
                             value={(
-                                <NumberOutput
+                                <NumberDisplay
                                     value={selectedDistrict.population}
                                 />
                             )}

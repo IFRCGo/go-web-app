@@ -9,8 +9,8 @@ import {
     TableRow,
 } from '@ifrc-go/ui';
 import {
-    Modal,
-    Pager,
+    Dialog,
+    Pagination,
     Table,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -171,7 +171,7 @@ function LocalUnitImportHistoryModal(props: Props) {
     ), [expandedRow]);
 
     return (
-        <Modal
+        <Dialog
             className={styles.bulkUploadHistoryModal}
             heading={resolveToString(
                 strings.modalHeading,
@@ -180,7 +180,7 @@ function LocalUnitImportHistoryModal(props: Props) {
             footerActions={isDefined(uploadHistoryResponse)
                 && isDefined(uploadHistoryResponse.count)
                 && uploadHistoryResponse.count > limit ? (
-                    <Pager
+                    <Pagination
                         activePage={page}
                         itemsCount={uploadHistoryResponse.count}
                         maxItemsPerPage={limit}
@@ -200,7 +200,7 @@ function LocalUnitImportHistoryModal(props: Props) {
                 rowModifier={rowModifier}
                 rowClassName={getRowClassName}
             />
-        </Modal>
+        </Dialog>
     );
 }
 

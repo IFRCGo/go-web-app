@@ -15,6 +15,7 @@ import {
 } from '@togglecorp/fujs';
 
 import { type components } from '#generated/riskTypes';
+import { resolveCssColor } from '#utils/common';
 import {
     CATEGORY_RISK_HIGH,
     CATEGORY_RISK_LOW,
@@ -38,17 +39,21 @@ type CountrySeasonal = RiskApiResponse<'/api/v1/country-seasonal/'>;
 type IpcData = CountrySeasonal[number]['ipc_displacement_data'];
 type GwisData = CountrySeasonal[number]['gwis'];
 
+// Hazard colors are sourced from the @ifrc-go/ui design tokens
+// (--go-ui-color-hazard-*), resolved to literal hex at module load — this
+// map also feeds a Mapbox paint expression (RiskImminentEventMap/mapStyles)
+// which can't parse var(). The imported COLOR_HAZARD_* act as fallbacks.
 export const hazardTypeToColorMap: Record<HazardType, string> = {
-    EQ: COLOR_HAZARD_EARTHQUAKE,
-    FL: COLOR_HAZARD_FLOOD,
-    TC: COLOR_HAZARD_CYCLONE,
+    EQ: resolveCssColor('--go-ui-color-hazard-earthquake', COLOR_HAZARD_EARTHQUAKE),
+    FL: resolveCssColor('--go-ui-color-hazard-flood', COLOR_HAZARD_FLOOD),
+    TC: resolveCssColor('--go-ui-color-hazard-cyclone', COLOR_HAZARD_CYCLONE),
     EP: COLOR_LIGHT_GREY,
-    FI: COLOR_HAZARD_FOOD_INSECURITY,
-    SS: COLOR_HAZARD_STORM,
-    DR: COLOR_HAZARD_DROUGHT,
-    TS: COLOR_HAZARD_CYCLONE,
+    FI: resolveCssColor('--go-ui-color-hazard-fi', COLOR_HAZARD_FOOD_INSECURITY),
+    SS: resolveCssColor('--go-ui-color-hazard-storm', COLOR_HAZARD_STORM),
+    DR: resolveCssColor('--go-ui-color-hazard-drought', COLOR_HAZARD_DROUGHT),
+    TS: resolveCssColor('--go-ui-color-hazard-cyclone', COLOR_HAZARD_CYCLONE),
     CD: COLOR_LIGHT_GREY,
-    WF: COLOR_HAZARD_WILDFIRE,
+    WF: resolveCssColor('--go-ui-color-hazard-wildfire', COLOR_HAZARD_WILDFIRE),
 };
 
 export function getDataWithTruthyHazardType<

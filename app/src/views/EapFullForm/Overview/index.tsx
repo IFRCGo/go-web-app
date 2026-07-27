@@ -6,8 +6,8 @@ import {
     Container,
     DateInput,
     Description,
+    DisplayLabel,
     InputSection,
-    Label,
     ListView,
     TextArea,
     TextInput,
@@ -156,7 +156,7 @@ function Overview(props: Props) {
         >
             <Container
                 heading={strings.overviewHeading}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"
@@ -269,7 +269,7 @@ function Overview(props: Props) {
             </Container>
             <Container
                 heading={strings.formContacts}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"
@@ -278,7 +278,7 @@ function Overview(props: Props) {
                     <Container
                         heading={strings.nationalHeader}
                         headingLevel={4}
-                        variant="form"
+                        styleVariant="form"
                     >
                         <ListView
                             layout="block"
@@ -326,7 +326,7 @@ function Overview(props: Props) {
                     <Container
                         heading={strings.delegationHeader}
                         headingLevel={4}
-                        variant="form"
+                        styleVariant="form"
                     >
                         <ListView
                             layout="block"
@@ -357,7 +357,7 @@ function Overview(props: Props) {
                     <Container
                         heading={strings.regionalHeader}
                         headingLevel={4}
-                        variant="form"
+                        styleVariant="form"
                     >
                         <ListView
                             layout="block"
@@ -415,7 +415,7 @@ function Overview(props: Props) {
             </Container>
             <Container
                 heading={strings.stakeholderHeader}
-                variant="form"
+                styleVariant="form"
             >
                 <ListView
                     layout="block"
@@ -430,9 +430,9 @@ function Overview(props: Props) {
                                 title={strings.workWithGovernmentTitle}
                                 content={(
                                     <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                        <Label strong>
+                                        <DisplayLabel strong>
                                             {strings.overviewExplanatoryNoteLabel}
-                                        </Label>
+                                        </DisplayLabel>
                                         <Description>
                                             {strings.workExplanatoryNote}
                                         </Description>
@@ -481,17 +481,17 @@ function Overview(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.overviewExplanatoryNoteLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.actorsExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.overviewRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>{strings.overviewRequiredPoint1}</li>

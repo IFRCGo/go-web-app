@@ -1,6 +1,6 @@
 import {
+    DataDisplay,
     Image,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
@@ -36,12 +36,12 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.washKit2Specification}
             >
-                <TextOutput
+                <DataDisplay
                     value={strings.washKit2SpecificationWeightValue}
                     label={strings.washKit2SpecificationWeightLabel}
                     strongLabel
                 />
-                <TextOutput
+                <DataDisplay
                     value={strings.washKit2SpecificationVolumeValue}
                     label={strings.washKit2SpecificationVolumeLabel}
                     strongLabel

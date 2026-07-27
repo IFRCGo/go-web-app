@@ -18,6 +18,11 @@
         font-size: var(--go-ui-font-size-2xl);
     }
 
+    .dismiss-button,
+    .copy-debug-button {
+        display: contents;
+    }
+
     &.info {
         --variant-color: var(--go-ui-color-gray-80);
         --text-color: var(--go-ui-color-text-on-dark);

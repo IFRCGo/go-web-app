@@ -4,7 +4,7 @@ import {
 } from 'react';
 import {
     Container,
-    Pager,
+    Pagination,
     SelectInput,
     Table,
 } from '@ifrc-go/ui';
@@ -251,7 +251,7 @@ export function Component() {
                     />
                 )}
                 footerActions={(
-                    <Pager
+                    <Pagination
                         activePage={page}
                         itemsCount={eruResponse?.count ?? 0}
                         maxItemsPerPage={limit}

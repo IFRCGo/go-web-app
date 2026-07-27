@@ -16,6 +16,18 @@ export interface TabContextProps {
     setActiveTab: (key: TabKey) => void;
     step: number | undefined;
     setStep: React.Dispatch<React.SetStateAction<number>>;
+    /** Stable id prefix used to wire each tab to its panel (aria-controls/labelledby). */
+    idBase: string;
+}
+
+/** DOM id for a tab button, referenced by its panel's aria-labelledby. */
+export function getTabNodeId(idBase: string, key: TabKey) {
+    return `${idBase}-tab-${key}`;
+}
+
+/** DOM id for a tab panel, referenced by its tab's aria-controls. */
+export function getTabPanelNodeId(idBase: string, key: TabKey) {
+    return `${idBase}-panel-${key}`;
 }
 
 const TabContext = createContext<TabContextProps>({
@@ -25,6 +37,7 @@ const TabContext = createContext<TabContextProps>({
     tabs: [],
     activeTab: undefined,
     step: undefined,
+    idBase: '',
 
     // eslint-disable-next-line no-console
     setActiveTab: () => { console.warn('TabContext::setActiveTab called before it was initialized'); },

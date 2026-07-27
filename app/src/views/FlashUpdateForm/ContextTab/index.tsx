@@ -202,7 +202,7 @@ function ContextTab(props: Props) {
                             name={undefined}
                             disabled={!value.country_district || !value.hazard_type}
                             onClick={handleTitleGenerateButtonClick}
-                            styleVariant="action"
+                            variant="tertiary"
                         >
                             {strings.flashUpdateFormGenerateButtonLabel}
                         </Button>

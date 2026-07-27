@@ -1,12 +1,13 @@
 import { useCallback } from 'react';
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import {
+    type ButtonLayoutProps,
     type CommonRawFileInputProps,
     Description,
+    FileInputButton,
     IconButton,
     InputError,
     ListView,
-    RawFileInput,
     type SingleRawFileInputProps,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -25,7 +26,9 @@ import i18n from './i18n.json';
 
 export type SupportedPaths = '/api/v2/per-file/' | '/api/v2/dref-files/' | '/api/v2/flash-update-file/' | '/api/v2/per-document-upload/' | '/api/v2/eap-file/';
 
-type Props<NAME> = Omit<CommonRawFileInputProps<NAME>, 'value'> & {
+type Props<NAME> = Omit<CommonRawFileInputProps<NAME>, 'value'>
+    & Pick<ButtonLayoutProps, 'after' | 'before' | 'colorVariant' | 'styleVariant'>
+    & {
     name: NAME;
     clearable?: boolean;
     description?: React.ReactNode;
@@ -164,7 +167,7 @@ function GoSingleFileInput<const NAME>(props: Props<NAME>) {
                 spacing="sm"
                 withSpacingOpticalCorrection
             >
-                <RawFileInput
+                <FileInputButton
                     name={name}
                     onChange={handleChange}
                     accept={accept}
@@ -177,7 +180,7 @@ function GoSingleFileInput<const NAME>(props: Props<NAME>) {
                     after={after}
                 >
                     {children}
-                </RawFileInput>
+                </FileInputButton>
                 {isNotDefined(selectedFileUrl) && !withoutStatus && (
                     <Description withLightText>
                         {strings.noFileSelected}

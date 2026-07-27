@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 import {
     Container,
+    DataDisplay,
     Table,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -131,7 +131,7 @@ function MembershipCoordinationTable(props: Props) {
             heading={strings.membershipCoordinationTableTitle}
             withHeaderBorder
             footerActions={(
-                <TextOutput
+                <DataDisplay
                     label={strings.membershipSource}
                     value={strings.unifiedPlanning}
                     strongValue

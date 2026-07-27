@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 import {
     Button,
     Container,
+    DataDisplay,
+    Dialog,
     ListView,
-    Modal,
-    TextOutput,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -67,7 +67,7 @@ function NationalSocietyCard(props: Props) {
             withFooterBorder
             heading={eruData?.eru_owner_details?.national_society_country_details?.society_name ?? '??'}
             headerDescription={(
-                <TextOutput
+                <DataDisplay
                     label={strings.emergencyResponseUnitOwnerNSCardLastUpdated}
                     value={eruData.updated_at}
                     valueType="date"
@@ -78,23 +78,23 @@ function NationalSocietyCard(props: Props) {
                 <Button
                     name={undefined}
                     onClick={setShowReadinessInfoTrue}
-                    styleVariant="action"
+                    variant="tertiary"
                     title={strings.eruNSSeeReadinessInfoButton}
                 >
                     {strings.eruNSSeeReadinessInfoButton}
                 </Button>
             )}
             withPadding
-            withShadow
-            withBackground
+            boxShadow="md"
+            backgroundColor="foreground"
         >
-            <TextOutput
+            <DataDisplay
                 label={strings.eruTypesLabel}
                 value={eruTypes}
                 strongValue
             />
             {showReadinessInfo && (
-                <Modal
+                <Dialog
                     heading={
                         eruData.eru_owner_details.national_society_country_details.society_name
                     }
@@ -154,7 +154,7 @@ function NationalSocietyCard(props: Props) {
                             )}
                         </ListView>
                     )}
-                </Modal>
+                </Dialog>
             )}
         </Container>
     );

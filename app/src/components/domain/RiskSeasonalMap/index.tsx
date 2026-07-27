@@ -6,10 +6,10 @@ import {
 } from 'react';
 import {
     Container,
+    DataDisplay,
     InlineLayout,
     LegendItem,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -817,12 +817,12 @@ function RiskSeasonalMap(props: Props) {
             withHeaderBorder
             footer={(
                 <ListView
-                    withDarkBackground
+                    backgroundColor="background"
                     withPadding
                     withWrap
                     withSpaceBetweenContents
                 >
-                    <TextOutput
+                    <DataDisplay
                         label={strings.severityLegendLabel}
                         value={(
                             <ListView
@@ -840,7 +840,7 @@ function RiskSeasonalMap(props: Props) {
                             </ListView>
                         )}
                     />
-                    <TextOutput
+                    <DataDisplay
                         label={strings.hazardsTypeLegendLabel}
                         value={(
                             <ListView
@@ -913,9 +913,9 @@ function RiskSeasonalMap(props: Props) {
                     pending={dataPending}
                     empty={isNotDefined(filteredData) || filteredData?.length === 0}
                     withPadding
-                    withBackground
+                    backgroundColor="foreground"
                     withContentOverflow
-                    withShadow
+                    boxShadow="md"
                     withContentWell
                     withoutSpacingOpticalCorrection
                     spacing="sm"

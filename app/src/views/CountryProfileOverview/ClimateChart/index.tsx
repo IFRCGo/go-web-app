@@ -6,8 +6,8 @@ import {
     ChartAxes,
     ChartContainer,
     Container,
+    DataDisplay,
     ListView,
-    TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -127,19 +127,19 @@ function ClimateChart(props: Props) {
                     title={currentData.month_display}
                     description={(
                         <>
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.climateChartMax}
                                 value={currentData.max_temp}
                                 suffix=" °C"
                                 valueType="number"
                             />
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.climateChangeAverage}
                                 value={currentData.avg_temp}
                                 suffix=" °C"
                                 valueType="number"
                             />
-                            <TextOutput
+                            <DataDisplay
                                 label={strings.climateChangeMin}
                                 value={currentData.min_temp}
                                 suffix=" °C"
@@ -175,7 +175,7 @@ function ClimateChart(props: Props) {
                 <Tooltip
                     title={currentData.month_display}
                     description={(
-                        <TextOutput
+                        <DataDisplay
                             label={strings.climateChangePrecipitation}
                             suffix=" mm"
                             value={currentData.precipitation}
@@ -200,7 +200,7 @@ function ClimateChart(props: Props) {
             heading={strings.climateChangeChart}
             withHeaderBorder
             footerActions={(
-                <TextOutput
+                <DataDisplay
                     label={strings.climateChartSource}
                     value={(
                         <Link

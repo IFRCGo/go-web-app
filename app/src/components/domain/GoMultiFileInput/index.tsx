@@ -8,14 +8,15 @@ import {
 } from '@ifrc-go/icons';
 import {
     Button,
+    type ButtonLayoutProps,
     type CommonRawFileInputProps,
     Description,
+    FileInputButton,
     IconButton,
     InlineLayout,
     InputError,
     ListView,
     type NameType,
-    RawFileInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -51,7 +52,9 @@ function getFileNameFromUrl(urlString: string | undefined) {
     return splits[splits.length - 1];
 }
 
-type Props<NAME> = Omit<CommonRawFileInputProps<NAME>, 'value'> & {
+type Props<NAME> = Omit<CommonRawFileInputProps<NAME>, 'value'>
+    & Pick<ButtonLayoutProps, 'after' | 'before' | 'colorVariant' | 'styleVariant'>
+    & {
     name: NAME;
     clearable?: boolean;
     description?: React.ReactNode;
@@ -201,7 +204,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                 spacing="sm"
                 withSpacingOpticalCorrection
             >
-                <RawFileInput
+                <FileInputButton
                     name={name}
                     onChange={handleChange}
                     accept={accept}
@@ -216,7 +219,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                     multiple
                 >
                     {children}
-                </RawFileInput>
+                </FileInputButton>
                 {clearable && value && value.length > 0 && (
                     <IconButton
                         name={undefined}
@@ -252,7 +255,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                                 after={(
                                     <Button
                                         name={valueUrl.id}
-                                        styleVariant="action"
+                                        variant="tertiary"
                                         onClick={handleFileRemove}
                                         title={strings.goMultiDeleteButton}
                                     >

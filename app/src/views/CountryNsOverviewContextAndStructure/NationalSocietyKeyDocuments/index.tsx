@@ -3,11 +3,11 @@ import { useOutletContext } from 'react-router-dom';
 import { SearchLineIcon } from '@ifrc-go/icons';
 import {
     Container,
+    DataDisplay,
     DateInput,
     ListView,
     RawList,
     TextInput,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
@@ -124,7 +124,7 @@ function NationalSocietyKeyDocuments() {
             footerActions={isDefined(groupedDocumentsList)
                 && groupedDocumentsList.length > 0
                 && isDefined(countryResponse?.fdrs) && (
-                <TextOutput
+                <DataDisplay
                     label={strings.source}
                     value={(
                         <Link

@@ -14,11 +14,11 @@ import { ShareFillIcon } from '@ifrc-go/icons';
 import {
     Alert,
     Button,
+    Dialog,
     IconButton,
     InlineLayout,
     ListView,
     Message,
-    Modal,
     Tab,
     TabList,
     TabPanel,
@@ -1157,7 +1157,7 @@ export function Component() {
                                         name={undefined}
                                         onClick={handleRequestForApprovalButtonClick}
                                         disabled={readOnly}
-                                        styleVariant="filled"
+                                        variant="primary"
                                     >
                                         {strings.submitButtonLabel}
                                     </Button>
@@ -1165,7 +1165,7 @@ export function Component() {
                             </ListView>
                         </InlineLayout>
                         {shouldSubmit && (
-                            <Modal
+                            <Dialog
                                 heading={strings.submitConfirmHeading}
                                 onClose={handleRequestForApprovalCancel}
                                 pending={createFullEapPending || updateFullFormPending}
@@ -1186,13 +1186,13 @@ export function Component() {
                                         <Alert
                                             name="form-error-warning"
                                             title={strings.submitFormErrorMessage}
-                                            type="warning"
+                                            variant="warning"
                                             withLightBackground
-                                            withoutShadow
+                                            boxShadow="none"
                                         />
                                     )}
                                 </ListView>
-                            </Modal>
+                            </Dialog>
                         )}
                         {showShareModal && isDefined(eapId) && (
                             <EapShareModal

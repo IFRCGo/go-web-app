@@ -11,8 +11,8 @@ import {
     Button,
     ConfirmButton,
     Container,
+    DataDisplay,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -128,7 +128,7 @@ function EmailPreferences() {
                         <Container
                             key={item.id}
                             heading={item.title}
-                            withDarkBackground
+                            backgroundColor="background"
                             withPadding
                             headerActions={(
                                 <>
@@ -137,15 +137,13 @@ function EmailPreferences() {
                                         onClick={handleSubscriptionEditClick}
                                         title={strings.editSubscriptionTitle}
                                         before={<PencilLineIcon />}
-                                        styleVariant="action"
-                                        colorVariant="primary"
+                                        variant="tertiary"
                                     >
                                         {strings.editSubscriptionLabel}
                                     </Button>
                                     <ConfirmButton
                                         name={item.id}
-                                        styleVariant="action"
-                                        colorVariant="primary"
+                                        variant="tertiary"
                                         title={strings.deleteSubscriptionTitle}
                                         onConfirm={handleSubscriptionDelete}
                                         // eslint-disable-next-line max-len
@@ -168,24 +166,24 @@ function EmailPreferences() {
                                 withSpacingOpticalCorrection
                                 spacing="xs"
                             >
-                                <TextOutput
+                                <DataDisplay
                                     label={strings.alertFrequencies}
                                     value={isDefined(item.alert_per_day)
                                         ? item.alert_per_day_display
                                         : strings.unlimitedOption}
                                     strongLabel
                                 />
-                                <TextOutput
+                                <DataDisplay
                                     label={strings.regions}
                                     value={item.regions_detail.map((c) => c.name).join(', ')}
                                     strongLabel
                                 />
-                                <TextOutput
+                                <DataDisplay
                                     label={strings.countries}
                                     value={item.countries_detail.map((c) => c.name).join(', ')}
                                     strongLabel
                                 />
-                                <TextOutput
+                                <DataDisplay
                                     label={strings.disasters}
                                     value={item.hazard_types_detail.map((c) => c.name).join(', ')}
                                     strongLabel

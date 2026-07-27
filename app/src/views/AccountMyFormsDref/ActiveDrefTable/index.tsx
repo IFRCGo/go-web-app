@@ -5,11 +5,11 @@ import {
 } from 'react';
 import {
     Container,
+    DataDisplay,
     ListView,
-    Pager,
+    Pagination,
     Table,
     TableBodyContent,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { type RowOptions } from '@ifrc-go/ui';
 import { type Language } from '@ifrc-go/ui/contexts';
@@ -290,7 +290,7 @@ function ActiveDrefTable(props: Props) {
                             withSpacingOpticalCorrection
                         >
                             {statusDescription?.map((status) => (
-                                <TextOutput
+                                <DataDisplay
                                     key={status.key}
                                     strongLabel
                                     withoutLabelColon
@@ -463,7 +463,7 @@ function ActiveDrefTable(props: Props) {
             heading={strings.activeDrefTitle}
             headerActions={actions}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={activeDrefResponse?.count ?? 0}
                     maxItemsPerPage={limit}

@@ -5,8 +5,8 @@ import {
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import useSpacingToken from '#hooks/useSpacingToken';
 import {
+    getSpacingClassName,
     paddingSpacings,
     SpacingType,
 } from '#utils/style';
@@ -26,26 +26,33 @@ const levelToClassName: Record<HeadingLevel, string> = {
 
 export interface Props {
     className?: string;
+    /** id on the heading element (e.g. for aria-labelledby wiring) */
+    id?: string;
     level?: HeadingLevel;
     children: ReactNode;
     ellipsize?: boolean;
     centerAligned?: boolean;
-    variant?: 'form' | 'container';
+    /** 'form' adds padding, a bottom border and a foreground background */
+    styleVariant?: 'form' | 'container';
     spacing?: SpacingType;
 }
 
+/**
+ * Semantic h1-h6 heading with level-based sizing (generic layer).
+ */
 function Heading(props: Props) {
     const {
         className,
+        id,
         level = 3,
         children,
         ellipsize,
         centerAligned,
-        variant = 'container',
+        styleVariant = 'container',
         spacing,
     } = props;
 
-    const spacingClassName = useSpacingToken({
+    const spacingClassName = getSpacingClassName({
         spacing,
         modes: paddingSpacings,
     });
@@ -59,14 +66,15 @@ function Heading(props: Props) {
 
     return (
         <HeadingTag
+            id={id}
             className={_cs(
                 styles.heading,
                 ellipsize && styles.ellipsized,
                 levelToClassName[level],
                 centerAligned && styles.centerAligned,
-                variant === 'form' && spacingClassName,
-                variant === 'form' && styles.withBottomBorder,
-                variant === 'form' && styles.withLightBackground,
+                styleVariant === 'form' && spacingClassName,
+                styleVariant === 'form' && styles.withBottomBorder,
+                styleVariant === 'form' && styles.withLightBackground,
                 className,
             )}
             ref={headingElementRef}

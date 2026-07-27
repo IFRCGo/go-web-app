@@ -122,7 +122,7 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
     return (
         <Container
             spacing="sm"
-            withDarkBackground
+            backgroundColor="background"
             withHeaderBorder
             withPadding
             heading={(

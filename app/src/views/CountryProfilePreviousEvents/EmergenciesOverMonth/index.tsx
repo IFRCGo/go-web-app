@@ -2,8 +2,8 @@ import {
     ChartAxes,
     ChartContainer,
     ChartPoint,
-    DateOutput,
-    TextOutput,
+    DataDisplay,
+    DateDisplay,
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -74,8 +74,8 @@ function EmergenciesOverMonth(props: Props) {
                             title={dataPoint.originalData.disaster_name}
                             description={(
                                 <>
-                                    <DateOutput value={dataPoint.originalData.date} />
-                                    <TextOutput
+                                    <DateDisplay value={dataPoint.originalData.date} />
+                                    <DataDisplay
                                         label={strings.emergenciesOverMonthTargetedPopulation}
                                         value={dataPoint.originalData.targeted_population}
                                         valueType="number"

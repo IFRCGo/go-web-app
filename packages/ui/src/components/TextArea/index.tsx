@@ -1,12 +1,17 @@
-import React, { useMemo } from 'react';
-import { isNotDefined } from '@togglecorp/fujs';
+import React, {
+    useId,
+    useMemo,
+} from 'react';
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
+import CharacterCount from '#components/CharacterCount';
+import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
+import RawTextArea, { Props as RawTextAreaProps } from '#components/RawTextArea';
 import { getHighlightMode } from '#utils/common';
 import { extractInputContainerProps } from '#utils/inputs';
-
-import InputContainer, { Props as InputContainerProps } from '../InputContainer';
-import RawTextArea, { Props as RawTextAreaProps } from '../RawTextArea';
-import TextBadge from '../TextBadge';
 
 const BULLET = '•';
 const KEY_ENTER = 'Enter';
@@ -15,17 +20,23 @@ type InheritedProps<NAME> = Omit<InputContainerProps, 'input'>
 & Omit<RawTextAreaProps<NAME>, 'type' | 'className' | 'elementRef'>;
 
 export interface Props<NAME> extends InheritedProps<NAME> {
-    inputElementRef?: React.RefObject<HTMLInputElement | null>;
+    /** Ref to the inner <textarea> node (elementRef refers to the root) */
+    inputElementRef?: React.RefObject<HTMLTextAreaElement | null>;
     autoBullets?: boolean;
     inputClassName?: string;
     withDiffView?: boolean;
     prevValue?: RawTextAreaProps<NAME>['value'];
 }
 
+/**
+ * Multi-line text input composed of InputContainer and RawTextArea,
+ * with optional auto-bullets and a character counter (specific layer).
+ */
 function TextArea<const N>(props: Props<N>) {
     const {
         disabled,
         inputClassName,
+        inputElementRef,
         readOnly,
         required,
         onChange,
@@ -44,6 +55,14 @@ function TextArea<const N>(props: Props<N>) {
     const [inputContainerProps, rawInputProps] = extractInputContainerProps(
         otherProps,
     );
+
+    const generatedId = useId();
+    const inputId = generatedId;
+    const hasError = isDefined(inputContainerProps.error);
+    const hasHint = isDefined(inputContainerProps.hint);
+    const errorId = hasError ? `${generatedId}-error` : undefined;
+    const hintId = hasHint ? `${generatedId}-hint` : undefined;
+    const describedBy = [hintId, errorId].filter(isDefined).join(' ') || undefined;
 
     const highlightMode = useMemo(
         () => getHighlightMode(value, prevValue, withDiffView),
@@ -74,6 +93,9 @@ function TextArea<const N>(props: Props<N>) {
         <InputContainer
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...inputContainerProps}
+            inputId={inputId}
+            hintId={hintId}
+            errorId={errorId}
             disabled={disabled}
             readOnly={readOnly}
             required={required}
@@ -84,6 +106,11 @@ function TextArea<const N>(props: Props<N>) {
                     <RawTextArea
                         // eslint-disable-next-line react/jsx-props-no-spreading
                         {...rawInputProps}
+                        id={inputId}
+                        aria-invalid={hasError}
+                        aria-required={required}
+                        aria-describedby={describedBy}
+                        elementRef={inputElementRef}
                         value={value}
                         className={inputClassName}
                         disabled={disabled}
@@ -96,7 +123,7 @@ function TextArea<const N>(props: Props<N>) {
                         maxLength={maxLength}
                         rows={rows}
                     />
-                    <TextBadge
+                    <CharacterCount
                         length={value?.length}
                         maxLength={maxLength}
                     />

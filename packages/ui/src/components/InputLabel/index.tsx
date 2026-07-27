@@ -5,17 +5,29 @@ import styles from './styles.module.css';
 export interface Props {
     children?: React.ReactNode;
     className?: string;
+    /** Id applied to the `<label>`; lets a grouped control reference it via `aria-labelledby`. */
+    id?: string;
     disabled?: boolean;
     // FIXME: change prop name to withAsterisk
     required?: boolean;
+    /** Id of the control this labels; renders a real `<label htmlFor>` */
+    htmlFor?: string;
 }
 
+/**
+ * Form-field label (generic layer). Renders a real `<label htmlFor>` so
+ * the label is programmatically associated with its control; the
+ * required asterisk is `aria-hidden` (requiredness is conveyed via
+ * `aria-required` on the control).
+ */
 function InputLabel(props: Props) {
     const {
         children,
         className,
+        id,
         disabled,
         required,
+        htmlFor,
     } = props;
 
     if (!children) {
@@ -23,7 +35,9 @@ function InputLabel(props: Props) {
     }
 
     return (
-        <div
+        <label
+            id={id}
+            htmlFor={htmlFor}
             className={_cs(
                 styles.inputLabel,
                 disabled && styles.disabled,
@@ -36,7 +50,7 @@ function InputLabel(props: Props) {
                     *
                 </span>
             )}
-        </div>
+        </label>
     );
 }
 

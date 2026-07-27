@@ -8,9 +8,9 @@ import {
     Button,
     Container,
     DateInput,
+    Dialog,
     InputSection,
     ListView,
-    Modal,
     Radio,
     RadioInput,
 } from '@ifrc-go/ui';
@@ -202,7 +202,7 @@ export function Component() {
             >
                 <Container
                     heading={strings.applicationDetails}
-                    variant="form"
+                    styleVariant="form"
                 >
                     <ListView
                         layout="block"
@@ -312,7 +312,7 @@ export function Component() {
                 </Container>
                 <Container
                     heading={strings.contacts}
-                    variant="form"
+                    styleVariant="form"
                 >
                     <ListView
                         layout="block"
@@ -356,7 +356,7 @@ export function Component() {
                 </ListView>
             </ListView>
             {showEapRegistrationsuccessModal && (
-                <Modal
+                <Dialog
                     size="sm"
                     heading={strings.successModalHeading}
                     withHeaderBorder
@@ -364,7 +364,7 @@ export function Component() {
                     footerActions={(
                         <Button
                             name={undefined}
-                            styleVariant="filled"
+                            variant="primary"
                             onClick={handleRegistrationsuccessModalClose}
                         >
                             {strings.closeButtonLabel}
@@ -372,7 +372,7 @@ export function Component() {
                     )}
                 >
                     {strings.successModalDescription}
-                </Modal>
+                </Dialog>
             )}
         </Page>
     );

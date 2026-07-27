@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
+    DataDisplay,
     LegendItem,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -163,7 +163,7 @@ function ActivitiesMap(props: Props) {
                 <GoMapContainer
                     title="Response Activity Map"
                     footer={(
-                        <TextOutput
+                        <DataDisplay
                             label={strings.numberOfProjects}
                             value={(
                                 <ListView

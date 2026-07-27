@@ -4,7 +4,7 @@ import {
 } from 'react';
 import {
     Container,
-    Pager,
+    Pagination,
     Table,
 } from '@ifrc-go/ui';
 import { SortContext } from '@ifrc-go/ui/contexts';
@@ -176,7 +176,7 @@ export default function DeployedErusTable(props: Props) {
                 </Link>
             )}
             footerActions={(
-                <Pager
+                <Pagination
                     activePage={page}
                     itemsCount={eruResponse?.count ?? 0}
                     maxItemsPerPage={limit}

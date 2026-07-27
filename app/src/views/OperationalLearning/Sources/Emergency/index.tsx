@@ -23,7 +23,7 @@ function Emergency(props: Props) {
 
     return (
         <Container
-            withBackground
+            backgroundColor="foreground"
             withPadding
         >
             <ListView

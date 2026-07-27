@@ -1,4 +1,13 @@
 .page-header {
+    .overline {
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: var(--go-ui-spacing-5xs);
+        color: var(--go-ui-color-primary-red);
+        font-size: var(--go-ui-font-size-sm);
+        font-weight: var(--go-ui-font-weight-semibold);
+    }
+
     .heading {
         text-align: center;
     }

@@ -1,6 +1,6 @@
 import {
+    NumberDisplay,
     NumberInput,
-    NumberOutput,
     Switch,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -227,7 +227,7 @@ function DisaggregationInput(props: Props) {
                     </div>
                     <NumberInput
                         className={styles.cell}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="male_0_1_count"
                         onChange={setFieldValue}
                         value={value?.male_0_1_count}
@@ -237,7 +237,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="male_2_5_count"
                         value={value?.male_2_5_count}
                         disabled={disabled}
@@ -246,7 +246,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="male_6_12_count"
                         value={value?.male_6_12_count}
                         disabled={disabled}
@@ -255,7 +255,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="male_13_17_count"
                         value={value?.male_13_17_count}
                         disabled={disabled}
@@ -264,7 +264,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="male_18_59_count"
                         value={value?.male_18_59_count}
                         disabled={disabled}
@@ -273,7 +273,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="male_60_plus_count"
                         value={value?.male_60_plus_count}
                         disabled={disabled}
@@ -282,13 +282,13 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="male_unknown_age_count"
                         value={value?.male_unknown_age_count}
                         disabled={disabled}
                         error={error?.male_unknown_age_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_male}
                     />
@@ -301,7 +301,7 @@ function DisaggregationInput(props: Props) {
                         className={styles.cell}
                         name="female_0_1_count"
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         value={value?.female_0_1_count}
                         disabled={disabled}
                         error={error?.female_0_1_count}
@@ -309,7 +309,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="female_2_5_count"
                         value={value?.female_2_5_count}
                         disabled={disabled}
@@ -318,7 +318,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="female_6_12_count"
                         value={value?.female_6_12_count}
                         disabled={disabled}
@@ -327,7 +327,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="female_13_17_count"
                         value={value?.female_13_17_count}
                         disabled={disabled}
@@ -336,7 +336,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="female_18_59_count"
                         value={value?.female_18_59_count}
                         disabled={disabled}
@@ -345,7 +345,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="female_60_plus_count"
                         value={value?.female_60_plus_count}
                         disabled={disabled}
@@ -354,13 +354,13 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="female_unknown_age_count"
                         value={value?.female_unknown_age_count}
                         disabled={disabled}
                         error={error?.female_unknown_age_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_female}
                     />
@@ -373,7 +373,7 @@ function DisaggregationInput(props: Props) {
                         className={styles.cell}
                         name="other_0_1_count"
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         value={value?.other_0_1_count}
                         disabled={disabled}
                         error={error?.other_0_1_count}
@@ -381,7 +381,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="other_2_5_count"
                         value={value?.other_2_5_count}
                         disabled={disabled}
@@ -390,7 +390,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="other_6_12_count"
                         value={value?.other_6_12_count}
                         disabled={disabled}
@@ -399,7 +399,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="other_13_17_count"
                         value={value?.other_13_17_count}
                         disabled={disabled}
@@ -408,7 +408,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="other_18_59_count"
                         value={value?.other_18_59_count}
                         disabled={disabled}
@@ -417,7 +417,7 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="other_60_plus_count"
                         value={value?.other_60_plus_count}
                         disabled={disabled}
@@ -426,13 +426,13 @@ function DisaggregationInput(props: Props) {
                     <NumberInput
                         className={styles.cell}
                         onChange={setFieldValue}
-                        variant="transparent"
+                        styleVariant="transparent"
                         name="other_unknown_age_count"
                         value={value?.other_unknown_age_count}
                         disabled={disabled}
                         error={error?.other_unknown_age_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_other}
                     />
@@ -441,35 +441,35 @@ function DisaggregationInput(props: Props) {
                     <div className={_cs(styles.cell, styles.header)}>
                         {strings.totalHeader}
                     </div>
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_0_1_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_2_5_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_6_12_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_13_17_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_18_59_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_60_plus_count}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total_unknown}
                     />
-                    <NumberOutput
+                    <NumberDisplay
                         className={_cs(styles.cell, styles.output)}
                         value={total}
                     />
@@ -522,7 +522,7 @@ function DisaggregationInput(props: Props) {
                             className={styles.cell}
                             name="disabled_male_0_1_count"
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             value={value?.disabled_male_0_1_count}
                             disabled={disabled}
                             error={error?.disabled_male_0_1_count}
@@ -530,7 +530,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_male_2_5_count"
                             value={value?.disabled_male_2_5_count}
                             disabled={disabled}
@@ -539,7 +539,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_male_6_12_count"
                             value={value?.disabled_male_6_12_count}
                             disabled={disabled}
@@ -548,7 +548,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_male_13_17_count"
                             value={value?.disabled_male_13_17_count}
                             disabled={disabled}
@@ -557,7 +557,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_male_18_59_count"
                             value={value?.disabled_male_18_59_count}
                             disabled={disabled}
@@ -566,7 +566,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_male_60_plus_count"
                             value={value?.disabled_male_60_plus_count}
                             disabled={disabled}
@@ -575,13 +575,13 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_male_unknown_age_count"
                             value={value?.disabled_male_unknown_age_count}
                             disabled={disabled}
                             error={error?.disabled_male_unknown_age_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_male}
                         />
@@ -594,7 +594,7 @@ function DisaggregationInput(props: Props) {
                             className={styles.cell}
                             name="disabled_female_0_1_count"
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             value={value?.disabled_female_0_1_count}
                             disabled={disabled}
                             error={error?.disabled_female_0_1_count}
@@ -602,7 +602,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_female_2_5_count"
                             value={value?.disabled_female_2_5_count}
                             disabled={disabled}
@@ -611,7 +611,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_female_6_12_count"
                             value={value?.disabled_female_6_12_count}
                             disabled={disabled}
@@ -620,7 +620,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_female_13_17_count"
                             value={value?.disabled_female_13_17_count}
                             disabled={disabled}
@@ -629,7 +629,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_female_18_59_count"
                             value={value?.disabled_female_18_59_count}
                             disabled={disabled}
@@ -638,7 +638,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_female_60_plus_count"
                             value={value?.disabled_female_60_plus_count}
                             disabled={disabled}
@@ -647,13 +647,13 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_female_unknown_age_count"
                             value={value?.disabled_female_unknown_age_count}
                             disabled={disabled}
                             error={error?.disabled_female_unknown_age_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_female}
                         />
@@ -666,7 +666,7 @@ function DisaggregationInput(props: Props) {
                             className={styles.cell}
                             name="disabled_other_0_1_count"
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             value={value?.disabled_other_0_1_count}
                             disabled={disabled}
                             error={error?.disabled_other_0_1_count}
@@ -674,7 +674,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_other_2_5_count"
                             value={value?.disabled_other_2_5_count}
                             disabled={disabled}
@@ -683,7 +683,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_other_6_12_count"
                             value={value?.disabled_other_6_12_count}
                             disabled={disabled}
@@ -692,7 +692,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_other_13_17_count"
                             value={value?.disabled_other_13_17_count}
                             disabled={disabled}
@@ -701,7 +701,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_other_18_59_count"
                             value={value?.disabled_other_18_59_count}
                             disabled={disabled}
@@ -710,7 +710,7 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_other_60_plus_count"
                             value={value?.disabled_other_60_plus_count}
                             disabled={disabled}
@@ -719,13 +719,13 @@ function DisaggregationInput(props: Props) {
                         <NumberInput
                             className={styles.cell}
                             onChange={setFieldValue}
-                            variant="transparent"
+                            styleVariant="transparent"
                             name="disabled_other_unknown_age_count"
                             value={value?.disabled_other_unknown_age_count}
                             disabled={disabled}
                             error={error?.disabled_other_unknown_age_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_other}
                         />
@@ -734,35 +734,35 @@ function DisaggregationInput(props: Props) {
                         <div className={_cs(styles.cell, styles.header)}>
                             {strings.totalHeader}
                         </div>
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_0_1_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_2_5_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_6_12_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_13_17_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_18_59_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_60_plus_count}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total_unknown}
                         />
-                        <NumberOutput
+                        <NumberDisplay
                             className={_cs(styles.cell, styles.output)}
                             value={disabled_total}
                         />

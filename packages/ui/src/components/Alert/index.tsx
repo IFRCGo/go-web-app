@@ -8,11 +8,12 @@ import {
 } from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
 
-import Button from '#components/Button';
+import ButtonLayout from '#components/ButtonLayout';
 import Container from '#components/Container';
-import IconButton from '#components/IconButton';
+import RawButton from '#components/RawButton';
 import { AlertType } from '#contexts/alert';
 import useTranslation from '#hooks/useTranslation';
+import { BoxShadowType } from '#utils/style';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -20,17 +21,25 @@ import styles from './styles.module.css';
 export interface Props<N> {
     name: N;
     className?: string;
-    type?: AlertType;
+    /** Semantic status of the alert */
+    variant?: AlertType;
     title?: React.ReactNode;
     description?: React.ReactNode;
+    /** Hide the close button so the user cannot dismiss the alert */
     nonDismissable?: boolean;
     onCloseButtonClick?: (name: N) => void;
+    /** Technical error details, surfaced through a copy action */
     debugMessage?: string;
+    /**
+     * Use a variant-tinted light surface with variant-colored text
+     * instead of the default filled variant background
+     */
     withLightBackground?: boolean;
-    withoutShadow?: boolean;
+    /** Shadow spec for the alert surface */
+    boxShadow?: BoxShadowType;
 }
 
-const alertTypeToClassNameMap: {
+const alertVariantToClassNameMap: {
     [key in AlertType]: string;
 } = {
     success: styles.success,
@@ -48,18 +57,23 @@ const icon: {
     warning: <QuestionLineIcon className={styles.icon} />,
 };
 
+/**
+ * Alert notifies the user about the result of an action
+ * (typically rendered through AlertContainer).
+ * Specific layer: exposes a single semantic `variant` prop.
+ */
 function Alert<N extends string>(props: Props<N>) {
     const {
         name,
         className,
-        type = 'info',
+        variant = 'info',
         title,
         description,
         onCloseButtonClick,
         nonDismissable,
         debugMessage,
         withLightBackground,
-        withoutShadow,
+        boxShadow = 'md',
     } = props;
 
     const strings = useTranslation(i18n);
@@ -84,42 +98,59 @@ function Alert<N extends string>(props: Props<N>) {
 
     return (
         <Container
+            // NOTE: transient, assertive notification -> role="alert" (live region)
+            role="alert"
             className={_cs(
                 styles.alert,
-                alertTypeToClassNameMap[type],
+                alertVariantToClassNameMap[variant],
                 withLightBackground && styles.withLightBackground,
                 className,
             )}
-            headerIcons={icon[type]}
+            headerIcons={icon[variant]}
             heading={title}
             headingLevel={5}
             headerActions={!nonDismissable && (
-                <IconButton
+                // NOTE: text-on-dark is not part of the curated Button
+                // variants, so this composes RawButton + ButtonLayout directly
+                <RawButton
+                    className={styles.dismissButton}
                     name={undefined}
                     onClick={handleCloseButtonClick}
-                    colorVariant="text-on-dark"
                     title={strings.closeButtonTitle}
-                    ariaLabel={strings.closeButtonTitle}
+                    aria-label={strings.closeButtonTitle}
                 >
-                    <CloseLineIcon />
-                </IconButton>
+                    <ButtonLayout
+                        colorVariant="text-on-dark"
+                        styleVariant="transparent"
+                    >
+                        <CloseLineIcon className={styles.closeIcon} />
+                    </ButtonLayout>
+                </RawButton>
             )}
             withoutWrapInHeader
             withoutWrapInFooter
             footerActions={debugMessage && (
-                <Button
+                // NOTE: text-on-dark + translucent is not part of the curated
+                // Button variants, so this composes RawButton + ButtonLayout
+                // directly (spacingOffset mirrors the Button default)
+                <RawButton
+                    className={styles.copyDebugButton}
                     name={undefined}
                     onClick={handleCopyDebugMessageButtonClick}
-                    colorVariant="text-on-dark"
-                    styleVariant="translucent"
-                    textSize="sm"
-                    spacing="sm"
                 >
-                    {strings.alertCopyErrorDetails}
-                </Button>
+                    <ButtonLayout
+                        colorVariant="text-on-dark"
+                        styleVariant="translucent"
+                        textSize="sm"
+                        spacing="sm"
+                        spacingOffset={-3}
+                    >
+                        {strings.alertCopyErrorDetails}
+                    </ButtonLayout>
+                </RawButton>
             )}
             withPadding
-            withShadow={!withoutShadow}
+            boxShadow={boxShadow}
         >
             {description}
         </Container>

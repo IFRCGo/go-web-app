@@ -2,11 +2,11 @@ import {
     type Column,
     HeaderCell,
     type HeaderCellProps,
-    type NumberOutputProps,
-    ReducedListDisplay,
-    type ReducedListDisplayProps,
+    type NumberDisplayProps,
     type SortDirection,
     type TableActionsProps,
+    TruncatedList,
+    type TruncatedListProps,
 } from '@ifrc-go/ui';
 import {
     createNumberColumn,
@@ -108,7 +108,7 @@ export function createCountryListColumn<DATUM, KEY>(
     const item: Column<
         DATUM,
         KEY,
-        ReducedListDisplayProps<PartialCountry, CountryLinkProps>,
+        TruncatedListProps<PartialCountry, CountryLinkProps>,
         HeaderCellProps
     > = {
         id,
@@ -118,7 +118,7 @@ export function createCountryListColumn<DATUM, KEY>(
             sortable: false,
         },
         headerContainerClassName: options?.headerContainerClassName,
-        cellRenderer: ReducedListDisplay,
+        cellRenderer: TruncatedList,
         cellRendererParams: (_, datum) => {
             const countryList = countryListSelector(datum);
             return {
@@ -149,7 +149,7 @@ export function createRegionListColumn<DATUM, KEY>(
     const item: Column<
         DATUM,
         KEY,
-        ReducedListDisplayProps<PartialRegion, RegionLinkProps>,
+        TruncatedListProps<PartialRegion, RegionLinkProps>,
         HeaderCellProps
     > = {
         id,
@@ -159,7 +159,7 @@ export function createRegionListColumn<DATUM, KEY>(
             sortable: false,
         },
         headerContainerClassName: options?.headerContainerClassName,
-        cellRenderer: ReducedListDisplay,
+        cellRenderer: TruncatedList,
         cellRendererParams: (_, datum) => {
             const regionList = regionListSelector(datum);
 
@@ -275,7 +275,7 @@ export function createBudgetColumn<D, K extends string | number>(
     id: string,
     title: string,
     accessor: (item: D) => number | undefined | null,
-    options?: Options<D, K, NumberOutputProps, HeaderCellProps>,
+    options?: Options<D, K, NumberDisplayProps, HeaderCellProps>,
 ) {
     return createNumberColumn<D, K>(
         id,

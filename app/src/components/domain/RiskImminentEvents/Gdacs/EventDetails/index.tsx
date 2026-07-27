@@ -1,8 +1,8 @@
 import {
     Container,
+    DataDisplay,
     InlineLayout,
     ListView,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
@@ -91,74 +91,74 @@ function EventDetails(props: Props) {
                 spacing="xs"
             >
                 {isDefined(eventDetails?.source) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventSourceLabel}
                         value={eventDetails?.source}
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(populationExposure?.death) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventDeathLabel}
                         value={populationExposure?.death}
                         maximumFractionDigits={2}
                         compact
                         valueType="number"
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(populationExposure?.displaced) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventDisplacedLabel}
                         value={populationExposure?.displaced}
                         maximumFractionDigits={2}
                         compact
                         valueType="number"
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(populationExposure?.exposed_population) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventPopulationLabel}
                         value={populationExposure?.exposed_population}
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(populationExposure?.people_affected) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventPeopleAffectedLabel}
                         value={populationExposure?.people_affected}
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(populationExposure?.impact) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventImpactLabel}
                         value={populationExposure?.impact}
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(eventDetails?.severitydata)
                     && (isDefined(eventDetails) && (eventDetails?.eventtype) && !(eventDetails.eventtype === 'FL')) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventSeverityLabel}
                         value={eventDetails?.severitydata?.severitytext}
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(eventDetails?.alertlevel) && (
-                    <TextOutput
+                    <DataDisplay
                         label={strings.eventAlertType}
                         value={eventDetails?.alertlevel}
                         strongValue
-                        withLightBackground
+                        backgroundColor="foreground"
                     />
                 )}
                 {isDefined(eventDetails)

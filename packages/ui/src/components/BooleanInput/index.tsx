@@ -27,6 +27,9 @@ RadioInputProps<
     onChange: (value: boolean | undefined, name: NAME) => void;
 })
 
+/**
+ * Yes/No RadioInput over a boolean value (specific layer).
+ */
 function BooleanInput<const NAME>(props: BooleanInputProps<NAME>) {
     const strings = useTranslation(i18n);
 

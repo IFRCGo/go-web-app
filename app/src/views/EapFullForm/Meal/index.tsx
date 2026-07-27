@@ -4,8 +4,8 @@ import {
     Button,
     Container,
     Description,
+    DisplayLabel,
     InputSection,
-    Label,
     ListView,
     TextArea,
 } from '@ifrc-go/ui';
@@ -85,9 +85,9 @@ function Meal(props: Props) {
                     content={(
                         <ListView layout="block" withSpacingOpticalCorrection>
                             <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                <Label strong>
+                                <DisplayLabel strong>
                                     {strings.mealCriteriaIntroduction1}
-                                </Label>
+                                </DisplayLabel>
                                 <Description>
                                     <ol>
                                         <li>{strings.mealCriteriaIntroduction11}</li>
@@ -105,7 +105,7 @@ function Meal(props: Props) {
             )}
         >
             <Container
-                variant="form"
+                styleVariant="form"
                 heading={strings.mealHeading}
             >
                 <ListView
@@ -122,17 +122,17 @@ function Meal(props: Props) {
                                 content={(
                                     <ListView layout="block">
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.mealExplanatoryNoteLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 {strings.mealExplanatoryNote}
                                             </Description>
                                         </ListView>
                                         <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
-                                            <Label strong>
+                                            <DisplayLabel strong>
                                                 {strings.mealRequiredPointsLabel}
-                                            </Label>
+                                            </DisplayLabel>
                                             <Description>
                                                 <ul>
                                                     <li>{strings.mealDescription1}</li>

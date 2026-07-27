@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TextOutput } from '@ifrc-go/ui';
+import { DataDisplay } from '@ifrc-go/ui';
 import { isDefined } from '@togglecorp/fujs';
 
 export interface Props<VALUE, OPTION> {
@@ -34,12 +34,12 @@ function SelectOutput<VALUE, OPTION>(props: Props<VALUE, OPTION>) {
     ), [labelSelector, selectedOption]);
 
     return (
-        <TextOutput
+        <DataDisplay
             className={className}
             label={label}
             value={valueLabel}
             strongLabel
-            withBackground={withBackground}
+            backgroundColor={withBackground ? 'background' : undefined}
         />
     );
 }

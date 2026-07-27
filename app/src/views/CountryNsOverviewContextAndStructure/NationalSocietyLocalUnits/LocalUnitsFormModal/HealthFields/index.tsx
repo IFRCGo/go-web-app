@@ -132,7 +132,7 @@ function HealthFields(props: Props) {
                     <ListView layout="grid">
                         <ListView
                             layout="block"
-                            withDarkBackground
+                            backgroundColor="background"
                             withPadding
                         >
                             <SelectInput
@@ -426,7 +426,7 @@ function HealthFields(props: Props) {
                         headingLevel={6}
                         spacing="sm"
                         withPadding
-                        withDarkBackground
+                        backgroundColor="background"
                     >
                         <ListView
                             layout="grid"
@@ -481,7 +481,7 @@ function HealthFields(props: Props) {
                 <ListView layout="block">
                     <ListView
                         layout="grid"
-                        withDarkBackground
+                        backgroundColor="background"
                         withPadding
                     >
                         <ListView layout="block">
