@@ -21,7 +21,6 @@ function PageError() {
 
     useEffect(
         () => {
-            // eslint-disable-next-line no-console
             console.error(errorResponse);
         },
         [errorResponse],

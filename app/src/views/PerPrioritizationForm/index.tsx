@@ -251,7 +251,6 @@ export function Component() {
         formContentRef.current?.scrollIntoView();
 
         if (isNotDefined(prioritizationId)) {
-            // eslint-disable-next-line no-console
             console.error('Prioritization id not defined');
         }
         savePerPrioritization({
@@ -264,7 +263,6 @@ export function Component() {
         formContentRef.current?.scrollIntoView();
 
         if (isNotDefined(prioritizationId)) {
-            // eslint-disable-next-line no-console
             console.error('Prioritization id not defined');
         }
         savePerPrioritization({

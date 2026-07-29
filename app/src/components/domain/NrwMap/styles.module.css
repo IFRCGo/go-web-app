@@ -1,0 +1,8 @@
+.nrw-map {
+  height: var(--go-ui-height-map-md);
+
+  &.nrw-standalone {
+    /* hardcoded height because the header has dynamic height */
+    height: calc(100vh - 140px);
+  }
+}

@@ -34,7 +34,10 @@ import {
 import GlobalFooter from '#components/GlobalFooter';
 import Link from '#components/Link';
 import Navbar from '#components/Navbar';
-import { environment } from '#config';
+import {
+    environment,
+    nrwStandalone,
+} from '#config';
 import DomainContext, {
     type CacheKey,
     type Domain,
@@ -55,6 +58,7 @@ export function Component() {
     const { state } = useNavigation();
     const isLoading = state === 'loading';
     const isLoadingDebounced = useDebouncedValue(isLoading);
+
     const strings = useTranslation(i18n);
 
     const { isAuthenticated } = useAuth();
@@ -148,7 +152,6 @@ export function Component() {
             setLanguagePending(false);
         },
         onFailure: (err, { pages }) => {
-            // eslint-disable-next-line no-console
             console.error(err);
 
             // FIXME: If we get an error, we should try again?
@@ -346,7 +349,6 @@ export function Component() {
                     perFormComponentsTrigger();
                     break;
                 default:
-                    // eslint-disable-next-line no-console
                     console.error(`Cannot call invalidate on '${name}'`);
             }
         },
@@ -433,11 +435,11 @@ export function Component() {
                         )}
                     />
                 )}
-                <Navbar className={styles.navbar} />
+                {!nrwStandalone && <Navbar className={styles.navbar} />}
                 <div className={styles.pageContent}>
                     <Outlet />
                 </div>
-                <GlobalFooter className={styles.footer} />
+                {!nrwStandalone && <GlobalFooter className={styles.footer} />}
                 <AlertContainer />
                 {(isCookiesBannerVisible || environment !== 'production') && (
                     <div className={styles.bannersContainer}>

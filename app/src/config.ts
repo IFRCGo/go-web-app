@@ -4,6 +4,7 @@ const {
     APP_API_ENDPOINT,
     APP_ADMIN_URL,
     APP_MAPBOX_ACCESS_TOKEN,
+    APP_NRW_STANDALONE,
     APP_TINY_API_KEY,
     APP_RISK_API_ENDPOINT,
     APP_TRANSLATION_API_ENDPOINT,
@@ -30,6 +31,7 @@ export const appRepositoryUrl = APP_REPOSITORY_URL;
 export const api = APP_API_ENDPOINT;
 export const adminUrl = APP_ADMIN_URL ?? `${api}admin/`;
 export const mbtoken = APP_MAPBOX_ACCESS_TOKEN;
+export const nrwStandalone = APP_NRW_STANDALONE;
 export const riskApi = APP_RISK_API_ENDPOINT;
 export const translationApi = APP_TRANSLATION_API_ENDPOINT;
 export const sdtUrl = APP_SDT_URL;

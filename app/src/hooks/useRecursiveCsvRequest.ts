@@ -216,7 +216,6 @@ function useRecursiveCSVRequest<D>({
         setProgress(0);
 
         if (total !== data.length - 1 && !disableProgress) {
-            // eslint-disable-next-line no-console
             console.error(`Length mismatch. Expected ${total} but got ${data.length - 1}`);
             onFailure(undefined);
         } else {

@@ -1,0 +1,36 @@
+.nrw-navbar {
+    background-color: var(--go-ui-color-foreground);
+
+    .page-container {
+        .content {
+            max-width: none;
+        }
+    }
+
+    .brand {
+        display: flex;
+        gap: var(--go-ui-spacing-sm);
+    }
+
+    .icon {
+        color: var(--go-ui-color-gray-90);
+        font-size: var(--go-ui-font-size-xl);
+    }
+
+    .icon-user {
+        color: var(--go-ui-color-gray-70);
+        font-size: var(--go-ui-font-size-2xl);
+    }
+
+    .heading {
+        text-transform: uppercase;
+    }
+
+    .country-name {
+        margin-inline-start: var(--go-ui-spacing-md);
+    }
+
+    @media print {
+        display: none;
+    }
+}

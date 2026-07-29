@@ -69,7 +69,6 @@ const webappRootId = 'webapp-root';
 const webappRootElement = document.getElementById(webappRootId);
 
 if (isNotDefined(webappRootElement)) {
-    // eslint-disable-next-line no-console
     console.error(`Could not find html element with id '${webappRootId}'`);
 } else {
     ReactDOM.createRoot(webappRootElement).render(

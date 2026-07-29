@@ -1,0 +1,8 @@
+.country-profile-nrw {
+    .main-section-container {
+        .main-section {
+            padding: 0 var(--go-ui-spacing-md);
+            max-width: none;
+        }
+    }
+}

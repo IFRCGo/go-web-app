@@ -33,4 +33,7 @@ export default defineConfig({
 
     // FIXME this should be number
     APP_HOTJAR_ID: Schema.string.optional(),
+
+    // National Risk Watch
+    APP_NRW_STANDALONE: Schema.boolean.optional(),
 });

@@ -10,6 +10,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-chromatic
   cancel-in-progress: true
 
+env:
+  FONTAWESOME_API_KEY: ${{ secrets.FONTAWESOME_API_KEY }}
+
 permissions:
   actions: write
   contents: read

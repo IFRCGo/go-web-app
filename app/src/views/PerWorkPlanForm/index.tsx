@@ -232,7 +232,6 @@ export function Component() {
     const handleSubmit = useCallback(
         (formValues: PartialWorkPlan) => {
             if (isNotDefined(workplanId)) {
-                // eslint-disable-next-line no-console
                 console.error('WorkPlan id not defined');
                 return;
             }
@@ -250,7 +249,6 @@ export function Component() {
     const handleFinalSubmit = useCallback(
         (formValues: PartialWorkPlan) => {
             if (isNotDefined(workplanId)) {
-                // eslint-disable-next-line no-console
                 console.error('WorkPlan id not defined');
                 return;
             }

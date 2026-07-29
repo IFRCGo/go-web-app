@@ -33,6 +33,12 @@ export function Component() {
                     {strings.riskWatchTabTitle}
                 </NavigationTab>
                 <NavigationTab
+                    to="countryProfileNationalRiskWatch"
+                    urlParams={{ countryId }}
+                >
+                    {strings.nationalRiskWatchTabTitle}
+                </NavigationTab>
+                <NavigationTab
                     to="countryProfilePreviousEvents"
                     urlParams={{ countryId }}
                 >

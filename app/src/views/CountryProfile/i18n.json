@@ -3,6 +3,7 @@
     "strings": {
         "overviewTabTitle": "Overview",
         "previousEventsTabTitle": "Previous Events",
-        "riskWatchTabTitle": "Risk Watch"
+        "riskWatchTabTitle": "Risk Watch",
+        "nationalRiskWatchTabTitle": "National Risk Watch"
     }
 }

@@ -4,6 +4,7 @@ import {
     useParams,
 } from 'react-router-dom';
 
+import { nrwStandalone } from '#config';
 import { unwrapRoute } from '#utils/routes';
 
 import Auth from '../Auth';
@@ -109,6 +110,20 @@ const home = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'Home',
+        visibility: 'anything',
+    },
+});
+
+const nrwStandaloneIndex = customWrapRoute({
+    parent: rootLayout,
+    index: true,
+    component: {
+        render: () => import('#views/CountryProfileNationalRiskWatch'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'National Risk Watch',
         visibility: 'anything',
     },
 });
@@ -1551,7 +1566,17 @@ const wrappedRoutes = {
     eapSummaryExport,
 };
 
-export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
+const standaloneWrappedRoutes = [
+    rootLayout,
+    nrwStandaloneIndex,
+    fourHundredFour,
+];
+
+export const unwrappedRoutes = unwrapRoute(
+    nrwStandalone
+        ? standaloneWrappedRoutes
+        : Object.values(wrappedRoutes),
+);
 
 export default wrappedRoutes;
 

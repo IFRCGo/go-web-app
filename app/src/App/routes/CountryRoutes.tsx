@@ -354,6 +354,19 @@ const countryProfileSeasonalRisks = customWrapRoute({
     },
 });
 
+const countryProfileNationalRiskWatch = customWrapRoute({
+    parent: countryProfileLayout,
+    path: 'national-risk-watch',
+    component: {
+        render: () => import('#views/CountryProfileNationalRiskWatch'),
+        props: {},
+    },
+    context: {
+        title: 'Country Profile National Risk Watch',
+        visibility: 'anything',
+    },
+});
+
 const countryAdditionalInfo = customWrapRoute({
     parent: countriesLayout,
     path: 'additional-info',
@@ -488,6 +501,7 @@ export default {
     countryNsOverviewSupportingPartners,
     countryProfilePreviousEvents,
     countryProfileSeasonalRisks,
+    countryProfileNationalRiskWatch,
 
     countryAdditionalInfo,
 

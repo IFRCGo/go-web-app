@@ -60,7 +60,7 @@ const router = sentryCreateBrowserRouter(unwrappedRoutes);
 mapboxgl.accessToken = mbtoken;
 mapboxgl.setRTLTextPlugin(
     'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js',
-    // eslint-disable-next-line no-console
+
     (err) => { console.error(err); },
     true,
 );

@@ -43,9 +43,9 @@ To begin, ensure you have network access. Then, you'll need the following:
 
 2. Initialize submodules
 
-    ```bash
-    git submodule update --init --recursive --remote
-    ```
+   ```bash
+   git submodule update --init --recursive --remote
+   ```
 
 3. Install the dependencies:
 
@@ -61,6 +61,7 @@ To begin, ensure you have network access. Then, you'll need the following:
    ```
 
    Example `.env` file
+
    ```
    APP_TITLE=IFRC GO
    APP_ENVIRONMENT=testing
@@ -75,10 +76,10 @@ To begin, ensure you have network access. Then, you'll need the following:
 
 ## Contributing
 
-* Check out existing [Issues](https://github.com/IFRCGo/go-web-app/issues) and [Pull Requests](https://github.com/IFRCGo/go-web-app/pulls) to contribute.
-* To request a feature or report a bug, [create a GitHub Issue](https://github.com/IFRCGo/go-web-app/issues/new/choose).
-* [Contribution Guide →](./CONTRIBUTING.md)
-* [Collaboration Guide →](./COLLABORATING.md)
+- Check out existing [Issues](https://github.com/IFRCGo/go-web-app/issues) and [Pull Requests](https://github.com/IFRCGo/go-web-app/pulls) to contribute.
+- To request a feature or report a bug, [create a GitHub Issue](https://github.com/IFRCGo/go-web-app/issues/new/choose).
+- [Contribution Guide →](./CONTRIBUTING.md)
+- [Collaboration Guide →](./COLLABORATING.md)
 
 ## Additional Packages
 
@@ -95,10 +96,14 @@ The backend that serves the frontend application is maintained in a separate [re
 
 [Go Frontend](https://github.com/IFRCGo/go-frontend) is the previous version of the project which contains the original codebase and project history.
 
+## Spellchecker
+
+The [CI workflow](./.github/workflows/ci.yml) runs a spelling check. You can add exceptions in `typos.toml` under `[default.extend-words]`. These are case-sensitive.
+
 ## Community & Support
 
-* Visit the [IFRC GO Wiki](https://go-wiki.ifrc.org/) for documentation of the IFRC GO platform.
-* Stay informed about the latest project updates on [Medium](https://ifrcgoproject.medium.com/).
+- Visit the [IFRC GO Wiki](https://go-wiki.ifrc.org/) for documentation of the IFRC GO platform.
+- Stay informed about the latest project updates on [Medium](https://ifrcgoproject.medium.com/).
 
 ## License
 
@@ -107,17 +112,10 @@ The backend that serves the frontend application is maintained in a separate [re
 <!-- MARKDOWN LINKS & IMAGES -->
 
 [react-shields]: https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB
-
 [react-url]: https://reactjs.org/
-
 [vite-shields]: https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white
-
 [vite-url]: https://vitejs.dev/
-
 [typescript-shields]: https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white
-
 [typescript-url]: https://www.typescriptlang.org/
-
 [pnpm-shields]: https://img.shields.io/badge/pnpm-F69220?style=for-the-badge&logo=pnpm&logoColor=fff
-
 [pnpm-url]: https://pnpm.io/

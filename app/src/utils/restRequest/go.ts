@@ -94,7 +94,6 @@ function transformError(
             // Non Standard Error
             return fallbackMessage;
         } catch (e) {
-            // eslint-disable-next-line no-console
             console.error(e);
             return fallbackMessage;
         }

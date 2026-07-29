@@ -272,7 +272,7 @@ export function Component() {
         (formValues: PartialForm<AssessmentResponse>) => {
             if (isNotDefined(assessmentId) || isNotDefined(perId)) {
                 // TODO: show proper error message to user
-                // eslint-disable-next-line no-console
+
                 console.error('assessment id not defined');
                 return;
             }
@@ -291,7 +291,7 @@ export function Component() {
         (formValues: PartialForm<AssessmentResponse>) => {
             if (isNotDefined(assessmentId) || isNotDefined(perId)) {
                 // TODO: show proper error message to user
-                // eslint-disable-next-line no-console
+
                 console.error('assessment id not defined');
                 return;
             }
