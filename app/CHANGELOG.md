@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.26.4
+
+### Patch Changes
+
+- Improve table column size for DREF final report pdf export (Implementation section)
+
 ## 7.26.3
 
 ### Patch Changes
