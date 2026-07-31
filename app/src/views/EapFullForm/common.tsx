@@ -176,7 +176,7 @@ export function checkTabErrors(
     return hasErrorOnAnyField;
 }
 
-export const charLimits = {
+export const wordLimits = {
     key_actors: 150,
     technical_working_groups_in_place_description: 150,
     hazard_selection: 1000,

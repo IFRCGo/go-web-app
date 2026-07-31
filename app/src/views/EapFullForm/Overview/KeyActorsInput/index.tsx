@@ -17,7 +17,7 @@ import {
 
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import NonFieldError from '#components/NonFieldError';
-import { charLimits } from '#views/EapFullForm/common';
+import { wordLimits } from '#views/EapFullForm/common';
 import { type PartialEapFullFormType } from '#views/EapFullForm/schema';
 
 import i18n from './i18n.json';
@@ -102,7 +102,7 @@ function KeyActorsInput(props: Props) {
                         value={value?.description}
                         onChange={onFieldChange}
                         required
-                        maxLength={charLimits.key_actors}
+                        maxLength={wordLimits.key_actors}
                         readOnly={readOnly}
                     />
                 </ListView>

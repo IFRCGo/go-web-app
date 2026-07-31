@@ -180,7 +180,7 @@ export function checkTabErrors(
     return hasErrorOnAnyField;
 }
 
-export const charLimits = {
+export const wordLimits = {
     prioritized_hazard_and_impact: 500,
     risks_selected_protocols: 150,
     selected_early_actions: 150,

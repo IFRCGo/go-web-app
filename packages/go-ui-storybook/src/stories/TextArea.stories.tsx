@@ -85,3 +85,21 @@ export const WithAsterisk: Story = {
         withAsterisk: true,
     },
 };
+
+export const WithCharacterLimit: Story = {
+    render: Template,
+    args: {
+        label: 'Feedback',
+        maxLength: 100,
+        value: 'I appreciate the quick response from your support team!',
+    },
+};
+
+export const WithWordLimit: Story = {
+    render: Template,
+    args: {
+        label: 'Feedback',
+        maxWords: 10,
+        value: 'I appreciate the quick response from your support team!',
+    },
+};

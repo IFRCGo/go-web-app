@@ -24,7 +24,7 @@ import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 
-import { charLimits } from '../common';
+import { wordLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
@@ -143,7 +143,7 @@ function NationalSocietyCapacity(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.operational_administrative_capacity}
+                            maxWords={wordLimits.operational_administrative_capacity}
                         />
                     </InputSection>
                     <InputSection
@@ -159,7 +159,7 @@ function NationalSocietyCapacity(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.strategies_and_plans}
+                            maxWords={wordLimits.strategies_and_plans}
                         />
                     </InputSection>
                     <InputSection
@@ -204,7 +204,7 @@ function NationalSocietyCapacity(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.advance_financial_capacity}
+                            maxWords={wordLimits.advance_financial_capacity}
                         />
                     </InputSection>
                     <InputSection

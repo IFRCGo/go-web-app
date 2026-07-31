@@ -40,7 +40,7 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
-import { charLimits } from '../common';
+import { wordLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
@@ -277,7 +277,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.trigger_statement}
+                            maxLength={wordLimits.trigger_statement}
                         />
                     </InputSection>
                     <InputSection
@@ -384,7 +384,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.forecast_selection}
+                            maxLength={wordLimits.forecast_selection}
                         />
                         <MultiImageWithCaptionInput
                             name="forecast_selection_images"
@@ -485,7 +485,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.definition_and_justification_impact_level}
+                            maxLength={wordLimits.definition_and_justification_impact_level}
                         />
                         <MultiImageWithCaptionInput
                             name="definition_and_justification_impact_level_images"
@@ -559,7 +559,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.identification_of_the_intervention_area}
+                            maxLength={wordLimits.identification_of_the_intervention_area}
                         />
                         <MultiImageWithCaptionInput
                             name="identification_of_the_intervention_area_images"

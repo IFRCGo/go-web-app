@@ -836,6 +836,43 @@ function isNotDefinedValue(value: unknown) {
     return false;
 }
 
+const WORD_PATTERN = /\S+/g;
+
+export function getWordCount(value: string | undefined | null) {
+    if (isNotDefined(value)) {
+        return 0;
+    }
+
+    return [...value.matchAll(WORD_PATTERN)].length;
+}
+
+export function trimToWordLimit(
+    value: string | undefined,
+    maxWords: number,
+): string | undefined {
+    if (isNotDefined(value)) {
+        return value;
+    }
+
+    if (maxWords <= 0) {
+        return undefined;
+    }
+
+    const matches = [...value.matchAll(WORD_PATTERN)];
+
+    if (matches.length <= maxWords) {
+        return value;
+    }
+
+    const lastAllowedWord = matches[maxWords - 1];
+    const trimmedValue = value.slice(
+        0,
+        (lastAllowedWord.index ?? 0) + lastAllowedWord[0].length,
+    );
+
+    return trimmedValue === '' ? undefined : trimmedValue;
+}
+
 export function getHighlightMode<VALUE>(
     value: VALUE | undefined | null,
     prevValue: VALUE | undefined | null,

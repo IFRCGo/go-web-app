@@ -1,7 +1,11 @@
 import React, { useMemo } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 
-import { getHighlightMode } from '#utils/common';
+import {
+    getHighlightMode,
+    getWordCount,
+    trimToWordLimit,
+} from '#utils/common';
 import { extractInputContainerProps } from '#utils/inputs';
 
 import InputContainer, { Props as InputContainerProps } from '../InputContainer';
@@ -12,15 +16,25 @@ const BULLET = '•';
 const KEY_ENTER = 'Enter';
 
 type InheritedProps<NAME> = Omit<InputContainerProps, 'input'>
-& Omit<RawTextAreaProps<NAME>, 'type' | 'className' | 'elementRef'>;
+& Omit<RawTextAreaProps<NAME>, 'type' | 'className' | 'elementRef' | 'maxLength'>;
 
-export interface Props<NAME> extends InheritedProps<NAME> {
+interface BaseProps<NAME> {
     inputElementRef?: React.RefObject<HTMLInputElement | null>;
     autoBullets?: boolean;
     inputClassName?: string;
     withDiffView?: boolean;
     prevValue?: RawTextAreaProps<NAME>['value'];
 }
+
+type LimitProps = {
+    maxLength?: number;
+    maxWords?: never;
+} | {
+    maxLength?: never;
+    maxWords?: number;
+};
+
+export type Props<NAME> = InheritedProps<NAME> & BaseProps<NAME> & LimitProps;
 
 function TextArea<const N>(props: Props<N>) {
     const {
@@ -38,6 +52,7 @@ function TextArea<const N>(props: Props<N>) {
         value,
         prevValue,
         maxLength,
+        maxWords,
         ...otherProps
     } = props;
 
@@ -49,6 +64,28 @@ function TextArea<const N>(props: Props<N>) {
         () => getHighlightMode(value, prevValue, withDiffView),
         [value, prevValue, withDiffView],
     );
+
+    const wordCount = useMemo(
+        () => (isNotDefined(maxWords) ? undefined : getWordCount(value)),
+        [value, maxWords],
+    );
+
+    const handleChange = React.useCallback((
+        newValue: string | undefined,
+        inputName: N,
+        e?: React.ChangeEvent<HTMLTextAreaElement>,
+    ) => {
+        if (isNotDefined(onChange)) {
+            return;
+        }
+
+        if (isNotDefined(maxWords)) {
+            onChange(newValue, inputName, e);
+            return;
+        }
+
+        onChange(trimToWordLimit(newValue, maxWords), inputName, e);
+    }, [onChange, maxWords]);
 
     const handleInputFocus = React.useCallback((e: React.FocusEvent<HTMLTextAreaElement>) => {
         if (isNotDefined(onChange) || disabled || readOnly) {
@@ -89,7 +126,7 @@ function TextArea<const N>(props: Props<N>) {
                         disabled={disabled}
                         readOnly={readOnly}
                         required={required}
-                        onChange={onChange}
+                        onChange={handleChange}
                         name={name}
                         onFocus={autoBullets ? handleInputFocus : undefined}
                         onKeyUp={autoBullets ? handleKeyUp : undefined}
@@ -99,6 +136,8 @@ function TextArea<const N>(props: Props<N>) {
                     <TextBadge
                         length={value?.length}
                         maxLength={maxLength}
+                        wordCount={wordCount}
+                        maxWords={maxWords}
                     />
                 </>
             )}

@@ -39,7 +39,7 @@ import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { useRequest } from '#utils/restRequest';
 
-import { charLimits } from '../common';
+import { wordLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
@@ -428,7 +428,7 @@ function SelectionActions(props: Props) {
                             error={error?.early_action_selection_process}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.early_action_selection_process}
+                            maxWords={wordLimits.early_action_selection_process}
                         />
                         <MultiImageWithCaptionInput
                             name="early_action_selection_process_images"
@@ -509,7 +509,7 @@ function SelectionActions(props: Props) {
                             error={error?.evidence_base}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.evidence_base}
+                            maxWords={wordLimits.evidence_base}
                         />
                     </InputSection>
                     <InputSection
@@ -667,7 +667,7 @@ function SelectionActions(props: Props) {
                             error={error?.usefulness_of_actions}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.usefulness_of_actions}
+                            maxWords={wordLimits.usefulness_of_actions}
                         />
                     </InputSection>
                     <InputSection
@@ -713,7 +713,7 @@ function SelectionActions(props: Props) {
                             error={error?.feasibility}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.feasibility}
+                            maxWords={wordLimits.feasibility}
                         />
                     </InputSection>
                 </ListView>

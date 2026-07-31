@@ -28,7 +28,7 @@ import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 
-import { charLimits } from '../common';
+import { wordLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
@@ -269,7 +269,7 @@ function RiskAnalysis(props: Props) {
                             error={error?.hazard_selection}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.hazard_selection}
+                            maxWords={wordLimits.hazard_selection}
                         />
                         <MultiImageWithCaptionInput
                             name="hazard_selection_images"
@@ -345,7 +345,7 @@ function RiskAnalysis(props: Props) {
                             error={error?.exposed_element_and_vulnerability_factor}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.exposed_element_and_vulnerability_factor}
+                            maxWords={wordLimits.exposed_element_and_vulnerability_factor}
                         />
                         <MultiImageWithCaptionInput
                             name="exposed_element_and_vulnerability_factor_images"
@@ -429,7 +429,7 @@ function RiskAnalysis(props: Props) {
                             error={error?.prioritized_impact}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.prioritized_impact}
+                            maxWords={wordLimits.prioritized_impact}
                         />
                         <MultiImageWithCaptionInput
                             name="prioritized_impact_images"

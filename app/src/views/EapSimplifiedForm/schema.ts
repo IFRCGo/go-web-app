@@ -17,10 +17,13 @@ import {
 import indicatorSchema from '#components/domain/EapIndicatorInput/schema';
 import operationActivitySchema from '#components/domain/EapOperationActivityInput/schema';
 import { lengthSmallerOrEqualToCondition } from '#utils/common';
-import { positiveIntegerCondition } from '#utils/form';
+import {
+    positiveIntegerCondition,
+    wordCountLessThanOrEqualToCondition,
+} from '#utils/form';
 import { type GoApiBody } from '#utils/restRequest';
 
-import { charLimits } from './common';
+import { wordLimits } from './common';
 
 function lessThanEqualToFiveImagesCondition<T>(value: T[] | undefined) {
     return isDefined(value) && Array.isArray(value) && value.length > 5
@@ -346,8 +349,8 @@ export const formSchema: FormSchema = {
             prioritized_hazard_and_impact: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
-                validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.prioritized_hazard_and_impact,
+                validations: [wordCountLessThanOrEqualToCondition(
+                    wordLimits.prioritized_hazard_and_impact,
                 )],
             },
             hazard_impact_images: {
@@ -365,7 +368,7 @@ export const formSchema: FormSchema = {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.risks_selected_protocols,
+                    wordLimits.risks_selected_protocols,
                 )],
             },
             risk_selected_protocols_images: {
@@ -383,7 +386,7 @@ export const formSchema: FormSchema = {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.selected_early_actions,
+                    wordLimits.selected_early_actions,
                 )],
             },
             selected_early_actions_images: {
@@ -404,7 +407,7 @@ export const formSchema: FormSchema = {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.overall_objective_intervention,
+                    wordLimits.overall_objective_intervention,
                 )],
             },
             // FIXME: add required condition
@@ -415,35 +418,35 @@ export const formSchema: FormSchema = {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.potential_geographical_high_risk_areas,
+                    wordLimits.potential_geographical_high_risk_areas,
                 )],
             },
             people_targeted: {
                 required: isSubmit,
                 validations: [
                     positiveIntegerCondition,
-                    greaterThanOrEqualToCondition(charLimits.people_targeted),
+                    greaterThanOrEqualToCondition(wordLimits.people_targeted),
                 ],
             },
             assisted_through_operation: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.assisted_through_operation,
+                    wordLimits.assisted_through_operation,
                 )],
             },
             selection_criteria: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.selection_criteria,
+                    wordLimits.selection_criteria,
                 )],
             },
             trigger_statement: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.trigger_statement,
+                    wordLimits.trigger_statement,
                 )],
             },
             seap_lead_time: { required: isSubmit },
@@ -457,13 +460,13 @@ export const formSchema: FormSchema = {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.trigger_threshold_justification,
+                    wordLimits.trigger_threshold_justification,
                 )],
             },
             next_step_towards_full_eap: {
                 required: isSubmit,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.next_step_towards_full_eap,
+                    wordLimits.next_step_towards_full_eap,
                 )],
             },
 
@@ -567,14 +570,14 @@ export const formSchema: FormSchema = {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.early_action_capability,
+                    wordLimits.early_action_capability,
                 )],
             },
             rcrc_movement_involvement: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.rcrc_movement_involvement,
+                    wordLimits.rcrc_movement_involvement,
                 )],
             },
             total_budget: { required: isSubmit },

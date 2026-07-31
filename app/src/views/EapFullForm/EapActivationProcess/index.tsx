@@ -26,7 +26,7 @@ import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 
-import { charLimits } from '../common';
+import { wordLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
@@ -205,7 +205,7 @@ function EapActivationProcess(props: Props) {
                             error={error?.early_action_implementation_process}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.early_action_implementation_process}
+                            maxWords={wordLimits.early_action_implementation_process}
                         />
                         <MultiImageWithCaptionInput
                             name="early_action_implementation_images"
@@ -277,7 +277,7 @@ function EapActivationProcess(props: Props) {
                             error={error?.trigger_activation_system}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.trigger_activation_system}
+                            maxWords={wordLimits.trigger_activation_system}
                         />
                         <MultiImageWithCaptionInput
                             name="trigger_activation_system_images"
@@ -363,7 +363,7 @@ function EapActivationProcess(props: Props) {
                             error={error?.selection_of_target_population}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.selection_of_target_population}
+                            maxWords={wordLimits.selection_of_target_population}
                         />
                     </InputSection>
                     <InputSection
@@ -416,7 +416,7 @@ function EapActivationProcess(props: Props) {
                             error={error?.stop_mechanism}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.stop_mechanism}
+                            maxWords={wordLimits.stop_mechanism}
                         />
                     </InputSection>
                     <InputSection

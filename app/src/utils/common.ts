@@ -1,7 +1,9 @@
 import { type Language } from '@ifrc-go/ui/contexts';
-import { DEFAULT_INVALID_TEXT } from '@ifrc-go/ui/utils';
 import {
-    isDefined,
+    DEFAULT_INVALID_TEXT,
+    getWordCount,
+} from '@ifrc-go/ui/utils';
+import {
     isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
@@ -94,10 +96,24 @@ export function formatSourceLink(value: string | undefined): string | undefined 
     return `https://${value}`;
 }
 
-export function lengthSmallerOrEqualToCondition(x?: number) {
-    return (value: string | undefined) => (
-        (isDefined(value) && isDefined(x)) && value.length > x
-            ? `Length must be smaller or equal to ${x}`
-            : undefined
-    );
+export function lengthSmallerOrEqualToCondition(
+    x?: number,
+    type: 'word' | 'character' = 'word',
+) {
+    return (value: string | undefined) => {
+        if (isNotDefined(value) || isNotDefined(x)) {
+            return undefined;
+        }
+
+        const length = type === 'word' ? getWordCount(value) : value.length;
+
+        if (length <= x) {
+            return undefined;
+        }
+
+        // FIXME: use translations
+        return type === 'word'
+            ? `Must be smaller or equal to ${x} words`
+            : `Length must be smaller or equal to ${x}`;
+    };
 }
