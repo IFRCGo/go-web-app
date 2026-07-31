@@ -28,6 +28,7 @@
         "healthRoleProfiles": "Role Profiles",
         "healthCoordinator": "Health Coordinator",
         "medicalCoordinator": "Medical Coordinator",
+        "publicHealthAnalyst": "Public Health Analyst",
         "publicHealthCoordinator": "Public Health Coordinator",
         "publicHealthOfficer": "Public Health Officer",
         "safeBurialCoordinator": "Safe and Dignified Burials (SDB) Coordinator",
