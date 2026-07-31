@@ -1,0 +1,23 @@
+{
+    "parent": "000084-1781194678200.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "monthPlaceHolder",
+            "namespace": "eapMonthYearInput",
+            "value": "Month"
+        },
+        {
+            "action": "add",
+            "key": "yearPlaceHolder",
+            "namespace": "eapMonthYearInput",
+            "value": "Year"
+        },
+        {
+            "action": "add",
+            "key": "notSure",
+            "namespace": "form",
+            "value": "Not Sure"
+        }
+    ]
+}
