@@ -13,6 +13,7 @@
         "formUploadAnImageLabel": "Select an Image",
         "formExpectedSubmissionTimeTitle": "Expected time of submission",
         "formExpectedSubmissionTimeDescription": "Include the propose time of submission, accounting for the time it will take to deliver the application.",
+        "notSure": "Not Sure",
         "objectiveTitle": "Objective",
         "objectiveDescription": "Please provide an objective statement that describes the main goal of the intervention.",
         "partnersInvolved": "Partners Involved",

@@ -1,0 +1,7 @@
+{
+    "namespace": "eapMonthYearInput",
+    "strings": {
+        "monthPlaceHolder": "Month",
+        "yearPlaceHolder": "Year"
+    }
+}
