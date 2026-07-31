@@ -314,11 +314,10 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
             <Container
                 heading={strings.heading}
                 headingLevel={6}
-                footer={(
+                footer={hasAdmin2 && !readOnly && (
                     <Button
                         name={undefined}
                         onClick={setShowModalTrue}
-                        disabled={readOnly || !hasAdmin2}
                     >
                         {strings.buttonLabel}
                     </Button>

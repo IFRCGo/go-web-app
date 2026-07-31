@@ -620,14 +620,10 @@ export const formSchema: EapFullFormSchema = {
                 }),
             },
 
-            ...getContactSchema('national_society_contact', isSubmit),
-            ...getContactSchema('ifrc_delegation_focal_point', isSubmit),
-            ...getContactSchema('ifrc_head_of_delegation', isSubmit),
             ...getContactSchema('dref_focal_point'),
             ...getContactSchema('ifrc_regional_focal_point'),
             ...getContactSchema('ifrc_regional_ops_manager'),
             ...getContactSchema('ifrc_regional_head_dcc'),
-            ...getContactSchema('ifrc_global_ops_coordinator'),
 
             // Stakeholders
             is_worked_with_government: { required: isSubmit },

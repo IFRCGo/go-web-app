@@ -1,7 +1,4 @@
-import { useCallback } from 'react';
-import { AddLineIcon } from '@ifrc-go/icons';
 import {
-    Button,
     Container,
     Description,
     InputSection,
@@ -11,15 +8,10 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
-    isNotDefined,
-    randomString,
-} from '@togglecorp/fujs';
-import {
     type EntriesAsList,
     type Error,
     getErrorObject,
     getErrorString,
-    useFormArray,
 } from '@togglecorp/toggle-form';
 
 import ContactInputsSection from '#components/domain/ContactInputsSection';
@@ -28,18 +20,15 @@ import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput'
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
-import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import GuidanceSeap from '../GuidanceSeap';
-import PartnerContactsInput from '../PartnerContactInput';
 import { type PartialSimplifiedEapType } from '../schema';
 
 import i18n from './i18n.json';
 
 type EapRegistrationDetails = GoApiResponse<'/api/v2/eap-registration/{id}/'>;
-type PartnerContactFormFields = NonNullable<PartialSimplifiedEapType['partner_contacts']>[number];
 
 interface Props {
     value: PartialSimplifiedEapType;
@@ -68,27 +57,6 @@ function Overview(props: Props) {
     const error = getErrorObject(formError);
 
     const noOp = () => {};
-
-    const {
-        setValue: onPartnerContactChange,
-        removeValue: onPartnerContactRemove,
-    } = useFormArray<'partner_contacts', PartnerContactFormFields>(
-        'partner_contacts',
-        setFieldValue,
-    );
-
-    const handlePartnerContactAdd = useCallback(() => {
-        const newPartnerContactItem: PartnerContactFormFields = {
-            client_id: randomString(),
-        };
-
-        setFieldValue(
-            (oldValue: PartnerContactFormFields[] | undefined) => (
-                [...(oldValue ?? []), newPartnerContactItem]
-            ),
-            'partner_contacts' as const,
-        );
-    }, [setFieldValue]);
 
     return (
         <TabPage
@@ -222,159 +190,53 @@ function Overview(props: Props) {
                 heading={strings.contacts}
                 variant="form"
             >
-                <ListView
-                    layout="block"
-                    spacing="lg"
+                <Container
+                    headingLevel={4}
+                    variant="form"
                 >
-                    <Container
-                        heading={strings.nationalHeader}
-                        headingLevel={4}
-                        variant="form"
+                    <ListView
+                        layout="block"
+                        spacing="sm"
                     >
-                        <ListView
-                            layout="block"
-                            spacing="sm"
-                        >
-                            <ContactInputsSection
-                                title={strings.nSContact}
-                                description={strings.nSContactDescription}
-                                namePrefix="national_society_contact"
-                                value={value}
-                                setFieldValue={setFieldValue}
-                                error={error}
-                                disabled={disabled}
-                                readOnly={readOnly}
-                                withRequiredNameAndEmail
-                            />
-                            <InputSection
-                                title={strings.partnerNS}
-                                description={strings.partnerNSDescription}
-                            >
-                                <NonFieldError error={getErrorObject(error?.partner_contacts)} />
-                                <Container
-                                    empty={isNotDefined(value.partner_contacts)
-                                        || value.partner_contacts?.length === 0}
-                                    emptyMessage={strings.partnerNsEmptyMessage}
-                                    withCompactMessage
-                                >
-                                    <ListView
-                                        spacing="sm"
-                                        layout="block"
-                                    >
-                                        {value.partner_contacts?.map((contact, index) => (
-                                            <PartnerContactsInput
-                                                key={contact.client_id}
-                                                index={index}
-                                                value={contact}
-                                                onChange={onPartnerContactChange}
-                                                onRemove={onPartnerContactRemove}
-                                                error={getErrorObject(error?.partner_contacts)}
-                                                disabled={disabled}
-                                                readOnly={readOnly}
-                                            />
-                                        ))}
-                                    </ListView>
-                                </Container>
-                                <Button
-                                    name={undefined}
-                                    onClick={handlePartnerContactAdd}
-                                    disabled={disabled || readOnly}
-                                    before={<AddLineIcon />}
-                                >
-                                    {strings.addPartnerNSContactButton}
-                                </Button>
-                            </InputSection>
-                        </ListView>
-                    </Container>
-                    <Container
-                        heading={strings.delegationHeader}
-                        headingLevel={4}
-                        variant="form"
-                    >
-                        <ListView
-                            layout="block"
-                            spacing="sm"
-                        >
-                            <ContactInputsSection
-                                title={strings.focalPoint}
-                                namePrefix="ifrc_delegation_focal_point"
-                                value={value}
-                                setFieldValue={setFieldValue}
-                                error={error}
-                                disabled={disabled}
-                                readOnly={readOnly}
-                                withRequiredNameAndEmail
-                            />
-                            <ContactInputsSection
-                                title={strings.delegation}
-                                namePrefix="ifrc_head_of_delegation"
-                                value={value}
-                                setFieldValue={setFieldValue}
-                                error={error}
-                                disabled={disabled}
-                                readOnly={readOnly}
-                                withRequiredNameAndEmail
-                            />
-                        </ListView>
-                    </Container>
-                    <Container
-                        heading={strings.regionalHeader}
-                        headingLevel={4}
-                        variant="form"
-                    >
-                        <ListView
-                            layout="block"
-                            spacing="sm"
-                        >
-                            <ContactInputsSection
-                                title={strings.drefFocalPoint}
-                                description={strings.drefFocalPointDescription}
-                                namePrefix="dref_focal_point"
-                                value={value}
-                                setFieldValue={setFieldValue}
-                                error={error}
-                                disabled={disabled}
-                                readOnly={readOnly}
-                            />
-                            <ContactInputsSection
-                                title={strings.regionalFocalPoint}
-                                namePrefix="ifrc_regional_focal_point"
-                                value={value}
-                                setFieldValue={setFieldValue}
-                                error={error}
-                                disabled={disabled}
-                                readOnly={readOnly}
-                            />
-                            <ContactInputsSection
-                                title={strings.regionalManager}
-                                namePrefix="ifrc_regional_ops_manager"
-                                value={value}
-                                setFieldValue={setFieldValue}
-                                error={error}
-                                disabled={disabled}
-                                readOnly={readOnly}
-                            />
-                            <ContactInputsSection
-                                title={strings.regionalHead}
-                                namePrefix="ifrc_regional_head_dcc"
-                                value={value}
-                                setFieldValue={setFieldValue}
-                                error={error}
-                                disabled={disabled}
-                                readOnly={readOnly}
-                            />
-                            <ContactInputsSection
-                                title={strings.regionalCoordinator}
-                                namePrefix="ifrc_global_ops_coordinator"
-                                value={value}
-                                setFieldValue={setFieldValue}
-                                error={error}
-                                disabled={disabled}
-                                readOnly={readOnly}
-                            />
-                        </ListView>
-                    </Container>
-                </ListView>
+                        <ContactInputsSection
+                            title={strings.drefFocalPoint}
+                            description={strings.drefFocalPointDescription}
+                            namePrefix="dref_focal_point"
+                            value={value}
+                            setFieldValue={setFieldValue}
+                            error={error}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                        <ContactInputsSection
+                            title={strings.regionalFocalPoint}
+                            namePrefix="ifrc_regional_focal_point"
+                            value={value}
+                            setFieldValue={setFieldValue}
+                            error={error}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                        <ContactInputsSection
+                            title={strings.regionalManager}
+                            namePrefix="ifrc_regional_ops_manager"
+                            value={value}
+                            setFieldValue={setFieldValue}
+                            error={error}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                        <ContactInputsSection
+                            title={strings.regionalHead}
+                            namePrefix="ifrc_regional_head_dcc"
+                            value={value}
+                            setFieldValue={setFieldValue}
+                            error={error}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    </ListView>
+                </Container>
             </Container>
         </TabPage>
     );

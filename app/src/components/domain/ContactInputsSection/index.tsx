@@ -48,6 +48,7 @@ interface Props<
     readOnly?: boolean;
     withAsteriskOnTitle?: boolean;
     withRequiredNameAndEmail?: boolean;
+    withRequiredTitle?:boolean
 }
 
 function ContactInputsSection<
@@ -65,6 +66,7 @@ function ContactInputsSection<
         readOnly,
         withAsteriskOnTitle,
         withRequiredNameAndEmail,
+        withRequiredTitle,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -112,6 +114,7 @@ function ContactInputsSection<
                 onChange={setContactFieldValue}
                 disabled={disabled}
                 readOnly={readOnly}
+                required={withRequiredTitle}
             />
             <TextInput
                 label={strings.contactEmailInputLabel}

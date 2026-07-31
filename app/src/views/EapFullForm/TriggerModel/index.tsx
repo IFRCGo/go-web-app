@@ -473,7 +473,6 @@ function TriggerModel(props: Props) {
                                 <li>{strings.definitionJustificationDescription2}</li>
                                 <li>{strings.definitionJustificationDescription3}</li>
                                 <li>{strings.definitionJustificationDescription4}</li>
-                                <li>{strings.definitionJustificationDescription5}</li>
                             </ul>
                         )}
                         withAsteriskOnTitle

@@ -447,14 +447,17 @@ function SelectionActions(props: Props) {
                     <InputSection
                         title={strings.theoryOfChangeTableTitle}
                         description={(
-                            <Link
-                                external
-                                href={templateUrl?.url}
-                                withUnderline
-                                withLinkIcon
-                            >
-                                {strings.downloadTableLabel}
-                            </Link>
+                            <>
+                                {strings.theoryOfChangeTableDescription}
+                                <Link
+                                    external
+                                    href={templateUrl?.url}
+                                    withUnderline
+                                    withLinkIcon
+                                >
+                                    {strings.downloadTableLabel}
+                                </Link>
+                            </>
                         )}
                         withAsteriskOnTitle
                     >

@@ -35,9 +35,10 @@ export const formSchema: FormSchema = {
         partners: {
             required: true,
         },
-        national_society_contact_name: {},
-        national_society_contact_title: {},
+        national_society_contact_name: { required: true },
+        national_society_contact_title: { required: true },
         national_society_contact_email: {
+            required: true,
             validations: [emailCondition],
         },
         national_society_contact_phone_number: {},

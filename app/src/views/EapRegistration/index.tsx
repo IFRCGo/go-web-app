@@ -165,7 +165,8 @@ export function Component() {
                 {
                     link: (
                         <Link
-                            to="eapDetail"
+                            href="mailto:DREF.anticipatorypillar@ifrc.org"
+                            external
                             withUnderline
                         >
                             {strings.registrationLink}
@@ -314,6 +315,7 @@ export function Component() {
                             setFieldValue={setFieldValue}
                             namePrefix="national_society_contact"
                             withRequiredNameAndEmail
+                            withRequiredTitle
                         />
                         <ContactInputsSection
                             title={strings.ifrcContact}

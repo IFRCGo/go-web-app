@@ -10,7 +10,6 @@ import {
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { resolveToComponent } from '@ifrc-go/ui/utils';
 import {
     isNotDefined,
     randomString,
@@ -26,7 +25,6 @@ import {
 import EapOperationActivityInput, { type ActivityInputType } from '#components/domain/EapOperationActivityInput';
 import { type OperationActivityFormFields } from '#components/domain/EapOperationActivityInput/schema';
 import ExplanatoryNote from '#components/ExplanatoryNote';
-import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import { TIMEFRAME_YEAR } from '#utils/constants';
 
@@ -85,34 +83,31 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
 
     const [
         title,
+        titleDescription,
         description,
     ] = useMemo(() => {
         if (name === 'readiness_activities') {
-            return [strings.readinessTitle, strings.readinessDescription];
+            return [
+                strings.readinessTitle,
+                strings.readinessTitleDescription,
+                strings.readinessDescription,
+            ];
         }
 
         if (name === 'prepositioning_activities') {
-            return [strings.prepositioningTitle, strings.prepositioningDescription];
+            return [
+                strings.prepositioningTitle,
+                strings.prepositioningTitleDescription,
+                strings.prepositioningDescription,
+            ];
         }
 
         if (name === 'early_action_activities') {
             return [
                 strings.earlyActionTitle,
-                resolveToComponent(
-                    strings.earlyActionDescription,
-                    {
-                        earlyActionDatabaseLink: (
-                            <Link
-                                href="https://www.anticipation-hub.org/experience/early-action/early-action-database/ea-list"
-                                styleVariant="action"
-                                external
-                                withLinkIcon
-                            >
-                                {strings.earlyActionDatabaseLinkLabel}
-                            </Link>
-                        ),
-                    },
-                ),
+                strings.earlyActionTitleDescription,
+                strings.earlyActionDescription,
+
             ];
         }
 
@@ -123,6 +118,7 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
         <Container
             spacing="sm"
             withDarkBackground
+            headerDescription={titleDescription}
             withHeaderBorder
             withPadding
             heading={(
