@@ -4,17 +4,20 @@ import {
     BooleanInput,
     Button,
     Container,
-    DateInput,
     Description,
     InputSection,
     Label,
     ListView,
+    Radio,
     TextArea,
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
-import { randomString } from '@togglecorp/fujs';
+import {
+    isNotDefined,
+    randomString,
+} from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
@@ -26,16 +29,13 @@ import {
 import ContactInputsSection from '#components/domain/ContactInputsSection';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import EapMonthYearInput from '#components/domain/EapMonthYearInput';
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
-import {
-    getFullDateFromYearMonth,
-    getYearMonthFromFullDate,
-} from '#utils/domain/eap';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import { charLimits } from '../common';
@@ -106,13 +106,6 @@ function Overview(props: Props) {
         );
     }, [setFieldValue]);
 
-    const onExpectedSubmissionTimeChange = useCallback((val: string | undefined) => {
-        if (!val) {
-            return;
-        }
-        setFieldValue(getFullDateFromYearMonth(val), 'expected_submission_time');
-    }, [setFieldValue]);
-
     const { setValue: onKeyActorsChange, removeValue: onKeyActorsRemove } = useFormArray<'key_actors', KeyActorsFormFields>(
         'key_actors',
         setFieldValue,
@@ -130,6 +123,10 @@ function Overview(props: Props) {
             ],
             'key_actors' as const,
         );
+    }, [setFieldValue]);
+
+    const handleSubmissionTimeNotSureClick = useCallback(() => {
+        setFieldValue(undefined, 'expected_submission_time');
     }, [setFieldValue]);
 
     return (
@@ -225,16 +222,24 @@ function Overview(props: Props) {
                         description={strings.formExpectedSubmissionTimeDescription}
                         withAsteriskOnTitle
                         numPreferredColumns={2}
+                        error={error?.expected_submission_time}
                     >
-                        <DateInput
+                        <EapMonthYearInput
                             name="expected_submission_time"
-                            value={getYearMonthFromFullDate(value?.expected_submission_time)}
-                            error={error?.expected_submission_time}
-                            onChange={onExpectedSubmissionTimeChange}
+                            value={value?.expected_submission_time}
+                            onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            type="month"
                         />
+                        <Radio
+                            name={undefined}
+                            value={isNotDefined(value?.expected_submission_time)}
+                            onClick={handleSubmissionTimeNotSureClick}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        >
+                            {strings.notSure}
+                        </Radio>
                     </InputSection>
                     <InputSection
                         title={strings.objectiveTitle}

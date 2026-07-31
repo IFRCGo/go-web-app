@@ -1,6 +1,7 @@
 import Container from '#components/Container';
 import Description from '#components/Description';
 import InfoPopup from '#components/InfoPopup';
+import InputError from '#components/InputError';
 import ListView from '#components/ListView';
 
 type NumColumn = 1 | 2 | 3 | 4;
@@ -11,6 +12,9 @@ export interface Props {
     description?: React.ReactNode;
     // contentSectionClassName?: string;
     tooltip?: React.ReactNode;
+    // NOTE: rendered outside the column grid so that it spans the full width
+    // instead of consuming one column like a child would
+    error?: React.ReactNode;
     withoutTitleSection?: boolean;
     withFullWidthContent?: boolean;
     withoutPadding?: boolean;
@@ -28,6 +32,7 @@ function InputSection(props: Props) {
         children,
         description,
         tooltip,
+        error,
         // contentSectionClassName,
         withoutTitleSection = false,
         withoutPadding = false,
@@ -38,6 +43,15 @@ function InputSection(props: Props) {
         withShadow,
         headerActions,
     } = props;
+
+    const inputs = (
+        <ListView
+            layout="grid"
+            numPreferredGridColumns={numPreferredColumns}
+        >
+            {children}
+        </ListView>
+    );
 
     const content = (
         <>
@@ -72,12 +86,14 @@ function InputSection(props: Props) {
                     </Description>
                 </Container>
             )}
-            <ListView
-                layout="grid"
-                numPreferredGridColumns={numPreferredColumns}
-            >
-                {children}
-            </ListView>
+            {error ? (
+                <ListView layout="block">
+                    {inputs}
+                    <InputError>
+                        {error}
+                    </InputError>
+                </ListView>
+            ) : inputs}
         </>
     );
 

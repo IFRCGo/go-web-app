@@ -1,5 +1,5 @@
 import {
-    type ElementRef,
+    type ComponentRef,
     useCallback,
     useRef,
     useState,
@@ -7,7 +7,6 @@ import {
 import {
     Button,
     Container,
-    DateInput,
     InputSection,
     ListView,
     Modal,
@@ -30,6 +29,7 @@ import {
 import ContactInputsSection from '#components/domain/ContactInputsSection';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import EapMonthYearInput from '#components/domain/EapMonthYearInput';
 import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import Link from '#components/Link';
@@ -37,10 +37,6 @@ import Page from '#components/Page';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
-import {
-    getFullDateFromYearMonth,
-    getYearMonthFromFullDate,
-} from '#utils/domain/eap';
 import {
     type GoApiResponse,
     useLazyRequest,
@@ -80,7 +76,7 @@ export function Component() {
     const { eap_eap_type: eapFormOptions } = useGlobalEnums();
 
     const error = getErrorObject(formError);
-    const formContentRef = useRef<ElementRef<'div'>>(null);
+    const formContentRef = useRef<ComponentRef<'div'>>(null);
 
     const [
         showEapRegistrationsuccessModal,
@@ -117,13 +113,6 @@ export function Component() {
             );
         },
     });
-
-    const onExpectedSubmissionTimeChange = useCallback((val: string | undefined) => {
-        if (!val) {
-            return;
-        }
-        setFieldValue(getFullDateFromYearMonth(val), 'expected_submission_time');
-    }, [setFieldValue]);
 
     const handleEapTypeNotSureClick = useCallback(() => {
         setFieldValue(undefined, 'eap_type');
@@ -279,16 +268,15 @@ export function Component() {
                             description={strings.submissionDescription}
                             withAsteriskOnTitle
                             numPreferredColumns={2}
+                            error={error?.expected_submission_time}
                         >
-                            <DateInput
+                            <EapMonthYearInput
                                 name="expected_submission_time"
-                                type="month"
-                                onChange={onExpectedSubmissionTimeChange}
-                                value={getYearMonthFromFullDate(value?.expected_submission_time)}
-                                error={error?.expected_submission_time}
+                                value={value?.expected_submission_time}
+                                onChange={setFieldValue}
                             />
                             <Radio
-                                name="expected_submission_time"
+                                name={undefined}
                                 value={isNotDefined(value?.expected_submission_time)}
                                 onClick={handleSubmissionTimeNotSureClick}
                             >
