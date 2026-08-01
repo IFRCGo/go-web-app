@@ -42,7 +42,7 @@
             display: flex;
             flex-direction: column;
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-sm);
+            padding: var(--go-ui-spacing-xs);
             break-inside: avoid;
 
             .yellow {
@@ -60,7 +60,7 @@
 
         .targeted-areas {
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-sm);
+            padding: var(--go-ui-spacing-xs);
             grid-column: span 4;
             break-inside: avoid;
         }
@@ -72,7 +72,7 @@
 
     .event-images {
         display: grid;
-        gap: var(--go-ui-spacing-sm);
+        gap: var(--go-ui-spacing-xs);
         grid-template-columns: repeat(auto-fit, minmax(50mm, 1fr));
     }
 
@@ -86,20 +86,20 @@
 
     .icrc-actions-content {
         background-color: var(--pdf-element-bg);
-        padding: var(--go-ui-spacing-xs);
+        padding: var(--go-ui-spacing-2xs);
     }
 
     .other-actions-major-coordination-mechanism {
         grid-column: span 2;
         background-color: var(--pdf-element-bg);
-        padding: var(--go-ui-spacing-xs);
-        gap: var(--go-ui-spacing-xs);
+        padding: var(--go-ui-spacing-2xs);
+        gap: var(--go-ui-spacing-2xs);
     }
 
     .needs-identified-heading {
         display: flex;
         align-items: center;
-        gap: var(--go-ui-spacing-sm);
+        gap: var(--go-ui-spacing-xs);
 
         .icon {
             width: 3rem;
@@ -120,7 +120,7 @@
 
         .disabilities-population {
             grid-column: span 2;
-            padding: var(--go-ui-spacing-xs);
+            padding: var(--go-ui-spacing-2xs);
         }
 
         .empty-block {
@@ -143,7 +143,7 @@
         .potential-risks-heading {
             grid-column: span 2;
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-xs);
+            padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-2xs);
             color: var(--go-ui-color-black);
             font-weight: var(--go-ui-font-weight-semibold);
         }
@@ -151,8 +151,8 @@
         .risk-security-concern {
             grid-column: span 2;
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-xs);
-            gap: var(--go-ui-spacing-sm);
+            padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-2xs);
+            gap: var(--go-ui-spacing-xs);
         }
 
         .risk,
@@ -160,12 +160,12 @@
         .link,
         .mitigation {
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-xs);
+            padding: var(--go-ui-spacing-2xs);
         }
 
         .name-list {
             display: flex;
-            gap: var(--go-ui-spacing-sm);
+            gap: var(--go-ui-spacing-xs);
         }
 
         .risk-title,
@@ -173,7 +173,7 @@
         .link-title,
         .mitigation-title {
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-xs);
+            padding: var(--go-ui-spacing-2xs);
             font-weight: var(--go-ui-font-weight-bold);
         }
     }
@@ -182,7 +182,7 @@
     .planned-intervention-heading {
         display: flex;
         align-items: center;
-        gap: var(--go-ui-spacing-sm);
+        gap: var(--go-ui-spacing-xs);
 
         .icon {
             width: 3rem;
@@ -199,7 +199,7 @@
         .title-label,
         .target-label {
             background-color: var(--go-ui-color-element-background);
-            padding: var(--go-ui-spacing-sm);
+            padding: var(--go-ui-spacing-xs);
             font-weight: var(--go-ui-font-weight-semibold);
         }
 
@@ -207,7 +207,7 @@
         .title,
         .target {
             background-color: var(--go-ui-color-element-background);
-            padding: var(--go-ui-spacing-sm);
+            padding: var(--go-ui-spacing-xs);
         }
     }
 
@@ -221,7 +221,7 @@
     .contact-list {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-xs);
+        gap: var(--go-ui-spacing-2xs);
 
         .contact-person-label {
             color: var(--go-ui-color-primary-red);
@@ -231,13 +231,13 @@
     .proposed-actions {
         display: grid;
         gap: var(--go-ui-width-separator-md);
-        grid-template-columns: 4fr 5fr 5fr 4fr 4fr;
-        break-inside: avoid;
+        grid-template-columns: 4fr 4fr 11fr 3fr 3fr;
 
         .logo-header,
         .action-title-label {
-            background-color: var(--go-ui-color-element-background);
-            padding: var(--go-ui-spacing-sm);
+            background-color: var(--pdf-element-bg);
+            padding: var(--go-ui-spacing-xs);
+            font-size: var(--go-ui-font-size-xs);
             font-weight: var(--go-ui-font-weight-semibold);
         }
 
@@ -246,14 +246,15 @@
             align-items: center;
             flex-direction: column;
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-sm);
+            padding: var(--go-ui-spacing-xs);
 
             .icon {
-                height: 3rem;
+                height: 2.5rem;
             }
 
             .title {
-                font-size: var(--go-ui-font-size-md);
+                text-align: center;
+                font-size: var(--go-ui-font-size-sm);
                 font-weight: var(--go-ui-font-weight-semibold);
             }
         }
@@ -262,12 +263,13 @@
         .activity,
         .budget {
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-sm);
+            padding: var(--go-ui-spacing-xs);
             break-inside: avoid;
         }
 
         .activity {
             white-space: pre-wrap;
+            font-size: var(--go-ui-font-size-xs);
         }
 
         .budget {
@@ -278,7 +280,7 @@
         .cost-label {
             grid-column: span 3;
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-sm);
+            padding: var(--go-ui-spacing-xs);
             break-inside: avoid;
             text-align: right;
             font-weight: var(--go-ui-font-weight-semibold);
@@ -286,7 +288,7 @@
 
         .cost-value {
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-sm);
+            padding: var(--go-ui-spacing-xs);
             break-inside: avoid;
         }
     }
