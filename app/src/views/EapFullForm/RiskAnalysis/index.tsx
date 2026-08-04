@@ -272,17 +272,17 @@ function RiskAnalysis(props: Props) {
                             maxWords={wordLimits.hazard_selection}
                         />
                         <MultiImageWithCaptionInput
-                            name="hazard_selection_images"
+                            name="hazard_selection_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.hazard_selection_images}
+                            value={value?.hazard_selection_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.hazard_selection_images)}
+                            error={getErrorObject(error?.hazard_selection_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.attachFilesSelectImagesLabel}
+                            label={strings.attachFilesSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.riskAnalysisImagesCountLabel}
+                            description={strings.riskAnalysisFileCountLabel}
                         />
                     </InputSection>
                     <InputSection
@@ -348,17 +348,17 @@ function RiskAnalysis(props: Props) {
                             maxWords={wordLimits.exposed_element_and_vulnerability_factor}
                         />
                         <MultiImageWithCaptionInput
-                            name="exposed_element_and_vulnerability_factor_images"
+                            name="exposed_element_and_vulnerability_factor_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.exposed_element_and_vulnerability_factor_images}
+                            value={value?.exposed_element_and_vulnerability_factor_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.hazard_selection_images)}
+                            error={getErrorObject(error?.hazard_selection_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.attachFilesSelectImagesLabel}
+                            label={strings.attachFilesSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.riskAnalysisImagesCountLabel}
+                            description={strings.riskAnalysisFileCountLabel}
                         />
                     </InputSection>
                     <InputSection
@@ -432,17 +432,17 @@ function RiskAnalysis(props: Props) {
                             maxWords={wordLimits.prioritized_impact}
                         />
                         <MultiImageWithCaptionInput
-                            name="prioritized_impact_images"
+                            name="prioritized_impact_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.prioritized_impact_images}
+                            value={value?.prioritized_impact_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.hazard_selection_images)}
+                            error={getErrorObject(error?.hazard_selection_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.attachFilesSelectImagesLabel}
+                            label={strings.attachFilesSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.riskAnalysisImagesCountLabel}
+                            description={strings.riskAnalysisFileCountLabel}
                         />
                     </InputSection>
                     <InputSection

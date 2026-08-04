@@ -431,17 +431,17 @@ function SelectionActions(props: Props) {
                             maxWords={wordLimits.early_action_selection_process}
                         />
                         <MultiImageWithCaptionInput
-                            name="early_action_selection_process_images"
+                            name="early_action_selection_process_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.early_action_selection_process_images}
+                            value={value?.early_action_selection_process_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.early_action_selection_process_images)}
+                            error={getErrorObject(error?.early_action_selection_process_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.selectionActionSelectImagesLabel}
+                            label={strings.selectionActionSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.selectionActionImagesCountLabel}
+                            description={strings.selectionActionFilesCountLabel}
                         />
                     </InputSection>
                     <InputSection

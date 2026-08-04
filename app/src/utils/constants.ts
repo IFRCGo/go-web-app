@@ -245,5 +245,5 @@ export const EAP_STATUS_UNDER_DEVELOPMENT = 10 satisfies EapStatus;
 export const EAP_STATUS_UNDER_REVIEW = 20 satisfies EapStatus;
 export const EAP_STATUS_NS_ADDRESSING_COMMENTS = 30 satisfies EapStatus;
 export const EAP_STATUS_TECHNICALLY_VALIDATED = 40 satisfies EapStatus;
-export const EAP_STATUS_PENDING_PFA = 50 satisfies EapStatus;
-export const EAP_STATUS_APPROVED = 60 satisfies EapStatus;
+export const EAP_STATUS_APPROVED = 50 satisfies EapStatus;
+export const EAP_STATUS_PROJECT_AGREEMENT_SIGNED = 60 satisfies EapStatus;

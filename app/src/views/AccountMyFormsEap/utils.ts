@@ -21,7 +21,7 @@ export type EapExpandedListItem = {
     label: string;
     lastUpdated?: string;
     eap: EapListItem;
-    type: 'registration' | 'development' | 'validated' | 'pending-pfa' | 'approved';
+    type: 'registration' | 'development' | 'validated' | 'approved' | 'project-agreement-signed';
     disabled?: boolean;
 
     // Only applicable for development type

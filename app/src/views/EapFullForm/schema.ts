@@ -26,9 +26,9 @@ import { type GoApiBody } from '#utils/restRequest';
 
 import { wordLimits } from './common';
 
-function lessThanEqualToFiveImagesCondition<T>(value: T[] | undefined) {
+function lessThanEqualToFiveFilesCondition<T>(value: T[] | undefined) {
     return isDefined(value) && Array.isArray(value) && value.length > 5
-        ? 'Maximum five images are allowed'
+        ? 'Maximum five files are allowed'
         : undefined;
 }
 
@@ -56,23 +56,23 @@ type CoverImageFileResponse = NonNullable<
 >;
 type CoverImageFileFields = CoverImageFileResponse & { client_id: string };
 
-type HazardSelectionImagesResponse = NonNullable<
-    EapFullRequestBody['hazard_selection_images']
+type HazardSelectionFilesResponse = NonNullable<
+    EapFullRequestBody['hazard_selection_files']
 >[number];
-type HazardSelectionImagesFields = HazardSelectionImagesResponse & {
+type HazardSelectionFilesFields = HazardSelectionFilesResponse & {
     client_id: string;
 };
 
-type ExposedElementAndVulnerabilityImagesResponse = NonNullable<
-    EapFullRequestBody['exposed_element_and_vulnerability_factor_images']
+type ExposedElementAndVulnerabilityFilesResponse = NonNullable<
+    EapFullRequestBody['exposed_element_and_vulnerability_factor_files']
 >[number];
 type ExposedElementAndVulnerabilityFields =
-    ExposedElementAndVulnerabilityImagesResponse & { client_id: string };
+    ExposedElementAndVulnerabilityFilesResponse & { client_id: string };
 
-type PrioritizedImpactImagesResponse = NonNullable<
-    EapFullRequestBody['prioritized_impact_images']
+type PrioritizedImpactFilesResponse = NonNullable<
+    EapFullRequestBody['prioritized_impact_files']
 >[number];
-type PrioritizedImpactImagesFields = PrioritizedImpactImagesResponse & {
+type PrioritizedImpactFilesFields = PrioritizedImpactFilesResponse & {
     client_id: string;
 };
 
@@ -89,24 +89,24 @@ type TriggerStatementSourceOfInformationResponse = NonNullable<
 type TriggerStatementSourceOfInformationFields =
     TriggerStatementSourceOfInformationResponse & { client_id: string };
 
-type ForecastSelectionImagesResponse = NonNullable<
-    EapFullRequestBody['forecast_selection_images']
+type ForecastSelectionFilesResponse = NonNullable<
+    EapFullRequestBody['forecast_selection_files']
 >[number];
-type ForecastSelectionImagesResponseFields = ForecastSelectionImagesResponse & {
+type ForecastSelectionFilesResponseFields = ForecastSelectionFilesResponse & {
     client_id: string;
 };
 
-type DefinitionAndJustificationImagesResponse = NonNullable<
-    EapFullRequestBody['definition_and_justification_impact_level_images']
+type DefinitionAndJustificationFilesResponse = NonNullable<
+    EapFullRequestBody['definition_and_justification_impact_level_files']
 >[number];
-type DefinitionAndJustificationImagesResponseFields =
-    DefinitionAndJustificationImagesResponse & { client_id: string };
+type DefinitionAndJustificationFilesResponseFields =
+    DefinitionAndJustificationFilesResponse & { client_id: string };
 
-type IdentificationInterventionImagesResponse = NonNullable<
-    EapFullRequestBody['identification_of_the_intervention_area_images']
+type IdentificationInterventionFilesResponse = NonNullable<
+    EapFullRequestBody['identification_of_the_intervention_area_files']
 >[number];
-type IdentificationInterventionImagesResponseFields =
-    IdentificationInterventionImagesResponse & { client_id: string };
+type IdentificationInterventionFilesResponseFields =
+    IdentificationInterventionFilesResponse & { client_id: string };
 
 type TriggerModelSourceOfInformationResponse = NonNullable<
     EapFullRequestBody['trigger_model_source_of_information']
@@ -127,17 +127,17 @@ type NSCapacitySourceOfInformationResponse = NonNullable<
 type NSCapacitySourceOfInformationResponseFields =
     NSCapacitySourceOfInformationResponse & { client_id: string };
 
-type EarlyActionImplementationImagesResponse = NonNullable<
-    EapFullRequestBody['early_action_implementation_images']
+type EarlyActionImplementationFilesResponse = NonNullable<
+    EapFullRequestBody['early_action_implementation_files']
 >[number];
-type EarlyActionImplementationImagesResponseFields =
-    EarlyActionImplementationImagesResponse & { client_id: string };
+type EarlyActionImplementationFilesResponseFields =
+    EarlyActionImplementationFilesResponse & { client_id: string };
 
-type TriggerActivationSystemImagesResponse = NonNullable<
-    EapFullRequestBody['trigger_activation_system_images']
+type TriggerActivationSystemFilesResponse = NonNullable<
+    EapFullRequestBody['trigger_activation_system_files']
 >[number];
-type TriggerActivationSystemImagesResponseFields =
-    TriggerActivationSystemImagesResponse & { client_id: string };
+type TriggerActivationSystemFilesResponseFields =
+    TriggerActivationSystemFilesResponse & { client_id: string };
 
 type ActivationProcessSourceInformationResponse = NonNullable<
     EapFullRequestBody['activation_process_source_of_information']
@@ -145,11 +145,11 @@ type ActivationProcessSourceInformationResponse = NonNullable<
 type ActivationProcessSourceInformationResponseFields =
     ActivationProcessSourceInformationResponse & { client_id: string };
 
-type EarlyActionsSelectionImagesResponse = NonNullable<
-    EapFullRequestBody['early_action_selection_process_images']
+type EarlyActionsSelectionFilesResponse = NonNullable<
+    EapFullRequestBody['early_action_selection_process_files']
 >[number];
-type EarlyActionsSelectionImagesResponseFields =
-    EarlyActionsSelectionImagesResponse & { client_id: string };
+type EarlyActionsSelectionFilesResponseFields =
+    EarlyActionsSelectionFilesResponse & { client_id: string };
 
 type EvidenceBaseSourceInformationResponse = NonNullable<
     EapFullRequestBody['evidence_base_source_of_information']
@@ -281,12 +281,12 @@ type FormFields = DeepReplace<
                                                                                         CoverImageFileFields
                                                                                     >,
                                                                 // eslint-disable-next-line max-len
-                                                                                    HazardSelectionImagesResponse,
+                                                                                    HazardSelectionFilesResponse,
                                                                 // eslint-disable-next-line max-len
-                                                                                    HazardSelectionImagesFields
+                                                                                    HazardSelectionFilesFields
                                                                                 >,
                                                                 // eslint-disable-next-line max-len
-                                                                                ExposedElementAndVulnerabilityImagesResponse,
+                                                                                ExposedElementAndVulnerabilityFilesResponse,
                                                                 // eslint-disable-next-line max-len
                                                                                 ExposedElementAndVulnerabilityFields
                                                                             >,
@@ -295,9 +295,8 @@ type FormFields = DeepReplace<
                                                                             PartnerContactsFormFields
                                                                         >,
                                                                 // eslint-disable-next-line max-len
-                                                                        PrioritizedImpactImagesResponse,
-                                                                // eslint-disable-next-line max-len
-                                                                        PrioritizedImpactImagesFields
+                                                                        PrioritizedImpactFilesResponse,
+                                                                        PrioritizedImpactFilesFields
                                                                     >,
                                                                 // eslint-disable-next-line max-len
                                                                     RiskAnalysisSourceOfInformationResponse,
@@ -309,15 +308,15 @@ type FormFields = DeepReplace<
                                                                 // eslint-disable-next-line max-len
                                                                 TriggerStatementSourceOfInformationFields
                                                             >,
-                                                            ForecastSelectionImagesResponse,
-                                                            ForecastSelectionImagesResponseFields
+                                                            ForecastSelectionFilesResponse,
+                                                            ForecastSelectionFilesResponseFields
                                                         >,
-                                                        DefinitionAndJustificationImagesResponse,
+                                                        DefinitionAndJustificationFilesResponse,
                                                         // eslint-disable-next-line max-len
-                                                        DefinitionAndJustificationImagesResponseFields
+                                                        DefinitionAndJustificationFilesResponseFields
                                                     >,
-                                                    IdentificationInterventionImagesResponse,
-                                                    IdentificationInterventionImagesResponseFields
+                                                    IdentificationInterventionFilesResponse,
+                                                    IdentificationInterventionFilesResponseFields
                                                 >,
                                                 TriggerModelSourceOfInformationResponse,
                                                 TriggerModelSourceOfInformationResponseFields
@@ -328,17 +327,17 @@ type FormFields = DeepReplace<
                                         NSCapacitySourceOfInformationResponse,
                                         NSCapacitySourceOfInformationResponseFields
                                     >,
-                                    EarlyActionImplementationImagesResponse,
-                                    EarlyActionImplementationImagesResponseFields
+                                    EarlyActionImplementationFilesResponse,
+                                    EarlyActionImplementationFilesResponseFields
                                 >,
-                                TriggerActivationSystemImagesResponse,
-                                TriggerActivationSystemImagesResponseFields
+                                TriggerActivationSystemFilesResponse,
+                                TriggerActivationSystemFilesResponseFields
                             >,
                             ActivationProcessSourceInformationResponse,
                             ActivationProcessSourceInformationResponseFields
                         >,
-                        EarlyActionsSelectionImagesResponse,
-                        EarlyActionsSelectionImagesResponseFields
+                        EarlyActionsSelectionFilesResponse,
+                        EarlyActionsSelectionFilesResponseFields
                     >,
                     EvidenceBaseSourceInformationResponse,
                     EvidenceBaseSourceInformationResponseFields
@@ -382,25 +381,25 @@ type PartnerContactFormFields = ReturnType<
         EapFullFormContext
     >['fields']
 >;
-type HazardSelectionImagesFormFields = ReturnType<
+type HazardSelectionFilesFormFields = ReturnType<
     ObjectSchema<
-        NonNullable<PartialEapFullFormType['hazard_selection_images']>[number],
+        NonNullable<PartialEapFullFormType['hazard_selection_files']>[number],
         PartialEapFullFormType,
         EapFullFormContext
     >['fields']
 >;
-type ExposedElementAndVulnerabilityImagesFormFields = ReturnType<
+type ExposedElementAndVulnerabilityFilesFormFields = ReturnType<
     ObjectSchema<
         NonNullable<
-            PartialEapFullFormType['exposed_element_and_vulnerability_factor_images']
+            PartialEapFullFormType['exposed_element_and_vulnerability_factor_files']
         >[number],
         PartialEapFullFormType,
         EapFullFormContext
     >['fields']
 >;
-type PrioritizedImpactImagesFormFields = ReturnType<
+type PrioritizedImpactFilesFormFields = ReturnType<
     ObjectSchema<
-        NonNullable<PartialEapFullFormType['prioritized_impact_images']>[number],
+        NonNullable<PartialEapFullFormType['prioritized_impact_files']>[number],
         PartialEapFullFormType,
         EapFullFormContext
     >['fields']
@@ -423,26 +422,26 @@ type TriggerStatementSourceOfInformationFormFields = ReturnType<
         EapFullFormContext
     >['fields']
 >;
-type ForecastSelectionImagesResponseFormFields = ReturnType<
+type ForecastSelectionFilesResponseFormFields = ReturnType<
     ObjectSchema<
-        NonNullable<PartialEapFullFormType['forecast_selection_images']>[number],
+        NonNullable<PartialEapFullFormType['forecast_selection_files']>[number],
         PartialEapFullFormType,
         EapFullFormContext
     >['fields']
 >;
-type DefinitionAndJustificationImagesResponseFormFields = ReturnType<
+type DefinitionAndJustificationFilesResponseFormFields = ReturnType<
     ObjectSchema<
         NonNullable<
-            PartialEapFullFormType['definition_and_justification_impact_level_images']
+            PartialEapFullFormType['definition_and_justification_impact_level_files']
         >[number],
         PartialEapFullFormType,
         EapFullFormContext
     >['fields']
 >;
-type IdentificationInterventionImagesResponseFormFields = ReturnType<
+type IdentificationInterventionFilesResponseFormFields = ReturnType<
     ObjectSchema<
         NonNullable<
-            PartialEapFullFormType['identification_of_the_intervention_area_images']
+            PartialEapFullFormType['identification_of_the_intervention_area_files']
         >[number],
         PartialEapFullFormType,
         EapFullFormContext
@@ -473,10 +472,10 @@ type NSCapacitySourceOfInformationResponseFormFields = ReturnType<
         EapFullFormContext
     >['fields']
 >;
-type EarlyActionImagesResponseFormFields = ReturnType<
+type EarlyActionFilesResponseFormFields = ReturnType<
     ObjectSchema<
         NonNullable<
-            PartialEapFullFormType['early_action_implementation_images']
+            PartialEapFullFormType['early_action_implementation_files']
         >[number],
         PartialEapFullFormType,
         EapFullFormContext
@@ -489,10 +488,10 @@ type EarlyActionsSelectionResponseFormFields = ReturnType<
         EapFullFormContext
     >['fields']
 >;
-type TriggerActivationImagesResponseFormFields = ReturnType<
+type TriggerActivationFilesResponseFormFields = ReturnType<
     ObjectSchema<
         NonNullable<
-            PartialEapFullFormType['early_action_implementation_images']
+            PartialEapFullFormType['early_action_implementation_files']
         >[number],
         PartialEapFullFormType,
         EapFullFormContext
@@ -562,7 +561,11 @@ type ExtractContactPrefix<KEY extends FieldKeys> =
 
 type ValidContactFieldPrefixes = ExtractContactPrefix<FieldKeys>;
 
-function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY, required?: boolean) {
+function getContactSchema<KEY extends ValidContactFieldPrefixes>(
+    key: KEY,
+    required?: boolean,
+    requiredTitle?: boolean,
+) {
     type ContactSchema = {
         [K in `${KEY}_${ContactFieldSuffix}`]: LiteralSchema<
             string | undefined,
@@ -576,7 +579,10 @@ function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY, requi
             required,
             requiredValidation: requiredStringCondition,
         },
-        [`${key}_title`]: {},
+        [`${key}_title`]: {
+            required: requiredTitle,
+            requiredValidation: requiredStringCondition,
+        },
         [`${key}_email`]: {
             required,
             requiredValidation: requiredStringCondition,
@@ -606,6 +612,7 @@ export const formSchema: EapFullFormSchema = {
             partners: {
                 required: isSubmit,
             },
+            include_rcrc_climate_center: {},
             partner_contacts: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -619,7 +626,7 @@ export const formSchema: EapFullFormSchema = {
                     }),
                 }),
             },
-
+            ...getContactSchema('national_society_contact', isSubmit, isSubmit),
             ...getContactSchema('dref_focal_point'),
             ...getContactSchema('ifrc_regional_focal_point'),
             ...getContactSchema('ifrc_regional_ops_manager'),
@@ -644,7 +651,7 @@ export const formSchema: EapFullFormSchema = {
                             requiredValidation: requiredStringCondition,
                             validations: [lengthSmallerOrEqualToCondition(wordLimits.key_actors)],
                         },
-                        national_society: { required: isSubmit },
+                        partner: { required: isSubmit },
                     }),
                 }),
             },
@@ -665,16 +672,16 @@ export const formSchema: EapFullFormSchema = {
                 validations: [lengthSmallerOrEqualToCondition(wordLimits.hazard_selection)],
             },
 
-            hazard_selection_images: {
+            hazard_selection_files: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
-                    fields: (): HazardSelectionImagesFormFields => ({
+                    fields: (): HazardSelectionFilesFormFields => ({
                         client_id: {},
                         caption: {},
                         id: {},
                     }),
                 }),
-                validation: lessThanEqualToFiveImagesCondition,
+                validation: lessThanEqualToFiveFilesCondition,
             },
 
             exposed_element_and_vulnerability_factor: {
@@ -684,16 +691,16 @@ export const formSchema: EapFullFormSchema = {
                     wordLimits.exposed_element_and_vulnerability_factor,
                 )],
             },
-            exposed_element_and_vulnerability_factor_images: {
+            exposed_element_and_vulnerability_factor_files: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
-                    fields: (): ExposedElementAndVulnerabilityImagesFormFields => ({
+                    fields: (): ExposedElementAndVulnerabilityFilesFormFields => ({
                         client_id: {},
                         caption: {},
                         id: { defaultValue: undefinedValue },
                     }),
                 }),
-                validation: lessThanEqualToFiveImagesCondition,
+                validation: lessThanEqualToFiveFilesCondition,
             },
 
             prioritized_impact: {
@@ -703,16 +710,16 @@ export const formSchema: EapFullFormSchema = {
                     wordLimits.prioritized_impact,
                 )],
             },
-            prioritized_impact_images: {
+            prioritized_impact_files: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
-                    fields: (): PrioritizedImpactImagesFormFields => ({
+                    fields: (): PrioritizedImpactFilesFormFields => ({
                         client_id: {},
                         caption: {},
                         id: { defaultValue: undefinedValue },
                     }),
                 }),
-                validation: lessThanEqualToFiveImagesCondition,
+                validation: lessThanEqualToFiveFilesCondition,
             },
             prioritized_impacts: {
                 keySelector: (item) => item.client_id,
@@ -779,16 +786,16 @@ export const formSchema: EapFullFormSchema = {
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(wordLimits.forecast_selection)],
             },
-            forecast_selection_images: {
+            forecast_selection_files: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
-                    fields: (): ForecastSelectionImagesResponseFormFields => ({
+                    fields: (): ForecastSelectionFilesResponseFormFields => ({
                         client_id: {},
                         caption: {},
                         id: { defaultValue: undefinedValue },
                     }),
                 }),
-                validation: lessThanEqualToFiveImagesCondition,
+                validation: lessThanEqualToFiveFilesCondition,
             },
             forecast_table_file: { required: isSubmit },
 
@@ -799,16 +806,16 @@ export const formSchema: EapFullFormSchema = {
                     wordLimits.definition_and_justification_impact_level,
                 )],
             },
-            definition_and_justification_impact_level_images: {
+            definition_and_justification_impact_level_files: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
-                    fields: (): DefinitionAndJustificationImagesResponseFormFields => ({
+                    fields: (): DefinitionAndJustificationFilesResponseFormFields => ({
                         client_id: {},
                         caption: {},
                         id: { defaultValue: undefinedValue },
                     }),
                 }),
-                validation: lessThanEqualToFiveImagesCondition,
+                validation: lessThanEqualToFiveFilesCondition,
             },
 
             identification_of_the_intervention_area: {
@@ -818,16 +825,16 @@ export const formSchema: EapFullFormSchema = {
                     wordLimits.identification_of_the_intervention_area,
                 )],
             },
-            identification_of_the_intervention_area_images: {
+            identification_of_the_intervention_area_files: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
-                    fields: (): IdentificationInterventionImagesResponseFormFields => ({
+                    fields: (): IdentificationInterventionFilesResponseFormFields => ({
                         client_id: {},
                         caption: {},
                         id: { defaultValue: undefinedValue },
                     }),
                 }),
-                validation: lessThanEqualToFiveImagesCondition,
+                validation: lessThanEqualToFiveFilesCondition,
             },
             admin2: {
                 defaultValue: [],
@@ -870,16 +877,16 @@ export const formSchema: EapFullFormSchema = {
                     wordLimits.early_action_selection_process,
                 )],
             },
-            early_action_selection_process_images: {
+            early_action_selection_process_files: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
-                    fields: (): IdentificationInterventionImagesResponseFormFields => ({
+                    fields: (): IdentificationInterventionFilesResponseFormFields => ({
                         client_id: {},
                         caption: {},
                         id: { defaultValue: undefinedValue },
                     }),
                 }),
-                validation: lessThanEqualToFiveImagesCondition,
+                validation: lessThanEqualToFiveFilesCondition,
             },
             theory_of_change_table_file: { required: isSubmit },
 
@@ -1031,16 +1038,16 @@ export const formSchema: EapFullFormSchema = {
                     wordLimits.early_action_implementation_process,
                 )],
             },
-            early_action_implementation_images: {
+            early_action_implementation_files: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
-                    fields: (): EarlyActionImagesResponseFormFields => ({
+                    fields: (): EarlyActionFilesResponseFormFields => ({
                         client_id: {},
                         caption: {},
                         id: { defaultValue: undefinedValue },
                     }),
                 }),
-                validation: lessThanEqualToFiveImagesCondition,
+                validation: lessThanEqualToFiveFilesCondition,
             },
 
             trigger_activation_system: {
@@ -1050,22 +1057,22 @@ export const formSchema: EapFullFormSchema = {
                     wordLimits.trigger_activation_system,
                 )],
             },
-            trigger_activation_system_images: {
+            trigger_activation_system_files: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
-                    fields: (): TriggerActivationImagesResponseFormFields => ({
+                    fields: (): TriggerActivationFilesResponseFormFields => ({
                         client_id: {},
                         caption: {},
                         id: { defaultValue: undefinedValue },
                     }),
                 }),
-                validation: lessThanEqualToFiveImagesCondition,
+                validation: lessThanEqualToFiveFilesCondition,
             },
 
-            people_targeted: {
+            total_people_targeted: {
                 required: isSubmit,
                 validations: [
-                    greaterThanOrEqualToCondition(wordLimits.people_targeted),
+                    greaterThanOrEqualToCondition(wordLimits.total_people_targeted),
                     positiveIntegerCondition,
                 ],
             },

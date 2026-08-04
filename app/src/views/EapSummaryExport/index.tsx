@@ -506,22 +506,6 @@ export function Component() {
                         ))}
                     </PrintableContainer>
                 </PrintableContainer>
-                <PrintableContainer heading={strings.delegationLabel} headingLevel={4}>
-                    <PrintableContactOutput
-                        label={strings.delegationFocalLabel}
-                        namePrefix="ifrc_delegation_focal_point"
-                        data={fullEapResponse}
-                        prevData={undefined}
-                        withDiff={false}
-                    />
-                    <PrintableContactOutput
-                        label={strings.delegationHeadLabel}
-                        namePrefix="ifrc_head_of_delegation"
-                        data={fullEapResponse}
-                        prevData={undefined}
-                        withDiff={false}
-                    />
-                </PrintableContainer>
                 <PrintableContainer
                     heading={strings.regionalGlobalLabel}
                     headingLevel={4}
@@ -550,13 +534,6 @@ export function Component() {
                     <PrintableContactOutput
                         label={strings.regionalHeadLabel}
                         namePrefix="ifrc_regional_head_dcc"
-                        data={fullEapResponse}
-                        prevData={undefined}
-                        withDiff={false}
-                    />
-                    <PrintableContactOutput
-                        label={strings.globalOpsLabel}
-                        namePrefix="ifrc_global_ops_coordinator"
                         data={fullEapResponse}
                         prevData={undefined}
                         withDiff={false}

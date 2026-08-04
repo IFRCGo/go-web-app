@@ -31,7 +31,7 @@ import Link from '#components/Link';
 import useFilterState from '#hooks/useFilterState';
 import {
     EAP_STATUS_APPROVED,
-    EAP_STATUS_PENDING_PFA,
+    EAP_STATUS_PROJECT_AGREEMENT_SIGNED,
     EAP_STATUS_TECHNICALLY_VALIDATED,
     EAP_TYPE_FULL,
     EAP_TYPE_SIMPLIFIED,
@@ -246,20 +246,20 @@ export function Component() {
                         disabled: status < EAP_STATUS_TECHNICALLY_VALIDATED,
                     } satisfies EapExpandedListItem,
                     {
-                        label: 'Approved (Pending PFA)',
-                        lastUpdated: eapListItem.pending_pfa_at ?? undefined,
-                        eap: eapListItem,
-                        type: 'pending-pfa',
-                        details: undefined,
-                        disabled: status < EAP_STATUS_PENDING_PFA,
-                    } satisfies EapExpandedListItem,
-                    {
                         label: 'Approved',
-                        eap: eapListItem,
                         lastUpdated: eapListItem.approved_at ?? undefined,
+                        eap: eapListItem,
                         type: 'approved',
                         details: undefined,
                         disabled: status < EAP_STATUS_APPROVED,
+                    } satisfies EapExpandedListItem,
+                    {
+                        label: 'Project Agreement Signed',
+                        eap: eapListItem,
+                        lastUpdated: eapListItem.project_agreement_signed_at ?? undefined,
+                        type: 'project-agreement-signed',
+                        details: undefined,
+                        disabled: status < EAP_STATUS_PROJECT_AGREEMENT_SIGNED,
                     } satisfies EapExpandedListItem,
                 ].filter(isDefined).toReversed();
 

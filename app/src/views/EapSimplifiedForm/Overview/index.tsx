@@ -1,4 +1,5 @@
 import {
+    Checkbox,
     Container,
     Description,
     InputSection,
@@ -175,14 +176,25 @@ function Overview(props: Props) {
                         description={strings.partnersInvolvedDescription}
                         withAsteriskOnTitle
                     >
-                        <NationalSocietyMultiSelectInput
-                            name="partners"
-                            value={value.partners}
-                            error={getErrorString(error?.partners)}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                            readOnly={readOnly}
-                        />
+                        <ListView layout="block">
+                            <NationalSocietyMultiSelectInput
+                                name="partners"
+                                value={value.partners}
+                                error={getErrorString(error?.partners)}
+                                onChange={setFieldValue}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                            />
+                            <Checkbox
+                                name="include_rcrc_climate_center"
+                                disabled={disabled}
+                                readOnly={readOnly}
+                                value={value?.include_rcrc_climate_center}
+                                onChange={setFieldValue}
+                                error={error?.include_rcrc_climate_center}
+                                label={strings.rcrcClimateCenter}
+                            />
+                        </ListView>
                     </InputSection>
                 </ListView>
             </Container>
@@ -198,6 +210,18 @@ function Overview(props: Props) {
                         layout="block"
                         spacing="sm"
                     >
+                        <ContactInputsSection
+                            title={strings.nSContact}
+                            description={strings.nSContactDescription}
+                            namePrefix="national_society_contact"
+                            value={value}
+                            setFieldValue={setFieldValue}
+                            error={error}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            withRequiredNameAndEmail
+                            withRequiredTitle
+                        />
                         <ContactInputsSection
                             title={strings.drefFocalPoint}
                             description={strings.drefFocalPointDescription}

@@ -277,7 +277,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={wordLimits.trigger_statement}
+                            maxWords={wordLimits.trigger_statement}
                         />
                     </InputSection>
                     <InputSection
@@ -384,20 +384,20 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={wordLimits.forecast_selection}
+                            maxWords={wordLimits.forecast_selection}
                         />
                         <MultiImageWithCaptionInput
-                            name="forecast_selection_images"
+                            name="forecast_selection_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.forecast_selection_images}
+                            value={value?.forecast_selection_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.forecast_selection_images)}
+                            error={getErrorObject(error?.forecast_selection_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.triggerSelectImagesLabel}
+                            label={strings.triggerSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.triggerModelImagesCountLabel}
+                            description={strings.triggerModelFileCountLabel}
                         />
                     </InputSection>
                     <InputSection
@@ -485,22 +485,22 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={wordLimits.definition_and_justification_impact_level}
+                            maxWords={wordLimits.definition_and_justification_impact_level}
                         />
                         <MultiImageWithCaptionInput
-                            name="definition_and_justification_impact_level_images"
+                            name="definition_and_justification_impact_level_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.definition_and_justification_impact_level_images}
+                            value={value?.definition_and_justification_impact_level_files}
                             onChange={setFieldValue}
                             error={getErrorObject(
-                                error?.definition_and_justification_impact_level_images,
+                                error?.definition_and_justification_impact_level_files,
                             )}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.triggerSelectImagesLabel}
+                            label={strings.triggerSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.triggerModelImagesCountLabel}
+                            description={strings.triggerModelFileCountLabel}
                         />
                     </InputSection>
                     <InputSection
@@ -559,22 +559,22 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={wordLimits.identification_of_the_intervention_area}
+                            maxWords={wordLimits.identification_of_the_intervention_area}
                         />
                         <MultiImageWithCaptionInput
-                            name="identification_of_the_intervention_area_images"
+                            name="identification_of_the_intervention_area_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.identification_of_the_intervention_area_images}
+                            value={value?.identification_of_the_intervention_area_files}
                             onChange={setFieldValue}
                             error={getErrorObject(
-                                error?.identification_of_the_intervention_area_images,
+                                error?.identification_of_the_intervention_area_files,
                             )}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.triggerSelectImagesLabel}
+                            label={strings.triggerSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.triggerModelImagesCountLabel}
+                            description={strings.triggerModelFileCountLabel}
                         />
                     </InputSection>
                     <InputSection

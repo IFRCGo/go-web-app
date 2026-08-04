@@ -257,10 +257,10 @@ function EarlyAction(props: Props) {
                         numPreferredColumns={2}
                     >
                         <NumberInput
-                            name="people_targeted"
-                            value={value?.people_targeted}
+                            name="total_people_targeted"
+                            value={value?.total_people_targeted}
                             onChange={setFieldValue}
-                            error={error?.people_targeted}
+                            error={error?.total_people_targeted}
                             disabled={disabled}
                             readOnly={readOnly}
                         />
@@ -450,22 +450,22 @@ function EarlyAction(props: Props) {
                     >
                         <NumberInput
                             label={strings.actionValue}
-                            name="operational_timeframe"
-                            value={value?.operational_timeframe}
+                            name="activation_timeframe"
+                            value={value?.activation_timeframe}
                             onChange={setFieldValue}
-                            error={error?.operational_timeframe}
+                            error={error?.activation_timeframe}
                             disabled={disabled}
                             readOnly={readOnly}
                         />
                         <SelectInput
                             label={strings.operationTimeFrame}
-                            name="operational_timeframe_unit"
-                            value={value.operational_timeframe_unit}
+                            name="activation_timeframe_unit"
+                            value={value.activation_timeframe_unit}
                             onChange={setFieldValue}
                             keySelector={timeframeKeySelector}
                             labelSelector={stringValueSelector}
                             options={eapTimeframeOption}
-                            error={error?.operational_timeframe_unit}
+                            error={error?.activation_timeframe_unit}
                             disabled={disabled}
                             readOnly
                         />

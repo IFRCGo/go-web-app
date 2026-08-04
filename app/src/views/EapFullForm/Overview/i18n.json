@@ -21,6 +21,8 @@
         "partnersInvolvedDescription": "Select from the list the partners involved in this process. Add as many as needed or select not applicable if no partners involved.",
         "formContacts": "Contacts",
         "stakeholderHeader": "Stakeholder",
+        "nSContact": "National Society Contact",
+        "nSContactDescription": "National Society contact responsible for the EAP process",
         "drefFocalPoint": "DREF Focal Point",
         "drefFocalPointDescription": "The DREF contact person for IFRC",
         "regionalFocalPoint": "IFRC Regional AA Focal Point",
@@ -46,6 +48,7 @@
         "overviewSectionHeading": "Quality Criteria: Overview",
         "sectionCriteriaIntroduction1": "The following quality criteria are used by the IFRC Validation Committee as a benchmark to determine if the Early Action Protocol is eligible to be funded by the DREF. If any of the criteria are not adequately met or just partially met, the Validation Committee may require further information or additional work to demonstrate that the criteria are justified.",
         "sectionCriteriaIntroduction2": "The Forecast based Financing process has been conducted in a participatory manner with involvement of key stakeholders, including communities, movement components and external actors, especially Hydro-Met agencies, disaster risk management authorities, government ministries, development organizations, other hazard specific agencies (local and national level), and other major anticipatory humanitarian actors in the country/region.",
-        "sectionCriteriaComment2": "In order to avoid creating parallel systems and to minimize additional discussions on permissions, etc. when a trigger occurs, all relevant key stakeholders in the country should be involved in the development, and when necessary, the approval of the EAP."
+        "sectionCriteriaComment2": "In order to avoid creating parallel systems and to minimize additional discussions on permissions, etc. when a trigger occurs, all relevant key stakeholders in the country should be involved in the development, and when necessary, the approval of the EAP.",
+        "rcrcClimateCenter": "RCRC Climate Center"
     }
 }

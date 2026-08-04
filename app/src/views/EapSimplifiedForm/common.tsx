@@ -20,14 +20,11 @@ const overviewTabFields = [
     'national_society_contact_email',
     'national_society_contact_phone_number',
     'partners',
+    'include_rcrc_climate_center',
     'partner_contacts',
     'dref_focal_point_name',
     'dref_focal_point_email',
     'dref_focal_point_phone_number',
-    'ifrc_delegation_focal_point_name',
-    'ifrc_delegation_focal_point_title',
-    'ifrc_delegation_focal_point_email',
-    'ifrc_delegation_focal_point_phone_number',
     'dref_focal_point_name',
     'dref_focal_point_title',
     'dref_focal_point_email',
@@ -44,25 +41,17 @@ const overviewTabFields = [
     'ifrc_regional_head_dcc_title',
     'ifrc_regional_head_dcc_email',
     'ifrc_regional_head_dcc_phone_number',
-    'ifrc_global_ops_coordinator_name',
-    'ifrc_global_ops_coordinator_title',
-    'ifrc_global_ops_coordinator_email',
-    'ifrc_global_ops_coordinator_phone_number',
-    'ifrc_head_of_delegation_name',
-    'ifrc_head_of_delegation_title',
-    'ifrc_head_of_delegation_email',
-    'ifrc_head_of_delegation_phone_number',
 ] as const satisfies FormKeys[];
 
 type OverviewKeys = typeof overviewTabFields[number];
 
 const riskAnalysisTabFields = [
     'prioritized_hazard_and_impact',
-    'hazard_impact_images',
+    'hazard_impact_files',
     'risks_selected_protocols',
-    'risk_selected_protocols_images',
+    'risk_selected_protocols_files',
     'selected_early_actions',
-    'selected_early_actions_images',
+    'selected_early_actions_files',
 ] as const satisfies Exclude<FormKeys, OverviewKeys>[];
 
 type RiskAnalysisKeys = typeof riskAnalysisTabFields[number];
@@ -71,14 +60,14 @@ const earlyActionTabFields = [
     'overall_objective_intervention',
     'potential_geographical_high_risk_areas',
     'admin2',
-    'people_targeted',
+    'total_people_targeted',
     'assisted_through_operation',
     'selection_criteria',
     'trigger_statement',
     'seap_lead_time',
     'seap_lead_timeframe_unit',
-    'operational_timeframe',
-    'operational_timeframe_unit',
+    'activation_timeframe',
+    'activation_timeframe_unit',
     'trigger_threshold_justification',
     'next_step_towards_full_eap',
 ] as const satisfies Exclude<FormKeys, OverviewKeys | RiskAnalysisKeys>[];
@@ -193,5 +182,5 @@ export const wordLimits = {
     next_step_towards_full_eap: 100,
     early_action_capability: 500,
     rcrc_movement_involvement: 150,
-    people_targeted: 2000,
+    total_people_targeted: 2000,
 } satisfies { [key in FormKeys]?: number };

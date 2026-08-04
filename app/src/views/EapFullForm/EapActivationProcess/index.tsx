@@ -208,15 +208,15 @@ function EapActivationProcess(props: Props) {
                             maxWords={wordLimits.early_action_implementation_process}
                         />
                         <MultiImageWithCaptionInput
-                            name="early_action_implementation_images"
+                            name="early_action_implementation_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.early_action_implementation_images}
+                            value={value?.early_action_implementation_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.early_action_implementation_images)}
+                            error={getErrorObject(error?.early_action_implementation_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.activationSelectImagesLabel}
-                            description={strings.activationImageCountLabel}
+                            label={strings.activationSelectFilesLabel}
+                            description={strings.activationFilesCountLabel}
                             disabled={disabled}
                             readOnly={readOnly}
                         />
@@ -280,15 +280,15 @@ function EapActivationProcess(props: Props) {
                             maxWords={wordLimits.trigger_activation_system}
                         />
                         <MultiImageWithCaptionInput
-                            name="trigger_activation_system_images"
+                            name="trigger_activation_system_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.trigger_activation_system_images}
+                            value={value?.trigger_activation_system_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.trigger_activation_system_images)}
+                            error={getErrorObject(error?.trigger_activation_system_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.activationSelectImagesLabel}
-                            description={strings.activationImageCountLabel}
+                            label={strings.activationSelectFilesLabel}
+                            description={strings.activationFilesCountLabel}
                             disabled={disabled}
                             readOnly={readOnly}
                         />
@@ -299,10 +299,10 @@ function EapActivationProcess(props: Props) {
                         withAsteriskOnTitle
                     >
                         <NumberInput
-                            name="people_targeted"
+                            name="total_people_targeted"
                             onChange={setFieldValue}
-                            value={value?.people_targeted}
-                            error={error?.people_targeted}
+                            value={value?.total_people_targeted}
+                            error={error?.total_people_targeted}
                             disabled={disabled}
                             readOnly={readOnly}
                         />

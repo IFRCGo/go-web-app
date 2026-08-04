@@ -211,11 +211,11 @@ function RiskAnalysis(props: Props) {
                             maxWords={wordLimits.prioritized_hazard_and_impact}
                         />
                         <MultiImageWithCaptionInput
-                            name="hazard_impact_images"
+                            name="hazard_impact_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.hazard_impact_images}
+                            value={value?.hazard_impact_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.hazard_impact_images)}
+                            error={getErrorObject(error?.hazard_impact_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
@@ -239,11 +239,11 @@ function RiskAnalysis(props: Props) {
                             maxWords={wordLimits.risks_selected_protocols}
                         />
                         <MultiImageWithCaptionInput
-                            name="risk_selected_protocols_images"
+                            name="risk_selected_protocols_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.risk_selected_protocols_images}
+                            value={value?.risk_selected_protocols_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.risk_selected_protocols_images)}
+                            error={getErrorObject(error?.risk_selected_protocols_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
@@ -330,11 +330,11 @@ function RiskAnalysis(props: Props) {
                             maxWords={wordLimits.selected_early_actions}
                         />
                         <MultiImageWithCaptionInput
-                            name="selected_early_actions_images"
+                            name="selected_early_actions_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.selected_early_actions_images}
+                            value={value?.selected_early_actions_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.selected_early_actions_images)}
+                            error={getErrorObject(error?.selected_early_actions_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}

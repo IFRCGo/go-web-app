@@ -135,11 +135,11 @@ export function Component() {
         technical_working_groups_in_place_description,
 
         hazard_selection,
-        hazard_selection_images,
+        hazard_selection_files,
         exposed_element_and_vulnerability_factor,
-        exposed_element_and_vulnerability_factor_images,
+        exposed_element_and_vulnerability_factor_files,
         prioritized_impact,
-        prioritized_impact_images,
+        prioritized_impact_files,
         prioritized_impacts,
         risk_analysis_source_of_information,
 
@@ -147,17 +147,17 @@ export function Component() {
         trigger_statement_source_of_information,
         lead_time,
         forecast_selection,
-        forecast_selection_images,
+        forecast_selection_files,
         forecast_table_file_details,
         definition_and_justification_impact_level,
-        definition_and_justification_impact_level_images,
+        definition_and_justification_impact_level_files,
         identification_of_the_intervention_area,
-        identification_of_the_intervention_area_images,
+        identification_of_the_intervention_area_files,
         trigger_model_source_of_information,
 
         early_actions,
         early_action_selection_process,
-        early_action_selection_process_images,
+        early_action_selection_process_files,
         theory_of_change_table_file_details,
         evidence_base,
         evidence_base_source_of_information,
@@ -168,10 +168,10 @@ export function Component() {
         feasibility,
 
         early_action_implementation_process,
-        early_action_implementation_images,
+        early_action_implementation_files,
         trigger_activation_system,
-        trigger_activation_system_images,
-        people_targeted,
+        trigger_activation_system_files,
+        total_people_targeted,
         selection_of_target_population,
         stop_mechanism,
         activation_process_source_of_information,
@@ -241,7 +241,7 @@ export function Component() {
         early_action_implementation_process:
         prev_early_action_implementation_process,
         trigger_activation_system: prev_trigger_activation_system,
-        people_targeted: prev_people_targeted,
+        total_people_targeted: prev_total_people_targeted,
         selection_of_target_population: prev_selection_of_target_population,
         stop_mechanism: prev_stop_mechanism,
         activation_process_source_of_information:
@@ -274,7 +274,7 @@ export function Component() {
         .join(' | ');
 
     const prevKeyActorsMapping = useMemo(
-        () => listToMap(prev_key_actors ?? [], (actor) => actor.national_society),
+        () => listToMap(prev_key_actors ?? [], (actor) => actor.partner),
         [prev_key_actors],
     );
 
@@ -623,25 +623,6 @@ export function Component() {
                         </PrintableContainer>
                     </PrintableContainer>
                     <PrintableContainer
-                        heading={strings.delegationLabel}
-                        headingLevel={4}
-                    >
-                        <PrintableContactOutput
-                            label={strings.delegationFocalLabel}
-                            namePrefix="ifrc_delegation_focal_point"
-                            data={fullEapResponse}
-                            prevData={prevFullEapResponse}
-                            withDiff={withDiff}
-                        />
-                        <PrintableContactOutput
-                            label={strings.delegationHeadLabel}
-                            namePrefix="ifrc_head_of_delegation"
-                            data={fullEapResponse}
-                            prevData={prevFullEapResponse}
-                            withDiff={withDiff}
-                        />
-                    </PrintableContainer>
-                    <PrintableContainer
                         heading={strings.regionalGlobalLabel}
                         headingLevel={4}
                     >
@@ -669,13 +650,6 @@ export function Component() {
                         <PrintableContactOutput
                             label={strings.regionalHeadLabel}
                             namePrefix="ifrc_regional_head_dcc"
-                            data={fullEapResponse}
-                            prevData={prevFullEapResponse}
-                            withDiff={withDiff}
-                        />
-                        <PrintableContactOutput
-                            label={strings.globalOpsLabel}
-                            namePrefix="ifrc_global_ops_coordinator"
                             data={fullEapResponse}
                             prevData={prevFullEapResponse}
                             withDiff={withDiff}
@@ -721,11 +695,8 @@ export function Component() {
                             headingLevel={4}
                             heading={(
                                 <PrintableLabel
-                                    value={actor.national_society_details.society_name}
-                                    prevValue={
-                                        prevKeyActorsMapping[actor.national_society]
-                                            ?.national_society_details.society_name
-                                    }
+                                    value={actor.partner}
+                                    prevValue={prevKeyActorsMapping[actor.partner]?.partner}
                                     withDiff={withDiff}
                                 />
                             )}
@@ -733,7 +704,7 @@ export function Component() {
                             <PrintableDescription
                                 value={actor.description}
                                 prevValue={
-                                    prevKeyActorsMapping[actor.national_society]
+                                    prevKeyActorsMapping[actor.partner]
                                         ?.description
                                 }
                                 withDiff={withDiff}
@@ -796,7 +767,7 @@ export function Component() {
                     />
                 </PrintableContainer>
                 <PrintableContainer headingLevel={3}>
-                    {hazard_selection_images?.map((hazard) => (
+                    {hazard_selection_files?.map((hazard) => (
                         <Image key={hazard.id} src={hazard.file} caption={hazard.caption} />
                     ))}
                 </PrintableContainer>
@@ -812,7 +783,7 @@ export function Component() {
                 </PrintableContainer>
                 <PrintableContainer headingLevel={3}>
                     <div className={styles.imageItems}>
-                        {exposed_element_and_vulnerability_factor_images?.map((element) => (
+                        {exposed_element_and_vulnerability_factor_files?.map((element) => (
                             <Image
                                 key={element.id}
                                 src={element.file}
@@ -857,7 +828,7 @@ export function Component() {
                 </PrintableContainer>
                 <PrintableContainer>
                     <div className={styles.imageItems}>
-                        {prioritized_impact_images?.map((element) => (
+                        {prioritized_impact_files?.map((element) => (
                             <Image
                                 key={element.id}
                                 src={element.file}
@@ -1005,7 +976,7 @@ export function Component() {
                 </PrintableContainer>
                 <PrintableContainer>
                     <div className={styles.imageItems}>
-                        {forecast_selection_images?.map((element) => (
+                        {forecast_selection_files?.map((element) => (
                             <Image
                                 key={element.id}
                                 src={element.file}
@@ -1031,7 +1002,7 @@ export function Component() {
                 </PrintableContainer>
                 <PrintableContainer>
                     <div className={styles.imageItems}>
-                        {definition_and_justification_impact_level_images?.map(
+                        {definition_and_justification_impact_level_files?.map(
                             (element) => (
                                 <Image
                                     key={element.id}
@@ -1054,7 +1025,7 @@ export function Component() {
                 </PrintableContainer>
                 <PrintableContainer>
                     <div className={styles.imageItems}>
-                        {identification_of_the_intervention_area_images?.map((element) => (
+                        {identification_of_the_intervention_area_files?.map((element) => (
                             <Image
                                 key={element.id}
                                 src={element.file}
@@ -1157,7 +1128,7 @@ export function Component() {
                 </PrintableContainer>
                 <PrintableContainer>
                     <div className={styles.imageItems}>
-                        {early_action_selection_process_images?.map((element) => (
+                        {early_action_selection_process_files?.map((element) => (
                             <Image src={element.file} caption={element.caption} />
                         ))}
                     </div>
@@ -1625,7 +1596,7 @@ export function Component() {
                 </PrintableContainer>
                 <PrintableContainer>
                     <div className={styles.imageItems}>
-                        {early_action_implementation_images?.map((element) => (
+                        {early_action_implementation_files?.map((element) => (
                             <Image src={element.file} caption={element.caption} />
                         ))}
                     </div>
@@ -1650,7 +1621,7 @@ export function Component() {
                 </PrintableContainer>
                 <PrintableContainer headingLevel={3}>
                     <div className={styles.imageItems}>
-                        {trigger_activation_system_images?.map((element) => (
+                        {trigger_activation_system_files?.map((element) => (
                             <Image src={element.file} caption={element.caption} />
                         ))}
                     </div>
@@ -1659,8 +1630,8 @@ export function Component() {
                     <ListView layout="grid">
                         <PrintableDataDisplay
                             label={strings.peopleTargetLabel}
-                            value={people_targeted}
-                            prevValue={prev_people_targeted}
+                            value={total_people_targeted}
+                            prevValue={prev_total_people_targeted}
                             valueType="number"
                             variant="block"
                             withBackground

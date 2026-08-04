@@ -1,13 +1,14 @@
 import {
     type ObjectSchema,
     type PartialForm,
+    type PurgeNull,
     requiredStringCondition,
     undefinedValue,
 } from '@togglecorp/toggle-form';
 
 import { type components } from '#generated/types';
 
-type OperationActivity = components<'write'>['schemas']['OperationActivity'];
+type OperationActivity = PurgeNull<components<'write'>['schemas']['OperationActivity']>;
 
 export type OperationActivityFormFields = PartialForm<OperationActivity> & {
     client_id: string;
