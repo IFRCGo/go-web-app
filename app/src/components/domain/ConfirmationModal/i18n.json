@@ -1,0 +1,8 @@
+{
+    "namespace": "confirmationModal",
+    "strings": {
+        "confirmationHeading": "Are you sure?",
+        "confirmationCancelButton": "Cancel",
+        "confirmationConfirmButton": "Continue"
+    }
+}

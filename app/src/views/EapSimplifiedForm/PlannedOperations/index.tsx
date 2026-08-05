@@ -13,7 +13,10 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
-import { listToMap } from '@togglecorp/fujs';
+import {
+    isDefined,
+    listToMap,
+} from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
@@ -21,10 +24,12 @@ import {
     useFormArray,
 } from '@togglecorp/toggle-form';
 
+import ConfirmationModal from '#components/domain/ConfirmationModal';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
+import useChecklistFormArray from '#hooks/domain/useChecklistFormArray';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { type GoApiResponse } from '#utils/restRequest';
 
@@ -42,6 +47,14 @@ type EapSectorApCodeOption = NonNullable<GoApiResponse<'/api/v2/eap/options/'>['
 
 function sectorKeySelector(option: EapSectorOption) {
     return option.key;
+}
+
+function operationSectorSelector(operation: PlannedOperationFormFields) {
+    return operation.sector;
+}
+
+function createOperation(sector: EapSector) {
+    return { sector } satisfies PlannedOperationFormFields;
 }
 
 interface Props {
@@ -83,28 +96,26 @@ function PlannedOperations(props: Props) {
         setFieldValue,
     );
 
-    const handleOperationChecklistChange = useCallback((sectors: EapSector[] | undefined) => {
-        setFieldValue((previousValue: PlannedOperationFormFields[] | undefined) => {
-            const previousValueMapping = listToMap(
-                previousValue,
-                ({ sector }) => sector,
-            );
-
-            return sectors?.map((sector) => {
-                const prevSectorValue = previousValueMapping?.[sector];
-
-                if (prevSectorValue) {
-                    return prevSectorValue;
-                }
-
-                return {
-                    sector,
-                } satisfies PlannedOperationFormFields;
-            });
-        }, 'planned_operations');
+    const setPlannedOperations = useCallback((getNewValue: (
+        previousValue: PlannedOperationFormFields[] | undefined,
+    ) => PlannedOperationFormFields[] | undefined) => {
+        setFieldValue(getNewValue, 'planned_operations');
     }, [setFieldValue]);
 
-    const selectedSectors = value?.planned_operations?.map(({ sector }) => sector);
+    const {
+        selectedKeys: selectedSectors,
+        pendingRemoval: pendingSectorRemoval,
+        handleChecklistChange: handleOperationChecklistChange,
+        handleRemoveClick: handleOperationRemoveClick,
+        handleRemovalCancel: handleSectorRemovalCancel,
+        handleRemovalConfirm: handleSectorRemovalConfirm,
+    } = useChecklistFormArray({
+        value: value?.planned_operations,
+        keySelector: operationSectorSelector,
+        createItem: createOperation,
+        setValue: setPlannedOperations,
+        removeValue: onOperationRemove,
+    });
 
     return (
         <TabPage
@@ -207,7 +218,7 @@ function PlannedOperations(props: Props) {
                             index={index}
                             value={operation}
                             onChange={onOperationChange}
-                            onRemove={onOperationRemove}
+                            onRemove={handleOperationRemoveClick}
                             error={getErrorObject(error?.planned_operations)}
                             sectorApCodeOption={sectorApCodeOption}
                             disabled={disabled}
@@ -216,6 +227,15 @@ function PlannedOperations(props: Props) {
                     ))}
                 </ListView>
             </Container>
+            {isDefined(pendingSectorRemoval) && (
+                <ConfirmationModal
+                    message={pendingSectorRemoval.type === 'checklist'
+                        ? strings.plannedOperationsSectorUnselectConfirmation
+                        : strings.plannedOperationsSectorRemoveConfirmation}
+                    onCancel={handleSectorRemovalCancel}
+                    onConfirm={handleSectorRemovalConfirm}
+                />
+            )}
         </TabPage>
     );
 }

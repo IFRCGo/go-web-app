@@ -13,7 +13,10 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
-import { listToMap } from '@togglecorp/fujs';
+import {
+    isDefined,
+    listToMap,
+} from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
@@ -21,10 +24,12 @@ import {
     useFormArray,
 } from '@togglecorp/toggle-form';
 
+import ConfirmationModal from '#components/domain/ConfirmationModal';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
+import useChecklistFormArray from '#hooks/domain/useChecklistFormArray';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { type GoApiResponse } from '#utils/restRequest';
 
@@ -39,6 +44,14 @@ type EapApproachOption = components['schemas']['EapApproachEnum'];
 
 type EnablingApproachesFormFields = NonNullable<PartialSimplifiedEapType['enabling_approaches']>[number];
 type EapApproachApCodeOption = NonNullable<GoApiResponse<'/api/v2/eap/options/'>['approach_ap_codes']>;
+
+function approachSelector(approach: EnablingApproachesFormFields) {
+    return approach.approach;
+}
+
+function createApproach(approach: EapApproach) {
+    return { approach } satisfies EnablingApproachesFormFields;
+}
 
 interface Props {
     value: PartialSimplifiedEapType;
@@ -84,28 +97,26 @@ function EnablingApproaches(props: Props) {
         setFieldValue,
     );
 
-    const handleApproachChecklistChange = useCallback((approaches: EapApproach[] | undefined) => {
-        setFieldValue((previousValue: EnablingApproachesFormFields[] | undefined) => {
-            const previousValueMapping = listToMap(
-                previousValue,
-                ({ approach }) => approach,
-            );
-
-            return approaches?.map((approach) => {
-                const prevApproachValue = previousValueMapping?.[approach];
-
-                if (prevApproachValue) {
-                    return prevApproachValue;
-                }
-
-                return {
-                    approach,
-                } satisfies EnablingApproachesFormFields;
-            });
-        }, 'enabling_approaches');
+    const setEnablingApproaches = useCallback((getNewValue: (
+        previousValue: EnablingApproachesFormFields[] | undefined,
+    ) => EnablingApproachesFormFields[] | undefined) => {
+        setFieldValue(getNewValue, 'enabling_approaches');
     }, [setFieldValue]);
 
-    const selectedApproaches = value?.enabling_approaches?.map(({ approach }) => approach);
+    const {
+        selectedKeys: selectedApproaches,
+        pendingRemoval: pendingApproachRemoval,
+        handleChecklistChange: handleApproachChecklistChange,
+        handleRemoveClick: handleApproachRemoveClick,
+        handleRemovalCancel: handleApproachRemovalCancel,
+        handleRemovalConfirm: handleApproachRemovalConfirm,
+    } = useChecklistFormArray({
+        value: value?.enabling_approaches,
+        keySelector: approachSelector,
+        createItem: createApproach,
+        setValue: setEnablingApproaches,
+        removeValue: onApproachRemove,
+    });
 
     return (
         <TabPage
@@ -207,7 +218,7 @@ function EnablingApproaches(props: Props) {
                             index={index}
                             value={approach}
                             onChange={onApproachChange}
-                            onRemove={onApproachRemove}
+                            onRemove={handleApproachRemoveClick}
                             error={getErrorObject(error?.enabling_approaches)}
                             disabled={disabled}
                             readOnly={readOnly}
@@ -216,6 +227,15 @@ function EnablingApproaches(props: Props) {
                     ))}
                 </ListView>
             </Container>
+            {isDefined(pendingApproachRemoval) && (
+                <ConfirmationModal
+                    message={pendingApproachRemoval.type === 'checklist'
+                        ? strings.enablingApproachUnselectConfirmation
+                        : strings.enablingApproachRemoveConfirmation}
+                    onCancel={handleApproachRemovalCancel}
+                    onConfirm={handleApproachRemovalConfirm}
+                />
+            )}
         </TabPage>
     );
 }

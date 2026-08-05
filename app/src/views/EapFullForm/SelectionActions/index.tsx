@@ -16,6 +16,7 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
 import {
+    isDefined,
     isNotDefined,
     listToMap,
     randomString,
@@ -28,6 +29,7 @@ import {
     useFormArray,
 } from '@togglecorp/toggle-form';
 
+import ConfirmationModal from '#components/domain/ConfirmationModal';
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
@@ -36,6 +38,7 @@ import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
+import useChecklistFormArray from '#hooks/domain/useChecklistFormArray';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { useRequest } from '#utils/restRequest';
 
@@ -73,6 +76,22 @@ function sectorKeySelector(option: EapSectorOption) {
 
 function approachesKeySelector(option: EapApproachOption) {
     return option.key;
+}
+
+function operationSectorSelector(operation: PlannedOperationFormFields) {
+    return operation.sector;
+}
+
+function createOperation(sector: EapSector) {
+    return { sector } satisfies PlannedOperationFormFields;
+}
+
+function approachSelector(approach: EnablingApproachesFormFields) {
+    return approach.approach;
+}
+
+function createApproach(approach: EapApproach) {
+    return { approach } satisfies EnablingApproachesFormFields;
 }
 
 interface Props {
@@ -127,36 +146,29 @@ function SelectionActions(props: Props) {
         setFieldValue,
     );
 
-    const handleOperationChecklistChange = useCallback(
-        (sectors: EapSector[] | undefined) => {
-            setFieldValue(
-                (previousValue: PlannedOperationFormFields[] | undefined) => {
-                    const previousValueMapping = listToMap(
-                        previousValue,
-                        ({ sector }) => sector,
-                    );
-
-                    return sectors?.map((sector) => {
-                        const prevSectorValue = previousValueMapping?.[sector];
-
-                        if (prevSectorValue) {
-                            return prevSectorValue;
-                        }
-
-                        return {
-                            sector,
-                        } satisfies PlannedOperationFormFields;
-                    });
-                },
-                'planned_operations',
-            );
+    const setPlannedOperations = useCallback(
+        (getNewValue: (
+            previousValue: PlannedOperationFormFields[] | undefined,
+        ) => PlannedOperationFormFields[] | undefined) => {
+            setFieldValue(getNewValue, 'planned_operations');
         },
         [setFieldValue],
     );
 
-    const selectedSectors = value?.planned_operations?.map(
-        ({ sector }) => sector,
-    );
+    const {
+        selectedKeys: selectedSectors,
+        pendingRemoval: pendingSectorRemoval,
+        handleChecklistChange: handleOperationChecklistChange,
+        handleRemoveClick: handleOperationRemoveClick,
+        handleRemovalCancel: handleSectorRemovalCancel,
+        handleRemovalConfirm: handleSectorRemovalConfirm,
+    } = useChecklistFormArray({
+        value: value.planned_operations,
+        keySelector: operationSectorSelector,
+        createItem: createOperation,
+        setValue: setPlannedOperations,
+        removeValue: onOperationRemove,
+    });
 
     const eapApproachLabelMapping = useMemo(
         () => listToMap(
@@ -172,36 +184,29 @@ function SelectionActions(props: Props) {
         setFieldValue,
     );
 
-    const handleApproachChecklistChange = useCallback(
-        (approaches: EapApproach[] | undefined) => {
-            setFieldValue(
-                (previousValue: EnablingApproachesFormFields[] | undefined) => {
-                    const previousValueMapping = listToMap(
-                        previousValue,
-                        ({ approach }) => approach,
-                    );
-
-                    return approaches?.map((approach) => {
-                        const prevApproachValue = previousValueMapping?.[approach];
-
-                        if (prevApproachValue) {
-                            return prevApproachValue;
-                        }
-
-                        return {
-                            approach,
-                        } satisfies EnablingApproachesFormFields;
-                    });
-                },
-                'enabling_approaches',
-            );
+    const setEnablingApproaches = useCallback(
+        (getNewValue: (
+            previousValue: EnablingApproachesFormFields[] | undefined,
+        ) => EnablingApproachesFormFields[] | undefined) => {
+            setFieldValue(getNewValue, 'enabling_approaches');
         },
         [setFieldValue],
     );
 
-    const selectedApproaches = value?.enabling_approaches?.map(
-        ({ approach }) => approach,
-    );
+    const {
+        selectedKeys: selectedApproaches,
+        pendingRemoval: pendingApproachRemoval,
+        handleChecklistChange: handleApproachChecklistChange,
+        handleRemoveClick: handleApproachRemoveClick,
+        handleRemovalCancel: handleApproachRemovalCancel,
+        handleRemovalConfirm: handleApproachRemovalConfirm,
+    } = useChecklistFormArray({
+        value: value.enabling_approaches,
+        keySelector: approachSelector,
+        createItem: createApproach,
+        setValue: setEnablingApproaches,
+        removeValue: onApproachRemove,
+    });
 
     const {
         setValue: onSourceInformationChange,
@@ -597,7 +602,7 @@ function SelectionActions(props: Props) {
                             index={index}
                             value={operation}
                             onChange={onOperationChange}
-                            onRemove={onOperationRemove}
+                            onRemove={handleOperationRemoveClick}
                             error={getErrorObject(error?.planned_operations)}
                             disabled={disabled}
                             readOnly={readOnly}
@@ -630,7 +635,7 @@ function SelectionActions(props: Props) {
                             index={index}
                             value={approach}
                             onChange={onApproachChange}
-                            onRemove={onApproachRemove}
+                            onRemove={handleApproachRemoveClick}
                             error={getErrorObject(error?.enabling_approaches)}
                             approachApCodeOption={apCodeOptions?.approach_ap_codes}
                             disabled={disabled}
@@ -718,6 +723,24 @@ function SelectionActions(props: Props) {
                     </InputSection>
                 </ListView>
             </Container>
+            {isDefined(pendingSectorRemoval) && (
+                <ConfirmationModal
+                    message={pendingSectorRemoval.type === 'checklist'
+                        ? strings.plannedOperationSectorUnselectConfirmation
+                        : strings.plannedOperationSectorRemoveConfirmation}
+                    onCancel={handleSectorRemovalCancel}
+                    onConfirm={handleSectorRemovalConfirm}
+                />
+            )}
+            {isDefined(pendingApproachRemoval) && (
+                <ConfirmationModal
+                    message={pendingApproachRemoval.type === 'checklist'
+                        ? strings.enablingApproachUnselectConfirmation
+                        : strings.enablingApproachRemoveConfirmation}
+                    onCancel={handleApproachRemovalCancel}
+                    onConfirm={handleApproachRemovalConfirm}
+                />
+            )}
         </TabPage>
     );
 }
