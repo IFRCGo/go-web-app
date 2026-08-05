@@ -3,6 +3,9 @@
     "strings": {
         "operationPriorityActionLabel": "Activities",
         "operationTimeFrameLabel": "Timeframe",
-        "operationTimeValueLabel": "Activity Time Span"
+        "operationTimeValueLabel": "Activity Time Span",
+        "operationActivationLabel": "Activation",
+        "operationActivationOneLabel": "Activation 1",
+        "operationActivationTwoLabel": "Activation 2"
     }
 }

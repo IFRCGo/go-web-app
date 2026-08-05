@@ -304,7 +304,6 @@ function TriggerModel(props: Props) {
                             keySelector={timeframeKeySelector}
                             labelSelector={stringValueSelector}
                             disabled={disabled}
-                            readOnly
                         />
                     </InputSection>
                     <InputSection

@@ -1,0 +1,7 @@
+{
+    "namespace": "printableActivityOutput",
+    "strings": {
+        "activationOneLabel": "Activation 1",
+        "activationTwoLabel": "Activation 2"
+    }
+}

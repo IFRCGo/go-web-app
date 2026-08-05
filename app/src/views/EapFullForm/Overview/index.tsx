@@ -40,6 +40,10 @@ import NationalSocietySelectInput from '#components/domain/NationalSocietySelect
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
+import {
+    DISASTER_TYPE_EPIDEMIC,
+    DISASTER_TYPE_OTHER,
+} from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import { wordLimits } from '../common';
@@ -93,6 +97,10 @@ function Overview(props: Props) {
 
     // NOTE: We dont want some fields to have onChange functionality
     const noop = () => { };
+
+    const isEpidemicDisasterType = eapRegistrationDetail
+        ?.disaster_type === DISASTER_TYPE_EPIDEMIC;
+    const isOtherDisasterType = eapRegistrationDetail?.disaster_type === DISASTER_TYPE_OTHER;
 
     const { setValue: onKeyActorsChange, removeValue: onKeyActorsRemove } = useFormArray<'key_actors', KeyActorsFormFields>(
         'key_actors',
@@ -185,6 +193,18 @@ function Overview(props: Props) {
                             disabled={disabled}
                             readOnly
                         />
+                        {(isEpidemicDisasterType || isOtherDisasterType) && (
+                            <TextInput
+                                name="disaster_sub_type"
+                                value={eapRegistrationDetail?.disaster_sub_type}
+                                onChange={noop}
+                                disabled={disabled}
+                                label={isEpidemicDisasterType
+                                    ? strings.epidemicType
+                                    : strings.otherDisasterType}
+                                readOnly
+                            />
+                        )}
                     </InputSection>
                     <InputSection
                         title={strings.formUploadCoverImage}

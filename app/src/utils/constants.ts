@@ -138,8 +138,9 @@ export type CategoryType = components<'read'>['schemas']['ApiActionCategoryEnumK
 
 // Common
 
-// FIXME: we need to identify a typesafe way to get this value
+// FIXME: we need to identify a typesafe way to get these values
 export const DISASTER_TYPE_EPIDEMIC = 1;
+export const DISASTER_TYPE_OTHER = 13;
 
 type Visibility = components<'read'>['schemas']['ApiVisibilityChoicesEnumKey'];
 export const VISIBILITY_RCRC_MOVEMENT = 1 satisfies Visibility;

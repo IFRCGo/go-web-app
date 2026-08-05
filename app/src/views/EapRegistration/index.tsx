@@ -12,6 +12,7 @@ import {
     Modal,
     Radio,
     RadioInput,
+    TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -37,6 +38,10 @@ import Page from '#components/Page';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
+import {
+    DISASTER_TYPE_EPIDEMIC,
+    DISASTER_TYPE_OTHER,
+} from '#utils/constants';
 import {
     type GoApiResponse,
     useLazyRequest,
@@ -145,6 +150,12 @@ export function Component() {
         setError,
     ]);
 
+    const handleDisasterTypeChange = useCallback((newValue: number | undefined) => {
+        setFieldValue(newValue, 'disaster_type');
+        // NOTE: The sub type is specific to the selected disaster type
+        setFieldValue(undefined, 'disaster_sub_type');
+    }, [setFieldValue]);
+
     const handleNationalSocietyInputChange = useCallback((newValue: number | undefined) => {
         setFieldValue(newValue, 'national_society');
         setFieldValue(newValue, 'country');
@@ -156,6 +167,9 @@ export function Component() {
     }, [navigate]);
 
     const disabled = eapRegistrationPending;
+
+    const isEpidemicDisasterType = value?.disaster_type === DISASTER_TYPE_EPIDEMIC;
+    const isOtherDisasterType = value?.disaster_type === DISASTER_TYPE_OTHER;
 
     return (
         <Page
@@ -234,10 +248,22 @@ export function Component() {
                             <DisasterTypeSelectInput
                                 name="disaster_type"
                                 value={value?.disaster_type}
-                                onChange={setFieldValue}
+                                onChange={handleDisasterTypeChange}
                                 error={error?.disaster_type}
                                 disabled={disabled}
                             />
+                            {(isEpidemicDisasterType || isOtherDisasterType) && (
+                                <TextInput
+                                    name="disaster_sub_type"
+                                    value={value?.disaster_sub_type}
+                                    onChange={setFieldValue}
+                                    error={error?.disaster_sub_type}
+                                    disabled={disabled}
+                                    placeholder={isEpidemicDisasterType
+                                        ? strings.epidemicType
+                                        : strings.otherDisasterType}
+                                />
+                            )}
                         </InputSection>
                         <InputSection
                             title={strings.type}

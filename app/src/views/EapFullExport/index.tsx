@@ -1378,6 +1378,8 @@ export function Component() {
                                                     prevActivity={prevActivity}
                                                     index={index}
                                                     withDiff={withDiff}
+                                                    withActivation
+                                                    withoutTimeframe
                                                 />
                                             );
                                         },
@@ -1399,6 +1401,7 @@ export function Component() {
                                                 prevActivity={prevActivity}
                                                 index={index}
                                                 withDiff={withDiff}
+                                                withActivation
                                             />
                                         );
                                     })}
@@ -1543,6 +1546,8 @@ export function Component() {
                                                 prevActivity={prevActivity}
                                                 index={index}
                                                 withDiff={withDiff}
+                                                withActivation
+                                                withoutTimeframe
                                             />
                                         );
                                     })}
@@ -1563,6 +1568,7 @@ export function Component() {
                                                 prevActivity={prevActivity}
                                                 index={index}
                                                 withDiff={withDiff}
+                                                withActivation
                                             />
                                         );
                                     })}

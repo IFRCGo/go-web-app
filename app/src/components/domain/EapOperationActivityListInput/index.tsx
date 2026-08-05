@@ -22,8 +22,11 @@ import {
     useFormArray,
 } from '@togglecorp/toggle-form';
 
-import EapOperationActivityInput, { type ActivityInputType } from '#components/domain/EapOperationActivityInput';
-import { type OperationActivityFormFields } from '#components/domain/EapOperationActivityInput/schema';
+import EapOperationActivityInput from '#components/domain/EapOperationActivityInput';
+import {
+    type ActivityInputType,
+    type OperationActivityFormFields,
+} from '#components/domain/EapOperationActivityInput/schema';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import { TIMEFRAME_YEAR } from '#utils/constants';
@@ -38,6 +41,8 @@ interface Props<NAME> {
     value: OperationActivityFormFields[] | undefined;
     onChange: (newValue: SetValueArg<OperationActivityFormFields[]>, name: NAME) => void;
     error: ArrayError<OperationActivityFormFields> | LeafError | undefined;
+    withActivationSelection?: boolean;
+    withoutTimeframeSelection?: boolean;
 }
 
 function EapOperationActivityListInput<const NAME extends ActivityInputType>(props: Props<NAME>) {
@@ -49,6 +54,8 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
         value,
         onChange,
         error,
+        withActivationSelection,
+        withoutTimeframeSelection,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -63,7 +70,7 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
 
     const handleReadinessAddButtonClick = useCallback(
         () => {
-            const timeframeValue = name === 'readiness_activities' || name === 'prepositioning_activities'
+            const timeframeValue = name === 'readiness_activities'
                 ? TIMEFRAME_YEAR
                 : undefined;
             const newActionItem: OperationActivityFormFields = {
@@ -171,6 +178,8 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
                         error={getErrorObject(error)}
                         disabled={disabled}
                         readOnly={readOnly}
+                        withActivationSelection={withActivationSelection}
+                        withoutTimeframeSelection={withoutTimeframeSelection}
                     />
                 ))}
             </ListView>

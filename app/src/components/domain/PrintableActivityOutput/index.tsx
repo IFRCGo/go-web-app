@@ -2,10 +2,13 @@ import {
     useCallback,
     useMemo,
 } from 'react';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     compareNumber,
     isDefined,
+    isFalsyString,
     isNotDefined,
+    isTruthyString,
     listToMap,
 } from '@togglecorp/fujs';
 
@@ -21,7 +24,11 @@ import {
     type TimeFrameEnumKey,
 } from '#utils/constants';
 
-type OperationActivity = components['schemas']['OperationActivity'];
+import i18n from './i18n.json';
+
+type OperationActivity = components['schemas']['OperationActivity']
+    | components['schemas']['PrepositioningOperationActivity']
+    | components['schemas']['EarlyActionOperationActivity'];
 
 type ExtendedOperationActivity = Omit<OperationActivity, 'time_value'> & {
     time_value: number[] | string[];
@@ -31,7 +38,17 @@ type DaysTimeFrameKey = components['schemas']['EapDaysTimeframeValueEnumKey'];
 type YearsTimeFrameKey = components['schemas']['EapYearsTimeframeValueEnumKey'];
 type MonthsTimeFrameKey = components['schemas']['EapMonthsTimeframeValueEnumKey'];
 
-function getFormattedActivityTimeline(activity: ExtendedOperationActivity | undefined) {
+interface TimelineOptions {
+    withActivation?: boolean;
+    withoutTimeframe?: boolean;
+    activationOneLabel: string;
+    activationTwoLabel: string;
+}
+
+function getFormattedActivityTimeline(
+    activity: ExtendedOperationActivity | undefined,
+    options: TimelineOptions,
+) {
     if (isNotDefined(activity)) {
         return undefined;
     }
@@ -39,13 +56,37 @@ function getFormattedActivityTimeline(activity: ExtendedOperationActivity | unde
     const {
         time_value,
         timeframe_display,
+        activation_one,
+        activation_two,
     } = activity;
 
-    const timeValueDisplay = time_value.join(',');
+    const {
+        withActivation,
+        withoutTimeframe,
+        activationOneLabel,
+        activationTwoLabel,
+    } = options;
 
-    return (
-        `${timeValueDisplay} ${timeframe_display}`
-    );
+    const timeframeDisplay = withoutTimeframe || time_value.length === 0
+        ? undefined
+        : [time_value.join(','), timeframe_display].filter(isTruthyString).join(' ');
+
+    const activationDisplay = withActivation
+        ? [
+            activation_one ? activationOneLabel : undefined,
+            activation_two ? activationTwoLabel : undefined,
+        ].filter(isDefined).join(', ')
+        : undefined;
+
+    if (isFalsyString(activationDisplay)) {
+        return timeframeDisplay;
+    }
+
+    if (isFalsyString(timeframeDisplay)) {
+        return activationDisplay;
+    }
+
+    return `${timeframeDisplay} (${activationDisplay})`;
 }
 
 function getFormattedActivityLabel(activity: ExtendedOperationActivity | undefined, index: number) {
@@ -61,6 +102,8 @@ interface Props {
     prevActivity: OperationActivity | undefined;
     withDiff: boolean;
     index: number;
+    withActivation?: boolean;
+    withoutTimeframe?: boolean;
 }
 
 function PrintableActivityOutput(props: Props) {
@@ -69,7 +112,11 @@ function PrintableActivityOutput(props: Props) {
         prevActivity: previousActivity,
         withDiff,
         index,
+        withActivation,
+        withoutTimeframe,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const {
         eap_years_timeframe_value,
@@ -110,7 +157,14 @@ function PrintableActivityOutput(props: Props) {
         )
     ), [eap_years_timeframe_value]);
 
-    const timeValue = useCallback((timeArray: number[], timeframeKey: TimeFrameEnumKey) => {
+    const timeValue = useCallback((
+        timeArray: number[] | undefined | null,
+        timeframeKey: TimeFrameEnumKey | undefined | null,
+    ) => {
+        if (isNotDefined(timeArray)) {
+            return [];
+        }
+
         const sortedTimeValue = timeArray.toSorted(compareNumber);
 
         if (timeframeKey === TIMEFRAME_HOURS && isDefined(hoursTimeframeMap)) {
@@ -154,6 +208,13 @@ function PrintableActivityOutput(props: Props) {
         time_value: timeValue(previousActivity?.time_value, previousActivity?.timeframe),
     } : previousActivity;
 
+    const timelineOptions = {
+        withActivation,
+        withoutTimeframe,
+        activationOneLabel: strings.activationOneLabel,
+        activationTwoLabel: strings.activationTwoLabel,
+    };
+
     return (
         <PrintableDataDisplay
             label={(
@@ -163,9 +224,9 @@ function PrintableActivityOutput(props: Props) {
                     withDiff={withDiff}
                 />
             )}
-            value={getFormattedActivityTimeline(activity)}
+            value={getFormattedActivityTimeline(activity, timelineOptions)}
             prevValue={
-                getFormattedActivityTimeline(prevActivity)
+                getFormattedActivityTimeline(prevActivity, timelineOptions)
             }
             valueType="text"
             variant="contents"

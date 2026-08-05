@@ -6,6 +6,7 @@ import {
     Label,
     ListView,
     NumberInput,
+    TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -22,6 +23,10 @@ import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import TabPage from '#components/TabPage';
+import {
+    DISASTER_TYPE_EPIDEMIC,
+    DISASTER_TYPE_OTHER,
+} from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import GuidanceSeap from '../GuidanceSeap';
@@ -58,6 +63,10 @@ function Overview(props: Props) {
     const error = getErrorObject(formError);
 
     const noOp = () => {};
+
+    const isEpidemicDisasterType = eapRegistrationDetail
+        ?.disaster_type === DISASTER_TYPE_EPIDEMIC;
+    const isOtherDisasterType = eapRegistrationDetail?.disaster_type === DISASTER_TYPE_OTHER;
 
     return (
         <TabPage
@@ -128,7 +137,6 @@ function Overview(props: Props) {
                         title={strings.disasterType}
                         description={strings.disasterTypeDescription}
                         withAsteriskOnTitle
-                        numPreferredColumns={2}
                     >
                         <DisasterTypeSelectInput
                             name="disaster_type"
@@ -137,6 +145,18 @@ function Overview(props: Props) {
                             disabled={disabled}
                             readOnly
                         />
+                        {(isEpidemicDisasterType || isOtherDisasterType) && (
+                            <TextInput
+                                name="disaster_sub_type"
+                                value={eapRegistrationDetail?.disaster_sub_type}
+                                onChange={noOp}
+                                disabled={disabled}
+                                label={isEpidemicDisasterType
+                                    ? strings.epidemicType
+                                    : strings.otherDisasterType}
+                                readOnly
+                            />
+                        )}
                     </InputSection>
                     <InputSection
                         title={strings.uploadCoverImage}

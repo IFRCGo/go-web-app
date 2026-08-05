@@ -17,6 +17,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
+import PrintableActivityOutput from '#components/domain/PrintableActivityOutput';
 import Link from '#components/printable/Link';
 import PrintableContainer from '#components/printable/PrintableContainer';
 import PrintableDataDisplay from '#components/printable/PrintableDataDisplay';
@@ -299,16 +300,14 @@ export function Component() {
                             >
                                 <div className={styles.indicatorItems}>
                                     {operation.prepositioning_activities.map((activity, index) => (
-                                        <PrintableDataDisplay
+                                        <PrintableActivityOutput
                                             key={activity.id}
-                                            label={`${index + 1}. ${activity.activity}`}
-                                            value={`${activity.time_value} ${activity.timeframe_display}`}
-                                            valueType="text"
-                                            variant="contents"
-                                            withBackground
-                                            withPadding
-                                            withoutLabelColon
+                                            activity={activity}
+                                            prevActivity={undefined}
+                                            index={index}
                                             withDiff={false}
+                                            withActivation
+                                            withoutTimeframe
                                         />
                                     ))}
                                 </div>
@@ -319,16 +318,13 @@ export function Component() {
                             >
                                 <div className={styles.indicatorItems}>
                                     {operation.early_action_activities.map((activity, index) => (
-                                        <PrintableDataDisplay
+                                        <PrintableActivityOutput
                                             key={activity.id}
-                                            label={`${index + 1}. ${activity.activity}`}
-                                            value={`${activity.time_value} ${activity.timeframe_display}`}
-                                            valueType="text"
-                                            variant="contents"
-                                            withBackground
-                                            withPadding
-                                            withoutLabelColon
+                                            activity={activity}
+                                            prevActivity={undefined}
+                                            index={index}
                                             withDiff={false}
+                                            withActivation
                                         />
                                     ))}
                                 </div>
@@ -426,16 +422,14 @@ export function Component() {
                             >
                                 <div className={styles.indicatorItems}>
                                     {approach.prepositioning_activities.map((activity, index) => (
-                                        <PrintableDataDisplay
+                                        <PrintableActivityOutput
                                             key={activity.id}
-                                            label={`${index + 1}. ${activity.activity}`}
-                                            value={`${activity.time_value} ${activity.timeframe_display}`}
-                                            valueType="text"
-                                            variant="contents"
-                                            withBackground
-                                            withPadding
-                                            withoutLabelColon
+                                            activity={activity}
+                                            prevActivity={undefined}
+                                            index={index}
                                             withDiff={false}
+                                            withActivation
+                                            withoutTimeframe
                                         />
                                     ))}
                                 </div>
@@ -446,16 +440,13 @@ export function Component() {
                             >
                                 <div className={styles.indicatorItems}>
                                     {approach.early_action_activities.map((activity, index) => (
-                                        <PrintableDataDisplay
+                                        <PrintableActivityOutput
                                             key={activity.id}
-                                            label={`${index + 1}. ${activity.activity}`}
-                                            value={`${activity.time_value} ${activity.timeframe_display}`}
-                                            valueType="text"
-                                            variant="contents"
-                                            withBackground
-                                            withPadding
-                                            withoutLabelColon
+                                            activity={activity}
+                                            prevActivity={undefined}
+                                            index={index}
                                             withDiff={false}
+                                            withActivation
                                         />
                                     ))}
                                 </div>

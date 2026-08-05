@@ -8,6 +8,8 @@
         "countryDescription": "The country will be pre-populated based on the NS selection, but can be adapted as needed.",
         "disasterType": "Disaster type",
         "disasterTypeDescription": "Select the disaster type for which the EAP is needed.",
+        "epidemicType": "Type of Epidemic",
+        "otherDisasterType": "Other Disaster Type",
         "uploadCoverImage": "Cover photo",
         "uploadCoverImageDescription": "Upload a image for the cover page of the publicly published DREF application.",
         "timeframe": "sEAP timeframe",

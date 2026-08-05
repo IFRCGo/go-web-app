@@ -945,15 +945,15 @@ export const formSchema: EapFullFormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit),
+                            member: () => operationActivitySchema(isSubmit, 'early_action_activities'),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit),
+                            member: () => operationActivitySchema(isSubmit, 'readiness_activities'),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit),
+                            member: () => operationActivitySchema(isSubmit, 'prepositioning_activities'),
                         },
                     }),
                 }),
@@ -992,15 +992,15 @@ export const formSchema: EapFullFormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit),
+                            member: () => operationActivitySchema(isSubmit, 'early_action_activities'),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit),
+                            member: () => operationActivitySchema(isSubmit, 'readiness_activities'),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit),
+                            member: () => operationActivitySchema(isSubmit, 'prepositioning_activities'),
                         },
                     }),
                 }),
