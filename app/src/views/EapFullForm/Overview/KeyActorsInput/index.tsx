@@ -102,7 +102,7 @@ function KeyActorsInput(props: Props) {
                         value={value?.description}
                         onChange={onFieldChange}
                         required
-                        maxLength={wordLimits.key_actors}
+                        maxWords={wordLimits.key_actors}
                         readOnly={readOnly}
                     />
                 </ListView>

@@ -3,6 +3,7 @@
     "strings": {
         "operationPriorityActionLabel": "Activities",
         "operationTimeFrameLabel": "Timeframe",
+        "operationTimeFrameLeadTimeHint": "Taken from the lead time in the trigger section. Change it there to update this.",
         "operationTimeValueLabel": "Activity Time Span",
         "operationActivationLabel": "Activation",
         "operationActivationOneLabel": "Activation 1",

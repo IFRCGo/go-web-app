@@ -15,6 +15,7 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
+import { isDefined } from '@togglecorp/fujs';
 import {
     type ArrayError,
     getErrorObject,
@@ -26,7 +27,10 @@ import {
 
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import { TIMEFRAME_YEAR } from '#utils/constants';
+import {
+    TIMEFRAME_YEAR,
+    type TimeFrameEnumKey,
+} from '#utils/constants';
 
 import {
     type ActivityInputType,
@@ -62,6 +66,7 @@ interface Props {
     name: ActivityInputType;
     withActivationSelection?: boolean;
     withoutTimeframeSelection?: boolean;
+    leadTimeframeUnit?: TimeFrameEnumKey;
 }
 
 function EapOperationActivityInput(props: Props) {
@@ -76,6 +81,7 @@ function EapOperationActivityInput(props: Props) {
         name,
         withActivationSelection,
         withoutTimeframeSelection,
+        leadTimeframeUnit,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -93,14 +99,20 @@ function EapOperationActivityInput(props: Props) {
         ? getErrorObject(getErrorObject(errorFromProps)?.[value.client_id])
         : undefined;
 
-    const eapTimeframeOption = useMemo(() => {
-        if (name === 'early_action_activities') {
-            return eap_timeframe?.filter((item) => item.key !== TIMEFRAME_YEAR);
-        }
-        return eap_timeframe;
-    }, [eap_timeframe, name]);
+    const isTimeframeFixedToLeadTime = name === 'early_action_activities'
+        && isDefined(leadTimeframeUnit);
 
-    const eapTimeFrameReadOnly = name === 'readiness_activities';
+    const eapTimeframeOption = useMemo(() => {
+        if (name !== 'early_action_activities') {
+            return eap_timeframe;
+        }
+        if (isDefined(leadTimeframeUnit)) {
+            return eap_timeframe?.filter((item) => item.key === leadTimeframeUnit);
+        }
+        return eap_timeframe?.filter((item) => item.key !== TIMEFRAME_YEAR);
+    }, [eap_timeframe, name, leadTimeframeUnit]);
+
+    const eapTimeFrameReadOnly = name === 'readiness_activities' || isTimeframeFixedToLeadTime;
 
     const getTimeValueOptions = useCallback(
         (timeframe?: number) => {
@@ -210,6 +222,9 @@ function EapOperationActivityInput(props: Props) {
                                 disabled={disabled}
                                 error={error?.timeframe}
                                 readOnly={readOnly || eapTimeFrameReadOnly}
+                                hint={isTimeframeFixedToLeadTime
+                                    ? strings.operationTimeFrameLeadTimeHint
+                                    : undefined}
                             />
                         )}
                         {!withoutTimeframeSelection && value?.timeframe && (

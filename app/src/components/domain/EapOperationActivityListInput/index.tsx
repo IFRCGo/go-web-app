@@ -1,5 +1,6 @@
 import {
     useCallback,
+    useEffect,
     useMemo,
 } from 'react';
 import { AddLineIcon } from '@ifrc-go/icons';
@@ -11,6 +12,7 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
+    isDefined,
     isNotDefined,
     randomString,
 } from '@togglecorp/fujs';
@@ -29,7 +31,10 @@ import {
 } from '#components/domain/EapOperationActivityInput/schema';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
-import { TIMEFRAME_YEAR } from '#utils/constants';
+import {
+    TIMEFRAME_YEAR,
+    type TimeFrameEnumKey,
+} from '#utils/constants';
 
 import i18n from './i18n.json';
 
@@ -43,6 +48,7 @@ interface Props<NAME> {
     error: ArrayError<OperationActivityFormFields> | LeafError | undefined;
     withActivationSelection?: boolean;
     withoutTimeframeSelection?: boolean;
+    leadTimeframeUnit?: TimeFrameEnumKey;
 }
 
 function EapOperationActivityListInput<const NAME extends ActivityInputType>(props: Props<NAME>) {
@@ -56,6 +62,7 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
         error,
         withActivationSelection,
         withoutTimeframeSelection,
+        leadTimeframeUnit,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -70,9 +77,12 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
 
     const handleReadinessAddButtonClick = useCallback(
         () => {
-            const timeframeValue = name === 'readiness_activities'
-                ? TIMEFRAME_YEAR
-                : undefined;
+            let timeframeValue: TimeFrameEnumKey | undefined;
+            if (name === 'readiness_activities') {
+                timeframeValue = TIMEFRAME_YEAR;
+            } else if (name === 'early_action_activities') {
+                timeframeValue = leadTimeframeUnit;
+            }
             const newActionItem: OperationActivityFormFields = {
                 client_id: randomString(),
                 timeframe: timeframeValue,
@@ -85,7 +95,35 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
                 name,
             );
         },
-        [onChange, name],
+        [onChange, name, leadTimeframeUnit],
+    );
+    const hasOutdatedTimeframe = name === 'early_action_activities'
+        && isDefined(leadTimeframeUnit)
+        && isDefined(value)
+        && value.some((activity) => activity.timeframe !== leadTimeframeUnit);
+
+    useEffect(
+        () => {
+            if (!hasOutdatedTimeframe) {
+                return;
+            }
+
+            onChange(
+                (oldValue: OperationActivityFormFields[] | undefined) => (
+                    oldValue?.map((activity) => (
+                        activity.timeframe === leadTimeframeUnit
+                            ? activity
+                            : {
+                                ...activity,
+                                timeframe: leadTimeframeUnit,
+                                time_value: undefined,
+                            }
+                    )) ?? []
+                ),
+                name,
+            );
+        },
+        [hasOutdatedTimeframe, leadTimeframeUnit, name, onChange],
     );
 
     const [
@@ -180,6 +218,7 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
                         readOnly={readOnly}
                         withActivationSelection={withActivationSelection}
                         withoutTimeframeSelection={withoutTimeframeSelection}
+                        leadTimeframeUnit={leadTimeframeUnit}
                     />
                 ))}
             </ListView>

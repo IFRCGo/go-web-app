@@ -21,10 +21,11 @@ import {
 } from '@togglecorp/toggle-form';
 
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
-import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import MultiFileObjectInput from '#components/domain/MultiFileObjectInput';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
+import { EAP_ACCEPTED_FILE_FORMATS } from '#utils/constants';
 
 import { wordLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
@@ -207,19 +208,21 @@ function EapActivationProcess(props: Props) {
                             readOnly={readOnly}
                             maxWords={wordLimits.early_action_implementation_process}
                         />
-                        <MultiImageWithCaptionInput
+                        <MultiFileObjectInput
                             name="early_action_implementation_files"
                             url="/api/v2/eap-file/multiple/"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             value={value?.early_action_implementation_files}
                             onChange={setFieldValue}
                             error={getErrorObject(error?.early_action_implementation_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.activationSelectFilesLabel}
                             description={strings.activationFilesCountLabel}
                             disabled={disabled}
                             readOnly={readOnly}
-                        />
+                        >
+                            {strings.activationSelectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         withAsteriskOnTitle
@@ -279,19 +282,21 @@ function EapActivationProcess(props: Props) {
                             readOnly={readOnly}
                             maxWords={wordLimits.trigger_activation_system}
                         />
-                        <MultiImageWithCaptionInput
+                        <MultiFileObjectInput
                             name="trigger_activation_system_files"
                             url="/api/v2/eap-file/multiple/"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             value={value?.trigger_activation_system_files}
                             onChange={setFieldValue}
                             error={getErrorObject(error?.trigger_activation_system_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.activationSelectFilesLabel}
                             description={strings.activationFilesCountLabel}
                             disabled={disabled}
                             readOnly={readOnly}
-                        />
+                        >
+                            {strings.activationSelectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.activationPeopleTargetedTitle}
@@ -425,7 +430,7 @@ function EapActivationProcess(props: Props) {
                     >
                         <GoMultiFileInput
                             name="activation_process_relevant_files"
-                            accept=".pdf, .docx, .pptx, image/*"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFieldValue}
                             url="/api/v2/eap-file/multiple/"

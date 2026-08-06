@@ -223,6 +223,7 @@ function PlannedOperations(props: Props) {
                             sectorApCodeOption={sectorApCodeOption}
                             disabled={disabled}
                             readOnly={readOnly}
+                            leadTimeframeUnit={value?.seap_lead_timeframe_unit}
                         />
                     ))}
                 </ListView>

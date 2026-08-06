@@ -1,7 +1,7 @@
 {
     "namespace": "eapFullForm",
     "strings": {
-        "mealHeading": "Monitoring, Evaluation, Accountability Learning (Meal)",
+        "mealHeading": "Monitoring, Evaluation, Accountability Learning (MEAL)",
         "mealTitle": "MEAL",
         "mealDescription1": "Following the guidance of the Anticipatory Action Manual, describe the M&E plan for this EAP. Including:",
         "mealDescription11": "EAP Monitoring (between the trigger moment and the implementation of the actions)",
@@ -17,7 +17,7 @@
         "mealAttachRelevantFilesTitle": "Attach relevant files",
         "mealAttachRelevantFilesDescription": "Attach any additional maps, documentation, files, images, etc.",
         "mealAttachRelevantFilesUploadLabel": "Upload",
-        "mealSectionHeading": "Quality Criteria: Meal",
+        "mealSectionHeading": "Quality Criteria: MEAL",
         "mealCriteriaIntroduction1": "The EAP includes an M&E plan to",
         "mealCriteriaIntroduction11": "assess the impact of the early actions and the extreme event after each activation and",
         "mealCriteriaIntroduction12": "identify if all activities were carried out as planned and document how early actions were implemented",

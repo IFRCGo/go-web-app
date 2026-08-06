@@ -23,10 +23,11 @@ import {
 } from '@togglecorp/toggle-form';
 
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
-import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import MultiFileObjectInput from '#components/domain/MultiFileObjectInput';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
+import { EAP_ACCEPTED_FILE_FORMATS } from '#utils/constants';
 
 import { wordLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
@@ -271,19 +272,21 @@ function RiskAnalysis(props: Props) {
                             readOnly={readOnly}
                             maxWords={wordLimits.hazard_selection}
                         />
-                        <MultiImageWithCaptionInput
+                        <MultiFileObjectInput
                             name="hazard_selection_files"
                             url="/api/v2/eap-file/multiple/"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             value={value?.hazard_selection_files}
                             onChange={setFieldValue}
                             error={getErrorObject(error?.hazard_selection_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.attachFilesSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
                             description={strings.riskAnalysisFileCountLabel}
-                        />
+                        >
+                            {strings.attachFilesSelectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.exposeElementTitle}
@@ -347,19 +350,23 @@ function RiskAnalysis(props: Props) {
                             readOnly={readOnly}
                             maxWords={wordLimits.exposed_element_and_vulnerability_factor}
                         />
-                        <MultiImageWithCaptionInput
+                        <MultiFileObjectInput
                             name="exposed_element_and_vulnerability_factor_files"
                             url="/api/v2/eap-file/multiple/"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             value={value?.exposed_element_and_vulnerability_factor_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.hazard_selection_files)}
+                            error={getErrorObject(
+                                error?.exposed_element_and_vulnerability_factor_files,
+                            )}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.attachFilesSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
                             description={strings.riskAnalysisFileCountLabel}
-                        />
+                        >
+                            {strings.attachFilesSelectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.prioritisedImpactTitle}
@@ -431,19 +438,21 @@ function RiskAnalysis(props: Props) {
                             readOnly={readOnly}
                             maxWords={wordLimits.prioritized_impact}
                         />
-                        <MultiImageWithCaptionInput
+                        <MultiFileObjectInput
                             name="prioritized_impact_files"
                             url="/api/v2/eap-file/multiple/"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             value={value?.prioritized_impact_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.hazard_selection_files)}
+                            error={getErrorObject(error?.prioritized_impact_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.attachFilesSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
                             description={strings.riskAnalysisFileCountLabel}
-                        />
+                        >
+                            {strings.attachFilesSelectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.attachFilesTitle}
@@ -451,7 +460,7 @@ function RiskAnalysis(props: Props) {
                     >
                         <GoMultiFileInput
                             name="risk_analysis_relevant_files"
-                            accept=".pdf, .docx, .pptx, image/*"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFieldValue}
                             url="/api/v2/eap-file/multiple/"

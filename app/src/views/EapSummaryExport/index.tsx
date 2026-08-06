@@ -41,7 +41,7 @@ export function Component() {
 
     const version = searchParams.get('version') ?? undefined;
 
-    const { eap_sector, eap_approach } = useGlobalEnums();
+    const { eap_sector, eap_approach, eap_timeframe } = useGlobalEnums();
 
     const { pending: eapRegistrationPending, response: eapRegistrationResponse } = useRequest({
         skip: isFalsyString(eapId),
@@ -90,6 +90,7 @@ export function Component() {
 
         admin2_details,
         lead_time,
+        lead_timeframe_unit,
         planned_operations,
         enabling_approaches,
 
@@ -115,6 +116,21 @@ export function Component() {
         ({ key }) => key,
         ({ value }) => value,
     );
+
+    const eapTimeframeTitleMap = listToMap(
+        eap_timeframe,
+        ({ key }) => key,
+        ({ value }) => value,
+    );
+
+    const leadTimeWithUnit = [
+        lead_time,
+        isDefined(lead_timeframe_unit)
+            ? eapTimeframeTitleMap?.[lead_timeframe_unit]
+            : undefined,
+    ]
+        .filter(isTruthyString)
+        .join(' ');
 
     return (
         <PrintablePage
@@ -147,8 +163,8 @@ export function Component() {
                         />
                         <PrintableDataDisplay
                             label={strings.eapLeadTimeLabel}
-                            value={lead_time}
-                            valueType="number"
+                            value={leadTimeWithUnit}
+                            valueType="text"
                             strongValue
                             variant="block"
                             withPadding

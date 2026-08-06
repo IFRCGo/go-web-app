@@ -15,10 +15,11 @@ import {
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
-import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import MultiFileObjectInput from '#components/domain/MultiFileObjectInput';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
+import { EAP_ACCEPTED_FILE_FORMATS } from '#utils/constants';
 
 import { wordLimits } from '../common';
 import GuidanceSeap from '../GuidanceSeap';
@@ -210,9 +211,10 @@ function RiskAnalysis(props: Props) {
                             readOnly={readOnly}
                             maxWords={wordLimits.prioritized_hazard_and_impact}
                         />
-                        <MultiImageWithCaptionInput
+                        <MultiFileObjectInput
                             name="hazard_impact_files"
                             url="/api/v2/eap-file/multiple/"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             value={value?.hazard_impact_files}
                             onChange={setFieldValue}
                             error={getErrorObject(error?.hazard_impact_files)}
@@ -220,8 +222,10 @@ function RiskAnalysis(props: Props) {
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.uploadImageLabel}
-                        />
+                            description={strings.uploadFileLabel}
+                        >
+                            {strings.selectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.riskProtocol}
@@ -238,9 +242,10 @@ function RiskAnalysis(props: Props) {
                             readOnly={readOnly}
                             maxWords={wordLimits.risks_selected_protocols}
                         />
-                        <MultiImageWithCaptionInput
+                        <MultiFileObjectInput
                             name="risk_selected_protocols_files"
                             url="/api/v2/eap-file/multiple/"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             value={value?.risk_selected_protocols_files}
                             onChange={setFieldValue}
                             error={getErrorObject(error?.risk_selected_protocols_files)}
@@ -248,8 +253,10 @@ function RiskAnalysis(props: Props) {
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.uploadImageLabel}
-                        />
+                            description={strings.uploadFileLabel}
+                        >
+                            {strings.selectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                 </ListView>
             </Container>
@@ -329,9 +336,10 @@ function RiskAnalysis(props: Props) {
                             readOnly={readOnly}
                             maxWords={wordLimits.selected_early_actions}
                         />
-                        <MultiImageWithCaptionInput
+                        <MultiFileObjectInput
                             name="selected_early_actions_files"
                             url="/api/v2/eap-file/multiple/"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             value={value?.selected_early_actions_files}
                             onChange={setFieldValue}
                             error={getErrorObject(error?.selected_early_actions_files)}
@@ -339,8 +347,10 @@ function RiskAnalysis(props: Props) {
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.uploadImageLabel}
-                        />
+                            description={strings.uploadFileLabel}
+                        >
+                            {strings.selectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                 </ListView>
             </Container>

@@ -22,6 +22,7 @@ import Link from '#components/printable/Link';
 import PrintableContainer from '#components/printable/PrintableContainer';
 import PrintableDataDisplay from '#components/printable/PrintableDataDisplay';
 import PrintableDescription from '#components/printable/PrintableDescription';
+import PrintableFileOutput from '#components/printable/PrintableFileOutput';
 import PrintableLabel from '#components/printable/PrintableLabel';
 import PrintablePage from '#components/printable/PrintablePage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
@@ -100,7 +101,7 @@ export function Component() {
         url: '/api/v2/eap/options/',
     });
 
-    const { eap_sector, eap_approach } = useGlobalEnums();
+    const { eap_sector, eap_approach, eap_timeframe } = useGlobalEnums();
 
     const eapSectorTitleMap = listToMap(
         eap_sector,
@@ -110,6 +111,12 @@ export function Component() {
 
     const eapApproachTitleMap = listToMap(
         eap_approach,
+        ({ key }) => key,
+        ({ value }) => value,
+    );
+
+    const eapTimeframeTitleMap = listToMap(
+        eap_timeframe,
         ({ key }) => key,
         ({ value }) => value,
     );
@@ -146,6 +153,7 @@ export function Component() {
         trigger_statement,
         trigger_statement_source_of_information,
         lead_time,
+        lead_timeframe_unit,
         forecast_selection,
         forecast_selection_files,
         forecast_table_file_details,
@@ -219,6 +227,7 @@ export function Component() {
         trigger_statement_source_of_information:
         prev_trigger_statement_source_of_information,
         lead_time: prev_lead_time,
+        lead_timeframe_unit: prev_lead_timeframe_unit,
         forecast_selection: prev_forecast_selection,
         definition_and_justification_impact_level:
         prev_definition_and_justification_impact_level,
@@ -342,6 +351,22 @@ export function Component() {
         () => listToMap(prev_early_actions ?? [], (action) => action.id!),
         [prev_early_actions],
     );
+
+    const leadTimeUnitLabel = lead_timeframe_unit
+        ? eapTimeframeTitleMap?.[lead_timeframe_unit]
+        : undefined;
+
+    const leadTimeWithUnit = lead_time && leadTimeUnitLabel
+        ? `${lead_time} ${leadTimeUnitLabel}`
+        : lead_time;
+
+    const prevLeadTimeUnitLabel = prev_lead_timeframe_unit
+        ? eapTimeframeTitleMap?.[prev_lead_timeframe_unit]
+        : undefined;
+
+    const prevLeadTimeWithUnit = prev_lead_time && prevLeadTimeUnitLabel
+        ? `${prev_lead_time} ${prevLeadTimeUnitLabel}`
+        : prev_lead_time;
 
     const previewReady = !eapRegistrationPending && !fullEapPending && !prevFullEapPending;
 
@@ -767,9 +792,9 @@ export function Component() {
                     />
                 </PrintableContainer>
                 <PrintableContainer headingLevel={3}>
-                    {hazard_selection_files?.map((hazard) => (
-                        <Image key={hazard.id} src={hazard.file} caption={hazard.caption} />
-                    ))}
+                    <PrintableFileOutput
+                        files={hazard_selection_files}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.exposedElementsLabel}
@@ -782,15 +807,9 @@ export function Component() {
                     />
                 </PrintableContainer>
                 <PrintableContainer headingLevel={3}>
-                    <div className={styles.imageItems}>
-                        {exposed_element_and_vulnerability_factor_files?.map((element) => (
-                            <Image
-                                key={element.id}
-                                src={element.file}
-                                caption={element.caption}
-                            />
-                        ))}
-                    </div>
+                    <PrintableFileOutput
+                        files={exposed_element_and_vulnerability_factor_files}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.prioritizedImpactHeading}
@@ -827,15 +846,9 @@ export function Component() {
                     />
                 </PrintableContainer>
                 <PrintableContainer>
-                    <div className={styles.imageItems}>
-                        {prioritized_impact_files?.map((element) => (
-                            <Image
-                                key={element.id}
-                                src={element.file}
-                                caption={element.caption}
-                            />
-                        ))}
-                    </div>
+                    <PrintableFileOutput
+                        files={prioritized_impact_files}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.sourceInformationLabel}
@@ -910,9 +923,9 @@ export function Component() {
                     <ListView layout="grid">
                         <PrintableDataDisplay
                             label={strings.leadTimeLabel}
-                            value={lead_time}
-                            prevValue={prev_lead_time}
-                            valueType="number"
+                            value={leadTimeWithUnit}
+                            prevValue={prevLeadTimeWithUnit}
+                            valueType="text"
                             variant="block"
                             withBackground
                             withPadding
@@ -975,15 +988,9 @@ export function Component() {
                     />
                 </PrintableContainer>
                 <PrintableContainer>
-                    <div className={styles.imageItems}>
-                        {forecast_selection_files?.map((element) => (
-                            <Image
-                                key={element.id}
-                                src={element.file}
-                                caption={element.caption}
-                            />
-                        ))}
-                    </div>
+                    <PrintableFileOutput
+                        files={forecast_selection_files}
+                    />
                 </PrintableContainer>
                 <PrintableContainer>
                     <Link href={forecast_table_file_details?.file}>
@@ -1001,17 +1008,9 @@ export function Component() {
                     />
                 </PrintableContainer>
                 <PrintableContainer>
-                    <div className={styles.imageItems}>
-                        {definition_and_justification_impact_level_files?.map(
-                            (element) => (
-                                <Image
-                                    key={element.id}
-                                    src={element.file}
-                                    caption={element.caption}
-                                />
-                            ),
-                        )}
-                    </div>
+                    <PrintableFileOutput
+                        files={definition_and_justification_impact_level_files}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.identificationInterventionLabel}
@@ -1024,15 +1023,9 @@ export function Component() {
                     />
                 </PrintableContainer>
                 <PrintableContainer>
-                    <div className={styles.imageItems}>
-                        {identification_of_the_intervention_area_files?.map((element) => (
-                            <Image
-                                key={element.id}
-                                src={element.file}
-                                caption={element.caption}
-                            />
-                        ))}
-                    </div>
+                    <PrintableFileOutput
+                        files={identification_of_the_intervention_area_files}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.sourceInformationLabel}
@@ -1127,11 +1120,9 @@ export function Component() {
                     />
                 </PrintableContainer>
                 <PrintableContainer>
-                    <div className={styles.imageItems}>
-                        {early_action_selection_process_files?.map((element) => (
-                            <Image src={element.file} caption={element.caption} />
-                        ))}
-                    </div>
+                    <PrintableFileOutput
+                        files={early_action_selection_process_files}
+                    />
                 </PrintableContainer>
                 <PrintableContainer>
                     <Link href={theory_of_change_table_file_details?.file}>
@@ -1601,11 +1592,9 @@ export function Component() {
                     />
                 </PrintableContainer>
                 <PrintableContainer>
-                    <div className={styles.imageItems}>
-                        {early_action_implementation_files?.map((element) => (
-                            <Image src={element.file} caption={element.caption} />
-                        ))}
-                    </div>
+                    <PrintableFileOutput
+                        files={early_action_implementation_files}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.triggerActivationLabel}
@@ -1626,11 +1615,9 @@ export function Component() {
                     />
                 </PrintableContainer>
                 <PrintableContainer headingLevel={3}>
-                    <div className={styles.imageItems}>
-                        {trigger_activation_system_files?.map((element) => (
-                            <Image src={element.file} caption={element.caption} />
-                        ))}
-                    </div>
+                    <PrintableFileOutput
+                        files={trigger_activation_system_files}
+                    />
                 </PrintableContainer>
                 <PrintableContainer headingLevel={3}>
                     <ListView layout="grid">

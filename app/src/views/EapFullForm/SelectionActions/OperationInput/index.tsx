@@ -17,6 +17,7 @@ import {
 
 import EapIndicatorListInput from '#components/domain/EapIndicatorListInput';
 import EapOperationActivityListInput from '#components/domain/EapOperationActivityListInput';
+import { type TimeFrameEnumKey } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import { type PartialEapFullFormType } from '../../schema';
@@ -46,6 +47,7 @@ interface Props {
     operationTitle?: React.ReactNode;
     readOnly?: boolean;
     sectorApCodeOption?: EapSectorApCodeOption;
+    leadTimeframeUnit?: TimeFrameEnumKey;
 }
 
 function OperationsInput(props: Props) {
@@ -59,6 +61,7 @@ function OperationsInput(props: Props) {
         operationTitle,
         readOnly,
         sectorApCodeOption,
+        leadTimeframeUnit,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -157,6 +160,7 @@ function OperationsInput(props: Props) {
                         readOnly={readOnly}
                         error={getErrorObject(error)?.early_action_activities}
                         withActivationSelection
+                        leadTimeframeUnit={leadTimeframeUnit}
                     />
                 </ListView>
             </ListView>

@@ -32,7 +32,7 @@ import {
 import ConfirmationModal from '#components/domain/ConfirmationModal';
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
-import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import MultiFileObjectInput from '#components/domain/MultiFileObjectInput';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
@@ -40,6 +40,7 @@ import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
 import useChecklistFormArray from '#hooks/domain/useChecklistFormArray';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { EAP_ACCEPTED_FILE_FORMATS } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 
 import { wordLimits } from '../common';
@@ -435,19 +436,21 @@ function SelectionActions(props: Props) {
                             readOnly={readOnly}
                             maxWords={wordLimits.early_action_selection_process}
                         />
-                        <MultiImageWithCaptionInput
+                        <MultiFileObjectInput
                             name="early_action_selection_process_files"
                             url="/api/v2/eap-file/multiple/"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             value={value?.early_action_selection_process_files}
                             onChange={setFieldValue}
                             error={getErrorObject(error?.early_action_selection_process_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.selectionActionSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
                             description={strings.selectionActionFilesCountLabel}
-                        />
+                        >
+                            {strings.selectionActionSelectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.theoryOfChangeTableTitle}
@@ -523,7 +526,7 @@ function SelectionActions(props: Props) {
                     >
                         <GoMultiFileInput
                             name="evidence_base_relevant_files"
-                            accept=".pdf, .docx, .pptx, image/*"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFieldValue}
                             url="/api/v2/eap-file/multiple/"
@@ -607,6 +610,7 @@ function SelectionActions(props: Props) {
                             disabled={disabled}
                             readOnly={readOnly}
                             sectorApCodeOption={apCodeOptions?.sector_ap_codes}
+                            leadTimeframeUnit={value?.lead_timeframe_unit}
                         />
                     ))}
                     <InputSection

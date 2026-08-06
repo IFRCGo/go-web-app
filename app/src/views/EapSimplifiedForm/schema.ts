@@ -333,7 +333,7 @@ export const formSchema: FormSchema = {
             partners: {
                 required: isSubmit,
             },
-            include_rcrc_climate_center: {},
+            include_rcrc_climate_center: { defaultValue: false },
             partner_contacts: {
                 keySelector: (item) => item.client_id,
                 member: () => ({

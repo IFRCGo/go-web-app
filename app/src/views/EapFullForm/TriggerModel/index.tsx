@@ -7,9 +7,9 @@ import {
     InputSection,
     Label,
     ListView,
-    NumberInput,
     SelectInput,
     TextArea,
+    TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
@@ -28,13 +28,14 @@ import {
 import Admin2Input from '#components/domain/Admin2Input';
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
-import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import MultiFileObjectInput from '#components/domain/MultiFileObjectInput';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { EAP_ACCEPTED_FILE_FORMATS } from '#utils/constants';
 import {
     type GoApiResponse,
     useRequest,
@@ -285,7 +286,7 @@ function TriggerModel(props: Props) {
                         withAsteriskOnTitle
                         numPreferredColumns={2}
                     >
-                        <NumberInput
+                        <TextInput
                             required
                             name="lead_time"
                             value={value?.lead_time}
@@ -385,19 +386,21 @@ function TriggerModel(props: Props) {
                             readOnly={readOnly}
                             maxWords={wordLimits.forecast_selection}
                         />
-                        <MultiImageWithCaptionInput
+                        <MultiFileObjectInput
                             name="forecast_selection_files"
                             url="/api/v2/eap-file/multiple/"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             value={value?.forecast_selection_files}
                             onChange={setFieldValue}
                             error={getErrorObject(error?.forecast_selection_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.triggerSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
                             description={strings.triggerModelFileCountLabel}
-                        />
+                        >
+                            {strings.triggerSelectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.forecastTableDetails}
@@ -486,21 +489,23 @@ function TriggerModel(props: Props) {
                             readOnly={readOnly}
                             maxWords={wordLimits.definition_and_justification_impact_level}
                         />
-                        <MultiImageWithCaptionInput
+                        <MultiFileObjectInput
                             name="definition_and_justification_impact_level_files"
                             url="/api/v2/eap-file/multiple/"
                             value={value?.definition_and_justification_impact_level_files}
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             onChange={setFieldValue}
                             error={getErrorObject(
                                 error?.definition_and_justification_impact_level_files,
                             )}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.triggerSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
                             description={strings.triggerModelFileCountLabel}
-                        />
+                        >
+                            {strings.triggerSelectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.identificationInterventionTitle}
@@ -560,21 +565,23 @@ function TriggerModel(props: Props) {
                             readOnly={readOnly}
                             maxWords={wordLimits.identification_of_the_intervention_area}
                         />
-                        <MultiImageWithCaptionInput
+                        <MultiFileObjectInput
                             name="identification_of_the_intervention_area_files"
                             url="/api/v2/eap-file/multiple/"
                             value={value?.identification_of_the_intervention_area_files}
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             onChange={setFieldValue}
                             error={getErrorObject(
                                 error?.identification_of_the_intervention_area_files,
                             )}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.triggerSelectFilesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
                             description={strings.triggerModelFileCountLabel}
-                        />
+                        >
+                            {strings.triggerSelectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.selectRegionTitle}
@@ -598,7 +605,7 @@ function TriggerModel(props: Props) {
                     >
                         <GoMultiFileInput
                             name="trigger_model_relevant_files"
-                            accept=".pdf, .docx, .pptx, image/*"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFieldValue}
                             url="/api/v2/eap-file/multiple/"

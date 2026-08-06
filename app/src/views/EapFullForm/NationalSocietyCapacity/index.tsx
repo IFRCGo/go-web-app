@@ -23,6 +23,7 @@ import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
+import { EAP_ACCEPTED_FILE_FORMATS } from '#utils/constants';
 
 import { wordLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
@@ -213,7 +214,7 @@ function NationalSocietyCapacity(props: Props) {
                     >
                         <GoMultiFileInput
                             name="capacity_relevant_files"
-                            accept=".pdf, .docx, .pptx, image/*"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFieldValue}
                             url="/api/v2/eap-file/multiple/"

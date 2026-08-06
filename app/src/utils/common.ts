@@ -75,6 +75,29 @@ export function joinStrings(
     return values.filter(Boolean).join(separator);
 }
 
+const imageFileExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg', 'avif'];
+
+// NOTE: not using `new URL` here as it throws for the relative urls
+export function getFileNameFromUrl(urlString: string | undefined | null) {
+    if (isNotDefined(urlString)) {
+        return undefined;
+    }
+
+    const [pathname] = urlString.split(/[?#]/);
+    return pathname?.split('/').pop();
+}
+
+export function isImageFile(urlString: string | undefined | null) {
+    const fileName = getFileNameFromUrl(urlString);
+
+    if (isNotDefined(fileName)) {
+        return false;
+    }
+
+    const extension = fileName.split('.').pop()?.toLowerCase();
+    return isTruthyString(extension) && imageFileExtensions.includes(extension);
+}
+
 export function formatSourceLink(value: string | undefined): string | undefined {
     if (
         isNotDefined(value)

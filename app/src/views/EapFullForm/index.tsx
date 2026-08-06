@@ -112,7 +112,9 @@ function getNextStep(current: TabKeys, direction: 1 | -1) {
     return tabKeyList[currentIndex + direction];
 }
 
-const defaultFormValue: PartialEapFullFormType = {};
+const defaultFormValue: PartialEapFullFormType = {
+    include_rcrc_climate_center: false,
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -207,6 +209,7 @@ export function Component() {
                 forecast_table_file_details,
                 updated_checklist_file_details,
                 theory_of_change_table_file_details,
+                risk_analysis_relevant_files_details,
             } = response;
             return {
                 ...prevMap,
@@ -222,6 +225,7 @@ export function Component() {
                         ...(definition_and_justification_impact_level_files ?? []),
                         ...(prioritized_impact_files ?? []),
                         ...(early_action_implementation_files ?? []),
+                        ...(risk_analysis_relevant_files_details ?? []),
                         budget_file_details,
                         forecast_table_file_details,
                         updated_checklist_file_details,

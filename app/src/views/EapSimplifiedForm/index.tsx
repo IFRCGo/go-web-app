@@ -113,7 +113,9 @@ function getNextStep(current: TabKeys, direction: 1 | -1) {
     return tabKeyList[currentIndex + direction];
 }
 
-const defaultFormValue: PartialSimplifiedEapType = {};
+const defaultFormValue: PartialSimplifiedEapType = {
+    include_rcrc_climate_center: false,
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
