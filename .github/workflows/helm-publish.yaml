@@ -1,0 +1,28 @@
+name: Publish web app serve
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+      - project/*
+      # TODO: This was added to test the integration, it can be removed after this is merged to repo's default branch
+      - feat/web-app-serve
+
+permissions:
+  contents: read       # checkout — a permissions block zeroes unlisted scopes
+  packages: write      # push image + chart to GHCR
+  pull-requests: read  # helm provenance writer resolves the PR from the commit
+
+jobs:
+  publish_image:
+    name: Publish Docker Image + Helm Chart
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publish web-app-serve
+        uses: toggle-corp/web-app-serve-action@v0.2.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          helm_publish: true

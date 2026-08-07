@@ -1,0 +1,10 @@
+apiVersion: v2
+name: go-web-app-helm
+description: "Wrapper Helm chart for go-web-app, depends on web-app-serve-helm"
+type: application
+version: 0.0.1-SET-BY-CICD          # own semver prefix; CI rewrites only SET-BY-CICD
+dependencies:
+  - name: web-app-serve-helm
+    version: 0.2.1
+    repository: oci://ghcr.io/toggle-corp
+    alias: app

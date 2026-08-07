@@ -69,7 +69,7 @@
         "@eslint/eslintrc": "^3.3.5",
         "@eslint/js": "^9.39.4",
         "@eslint/json": "^1.0.0",
-        "@julr/vite-plugin-validate-env": "^2.0.0",
+        "@togglecorp/vite-plugin-validate-env": "^2.2.1",
         "@types/file-saver": "^2.0.7",
         "@types/mapbox-gl": "^1.13.10",
         "@types/node": "^20.19.37",

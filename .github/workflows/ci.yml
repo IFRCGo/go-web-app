@@ -290,19 +290,3 @@ jobs:
 
       - name: Build
         run: pnpm build
-
-  validate_helm:
-    name: Validate Helm
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@main
-
-      - name: Install Helm
-        uses: azure/setup-helm@v4
-
-      - name: Helm lint
-        run: helm lint ./nginx-serve/helm --values ./nginx-serve/helm/values-test.yaml
-
-      - name: Helm template
-        run: helm template ./nginx-serve/helm --values ./nginx-serve/helm/values-test.yaml

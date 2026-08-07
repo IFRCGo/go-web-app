@@ -20,7 +20,7 @@ Admin staging is at `goadmin-stage.ifrc.org`. Ensure it is in sync before reques
 
 ### 1. Deploy the project branch to the alpha instance
 
-Once a meaningful set of features is merged to the project branch, trigger a deployment to the alpha environment. The CI/CD pipeline (`/.github/workflows/`) handles this on push to the project branch. Verify the Docker image is built and deployed via the `ifrcgo-web-app-nginx-serve-alpha` container.
+Once a meaningful set of features is merged to the project branch, trigger a deployment to the alpha environment. The CI/CD pipeline (`/.github/workflows/`) handles this on push to the project branch. Verify the web-app-serve Docker image and Helm chart are built and published (see the `Publish web app serve` workflow) for the deployment.
 
 The alpha instance runs the **project branch** directly. It is a pre-QA environment and may be unstable.
 
