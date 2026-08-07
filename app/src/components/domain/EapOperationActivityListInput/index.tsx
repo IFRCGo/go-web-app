@@ -152,7 +152,6 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
                 strings.earlyActionTitle,
                 strings.earlyActionTitleDescription,
                 strings.earlyActionDescription,
-
             ];
         }
 

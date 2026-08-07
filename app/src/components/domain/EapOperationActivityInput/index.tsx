@@ -209,8 +209,8 @@ function EapOperationActivityInput(props: Props) {
                             )}
                         />
                     )}
-                    <ListView layout="grid">
-                        {!withoutTimeframeSelection && (
+                    {!withoutTimeframeSelection && (
+                        <ListView layout="grid">
                             <SelectInput
                                 label={strings.operationTimeFrameLabel}
                                 name="timeframe"
@@ -226,25 +226,25 @@ function EapOperationActivityInput(props: Props) {
                                     ? strings.operationTimeFrameLeadTimeHint
                                     : undefined}
                             />
-                        )}
-                        {!withoutTimeframeSelection && value?.timeframe && (
-                            <Checklist
-                                label={strings.operationTimeValueLabel}
-                                name="time_value"
-                                value={value?.time_value}
-                                spacing="xs"
-                                onChange={onFieldChange}
-                                keySelector={timeValueKeySelector}
-                                labelSelector={stringValueSelector}
-                                options={timeValueOptions}
-                                disabled={disabled}
-                                renderer={TimeSpanCheck}
-                                withoutOpticalSpacingCorrection
-                                error={getErrorString(error?.time_value)}
-                                readOnly={readOnly}
-                            />
-                        )}
-                    </ListView>
+                            {value?.timeframe && (
+                                <Checklist
+                                    label={strings.operationTimeValueLabel}
+                                    name="time_value"
+                                    value={value?.time_value}
+                                    spacing="xs"
+                                    onChange={onFieldChange}
+                                    keySelector={timeValueKeySelector}
+                                    labelSelector={stringValueSelector}
+                                    options={timeValueOptions}
+                                    disabled={disabled}
+                                    renderer={TimeSpanCheck}
+                                    withoutOpticalSpacingCorrection
+                                    error={getErrorString(error?.time_value)}
+                                    readOnly={readOnly}
+                                />
+                            ) }
+                        </ListView>
+                    )}
                 </ListView>
             </ListView>
         </InlineLayout>

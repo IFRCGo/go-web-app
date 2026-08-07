@@ -153,7 +153,7 @@ export function Component() {
                     <ListView layout="grid" spacing="2xs" numPreferredGridColumns={3}>
                         <PrintableDataDisplay
                             label={strings.eapNoLabel}
-                            value={1234}
+                            value={null}
                             valueType="number"
                             strongValue
                             variant="block"
@@ -187,7 +187,7 @@ export function Component() {
                         <PrintableDataDisplay
                             label={strings.eapApprovedLabel}
                             value={approved_at}
-                            valueType="text"
+                            valueType="date"
                             strongValue
                             variant="block"
                             withPadding
