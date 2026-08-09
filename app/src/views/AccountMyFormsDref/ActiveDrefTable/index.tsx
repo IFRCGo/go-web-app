@@ -320,6 +320,8 @@ function ActiveDrefTable(props: Props) {
                             drefType,
                             status: item.status,
                             applicationType,
+                            // NOTE: Sub-rows only, never final reports
+                            isDrefImminentV2: false,
                             canAddOpsUpdate: false,
                             canCreateFinalReport: false,
                             hasPermissionToApprove: false,
@@ -362,7 +364,7 @@ function ActiveDrefTable(props: Props) {
                         drefId: originalDref.id,
                         drefType,
                         status: item.status,
-                        isDrefImminentV2: is_dref_imminent_v2,
+                        isDrefImminentV2: is_dref_imminent_v2 ?? false,
                         applicationType,
                         canAddOpsUpdate,
                         canCreateFinalReport,

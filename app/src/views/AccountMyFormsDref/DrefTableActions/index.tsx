@@ -79,7 +79,7 @@ export interface Props {
     canAddOpsUpdate: boolean;
     canCreateFinalReport: boolean;
     hasPermissionToApprove?: boolean;
-    isDrefImminentV2?: boolean;
+    isDrefImminentV2: boolean;
     startingLanguage?: Language;
 
     onPublishSuccess?: () => void;
@@ -721,9 +721,11 @@ function DrefTableActions(props: Props) {
                 <DrefExportModal
                     onCancel={setShowExportModalFalse}
                     id={id}
-                    applicationType={applicationType}
                     drefType={drefType}
-                    isDrefImminentV2={isDrefImminentV2}
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...(applicationType === 'FINAL_REPORT'
+                        ? { applicationType, isDrefImminentV2 }
+                        : { applicationType })}
                 />
             )}
             {showShareModal && (

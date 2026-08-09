@@ -138,10 +138,12 @@ function CompletedDrefTable(props: Props) {
                     id,
                     drefId: item.dref.id,
                     status: item.status,
-                    drefType: item.drefType,
+                    // NOTE: drefType is only set on the expanded sub-rows
+                    drefType: item.drefType ?? item.dref.type_of_dref,
                     // FIXME: fix typing in server (medium priority)
                     // the application_type should be an enum
                     applicationType: item.application_type as 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT',
+                    isDrefImminentV2: item.dref.is_dref_imminent_v2 ?? false,
                     canAddOpsUpdate: false,
                     canCreateFinalReport: false,
                 }),
