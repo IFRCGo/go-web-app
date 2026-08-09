@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.26.5
+
+### Patch Changes
+
+- Fix DREF Imminent Final Report exporting with the old (v1) layout when exported from the Completed DREF table
+
 ## 7.26.4
 
 ### Patch Changes
