@@ -35,6 +35,8 @@ import {
     SHEET_EVENT_DETAIL,
     SHEET_OPERATION,
     SHEET_OPERATION_OVERVIEW,
+    SHEET_PLAN,
+    SHEET_SCENARIO_ANALYSIS,
     SHEET_TIMEFRAMES_AND_CONTACTS,
 } from '#utils/domain/dref';
 import {
@@ -537,7 +539,10 @@ async function generateOtherWorksheets(
     optionsWorksheet: Worksheet,
     workbook: Workbook,
     validationStrings: ValidationStrings,
+    typeOfDref: TypeOfDrefEnum,
 ) {
+    const isImminent = typeOfDref === DREF_TYPE_IMMINENT;
+
     const fieldNameToTabNameMap: Record<string, string> = {
         ...listToMap(
             overviewTabFields,
@@ -547,7 +552,7 @@ async function generateOtherWorksheets(
         ...listToMap(
             eventDetailTabFields,
             (key) => key as string,
-            () => SHEET_EVENT_DETAIL,
+            () => (isImminent ? SHEET_SCENARIO_ANALYSIS : SHEET_EVENT_DETAIL),
         ),
         ...listToMap(
             actionsTabFields,
@@ -557,7 +562,7 @@ async function generateOtherWorksheets(
         ...listToMap(
             operationTabFields,
             (key) => key as string,
-            () => SHEET_OPERATION,
+            () => (isImminent ? SHEET_PLAN : SHEET_OPERATION),
         ),
         ...listToMap(
             timeframeAndContactsTabFields,
@@ -664,6 +669,11 @@ async function generateOtherWorksheets(
                         templateAction.dataValidation,
                     );
                 }
+
+                if (isDefined(templateAction.defaultValue)) {
+                    // eslint-disable-next-line no-param-reassign
+                    worksheet.getCell(row, 2).value = templateAction.defaultValue;
+                }
             }
         });
     });
@@ -751,6 +761,7 @@ export async function generateTemplate(
             listError: templateStrings.validationListError,
             errorTitle: templateStrings.validationErrorTitle,
         },
+        typeOfDref,
     );
 
     Object.values(sheetMap).forEach(

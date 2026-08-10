@@ -13,6 +13,10 @@ import {
     type TypeOfDrefEnum,
 } from '#utils/constants';
 import { type TemplateSchema } from '#utils/importTemplate';
+import {
+    ONSET_SUDDEN,
+    OPERATION_TIMEFRAME_IMMINENT,
+} from '#views/DrefApplicationForm/common';
 import { type DrefRequestBody } from '#views/DrefApplicationForm/schema';
 
 import i18n from './i18n.json';
@@ -1119,6 +1123,9 @@ function useImportTemplateSchema() {
                 label: strings.immTypeOfOnsetLabel,
                 validation: 'number',
                 optionsKey: 'type_of_onset',
+                defaultValue: optionsMap.type_of_onset.find(
+                    (option) => option.key === ONSET_SUDDEN,
+                )?.label,
                 description: strings.immTypeOfOnsetDesc,
             },
 
@@ -1158,6 +1165,7 @@ function useImportTemplateSchema() {
                 type: 'input',
                 label: strings.immHazardDateAndLocationLabel,
                 validation: 'textArea',
+                description: strings.immHazardDateAndLocationDesc,
             },
 
             hazard_vulnerabilities_and_risks: {
@@ -1283,42 +1291,6 @@ function useImportTemplateSchema() {
                 description: strings.immSurgePersonnelDeployedDesc,
             },
 
-            has_anti_fraud_corruption_policy: {
-                headingBefore: strings.immPoliciesHeading,
-                type: 'select',
-                optionsKey: '__boolean',
-                validation: 'boolean',
-                label: strings.immHasAntiFraudCorruptionPolicyLabel,
-            },
-
-            has_sexual_abuse_policy: {
-                type: 'select',
-                optionsKey: '__boolean',
-                validation: 'boolean',
-                label: strings.immHasSexualAbusePolicyLabel,
-            },
-
-            has_child_protection_policy: {
-                type: 'select',
-                optionsKey: '__boolean',
-                validation: 'boolean',
-                label: strings.immHasChildProtectionPolicyLabel,
-            },
-
-            has_whistleblower_protection_policy: {
-                type: 'select',
-                optionsKey: '__boolean',
-                validation: 'boolean',
-                label: strings.immHasWhistleblowerProtectionPolicyLabel,
-            },
-
-            has_anti_sexual_harassment_policy: {
-                type: 'select',
-                optionsKey: '__boolean',
-                validation: 'boolean',
-                label: strings.immHasAntiSexualHarassmentPolicyLabel,
-            },
-
             addressed_humanitarian_impacts: {
                 type: 'input',
                 validation: 'textArea',
@@ -1340,15 +1312,11 @@ function useImportTemplateSchema() {
                 type: 'input',
                 validation: 'number',
                 label: strings.immOperationTimeframeImminentLabel,
-                description: [
-                    { text: strings.immOperationTimeframeImminentDesc1 },
-                    { text: ' ' },
-                    { text: strings.immOperationTimeframeImminentDesc2, bold: true },
-                    { text: strings.immOperationTimeframeImminentDesc3 },
-                ],
+                defaultValue: OPERATION_TIMEFRAME_IMMINENT,
+                description: strings.immOperationTimeframeImminentDesc,
             },
         },
-    }), [strings]);
+    }), [strings, optionsMap.type_of_onset]);
 
     const drefSchemaByType = useMemo<
         Partial<Record<TypeOfDrefEnum, TemplateSchema<DrefRequestBody, typeof optionsMap>>>

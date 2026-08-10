@@ -62,11 +62,13 @@ export const nsActionsOrder: Record<NsActions['title'], number> = {
     other: 18,
 };
 
-export type DrefSheetName = 'Operation Overview' | 'Event Detail' | 'Actions Needs' | 'Operation' | 'Timeframes and Contacts';
+export type DrefSheetName = 'Operation Overview' | 'Event Detail' | 'Actions Needs' | 'Operation' | 'Scenario Analysis' | 'Plan' | 'Timeframes and Contacts';
 export const SHEET_OPERATION_OVERVIEW = 'Operation Overview' satisfies DrefSheetName;
 export const SHEET_EVENT_DETAIL = 'Event Detail' satisfies DrefSheetName;
 export const SHEET_ACTIONS_NEEDS = 'Actions Needs' satisfies DrefSheetName;
 export const SHEET_OPERATION = 'Operation' satisfies DrefSheetName;
+export const SHEET_SCENARIO_ANALYSIS = 'Scenario Analysis' satisfies DrefSheetName;
+export const SHEET_PLAN = 'Plan' satisfies DrefSheetName;
 export const SHEET_TIMEFRAMES_AND_CONTACTS = 'Timeframes and Contacts' satisfies DrefSheetName;
 
 export const DREF_OPTIONS_SHEET_NAME = 'options';
@@ -81,8 +83,8 @@ export function getDrefSheetNames(typeOfDref: TypeOfDrefEnum): DrefSheetName[] {
     if (typeOfDref === DREF_TYPE_IMMINENT) {
         return [
             SHEET_OPERATION_OVERVIEW,
-            SHEET_EVENT_DETAIL,
-            SHEET_OPERATION,
+            SHEET_SCENARIO_ANALYSIS,
+            SHEET_PLAN,
             SHEET_TIMEFRAMES_AND_CONTACTS,
         ];
     }
