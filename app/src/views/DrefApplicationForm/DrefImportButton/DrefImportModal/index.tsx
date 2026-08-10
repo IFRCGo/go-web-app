@@ -198,7 +198,11 @@ function DrefImportModal(props: Props) {
                 // Require EXACTLY the type's sheet set: a count check would accept a
                 // Response file (5 sheets) as Imminent (a 4-sheet subset).
                 const expectedSheetNames = getDrefSheetNames(typeOfDref);
-                const presentSheetNames = getDrefSheetNames(DREF_TYPE_RESPONSE)
+                const knownSheetNames = Array.from(new Set([
+                    ...getDrefSheetNames(DREF_TYPE_RESPONSE),
+                    ...getDrefSheetNames(DREF_TYPE_IMMINENT),
+                ]));
+                const presentSheetNames = knownSheetNames
                     .filter((sheetName) => isDefined(workbook.getWorksheet(sheetName)));
                 const sheetsMatchType = presentSheetNames.length === expectedSheetNames.length
                     && expectedSheetNames.every(
@@ -259,6 +263,8 @@ function DrefImportModal(props: Props) {
                         debugMessage: JSON.stringify(ex),
                     },
                 );
+            } finally {
+                setImportPending(false);
             }
         }
 
@@ -276,16 +282,17 @@ function DrefImportModal(props: Props) {
         <Modal
             heading={strings.drefImportApplication}
             onClose={onClose}
-            className={styles.importDrefApplicationModal}
+            headerDescription={strings.drefImportTemplate}
         >
             <ListView layout="block">
-                <DrefTwoIcon className={styles.icon} />
                 <RawFileInput
                     name={undefined}
                     accept=".xlsx"
                     onChange={handleChange}
                     styleVariant="outline"
+                    colorVariant="primary"
                     disabled={importPending || !canImport}
+                    before={<DrefTwoIcon className={styles.icon} />}
                 >
                     {strings.drefImportSelectFile}
                 </RawFileInput>
@@ -303,11 +310,6 @@ function DrefImportModal(props: Props) {
                         title={strings.drefImportDataMissingTitle}
                         description={strings.drefImportDataMissingDescription}
                     />
-                )}
-                {!referenceDataPending && !isReferenceDataMissing && (
-                    <div>
-                        {strings.drefImportTemplate}
-                    </div>
                 )}
             </ListView>
         </Modal>
