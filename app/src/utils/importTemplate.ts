@@ -39,6 +39,7 @@ interface BaseField {
     label: string | Segment[];
     description?: string | Segment[];
     headingBefore?: string;
+    defaultValue?: string | number | boolean;
 }
 
 interface InputField<
@@ -134,6 +135,7 @@ type InputTemplateField = {
     description?: string | CellRichTextValue;
     headingBefore?: string;
     context: { field: string, key: string }[],
+    defaultValue?: string | number | boolean;
 } & ({
     dataValidation: 'list';
     optionsKey: ObjectKey;
@@ -288,6 +290,7 @@ export function createImportTemplate<
                 : undefined,
             outlineLevel,
             context,
+            defaultValue: schema.defaultValue,
         } satisfies InputTemplateField;
 
         fields.push(field);
@@ -304,6 +307,7 @@ export function createImportTemplate<
             dataValidation: 'list',
             optionsKey: schema.optionsKey,
             context,
+            defaultValue: schema.defaultValue,
         } satisfies InputTemplateField;
 
         fields.push(field);
@@ -420,8 +424,12 @@ export function getValueFromImportTemplate<
             const updatedValue = value.replace(/(^|\n)\s*\*/g, '$1•');
             return updatedValue;
         }
+        const isTextField = schema.validation === 'string'
+            || schema.validation === 'textArea'
+            || schema.validation === 'date';
+
         // TODO: add validation from schema.validation
-        return value;
+        return isTextField ? value?.toString() : value;
     }
 
     if (schema.type === 'select') {
