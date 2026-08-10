@@ -99,6 +99,33 @@ function TriggerModel(props: Props) {
         SourceInformationFormFields
     >('trigger_statement_source_of_information', setFieldValue);
 
+    const handleLeadTimeframeUnitChange = useCallback(
+        (newValue: TimeframeOption['key'] | undefined) => {
+            setFieldValue(newValue, 'lead_timeframe_unit' as const);
+
+            setFieldValue(
+                (oldValue: PartialEapFullFormType['planned_operations']) => (
+                    oldValue?.map((operation) => ({
+                        ...operation,
+                        early_action_activities: operation.early_action_activities?.map(
+                            (activity) => (
+                                activity.timeframe === newValue
+                                    ? activity
+                                    : {
+                                        ...activity,
+                                        timeframe: newValue,
+                                        time_value: undefined,
+                                    }
+                            ),
+                        ),
+                    }))
+                ),
+                'planned_operations' as const,
+            );
+        },
+        [setFieldValue],
+    );
+
     const handleSourcesForecastAdd = useCallback(() => {
         const newSourceInformationItem: SourceInformationFormFields = {
             client_id: randomString(),
@@ -300,7 +327,7 @@ function TriggerModel(props: Props) {
                             name="lead_timeframe_unit"
                             value={value?.lead_timeframe_unit}
                             error={error?.lead_timeframe_unit}
-                            onChange={setFieldValue}
+                            onChange={handleLeadTimeframeUnitChange}
                             options={eap_timeframe}
                             keySelector={timeframeKeySelector}
                             labelSelector={stringValueSelector}

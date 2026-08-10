@@ -42,6 +42,8 @@ import i18n from './i18n.json';
 
 const defaultActivityValue: OperationActivityFormFields = {
     client_id: '-1',
+    activation_one: false,
+    activation_two: false,
 };
 
 type TimeframeOption = components['schemas']['EapTimeframeEnum'];

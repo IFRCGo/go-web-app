@@ -19,6 +19,7 @@ import {
     createExpansionIndicatorColumn,
     createStringColumn,
     numericIdSelector,
+    resolveToString,
 } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -192,7 +193,7 @@ export function Component() {
 
                 const items = [
                     {
-                        label: 'EAP Development Registration',
+                        label: strings.eapDevelopmentRegistration,
                         lastUpdated: modified_at,
                         eap: eapListItem,
                         type: 'registration',
@@ -201,7 +202,10 @@ export function Component() {
                     } satisfies EapExpandedListItem,
                     ...(eap_type === EAP_TYPE_SIMPLIFIED
                         ? simplified_eap_details.map((simplifiedEap) => ({
-                            label: `EAP Application v${simplifiedEap.version}`,
+                            label: resolveToString(
+                                strings.eapApplicationVersion,
+                                { version: simplifiedEap.version },
+                            ),
                             lastUpdated: simplifiedEap.modified_at,
                             eap: eapListItem,
                             type: 'development',
@@ -215,7 +219,10 @@ export function Component() {
                     ),
                     ...(eap_type === EAP_TYPE_FULL
                         ? full_eap_details.map((fullEap) => ({
-                            label: `EAP Application v${fullEap.version}`,
+                            label: resolveToString(
+                                strings.eapApplicationVersion,
+                                { version: fullEap.version },
+                            ),
                             lastUpdated: fullEap.modified_at,
                             eap: eapListItem,
                             type: 'development',
@@ -229,7 +236,10 @@ export function Component() {
                     ),
                     ((isNotDefined(eap_type) || !eapStarted)
                         ? ({
-                            label: 'EAP Application v1',
+                            label: resolveToString(
+                                strings.eapApplicationVersion,
+                                { version: 1 },
+                            ),
                             eap: eapListItem,
                             type: 'development',
                             details: undefined,
@@ -238,7 +248,7 @@ export function Component() {
                         : undefined
                     ),
                     {
-                        label: 'Technically Validated',
+                        label: strings.eapTechnicallyValidated,
                         eap: eapListItem,
                         type: 'validated',
                         lastUpdated: eapListItem.technically_validated_at ?? undefined,
@@ -246,7 +256,7 @@ export function Component() {
                         disabled: status < EAP_STATUS_TECHNICALLY_VALIDATED,
                     } satisfies EapExpandedListItem,
                     {
-                        label: 'Approved',
+                        label: strings.eapApproved,
                         lastUpdated: eapListItem.approved_at ?? undefined,
                         eap: eapListItem,
                         type: 'approved',
@@ -254,7 +264,7 @@ export function Component() {
                         disabled: status < EAP_STATUS_APPROVED,
                     } satisfies EapExpandedListItem,
                     {
-                        label: 'Project Agreement Signed',
+                        label: strings.eapProjectAgreementSigned,
                         eap: eapListItem,
                         lastUpdated: eapListItem.project_agreement_signed_at ?? undefined,
                         type: 'project-agreement-signed',
@@ -269,7 +279,14 @@ export function Component() {
                 } satisfies EapExpandedItem;
             },
         )
-    ), [eapListResponse]);
+    ), [
+        eapListResponse,
+        strings.eapDevelopmentRegistration,
+        strings.eapApplicationVersion,
+        strings.eapTechnicallyValidated,
+        strings.eapApproved,
+        strings.eapProjectAgreementSigned,
+    ]);
 
     const detailColumns = useMemo(
         () => ([

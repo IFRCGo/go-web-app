@@ -86,7 +86,7 @@ function KeyActorsInput(props: Props) {
                     spacing="sm"
                 >
                     <TextInput
-                        placeholder={strings.overviewKeyActorsSelectPartnerLabel}
+                        placeholder={strings.overviewKeyActorsPartnerPlaceholder}
                         error={error?.partner}
                         name="partner"
                         onChange={onFieldChange}

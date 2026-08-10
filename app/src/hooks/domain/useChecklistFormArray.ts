@@ -26,6 +26,7 @@ interface Options<KEY extends string | number, ITEM> {
     removeValue: (index: number) => void;
 }
 
+// FIXME: Revisit this hook in the future
 function useChecklistFormArray<KEY extends string | number, ITEM>(
     options: Options<KEY, ITEM>,
 ) {

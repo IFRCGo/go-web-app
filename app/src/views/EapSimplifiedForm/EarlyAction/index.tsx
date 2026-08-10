@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
     Container,
     Description,
@@ -73,6 +74,33 @@ function EarlyAction(props: Props) {
 
     const eapTimeframeOption = eap_timeframe?.filter(
         (item) => item.key !== TIMEFRAME_YEAR,
+    );
+
+    const handleLeadTimeframeUnitChange = useCallback(
+        (newValue: TimeframeOption['key'] | undefined) => {
+            setFieldValue(newValue, 'seap_lead_timeframe_unit' as const);
+
+            setFieldValue(
+                (oldValue: PartialSimplifiedEapType['planned_operations']) => (
+                    oldValue?.map((operation) => ({
+                        ...operation,
+                        early_action_activities: operation.early_action_activities?.map(
+                            (activity) => (
+                                activity.timeframe === newValue
+                                    ? activity
+                                    : {
+                                        ...activity,
+                                        timeframe: newValue,
+                                        time_value: undefined,
+                                    }
+                            ),
+                        ),
+                    }))
+                ),
+                'planned_operations' as const,
+            );
+        },
+        [setFieldValue],
     );
 
     return (
@@ -433,7 +461,7 @@ function EarlyAction(props: Props) {
                             label={strings.operationTimeFrame}
                             name="seap_lead_timeframe_unit"
                             value={value.seap_lead_timeframe_unit}
-                            onChange={setFieldValue}
+                            onChange={handleLeadTimeframeUnitChange}
                             keySelector={timeframeKeySelector}
                             labelSelector={stringValueSelector}
                             options={eapTimeframeOption}

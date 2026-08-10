@@ -1,16 +1,12 @@
+import { ListView } from '@ifrc-go/ui';
 import { Image } from '@ifrc-go/ui/printable';
-import {
-    _cs,
-    isNotDefined,
-} from '@togglecorp/fujs';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import Link from '#components/printable/Link';
 import {
     getFileNameFromUrl,
     isImageFile,
 } from '#utils/common';
-
-import styles from './styles.module.css';
 
 interface FileType {
     id: number;
@@ -37,31 +33,37 @@ function PrintableFileOutput(props: Props) {
     const otherFiles = files.filter(({ file }) => !isImageFile(file));
 
     return (
-        <div className={_cs(styles.printableFileOutput, className)}>
-            {imageFiles.length > 0 && (
-                <div className={styles.imageItems}>
-                    {imageFiles.map((imageFile) => (
-                        <Image
-                            key={imageFile.id}
-                            src={imageFile.file}
-                            caption={imageFile.caption}
-                        />
-                    ))}
-                </div>
-            )}
-            {otherFiles.length > 0 && (
-                <div className={styles.fileItems}>
-                    {otherFiles.map((otherFile) => (
-                        <Link
-                            key={otherFile.id}
-                            href={otherFile.file}
-                        >
-                            {getFileNameFromUrl(otherFile.file)}
-                        </Link>
-                    ))}
-                </div>
-            )}
-        </div>
+        <ListView
+            className={className}
+            layout="block"
+            spacing="md"
+        >
+            <ListView
+                layout="block"
+                spacing="4xs"
+            >
+                {imageFiles.map((imageFile) => (
+                    <Image
+                        key={imageFile.id}
+                        src={imageFile.file}
+                        caption={imageFile.caption}
+                    />
+                ))}
+            </ListView>
+            <ListView
+                layout="block"
+                spacing="xs"
+            >
+                {otherFiles.map((otherFile) => (
+                    <Link
+                        key={otherFile.id}
+                        href={otherFile.file}
+                    >
+                        {getFileNameFromUrl(otherFile.file)}
+                    </Link>
+                ))}
+            </ListView>
+        </ListView>
     );
 }
 

@@ -1,6 +1,5 @@
 import {
     useCallback,
-    useEffect,
     useMemo,
 } from 'react';
 import { AddLineIcon } from '@ifrc-go/icons';
@@ -12,7 +11,6 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
-    isDefined,
     isNotDefined,
     randomString,
 } from '@togglecorp/fujs';
@@ -97,35 +95,6 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
         },
         [onChange, name, leadTimeframeUnit],
     );
-    const hasOutdatedTimeframe = name === 'early_action_activities'
-        && isDefined(leadTimeframeUnit)
-        && isDefined(value)
-        && value.some((activity) => activity.timeframe !== leadTimeframeUnit);
-
-    useEffect(
-        () => {
-            if (!hasOutdatedTimeframe) {
-                return;
-            }
-
-            onChange(
-                (oldValue: OperationActivityFormFields[] | undefined) => (
-                    oldValue?.map((activity) => (
-                        activity.timeframe === leadTimeframeUnit
-                            ? activity
-                            : {
-                                ...activity,
-                                timeframe: leadTimeframeUnit,
-                                time_value: undefined,
-                            }
-                    )) ?? []
-                ),
-                name,
-            );
-        },
-        [hasOutdatedTimeframe, leadTimeframeUnit, name, onChange],
-    );
-
     const [
         title,
         titleDescription,

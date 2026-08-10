@@ -6,6 +6,11 @@
         "eapLastUpdated": "Last Updated",
         "eapName": "Name/Phase",
         "eapType": "EAP Type",
-        "eapStatus": "Status"
+        "eapStatus": "Status",
+        "eapDevelopmentRegistration": "EAP Development Registration",
+        "eapApplicationVersion": "EAP Application v{version}",
+        "eapTechnicallyValidated": "Technically Validated",
+        "eapApproved": "Approved",
+        "eapProjectAgreementSigned": "Project Agreement Signed"
     }
 }

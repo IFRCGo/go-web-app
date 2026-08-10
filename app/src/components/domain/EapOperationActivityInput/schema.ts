@@ -45,8 +45,8 @@ const schema = (isSubmit: boolean, type: ActivityInputType): OperationActivitySc
                 activation_two: { forceValue: undefinedValue },
             }
             : {
-                activation_one: { defaultValue: false },
-                activation_two: { defaultValue: false },
+                activation_one: {},
+                activation_two: {},
             }),
     }),
 });
