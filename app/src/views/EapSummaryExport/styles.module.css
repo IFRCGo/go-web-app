@@ -1,3 +1,24 @@
+.summary {
+    display: grid;
+    margin-block-end: var(--go-ui-spacing-lg);
+    gap: var(--go-ui-spacing-lg);
+    grid-template-columns: 2fr 2fr;
+
+    .admin2-map {
+        height: 16rem;
+    }
+
+    &.without-map {
+        grid-template-columns: 1fr;
+    }
+}
+
+.summary-table {
+    display: grid;
+    gap: var(--go-ui-width-separator-md);
+    grid-template-columns: 3fr 7fr;
+}
+
 .meta-items {
     display: flex;
     flex-direction: column;
@@ -10,6 +31,7 @@
     }
 }
 
+.activity-items,
 .indicator-items {
     display: grid;
     gap: var(--go-ui-width-separator-md);
