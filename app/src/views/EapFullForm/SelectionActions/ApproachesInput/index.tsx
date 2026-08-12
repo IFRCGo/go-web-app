@@ -131,6 +131,8 @@ function ApproachesInput(props: Props) {
                         onChange={onFieldChange}
                         readOnly={readOnly}
                         error={getErrorObject(error)?.prepositioning_activities}
+                        withActivationSelection
+                        withoutTimeframeSelection
                     />
                     <EapOperationActivityListInput
                         name="early_action_activities"
@@ -138,6 +140,7 @@ function ApproachesInput(props: Props) {
                         onChange={onFieldChange}
                         readOnly={readOnly}
                         error={getErrorObject(error)?.early_action_activities}
+                        withActivationSelection
                     />
                 </ListView>
             </ListView>

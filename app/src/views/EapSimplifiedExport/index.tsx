@@ -144,7 +144,7 @@ export function Component() {
         early_action_capability,
         rcrc_movement_involvement,
 
-        people_targeted,
+        total_people_targeted,
         seap_lead_time,
         seap_lead_timeframe_unit,
     } = simplifiedEapResponse ?? {};
@@ -180,7 +180,7 @@ export function Component() {
         early_action_capability: prev_early_action_capability,
         rcrc_movement_involvement: prev_rcrc_movement_involvement,
 
-        people_targeted: prev_people_targeted,
+        total_people_targeted: prev_total_people_targeted,
         seap_lead_time: prev_seap_lead_time,
         seap_lead_timeframe_unit: prev_seap_lead_timeframe_unit,
     } = prevSimplifiedEapResponse ?? {};
@@ -306,25 +306,6 @@ export function Component() {
                     </PrintableContainer>
                 </PrintableContainer>
                 <PrintableContainer
-                    heading={strings.delegationHeading}
-                    headingLevel={4}
-                >
-                    <PrintableContactOutput
-                        label={strings.delegationFocalPointLabel}
-                        namePrefix="ifrc_delegation_focal_point"
-                        data={simplifiedEapResponse}
-                        prevData={prevSimplifiedEapResponse}
-                        withDiff={withDiff}
-                    />
-                    <PrintableContactOutput
-                        label={strings.delegationHeadLabel}
-                        namePrefix="ifrc_head_of_delegation"
-                        data={simplifiedEapResponse}
-                        prevData={prevSimplifiedEapResponse}
-                        withDiff={withDiff}
-                    />
-                </PrintableContainer>
-                <PrintableContainer
                     heading={strings.regionalGlobalHeading}
                     headingLevel={4}
                 >
@@ -352,13 +333,6 @@ export function Component() {
                     <PrintableContactOutput
                         label={strings.regionalHeadLabel}
                         namePrefix="ifrc_regional_head_dcc"
-                        data={simplifiedEapResponse}
-                        prevData={prevSimplifiedEapResponse}
-                        withDiff={withDiff}
-                    />
-                    <PrintableContactOutput
-                        label={strings.globalOpsCoordinator}
-                        namePrefix="ifrc_global_ops_coordinator"
                         data={simplifiedEapResponse}
                         prevData={prevSimplifiedEapResponse}
                         withDiff={withDiff}
@@ -409,8 +383,8 @@ export function Component() {
                     <ListView layout="grid" spacing="2xs" numPreferredGridColumns={3}>
                         <PrintableDataDisplay
                             label={strings.peopleTargetedHeading}
-                            value={people_targeted}
-                            prevValue={prev_people_targeted}
+                            value={total_people_targeted}
+                            prevValue={prev_total_people_targeted}
                             valueType="number"
                             withDiff={withDiff}
                             variant="block"

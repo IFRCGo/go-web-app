@@ -10,7 +10,6 @@ import {
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { resolveToComponent } from '@ifrc-go/ui/utils';
 import {
     isNotDefined,
     randomString,
@@ -23,12 +22,17 @@ import {
     useFormArray,
 } from '@togglecorp/toggle-form';
 
-import EapOperationActivityInput, { type ActivityInputType } from '#components/domain/EapOperationActivityInput';
-import { type OperationActivityFormFields } from '#components/domain/EapOperationActivityInput/schema';
+import EapOperationActivityInput from '#components/domain/EapOperationActivityInput';
+import {
+    type ActivityInputType,
+    type OperationActivityFormFields,
+} from '#components/domain/EapOperationActivityInput/schema';
 import ExplanatoryNote from '#components/ExplanatoryNote';
-import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
-import { TIMEFRAME_YEAR } from '#utils/constants';
+import {
+    TIMEFRAME_YEAR,
+    type TimeFrameEnumKey,
+} from '#utils/constants';
 
 import i18n from './i18n.json';
 
@@ -40,6 +44,9 @@ interface Props<NAME> {
     value: OperationActivityFormFields[] | undefined;
     onChange: (newValue: SetValueArg<OperationActivityFormFields[]>, name: NAME) => void;
     error: ArrayError<OperationActivityFormFields> | LeafError | undefined;
+    withActivationSelection?: boolean;
+    withoutTimeframeSelection?: boolean;
+    leadTimeframeUnit?: TimeFrameEnumKey;
 }
 
 function EapOperationActivityListInput<const NAME extends ActivityInputType>(props: Props<NAME>) {
@@ -51,6 +58,9 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
         value,
         onChange,
         error,
+        withActivationSelection,
+        withoutTimeframeSelection,
+        leadTimeframeUnit,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -65,9 +75,12 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
 
     const handleReadinessAddButtonClick = useCallback(
         () => {
-            const timeframeValue = name === 'readiness_activities' || name === 'prepositioning_activities'
-                ? TIMEFRAME_YEAR
-                : undefined;
+            let timeframeValue: TimeFrameEnumKey | undefined;
+            if (name === 'readiness_activities') {
+                timeframeValue = TIMEFRAME_YEAR;
+            } else if (name === 'early_action_activities') {
+                timeframeValue = leadTimeframeUnit;
+            }
             const newActionItem: OperationActivityFormFields = {
                 client_id: randomString(),
                 timeframe: timeframeValue,
@@ -80,39 +93,34 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
                 name,
             );
         },
-        [onChange, name],
+        [onChange, name, leadTimeframeUnit],
     );
-
     const [
         title,
+        titleDescription,
         description,
     ] = useMemo(() => {
         if (name === 'readiness_activities') {
-            return [strings.readinessTitle, strings.readinessDescription];
+            return [
+                strings.readinessTitle,
+                strings.readinessTitleDescription,
+                strings.readinessDescription,
+            ];
         }
 
         if (name === 'prepositioning_activities') {
-            return [strings.prepositioningTitle, strings.prepositioningDescription];
+            return [
+                strings.prepositioningTitle,
+                strings.prepositioningTitleDescription,
+                strings.prepositioningDescription,
+            ];
         }
 
         if (name === 'early_action_activities') {
             return [
                 strings.earlyActionTitle,
-                resolveToComponent(
-                    strings.earlyActionDescription,
-                    {
-                        earlyActionDatabaseLink: (
-                            <Link
-                                href="https://www.anticipation-hub.org/experience/early-action/early-action-database/ea-list"
-                                styleVariant="action"
-                                external
-                                withLinkIcon
-                            >
-                                {strings.earlyActionDatabaseLinkLabel}
-                            </Link>
-                        ),
-                    },
-                ),
+                strings.earlyActionTitleDescription,
+                strings.earlyActionDescription,
             ];
         }
 
@@ -123,6 +131,7 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
         <Container
             spacing="sm"
             withDarkBackground
+            headerDescription={titleDescription}
             withHeaderBorder
             withPadding
             heading={(
@@ -175,6 +184,9 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
                         error={getErrorObject(error)}
                         disabled={disabled}
                         readOnly={readOnly}
+                        withActivationSelection={withActivationSelection}
+                        withoutTimeframeSelection={withoutTimeframeSelection}
+                        leadTimeframeUnit={leadTimeframeUnit}
                     />
                 ))}
             </ListView>

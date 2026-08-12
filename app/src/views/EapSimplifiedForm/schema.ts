@@ -1,4 +1,7 @@
-import { type DeepReplace } from '@ifrc-go/ui/utils';
+import {
+    type DeepReplace,
+    formatNumber,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -6,6 +9,7 @@ import {
 import {
     emailCondition,
     greaterThanOrEqualToCondition,
+    lessThanOrEqualToCondition,
     type LiteralSchema,
     type ObjectSchema,
     type PartialForm,
@@ -17,10 +21,24 @@ import {
 import indicatorSchema from '#components/domain/EapIndicatorInput/schema';
 import operationActivitySchema from '#components/domain/EapOperationActivityInput/schema';
 import { lengthSmallerOrEqualToCondition } from '#utils/common';
-import { positiveIntegerCondition } from '#utils/form';
+import {
+    positiveIntegerCondition,
+    wordCountLessThanOrEqualToCondition,
+} from '#utils/form';
 import { type GoApiBody } from '#utils/restRequest';
 
-import { charLimits } from './common';
+import { wordLimits } from './common';
+
+const MAX_BUDGET_LIMIT = 2147483647;
+
+// FIXME: use translations
+function maxBudgetCondition(label: string) {
+    return (value: number | undefined) => (
+        isDefined(value) && value > MAX_BUDGET_LIMIT
+            ? `${label} cannot exceed ${formatNumber(MAX_BUDGET_LIMIT)} CHF`
+            : undefined
+    );
+}
 
 function lessThanEqualToFiveImagesCondition<T>(value: T[] | undefined) {
     return isDefined(value) && Array.isArray(value) && value.length > 5
@@ -79,14 +97,14 @@ type CoverImageFileResponse = NonNullable<
     EapSimplifiedRequestBody['cover_image_file']
 >;
 
-type HazardImagesResponse = NonNullable<
-    EapSimplifiedRequestBody['hazard_impact_images']
+type HazardFilesResponse = NonNullable<
+    EapSimplifiedRequestBody['hazard_impact_files']
 >[number];
-type RiskImagesResponse = NonNullable<
-    EapSimplifiedRequestBody['risk_selected_protocols_images']
+type RiskFilesResponse = NonNullable<
+    EapSimplifiedRequestBody['risk_selected_protocols_files']
 >[number];
-type EarlyActionImagesResponse = NonNullable<
-    EapSimplifiedRequestBody['selected_early_actions_images']
+type EarlyActionFilesResponse = NonNullable<
+    EapSimplifiedRequestBody['selected_early_actions_files']
 >[number];
 
 type PartnerContactsResponse = NonNullable<
@@ -113,9 +131,9 @@ type PrepositioningFormFields = PrepositioningResponse & { client_id: string };
 type ReadinessFormFields = ReadinessResponse & { client_id: string };
 type IndicatorFormFields = IndicatorResponse & { client_id: string };
 
-type HazardImagesFormFields = HazardImagesResponse & { client_id: string };
-type RiskImagesFormFields = RiskImagesResponse & { client_id: string };
-type EarlyActionImagesFormFields = EarlyActionImagesResponse & {
+type HazardFilesFormFields = HazardFilesResponse & { client_id: string };
+type RiskFilesFormFields = RiskFilesResponse & { client_id: string };
+type EarlyActionFilesFormFields = EarlyActionFilesResponse & {
     client_id: string;
 };
 
@@ -179,14 +197,14 @@ type FormFields = DeepReplace<
                 CoverImageFileResponse,
                 CoverImageFileFields
             >,
-            HazardImagesResponse,
-            HazardImagesFormFields
+            HazardFilesResponse,
+            HazardFilesFormFields
         >,
-        RiskImagesResponse,
-        RiskImagesFormFields
+        RiskFilesResponse,
+        RiskFilesFormFields
     >,
-    EarlyActionImagesResponse,
-    EarlyActionImagesFormFields
+    EarlyActionFilesResponse,
+    EarlyActionFilesFormFields
 >;
 
 export type PartialSimplifiedEapType = PartialForm<
@@ -219,7 +237,7 @@ type CoverImageFileFormFields = ReturnType<
 type RiskProtocolsFileFields = ReturnType<
     ObjectSchema<
         NonNullable<
-            PartialSimplifiedEapType['risk_selected_protocols_images']
+            PartialSimplifiedEapType['risk_selected_protocols_files']
         >[number],
         PartialSimplifiedEapType,
         EapSimplifiedFormContext
@@ -227,7 +245,7 @@ type RiskProtocolsFileFields = ReturnType<
 >;
 type HazardImpactFileFields = ReturnType<
     ObjectSchema<
-        NonNullable<PartialSimplifiedEapType['hazard_impact_images']>[number],
+        NonNullable<PartialSimplifiedEapType['hazard_impact_files']>[number],
         PartialSimplifiedEapType,
         EapSimplifiedFormContext
     >['fields']
@@ -235,7 +253,7 @@ type HazardImpactFileFields = ReturnType<
 type EarlyActionFileFields = ReturnType<
     ObjectSchema<
         NonNullable<
-            PartialSimplifiedEapType['selected_early_actions_images']
+            PartialSimplifiedEapType['selected_early_actions_files']
         >[number],
         PartialSimplifiedEapType,
         EapSimplifiedFormContext
@@ -273,7 +291,11 @@ type ExtractContactPrefix<KEY extends FieldKeys> =
 
 type ValidContactFieldPrefixes = ExtractContactPrefix<FieldKeys>;
 
-function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY, required = false) {
+function getContactSchema<KEY extends ValidContactFieldPrefixes>(
+    key: KEY,
+    required = false,
+    requiredTitle = false,
+) {
     type ContactSchema = {
         [K in `${KEY}_${ContactFieldSuffix}`]: LiteralSchema<
             string | undefined,
@@ -287,7 +309,10 @@ function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY, requi
             required,
             requiredValidation: requiredStringCondition,
         },
-        [`${key}_title`]: {},
+        [`${key}_title`]: {
+            required: requiredTitle,
+            requiredValidation: requiredStringCondition,
+        },
         [`${key}_email`]: {
             required,
             requiredValidation: requiredStringCondition,
@@ -323,6 +348,7 @@ export const formSchema: FormSchema = {
             partners: {
                 required: isSubmit,
             },
+            include_rcrc_climate_center: { defaultValue: false },
             partner_contacts: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
@@ -336,25 +362,22 @@ export const formSchema: FormSchema = {
                     }),
                 }),
             },
-            ...getContactSchema('national_society_contact', isSubmit),
-            ...getContactSchema('ifrc_delegation_focal_point', isSubmit),
-            ...getContactSchema('ifrc_head_of_delegation', isSubmit),
+            ...getContactSchema('national_society_contact', isSubmit, isSubmit),
             ...getContactSchema('dref_focal_point'),
             ...getContactSchema('ifrc_regional_focal_point'),
             ...getContactSchema('ifrc_regional_ops_manager'),
             ...getContactSchema('ifrc_regional_head_dcc'),
-            ...getContactSchema('ifrc_global_ops_coordinator'),
 
             // Risk Analysis
 
             prioritized_hazard_and_impact: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
-                validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.prioritized_hazard_and_impact,
+                validations: [wordCountLessThanOrEqualToCondition(
+                    wordLimits.prioritized_hazard_and_impact,
                 )],
             },
-            hazard_impact_images: {
+            hazard_impact_files: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
                     fields: (): HazardImpactFileFields => ({
@@ -369,10 +392,10 @@ export const formSchema: FormSchema = {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.risks_selected_protocols,
+                    wordLimits.risks_selected_protocols,
                 )],
             },
-            risk_selected_protocols_images: {
+            risk_selected_protocols_files: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
                     fields: (): RiskProtocolsFileFields => ({
@@ -387,10 +410,10 @@ export const formSchema: FormSchema = {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.selected_early_actions,
+                    wordLimits.selected_early_actions,
                 )],
             },
-            selected_early_actions_images: {
+            selected_early_actions_files: {
                 keySelector: (item) => item.client_id,
                 member: () => ({
                     fields: (): EarlyActionFileFields => ({
@@ -408,7 +431,7 @@ export const formSchema: FormSchema = {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.overall_objective_intervention,
+                    wordLimits.overall_objective_intervention,
                 )],
             },
             // FIXME: add required condition
@@ -419,55 +442,55 @@ export const formSchema: FormSchema = {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.potential_geographical_high_risk_areas,
+                    wordLimits.potential_geographical_high_risk_areas,
                 )],
             },
-            people_targeted: {
+            total_people_targeted: {
                 required: isSubmit,
                 validations: [
                     positiveIntegerCondition,
-                    greaterThanOrEqualToCondition(charLimits.people_targeted),
+                    greaterThanOrEqualToCondition(wordLimits.total_people_targeted),
+                    lessThanOrEqualToCondition(wordLimits.max_total_people_targeted),
                 ],
             },
             assisted_through_operation: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.assisted_through_operation,
+                    wordLimits.assisted_through_operation,
                 )],
             },
             selection_criteria: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.selection_criteria,
+                    wordLimits.selection_criteria,
                 )],
             },
             trigger_statement: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.trigger_statement,
+                    wordLimits.trigger_statement,
                 )],
             },
             seap_lead_time: { required: isSubmit },
             seap_lead_timeframe_unit: { required: isSubmit },
-            operational_timeframe: {
+            activation_timeframe: {
                 required: isSubmit,
                 validations: [maxOperationalTimeframeCondition],
             },
-            operational_timeframe_unit: {},
+            activation_timeframe_unit: {},
             trigger_threshold_justification: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.trigger_threshold_justification,
+                    wordLimits.trigger_threshold_justification,
                 )],
             },
             next_step_towards_full_eap: {
-                required: isSubmit,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.next_step_towards_full_eap,
+                    wordLimits.next_step_towards_full_eap,
                 )],
             },
 
@@ -495,15 +518,15 @@ export const formSchema: FormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit),
+                            member: () => operationActivitySchema(isSubmit, 'early_action_activities'),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit),
+                            member: () => operationActivitySchema(isSubmit, 'readiness_activities'),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit),
+                            member: () => operationActivitySchema(isSubmit, 'prepositioning_activities'),
                         },
                     }),
                 }),
@@ -542,15 +565,15 @@ export const formSchema: FormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit),
+                            member: () => operationActivitySchema(isSubmit, 'early_action_activities'),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit),
+                            member: () => operationActivitySchema(isSubmit, 'readiness_activities'),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit),
+                            member: () => operationActivitySchema(isSubmit, 'prepositioning_activities'),
                         },
                     }),
                 }),
@@ -571,20 +594,44 @@ export const formSchema: FormSchema = {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.early_action_capability,
+                    wordLimits.early_action_capability,
                 )],
             },
             rcrc_movement_involvement: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
                 validations: [lengthSmallerOrEqualToCondition(
-                    charLimits.rcrc_movement_involvement,
+                    wordLimits.rcrc_movement_involvement,
                 )],
             },
-            total_budget: { required: isSubmit },
-            readiness_budget: { required: isSubmit },
-            pre_positioning_budget: { required: isSubmit },
-            early_action_budget: { required: isSubmit },
+            total_budget: {
+                required: isSubmit,
+                validations: [
+                    positiveIntegerCondition,
+                    maxBudgetCondition('Total budget'),
+                ],
+            },
+            readiness_budget: {
+                required: isSubmit,
+                validations: [
+                    positiveIntegerCondition,
+                    maxBudgetCondition('Readiness budget'),
+                ],
+            },
+            pre_positioning_budget: {
+                required: isSubmit,
+                validations: [
+                    positiveIntegerCondition,
+                    maxBudgetCondition('Prepositioning budget'),
+                ],
+            },
+            early_action_budget: {
+                required: isSubmit,
+                validations: [
+                    positiveIntegerCondition,
+                    maxBudgetCondition('Early action budget'),
+                ],
+            },
             budget_file: { required: isSubmit },
         };
 

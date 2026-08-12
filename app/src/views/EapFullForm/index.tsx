@@ -112,7 +112,9 @@ function getNextStep(current: TabKeys, direction: 1 | -1) {
     return tabKeyList[currentIndex + direction];
 }
 
-const defaultFormValue: PartialEapFullFormType = {};
+const defaultFormValue: PartialEapFullFormType = {
+    include_rcrc_climate_center: false,
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -194,34 +196,36 @@ export function Component() {
         setFileIdToUrlMap((prevMap) => {
             const {
                 cover_image_file,
-                hazard_selection_images,
-                forecast_selection_images,
-                trigger_activation_system_images,
-                early_action_selection_process_images,
-                exposed_element_and_vulnerability_factor_images,
-                identification_of_the_intervention_area_images,
-                definition_and_justification_impact_level_images,
-                prioritized_impact_images,
-                early_action_implementation_images,
+                hazard_selection_files,
+                forecast_selection_files,
+                trigger_activation_system_files,
+                early_action_selection_process_files,
+                exposed_element_and_vulnerability_factor_files,
+                identification_of_the_intervention_area_files,
+                definition_and_justification_impact_level_files,
+                prioritized_impact_files,
+                early_action_implementation_files,
                 budget_file_details,
                 forecast_table_file_details,
                 updated_checklist_file_details,
                 theory_of_change_table_file_details,
+                risk_analysis_relevant_files_details,
             } = response;
             return {
                 ...prevMap,
                 ...listToMap(
                     [
                         cover_image_file,
-                        ...(hazard_selection_images ?? []),
-                        ...(forecast_selection_images ?? []),
-                        ...(trigger_activation_system_images ?? []),
-                        ...(early_action_selection_process_images ?? []),
-                        ...(exposed_element_and_vulnerability_factor_images ?? []),
-                        ...(identification_of_the_intervention_area_images ?? []),
-                        ...(definition_and_justification_impact_level_images ?? []),
-                        ...(prioritized_impact_images ?? []),
-                        ...(early_action_implementation_images ?? []),
+                        ...(hazard_selection_files ?? []),
+                        ...(forecast_selection_files ?? []),
+                        ...(trigger_activation_system_files ?? []),
+                        ...(early_action_selection_process_files ?? []),
+                        ...(exposed_element_and_vulnerability_factor_files ?? []),
+                        ...(identification_of_the_intervention_area_files ?? []),
+                        ...(definition_and_justification_impact_level_files ?? []),
+                        ...(prioritized_impact_files ?? []),
+                        ...(early_action_implementation_files ?? []),
+                        ...(risk_analysis_relevant_files_details ?? []),
                         budget_file_details,
                         forecast_table_file_details,
                         updated_checklist_file_details,
@@ -260,15 +264,15 @@ export function Component() {
                 planned_operations,
                 enabling_approaches,
                 cover_image_file,
-                hazard_selection_images,
-                forecast_selection_images,
-                trigger_activation_system_images,
-                early_action_selection_process_images,
-                early_action_implementation_images,
-                exposed_element_and_vulnerability_factor_images,
-                identification_of_the_intervention_area_images,
-                definition_and_justification_impact_level_images,
-                prioritized_impact_images,
+                hazard_selection_files,
+                forecast_selection_files,
+                trigger_activation_system_files,
+                early_action_selection_process_files,
+                early_action_implementation_files,
+                exposed_element_and_vulnerability_factor_files,
+                identification_of_the_intervention_area_files,
+                definition_and_justification_impact_level_files,
+                prioritized_impact_files,
                 activation_process_source_of_information,
                 evidence_base_source_of_information,
                 early_actions,
@@ -309,23 +313,23 @@ export function Component() {
                     ? injectClientId(cover_image_file)
                     : undefined,
 
-                early_action_implementation_images:
-                    early_action_implementation_images?.map(injectClientId),
-                hazard_selection_images: hazard_selection_images?.map(injectClientId),
-                forecast_selection_images:
-                    forecast_selection_images?.map(injectClientId),
-                trigger_activation_system_images:
-                    trigger_activation_system_images?.map(injectClientId),
-                early_action_selection_process_images:
-                    early_action_selection_process_images?.map(injectClientId),
-                exposed_element_and_vulnerability_factor_images:
-                    exposed_element_and_vulnerability_factor_images?.map(injectClientId),
-                identification_of_the_intervention_area_images:
-                    identification_of_the_intervention_area_images?.map(injectClientId),
-                definition_and_justification_impact_level_images:
-                    definition_and_justification_impact_level_images?.map(injectClientId),
-                prioritized_impact_images:
-                    prioritized_impact_images?.map(injectClientId),
+                early_action_implementation_files:
+                    early_action_implementation_files?.map(injectClientId),
+                hazard_selection_files: hazard_selection_files?.map(injectClientId),
+                forecast_selection_files:
+                    forecast_selection_files?.map(injectClientId),
+                trigger_activation_system_files:
+                    trigger_activation_system_files?.map(injectClientId),
+                early_action_selection_process_files:
+                    early_action_selection_process_files?.map(injectClientId),
+                exposed_element_and_vulnerability_factor_files:
+                    exposed_element_and_vulnerability_factor_files?.map(injectClientId),
+                identification_of_the_intervention_area_files:
+                    identification_of_the_intervention_area_files?.map(injectClientId),
+                definition_and_justification_impact_level_files:
+                    definition_and_justification_impact_level_files?.map(injectClientId),
+                prioritized_impact_files:
+                    prioritized_impact_files?.map(injectClientId),
 
                 planned_operations: planned_operations?.map((intervention) => ({
                     ...intervention,
@@ -373,19 +377,19 @@ export function Component() {
                         return formValue?.partner_contacts?.[index!]?.client_id;
                     }
 
-                    match = matchArray(locations, ['hazard_selection_images', NUM]);
+                    match = matchArray(locations, ['hazard_selection_files', NUM]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return formValue?.hazard_selection_images?.[index!]?.client_id;
+                        return formValue?.hazard_selection_files?.[index!]?.client_id;
                     }
 
                     match = matchArray(locations, [
-                        'exposed_element_and_vulnerability_factor_images',
+                        'exposed_element_and_vulnerability_factor_files',
                         NUM,
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return formValue?.exposed_element_and_vulnerability_factor_images?.[
+                        return formValue?.exposed_element_and_vulnerability_factor_files?.[
                             index!
                         ]?.client_id;
                     }
@@ -396,10 +400,10 @@ export function Component() {
                         return formValue?.prioritized_impacts?.[index!]?.client_id;
                     }
 
-                    match = matchArray(locations, ['prioritized_impact_images', NUM]);
+                    match = matchArray(locations, ['prioritized_impact_files', NUM]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return formValue?.prioritized_impact_images?.[index!]?.client_id;
+                        return formValue?.prioritized_impact_files?.[index!]?.client_id;
                     }
 
                     match = matchArray(locations, [
@@ -445,30 +449,30 @@ export function Component() {
                         return formValue?.ns_capacity_source_of_information?.[index!]
                             ?.client_id;
                     }
-                    match = matchArray(locations, ['forecast_selection_images', NUM]);
+                    match = matchArray(locations, ['forecast_selection_files', NUM]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return formValue?.forecast_selection_images?.[index!]?.client_id;
+                        return formValue?.forecast_selection_files?.[index!]?.client_id;
                     }
 
                     match = matchArray(locations, [
-                        'definition_and_justification_impact_level_images',
+                        'definition_and_justification_impact_level_files',
                         NUM,
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return formValue?.definition_and_justification_impact_level_images?.[
+                        return formValue?.definition_and_justification_impact_level_files?.[
                             index!
                         ]?.client_id;
                     }
 
                     match = matchArray(locations, [
-                        'identification_of_the_intervention_area_images',
+                        'identification_of_the_intervention_area_files',
                         NUM,
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return formValue?.identification_of_the_intervention_area_images?.[
+                        return formValue?.identification_of_the_intervention_area_files?.[
                             index!
                         ]?.client_id;
                     }
@@ -483,29 +487,13 @@ export function Component() {
                             ?.client_id;
                     }
 
-                    match = matchArray(locations, ['early_actions', NUM]);
-                    if (isDefined(match)) {
-                        const [index] = match;
-                        return formValue?.early_actions?.[index!]?.client_id;
-                    }
-
                     match = matchArray(locations, [
-                        'early_action_selection_process_images',
+                        'early_action_selection_process_files',
                         NUM,
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return formValue?.early_action_selection_process_images?.[index!]
-                            ?.client_id;
-                    }
-
-                    match = matchArray(locations, [
-                        'early_action_selection_process_images',
-                        NUM,
-                    ]);
-                    if (isDefined(match)) {
-                        const [index] = match;
-                        return formValue?.early_action_selection_process_images?.[index!]
+                        return formValue?.early_action_selection_process_files?.[index!]
                             ?.client_id;
                     }
 
@@ -520,22 +508,22 @@ export function Component() {
                     }
 
                     match = matchArray(locations, [
-                        'early_action_implementation_images',
+                        'early_action_implementation_files',
                         NUM,
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return formValue?.early_action_implementation_images?.[index!]
+                        return formValue?.early_action_implementation_files?.[index!]
                             ?.client_id;
                     }
 
                     match = matchArray(locations, [
-                        'trigger_activation_system_images',
+                        'trigger_activation_system_files',
                         NUM,
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return formValue?.trigger_activation_system_images?.[index!]?.client_id;
+                        return formValue?.trigger_activation_system_files?.[index!]?.client_id;
                     }
 
                     match = matchArray(locations, [
@@ -544,8 +532,10 @@ export function Component() {
                     ]);
                     if (isDefined(match)) {
                         const [index] = match;
-                        return formValue?.trigger_activation_system_images?.[index!]?.client_id;
+                        return formValue?.activation_process_source_of_information?.[index!]
+                            ?.client_id;
                     }
+
                     match = matchArray(locations, ['planned_operations',
                         NUM,
                         'indicators',
@@ -697,10 +687,6 @@ export function Component() {
             dref_focal_point_title,
             dref_focal_point_phone_number,
             dref_focal_point_email,
-            ifrc_contact_name,
-            ifrc_contact_email,
-            ifrc_contact_title,
-            ifrc_contact_phone_number,
         } = removeNull(eapDetailResponse);
 
         setValue((prevValue) => ({
@@ -714,10 +700,6 @@ export function Component() {
             dref_focal_point_title,
             dref_focal_point_phone_number,
             dref_focal_point_email,
-            ifrc_head_of_delegation_email: ifrc_contact_email,
-            ifrc_head_of_delegation_name: ifrc_contact_name,
-            ifrc_head_of_delegation_title: ifrc_contact_title,
-            ifrc_head_of_delegation_phone_number: ifrc_contact_phone_number,
             lead_timeframe_unit: TIMEFRAME_DAYS,
             partners,
         }));
@@ -847,12 +829,16 @@ export function Component() {
     const handleValidationSuccess = (validatedFormValue: PartialEapFullFormType) => {
         if (isNotDefined(latestFullEapId)) {
             triggerCreateFullEap({
-                ...(validatedFormValue as unknown as EapFullRequestBody),
+                ...validatedFormValue,
+                cover_image_file: isNotDefined(validatedFormValue.cover_image_file?.id)
+                    ? null : validatedFormValue.cover_image_file,
                 eap_registration: Number(eapId),
-            });
+            } as unknown as EapFullRequestBody);
         } else {
             triggerUpdateFullEap({
                 ...validatedFormValue,
+                cover_image_file: isNotDefined(validatedFormValue.cover_image_file?.id)
+                    ? null : validatedFormValue.cover_image_file,
                 id: latestFullEapId,
                 modified_at: lastModifiedAtRef.current,
             } as unknown as EapFullRequestBody);

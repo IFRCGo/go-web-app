@@ -1,0 +1,10 @@
+{
+    "namespace": "multiFileObjectInput",
+    "strings": {
+        "removeFileButtonTitle": "Delete",
+        "imagePreviewFallbackText": "Preview not available",
+        "captionInputPlaceholder": "Enter caption",
+        "acceptedFileFormatsDescription": "Accepted file formats: {fileFormats}",
+        "imageFilesLabel": "Images"
+    }
+}

@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { getWordCount } from '@ifrc-go/ui/utils';
 import type { Maybe } from '@togglecorp/fujs';
 import {
     isDefined,
@@ -41,6 +42,15 @@ export function dateGreaterThanOrEqualCondition(x: string) {
     return (value: Maybe<string>) => (
         isDefined(value) && (new Date(value).getTime()) < (new Date(x).getTime())
             ? `Select a date on or after ${x}.`
+            : undefined
+    );
+}
+
+export function wordCountLessThanOrEqualToCondition(maxWords: number) {
+    // FIXME: use translations
+    return (value: Maybe<string>) => (
+        isDefined(value) && getWordCount(value) > maxWords
+            ? `The field must have at most ${maxWords} words`
             : undefined
     );
 }

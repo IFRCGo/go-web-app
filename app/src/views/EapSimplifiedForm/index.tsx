@@ -113,7 +113,9 @@ function getNextStep(current: TabKeys, direction: 1 | -1) {
     return tabKeyList[currentIndex + direction];
 }
 
-const defaultFormValue: PartialSimplifiedEapType = {};
+const defaultFormValue: PartialSimplifiedEapType = {
+    include_rcrc_climate_center: false,
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -188,9 +190,9 @@ export function Component() {
             const {
                 cover_image_file,
 
-                hazard_impact_images,
-                risk_selected_protocols_images,
-                selected_early_actions_images,
+                hazard_impact_files,
+                risk_selected_protocols_files,
+                selected_early_actions_files,
 
                 budget_file_details,
 
@@ -202,9 +204,9 @@ export function Component() {
                 ...listToMap(
                     [
                         cover_image_file,
-                        ...hazard_impact_images ?? [],
-                        ...risk_selected_protocols_images ?? [],
-                        ...selected_early_actions_images ?? [],
+                        ...hazard_impact_files ?? [],
+                        ...risk_selected_protocols_files ?? [],
+                        ...selected_early_actions_files ?? [],
                         budget_file_details,
                         updated_checklist_file_details,
                     ].map(
@@ -243,9 +245,9 @@ export function Component() {
             planned_operations,
             enabling_approaches,
             cover_image_file,
-            hazard_impact_images,
-            selected_early_actions_images,
-            risk_selected_protocols_images,
+            hazard_impact_files,
+            selected_early_actions_files,
+            risk_selected_protocols_files,
             partner_contacts,
             ...otherValues
         } = removeNull(response);
@@ -259,9 +261,9 @@ export function Component() {
 
             partner_contacts: partner_contacts?.map(injectClientId),
 
-            hazard_impact_images: hazard_impact_images?.map(injectClientId),
-            selected_early_actions_images: selected_early_actions_images?.map(injectClientId),
-            risk_selected_protocols_images: risk_selected_protocols_images?.map(injectClientId),
+            hazard_impact_files: hazard_impact_files?.map(injectClientId),
+            selected_early_actions_files: selected_early_actions_files?.map(injectClientId),
+            risk_selected_protocols_files: risk_selected_protocols_files?.map(injectClientId),
 
             planned_operations: planned_operations?.map((intervention) => ({
                 ...intervention,
@@ -299,22 +301,22 @@ export function Component() {
                     return formValue?.partner_contacts?.[index!]?.client_id;
                 }
 
-                match = matchArray(locations, ['hazard_impact_images', NUM]);
+                match = matchArray(locations, ['hazard_impact_files', NUM]);
                 if (isDefined(match)) {
                     const [index] = match;
-                    return formValue?.hazard_impact_images?.[index!]?.client_id;
+                    return formValue?.hazard_impact_files?.[index!]?.client_id;
                 }
 
-                match = matchArray(locations, ['risk_selected_protocols_images', NUM]);
+                match = matchArray(locations, ['risk_selected_protocols_files', NUM]);
                 if (isDefined(match)) {
                     const [index] = match;
-                    return formValue?.risk_selected_protocols_images?.[index!]?.client_id;
+                    return formValue?.risk_selected_protocols_files?.[index!]?.client_id;
                 }
 
-                match = matchArray(locations, ['selected_early_actions_images', NUM]);
+                match = matchArray(locations, ['selected_early_actions_files', NUM]);
                 if (isDefined(match)) {
                     const [index] = match;
-                    return formValue?.selected_early_actions_images?.[index!]?.client_id;
+                    return formValue?.selected_early_actions_files?.[index!]?.client_id;
                 }
 
                 match = matchArray(locations, ['planned_operations', NUM, 'indicators', NUM]);
@@ -425,10 +427,6 @@ export function Component() {
             dref_focal_point_title,
             dref_focal_point_email,
             dref_focal_point_phone_number,
-            ifrc_contact_name,
-            ifrc_contact_title,
-            ifrc_contact_email,
-            ifrc_contact_phone_number,
             partners,
         } = removeNull(eapRegistrationResponse);
 
@@ -443,12 +441,8 @@ export function Component() {
             dref_focal_point_title,
             dref_focal_point_email,
             dref_focal_point_phone_number,
-            ifrc_head_of_delegation_name: ifrc_contact_name,
-            ifrc_head_of_delegation_title: ifrc_contact_title,
-            ifrc_head_of_delegation_email: ifrc_contact_email,
-            ifrc_head_of_delegation_phone_number: ifrc_contact_phone_number,
             seap_timeframe: DEFAULT_SEAP_TIMEFRAME,
-            operational_timeframe_unit: OPERATION_TIMEFRAME_UNIT,
+            activation_timeframe_unit: OPERATION_TIMEFRAME_UNIT,
         }));
     }, [eapRegistrationResponse, simplifiedEapPending, simplifiedEapResponse, setValue]);
 
@@ -591,13 +585,17 @@ export function Component() {
     const handleValidationSuccess = useCallback((validatedFormValue: PartialSimplifiedEapType) => {
         if (isNotDefined(latestSimplifiedEapId)) {
             triggerCreateSimplifiedEap({
-                // FIXME: remove cast to unknown (need to make previous_id read-only)
-                ...validatedFormValue as unknown as EapSimplifiedRequestBody,
+                ...validatedFormValue,
+                cover_image_file: isNotDefined(validatedFormValue.cover_image_file?.id)
+                    ? null : validatedFormValue.cover_image_file,
                 eap_registration: Number(eapId),
-            });
+                // FIXME: remove cast to unknown (need to make previous_id read-only)
+            } as unknown as EapSimplifiedRequestBody);
         } else {
             triggerUpdateSimplifiedEap({
                 ...validatedFormValue,
+                cover_image_file: isNotDefined(validatedFormValue.cover_image_file?.id)
+                    ? null : validatedFormValue.cover_image_file,
                 id: latestSimplifiedEapId,
                 modified_at: lastModifiedAtRef.current,
                 // FIXME: remove cast to unknown (need to make previous_id read-only)

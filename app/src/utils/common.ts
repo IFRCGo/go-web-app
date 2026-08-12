@@ -1,7 +1,9 @@
 import { type Language } from '@ifrc-go/ui/contexts';
-import { DEFAULT_INVALID_TEXT } from '@ifrc-go/ui/utils';
 import {
-    isDefined,
+    DEFAULT_INVALID_TEXT,
+    getWordCount,
+} from '@ifrc-go/ui/utils';
+import {
     isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
@@ -73,6 +75,29 @@ export function joinStrings(
     return values.filter(Boolean).join(separator);
 }
 
+const imageFileExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg', 'avif'];
+
+// NOTE: not using `new URL` here as it throws for the relative urls
+export function getFileNameFromUrl(urlString: string | undefined | null) {
+    if (isNotDefined(urlString)) {
+        return undefined;
+    }
+
+    const [pathname] = urlString.split(/[?#]/);
+    return pathname?.split('/').pop();
+}
+
+export function isImageFile(urlString: string | undefined | null) {
+    const fileName = getFileNameFromUrl(urlString);
+
+    if (isNotDefined(fileName)) {
+        return false;
+    }
+
+    const extension = fileName.split('.').pop()?.toLowerCase();
+    return isTruthyString(extension) && imageFileExtensions.includes(extension);
+}
+
 export function formatSourceLink(value: string | undefined): string | undefined {
     if (
         isNotDefined(value)
@@ -94,10 +119,24 @@ export function formatSourceLink(value: string | undefined): string | undefined 
     return `https://${value}`;
 }
 
-export function lengthSmallerOrEqualToCondition(x?: number) {
-    return (value: string | undefined) => (
-        (isDefined(value) && isDefined(x)) && value.length > x
-            ? `Length must be smaller or equal to ${x}`
-            : undefined
-    );
+export function lengthSmallerOrEqualToCondition(
+    x?: number,
+    type: 'word' | 'character' = 'word',
+) {
+    return (value: string | undefined) => {
+        if (isNotDefined(value) || isNotDefined(x)) {
+            return undefined;
+        }
+
+        const length = type === 'word' ? getWordCount(value) : value.length;
+
+        if (length <= x) {
+            return undefined;
+        }
+
+        // FIXME: use translations
+        return type === 'word'
+            ? `Must be smaller or equal to ${x} words`
+            : `Length must be smaller or equal to ${x}`;
+    };
 }

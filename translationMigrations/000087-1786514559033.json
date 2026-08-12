@@ -1,0 +1,1049 @@
+{
+    "parent": "000086-1785533633747.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "textBadgeWordCountLabel",
+            "namespace": "common",
+            "value": "{wordCount} / {maxWords} words"
+        },
+        {
+            "action": "add",
+            "key": "eapApplicationVersion",
+            "namespace": "eapApplication",
+            "value": "EAP Application v{version}"
+        },
+        {
+            "action": "add",
+            "key": "eapApproved",
+            "namespace": "eapApplication",
+            "value": "Approved"
+        },
+        {
+            "action": "add",
+            "key": "eapDevelopmentRegistration",
+            "namespace": "eapApplication",
+            "value": "EAP Development Registration"
+        },
+        {
+            "action": "add",
+            "key": "eapProjectAgreementSigned",
+            "namespace": "eapApplication",
+            "value": "Project Agreement Signed"
+        },
+        {
+            "action": "add",
+            "key": "eapTechnicallyValidated",
+            "namespace": "eapApplication",
+            "value": "Technically Validated"
+        },
+        {
+            "action": "remove",
+            "key": "delegationFocalLabel",
+            "namespace": "eapFullExport"
+        },
+        {
+            "action": "remove",
+            "key": "delegationHeadLabel",
+            "namespace": "eapFullExport"
+        },
+        {
+            "action": "remove",
+            "key": "delegationLabel",
+            "namespace": "eapFullExport"
+        },
+        {
+            "action": "remove",
+            "key": "globalOpsLabel",
+            "namespace": "eapFullExport"
+        },
+        {
+            "action": "update",
+            "key": "contactInformationDescription",
+            "namespace": "eapFullExport",
+            "newValue": "For further information, specifically related to this EAP please contact:"
+        },
+        {
+            "action": "update",
+            "key": "mealHeading",
+            "namespace": "eapFullExport",
+            "newValue": "Monitoring, Evaluation, Accountability Learning (MEAL)"
+        },
+        {
+            "action": "update",
+            "key": "mealLabel",
+            "namespace": "eapFullExport",
+            "newValue": "MEAL"
+        },
+        {
+            "action": "add",
+            "key": "activationFilesCountLabel",
+            "namespace": "eapFullForm",
+            "value": "5 files max(optional)"
+        },
+        {
+            "action": "add",
+            "key": "activationPeopleTargetedTooltip",
+            "namespace": "eapFullForm",
+            "value": "The National Society should reflect how many people they plan to target with their early action intervention. The EAP should target at least 10,000 people."
+        },
+        {
+            "action": "add",
+            "key": "activationSelectFilesLabel",
+            "namespace": "eapFullForm",
+            "value": "Select files"
+        },
+        {
+            "action": "add",
+            "key": "attachFilesSelectFilesLabel",
+            "namespace": "eapFullForm",
+            "value": "Select Files"
+        },
+        {
+            "action": "add",
+            "key": "enablingApproachRemoveConfirmation",
+            "namespace": "eapFullForm",
+            "value": "Removing this approach will delete all the data entered for it. Do you want to continue?"
+        },
+        {
+            "action": "add",
+            "key": "enablingApproachUnselectConfirmation",
+            "namespace": "eapFullForm",
+            "value": "Unselecting an approach will delete all the data entered for it. Do you want to continue?"
+        },
+        {
+            "action": "add",
+            "key": "overviewKeyActorsPartnerPlaceholder",
+            "namespace": "eapFullForm",
+            "value": "Enter partner"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationSectorRemoveConfirmation",
+            "namespace": "eapFullForm",
+            "value": "Removing this sector will delete all the data entered for it. Do you want to continue?"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationSectorUnselectConfirmation",
+            "namespace": "eapFullForm",
+            "value": "Unselecting a sector will delete all the data entered for it. Do you want to continue?"
+        },
+        {
+            "action": "add",
+            "key": "riskAnalysisFileCountLabel",
+            "namespace": "eapFullForm",
+            "value": "5 files max(optional)"
+        },
+        {
+            "action": "add",
+            "key": "selectionActionFilesCountLabel",
+            "namespace": "eapFullForm",
+            "value": "5 files max(optional)"
+        },
+        {
+            "action": "add",
+            "key": "selectionActionSelectFilesLabel",
+            "namespace": "eapFullForm",
+            "value": "Select files"
+        },
+        {
+            "action": "add",
+            "key": "theoryOfChangeTableDescription",
+            "namespace": "eapFullForm",
+            "value": "Show how the selected action aims to reduce the expected humanitarian impact, by filling out the Theory of Change (ToC) table"
+        },
+        {
+            "action": "add",
+            "key": "triggerModelFileCountLabel",
+            "namespace": "eapFullForm",
+            "value": "5 files max(optional)"
+        },
+        {
+            "action": "add",
+            "key": "triggerSelectFilesLabel",
+            "namespace": "eapFullForm",
+            "value": "Select files"
+        },
+        {
+            "action": "add",
+            "key": "updatedChecklistDescription",
+            "namespace": "eapFullForm",
+            "value": "Upload the updated checklist document with your comments and answers before submitting this form."
+        },
+        {
+            "action": "remove",
+            "key": "activationImageCountLabel",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "activationSelectImagesLabel",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "attachFilesSelectImagesLabel",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "definitionJustificationDescription5",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "overviewKeyActorsSelectPartnerLabel",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNSDeleteButton",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNSEmailLabel",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNSNameLabel",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNSPhoneNumberLabel",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNSTitleLabel",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "riskAnalysisImagesCountLabel",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "selectionActionImagesCountLabel",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "selectionActionSelectImagesLabel",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "triggerModelImagesCountLabel",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "remove",
+            "key": "triggerSelectImagesLabel",
+            "namespace": "eapFullForm"
+        },
+        {
+            "action": "update",
+            "key": "actionsSectionCriteriaComment1",
+            "namespace": "eapFullForm",
+            "newValue": "The Anticipatory Action design process described in the Anticipatory Action Manual (chapter 4.2), should be followed and described in the EAP (it can be adapted to the respective context). If some disaster impacts are not addressed, an explanation should be provided and also indicate which actions were considered but not chosen"
+        },
+        {
+            "action": "update",
+            "key": "activationPeopleTargetedTitle",
+            "namespace": "eapFullForm",
+            "newValue": "Total people targeted"
+        },
+        {
+            "action": "update",
+            "key": "activationProcessDescription2",
+            "namespace": "eapFullForm",
+            "newValue": "Early Describe the step-by-step process from Day 1 to Day X for the implementation of the selected early actions. Indicate the day when the Stop Mechanism would occur. Include all critical and support tasks that are necessary for each of the steps. Each task should indicate the position of the person responsible (including when cash-based actions are planned liaison with the financial service provider)"
+        },
+        {
+            "action": "update",
+            "key": "activationProcessTooltip",
+            "namespace": "eapFullForm",
+            "newValue": "It is crucial to select early actions that have the most potential to reduce the identified risks(s) and are feasible to implement given the lead time of the forecast.  It is important to describe briefly: Who was involved? What data was consulted? Was research conducted? Were communities involved? For more guidance see Anticipatory Action Manual, Chapter 4.2 Select Early Actions."
+        },
+        {
+            "action": "update",
+            "key": "activationSectionCriteriaIntroduction1",
+            "namespace": "eapFullForm",
+            "newValue": "There is a mechanism in place to monitor the forecasts (ad /or trigger related indicators) and alert relevant actors as soon as a trigger is reached to initiate the early actions. This implies that the process to trigger the Anticipatory Action system is clearly understood by all the key staff of the NS and relevant partners."
+        },
+        {
+            "action": "update",
+            "key": "activationSelectionExplanatoryNote",
+            "namespace": "eapFullForm",
+            "newValue": "Anticipatory Action aims to protect the most vulnerable from the impact of extreme weather events. Based on the analysis on vulnerability and exposure (in section 3) and on the described mechanism for identifying intervention areas/communities (in section 4- Intervention area), it needs to be clear, how vulnerability criteria and impact forecasts will be applied to determine who will be targeted."
+        },
+        {
+            "action": "update",
+            "key": "capacityHeadingTooltip",
+            "namespace": "eapFullForm",
+            "newValue": "Capacity to deliver early action is a key aspect of the Anticipatory Action system. To have access to the DREF the NS should describe why and how it will be able to implement the early actions proposed in this protocol within the lead time and reaching all of the targeted population. This section could make reference to NS’s experience with previous DREFs (types of disasters, quantity of operations, planned operations implemented, among others). If a National Society has already gone through a Preparedness for Effective Response (PER) assessment process the results of these assessments should be referred to in this section as they provide National Societies with systematic, evidence-based information on their ability to conduct timely early action (looking also at support areas)."
+        },
+        {
+            "action": "update",
+            "key": "capacityOperationalDescription2",
+            "namespace": "eapFullForm",
+            "newValue": "If a feasibility study on Anticipatory Action was conducted, indicate the findings in relation to the capacity of the NS to implement Anticipatory Action."
+        },
+        {
+            "action": "update",
+            "key": "capacityOperationalDescription3",
+            "namespace": "eapFullForm",
+            "newValue": "Indicate the number of staff and volunteers available for a potential activation. Explain how they have been trained on Anticipatory Action/ activation."
+        },
+        {
+            "action": "update",
+            "key": "definitionJustificationDescription4",
+            "namespace": "eapFullForm",
+            "newValue": "Explain how the return period was calculated"
+        },
+        {
+            "action": "update",
+            "key": "definitionJustificationExplanatoryNote",
+            "namespace": "eapFullForm",
+            "newValue": "The DREF provides funding for early action for events of a strength that has caused significant humanitarian impact in the past. Explain how a certain magnitude was selected and how the impact level was defined (see guidance in the Anticipatory Action manual chapter 4.1 Set the Trigger (particularly Steps 6-8)). Define the relationship between impact (utilizing the prioritized impact/s section 3.3) and hazard magnitude to establish which impact can be expected given specific hazard magnitudes."
+        },
+        {
+            "action": "update",
+            "key": "exposeElementExplanatoryNote",
+            "namespace": "eapFullForm",
+            "newValue": "An analysis of exposure is required to determine who and what is located in the area where the hazard might occur. This will help to determine who and what is likely to be impacted. In line with the impact-based forecasting logic, it is important to identify the main exposed elements on which the Anticipatory Action intervention will focus. For example, if the prioritized impact of floods is the mortality of children under 5 due to water-borne diseases, then the exposed element will be the population of children under 5: or if the most frequently recurring and largest impact due to tropical storms is the damage to houses built with light materials, then the exposed element will be houses built with light materials. A thorough understanding of the levels of vulnerability (of the exposed elements) will help identify the main risks and ensure that Forecast-based actions are well suited. For instance, if children under 5 are susceptible to death or sickness due to floods, describe the underlying causes of the problem. For more guidance see the Anticipatory Action Manual (Chapter 4.1 Set the Trigger)"
+        },
+        {
+            "action": "update",
+            "key": "feasibilityExplanatoryNote",
+            "namespace": "eapFullForm",
+            "newValue": "In this section please describe why it is feasible to implement the selected actions, based on: time to implement the action, capacity of the National Society to implement, available resources (human, logistics, materials, etc.) and access considerations (see Anticipatory Action Manual Chapter 4.2 Select Early Actions on criteria.)"
+        },
+        {
+            "action": "update",
+            "key": "financeEapEndorsementExplanatoryNote",
+            "namespace": "eapFullForm",
+            "newValue": "It should be ensured that at the point of the trigger being reached no further permissions are needed. Thus, the EAP should have prior approval from all relevant stakeholders. The EAP must be endorsed by the leadership of the submitting NS. The EAP should also be endorsed by other key relevant stakeholders, such as the NHMS and the respective DRM authorities. If technical working groups have been created for Anticipatory Action, their members should also endorse the final version of the EAP before submission."
+        },
+        {
+            "action": "update",
+            "key": "financeExplanatoryNote",
+            "namespace": "eapFullForm",
+            "newValue": "The EAP budget consists of all the costs linked to the activation of the EAP as well as readiness and pre-positioning costs. The budget cannot include costs for the development of the EAP and the setting up of the Anticipatory Action system in a country (e.g. initial trainings of volunteers, etc.). This process should be financed by other sources of longer-term funding. The maximum amount of funding available for each EAP from the DREF is 500,000 Swiss francs. The budget will have to include the IFRC indirect costs of 6,5%. The National Society may include administrative costs as well in the EAP which should not be more than 5% of the early action budget. If the 5% rate is not used the National Society will need to list out the each of the admin cost individually. The M&E budget should be maximum 5% of overall the budget."
+        },
+        {
+            "action": "update",
+            "key": "financeReadinessCostExplanatoryNote",
+            "namespace": "eapFullForm",
+            "newValue": "Readiness costs cover those costs related to the upkeep/maintenance of the Anticipatory Action system in-country, once it has been established and the EAP has been developed. This refers to the required costs to ensure that the NS is “ready” to implement the EAP at any point during the five-year lifecycle of the EAP. These could include, for example, costs for refresher trainings, warehouses, updating data, staff, costs for markets monitoring, costs for updating the cash transfer value etc. Readiness combined with pre-positioning costs are limited to 65% of the total EAP budget over the EAP’s lifecycle and are disbursed by the DREF on an annual basis through the IFRC Operational Plan for that specific country."
+        },
+        {
+            "action": "update",
+            "key": "hazardSelectionDescription1",
+            "namespace": "eapFullForm",
+            "newValue": "Provide a brief rationale about the selection of the hazard for the Anticipatory Action system."
+        },
+        {
+            "action": "update",
+            "key": "hazardSelectionExplanatoryNote",
+            "namespace": "eapFullForm",
+            "newValue": "Which hazard needs to be addressed by Anticipatory Action in the country as a priority? Provide an explanation on the reasons that the selected hazard was chosen for this EAP and why it is a major problem in the country.The DREF allocates funding for EAPs to reduce the impacts of extreme events of a strength or magnitude that in the past have required humanitarian assistance. In order to demonstrate that the selected hazard has caused extreme humanitarian impacts in the past, information on the previous impacts of the selected hazard in the country should be provided. This can be gathered from interviews with RC or DRM authorities, archives, records, etc. Other potential sources of information could be National disaster registries, Post Disaster Needs Assessment databases, Desinventar, EMDat, PreventionWeb, etc. For more guidance see the Anticipatory Action Manual (Chapter 4.1 Set the Trigger)"
+        },
+        {
+            "action": "update",
+            "key": "hazardSelectionRequiredPoint1",
+            "namespace": "eapFullForm",
+            "newValue": "Provide a brief rationale about the selection of the hazard for the Anticipatory Action system."
+        },
+        {
+            "action": "update",
+            "key": "mealDescription1",
+            "namespace": "eapFullForm",
+            "newValue": "Following the guidance of the Anticipatory Action Manual, describe the M&E plan for this EAP. Including:"
+        },
+        {
+            "action": "update",
+            "key": "mealDescription3",
+            "namespace": "eapFullForm",
+            "newValue": "Describe how the Anticipatory Action M&E plan is linked to the existing PMER system of the National Society. If the NS does not have a PMER system, explain how the EAP will be used to strengthen this area prior to activation"
+        },
+        {
+            "action": "update",
+            "key": "mealExplanatoryNote",
+            "namespace": "eapFullForm",
+            "newValue": "Building evidence about the impact of Anticipatory Action systems is a priority. Therefore, the EAP should include an M&E plan to 1) assess the impact of the early actions and the extreme event after each activation and 2) identify if all activities were carried out as planned and document how early actions were implemented 3) learn from the process to improve the system in the future. The chapters 4.3 Design M&E plan and 6. Activate, Monitor, Evaluate in the Anticipatory Action Manual, provide guidance on the set-up and implementation of the monitoring, evaluation, learning tools. Ideally, the M&E system should be set up to allow comparison of impacts between communities that received early actions and those that didn´t (please refer to Anticipatory Action manual for more information). This M&E plan should be harmonized with the existing IFRC PMER guidance and tools, available on FedNet."
+        },
+        {
+            "action": "update",
+            "key": "mealHeading",
+            "namespace": "eapFullForm",
+            "newValue": "Monitoring, Evaluation, Accountability Learning (MEAL)"
+        },
+        {
+            "action": "update",
+            "key": "mealSectionHeading",
+            "namespace": "eapFullForm",
+            "newValue": "Quality Criteria: MEAL"
+        },
+        {
+            "action": "update",
+            "key": "mealTabLabel",
+            "namespace": "eapFullForm",
+            "newValue": "MEAL"
+        },
+        {
+            "action": "update",
+            "key": "mealTitle",
+            "namespace": "eapFullForm",
+            "newValue": "MEAL"
+        },
+        {
+            "action": "update",
+            "key": "prioritisedImpactExplanatoryNote",
+            "namespace": "eapFullForm",
+            "newValue": "Recognizing that an Anticipatory Action system will not be able to address all risks and potential impacts, based on the analysis of past impact, exposure and vulnerability (sections 3.1. to 3.2) and the results of the joint identification conducted with key stakeholders, indicate which disaster impacts were prioritized, explaining how and why they were prioritized. For more guidance see the Anticipatory Action Manual (Chapters 4.1 Set the Trigger and 4.2 Select Early Actions)"
+        },
+        {
+            "action": "update",
+            "key": "riskSectionCriteriaIntroduction1",
+            "namespace": "eapFullForm",
+            "newValue": "The EAP triggers are based on a combination of the analysis of risk factors and the forecast in line with the steps of the trigger methodology outlined in the Anticipatory Action manual. The EAP contains a clear trigger statement."
+        },
+        {
+            "action": "update",
+            "key": "selectionActionsTooltipDescription",
+            "namespace": "eapFullForm",
+            "newValue": "It is crucial to select early actions that have the most potential to reduce the identified risks(s) and are feasible to implement given the lead time of the forecast.  It is important to describe briefly: Who was involved? What data was consulted? Was research conducted? Were communities involved? For more guidance see Anticipatory Action Manual, Chapter 4.2 Select Early Actions."
+        },
+        {
+            "action": "update",
+            "key": "selectionProcessDescription4",
+            "namespace": "eapFullForm",
+            "newValue": "Does the Anticipatory Action activation intend to use government social protection systems? Other State institutions’ databases and/or sources? Provide an explanation of potential number of target population to be selected."
+        },
+        {
+            "action": "update",
+            "key": "selectionProcessExplanatoryNote",
+            "namespace": "eapFullForm",
+            "newValue": "It is crucial to select early actions that have the most potential to reduce the identified risks(s) and are feasible to implement given the lead time of the forecast.  It is important to describe briefly: Who was involved? What data was consulted? Was research conducted? Were communities involved? For more guidance see Anticipatory Action Manual, Chapter 4.2 Select Early Actions."
+        },
+        {
+            "action": "update",
+            "key": "triggerModelTooltipDescription",
+            "namespace": "eapFullForm",
+            "newValue": "The work for the identification of triggers can be very technical and require expert resources. For this process, the National Society can get help from technical experts, Hydro-met services or specialist institutions. The chapter 4.1 Set the Trigger in the Anticipatory Action Manual can be used for guidance."
+        },
+        {
+            "action": "update",
+            "key": "triggerSectionCriteriaIntroduction1",
+            "namespace": "eapFullForm",
+            "newValue": "The EAP triggers are based on a combination of the analysis of risk factors and the forecast in line with the steps of the trigger methodology outlined in the Anticipatory Action manual. The EAP contains a clear trigger statement."
+        },
+        {
+            "action": "update",
+            "key": "triggerStatementExplanatoryNote",
+            "namespace": "eapFullForm",
+            "newValue": "The work for the identification of triggers can be very technical and require expert resources. For this process, the National Society can get help from technical experts, Hydro-met services or specialist institutions. The chapter 4.1 Set the Trigger in the Anticipatory Action Manual can be used for guidance."
+        },
+        {
+            "action": "update",
+            "key": "titleInputLabel",
+            "namespace": "eapIndicatorInput",
+            "newValue": "Indicator name"
+        },
+        {
+            "action": "add",
+            "key": "operationActivationLabel",
+            "namespace": "eapOperationActivityInput",
+            "value": "Activation"
+        },
+        {
+            "action": "add",
+            "key": "operationActivationOneLabel",
+            "namespace": "eapOperationActivityInput",
+            "value": "Activation 1"
+        },
+        {
+            "action": "add",
+            "key": "operationActivationTwoLabel",
+            "namespace": "eapOperationActivityInput",
+            "value": "Activation 2"
+        },
+        {
+            "action": "add",
+            "key": "operationTimeFrameLeadTimeHint",
+            "namespace": "eapOperationActivityInput",
+            "value": "Taken from the lead time in the trigger section. Change it there to update this."
+        },
+        {
+            "action": "update",
+            "key": "operationPriorityActionLabel",
+            "namespace": "eapOperationActivityInput",
+            "newValue": "Activities"
+        },
+        {
+            "action": "add",
+            "key": "earlyActionTitleDescription",
+            "namespace": "eapOperationActivityListInput",
+            "value": "Add activities and select when the specific activity will be implemented."
+        },
+        {
+            "action": "add",
+            "key": "prepositioningTitleDescription",
+            "namespace": "eapOperationActivityListInput",
+            "value": "Add activities and select when the specific activity will be implemented. Pre-positioning for Activation 1 should be done in year 1 and pre-positioning for Activation 2 – after Activation 1 is concluded."
+        },
+        {
+            "action": "add",
+            "key": "readinessTitleDescription",
+            "namespace": "eapOperationActivityListInput",
+            "value": "Add activities and select when the specific activity will be implemented."
+        },
+        {
+            "action": "remove",
+            "key": "earlyActionDatabaseLinkLabel",
+            "namespace": "eapOperationActivityListInput"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionDescription",
+            "namespace": "eapOperationActivityListInput",
+            "newValue": "Early action activities are implemented once a trigger is reached and before the impact of the hazard. Early actions seek to reduce or mitigate the impact of the hazard. Consider selecting only a few early actions, especially for sudden onset events, as they will have to be implemented within a short timeframe. The early actions will be unique to each hazard and context, but may be activities such as evacuation of at-risk communities and/or livestock, early harvest of crops, cash transfer, shelter strengthening, provision of water treatment, hygiene kits or mosquito nets, etc. Start counting the timeframe after the trigger is reached: day 1 is the day the trigger is met."
+        },
+        {
+            "action": "add",
+            "key": "epidemicType",
+            "namespace": "eapRegistration",
+            "value": "Type of Epidemic"
+        },
+        {
+            "action": "add",
+            "key": "otherDisasterType",
+            "namespace": "eapRegistration",
+            "value": "Please Specify"
+        },
+        {
+            "action": "update",
+            "key": "ifrcContactDescription",
+            "namespace": "eapRegistration",
+            "newValue": "IFRC contact supporting the EAP process"
+        },
+        {
+            "action": "update",
+            "key": "registrationDescription",
+            "namespace": "eapRegistration",
+            "newValue": "The purpose of this form is for you to notify the IFRC team of the start of your EAP process. If you need assistance with the initiation of the process, {link}"
+        },
+        {
+            "action": "update",
+            "key": "registrationLink",
+            "namespace": "eapRegistration",
+            "newValue": "send us a message."
+        },
+        {
+            "action": "add",
+            "key": "enablingApproachRemoveConfirmation",
+            "namespace": "eapSimplifiedForm",
+            "value": "Removing this approach will delete all the data entered for it. Do you want to continue?"
+        },
+        {
+            "action": "add",
+            "key": "enablingApproachUnselectConfirmation",
+            "namespace": "eapSimplifiedForm",
+            "value": "Unselecting an approach will delete all the data entered for it. Do you want to continue?"
+        },
+        {
+            "action": "add",
+            "key": "epidemicType",
+            "namespace": "eapSimplifiedForm",
+            "value": "Type of Epidemic"
+        },
+        {
+            "action": "add",
+            "key": "otherDisasterType",
+            "namespace": "eapSimplifiedForm",
+            "value": "Other Disaster Type"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationsSectorRemoveConfirmation",
+            "namespace": "eapSimplifiedForm",
+            "value": "Removing this sector will delete all the data entered for it. Do you want to continue?"
+        },
+        {
+            "action": "add",
+            "key": "plannedOperationsSectorUnselectConfirmation",
+            "namespace": "eapSimplifiedForm",
+            "value": "Unselecting a sector will delete all the data entered for it. Do you want to continue?"
+        },
+        {
+            "action": "add",
+            "key": "rcrcClimateCenter",
+            "namespace": "eapSimplifiedForm",
+            "value": "RCRC Climate Center"
+        },
+        {
+            "action": "add",
+            "key": "selectFilesLabel",
+            "namespace": "eapSimplifiedForm",
+            "value": "Select files"
+        },
+        {
+            "action": "add",
+            "key": "updatedChecklistDescription",
+            "namespace": "eapSimplifiedForm",
+            "value": "Upload the updated checklist document with your comments and answers before submitting this form."
+        },
+        {
+            "action": "add",
+            "key": "uploadFileLabel",
+            "namespace": "eapSimplifiedForm",
+            "value": "Upload upto 5 files (optional)"
+        },
+        {
+            "action": "remove",
+            "key": "addPartnerNSContactButton",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "delegation",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "delegationHeader",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "focalPoint",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "nationalHeader",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNS",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNSDeleteButton",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNSDescription",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNSEmailLabel",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNsEmptyMessage",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNSNameLabel",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNSPhoneNumberLabel",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNSTitleLabel",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "regionalCoordinator",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "regionalHeader",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "remove",
+            "key": "uploadImageLabel",
+            "namespace": "eapSimplifiedForm"
+        },
+        {
+            "action": "update",
+            "key": "actionPeopleTargeted",
+            "namespace": "eapSimplifiedForm",
+            "newValue": "Total people targeted"
+        },
+        {
+            "action": "update",
+            "key": "actionsOperational",
+            "namespace": "eapSimplifiedForm",
+            "newValue": "Activation timeframe"
+        },
+        {
+            "action": "update",
+            "key": "actionsOperationalDescription",
+            "namespace": "eapSimplifiedForm",
+            "newValue": "The operational timeframe starts from the trigger date and includes the time it takes to implement the early action activities plus the time it takes to finalize the activation, including time to settle the finances, facilitate the lessons learned workshop and prepare the activation report. Normally the operational timeframe is 3 months for rapid onset disasters and 6 months for slow onset disasters."
+        },
+        {
+            "action": "update",
+            "key": "drefFocalPointDescription",
+            "namespace": "eapSimplifiedForm",
+            "newValue": "The DREF contact person for IFRC"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionsLink",
+            "namespace": "eapSimplifiedForm",
+            "newValue": "the Anticipatory Action Practitioners Manual."
+        },
+        {
+            "action": "update",
+            "key": "practitionersManualLink",
+            "namespace": "eapSimplifiedForm",
+            "newValue": "Anticipatory Action Practitioner’s Manual"
+        },
+        {
+            "action": "update",
+            "key": "selectedEarlyActionDescription",
+            "namespace": "eapSimplifiedForm",
+            "newValue": "List the early actions and explain how they will address the risks and lead to the intended outcome. Explain how the early actions were selected and how they will mitigate the prioritized risk and bring about the intended outcome for the most vulnerable, at-risk individuals and communities."
+        },
+        {
+            "action": "remove",
+            "key": "delegationFocalPointLabel",
+            "namespace": "eapSimplilfiedExport"
+        },
+        {
+            "action": "remove",
+            "key": "delegationHeading",
+            "namespace": "eapSimplilfiedExport"
+        },
+        {
+            "action": "remove",
+            "key": "delegationHeadLabel",
+            "namespace": "eapSimplilfiedExport"
+        },
+        {
+            "action": "remove",
+            "key": "globalOpsCoordinator",
+            "namespace": "eapSimplilfiedExport"
+        },
+        {
+            "action": "update",
+            "key": "contactInformationDescription",
+            "namespace": "eapSimplilfiedExport",
+            "newValue": "For further information, specifically related to this EAP please contact:"
+        },
+        {
+            "action": "add",
+            "key": "apCodeLabel",
+            "namespace": "eapSummaryExport",
+            "value": "AP Code"
+        },
+        {
+            "action": "add",
+            "key": "budgetHeading",
+            "namespace": "eapSummaryExport",
+            "value": "Budget"
+        },
+        {
+            "action": "add",
+            "key": "drefAllocationDescription",
+            "namespace": "eapSummaryExport",
+            "value": "The IFRC Disaster Response Emergency Fund (DREF) has approved a total of CHF {totalBudget} for the implementation of the {nationalSociety} {hazard} EAP. The approved amount consists of an allocation of CHF {readinessAndPrepositioningBudget} for readiness and pre-positioning and CHF {earlyActionBudget} allocated to implement early actions once the defined triggers are met."
+        },
+        {
+            "action": "add",
+            "key": "eapBudgetSummaryLabel",
+            "namespace": "eapSummaryExport",
+            "value": "EAP budget"
+        },
+        {
+            "action": "add",
+            "key": "earlyActionsStrategyHeading",
+            "namespace": "eapSummaryExport",
+            "value": "3. How the EAP will reduce the impact on the population - The Early Actions"
+        },
+        {
+            "action": "add",
+            "key": "earlyActionsSummaryLabel",
+            "namespace": "eapSummaryExport",
+            "value": "Proposed Early Actions by based on the IFRC’s Planned Operation Matrix"
+        },
+        {
+            "action": "add",
+            "key": "hazardLabel",
+            "namespace": "eapSummaryExport",
+            "value": "Hazard"
+        },
+        {
+            "action": "add",
+            "key": "houseHoldsSummaryLabel",
+            "namespace": "eapSummaryExport",
+            "value": "Potential No. of households to be reached"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyStrategyHeading",
+            "namespace": "eapSummaryExport",
+            "value": "1. Who will implement the EAP - The National Society"
+        },
+        {
+            "action": "add",
+            "key": "objectiveLabel",
+            "namespace": "eapSummaryExport",
+            "value": "Objective"
+        },
+        {
+            "action": "add",
+            "key": "operationalStrategyHeading",
+            "namespace": "eapSummaryExport",
+            "value": "Operational Strategy"
+        },
+        {
+            "action": "add",
+            "key": "prioritizedImpactsSummaryLabel",
+            "namespace": "eapSummaryExport",
+            "value": "Prioritized risks/impacts to be addressed by early actions"
+        },
+        {
+            "action": "add",
+            "key": "sourceForecastLabel",
+            "namespace": "eapSummaryExport",
+            "value": "Sources of Forecast"
+        },
+        {
+            "action": "add",
+            "key": "summaryHeading",
+            "namespace": "eapSummaryExport",
+            "value": "Summary"
+        },
+        {
+            "action": "add",
+            "key": "totalBudgetLabel",
+            "namespace": "eapSummaryExport",
+            "value": "Total Budget"
+        },
+        {
+            "action": "add",
+            "key": "totalEarlyActionsLabel",
+            "namespace": "eapSummaryExport",
+            "value": "Total Early Actions"
+        },
+        {
+            "action": "add",
+            "key": "totalPrepositioningLabel",
+            "namespace": "eapSummaryExport",
+            "value": "Total Pre-positioning"
+        },
+        {
+            "action": "add",
+            "key": "totalReadinessLabel",
+            "namespace": "eapSummaryExport",
+            "value": "Total Readiness"
+        },
+        {
+            "action": "add",
+            "key": "triggerStatementLabel",
+            "namespace": "eapSummaryExport",
+            "value": "Trigger Statement"
+        },
+        {
+            "action": "add",
+            "key": "triggerStrategyHeading",
+            "namespace": "eapSummaryExport",
+            "value": "2. How the EAP will be activated - The Trigger"
+        },
+        {
+            "action": "remove",
+            "key": "delegationFocalLabel",
+            "namespace": "eapSummaryExport"
+        },
+        {
+            "action": "remove",
+            "key": "delegationHeadLabel",
+            "namespace": "eapSummaryExport"
+        },
+        {
+            "action": "remove",
+            "key": "delegationLabel",
+            "namespace": "eapSummaryExport"
+        },
+        {
+            "action": "remove",
+            "key": "downloadBudgetLabel",
+            "namespace": "eapSummaryExport"
+        },
+        {
+            "action": "remove",
+            "key": "globalOpsLabel",
+            "namespace": "eapSummaryExport"
+        },
+        {
+            "action": "update",
+            "key": "contactInformationDescription",
+            "namespace": "eapSummaryExport",
+            "newValue": "For further information, specifically related to this EAP please contact:"
+        },
+        {
+            "action": "update",
+            "key": "eapContentHeading",
+            "namespace": "earlyActionProtocols",
+            "newValue": "Early Action Protocols (EAPs) are a core mechanism of the IFRC's Forecast-based Financing (Anticipatory Action) approach, designed to ensure that humanitarian action happens before a disaster strikes, rather than only responding afterwards."
+        },
+        {
+            "action": "add",
+            "key": "epidemicType",
+            "namespace": "form",
+            "value": "Type of Epidemic"
+        },
+        {
+            "action": "add",
+            "key": "objectiveDescriptionExample",
+            "namespace": "form",
+            "value": "This EAP aims to reduce/minimize the impact of river flooding in X region by providing early warning dissemination and cash distribution to at risk families."
+        },
+        {
+            "action": "add",
+            "key": "otherDisasterType",
+            "namespace": "form",
+            "value": "Other Disaster Type"
+        },
+        {
+            "action": "add",
+            "key": "rcrcClimateCenter",
+            "namespace": "form",
+            "value": "RCRC Climate Center"
+        },
+        {
+            "action": "remove",
+            "key": "addPartnerNSContactButton",
+            "namespace": "form"
+        },
+        {
+            "action": "remove",
+            "key": "delegation",
+            "namespace": "form"
+        },
+        {
+            "action": "remove",
+            "key": "delegationHeader",
+            "namespace": "form"
+        },
+        {
+            "action": "remove",
+            "key": "formFocalPoint",
+            "namespace": "form"
+        },
+        {
+            "action": "remove",
+            "key": "nationalHeader",
+            "namespace": "form"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNS",
+            "namespace": "form"
+        },
+        {
+            "action": "remove",
+            "key": "partnerNSDescription",
+            "namespace": "form"
+        },
+        {
+            "action": "remove",
+            "key": "regionalCoordinator",
+            "namespace": "form"
+        },
+        {
+            "action": "remove",
+            "key": "regionalHeader",
+            "namespace": "form"
+        },
+        {
+            "action": "update",
+            "key": "drefFocalPointDescription",
+            "namespace": "form",
+            "newValue": "The DREF contact person for IFRC"
+        },
+        {
+            "action": "update",
+            "key": "objectiveDescription",
+            "namespace": "form",
+            "newValue": "Please provide an objective statement that describes the main goal of the intervention. Example: {exampleObjective}"
+        },
+        {
+            "action": "update",
+            "key": "overviewRequiredPoint2",
+            "namespace": "form",
+            "newValue": "In case there are technical working groups for the development of the Anticipatory Action system in country, indicate which organizations participate in these groups."
+        },
+        {
+            "action": "update",
+            "key": "technicalWorkingGroupDescription",
+            "namespace": "form",
+            "newValue": "In case there are technical working groups for the development of the Anticipatory Action system in country, indicate which organizations participate in these groups."
+        },
+        {
+            "action": "add",
+            "key": "acceptedFileFormatsDescription",
+            "namespace": "multiFileObjectInput",
+            "value": "Accepted file formats: {fileFormats}"
+        },
+        {
+            "action": "add",
+            "key": "captionInputPlaceholder",
+            "namespace": "multiFileObjectInput",
+            "value": "Enter caption"
+        },
+        {
+            "action": "add",
+            "key": "imageFilesLabel",
+            "namespace": "multiFileObjectInput",
+            "value": "Images"
+        },
+        {
+            "action": "add",
+            "key": "imagePreviewFallbackText",
+            "namespace": "multiFileObjectInput",
+            "value": "Preview not available"
+        },
+        {
+            "action": "add",
+            "key": "removeFileButtonTitle",
+            "namespace": "multiFileObjectInput",
+            "value": "Delete"
+        },
+        {
+            "action": "add",
+            "key": "activationOneLabel",
+            "namespace": "printableActivityOutput",
+            "value": "Activation 1"
+        },
+        {
+            "action": "add",
+            "key": "activationTwoLabel",
+            "namespace": "printableActivityOutput",
+            "value": "Activation 2"
+        }
+    ]
+}

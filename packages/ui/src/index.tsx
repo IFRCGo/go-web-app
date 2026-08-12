@@ -32,6 +32,8 @@ export type { Props as ColorPreviewProps } from './components/ColorPreview';
 export { default as ColorPreview } from './components/ColorPreview';
 export type { Props as ConfirmButtonProps } from './components/ConfirmButton';
 export { default as ConfirmButton } from './components/ConfirmButton';
+export type { Props as ConfirmModalProps } from './components/ConfirmModal';
+export { default as ConfirmModal } from './components/ConfirmModal';
 export type { Props as ContainerProps } from './components/Container';
 export { default as Container } from './components/Container';
 export type { Props as DateInputProps } from './components/DateInput';

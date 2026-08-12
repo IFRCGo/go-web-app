@@ -17,15 +17,11 @@
         "nationalLabel": "National",
         "nationalSocietyContactLabel": "National Society Contact",
         "partnerNationalSocietyContactLabel": "Partner National Society Contact",
-        "delegationLabel": "Delegation",
-        "delegationFocalLabel": "IFRC Delegation AA Focal Point",
-        "delegationHeadLabel": "IFRC Head of Delegation",
         "regionalGlobalLabel": "Regional and Global",
         "drefFocalLabel": "DREF Focal Point",
         "regionalFocalLabel":"IFRC Regional AA Focal Point",
         "regionalOpsLabel":"IFRC Regional Ops Manager",
         "regionalHeadLabel":"IFRC Regional Head of DCC",
-        "globalOpsLabel":"IFRC Global Ops Coordinator",
         "stakeholdersHeading":"Stakeholders",
         "workWithGovernmentLabel":"Did you work with the government and other relevant actors in the development of this EAP? *",
         "workWithGovernmentDescription":"Please briefly describe the process",
@@ -66,8 +62,8 @@
         "linkLabel": "Link",
         "descriptionLabel": "Description",
         "titleLabel": "Title",
-        "mealHeading": "Monitoring, Evaluation, Accountability Learning(Meal)",
-        "mealLabel": "Meal",
+        "mealHeading": "Monitoring, Evaluation, Accountability Learning (MEAL)",
+        "mealLabel": "MEAL",
         "nationalSocietyHeading": "National Society Capacity",
         "operationalThematicLabel": "Operational, thematic and administrative capacity",
         "strategiesPlanLabel": "Strategies and plans",
@@ -93,6 +89,6 @@
         "earlyActionActivitiesHeading": "Prioritized early actions",
         "enablingApproachesLabel": "Enabling Approaches",
         "contactInformationHeading": "Contact information",
-        "contactInformationDescription": "For further information, specifically related to this simplified EAP please contact:"
+        "contactInformationDescription": "For further information, specifically related to this EAP please contact:"
     }
 }

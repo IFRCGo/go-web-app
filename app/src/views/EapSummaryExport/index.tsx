@@ -1,4 +1,8 @@
-import { useRef } from 'react';
+import {
+    useCallback,
+    useRef,
+    useState,
+} from 'react';
 import {
     useParams,
     useSearchParams,
@@ -10,6 +14,12 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { Image } from '@ifrc-go/ui/printable';
 import {
+    formatNumber,
+    resolveToString,
+    sumSafe,
+} from '@ifrc-go/ui/utils';
+import {
+    _cs,
     isDefined,
     isFalsyString,
     isNotDefined,
@@ -17,10 +27,12 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
-import Link from '#components/printable/Link';
+import Admin2Map from '#components/domain/Admin2Map';
+import PrintableActivityOutput from '#components/domain/PrintableActivityOutput';
 import PrintableContainer from '#components/printable/PrintableContainer';
 import PrintableDataDisplay from '#components/printable/PrintableDataDisplay';
 import PrintableDescription from '#components/printable/PrintableDescription';
+import PrintableLabel from '#components/printable/PrintableLabel';
 import PrintablePage from '#components/printable/PrintablePage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { useRequest } from '#utils/restRequest';
@@ -40,7 +52,7 @@ export function Component() {
 
     const version = searchParams.get('version') ?? undefined;
 
-    const { eap_sector, eap_approach } = useGlobalEnums();
+    const { eap_sector, eap_approach, eap_timeframe } = useGlobalEnums();
 
     const { pending: eapRegistrationPending, response: eapRegistrationResponse } = useRequest({
         skip: isFalsyString(eapId),
@@ -52,7 +64,12 @@ export function Component() {
             : undefined,
     });
 
-    const { disaster_type_details, country_details, approved_at } = eapRegistrationResponse ?? {};
+    const {
+        disaster_type_details,
+        country_details,
+        national_society_details,
+        approved_at,
+    } = eapRegistrationResponse ?? {};
 
     const selectedFullEap = eapRegistrationResponse?.full_eap_details?.find(
         (fullEap) => String(fullEap.version) === String(version),
@@ -80,20 +97,45 @@ export function Component() {
         url: '/api/v2/eap/options/',
     });
 
-    const previewReady = !eapRegistrationPending && !fullEapPending;
+    const [mapLoaded, setMapLoaded] = useState(false);
+
+    const handleMapLoad = useCallback(() => {
+        setMapLoaded(true);
+    }, []);
 
     const {
         cover_image_file,
+        objective,
 
         partner_contacts,
 
         admin2_details,
         lead_time,
+        lead_timeframe_unit,
         planned_operations,
         enabling_approaches,
 
-        budget_file_details,
+        prioritized_impacts,
+        early_actions,
+        trigger_statement,
+        trigger_statement_source_of_information,
+
+        operational_administrative_capacity,
+
+        total_budget,
+        readiness_budget,
+        pre_positioning_budget,
+        early_action_budget,
     } = fullEapResponse ?? {};
+
+    // NOTE: The map is only shown when there are selected admin2 areas
+    const mapCountryId = (admin2_details?.length ?? 0) > 0
+        ? country_details?.id
+        : undefined;
+
+    const previewReady = !eapRegistrationPending
+        && !fullEapPending
+        && (isNotDefined(mapCountryId) || mapLoaded);
 
     const eapTitle = [
         country_details?.name,
@@ -114,6 +156,34 @@ export function Component() {
         ({ key }) => key,
         ({ value }) => value,
     );
+
+    const eapTimeframeTitleMap = listToMap(
+        eap_timeframe,
+        ({ key }) => key,
+        ({ value }) => value,
+    );
+
+    const drefAllocationDescription = resolveToString(
+        strings.drefAllocationDescription,
+        {
+            totalBudget: formatNumber(total_budget) ?? '--',
+            nationalSociety: national_society_details?.society_name ?? '--',
+            hazard: disaster_type_details?.name ?? '--',
+            readinessAndPrepositioningBudget: formatNumber(
+                sumSafe([readiness_budget, pre_positioning_budget]),
+            ) ?? '--',
+            earlyActionBudget: formatNumber(early_action_budget) ?? '--',
+        },
+    );
+
+    const leadTimeWithUnit = [
+        lead_time,
+        isDefined(lead_timeframe_unit)
+            ? eapTimeframeTitleMap?.[lead_timeframe_unit]
+            : undefined,
+    ]
+        .filter(isTruthyString)
+        .join(' ');
 
     return (
         <PrintablePage
@@ -136,7 +206,7 @@ export function Component() {
                     <ListView layout="grid" spacing="2xs" numPreferredGridColumns={3}>
                         <PrintableDataDisplay
                             label={strings.eapNoLabel}
-                            value={1234}
+                            value={null}
                             valueType="number"
                             strongValue
                             variant="block"
@@ -146,8 +216,8 @@ export function Component() {
                         />
                         <PrintableDataDisplay
                             label={strings.eapLeadTimeLabel}
-                            value={lead_time}
-                            valueType="number"
+                            value={leadTimeWithUnit}
+                            valueType="text"
                             strongValue
                             variant="block"
                             withPadding
@@ -170,7 +240,7 @@ export function Component() {
                         <PrintableDataDisplay
                             label={strings.eapApprovedLabel}
                             value={approved_at}
-                            valueType="text"
+                            valueType="date"
                             strongValue
                             variant="block"
                             withPadding
@@ -202,6 +272,155 @@ export function Component() {
                 </ListView>
             </PrintableContainer>
             <PrintableContainer
+                heading={strings.summaryHeading}
+                headingLevel={2}
+            >
+                <div
+                    className={_cs(
+                        styles.summary,
+                        isNotDefined(mapCountryId) && styles.withoutMap,
+                    )}
+                >
+                    {isDefined(mapCountryId) && (
+                        <Admin2Map
+                            className={styles.admin2Map}
+                            countryId={mapCountryId}
+                            admin2Details={admin2_details}
+                            onLoad={handleMapLoad}
+                        />
+                    )}
+                    <PrintableDescription value={drefAllocationDescription} />
+                </div>
+                <div className={styles.summaryTable}>
+                    <PrintableDataDisplay
+                        label={strings.hazardLabel}
+                        value={disaster_type_details?.name}
+                        valueType="text"
+                        strongLabel
+                        variant="contents"
+                        withPadding
+                        withBackground
+                        withDiff={false}
+                    />
+                    <PrintableDataDisplay
+                        label={strings.objectiveLabel}
+                        value={<PrintableDescription value={objective} />}
+                        strongLabel
+                        variant="contents"
+                        withPadding
+                        withBackground
+                        withDiff={false}
+                    />
+                    <PrintableDataDisplay
+                        label={strings.prioritizedImpactsSummaryLabel}
+                        value={(
+                            <ol>
+                                {prioritized_impacts?.map((impact) => (
+                                    <li key={impact.id}>
+                                        <PrintableDescription value={impact.impact} />
+                                    </li>
+                                ))}
+                            </ol>
+                        )}
+                        strongLabel
+                        variant="contents"
+                        withPadding
+                        withBackground
+                        withDiff={false}
+                    />
+                    <PrintableDataDisplay
+                        label={strings.earlyActionsSummaryLabel}
+                        value={(
+                            <ol>
+                                {early_actions?.map((action) => (
+                                    <li key={action.id}>
+                                        <PrintableDescription value={action.action} />
+                                    </li>
+                                ))}
+                            </ol>
+                        )}
+                        strongLabel
+                        variant="contents"
+                        withPadding
+                        withBackground
+                        withDiff={false}
+                    />
+                    <PrintableDataDisplay
+                        label={strings.houseHoldsSummaryLabel}
+                        // FIXME need to add value TBD
+                        value={undefined}
+                        valueType="text"
+                        strongLabel
+                        variant="contents"
+                        withPadding
+                        withBackground
+                        withDiff={false}
+                    />
+                    <PrintableDataDisplay
+                        label={strings.eapBudgetSummaryLabel}
+                        value={total_budget}
+                        valueType="number"
+                        strongLabel
+                        variant="contents"
+                        withPadding
+                        withBackground
+                        withDiff={false}
+                    />
+                    <PrintableDataDisplay
+                        label={strings.sourceForecastLabel}
+                        value={trigger_statement_source_of_information?.map((source) => (
+                            <PrintableLabel
+                                key={source.id}
+                                value={source.source_name}
+                            />
+                        ))}
+                        strongLabel
+                        variant="contents"
+                        withPadding
+                        withBackground
+                        withDiff={false}
+                    />
+                    <PrintableDataDisplay
+                        label={strings.triggerStatementLabel}
+                        value={<PrintableDescription value={trigger_statement} />}
+                        strongLabel
+                        variant="contents"
+                        withPadding
+                        withBackground
+                        withDiff={false}
+                    />
+                </div>
+            </PrintableContainer>
+            <PrintableContainer
+                heading={strings.operationalStrategyHeading}
+                headingLevel={2}
+            >
+                <PrintableContainer
+                    heading={strings.nationalSocietyStrategyHeading}
+                    headingLevel={3}
+                >
+                    <PrintableDescription value={operational_administrative_capacity} />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.triggerStrategyHeading}
+                    headingLevel={3}
+                >
+                    <PrintableDescription value={trigger_statement} />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.earlyActionsStrategyHeading}
+                    headingLevel={3}
+                >
+                    <ol>
+                        {early_actions?.map((action) => (
+                            <li key={action.id}>
+                                <PrintableDescription value={action.action} />
+                            </li>
+                        ))}
+                    </ol>
+                </PrintableContainer>
+            </PrintableContainer>
+            <PrintableContainer
                 heading={strings.plannedOperationsHeading}
                 headingLevel={2}
             >
@@ -222,6 +441,7 @@ export function Component() {
                                         value={operation.budget_per_sector}
                                         valueType="number"
                                         prefix="CHF "
+                                        variant="block"
                                         withPadding
                                         withBackground
                                         strongLabel
@@ -231,15 +451,16 @@ export function Component() {
                                         label={strings.operationPeopleTargetedLabel}
                                         value={operation.people_targeted}
                                         valueType="number"
+                                        variant="block"
                                         strongLabel
                                         withPadding
                                         withBackground
                                         withDiff={false}
                                     />
                                     <PrintableDataDisplay
-                                        label="AP Code"
+                                        label={strings.apCodeLabel}
                                         value={apCodeSectorValue}
-                                        valueType="text"
+                                        variant="block"
                                         strongLabel
                                         withPadding
                                         withBackground
@@ -249,7 +470,7 @@ export function Component() {
                             </PrintableContainer>
                             <PrintableContainer
                                 heading={strings.indicatorsHeading}
-                                headingLevel={3}
+                                headingLevel={4}
                             >
                                 <div className={styles.indicatorItems}>
                                     <Label textSize="sm" strong>
@@ -275,19 +496,15 @@ export function Component() {
                             </PrintableContainer>
                             <PrintableContainer
                                 heading={strings.readinessActivitiesHeading}
-                                headingLevel={3}
+                                headingLevel={4}
                             >
-                                <div className={styles.indicatorItems}>
+                                <div className={styles.activityItems}>
                                     {operation.readiness_activities.map((activity, index) => (
-                                        <PrintableDataDisplay
+                                        <PrintableActivityOutput
                                             key={activity.id}
-                                            label={`${index + 1}. ${activity.activity}`}
-                                            value={`${activity.time_value} ${activity.timeframe_display}`}
-                                            valueType="text"
-                                            variant="contents"
-                                            withBackground
-                                            withPadding
-                                            withoutLabelColon
+                                            activity={activity}
+                                            prevActivity={undefined}
+                                            index={index}
                                             withDiff={false}
                                         />
                                     ))}
@@ -295,40 +512,35 @@ export function Component() {
                             </PrintableContainer>
                             <PrintableContainer
                                 heading={strings.prepositioningActivitiesHeading}
-                                headingLevel={3}
+                                headingLevel={4}
                             >
-                                <div className={styles.indicatorItems}>
+                                <div className={styles.activityItems}>
                                     {operation.prepositioning_activities.map((activity, index) => (
-                                        <PrintableDataDisplay
+                                        <PrintableActivityOutput
                                             key={activity.id}
-                                            label={`${index + 1}. ${activity.activity}`}
-                                            value={`${activity.time_value} ${activity.timeframe_display}`}
-                                            valueType="text"
-                                            variant="contents"
-                                            withBackground
-                                            withPadding
-                                            withoutLabelColon
+                                            activity={activity}
+                                            prevActivity={undefined}
+                                            index={index}
                                             withDiff={false}
+                                            withActivation
+                                            withoutTimeframe
                                         />
                                     ))}
                                 </div>
                             </PrintableContainer>
                             <PrintableContainer
                                 heading={strings.earlyActionActivitiesHeading}
-                                headingLevel={3}
+                                headingLevel={4}
                             >
-                                <div className={styles.indicatorItems}>
+                                <div className={styles.activityItems}>
                                     {operation.early_action_activities.map((activity, index) => (
-                                        <PrintableDataDisplay
+                                        <PrintableActivityOutput
                                             key={activity.id}
-                                            label={`${index + 1}. ${activity.activity}`}
-                                            value={`${activity.time_value} ${activity.timeframe_display}`}
-                                            valueType="text"
-                                            variant="contents"
-                                            withBackground
-                                            withPadding
-                                            withoutLabelColon
+                                            activity={activity}
+                                            prevActivity={undefined}
+                                            index={index}
                                             withDiff={false}
+                                            withActivation
                                         />
                                     ))}
                                 </div>
@@ -358,15 +570,16 @@ export function Component() {
                                         value={approach.budget_per_approach}
                                         valueType="number"
                                         prefix="CHF "
+                                        variant="block"
                                         strongLabel
                                         withBackground
                                         withPadding
                                         withDiff={false}
                                     />
                                     <PrintableDataDisplay
-                                        label="AP Code"
+                                        label={strings.apCodeLabel}
                                         value={apCodeApproachValue}
-                                        valueType="text"
+                                        variant="block"
                                         strongLabel
                                         withBackground
                                         withPadding
@@ -376,7 +589,7 @@ export function Component() {
                             </PrintableContainer>
                             <PrintableContainer
                                 heading={strings.indicatorsHeading}
-                                headingLevel={3}
+                                headingLevel={4}
                             >
                                 <div className={styles.indicatorItems}>
                                     <Label textSize="sm" strong>
@@ -402,19 +615,15 @@ export function Component() {
                             </PrintableContainer>
                             <PrintableContainer
                                 heading={strings.readinessActivitiesHeading}
-                                headingLevel={3}
+                                headingLevel={4}
                             >
-                                <div className={styles.indicatorItems}>
+                                <div className={styles.activityItems}>
                                     {approach.readiness_activities.map((activity, index) => (
-                                        <PrintableDataDisplay
+                                        <PrintableActivityOutput
                                             key={activity.id}
-                                            label={`${index + 1}. ${activity.activity}`}
-                                            value={`${activity.time_value} ${activity.timeframe_display}`}
-                                            valueType="text"
-                                            variant="contents"
-                                            withBackground
-                                            withPadding
-                                            withoutLabelColon
+                                            activity={activity}
+                                            prevActivity={undefined}
+                                            index={index}
                                             withDiff={false}
                                         />
                                     ))}
@@ -422,40 +631,35 @@ export function Component() {
                             </PrintableContainer>
                             <PrintableContainer
                                 heading={strings.prepositioningActivitiesHeading}
-                                headingLevel={3}
+                                headingLevel={4}
                             >
-                                <div className={styles.indicatorItems}>
+                                <div className={styles.activityItems}>
                                     {approach.prepositioning_activities.map((activity, index) => (
-                                        <PrintableDataDisplay
+                                        <PrintableActivityOutput
                                             key={activity.id}
-                                            label={`${index + 1}. ${activity.activity}`}
-                                            value={`${activity.time_value} ${activity.timeframe_display}`}
-                                            valueType="text"
-                                            variant="contents"
-                                            withBackground
-                                            withPadding
-                                            withoutLabelColon
+                                            activity={activity}
+                                            prevActivity={undefined}
+                                            index={index}
                                             withDiff={false}
+                                            withActivation
+                                            withoutTimeframe
                                         />
                                     ))}
                                 </div>
                             </PrintableContainer>
                             <PrintableContainer
                                 heading={strings.earlyActionActivitiesHeading}
-                                headingLevel={3}
+                                headingLevel={4}
                             >
-                                <div className={styles.indicatorItems}>
+                                <div className={styles.activityItems}>
                                     {approach.early_action_activities.map((activity, index) => (
-                                        <PrintableDataDisplay
+                                        <PrintableActivityOutput
                                             key={activity.id}
-                                            label={`${index + 1}. ${activity.activity}`}
-                                            value={`${activity.time_value} ${activity.timeframe_display}`}
-                                            valueType="text"
-                                            variant="contents"
-                                            withBackground
-                                            withPadding
-                                            withoutLabelColon
+                                            activity={activity}
+                                            prevActivity={undefined}
+                                            index={index}
                                             withDiff={false}
+                                            withActivation
                                         />
                                     ))}
                                 </div>
@@ -464,10 +668,57 @@ export function Component() {
                     );
                 })}
             </PrintableContainer>
-            <PrintableContainer headingLevel={3}>
-                <Link href={budget_file_details?.file}>
-                    {strings.downloadBudgetLabel}
-                </Link>
+            <PrintableContainer
+                heading={strings.budgetHeading}
+                headingLevel={2}
+            >
+                <ListView
+                    layout="grid"
+                    spacing="4xs"
+                    numPreferredGridColumns={4}
+                    minGridColumnSize="10rem"
+                >
+                    <PrintableDataDisplay
+                        label={strings.totalBudgetLabel}
+                        value={total_budget}
+                        valueType="number"
+                        variant="block"
+                        strongLabel
+                        withPadding
+                        withBackground
+                        withDiff={false}
+                    />
+                    <PrintableDataDisplay
+                        label={strings.totalReadinessLabel}
+                        value={readiness_budget}
+                        valueType="number"
+                        variant="block"
+                        strongLabel
+                        withPadding
+                        withBackground
+                        withDiff={false}
+                    />
+                    <PrintableDataDisplay
+                        label={strings.totalPrepositioningLabel}
+                        value={pre_positioning_budget}
+                        valueType="number"
+                        variant="block"
+                        strongLabel
+                        withPadding
+                        withBackground
+                        withDiff={false}
+                    />
+                    <PrintableDataDisplay
+                        label={strings.totalEarlyActionsLabel}
+                        value={early_action_budget}
+                        valueType="number"
+                        variant="block"
+                        strongLabel
+                        withPadding
+                        withBackground
+                        withDiff={false}
+                    />
+                </ListView>
             </PrintableContainer>
             <PrintableContainer
                 heading={strings.contactInformationHeading}
@@ -506,22 +757,6 @@ export function Component() {
                         ))}
                     </PrintableContainer>
                 </PrintableContainer>
-                <PrintableContainer heading={strings.delegationLabel} headingLevel={4}>
-                    <PrintableContactOutput
-                        label={strings.delegationFocalLabel}
-                        namePrefix="ifrc_delegation_focal_point"
-                        data={fullEapResponse}
-                        prevData={undefined}
-                        withDiff={false}
-                    />
-                    <PrintableContactOutput
-                        label={strings.delegationHeadLabel}
-                        namePrefix="ifrc_head_of_delegation"
-                        data={fullEapResponse}
-                        prevData={undefined}
-                        withDiff={false}
-                    />
-                </PrintableContainer>
                 <PrintableContainer
                     heading={strings.regionalGlobalLabel}
                     headingLevel={4}
@@ -550,13 +785,6 @@ export function Component() {
                     <PrintableContactOutput
                         label={strings.regionalHeadLabel}
                         namePrefix="ifrc_regional_head_dcc"
-                        data={fullEapResponse}
-                        prevData={undefined}
-                        withDiff={false}
-                    />
-                    <PrintableContactOutput
-                        label={strings.globalOpsLabel}
-                        namePrefix="ifrc_global_ops_coordinator"
                         data={fullEapResponse}
                         prevData={undefined}
                         withDiff={false}
