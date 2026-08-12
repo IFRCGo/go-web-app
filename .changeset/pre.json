@@ -7,6 +7,17 @@
     "@ifrc-go/ui": "2.2.0"
   },
   "changesets": [
-    "orange-shirts-talk"
+    "brave-otters-count",
+    "chatty-laws-ask",
+    "five-impalas-call",
+    "orange-shirts-talk",
+    "plenty-hoops-hammer",
+    "quiet-donkeys-smile",
+    "silly-mangoes-cheer",
+    "smooth-trains-search",
+    "strong-moments-cough",
+    "tender-cycles-beg",
+    "wild-trees-invite",
+    "young-bottles-buy"
   ]
 }

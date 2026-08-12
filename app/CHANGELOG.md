@@ -1,5 +1,42 @@
 # go-web-app
 
+## 7.27.0-beta.1
+
+### Minor Changes
+
+- 7da14db: Add montandon landing page link to token pages
+- 7cd1e0b: Update Expected Time of Submission in EAP forms
+
+  - Choose the month and year from separate dropdowns
+  - Add a Not Sure option to clear the date in the Full EAP form
+
+- 65527b8: Update EAP forms and exports
+
+  - Add summary, map, strategy and budget sections to the EAP summary export
+  - Add an activation checklist to prepositioning and early action activities
+  - Add a disaster sub-type to EAP registration
+  - Add word limits to long text fields
+  - Attach files with captions in form sections
+  - Ask for confirmation before discarding planned operation data
+  - Update contact sections, labels and descriptions
+  - Fix validation errors in the forms
+
+- 16f427e: Fix DREF Imminent Final Report exporting with the old (v1) layout when exported from the Completed DREF table
+- 49d3924: Improve table column size for DREF final report pdf export (Implementation section)
+- bafb599: Update Active Operations map
+
+  - Add tooltip for crisis categorisation tab in active operation map
+  - Update legend labels
+
+- c32d3f9: Fix the link to stac browser
+
+### Patch Changes
+
+- de16eb8: Add Public Health Analyst role profile to Surge CoS, at /surge/catalogue/health
+- Updated dependencies [a7eda50]
+- Updated dependencies [7cd1e0b]
+  - @ifrc-go/ui@2.3.0-beta.0
+
 ## 7.27.0-beta.0
 
 ### Minor Changes

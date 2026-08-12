@@ -1,5 +1,19 @@
 # @ifrc-go/ui
 
+## 2.3.0-beta.0
+
+### Minor Changes
+
+- a7eda50: Add word limits to TextArea and a new ConfirmModal
+
+  - Set `maxWords` on TextArea to limit how many words can be entered
+  - Show the current word count
+  - Add ConfirmModal, a confirmation dialog that can be shown without a button
+
+### Patch Changes
+
+- 7cd1e0b: Add an error slot to InputSection
+
 ## 2.2.0
 
 ### Minor Changes

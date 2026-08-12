@@ -1,5 +1,23 @@
 # go-ui-storybook
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- a7f9050: Add stories for new GO UI components (Chip, ExpandableContainer, InputSection, and the layout/view components), reorganize stories into clearer groups, and sync existing stories with the latest `@ifrc-go/ui` props.
+
+### Patch Changes
+
+- a7eda50: Add word limits to TextArea and a new ConfirmModal
+
+  - Set `maxWords` on TextArea to limit how many words can be entered
+  - Show the current word count
+  - Add ConfirmModal, a confirmation dialog that can be shown without a button
+
+- Updated dependencies [a7eda50]
+- Updated dependencies [7cd1e0b]
+  - @ifrc-go/ui@2.3.0-beta.0
+
 ## 1.0.11
 
 ### Patch Changes
