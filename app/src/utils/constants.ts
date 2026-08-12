@@ -138,8 +138,9 @@ export type CategoryType = components<'read'>['schemas']['ApiActionCategoryEnumK
 
 // Common
 
-// FIXME: we need to identify a typesafe way to get this value
+// FIXME: we need to identify a typesafe way to get these values
 export const DISASTER_TYPE_EPIDEMIC = 1;
+export const DISASTER_TYPE_OTHER = 13;
 
 type Visibility = components<'read'>['schemas']['ApiVisibilityChoicesEnumKey'];
 export const VISIBILITY_RCRC_MOVEMENT = 1 satisfies Visibility;
@@ -245,5 +246,6 @@ export const EAP_STATUS_UNDER_DEVELOPMENT = 10 satisfies EapStatus;
 export const EAP_STATUS_UNDER_REVIEW = 20 satisfies EapStatus;
 export const EAP_STATUS_NS_ADDRESSING_COMMENTS = 30 satisfies EapStatus;
 export const EAP_STATUS_TECHNICALLY_VALIDATED = 40 satisfies EapStatus;
-export const EAP_STATUS_PENDING_PFA = 50 satisfies EapStatus;
-export const EAP_STATUS_APPROVED = 60 satisfies EapStatus;
+export const EAP_STATUS_APPROVED = 50 satisfies EapStatus;
+export const EAP_STATUS_PROJECT_AGREEMENT_SIGNED = 60 satisfies EapStatus;
+export const EAP_ACCEPTED_FILE_FORMATS = '.pdf, .docx, .pptx, image/*';

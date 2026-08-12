@@ -1,0 +1,31 @@
+.delete-button {
+    margin-block-end: -1.5rem;
+}
+
+.file-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--go-ui-color-background);
+    height: 8rem;
+}
+
+.file-extension {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--go-ui-color-gray-60);
+    font-size: var(--go-ui-font-size-2xl);
+    font-weight: var(--go-ui-font-weight-bold);
+    padding-inline: var(--go-ui-spacing-sm);
+}
+
+.file-name {
+    justify-content: center;
+    text-align: center;
+}
+
+.accepted-file-formats {
+    font-style: italic;
+}

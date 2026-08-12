@@ -1,8 +1,12 @@
 {
     "namespace": "eapOperationActivityInput",
     "strings": {
-        "operationPriorityActionLabel": "Priority Action",
+        "operationPriorityActionLabel": "Activities",
         "operationTimeFrameLabel": "Timeframe",
-        "operationTimeValueLabel": "Activity Time Span"
+        "operationTimeFrameLeadTimeHint": "Taken from the lead time in the trigger section. Change it there to update this.",
+        "operationTimeValueLabel": "Activity Time Span",
+        "operationActivationLabel": "Activation",
+        "operationActivationOneLabel": "Activation 1",
+        "operationActivationTwoLabel": "Activation 2"
     }
 }

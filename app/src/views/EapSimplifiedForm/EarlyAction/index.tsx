@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
     Container,
     Description,
@@ -31,7 +32,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { TIMEFRAME_YEAR } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
-import { charLimits } from '../common';
+import { wordLimits } from '../common';
 import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
 
@@ -73,6 +74,33 @@ function EarlyAction(props: Props) {
 
     const eapTimeframeOption = eap_timeframe?.filter(
         (item) => item.key !== TIMEFRAME_YEAR,
+    );
+
+    const handleLeadTimeframeUnitChange = useCallback(
+        (newValue: TimeframeOption['key'] | undefined) => {
+            setFieldValue(newValue, 'seap_lead_timeframe_unit' as const);
+
+            setFieldValue(
+                (oldValue: PartialSimplifiedEapType['planned_operations']) => (
+                    oldValue?.map((operation) => ({
+                        ...operation,
+                        early_action_activities: operation.early_action_activities?.map(
+                            (activity) => (
+                                activity.timeframe === newValue
+                                    ? activity
+                                    : {
+                                        ...activity,
+                                        timeframe: newValue,
+                                        time_value: undefined,
+                                    }
+                            ),
+                        ),
+                    }))
+                ),
+                'planned_operations' as const,
+            );
+        },
+        [setFieldValue],
     );
 
     return (
@@ -183,7 +211,7 @@ function EarlyAction(props: Props) {
                             error={error?.overall_objective_intervention}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.overall_objective_intervention}
+                            maxWords={wordLimits.overall_objective_intervention}
                         />
                     </InputSection>
                     <InputSection
@@ -235,7 +263,7 @@ function EarlyAction(props: Props) {
                             error={error?.potential_geographical_high_risk_areas}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.potential_geographical_high_risk_areas}
+                            maxWords={wordLimits.potential_geographical_high_risk_areas}
                         />
                     </InputSection>
                     <InputSection
@@ -257,10 +285,10 @@ function EarlyAction(props: Props) {
                         numPreferredColumns={2}
                     >
                         <NumberInput
-                            name="people_targeted"
-                            value={value?.people_targeted}
+                            name="total_people_targeted"
+                            value={value?.total_people_targeted}
                             onChange={setFieldValue}
-                            error={error?.people_targeted}
+                            error={error?.total_people_targeted}
                             disabled={disabled}
                             readOnly={readOnly}
                         />
@@ -296,7 +324,7 @@ function EarlyAction(props: Props) {
                                 error={error?.assisted_through_operation}
                                 disabled={disabled}
                                 readOnly={readOnly}
-                                maxLength={charLimits.assisted_through_operation}
+                                maxWords={wordLimits.assisted_through_operation}
                             />
                         </InputSection>
                         <InputSection
@@ -328,7 +356,7 @@ function EarlyAction(props: Props) {
                                 error={error?.selection_criteria}
                                 disabled={disabled}
                                 readOnly={readOnly}
-                                maxLength={charLimits.selection_criteria}
+                                maxWords={wordLimits.selection_criteria}
                             />
                         </InputSection>
                     </ListView>
@@ -411,7 +439,7 @@ function EarlyAction(props: Props) {
                             error={error?.trigger_statement}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.trigger_statement}
+                            maxWords={wordLimits.trigger_statement}
                         />
                     </InputSection>
                     <InputSection
@@ -433,7 +461,7 @@ function EarlyAction(props: Props) {
                             label={strings.operationTimeFrame}
                             name="seap_lead_timeframe_unit"
                             value={value.seap_lead_timeframe_unit}
-                            onChange={setFieldValue}
+                            onChange={handleLeadTimeframeUnitChange}
                             keySelector={timeframeKeySelector}
                             labelSelector={stringValueSelector}
                             options={eapTimeframeOption}
@@ -450,22 +478,22 @@ function EarlyAction(props: Props) {
                     >
                         <NumberInput
                             label={strings.actionValue}
-                            name="operational_timeframe"
-                            value={value?.operational_timeframe}
+                            name="activation_timeframe"
+                            value={value?.activation_timeframe}
                             onChange={setFieldValue}
-                            error={error?.operational_timeframe}
+                            error={error?.activation_timeframe}
                             disabled={disabled}
                             readOnly={readOnly}
                         />
                         <SelectInput
                             label={strings.operationTimeFrame}
-                            name="operational_timeframe_unit"
-                            value={value.operational_timeframe_unit}
+                            name="activation_timeframe_unit"
+                            value={value.activation_timeframe_unit}
                             onChange={setFieldValue}
                             keySelector={timeframeKeySelector}
                             labelSelector={stringValueSelector}
                             options={eapTimeframeOption}
-                            error={error?.operational_timeframe_unit}
+                            error={error?.activation_timeframe_unit}
                             disabled={disabled}
                             readOnly
                         />
@@ -505,16 +533,14 @@ function EarlyAction(props: Props) {
                             error={error?.trigger_threshold_justification}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.trigger_threshold_justification}
+                            maxWords={wordLimits.trigger_threshold_justification}
                         />
                     </InputSection>
                     <InputSection
                         title={strings.fullEap}
                         description={strings.fullEapDescription}
-                        withAsteriskOnTitle
                     >
                         <TextArea
-                            required
                             label={strings.actionDescription}
                             name="next_step_towards_full_eap"
                             value={value?.next_step_towards_full_eap}
@@ -522,7 +548,7 @@ function EarlyAction(props: Props) {
                             error={error?.next_step_towards_full_eap}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.next_step_towards_full_eap}
+                            maxWords={wordLimits.next_step_towards_full_eap}
                         />
                     </InputSection>
                 </ListView>

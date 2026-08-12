@@ -26,7 +26,7 @@ import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { useRequest } from '#utils/restRequest';
 
-import { charLimits } from '../common';
+import { wordLimits } from '../common';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
 
@@ -191,7 +191,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.budget_description}
+                            maxWords={wordLimits.budget_description}
                         />
                     </InputSection>
                     <InputSection
@@ -284,7 +284,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.readiness_cost_description}
+                            maxWords={wordLimits.readiness_cost_description}
                         />
                     </InputSection>
                     <InputSection
@@ -353,7 +353,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.prepositioning_cost_description}
+                            maxWords={wordLimits.prepositioning_cost_description}
                         />
                     </InputSection>
                     <InputSection
@@ -426,7 +426,7 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.early_action_cost_description}
+                            maxWords={wordLimits.early_action_cost_description}
                         />
                     </InputSection>
                 </ListView>
@@ -466,13 +466,17 @@ function FinanceLogistics(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.eap_endorsement}
+                            maxWords={wordLimits.eap_endorsement}
                         />
                     </InputSection>
                 </ListView>
             </Container>
             {isRevision && (
-                <InputSection title={strings.updatedChecklistTitle}>
+                <InputSection
+                    title={strings.updatedChecklistTitle}
+                    description={strings.updatedChecklistDescription}
+                    withAsteriskOnTitle
+                >
                     <GoSingleFileInput
                         name="updated_checklist_file"
                         url="/api/v2/eap-file/"

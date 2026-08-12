@@ -50,6 +50,10 @@ import {
 } from '#utils/constants';
 import { getGeoJsonBounds } from '#utils/geo';
 import {
+    getAdmin2CentroidTileset,
+    getAdmin2Tileset,
+} from '#utils/map';
+import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
@@ -190,7 +194,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
 
         return {
             type: 'line',
-            'source-layer': `go-admin2-${iso3}-staging`,
+            'source-layer': getAdmin2Tileset(iso3).sourceLayer,
             paint: {
                 'line-color': COLOR_BLACK,
                 'line-opacity': 1,
@@ -213,7 +217,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
         ];
         const options: Omit<FillLayer, 'id'> = {
             type: 'fill',
-            'source-layer': `go-admin2-${iso3}-staging`,
+            'source-layer': getAdmin2Tileset(iso3).sourceLayer,
             paint: {
                 'fill-color': (!value || value.length <= 0)
                     ? defaultColor
@@ -237,6 +241,10 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
     }, [iso3, value, admin2CodeMap]);
 
     const adminTwoLabelLayerOptions = useMemo((): Omit<SymbolLayer, 'id'> | undefined => {
+        if (!iso3) {
+            return undefined;
+        }
+
         const textColor: NonNullable<SymbolLayer['paint']>['text-color'] = (
             value && value.length > 0
                 ? [
@@ -253,7 +261,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
 
         const options: Omit<SymbolLayer, 'id'> = {
             type: 'symbol',
-            'source-layer': `go-admin2-${iso3}-centroids`,
+            'source-layer': getAdmin2CentroidTileset(iso3).sourceLayer,
             paint: {
                 'text-color': textColor,
                 'text-opacity': 1,
@@ -314,11 +322,10 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
             <Container
                 heading={strings.heading}
                 headingLevel={6}
-                footer={(
+                footer={hasAdmin2 && !readOnly && (
                     <Button
                         name={undefined}
                         onClick={setShowModalTrue}
-                        disabled={readOnly || !hasAdmin2}
                     >
                         {strings.buttonLabel}
                     </Button>
@@ -398,14 +405,13 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                             />
                         )}
                         {/* eslint-disable-next-line max-len */}
-                        {adminTwoFillLayerOptions && adminTwoLineLayerOptions && adminTwoLabelLayerOptions && (
+                        {iso3 && adminTwoFillLayerOptions && adminTwoLineLayerOptions && adminTwoLabelLayerOptions && (
                             <>
                                 <MapSource
                                     sourceKey="country-admin-2"
                                     sourceOptions={{
                                         type: 'vector',
-                                        // FIXME: this should be defined as a constant
-                                        url: `mapbox://go-ifrc.go-admin2-${iso3}-staging`,
+                                        url: getAdmin2Tileset(iso3).url,
                                     }}
                                 >
                                     <MapLayer
@@ -423,7 +429,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                                     sourceKey="country-admin-2-labels"
                                     sourceOptions={{
                                         type: 'vector',
-                                        url: `mapbox://go-ifrc.go-admin2-${iso3}-centroids`,
+                                        url: getAdmin2CentroidTileset(iso3).url,
                                     }}
                                 >
                                     <MapLayer

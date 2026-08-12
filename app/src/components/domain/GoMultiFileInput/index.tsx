@@ -51,7 +51,7 @@ function getFileNameFromUrl(urlString: string | undefined) {
     return splits[splits.length - 1];
 }
 
-type Props<NAME> = Omit<CommonRawFileInputProps<NAME>, 'value'> & {
+export type Props<NAME> = Omit<CommonRawFileInputProps<NAME>, 'value'> & {
     name: NAME;
     clearable?: boolean;
     description?: React.ReactNode;

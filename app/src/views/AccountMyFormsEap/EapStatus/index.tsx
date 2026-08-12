@@ -32,7 +32,7 @@ import useAlert from '#hooks/useAlert';
 import {
     EAP_STATUS_APPROVED,
     EAP_STATUS_NS_ADDRESSING_COMMENTS,
-    EAP_STATUS_PENDING_PFA,
+    EAP_STATUS_PROJECT_AGREEMENT_SIGNED,
     EAP_STATUS_TECHNICALLY_VALIDATED,
     EAP_STATUS_UNDER_DEVELOPMENT,
     EAP_STATUS_UNDER_REVIEW,
@@ -63,10 +63,10 @@ const validStatusTransition: Record<EapStatus, EapStatus[]> = {
     ],
     [EAP_STATUS_TECHNICALLY_VALIDATED]: [
         EAP_STATUS_NS_ADDRESSING_COMMENTS,
-        EAP_STATUS_PENDING_PFA,
+        EAP_STATUS_APPROVED,
     ],
-    [EAP_STATUS_PENDING_PFA]: [EAP_STATUS_APPROVED],
-    [EAP_STATUS_APPROVED]: [],
+    [EAP_STATUS_APPROVED]: [EAP_STATUS_PROJECT_AGREEMENT_SIGNED],
+    [EAP_STATUS_PROJECT_AGREEMENT_SIGNED]: [],
 };
 
 export interface Props {
@@ -179,7 +179,7 @@ function EapStatus(props: Props) {
 
     const confirmDisabled = (
         (newStatus === EAP_STATUS_NS_ADDRESSING_COMMENTS && isNotDefined(checklistFile))
-            || (newStatus === EAP_STATUS_PENDING_PFA && !hasValidatedBudgetFile)
+            || (newStatus === EAP_STATUS_APPROVED && !hasValidatedBudgetFile)
         || isDefined(responseFormErrors)
         || isSimplifiedEapLocked || isFullEapLocked
     );
@@ -312,7 +312,7 @@ function EapStatus(props: Props) {
                                     withoutShadow
                                 />
                             )}
-                        {newStatus === EAP_STATUS_PENDING_PFA && !hasValidatedBudgetFile && (
+                        {newStatus === EAP_STATUS_APPROVED && !hasValidatedBudgetFile && (
                             <Alert
                                 name="no-budget-file-warning"
                                 type="danger"

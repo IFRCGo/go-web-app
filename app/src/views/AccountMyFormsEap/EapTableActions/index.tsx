@@ -29,8 +29,8 @@ import { environment } from '#config';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
+    EAP_STATUS_APPROVED,
     EAP_STATUS_NS_ADDRESSING_COMMENTS,
-    EAP_STATUS_PENDING_PFA,
     EAP_STATUS_TECHNICALLY_VALIDATED,
     EAP_STATUS_UNDER_DEVELOPMENT,
     EAP_TYPE_FULL,
@@ -459,7 +459,7 @@ function EapTableActions(props: Props) {
                     )}
                 </>
             )}
-            {type === 'pending-pfa' && eap.status >= EAP_STATUS_PENDING_PFA && (
+            {type === 'approved' && eap.status >= EAP_STATUS_APPROVED && (
                 <ListView
                     layout="block"
                     spacing="sm"
@@ -530,7 +530,7 @@ function EapTableActions(props: Props) {
                     eapId={eap.id}
                     eapType={eap.eap_type}
                     onClose={setShowExportModalFalse}
-                    version={type === 'pending-pfa'
+                    version={type === 'approved'
                         ? latestVersion
                         : details?.data.version}
                     diff={exportWithDiffView}

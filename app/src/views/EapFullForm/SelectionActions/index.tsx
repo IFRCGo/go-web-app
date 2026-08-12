@@ -6,6 +6,7 @@ import { AddLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Checklist,
+    ConfirmModal,
     Container,
     Description,
     InputSection,
@@ -16,6 +17,7 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
 import {
+    isDefined,
     isNotDefined,
     listToMap,
     randomString,
@@ -30,16 +32,18 @@ import {
 
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
-import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import MultiFileObjectInput from '#components/domain/MultiFileObjectInput';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
+import useChecklistFormArray from '#hooks/domain/useChecklistFormArray';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { EAP_ACCEPTED_FILE_FORMATS } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 
-import { charLimits } from '../common';
+import { wordLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
@@ -73,6 +77,22 @@ function sectorKeySelector(option: EapSectorOption) {
 
 function approachesKeySelector(option: EapApproachOption) {
     return option.key;
+}
+
+function operationSectorSelector(operation: PlannedOperationFormFields) {
+    return operation.sector;
+}
+
+function createOperation(sector: EapSector) {
+    return { sector } satisfies PlannedOperationFormFields;
+}
+
+function approachSelector(approach: EnablingApproachesFormFields) {
+    return approach.approach;
+}
+
+function createApproach(approach: EapApproach) {
+    return { approach } satisfies EnablingApproachesFormFields;
 }
 
 interface Props {
@@ -127,36 +147,29 @@ function SelectionActions(props: Props) {
         setFieldValue,
     );
 
-    const handleOperationChecklistChange = useCallback(
-        (sectors: EapSector[] | undefined) => {
-            setFieldValue(
-                (previousValue: PlannedOperationFormFields[] | undefined) => {
-                    const previousValueMapping = listToMap(
-                        previousValue,
-                        ({ sector }) => sector,
-                    );
-
-                    return sectors?.map((sector) => {
-                        const prevSectorValue = previousValueMapping?.[sector];
-
-                        if (prevSectorValue) {
-                            return prevSectorValue;
-                        }
-
-                        return {
-                            sector,
-                        } satisfies PlannedOperationFormFields;
-                    });
-                },
-                'planned_operations',
-            );
+    const setPlannedOperations = useCallback(
+        (getNewValue: (
+            previousValue: PlannedOperationFormFields[] | undefined,
+        ) => PlannedOperationFormFields[] | undefined) => {
+            setFieldValue(getNewValue, 'planned_operations');
         },
         [setFieldValue],
     );
 
-    const selectedSectors = value?.planned_operations?.map(
-        ({ sector }) => sector,
-    );
+    const {
+        selectedKeys: selectedSectors,
+        pendingRemoval: pendingSectorRemoval,
+        handleChecklistChange: handleOperationChecklistChange,
+        handleRemoveClick: handleOperationRemoveClick,
+        handleRemovalCancel: handleSectorRemovalCancel,
+        handleRemovalConfirm: handleSectorRemovalConfirm,
+    } = useChecklistFormArray({
+        value: value.planned_operations,
+        keySelector: operationSectorSelector,
+        createItem: createOperation,
+        setValue: setPlannedOperations,
+        removeValue: onOperationRemove,
+    });
 
     const eapApproachLabelMapping = useMemo(
         () => listToMap(
@@ -172,36 +185,29 @@ function SelectionActions(props: Props) {
         setFieldValue,
     );
 
-    const handleApproachChecklistChange = useCallback(
-        (approaches: EapApproach[] | undefined) => {
-            setFieldValue(
-                (previousValue: EnablingApproachesFormFields[] | undefined) => {
-                    const previousValueMapping = listToMap(
-                        previousValue,
-                        ({ approach }) => approach,
-                    );
-
-                    return approaches?.map((approach) => {
-                        const prevApproachValue = previousValueMapping?.[approach];
-
-                        if (prevApproachValue) {
-                            return prevApproachValue;
-                        }
-
-                        return {
-                            approach,
-                        } satisfies EnablingApproachesFormFields;
-                    });
-                },
-                'enabling_approaches',
-            );
+    const setEnablingApproaches = useCallback(
+        (getNewValue: (
+            previousValue: EnablingApproachesFormFields[] | undefined,
+        ) => EnablingApproachesFormFields[] | undefined) => {
+            setFieldValue(getNewValue, 'enabling_approaches');
         },
         [setFieldValue],
     );
 
-    const selectedApproaches = value?.enabling_approaches?.map(
-        ({ approach }) => approach,
-    );
+    const {
+        selectedKeys: selectedApproaches,
+        pendingRemoval: pendingApproachRemoval,
+        handleChecklistChange: handleApproachChecklistChange,
+        handleRemoveClick: handleApproachRemoveClick,
+        handleRemovalCancel: handleApproachRemovalCancel,
+        handleRemovalConfirm: handleApproachRemovalConfirm,
+    } = useChecklistFormArray({
+        value: value.enabling_approaches,
+        keySelector: approachSelector,
+        createItem: createApproach,
+        setValue: setEnablingApproaches,
+        removeValue: onApproachRemove,
+    });
 
     const {
         setValue: onSourceInformationChange,
@@ -428,33 +434,38 @@ function SelectionActions(props: Props) {
                             error={error?.early_action_selection_process}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.early_action_selection_process}
+                            maxWords={wordLimits.early_action_selection_process}
                         />
-                        <MultiImageWithCaptionInput
-                            name="early_action_selection_process_images"
+                        <MultiFileObjectInput
+                            name="early_action_selection_process_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.early_action_selection_process_images}
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
+                            value={value?.early_action_selection_process_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.early_action_selection_process_images)}
+                            error={getErrorObject(error?.early_action_selection_process_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.selectionActionSelectImagesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.selectionActionImagesCountLabel}
-                        />
+                            description={strings.selectionActionFilesCountLabel}
+                        >
+                            {strings.selectionActionSelectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.theoryOfChangeTableTitle}
                         description={(
-                            <Link
-                                external
-                                href={templateUrl?.url}
-                                withUnderline
-                                withLinkIcon
-                            >
-                                {strings.downloadTableLabel}
-                            </Link>
+                            <>
+                                {strings.theoryOfChangeTableDescription}
+                                <Link
+                                    external
+                                    href={templateUrl?.url}
+                                    withUnderline
+                                    withLinkIcon
+                                >
+                                    {strings.downloadTableLabel}
+                                </Link>
+                            </>
                         )}
                         withAsteriskOnTitle
                     >
@@ -506,7 +517,7 @@ function SelectionActions(props: Props) {
                             error={error?.evidence_base}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.evidence_base}
+                            maxWords={wordLimits.evidence_base}
                         />
                     </InputSection>
                     <InputSection
@@ -515,7 +526,7 @@ function SelectionActions(props: Props) {
                     >
                         <GoMultiFileInput
                             name="evidence_base_relevant_files"
-                            accept=".pdf, .docx, .pptx, image/*"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFieldValue}
                             url="/api/v2/eap-file/multiple/"
@@ -594,11 +605,12 @@ function SelectionActions(props: Props) {
                             index={index}
                             value={operation}
                             onChange={onOperationChange}
-                            onRemove={onOperationRemove}
+                            onRemove={handleOperationRemoveClick}
                             error={getErrorObject(error?.planned_operations)}
                             disabled={disabled}
                             readOnly={readOnly}
                             sectorApCodeOption={apCodeOptions?.sector_ap_codes}
+                            leadTimeframeUnit={value?.lead_timeframe_unit}
                         />
                     ))}
                     <InputSection
@@ -627,7 +639,7 @@ function SelectionActions(props: Props) {
                             index={index}
                             value={approach}
                             onChange={onApproachChange}
-                            onRemove={onApproachRemove}
+                            onRemove={handleApproachRemoveClick}
                             error={getErrorObject(error?.enabling_approaches)}
                             approachApCodeOption={apCodeOptions?.approach_ap_codes}
                             disabled={disabled}
@@ -664,7 +676,7 @@ function SelectionActions(props: Props) {
                             error={error?.usefulness_of_actions}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.usefulness_of_actions}
+                            maxWords={wordLimits.usefulness_of_actions}
                         />
                     </InputSection>
                     <InputSection
@@ -710,11 +722,31 @@ function SelectionActions(props: Props) {
                             error={error?.feasibility}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.feasibility}
+                            maxWords={wordLimits.feasibility}
                         />
                     </InputSection>
                 </ListView>
             </Container>
+            {isDefined(pendingSectorRemoval) && (
+                <ConfirmModal
+                    name={undefined}
+                    message={pendingSectorRemoval.type === 'checklist'
+                        ? strings.plannedOperationSectorUnselectConfirmation
+                        : strings.plannedOperationSectorRemoveConfirmation}
+                    onCancel={handleSectorRemovalCancel}
+                    onConfirm={handleSectorRemovalConfirm}
+                />
+            )}
+            {isDefined(pendingApproachRemoval) && (
+                <ConfirmModal
+                    name={undefined}
+                    message={pendingApproachRemoval.type === 'checklist'
+                        ? strings.enablingApproachUnselectConfirmation
+                        : strings.enablingApproachRemoveConfirmation}
+                    onCancel={handleApproachRemovalCancel}
+                    onConfirm={handleApproachRemovalConfirm}
+                />
+            )}
         </TabPage>
     );
 }

@@ -7,9 +7,9 @@ import {
     InputSection,
     Label,
     ListView,
-    NumberInput,
     SelectInput,
     TextArea,
+    TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
@@ -28,19 +28,20 @@ import {
 import Admin2Input from '#components/domain/Admin2Input';
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
-import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import MultiFileObjectInput from '#components/domain/MultiFileObjectInput';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { EAP_ACCEPTED_FILE_FORMATS } from '#utils/constants';
 import {
     type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
 
-import { charLimits } from '../common';
+import { wordLimits } from '../common';
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import SectionQualityCriteria from '../SectionQualityCriteria';
@@ -97,6 +98,33 @@ function TriggerModel(props: Props) {
         'trigger_statement_source_of_information',
         SourceInformationFormFields
     >('trigger_statement_source_of_information', setFieldValue);
+
+    const handleLeadTimeframeUnitChange = useCallback(
+        (newValue: TimeframeOption['key'] | undefined) => {
+            setFieldValue(newValue, 'lead_timeframe_unit' as const);
+
+            setFieldValue(
+                (oldValue: PartialEapFullFormType['planned_operations']) => (
+                    oldValue?.map((operation) => ({
+                        ...operation,
+                        early_action_activities: operation.early_action_activities?.map(
+                            (activity) => (
+                                activity.timeframe === newValue
+                                    ? activity
+                                    : {
+                                        ...activity,
+                                        timeframe: newValue,
+                                        time_value: undefined,
+                                    }
+                            ),
+                        ),
+                    }))
+                ),
+                'planned_operations' as const,
+            );
+        },
+        [setFieldValue],
+    );
 
     const handleSourcesForecastAdd = useCallback(() => {
         const newSourceInformationItem: SourceInformationFormFields = {
@@ -277,7 +305,7 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.trigger_statement}
+                            maxWords={wordLimits.trigger_statement}
                         />
                     </InputSection>
                     <InputSection
@@ -285,7 +313,7 @@ function TriggerModel(props: Props) {
                         withAsteriskOnTitle
                         numPreferredColumns={2}
                     >
-                        <NumberInput
+                        <TextInput
                             required
                             name="lead_time"
                             value={value?.lead_time}
@@ -299,12 +327,11 @@ function TriggerModel(props: Props) {
                             name="lead_timeframe_unit"
                             value={value?.lead_timeframe_unit}
                             error={error?.lead_timeframe_unit}
-                            onChange={setFieldValue}
+                            onChange={handleLeadTimeframeUnitChange}
                             options={eap_timeframe}
                             keySelector={timeframeKeySelector}
                             labelSelector={stringValueSelector}
                             disabled={disabled}
-                            readOnly
                         />
                     </InputSection>
                     <InputSection
@@ -325,7 +352,7 @@ function TriggerModel(props: Props) {
                                     onChange={onSourcesForecastChange}
                                     onRemove={onSourcesForecastRemove}
                                     error={getErrorObject(
-                                        error?.risk_analysis_source_of_information,
+                                        error?.trigger_statement_source_of_information,
                                     )}
                                     disabled={disabled}
                                     readOnly={readOnly}
@@ -384,21 +411,23 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.forecast_selection}
+                            maxWords={wordLimits.forecast_selection}
                         />
-                        <MultiImageWithCaptionInput
-                            name="forecast_selection_images"
+                        <MultiFileObjectInput
+                            name="forecast_selection_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.forecast_selection_images}
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
+                            value={value?.forecast_selection_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.forecast_selection_images)}
+                            error={getErrorObject(error?.forecast_selection_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.triggerSelectImagesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.triggerModelImagesCountLabel}
-                        />
+                            description={strings.triggerModelFileCountLabel}
+                        >
+                            {strings.triggerSelectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.forecastTableDetails}
@@ -473,7 +502,6 @@ function TriggerModel(props: Props) {
                                 <li>{strings.definitionJustificationDescription2}</li>
                                 <li>{strings.definitionJustificationDescription3}</li>
                                 <li>{strings.definitionJustificationDescription4}</li>
-                                <li>{strings.definitionJustificationDescription5}</li>
                             </ul>
                         )}
                         withAsteriskOnTitle
@@ -486,23 +514,25 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.definition_and_justification_impact_level}
+                            maxWords={wordLimits.definition_and_justification_impact_level}
                         />
-                        <MultiImageWithCaptionInput
-                            name="definition_and_justification_impact_level_images"
+                        <MultiFileObjectInput
+                            name="definition_and_justification_impact_level_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.definition_and_justification_impact_level_images}
+                            value={value?.definition_and_justification_impact_level_files}
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             onChange={setFieldValue}
                             error={getErrorObject(
-                                error?.definition_and_justification_impact_level_images,
+                                error?.definition_and_justification_impact_level_files,
                             )}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.triggerSelectImagesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.triggerModelImagesCountLabel}
-                        />
+                            description={strings.triggerModelFileCountLabel}
+                        >
+                            {strings.triggerSelectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.identificationInterventionTitle}
@@ -560,23 +590,25 @@ function TriggerModel(props: Props) {
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.identification_of_the_intervention_area}
+                            maxWords={wordLimits.identification_of_the_intervention_area}
                         />
-                        <MultiImageWithCaptionInput
-                            name="identification_of_the_intervention_area_images"
+                        <MultiFileObjectInput
+                            name="identification_of_the_intervention_area_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.identification_of_the_intervention_area_images}
+                            value={value?.identification_of_the_intervention_area_files}
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             onChange={setFieldValue}
                             error={getErrorObject(
-                                error?.identification_of_the_intervention_area_images,
+                                error?.identification_of_the_intervention_area_files,
                             )}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.triggerSelectImagesLabel}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.triggerModelImagesCountLabel}
-                        />
+                            description={strings.triggerModelFileCountLabel}
+                        >
+                            {strings.triggerSelectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.selectRegionTitle}
@@ -600,7 +632,7 @@ function TriggerModel(props: Props) {
                     >
                         <GoMultiFileInput
                             name="trigger_model_relevant_files"
-                            accept=".pdf, .docx, .pptx, image/*"
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFieldValue}
                             url="/api/v2/eap-file/multiple/"

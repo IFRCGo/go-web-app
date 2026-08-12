@@ -5,6 +5,7 @@ import {
     InlineLayout,
     ListView,
     TextArea,
+    TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { randomString } from '@togglecorp/fujs';
@@ -15,9 +16,8 @@ import {
     useFormObject,
 } from '@togglecorp/toggle-form';
 
-import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import NonFieldError from '#components/NonFieldError';
-import { charLimits } from '#views/EapFullForm/common';
+import { wordLimits } from '#views/EapFullForm/common';
 import { type PartialEapFullFormType } from '#views/EapFullForm/schema';
 
 import i18n from './i18n.json';
@@ -85,12 +85,12 @@ function KeyActorsInput(props: Props) {
                     layout="block"
                     spacing="sm"
                 >
-                    <NationalSocietySelectInput
-                        placeholder={strings.overviewKeyActorsSelectPartnerLabel}
-                        error={error?.national_society}
-                        name="national_society"
+                    <TextInput
+                        placeholder={strings.overviewKeyActorsPartnerPlaceholder}
+                        error={error?.partner}
+                        name="partner"
                         onChange={onFieldChange}
-                        value={value?.national_society}
+                        value={value?.partner}
                         disabled={disabled}
                         readOnly={readOnly}
                         required
@@ -102,7 +102,7 @@ function KeyActorsInput(props: Props) {
                         value={value?.description}
                         onChange={onFieldChange}
                         required
-                        maxLength={charLimits.key_actors}
+                        maxWords={wordLimits.key_actors}
                         readOnly={readOnly}
                     />
                 </ListView>

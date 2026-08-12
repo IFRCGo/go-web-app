@@ -26,10 +26,11 @@ import {
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
+import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { useRequest } from '#utils/restRequest';
 
-import { charLimits } from '../common';
+import { wordLimits } from '../common';
 import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
 
@@ -194,7 +195,7 @@ function DeliveryAndBudget(props: Props) {
                             error={error?.early_action_capability}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.early_action_capability}
+                            maxWords={wordLimits.early_action_capability}
                         />
                     </InputSection>
                     <InputSection
@@ -257,7 +258,7 @@ function DeliveryAndBudget(props: Props) {
                             error={error?.rcrc_movement_involvement}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.rcrc_movement_involvement}
+                            maxWords={wordLimits.rcrc_movement_involvement}
                         />
                     </InputSection>
                 </ListView>
@@ -351,13 +352,22 @@ function DeliveryAndBudget(props: Props) {
                         )}
                         withAsteriskOnTitle
                     >
-                        <TextOutput
-                            valueType="number"
-                            strongLabel
-                            label={strings.totalBudgetLabel}
-                            value={value?.total_budget}
-                            suffix="CHF"
-                        />
+                        <ListView
+                            layout="block"
+                            spacing="3xs"
+                        >
+                            <TextOutput
+                                valueType="number"
+                                strongLabel
+                                label={strings.totalBudgetLabel}
+                                value={value?.total_budget}
+                                suffix=" CHF"
+                                withBackground
+                            />
+                            <NonFieldError
+                                error={error?.total_budget}
+                            />
+                        </ListView>
                         <ListView
                             layout="grid"
                             numPreferredGridColumns={3}
@@ -429,6 +439,7 @@ function DeliveryAndBudget(props: Props) {
                     {isRevision && (
                         <InputSection
                             title={strings.updatedChecklistTitle}
+                            description={strings.updatedChecklistDescription}
                             withAsteriskOnTitle
                         >
                             <GoSingleFileInput

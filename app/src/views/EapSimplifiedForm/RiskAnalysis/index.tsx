@@ -15,12 +15,13 @@ import {
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
-import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import MultiFileObjectInput from '#components/domain/MultiFileObjectInput';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
+import { EAP_ACCEPTED_FILE_FORMATS } from '#utils/constants';
 
-import { charLimits } from '../common';
+import { wordLimits } from '../common';
 import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
 
@@ -208,20 +209,23 @@ function RiskAnalysis(props: Props) {
                             error={error?.prioritized_hazard_and_impact}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.prioritized_hazard_and_impact}
+                            maxWords={wordLimits.prioritized_hazard_and_impact}
                         />
-                        <MultiImageWithCaptionInput
-                            name="hazard_impact_images"
+                        <MultiFileObjectInput
+                            name="hazard_impact_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.hazard_impact_images}
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
+                            value={value?.hazard_impact_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.hazard_impact_images)}
+                            error={getErrorObject(error?.hazard_impact_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.uploadImageLabel}
-                        />
+                            description={strings.uploadFileLabel}
+                        >
+                            {strings.selectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                     <InputSection
                         title={strings.riskProtocol}
@@ -236,20 +240,23 @@ function RiskAnalysis(props: Props) {
                             error={error?.risks_selected_protocols}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.risks_selected_protocols}
+                            maxWords={wordLimits.risks_selected_protocols}
                         />
-                        <MultiImageWithCaptionInput
-                            name="risk_selected_protocols_images"
+                        <MultiFileObjectInput
+                            name="risk_selected_protocols_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.risk_selected_protocols_images}
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
+                            value={value?.risk_selected_protocols_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.risk_selected_protocols_images)}
+                            error={getErrorObject(error?.risk_selected_protocols_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.uploadImageLabel}
-                        />
+                            description={strings.uploadFileLabel}
+                        >
+                            {strings.selectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                 </ListView>
             </Container>
@@ -327,20 +334,23 @@ function RiskAnalysis(props: Props) {
                             error={error?.selected_early_actions}
                             disabled={disabled}
                             readOnly={readOnly}
-                            maxLength={charLimits.selected_early_actions}
+                            maxWords={wordLimits.selected_early_actions}
                         />
-                        <MultiImageWithCaptionInput
-                            name="selected_early_actions_images"
+                        <MultiFileObjectInput
+                            name="selected_early_actions_files"
                             url="/api/v2/eap-file/multiple/"
-                            value={value?.selected_early_actions_images}
+                            accept={EAP_ACCEPTED_FILE_FORMATS}
+                            value={value?.selected_early_actions_files}
                             onChange={setFieldValue}
-                            error={getErrorObject(error?.selected_early_actions_images)}
+                            error={getErrorObject(error?.selected_early_actions_files)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
                             readOnly={readOnly}
-                            description={strings.uploadImageLabel}
-                        />
+                            description={strings.uploadFileLabel}
+                        >
+                            {strings.selectFilesLabel}
+                        </MultiFileObjectInput>
                     </InputSection>
                 </ListView>
             </Container>

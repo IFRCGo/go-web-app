@@ -28,14 +28,12 @@ const overviewTabFields: (FormKeys)[] = [
     'national_society_contact_title',
     'national_society_contact_email',
     'national_society_contact_phone_number',
+    'include_rcrc_climate_center',
+    'partners',
     'partner_contacts',
     'dref_focal_point_name',
     'dref_focal_point_email',
     'dref_focal_point_phone_number',
-    'ifrc_delegation_focal_point_name',
-    'ifrc_delegation_focal_point_title',
-    'ifrc_delegation_focal_point_email',
-    'ifrc_delegation_focal_point_phone_number',
     'dref_focal_point_name',
     'dref_focal_point_title',
     'dref_focal_point_email',
@@ -52,10 +50,6 @@ const overviewTabFields: (FormKeys)[] = [
     'ifrc_regional_head_dcc_title',
     'ifrc_regional_head_dcc_email',
     'ifrc_regional_head_dcc_phone_number',
-    'ifrc_global_ops_coordinator_name',
-    'ifrc_global_ops_coordinator_title',
-    'ifrc_global_ops_coordinator_email',
-    'ifrc_global_ops_coordinator_phone_number',
     'is_worked_with_government',
     'worked_with_government_description',
     'key_actors',
@@ -65,13 +59,13 @@ const overviewTabFields: (FormKeys)[] = [
 ];
 
 const riskAnalysisTabFields: (keyof PartialEapFullFormType)[] = [
-    'hazard_selection_images',
+    'hazard_selection_files',
     'hazard_selection',
     'exposed_element_and_vulnerability_factor',
-    'exposed_element_and_vulnerability_factor_images',
+    'exposed_element_and_vulnerability_factor_files',
     'prioritized_impact',
     'prioritized_impacts',
-    'prioritized_impact_images',
+    'prioritized_impact_files',
     'risk_analysis_relevant_files',
     'risk_analysis_source_of_information',
 ];
@@ -82,12 +76,12 @@ const triggerModelTabFields: (keyof PartialEapFullFormType)[] = [
     'lead_timeframe_unit',
     'trigger_statement_source_of_information',
     'forecast_selection',
-    'forecast_selection_images',
+    'forecast_selection_files',
     'forecast_table_file',
     'definition_and_justification_impact_level',
-    'definition_and_justification_impact_level_images',
+    'definition_and_justification_impact_level_files',
     'identification_of_the_intervention_area',
-    'identification_of_the_intervention_area_images',
+    'identification_of_the_intervention_area_files',
     'admin2',
     'trigger_model_source_of_information',
     'trigger_model_relevant_files',
@@ -96,7 +90,7 @@ const triggerModelTabFields: (keyof PartialEapFullFormType)[] = [
 const selectionActionsTabFields: (keyof PartialEapFullFormType)[] = [
     'early_actions',
     'early_action_selection_process',
-    'early_action_selection_process_images',
+    'early_action_selection_process_files',
     'theory_of_change_table_file',
     'evidence_base',
     'evidence_base_source_of_information',
@@ -109,10 +103,10 @@ const selectionActionsTabFields: (keyof PartialEapFullFormType)[] = [
 
 const eapActivationTabFields: (keyof PartialEapFullFormType)[] = [
     'early_action_implementation_process',
-    'early_action_implementation_images',
-    'trigger_activation_system_images',
+    'early_action_implementation_files',
+    'trigger_activation_system_files',
     'trigger_activation_system',
-    'people_targeted',
+    'total_people_targeted',
     'selection_of_target_population',
     'stop_mechanism',
     'activation_process_relevant_files',
@@ -122,6 +116,7 @@ const eapActivationTabFields: (keyof PartialEapFullFormType)[] = [
 const mealTabFields: (keyof PartialEapFullFormType)[] = [
     'meal',
     'meal_relevant_files',
+    'meal_source_of_information',
 ];
 
 const nationalSocietyTabFields: (keyof PartialEapFullFormType)[] = [
@@ -129,6 +124,7 @@ const nationalSocietyTabFields: (keyof PartialEapFullFormType)[] = [
     'strategies_and_plans',
     'advance_financial_capacity',
     'capacity_relevant_files',
+    'ns_capacity_source_of_information',
 ];
 
 const financeLogisticsTabFields: (keyof PartialEapFullFormType)[] = [
@@ -176,7 +172,7 @@ export function checkTabErrors(
     return hasErrorOnAnyField;
 }
 
-export const charLimits = {
+export const wordLimits = {
     key_actors: 150,
     technical_working_groups_in_place_description: 150,
     hazard_selection: 1000,
@@ -203,5 +199,6 @@ export const charLimits = {
     prepositioning_cost_description: 500,
     early_action_cost_description: 500,
     eap_endorsement: 300,
-    people_targeted: 10000,
-} satisfies { [key in FormKeys]?: number };
+    total_people_targeted: 10000,
+    max_total_people_targeted: 10000000,
+} satisfies { [key in FormKeys | 'max_total_people_targeted']?: number };

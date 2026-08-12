@@ -37,20 +37,16 @@
         "nationalHeading": "National",
         "nationalSocietyContactHeading": "National Society Contact",
         "partnerNationalSocietyContactHeading": "Partner National Society Contact",
-        "delegationHeading": "Delegation",
-        "delegationFocalPointLabel": "IFRC Delegation AA Focal Point",
-        "delegationHeadLabel": "IFRC Head of Delegation",
         "regionalGlobalHeading": "Regional & global",
         "drefFocalPointLabel": "DREF Focal Point",
         "regionalFocalPointLabel": "IFRC Regional AA Focal Point",
         "regionalOpsManager": "IFRC Regional Ops Manager",
         "regionalHeadLabel": "IFRC Regional Head of DCC",
-        "globalOpsCoordinator": "IFRC Global Ops Coordinator",
         "enablingApproachesLabel": "Enabling Approaches",
         "conditionsToDeliverHeading": "Conditions to deliver the Early Action",
         "earlyActionCapacityHeading": "Experience and/or capacity to implement the early actions",
         "rcrcMovementInvolvementHeading": "RCRC Movement partners, Governmental/other agencies consulted/involved",
         "contactInformationHeading": "Contact information",
-        "contactInformationDescription": "For further information, specifically related to this simplified EAP please contact:"
+        "contactInformationDescription": "For further information, specifically related to this EAP please contact:"
     }
 }
