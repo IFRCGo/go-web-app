@@ -98,6 +98,39 @@ export function isImageFile(urlString: string | undefined | null) {
     return isTruthyString(extension) && imageFileExtensions.includes(extension);
 }
 
+export function isFileAccepted(file: File, accept: string | undefined | null) {
+    if (isNotDefined(accept)) {
+        return true;
+    }
+
+    const acceptedFormats = accept
+        .split(',')
+        .map((format) => format.trim().toLowerCase())
+        .filter(isTruthyString);
+
+    if (acceptedFormats.length === 0
+        || acceptedFormats.includes('*')
+        || acceptedFormats.includes('*/*')
+    ) {
+        return true;
+    }
+
+    const fileName = file.name.toLowerCase();
+    const fileType = file.type.toLowerCase();
+
+    return acceptedFormats.some((format) => {
+        if (format.startsWith('.')) {
+            return fileName.endsWith(format);
+        }
+
+        if (format.endsWith('/*')) {
+            return fileType.startsWith(format.substring(0, format.length - 1));
+        }
+
+        return fileType === format;
+    });
+}
+
 export function formatSourceLink(value: string | undefined): string | undefined {
     if (
         isNotDefined(value)

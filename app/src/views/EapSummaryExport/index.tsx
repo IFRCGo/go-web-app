@@ -274,6 +274,7 @@ export function Component() {
             <PrintableContainer
                 heading={strings.summaryHeading}
                 headingLevel={2}
+                breakBefore
             >
                 <div
                     className={_cs(
@@ -394,6 +395,7 @@ export function Component() {
             <PrintableContainer
                 heading={strings.operationalStrategyHeading}
                 headingLevel={2}
+                breakBefore
             >
                 <PrintableContainer
                     heading={strings.nationalSocietyStrategyHeading}
@@ -423,6 +425,7 @@ export function Component() {
             <PrintableContainer
                 heading={strings.plannedOperationsHeading}
                 headingLevel={2}
+                breakBefore
             >
                 {planned_operations?.map((operation) => {
                     const apCodeSectorValue = apCodeOptions?.sector_ap_codes
@@ -552,6 +555,7 @@ export function Component() {
             <PrintableContainer
                 heading={strings.enablingApproachesLabel}
                 headingLevel={2}
+                breakBefore
             >
                 {enabling_approaches?.map((approach) => {
                     const apCodeApproachValue = apCodeOptions?.approach_ap_codes
@@ -671,6 +675,7 @@ export function Component() {
             <PrintableContainer
                 heading={strings.budgetHeading}
                 headingLevel={2}
+                breakBefore
             >
                 <ListView
                     layout="grid"

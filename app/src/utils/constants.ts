@@ -248,4 +248,4 @@ export const EAP_STATUS_NS_ADDRESSING_COMMENTS = 30 satisfies EapStatus;
 export const EAP_STATUS_TECHNICALLY_VALIDATED = 40 satisfies EapStatus;
 export const EAP_STATUS_APPROVED = 50 satisfies EapStatus;
 export const EAP_STATUS_PROJECT_AGREEMENT_SIGNED = 60 satisfies EapStatus;
-export const EAP_ACCEPTED_FILE_FORMATS = '.pdf, .docx, .pptx, image/*';
+export const EAP_ACCEPTED_FILE_FORMATS = '.pdf, .docx, .pptx, .xlsx, image/*';
