@@ -18,6 +18,7 @@ import {
     RawFileInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToString } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -26,6 +27,7 @@ import { nonFieldError } from '@togglecorp/toggle-form';
 
 import Link from '#components/Link';
 import useAlert from '#hooks/useAlert';
+import { isFileAccepted } from '#utils/common';
 import { useLazyRequest } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';
 
@@ -160,10 +162,41 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleChange = useCallback((files: File[] | undefined) => {
-        if (files) {
-            triggerFileUpload({ files });
+        if (isNotDefined(files) || files.length === 0) {
+            return;
         }
-    }, [triggerFileUpload]);
+
+        const acceptedFiles: File[] = [];
+        const rejectedFiles: File[] = [];
+
+        files.forEach((file) => {
+            if (isFileAccepted(file, accept)) {
+                acceptedFiles.push(file);
+            } else {
+                rejectedFiles.push(file);
+            }
+        });
+
+        if (rejectedFiles.length > 0) {
+            alert.show(
+                strings.unsupportedFileFormatMessage,
+                {
+                    variant: 'danger',
+                    description: resolveToString(
+                        strings.unsupportedFileFormatDescription,
+                        {
+                            fileNames: rejectedFiles.map((file) => file.name).join(', '),
+                            fileFormats: accept ?? '',
+                        },
+                    ),
+                },
+            );
+        }
+
+        if (acceptedFiles.length > 0) {
+            triggerFileUpload({ files: acceptedFiles });
+        }
+    }, [triggerFileUpload, accept, alert, strings]);
 
     const handleClearButtonClick = useCallback(() => {
         onChange(undefined, name);
@@ -255,6 +288,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                                         styleVariant="action"
                                         onClick={handleFileRemove}
                                         title={strings.goMultiDeleteButton}
+                                        disabled={disabled}
                                     >
                                         <DeleteBinFillIcon />
                                     </Button>

@@ -1,0 +1,17 @@
+{
+    "parent": "000087-1786514559033.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "unsupportedFileFormatDescription",
+            "namespace": "goMultiFileInput",
+            "value": "{fileNames} could not be added. Only the following file formats are accepted: {fileFormats}."
+        },
+        {
+            "action": "add",
+            "key": "unsupportedFileFormatMessage",
+            "namespace": "goMultiFileInput",
+            "value": "Unsupported file format!"
+        }
+    ]
+}

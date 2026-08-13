@@ -210,6 +210,11 @@ export function Component() {
                 updated_checklist_file_details,
                 theory_of_change_table_file_details,
                 risk_analysis_relevant_files_details,
+                evidence_base_relevant_files_details,
+                activation_process_relevant_files_details,
+                trigger_model_relevant_files_details,
+                meal_relevant_files_details,
+                capacity_relevant_files_details,
             } = response;
             return {
                 ...prevMap,
@@ -226,6 +231,11 @@ export function Component() {
                         ...(prioritized_impact_files ?? []),
                         ...(early_action_implementation_files ?? []),
                         ...(risk_analysis_relevant_files_details ?? []),
+                        ...(evidence_base_relevant_files_details ?? []),
+                        ...(activation_process_relevant_files_details ?? []),
+                        ...(trigger_model_relevant_files_details ?? []),
+                        ...(meal_relevant_files_details ?? []),
+                        ...(capacity_relevant_files_details ?? []),
                         budget_file_details,
                         forecast_table_file_details,
                         updated_checklist_file_details,
