@@ -295,8 +295,6 @@
         "immSourceNameLabel": "Name",
         "immSourceLinkLabel": "Link",
         "immSourceLinkDesc": "Specify the names (up to 5) of the key information sources. If possible, provide links.\nThe names will be shown in the export as an hyperlink.",
-        "immTargetingHeading": "Targeting",
-        "immPeopleTargetedWithEarlyActionsLabel": "People targeted with early actions",
         "immProposedActionsHeading": "Proposed Actions",
         "immProposedActionsLabel": "Proposed Actions",
         "immProposedActionBudgetLabel": "Budget (CHF)",

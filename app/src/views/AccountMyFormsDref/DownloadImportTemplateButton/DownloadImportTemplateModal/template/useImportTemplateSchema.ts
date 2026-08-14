@@ -1229,14 +1229,6 @@ function useImportTemplateSchema() {
             },
 
             // OPERATION
-
-            people_targeted_with_early_actions: {
-                headingBefore: strings.immTargetingHeading,
-                type: 'input',
-                validation: 'number',
-                label: strings.immPeopleTargetedWithEarlyActionsLabel,
-            },
-
             proposed_action: {
                 headingBefore: strings.immProposedActionsHeading,
                 type: 'list',
