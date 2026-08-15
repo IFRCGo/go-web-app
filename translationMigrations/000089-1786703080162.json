@@ -1,0 +1,29 @@
+{
+    "parent": "000088-1786604379488.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "migrationConsiderationsInputDescription",
+            "namespace": "perOverviewForm",
+            "value": "Do you want to assess the migration aspects of your National Society?"
+        },
+        {
+            "action": "add",
+            "key": "migrationConsiderationsInputLabel",
+            "namespace": "perOverviewForm",
+            "value": "Migration Considerations"
+        },
+        {
+            "action": "update",
+            "key": "pageDescription",
+            "namespace": "recoverAccount",
+            "newValue": "Enter the email you used during registration"
+        },
+        {
+            "action": "update",
+            "key": "pageDescription",
+            "namespace": "resendValidationEmail",
+            "newValue": "Enter the email you used during registration"
+        }
+    ]
+}

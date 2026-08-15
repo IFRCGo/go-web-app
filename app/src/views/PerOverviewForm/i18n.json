@@ -24,6 +24,8 @@
         "urbanConsiderationsInputDescription": "Do you want to assess the urban aspects of your National Society?",
         "climateAndEnvironmentalConsiderationsInputLabel": "Climate and environmental considerations",
         "climateAndEnvironmentalConsiderationsInputDescription": "Do you want to assess the climate and environment of your National Society?",
+        "migrationConsiderationsInputLabel": "Migration Considerations",
+        "migrationConsiderationsInputDescription": "Do you want to assess the migration aspects of your National Society?",
         "dateOfPreviousPerAssessmentInputLabel": "Date of previous assessment",
         "typeOfPreviousPerAssessmentInputLabel": "Type of previous PER assessment",
         "processCycleHeading": "Per Process Cycle",
