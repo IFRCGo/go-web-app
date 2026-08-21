@@ -48,8 +48,10 @@ type OverviewKeys = typeof overviewTabFields[number];
 const riskAnalysisTabFields = [
     'prioritized_hazard_and_impact',
     'hazard_impact_files',
+    'potential_risks',
     'risks_selected_protocols',
     'risk_selected_protocols_files',
+    'early_actions',
     'selected_early_actions',
     'selected_early_actions_files',
 ] as const satisfies Exclude<FormKeys, OverviewKeys>[];

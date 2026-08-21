@@ -41,6 +41,11 @@
         "riskSectionCriteriaComment32": "In case evidence is available, there should be a description on the effectiveness of the action in reducing the targeted impact.",
         "riskSectionCriteriaComment33": "If evidence is not available, further information may be requested on how the National Society foresee that the action chosen will reduce the specific risk.",
         "riskSectionCriteriaIntroduction4": "Selected early action activities are planned in accordance with identified standards.",
-        "riskSectionCriteriaComment4": "If relevant for the type of intervention, actions should be in line with accepted international and/or national standards, regulations, laws for the relevant sector. E.g. SPHERE, LEGS, Minimum standards for protection, gender and inclusion in emergencies and the principles of Do No Harm."
+        "riskSectionCriteriaComment4": "If relevant for the type of intervention, actions should be in line with accepted international and/or national standards, regulations, laws for the relevant sector. E.g. SPHERE, LEGS, Minimum standards for protection, gender and inclusion in emergencies and the principles of Do No Harm.",
+        "prioritisedRisksLabel": "Prioritised risks",
+        "prioritisedRisksEmptyMessage": "No risks yet!",
+        "prioritisedEarlyActionsLabel": "Prioritised early actions",
+        "prioritisedEarlyActionsEmptyMessage": "No early actions yet!",
+        "addButtonLabel": "Add"
     }
 }

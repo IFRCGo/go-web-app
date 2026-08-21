@@ -14,7 +14,10 @@ import {
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { stringValueSelector } from '@ifrc-go/ui/utils';
+import {
+    resolveToString,
+    stringValueSelector,
+} from '@ifrc-go/ui/utils';
 import { isDefined } from '@togglecorp/fujs';
 import {
     type ArrayError,
@@ -28,6 +31,9 @@ import {
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
+    TIMEFRAME_DAYS,
+    TIMEFRAME_HOURS,
+    TIMEFRAME_MONTHS,
     TIMEFRAME_YEAR,
     type TimeFrameEnumKey,
 } from '#utils/constants';
@@ -39,6 +45,9 @@ import {
 import TimeSpanCheck from './TimeSpanCheck';
 
 import i18n from './i18n.json';
+
+// NOTE: Simplified EAPs are limited to a two year timeframe
+const SIMPLIFIED_EAP_MAX_YEARS = 2;
 
 const defaultActivityValue: OperationActivityFormFields = {
     client_id: '-1',
@@ -69,6 +78,7 @@ interface Props {
     withActivationSelection?: boolean;
     withoutTimeframeSelection?: boolean;
     leadTimeframeUnit?: TimeFrameEnumKey;
+    isSimplifiedEap?: boolean;
 }
 
 function EapOperationActivityInput(props: Props) {
@@ -84,6 +94,7 @@ function EapOperationActivityInput(props: Props) {
         withActivationSelection,
         withoutTimeframeSelection,
         leadTimeframeUnit,
+        isSimplifiedEap,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -116,16 +127,29 @@ function EapOperationActivityInput(props: Props) {
 
     const eapTimeFrameReadOnly = name === 'readiness_activities' || isTimeframeFixedToLeadTime;
 
+    const leadTimeHint = resolveToString(
+        strings.operationTimeFrameLeadTimeHint,
+        {
+            sectionName: isSimplifiedEap
+                ? strings.operationTimeFrameLeadTimeSectionEarlyAction
+                : strings.operationTimeFrameLeadTimeSectionTrigger,
+        },
+    );
+
     const getTimeValueOptions = useCallback(
         (timeframe?: number) => {
             switch (timeframe) {
-                case 10:
-                    return eap_years_timeframe_value ?? [];
-                case 20:
+                case TIMEFRAME_YEAR: {
+                    const yearOptions = eap_years_timeframe_value ?? [];
+                    return isSimplifiedEap
+                        ? yearOptions.filter(({ key }) => key <= SIMPLIFIED_EAP_MAX_YEARS)
+                        : yearOptions;
+                }
+                case TIMEFRAME_MONTHS:
                     return eap_months_timeframe_value ?? [];
-                case 30:
+                case TIMEFRAME_DAYS:
                     return eap_days_timeframe_value ?? [];
-                case 40:
+                case TIMEFRAME_HOURS:
                     return eap_hours_timeframe_value ?? [];
                 default:
                     return [];
@@ -136,6 +160,7 @@ function EapOperationActivityInput(props: Props) {
             eap_months_timeframe_value,
             eap_days_timeframe_value,
             eap_hours_timeframe_value,
+            isSimplifiedEap,
         ],
     );
 
@@ -225,7 +250,7 @@ function EapOperationActivityInput(props: Props) {
                                 error={error?.timeframe}
                                 readOnly={readOnly || eapTimeFrameReadOnly}
                                 hint={isTimeframeFixedToLeadTime
-                                    ? strings.operationTimeFrameLeadTimeHint
+                                    ? leadTimeHint
                                     : undefined}
                             />
                             {value?.timeframe && (
@@ -243,6 +268,9 @@ function EapOperationActivityInput(props: Props) {
                                     withoutOpticalSpacingCorrection
                                     error={getErrorString(error?.time_value)}
                                     readOnly={readOnly}
+                                    hint={isTimeframeFixedToLeadTime
+                                        ? strings.operationActivityTimeSpanHint
+                                        : undefined}
                                 />
                             ) }
                         </ListView>

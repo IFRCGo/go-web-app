@@ -763,7 +763,6 @@ export const formSchema: EapFullFormSchema = {
                             requiredValidation: requiredStringCondition,
                         },
                         source_link: {
-                            required: isSubmit,
                             validations: [urlCondition],
                         },
                     }),
@@ -787,7 +786,6 @@ export const formSchema: EapFullFormSchema = {
                             requiredValidation: requiredStringCondition,
                         },
                         source_link: {
-                            required: isSubmit,
                             validations: [urlCondition],
                         },
                     }),
@@ -867,7 +865,6 @@ export const formSchema: EapFullFormSchema = {
                             requiredValidation: requiredStringCondition,
                         },
                         source_link: {
-                            required: isSubmit,
                             validations: [urlCondition],
                         },
                     }),
@@ -924,7 +921,6 @@ export const formSchema: EapFullFormSchema = {
                             requiredValidation: requiredStringCondition,
                         },
                         source_link: {
-                            required: isSubmit,
                             validations: [urlCondition],
                         },
                     }),
@@ -1121,7 +1117,6 @@ export const formSchema: EapFullFormSchema = {
                                 requiredValidation: requiredStringCondition,
                             },
                             source_link: {
-                                required: isSubmit,
                                 validations: [urlCondition],
                             },
                         }),
@@ -1148,7 +1143,6 @@ export const formSchema: EapFullFormSchema = {
                             requiredValidation: requiredStringCondition,
                         },
                         source_link: {
-                            required: isSubmit,
                             validations: [urlCondition],
                         },
                     }),
@@ -1189,7 +1183,6 @@ export const formSchema: EapFullFormSchema = {
                             requiredValidation: requiredStringCondition,
                         },
                         source_link: {
-                            required: isSubmit,
                             validations: [urlCondition],
                         },
                     }),

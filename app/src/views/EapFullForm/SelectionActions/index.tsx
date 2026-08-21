@@ -644,6 +644,8 @@ function SelectionActions(props: Props) {
                             approachApCodeOption={apCodeOptions?.approach_ap_codes}
                             disabled={disabled}
                             readOnly={readOnly}
+                            leadTimeframeUnit={value?.lead_timeframe_unit}
+
                         />
                     ))}
                     <InputSection

@@ -450,6 +450,15 @@ function EapTableActions(props: Props) {
                             {strings.downloadValidatedBudgetLinkLabel}
                         </Link>
                     )}
+                    {isDefined(eap.final_review_checklist_file) && (
+                        <Link
+                            external
+                            href={eap.final_review_checklist_file}
+                            before={<DownloadTwoLineIcon />}
+                        >
+                            {strings.downloadFinalReviewChecklistLinkLabel}
+                        </Link>
+                    )}
                     {eap.status === EAP_STATUS_TECHNICALLY_VALIDATED && (
                         <BudgetFileInput
                             eapId={eap.id}

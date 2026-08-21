@@ -122,6 +122,7 @@ function OperationsBySectorInput(props: Props) {
                         value={value.readiness_activities}
                         onChange={onFieldChange}
                         readOnly={readOnly}
+                        isSimplifiedEap
                         error={getErrorObject(error)?.readiness_activities}
                     />
                     <EapOperationActivityListInput
@@ -129,6 +130,7 @@ function OperationsBySectorInput(props: Props) {
                         value={value.prepositioning_activities}
                         onChange={onFieldChange}
                         readOnly={readOnly}
+                        isSimplifiedEap
                         error={getErrorObject(error)?.prepositioning_activities}
                     />
                     <EapOperationActivityListInput
@@ -136,6 +138,7 @@ function OperationsBySectorInput(props: Props) {
                         value={value.early_action_activities}
                         onChange={onFieldChange}
                         readOnly={readOnly}
+                        isSimplifiedEap
                         error={getErrorObject(error)?.early_action_activities}
                     />
                 </ListView>

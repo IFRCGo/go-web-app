@@ -14,6 +14,7 @@ import {
     type ObjectSchema,
     type PartialForm,
     type PurgeNull,
+    requiredListCondition,
     requiredStringCondition,
     undefinedValue,
 } from '@togglecorp/toggle-form';
@@ -111,6 +112,13 @@ type PartnerContactsResponse = NonNullable<
     EapSimplifiedRequestBody['partner_contacts']
 >[number];
 
+type PotentialRiskResponse = NonNullable<
+    EapSimplifiedRequestBody['potential_risks']
+>[number];
+type SelectedEarlyActionResponse = NonNullable<
+    EapSimplifiedRequestBody['early_actions']
+>[number];
+
 type ApproachEarlyActionFormFields = ApproachEarlyActionResponse & {
     client_id: string;
 };
@@ -138,6 +146,13 @@ type EarlyActionFilesFormFields = EarlyActionFilesResponse & {
 };
 
 type PartnerContactsFormFields = PartnerContactsResponse & {
+    client_id: string;
+};
+
+type PotentialRiskFormFields = PotentialRiskResponse & {
+    client_id: string;
+};
+type SelectedEarlyActionFormFields = SelectedEarlyActionResponse & {
     client_id: string;
 };
 
@@ -184,27 +199,35 @@ type FormFields = DeepReplace<
                 DeepReplace<
                     DeepReplace<
                         DeepReplace<
-                            EapSimplifiedRequestBody,
-                            PlannedOperationsResponse,
-                            OperationsResponseFormFields
+                            DeepReplace<
+                                DeepReplace<
+                                    EapSimplifiedRequestBody,
+                                    PlannedOperationsResponse,
+                                    OperationsResponseFormFields
+                                >,
+                                PartnerContactsResponse,
+                                PartnerContactsFormFields
+                            >,
+                            EnableApproachesResponse,
+                            EnableApproachesResponseFormFields
                         >,
-                        PartnerContactsResponse,
-                        PartnerContactsFormFields
+                        CoverImageFileResponse,
+                        CoverImageFileFields
                     >,
-                    EnableApproachesResponse,
-                    EnableApproachesResponseFormFields
+                    HazardFilesResponse,
+                    HazardFilesFormFields
                 >,
-                CoverImageFileResponse,
-                CoverImageFileFields
+                RiskFilesResponse,
+                RiskFilesFormFields
             >,
-            HazardFilesResponse,
-            HazardFilesFormFields
+            EarlyActionFilesResponse,
+            EarlyActionFilesFormFields
         >,
-        RiskFilesResponse,
-        RiskFilesFormFields
+        PotentialRiskResponse,
+        PotentialRiskFormFields
     >,
-    EarlyActionFilesResponse,
-    EarlyActionFilesFormFields
+    SelectedEarlyActionResponse,
+    SelectedEarlyActionFormFields
 >;
 
 export type PartialSimplifiedEapType = PartialForm<
@@ -263,6 +286,21 @@ type EarlyActionFileFields = ReturnType<
 type PartnerContactFields = ReturnType<
     ObjectSchema<
         NonNullable<PartialSimplifiedEapType['partner_contacts']>[number],
+        PartialSimplifiedEapType,
+        EapSimplifiedFormContext
+    >['fields']
+>;
+
+type PotentialRiskFields = ReturnType<
+    ObjectSchema<
+        NonNullable<PartialSimplifiedEapType['potential_risks']>[number],
+        PartialSimplifiedEapType,
+        EapSimplifiedFormContext
+    >['fields']
+>;
+type SelectedEarlyActionFields = ReturnType<
+    ObjectSchema<
+        NonNullable<PartialSimplifiedEapType['early_actions']>[number],
         PartialSimplifiedEapType,
         EapSimplifiedFormContext
     >['fields']
@@ -388,6 +426,20 @@ export const formSchema: FormSchema = {
                 }),
                 validation: lessThanEqualToFiveImagesCondition,
             },
+            potential_risks: {
+                keySelector: (item) => item.client_id,
+                validation: isSubmit ? requiredListCondition : undefined,
+                member: () => ({
+                    fields: (): PotentialRiskFields => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        risk: {
+                            required: isSubmit,
+                            requiredValidation: requiredStringCondition,
+                        },
+                    }),
+                }),
+            },
             risks_selected_protocols: {
                 required: isSubmit,
                 requiredValidation: requiredStringCondition,
@@ -405,6 +457,20 @@ export const formSchema: FormSchema = {
                     }),
                 }),
                 validation: lessThanEqualToFiveImagesCondition,
+            },
+            early_actions: {
+                keySelector: (item) => item.client_id,
+                validation: isSubmit ? requiredListCondition : undefined,
+                member: () => ({
+                    fields: (): SelectedEarlyActionFields => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        action: {
+                            required: isSubmit,
+                            requiredValidation: requiredStringCondition,
+                        },
+                    }),
+                }),
             },
             selected_early_actions: {
                 required: isSubmit,

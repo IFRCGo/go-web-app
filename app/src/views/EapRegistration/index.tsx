@@ -168,9 +168,6 @@ export function Component() {
 
     const disabled = eapRegistrationPending;
 
-    const isEpidemicDisasterType = value?.disaster_type === DISASTER_TYPE_EPIDEMIC;
-    const isOtherDisasterType = value?.disaster_type === DISASTER_TYPE_OTHER;
-
     return (
         <Page
             heading={strings.registrationHeading}
@@ -252,18 +249,14 @@ export function Component() {
                                 error={error?.disaster_type}
                                 disabled={disabled}
                             />
-                            {(isEpidemicDisasterType || isOtherDisasterType) && (
-                                <TextInput
-                                    name="disaster_sub_type"
-                                    value={value?.disaster_sub_type}
-                                    onChange={setFieldValue}
-                                    error={error?.disaster_sub_type}
-                                    disabled={disabled}
-                                    placeholder={isEpidemicDisasterType
-                                        ? strings.epidemicType
-                                        : strings.otherDisasterType}
-                                />
-                            )}
+                            <TextInput
+                                name="disaster_sub_type"
+                                value={value?.disaster_sub_type}
+                                onChange={setFieldValue}
+                                error={error?.disaster_sub_type}
+                                disabled={disabled}
+                                placeholder={strings.disasterSubTypePlaceholder}
+                            />
                         </InputSection>
                         <InputSection
                             title={strings.type}

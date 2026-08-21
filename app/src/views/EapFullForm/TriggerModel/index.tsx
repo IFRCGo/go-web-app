@@ -7,9 +7,9 @@ import {
     InputSection,
     Label,
     ListView,
+    NumberInput,
     SelectInput,
     TextArea,
-    TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
@@ -313,7 +313,7 @@ function TriggerModel(props: Props) {
                         withAsteriskOnTitle
                         numPreferredColumns={2}
                     >
-                        <TextInput
+                        <NumberInput
                             required
                             name="lead_time"
                             value={value?.lead_time}

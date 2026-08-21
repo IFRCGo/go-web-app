@@ -3,7 +3,10 @@
     "strings": {
         "operationPriorityActionLabel": "Activities",
         "operationTimeFrameLabel": "Timeframe",
-        "operationTimeFrameLeadTimeHint": "Taken from the lead time in the trigger section. Change it there to update this.",
+        "operationTimeFrameLeadTimeHint": "Taken from the lead time in the {sectionName} section. Change it there to update this.",
+        "operationTimeFrameLeadTimeSectionTrigger": "trigger",
+        "operationTimeFrameLeadTimeSectionEarlyAction": "early action intervention",
+        "operationActivityTimeSpanHint": "Start counting the timeframe after the trigger is reached: day 1 is the day the trigger is met",
         "operationTimeValueLabel": "Activity Time Span",
         "operationActivationLabel": "Activation",
         "operationActivationOneLabel": "Activation 1",

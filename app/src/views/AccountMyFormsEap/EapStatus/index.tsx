@@ -111,6 +111,7 @@ function EapStatus(props: Props) {
     const { eap_eap_status: eapStatusOptions } = useGlobalEnums();
     const [newStatus, setNewStatus] = useState<EapStatus | undefined>();
     const [checklistFile, setChecklistFile] = useState<File | undefined>();
+    const [finalChecklistFile, setFinalChecklistFile] = useState<File | undefined>();
     const [responseFormErrors, setResponseFormErrors] = useState<ResponseObjectError>();
 
     const strings = useTranslation(i18n);
@@ -130,6 +131,8 @@ function EapStatus(props: Props) {
         body: (fields: EapStatusBody) => fields,
         onSuccess: () => {
             setNewStatus(undefined);
+            setChecklistFile(undefined);
+            setFinalChecklistFile(undefined);
             if (onStatusUpdate) {
                 onStatusUpdate();
             }
@@ -164,12 +167,15 @@ function EapStatus(props: Props) {
         () => ({
             status: newStatus,
             review_checklist_file: checklistFile,
+            final_review_checklist_file: finalChecklistFile,
         } as EapStatusBody),
-        [newStatus, checklistFile],
+        [newStatus, checklistFile, finalChecklistFile],
     );
 
     const handleStatusUpdateCancel = useCallback(() => {
         setNewStatus(undefined);
+        setChecklistFile(undefined);
+        setFinalChecklistFile(undefined);
     }, []);
 
     const isSimplifiedEapLocked = status === EAP_STATUS_NS_ADDRESSING_COMMENTS
@@ -179,6 +185,8 @@ function EapStatus(props: Props) {
 
     const confirmDisabled = (
         (newStatus === EAP_STATUS_NS_ADDRESSING_COMMENTS && isNotDefined(checklistFile))
+            || (newStatus === EAP_STATUS_TECHNICALLY_VALIDATED
+                && isNotDefined(finalChecklistFile))
             || (newStatus === EAP_STATUS_APPROVED && !hasValidatedBudgetFile)
         || isDefined(responseFormErrors)
         || isSimplifiedEapLocked || isFullEapLocked
@@ -289,6 +297,27 @@ function EapStatus(props: Props) {
                                 </RawFileInput>
                                 <Label>
                                     {isDefined(checklistFile) && checklistFile.name}
+                                </Label>
+                            </ListView>
+                        )}
+                        {newStatus === EAP_STATUS_TECHNICALLY_VALIDATED && (
+                            <ListView
+                                layout="block"
+                                spacing="sm"
+                            >
+                                <Description withLightText>
+                                    {strings.finalReviewChecklistDescription}
+                                </Description>
+                                <RawFileInput
+                                    name="final_review_checklist_file"
+                                    onChange={setFinalChecklistFile}
+                                    before={<UploadLineIcon />}
+                                    accept=".pdf, .docx, .pptx, .xlsx, .xlsm"
+                                >
+                                    {strings.finalReviewChecklistInputLabel}
+                                </RawFileInput>
+                                <Label>
+                                    {isDefined(finalChecklistFile) && finalChecklistFile.name}
                                 </Label>
                             </ListView>
                         )}
