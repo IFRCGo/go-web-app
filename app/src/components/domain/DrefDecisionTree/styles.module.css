@@ -1,0 +1,47 @@
+.dref-decision-tree {
+    --min-height: min(36rem, calc(100vh - 10rem));
+
+    .summary-section {
+        align-self: stretch;
+        min-height: var(--min-height);
+        border-inline-end: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+
+        .summary-step {
+            padding: 0 var(--go-ui-spacing-sm);
+            text-align: start;
+            font-size: var(--go-ui-font-size-sm);
+
+            .details {
+                border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+                padding-block-end: var(--go-ui-spacing-2xs);
+            }
+
+            &:hover {
+                .details {
+                    border-bottom-color: var(--go-ui-color-primary-red);
+                }
+            }
+
+            .circle {
+                border-radius: 50%;
+                background-color: var(--go-ui-color-primary-red);
+                width: 0.6rem;
+                aspect-ratio: 1;
+            }
+
+            .summary-answer {
+                color: var(--go-ui-color-primary-red);
+                font-weight: var(--go-ui-font-weight-medium);
+            }
+        }
+    }
+
+    .question-section {
+        min-height: var(--min-height);
+
+        .active-question {
+            text-align: center;
+            font-size: var(--go-ui-font-size-2xl);
+        }
+    }
+}

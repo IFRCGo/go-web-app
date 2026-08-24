@@ -1,0 +1,15 @@
+{
+    "namespace": "imminentDrefTable",
+    "strings": {
+        "imminentTableHeading": "Imminent DREF operations",
+        "imminentStartDate": "Start Date",
+        "imminentCode": "Appeal Code",
+        "imminentOperation": "Operation",
+        "imminentDisasterType": "Disaster Type",
+        "imminentCountry": "Country",
+        "imminentFilterSearchPlaceholder": "Search",
+        "imminentFilterAllYears": "All Years",
+        "imminentClearFilters": "Clear Filters",
+        "imminentLoginRequired": "Log in to view imminent DREF operations."
+    }
+}

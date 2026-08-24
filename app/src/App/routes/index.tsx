@@ -319,46 +319,46 @@ const emergencyAdditionalInfo = customWrapRoute({
     },
 });
 
-type DefaultDrefDetailChild = 'dref-detail';
-const drefProcessLayout = customWrapRoute({
+type DefaultDrefPillarChild = 'response-pillar';
+const drefLayout = customWrapRoute({
     parent: rootLayout,
-    path: 'dref-process',
-    forwardPath: 'dref-detail' satisfies DefaultDrefDetailChild,
+    path: 'dref',
+    forwardPath: 'response-pillar' satisfies DefaultDrefPillarChild,
     component: {
-        render: () => import('#views/DrefProcess'),
+        render: () => import('#views/Dref'),
         props: {},
     },
     wrapperComponent: Auth,
     context: {
-        title: 'DREF Process',
+        title: 'Disaster Response Emergency Fund (DREF)',
         visibility: 'anything',
     },
 });
 
-const drefDetail = customWrapRoute({
-    parent: drefProcessLayout,
-    path: 'dref-detail' satisfies DefaultDrefDetailChild,
+const drefResponsePillar = customWrapRoute({
+    parent: drefLayout,
+    path: 'response-pillar' satisfies DefaultDrefPillarChild,
     component: {
-        render: () => import('#views/DrefDetail'),
+        render: () => import('#views/DrefResponsePillar'),
         props: {},
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Response and Imminent DREF',
+        title: 'Response Pillar',
         visibility: 'anything',
     },
 });
 
-const eapDetail = customWrapRoute({
-    parent: drefProcessLayout,
-    path: 'eap-detail',
+const drefAnticipatoryPillar = customWrapRoute({
+    parent: drefLayout,
+    path: 'anticipatory-pillar',
     component: {
-        render: () => import('#views/EarlyActionProtocols'),
+        render: () => import('#views/DrefAnticipatoryPillar'),
         props: {},
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Early Action Protocols',
+        title: 'Anticipatory Pillar',
         visibility: 'anything',
     },
 });
@@ -1541,9 +1541,9 @@ const wrappedRoutes = {
     // Redirects
     preparednessOperationalLearning,
     obsoleteFieldReportDetails,
-    drefDetail,
-    eapDetail,
-    drefProcessLayout,
+    drefLayout,
+    drefResponsePillar,
+    drefAnticipatoryPillar,
     eapRegistrationLayout,
     eapDevelopmentRegistrationForm,
     eapFullExport,

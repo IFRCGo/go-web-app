@@ -1,0 +1,11 @@
+{
+    "namespace": "dref",
+    "strings": {
+        "home": "Home",
+        "respond": "Respond",
+        "drefHeading": "Disaster Response Emergency Fund (DREF)",
+        "drefDescription": "The Disaster Response Emergency Fund (DREF) provides rapid and reliable funding to National Societies to prepare for and respond to crises. This page is the main hub for understanding how DREF works, choosing the right modality, and exploring active operations.",
+        "drefAnticipatoryPillarTab": "Anticipatory Pillar",
+        "drefResponsePillarTab": "Response Pillar"
+    }
+}

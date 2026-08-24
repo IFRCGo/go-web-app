@@ -1,0 +1,19 @@
+{
+    "namespace": "drefKeyResources",
+    "strings": {
+        "keyResourcesHeading": "Key DREF resources",
+        "openDocument": "Open document",
+        "drefProceduresName": "DREF Procedures",
+        "drefProceduresDescription": "Comprehensive operational procedures for all DREF modalities including application, approval, and reporting requirements.",
+        "drefGuidelinesName": "DREF Guidelines",
+        "drefGuidelinesDescription": "Detailed technical guidance covering eligibility criteria, activity design, budget planning, and implementation standards.",
+        "anticipationHubName": "Anticipation Hub Website",
+        "anticipationHubDescription": "A wealth of resources available on anticipatory action for a range of stakeholders.",
+        "aaManualName": "AA Manual",
+        "aaManualDescription": "A detailed overview on how to develop an Early Action Protocol.",
+        "erfName": "Emergency Response Framework (ERF)",
+        "erfDescription": "Official Framework which determines the mechanisms, roles and responsibilities, as well as operational pathways for IFRC supported operations.",
+        "rbmName": "Results-Based Management (RBM)",
+        "rbmDescription": "Guidance on results-based planning, monitoring, reporting, and operational learning for DREF operations, helping teams deliver measurable, accountable, and effective humanitarian responses."
+    }
+}

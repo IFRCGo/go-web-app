@@ -334,17 +334,45 @@ function Navbar(props: Props) {
                                 name="dref-process"
                                 description={strings.userMenuDrefProcessDescription}
                                 footer={(
-                                    <DropdownMenuItem
-                                        type="link"
-                                        to="newDrefApplicationForm"
-                                        styleVariant="action"
-                                        colorVariant="primary"
-                                        withoutFullWidth
-                                    >
-                                        {strings.userMenuCreateDrefApplication}
-                                    </DropdownMenuItem>
+                                    <>
+                                        <DropdownMenuItem
+                                            type="link"
+                                            to="newDrefApplicationForm"
+                                            styleVariant="action"
+                                            colorVariant="primary"
+                                            withoutFullWidth
+                                        >
+                                            {strings.userMenuCreateDrefApplication}
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem
+                                            type="link"
+                                            to="drefResponsePillar"
+                                            state={{ openDecisionTree: true }}
+                                            styleVariant="action"
+                                            colorVariant="primary"
+                                            withoutFullWidth
+                                        >
+                                            {strings.userMenuDrefDecisionTree}
+                                        </DropdownMenuItem>
+                                    </>
                                 )}
                             >
+                                <DropdownMenuItem
+                                    type="link"
+                                    to="drefAnticipatoryPillar"
+                                    styleVariant="action"
+                                    withoutFullWidth
+                                >
+                                    {strings.userMenuDrefAnticipatoryPillar}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    type="link"
+                                    to="drefResponsePillar"
+                                    styleVariant="action"
+                                    withoutFullWidth
+                                >
+                                    {strings.userMenuDrefResponsePillar}
+                                </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
                                     to="accountMyFormsDref"
