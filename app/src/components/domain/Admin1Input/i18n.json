@@ -1,0 +1,12 @@
+{
+    "namespace": "admin1Input",
+    "strings": {
+        "heading": "Selected Areas",
+        "buttonLabel": "Select Areas",
+        "emptyMessage": "Select the admin 1 on a map.",
+        "modalHeading": "Select admin 1",
+        "doneButtonLabel": "Done",
+        "mapTitle": "Admin 1 Map",
+        "removeAreaButtonLabel": "Remove area"
+    }
+}

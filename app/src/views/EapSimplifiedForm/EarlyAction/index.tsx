@@ -24,10 +24,12 @@ import {
     getErrorString,
 } from '@togglecorp/toggle-form';
 
+import Admin1Input from '#components/domain/Admin1Input';
 import Admin2Input from '#components/domain/Admin2Input';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
+import useCountryHasAdmin2 from '#hooks/domain/useCountryHasAdmin2';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { TIMEFRAME_YEAR } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
@@ -75,6 +77,10 @@ function EarlyAction(props: Props) {
     const eapTimeframeOption = eap_timeframe?.filter(
         (item) => item.key !== TIMEFRAME_YEAR,
     );
+
+    const { hasAdmin2 } = useCountryHasAdmin2(eapRegistrationDetail?.country);
+    const showAdmin1 = (value?.districts?.length ?? 0) > 0 || hasAdmin2 === false;
+    const showAdmin2 = (value?.admin2?.length ?? 0) > 0 || hasAdmin2 === true;
 
     const handleLeadTimeframeUnitChange = useCallback(
         (newValue: TimeframeOption['key'] | undefined) => {
@@ -245,13 +251,25 @@ function EarlyAction(props: Props) {
                         )}
                         withAsteriskOnTitle
                     >
-                        {isDefined(eapRegistrationDetail?.country) && (
+                        {isDefined(eapRegistrationDetail?.country) && showAdmin2 && (
                             <Admin2Input
                                 name="admin2"
                                 onChange={setFieldValue}
                                 value={value?.admin2}
                                 countryId={eapRegistrationDetail.country}
                                 error={getErrorString(error?.admin2)}
+                                readOnly={readOnly}
+                            />
+                        )}
+                        {isDefined(eapRegistrationDetail?.country) && showAdmin1 && (
+                            <Admin1Input
+                                name="districts"
+                                onChange={setFieldValue}
+                                value={value?.districts}
+                                countryId={eapRegistrationDetail.country}
+                                error={getErrorObject(error?.districts)}
+                                maxWords={wordLimits.districts}
+                                disabled={disabled}
                                 readOnly={readOnly}
                             />
                         )}

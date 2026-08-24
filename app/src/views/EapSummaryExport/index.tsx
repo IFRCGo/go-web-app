@@ -1,5 +1,6 @@
 import {
     useCallback,
+    useMemo,
     useRef,
     useState,
 } from 'react';
@@ -27,7 +28,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
-import Admin2Map from '#components/domain/Admin2Map';
+import AdminAreaMap from '#components/domain/AdminAreaMap';
 import PrintableActivityOutput from '#components/domain/PrintableActivityOutput';
 import PrintableContainer from '#components/printable/PrintableContainer';
 import PrintableDataDisplay from '#components/printable/PrintableDataDisplay';
@@ -35,6 +36,10 @@ import PrintableDescription from '#components/printable/PrintableDescription';
 import PrintableLabel from '#components/printable/PrintableLabel';
 import PrintablePage from '#components/printable/PrintablePage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import {
+    getEapAdmin1Areas,
+    getEapAdminAreaTitle,
+} from '#utils/domain/eapAdminArea';
 import { useRequest } from '#utils/restRequest';
 import PrintableContactOutput from '#views/EapFullExport/PrintableContactOutput';
 
@@ -128,8 +133,18 @@ export function Component() {
         early_action_budget,
     } = fullEapResponse ?? {};
 
-    // NOTE: The map is only shown when there are selected admin2 areas
-    const mapCountryId = (admin2_details?.length ?? 0) > 0
+    const admin1Areas = useMemo(
+        () => getEapAdmin1Areas(fullEapResponse?.districts),
+        [fullEapResponse],
+    );
+
+    const admin1Ids = useMemo(
+        () => admin1Areas.map(({ id }) => id),
+        [admin1Areas],
+    );
+
+    // NOTE: The map is only shown when there are selected admin areas
+    const mapCountryId = (admin2_details?.length ?? 0) > 0 || admin1Ids.length > 0
         ? country_details?.id
         : undefined;
 
@@ -139,7 +154,7 @@ export function Component() {
 
     const eapTitle = [
         country_details?.name,
-        admin2_details?.map(({ name }) => name).join(', '),
+        getEapAdminAreaTitle(admin2_details, admin1Areas),
         disaster_type_details?.name,
     ]
         .filter(isTruthyString)
@@ -177,7 +192,7 @@ export function Component() {
     );
 
     const leadTimeWithUnit = [
-        lead_time,
+        isDefined(lead_time) ? String(lead_time) : undefined,
         isDefined(lead_timeframe_unit)
             ? eapTimeframeTitleMap?.[lead_timeframe_unit]
             : undefined,
@@ -283,10 +298,11 @@ export function Component() {
                     )}
                 >
                     {isDefined(mapCountryId) && (
-                        <Admin2Map
-                            className={styles.admin2Map}
+                        <AdminAreaMap
+                            className={styles.adminAreaMap}
                             countryId={mapCountryId}
                             admin2Details={admin2_details}
+                            admin1Ids={admin1Ids}
                             onLoad={handleMapLoad}
                         />
                     )}

@@ -36,6 +36,7 @@ import {
 
 import GoMapContainer from '#components/GoMapContainer';
 import useCountry from '#hooks/domain/useCountry';
+import useCountryHasAdmin2 from '#hooks/domain/useCountryHasAdmin2';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import {
     COLOR_BLACK,
@@ -103,22 +104,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
     });
 
     // NOTE: To check if country has admin2 value or not
-    const {
-        response: admin2TestResponse,
-        pending: admin2TestPending,
-    } = useRequest({
-        skip: isNotDefined(iso3),
-        url: '/api/v2/admin2/',
-        query: {
-            admin1__country__iso3: iso3 ?? undefined,
-            // NOTE: we just need 1 value to check
-            limit: 1,
-        },
-    });
-
-    const hasAdmin2 = !admin2TestPending
-        && isDefined(admin2TestResponse)
-        && admin2TestResponse?.results.length > 0;
+    const { hasAdmin2 } = useCountryHasAdmin2(countryId);
 
     const { response: admin2Details } = useRequest({
         skip: isNotDefined(selectedCodesDebounced) || selectedCodesDebounced.length === 0,

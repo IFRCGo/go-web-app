@@ -39,10 +39,6 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
-    DISASTER_TYPE_EPIDEMIC,
-    DISASTER_TYPE_OTHER,
-} from '#utils/constants';
-import {
     type GoApiResponse,
     useLazyRequest,
 } from '#utils/restRequest';

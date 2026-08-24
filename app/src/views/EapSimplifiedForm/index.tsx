@@ -251,6 +251,7 @@ export function Component() {
             partner_contacts,
             potential_risks,
             early_actions,
+            districts,
             ...otherValues
         } = removeNull(response);
 
@@ -262,6 +263,7 @@ export function Component() {
                 : undefined,
 
             partner_contacts: partner_contacts?.map(injectClientId),
+            districts: districts?.map(injectClientId),
 
             hazard_impact_files: hazard_impact_files?.map(injectClientId),
             selected_early_actions_files: selected_early_actions_files?.map(injectClientId),

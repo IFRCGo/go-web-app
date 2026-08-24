@@ -123,6 +123,10 @@ type IdentificationInterventionFilesResponse = NonNullable<
 type IdentificationInterventionFilesResponseFields =
     IdentificationInterventionFilesResponse & { client_id: string };
 
+type Admin1Response = NonNullable<EapFullRequestBody['districts']>[number];
+
+type Admin1FormFields = Admin1Response & { client_id: string };
+
 type TriggerModelSourceOfInformationResponse = NonNullable<
     EapFullRequestBody['trigger_model_source_of_information']
 >[number];
@@ -260,7 +264,7 @@ type EnableApproachesResponseFields = DeepReplace<
     IndicatorApproachesFormFields
 >;
 
-type FormFields = DeepReplace<
+type FormFieldsWithoutAdmin1 = DeepReplace<
     DeepReplace<
         DeepReplace<
             DeepReplace<
@@ -370,6 +374,12 @@ type FormFields = DeepReplace<
     PrioritizedImpactFormFields
 >;
 
+type FormFields = DeepReplace<
+    FormFieldsWithoutAdmin1,
+    Admin1Response,
+    Admin1FormFields
+>;
+
 export type PartialEapFullFormType = PartialForm<
     FormFields,
     'client_id' | 'sector' | 'approach'
@@ -458,6 +468,13 @@ type IdentificationInterventionFilesResponseFormFields = ReturnType<
         NonNullable<
             PartialEapFullFormType['identification_of_the_intervention_area_files']
         >[number],
+        PartialEapFullFormType,
+        EapFullFormContext
+    >['fields']
+>;
+type Admin1FormFieldsSchema = ReturnType<
+    ObjectSchema<
+        NonNullable<PartialEapFullFormType['districts']>[number],
         PartialEapFullFormType,
         EapFullFormContext
     >['fields']
@@ -850,6 +867,22 @@ export const formSchema: EapFullFormSchema = {
                 validation: lessThanEqualToFiveFilesCondition,
             },
             admin2: {
+                defaultValue: [],
+            },
+            districts: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): Admin1FormFieldsSchema => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        district: {},
+                        description: {
+                            validations: [lengthSmallerOrEqualToCondition(
+                                wordLimits.districts,
+                            )],
+                        },
+                    }),
+                }),
                 defaultValue: [],
             },
 

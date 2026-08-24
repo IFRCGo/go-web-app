@@ -75,13 +75,17 @@ export function getBboxListBoundingBox(bboxList: (Bbox | null | undefined)[] | u
     return getGeoJsonBounds(collection);
 }
 
-const ADMIN_2_TILESET_OWNER = 'go-ifrc';
+const TILESET_OWNER = 'go-ifrc';
 
 function getTileset(sourceLayer: string) {
     return {
         sourceLayer,
-        url: `mapbox://${ADMIN_2_TILESET_OWNER}.${sourceLayer}`,
+        url: `mapbox://${TILESET_OWNER}.${sourceLayer}`,
     };
+}
+
+export function getAdmin1CentroidTileset() {
+    return getTileset('go-district-centroids');
 }
 
 export function getAdmin2Tileset(iso3: string) {

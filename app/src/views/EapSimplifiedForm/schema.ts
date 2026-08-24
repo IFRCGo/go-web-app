@@ -62,6 +62,10 @@ type EapSimplifiedRequestBody = PurgeNull<
     GoApiBody<'/api/v2/simplified-eap/', 'POST'>
 >;
 
+type Admin1Response = NonNullable<EapSimplifiedRequestBody['districts']>[number];
+
+type Admin1FormFields = Admin1Response & { client_id: string };
+
 type EnableApproachesResponse = NonNullable<
     EapSimplifiedRequestBody['enabling_approaches']
 >[number];
@@ -192,7 +196,7 @@ type OperationsResponseFormFields = DeepReplace<
     IndicatorFormFields
 >;
 
-type FormFields = DeepReplace<
+type FormFieldsWithoutAdmin1 = DeepReplace<
     DeepReplace<
         DeepReplace<
             DeepReplace<
@@ -230,11 +234,24 @@ type FormFields = DeepReplace<
     SelectedEarlyActionFormFields
 >;
 
+type FormFields = DeepReplace<
+    FormFieldsWithoutAdmin1,
+    Admin1Response,
+    Admin1FormFields
+>;
+
 export type PartialSimplifiedEapType = PartialForm<
     FormFields,
     'client_id' | 'sector' | 'approach'
 >;
 
+type Admin1FormFieldsSchema = ReturnType<
+    ObjectSchema<
+        NonNullable<PartialSimplifiedEapType['districts']>[number],
+        PartialSimplifiedEapType,
+        EapSimplifiedFormContext
+    >['fields']
+>;
 type PlannedOperationalFields = ReturnType<
     ObjectSchema<
         NonNullable<PartialSimplifiedEapType['planned_operations']>[number],
@@ -502,6 +519,22 @@ export const formSchema: FormSchema = {
             },
             // FIXME: add required condition
             admin2: {
+                defaultValue: [],
+            },
+            districts: {
+                keySelector: (item) => item.client_id,
+                member: () => ({
+                    fields: (): Admin1FormFieldsSchema => ({
+                        client_id: {},
+                        id: { defaultValue: undefinedValue },
+                        district: {},
+                        description: {
+                            validations: [lengthSmallerOrEqualToCondition(
+                                wordLimits.districts,
+                            )],
+                        },
+                    }),
+                }),
                 defaultValue: [],
             },
             potential_geographical_high_risk_areas: {
