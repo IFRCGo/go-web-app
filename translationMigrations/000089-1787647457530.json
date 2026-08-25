@@ -1,0 +1,454 @@
+{
+    "parent": "000088-1786604379488.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "downloadFinalReviewChecklistLinkLabel",
+            "namespace": "accountMyFormsEap",
+            "value": "Download Review Checklist"
+        },
+        {
+            "action": "add",
+            "key": "finalReviewChecklistDescription",
+            "namespace": "accountMyFormsEap",
+            "value": "Upload the final version of the Review Checklist to be kept for the record. Make sure to keep a proper labeling of the file to avoid duplications."
+        },
+        {
+            "action": "add",
+            "key": "finalReviewChecklistInputLabel",
+            "namespace": "accountMyFormsEap",
+            "value": "Select final review checklist file"
+        },
+        {
+            "action": "add",
+            "key": "buttonLabel",
+            "namespace": "admin1Input",
+            "value": "Select Areas"
+        },
+        {
+            "action": "add",
+            "key": "doneButtonLabel",
+            "namespace": "admin1Input",
+            "value": "Done"
+        },
+        {
+            "action": "add",
+            "key": "emptyMessage",
+            "namespace": "admin1Input",
+            "value": "Select the admin 1 on a map."
+        },
+        {
+            "action": "add",
+            "key": "heading",
+            "namespace": "admin1Input",
+            "value": "Selected Areas"
+        },
+        {
+            "action": "add",
+            "key": "mapTitle",
+            "namespace": "admin1Input",
+            "value": "Admin 1 Map"
+        },
+        {
+            "action": "add",
+            "key": "modalHeading",
+            "namespace": "admin1Input",
+            "value": "Select admin 1"
+        },
+        {
+            "action": "add",
+            "key": "removeAreaButtonLabel",
+            "namespace": "admin1Input",
+            "value": "Remove area"
+        },
+        {
+            "action": "add",
+            "key": "actionsSectionCriteriaComment2",
+            "namespace": "eapFullForm",
+            "value": "In the case of Population Movement, early actions should be prioritized based on their potential to reduce secondary and evolving impacts and the points along the migration journey at which they would take place, such as those identified in the {guidanceAnnexLink} (Origin, In Transit, and Longterm Dispacement Sites)"
+        },
+        {
+            "action": "add",
+            "key": "actionsSectionCriteriaComment6",
+            "namespace": "eapFullForm",
+            "value": "In the case of Population Movement, 4W planning should anticipate fluid and shifting displacement scenarios by outlining contingency arrangements for alternate routes, new host areas, and evolving points of entry/transit. Coordination with external actors, should be clearly defined to ensure operational readiness across potential cross-border or multi-location context"
+        },
+        {
+            "action": "add",
+            "key": "activationSectionCriteriaComment3",
+            "namespace": "eapFullForm",
+            "value": "In the case of Population Movement, beneficiary selection should consider both mobile and host populations, guided by anticipated humanitarian needs and secondary impacts rather than formal status categories. Targeting approaches must remain neutral and do no harm, ensuring assistance neither incentivizes nor restricts movement."
+        },
+        {
+            "action": "add",
+            "key": "activationSectionCriteriaComment33",
+            "namespace": "eapFullForm",
+            "value": "In the case of Population Movement, stop mechanisms should be linked to scenario reassessments and contextual indicators such as stabilization of movement trends or adequate host community capacity, including the capacity of NS and authorities or partners supporting people on the move."
+        },
+        {
+            "action": "add",
+            "key": "activationSectionCriteriaComment34",
+            "namespace": "eapFullForm",
+            "value": "Certain anticipatory actions, particularly those related to awareness or psychosocial support, may be adjusted."
+        },
+        {
+            "action": "add",
+            "key": "capacityCriteriaComment2",
+            "namespace": "eapFullForm",
+            "value": "Integrating the EAP into these complementary strategies strengthens coherence and supports long-term sustainability of anticipatory action for displacement."
+        },
+        {
+            "action": "add",
+            "key": "capacityCriteriaComment3",
+            "namespace": "eapFullForm",
+            "value": "In the mid-term the EAP should be integrated in the DRM strategy."
+        },
+        {
+            "action": "add",
+            "key": "guidanceAnnexLinkLabel",
+            "namespace": "eapFullForm",
+            "value": "Guidance Annex"
+        },
+        {
+            "action": "add",
+            "key": "mealCriteriaComment2",
+            "namespace": "eapFullForm",
+            "value": "The PDM should capture themes essential to anticipatory action that are not necessarily captured in normal PDMs, including:"
+        },
+        {
+            "action": "add",
+            "key": "mealCriteriaComment3",
+            "namespace": "eapFullForm",
+            "value": "Monitoring should also reflect on the transition from early action to early response."
+        },
+        {
+            "action": "add",
+            "key": "mealCriteriaComment4",
+            "namespace": "eapFullForm",
+            "value": "In addition, National Societies should consider including a trigger model review as part of the lessons learned exercise (particularly in case of non or partial activation)."
+        },
+        {
+            "action": "add",
+            "key": "mealCriteriaComment5",
+            "namespace": "eapFullForm",
+            "value": "National Societies should review the RCRC Anticipatory Action Manual, Chapter 9: Prepare Activation Monitoring, Evaluation, Accountability and Learning for more guidance on MEAL approaches for anticipatory action."
+        },
+        {
+            "action": "add",
+            "key": "mealCriteriaPdmFollowing1",
+            "namespace": "eapFullForm",
+            "value": "Perceived severity of the event in relation to other events in the last-ten years."
+        },
+        {
+            "action": "add",
+            "key": "mealCriteriaPdmFollowing2",
+            "namespace": "eapFullForm",
+            "value": "If anticipatory cash is included, when (i.e. before, during, after the event) and on what any anticipatory cash was spent."
+        },
+        {
+            "action": "add",
+            "key": "mealCriteriaPdmFollowing3",
+            "namespace": "eapFullForm",
+            "value": "Satisfaction with the timing of the aid: would it have been more useful if it arrived earlier, later, or was appropriately timed?"
+        },
+        {
+            "action": "add",
+            "key": "mealCriteriaPdmTheme1",
+            "namespace": "eapFullForm",
+            "value": "When people first received early warning or the impending hazard, from whom, and via what channel."
+        },
+        {
+            "action": "add",
+            "key": "mealCriteriaPdmTheme2",
+            "namespace": "eapFullForm",
+            "value": "What actions, if any, the household took based upon the warning."
+        },
+        {
+            "action": "add",
+            "key": "mealCriteriaPdmTheme3",
+            "namespace": "eapFullForm",
+            "value": "When the community/household received each component of the anticipatory assistance (in relation to the hazard onset and/or peak)."
+        },
+        {
+            "action": "add",
+            "key": "mealCriteriaPdmTheme4",
+            "namespace": "eapFullForm",
+            "value": "Whether or not the aid could be used (as intended) before the hazard peaked, for the following:"
+        },
+        {
+            "action": "add",
+            "key": "riskSectionCriteriaComment15",
+            "namespace": "eapFullForm",
+            "value": "In the case of Population Movement, the trigger may be based on a combination of contextual risk actors, early signs of stress on coping capacity, and corroborating data from multiple authoritative sources (e.g. governmental, community-based, and external technical expertise). Where movements are gradual or multi-causal, triggers could be structured in phased thresholds that reflect accumulated risk rather than a single event."
+        },
+        {
+            "action": "add",
+            "key": "riskSectionCriteriaComment33",
+            "namespace": "eapFullForm",
+            "value": "n the case of Population Movement, a menu of forecasts may not be viable. The annex should identify and review potential proxy early warning systems, mirroring the tools that could be used to form a dynamic risk analysis that integrate capacity monitoring, border flow data, and broader trend indicators such as market, food security, and/or conflict indicators where relevant. The review would assess how these multi-source datasets can serve as complementary and credible early signals of displacement trends."
+        },
+        {
+            "action": "add",
+            "key": "riskSectionCriteriaComment43",
+            "namespace": "eapFullForm",
+            "value": "In the case of Population Movement, historical data should consider not only direct displacement events but also secondary humanitarian impacts such as protection, shelter, WASH, etc risks for people on the move, host communities, and environments in receiving areas. Secondary impacts should be evidenced by a strong and clear theory of change (underpinned by risk, vulnerability and impact analysis) on the selected early actions. Comparable contexts or modeled scenarios may be explained to demonstrate likely humanitarian consequences."
+        },
+        {
+            "action": "add",
+            "key": "riskSectionCriteriaComment65",
+            "namespace": "eapFullForm",
+            "value": "In the case of Population Movement, estimating the frequency of triggers being reached should draw on multiple longitudinal datasets, such as migration trend analysis, border entry records, and conflict or livelihood stress indices, to approximate recurrence patterns. Where historical frequency data are limited, expert judgment and regional analytical baselines could be used to guide calibration to ensure plausibility and reduce false activation."
+        },
+        {
+            "action": "add",
+            "key": "triggerSectionCriteriaComment15",
+            "namespace": "eapFullForm",
+            "value": "In the case of Population Movement, the trigger may be based on a combination of contextual risk actors, early signs of stress on coping capacity, and corroborating data from multiple authoritative sources (e.g. governmental, community-based, and external technical expertise). Where movements are gradual or multi-causal, triggers could be structured in phased thresholds that reflect accumulated risk rather than a single event."
+        },
+        {
+            "action": "update",
+            "key": "actionsSectionCriteriaComment22",
+            "namespace": "eapFullForm",
+            "newValue": "If evidence is not available, the EAP should describe in detail how they foresee that the action chosen will reduce the specific risk."
+        },
+        {
+            "action": "update",
+            "key": "actionsSectionCriteriaComment32",
+            "namespace": "eapFullForm",
+            "newValue": "For slow onset disasters or Population Movement, the timing of impact may need to be interpreted as the timing of an expected spike in impacts or the expected peak of impacts, but the actions would still have to be early enough to reduce impact. In the case of drought, we will need flexibility as it is challenging to identify this specific moment. Each would be context specific."
+        },
+        {
+            "action": "update",
+            "key": "actionsSectionCriteriaComment5",
+            "namespace": "eapFullForm",
+            "newValue": "The implementation process described shows that each step of the activation has been thought through and considered and that implementation in the lead time available is possible. The set of tasks described in this section should cover all activities from the moment the trigger is reached (Day 1) to the completion of post-impact surveys (Day X)."
+        },
+        {
+            "action": "update",
+            "key": "activationSectionCriteriaComment12",
+            "namespace": "eapFullForm",
+            "newValue": "If the trigger is based on a combination of multiple indicators (e.g. for slow onset hazard or population movement) and no suitable product exists yet, the EAP needs to explain who will provide the data and how it will be combined and analyzed. This may need to be a consortium of institutions, each providing pieces of information, therefore a clear communication mechanism is vital."
+        },
+        {
+            "action": "update",
+            "key": "activationSectionCriteriaComment2",
+            "namespace": "eapFullForm",
+            "newValue": "Once an intervention area has been identified, the NS still must have a clear process for selecting which households in the area will provide assistance to. The selection process needs to be feasible within the lead time."
+        },
+        {
+            "action": "update",
+            "key": "capacityCriteriaComment1",
+            "namespace": "eapFullForm",
+            "newValue": "In the case of Population Movement, alignment should encompass not only DRM strategies but also applicable legal frameworks, laws and policies, and existing migration, protection, and contingency frameworks within the National Society and government, if they exist, to ensure alignment."
+        },
+        {
+            "action": "update",
+            "key": "mainHeading",
+            "namespace": "eapFullForm",
+            "newValue": "{country}: {disaster} - EAP"
+        },
+        {
+            "action": "update",
+            "key": "mealCriteriaComment1",
+            "namespace": "eapFullForm",
+            "newValue": "An intervention-relevant PDM survey (or other exercise) should be developed before the activation so that is it ready for prompt implementation following the activation. Readiness funds may be used to develop the PDM and should be planned and budgeted in year one "
+        },
+        {
+            "action": "update",
+            "key": "mealCriteriaIntroduction1",
+            "namespace": "eapFullForm",
+            "newValue": "The EAP must include planning and budget for the following:"
+        },
+        {
+            "action": "update",
+            "key": "mealCriteriaIntroduction11",
+            "namespace": "eapFullForm",
+            "newValue": "A post-distribution monitoring survey/exercise adapted to Anticipatory Action (see quality criteria for topics to cover and examples)"
+        },
+        {
+            "action": "update",
+            "key": "mealCriteriaIntroduction12",
+            "namespace": "eapFullForm",
+            "newValue": "A post-activation lessons learned workshop to document how early actions were implemented, assess the activation process (including whether all activities were carried out as planned), identify lessons learned, and make recommendations for improvements (if applicable). Note that additional days can be added onto the lessons learned workshop in order to make updates directly to the EAP (in advance of resubmission) or if further work is required, to develop a plan for incorporating learning into the EAP and budget."
+        },
+        {
+            "action": "update",
+            "key": "mealCriteriaIntroduction13",
+            "namespace": "eapFullForm",
+            "newValue": "Monitoring and reporting that enables the National Society to report on the proportion of the activation budget successfully spent before the hazard peaked."
+        },
+        {
+            "action": "update",
+            "key": "riskSectionCriteriaComment42",
+            "namespace": "eapFullForm",
+            "newValue": "In the case of drought or population movement, there may be limited historical disaster data in some countries due to the complexity of drought and also the fact that drought might be a new hazard in some areas (partly due to climate change). Regions that have rarely experienced droughts will be less resilience to these shocks and have less coping capacity and strategies. These may be the most vulnerable to the impacts of drought even though historical data might be limited. In these cases, climate change projections could also be taken into consideration (e.g. changing drought patterns)."
+        },
+        {
+            "action": "add",
+            "key": "operationActivityTimeSpanHint",
+            "namespace": "eapOperationActivityInput",
+            "value": "Start counting the timeframe after the trigger is reached: day 1 is the day the trigger is met"
+        },
+        {
+            "action": "add",
+            "key": "operationTimeFrameLeadTimeSectionEarlyAction",
+            "namespace": "eapOperationActivityInput",
+            "value": "early action intervention"
+        },
+        {
+            "action": "add",
+            "key": "operationTimeFrameLeadTimeSectionTrigger",
+            "namespace": "eapOperationActivityInput",
+            "value": "trigger"
+        },
+        {
+            "action": "update",
+            "key": "operationTimeFrameLeadTimeHint",
+            "namespace": "eapOperationActivityInput",
+            "newValue": "Taken from the lead time in the {sectionName} section. Change it there to update this."
+        },
+        {
+            "action": "remove",
+            "key": "epidemicType",
+            "namespace": "eapRegistration"
+        },
+        {
+            "action": "update",
+            "key": "otherDisasterType",
+            "newKey": "disasterSubTypePlaceholder",
+            "namespace": "eapRegistration"
+        },
+        {
+            "action": "add",
+            "key": "addButtonLabel",
+            "namespace": "eapSimplifiedForm",
+            "value": "Add"
+        },
+        {
+            "action": "add",
+            "key": "deliverSectionCriteriaComment43",
+            "namespace": "eapSimplifiedForm",
+            "value": "In the case of Population Movement, participatory processes should actively involve relevant authorities (e.g. those active involved in migration or displacement, border authorities, etc.), protection actors, humanitarian partners, and host-community representatives, and migrant representatives/groups where possible, alongside traditional DRM stakeholders. Engagement must emphasize neutrality and humanitarian principles to ensure coordination does not become politicized or perceived as influencing movement decisions."
+        },
+        {
+            "action": "add",
+            "key": "earlyActionRemoveButtonTitle",
+            "namespace": "eapSimplifiedForm",
+            "value": "Remove prioritised early action"
+        },
+        {
+            "action": "add",
+            "key": "earlySectionCriteriaComment15",
+            "namespace": "eapSimplifiedForm",
+            "value": "In the case of Population Movement, the trigger may be based on a combination of contextual risk factors, early signs of stress on coping capacity, and corroborating data from multiple authoritative sources (e.g. governmental, community-based, and external technical expertise). Where movements are gradual or multi-causal, triggers could be structured in phased thresholds that reflect accumulated risk rather than a single event."
+        },
+        {
+            "action": "add",
+            "key": "earlySectionCriteriaComment23",
+            "namespace": "eapSimplifiedForm",
+            "value": "In the case of Population Movement, planning should anticipate fluid and shifting displacement scenarios by outlining contingency arrangements for alternate routes, new host areas, and evolving points of entry/transit. Coordination with external actors should be clearly defined to ensure operational readiness across potential cross-border or multi-location contexts."
+        },
+        {
+            "action": "add",
+            "key": "earlySectionCriteriaComment34",
+            "namespace": "eapSimplifiedForm",
+            "value": "In the case of Population Movement, beneficiary selection should consider both mobile and host populations, guided by anticipated humanitarian needs and secondary impacts rather than formal status categories. Targeting approaches must remain neutral and do no harm, ensuring assistance neither incentivizes nor restricts movement."
+        },
+        {
+            "action": "add",
+            "key": "enablingSectionCriteriaComment24",
+            "namespace": "eapSimplifiedForm",
+            "value": "In the case of Population Movement, beneficiary selection should consider both mobile and host populations, guided by anticipated humanitarian needs and secondary impacts rather than formal status categories. Targeting approaches must remain neutral and do no harm, ensuring assistance neither incentivizes nor restricts movement."
+        },
+        {
+            "action": "add",
+            "key": "guidanceAnnexLinkLabel",
+            "namespace": "eapSimplifiedForm",
+            "value": "Guidance Annex"
+        },
+        {
+            "action": "add",
+            "key": "migrationStrategyLinkLabel",
+            "namespace": "eapSimplifiedForm",
+            "value": "IFRC Movement Migration Strategy"
+        },
+        {
+            "action": "add",
+            "key": "plannedSectionCriteriaComment24",
+            "namespace": "eapSimplifiedForm",
+            "value": "In the case of Population Movement, beneficiary selection should consider both mobile and host populations, guided by anticipated humanitarian needs and secondary impacts rather than formal status categories. Targeting approaches must remain neutral and do no harm, ensuring assistance neither incentivizes nor restricts movement."
+        },
+        {
+            "action": "add",
+            "key": "potentialRiskRemoveButtonTitle",
+            "namespace": "eapSimplifiedForm",
+            "value": "Remove prioritised risk"
+        },
+        {
+            "action": "add",
+            "key": "prioritisedEarlyActionsEmptyMessage",
+            "namespace": "eapSimplifiedForm",
+            "value": "No early actions yet!"
+        },
+        {
+            "action": "add",
+            "key": "prioritisedEarlyActionsLabel",
+            "namespace": "eapSimplifiedForm",
+            "value": "Prioritised early actions"
+        },
+        {
+            "action": "add",
+            "key": "prioritisedRisksEmptyMessage",
+            "namespace": "eapSimplifiedForm",
+            "value": "No risks yet!"
+        },
+        {
+            "action": "add",
+            "key": "prioritisedRisksLabel",
+            "namespace": "eapSimplifiedForm",
+            "value": "Prioritised risks"
+        },
+        {
+            "action": "add",
+            "key": "riskSectionCriteriaComment14",
+            "namespace": "eapSimplifiedForm",
+            "value": "In the case of Population Movement, historical data should consider not only direct displacement events, but also secondary humanitarian impacts such as protection, shelter, WASH, etc. risks for people on the move, host communities, and environments in receiving areas. Secondary impacts should be evidenced (underpinned by risk, vulnerability and impact analysis) on the selected early actions."
+        },
+        {
+            "action": "add",
+            "key": "riskSectionCriteriaComment15",
+            "namespace": "eapSimplifiedForm",
+            "value": "Comparable contexts or modeled scenarios may be explained to demonstrate likely humanitarian consequences."
+        },
+        {
+            "action": "add",
+            "key": "riskSectionCriteriaComment34",
+            "namespace": "eapSimplifiedForm",
+            "value": "In the case of Population Movement, early actions should be prioritized based on their potential to reduce secondary and evolving impacts and the points along the migration journey where they would take place, such as those identified in the {guidanceAnnexLink} (Origin, In Transit, and Longer term/ protracted Displacement Sites)"
+        },
+        {
+            "action": "add",
+            "key": "riskSectionCriteriaComment5",
+            "namespace": "eapSimplifiedForm",
+            "value": "For population movement, National Societies should be guided by the {migrationStrategyLink}."
+        },
+        {
+            "action": "update",
+            "key": "earlySectionCriteriaComment22",
+            "namespace": "eapSimplifiedForm",
+            "newValue": "For slow onset or complex hazards (drought, population movement, etc.), the impact may be interpreted as a spike or expected peak of impact which overwhelms the targeted community to cope. Therefore, the early actions should be activated with enough lead time to reduce impact of the hazard. In the case of drought, consider greater flexibility as it is challenging to identify the specific spike/peak as each will be context specific"
+        },
+        {
+            "action": "add",
+            "key": "sectionCriteriaComment3",
+            "namespace": "form",
+            "value": "In the case of Population Movement, participatory processes should actively involve relevant authorities (e.g. those active involved in migration or displacement, border authorities, etc.), protection actors, humanitarian partners, and host-community representatives, and migrants representatives/groups where possible, alongside traditional DRM stakeholders. Engagement must emphasize neutrality and humanitarian principles to ensure coordination does not become politicized or perceived as influencing movement decisions."
+        },
+        {
+            "action": "add",
+            "key": "sectionCriteriaComment4",
+            "namespace": "form",
+            "value": "In the case of the Population Movement, National Society leadership endorsement remains essential, while external stakeholder engagement should prioritize coordination and data-sharing rather than formal approval processes. This approach helps maintain neutrality and avoids politicization of the EAP in sensitive migration contexts"
+        }
+    ]
+}
