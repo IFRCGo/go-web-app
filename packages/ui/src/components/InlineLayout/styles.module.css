@@ -6,6 +6,10 @@
         align-items: start;
     }
 
+    &.baseline-aligned-content {
+        align-items: baseline;
+    }
+
     &.end-aligned-content {
         align-items: end;
     }

@@ -101,6 +101,7 @@ export const DREF_TYPE_LOAN = 3 satisfies TypeOfDrefEnum;
 
 type TypeOfOnsetEnum = components<'read'>['schemas']['DrefDrefOnsetTypeEnumKey'];
 export const ONSET_SLOW = 1 satisfies TypeOfOnsetEnum;
+export const ONSET_SUDDEN = 2 satisfies TypeOfOnsetEnum;
 
 // Subscriptions
 type SubscriptionRecordTypeEnum = components<'read'>['schemas']['RtypeEnum'];
@@ -141,6 +142,7 @@ export type CategoryType = components<'read'>['schemas']['ApiActionCategoryEnumK
 // FIXME: we need to identify a typesafe way to get these values
 export const DISASTER_TYPE_EPIDEMIC = 1;
 export const DISASTER_TYPE_OTHER = 13;
+export const DISASTER_TYPE_DROUGHT = 20;
 
 type Visibility = components<'read'>['schemas']['ApiVisibilityChoicesEnumKey'];
 export const VISIBILITY_RCRC_MOVEMENT = 1 satisfies Visibility;

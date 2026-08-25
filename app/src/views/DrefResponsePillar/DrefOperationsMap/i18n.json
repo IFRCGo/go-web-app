@@ -1,0 +1,9 @@
+{
+    "namespace": "drefOperationsMap",
+    "strings": {
+        "drefMapTitle": "Map of DREF operations",
+        "drefMapDisasterTypePlaceholder": "All Hazards",
+        "drefMapLegendDref": "DREF",
+        "drefMapFunding": "Funding requested"
+    }
+}

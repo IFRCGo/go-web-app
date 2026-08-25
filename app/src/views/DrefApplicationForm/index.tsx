@@ -4,7 +4,10 @@ import {
     useRef,
     useState,
 } from 'react';
-import { useParams } from 'react-router-dom';
+import {
+    useLocation,
+    useParams,
+} from 'react-router-dom';
 import { DownloadTwoLineIcon } from '@ifrc-go/icons';
 import {
     Button,
@@ -48,6 +51,7 @@ import {
     DREF_STATUS_DRAFT,
     DREF_STATUS_FAILED,
     DREF_STATUS_FINALIZED,
+    ONSET_SUDDEN,
 } from '#utils/constants';
 import {
     type GoApiResponse,
@@ -78,6 +82,7 @@ import Overview from './Overview';
 import drefSchema, {
     type DrefRequestBody,
     type DrefRequestPostBody,
+    type PartialDref,
 } from './schema';
 import Submission from './Submission';
 
@@ -143,6 +148,12 @@ function getNextStep(current: DrefTabKey, direction: 1 | -1, typeOfDref: TypeOfD
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { drefId } = useParams<{ drefId: string }>();
+    const { state: navigationState } = useLocation();
+    // A new DREF can be seeded with any partial form value passed via router state
+    // (e.g. from the DREF decision tree); an existing DREF loads from the API instead.
+    const initialValueFromRouteState = isNotDefined(drefId)
+        ? (navigationState as PartialDref | null)
+        : undefined;
 
     const alert = useAlert();
     const { navigate } = useRouting();
@@ -184,6 +195,23 @@ export function Component() {
         {
             value: {
                 operation_timeframe_imminent: OPERATION_TIMEFRAME_IMMINENT,
+                ...initialValueFromRouteState,
+                // Route-state seeding skips the type select's change handler,
+                // which derives these fields; without them the imminent-only
+                // inputs (proposed actions) do not render.
+                ...(initialValueFromRouteState?.type_of_dref === TYPE_IMMINENT ? {
+                    type_of_onset: initialValueFromRouteState.type_of_onset ?? ONSET_SUDDEN,
+                    proposed_action: initialValueFromRouteState.proposed_action ?? [
+                        {
+                            client_id: randomString(),
+                            proposed_type: EARLY_ACTION,
+                        },
+                        {
+                            client_id: randomString(),
+                            proposed_type: EARLY_RESPONSE,
+                        },
+                    ],
+                } : undefined),
             },
         },
     );

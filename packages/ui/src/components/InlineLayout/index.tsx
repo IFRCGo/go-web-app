@@ -29,7 +29,7 @@ export interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'be
     withAdditionalInlinePadding?: boolean;
     withEllipsizedContent?: boolean;
 
-    contentAlignment?: 'start' | 'center' | 'end';
+    contentAlignment?: 'start' | 'center' | 'end' | 'baseline';
     contentJustification?: 'start' | 'center' | 'end';
     withInlineDisplay?: boolean;
 }
@@ -89,6 +89,7 @@ function InlineLayout(props: Props) {
                 spacingClassName,
                 contentAlignment === 'start' && styles.startAlignedContent,
                 contentAlignment === 'end' && styles.endAlignedContent,
+                contentAlignment === 'baseline' && styles.baselineAlignedContent,
                 withInlineDisplay && styles.withInlineDisplay,
                 className,
             )}
