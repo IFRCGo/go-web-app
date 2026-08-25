@@ -51,6 +51,7 @@ All commands are run from within the `app/` workspace directory. Each command be
 | `push-migrations-to-go` | `<MIGRATION_DIR_PATH> --api-url <url> --auth-token <token>` | Push pending migrations directly to the GO API. |
 | `push-migrations-to-ifrc` | `<MIGRATION_DIR_PATH> --api-url <url> --api-key <key> --application-id <id>` | Push pending migrations to the IFRC translation service. |
 | `export-server-strings` | `<API_URL>` | Export current server strings to an XLSX file. |
+| `export-strings-for-mock` | `<TRANSLATION_FILE..> --api-url <url> --api-key <key> --application-id <id>` | Export local i18n strings as an IFRC-service-format XLSX, filling translations from the service (mock source for the translation cache server). |
 | `clear-server-strings` | `--api-url <url> --auth-token <token>` | Remove all existing strings from the server. |
 
 ### Environment Variables

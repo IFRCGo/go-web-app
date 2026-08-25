@@ -13,6 +13,7 @@
         "translatte": "tsx scripts/translatte/main.ts",
         "translatte:generate": "pnpm translatte generate-migration ../translationMigrations ./src/**/i18n.json ../packages/ui/src/**/i18n.json",
         "translatte:lint": "pnpm translatte lint ./src/**/i18n.json ../packages/ui/src/**/i18n.json",
+        "translatte:export-mock": "pnpm translatte export-strings-for-mock ./src/**/i18n.json ../packages/ui/src/**/i18n.json",
         "translatte:lint-migrations": "pnpm translatte lint-migrations ../translationMigrations",
         "initialize:type": "mkdir -p generated/ && pnpm initialize:type:go-api && pnpm initialize:type:risk-api && pnpm initialize:type:translations",
         "initialize:type:go-api": "test -f ./generated/types.ts && true || cp types.stub.ts ./generated/types.ts",
