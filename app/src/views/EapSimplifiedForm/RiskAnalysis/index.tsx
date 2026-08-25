@@ -137,6 +137,12 @@ function RiskAnalysis(props: Props) {
                                 <Description>
                                     {strings.riskSectionCriteriaComment13}
                                 </Description>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment14}
+                                </Description>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment15}
+                                </Description>
                             </ListView>
                             <Label strong>
                                 {strings.riskSectionCriteriaIntroduction2}
@@ -160,12 +166,44 @@ function RiskAnalysis(props: Props) {
                                 <Description>
                                     {strings.riskSectionCriteriaComment33}
                                 </Description>
+                                <Description>
+                                    {resolveToComponent(
+                                        strings.riskSectionCriteriaComment34,
+                                        {
+                                            guidanceAnnexLink: (
+                                                <Link
+                                                    external
+                                                    href="https://ifrcorg.sharepoint.com/:f:/s/IFRCSharing/IgB7J6fjDPlsQ6iwh7ej1SpUAa0DvvOAimzrIlOx2DqpprA?e=w4OELM"
+                                                    withLinkIcon
+                                                >
+                                                    {strings.guidanceAnnexLinkLabel}
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                </Description>
                             </ListView>
                             <Label strong>
                                 {strings.riskSectionCriteriaIntroduction4}
                             </Label>
                             <Description>
                                 {strings.riskSectionCriteriaComment4}
+                            </Description>
+                            <Description>
+                                {resolveToComponent(
+                                    strings.riskSectionCriteriaComment5,
+                                    {
+                                        migrationStrategyLink: (
+                                            <Link
+                                                external
+                                                href="https://www.ifrc.org/document/migration-strategy-international-red-cross-and-red-crescent-movement-2024-2030"
+                                                withLinkIcon
+                                            >
+                                                {strings.migrationStrategyLinkLabel}
+                                            </Link>
+                                        ),
+                                    },
+                                )}
                             </Description>
                         </ListView>
                     )}

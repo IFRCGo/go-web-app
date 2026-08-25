@@ -151,6 +151,9 @@ function PlannedOperations(props: Props) {
                                 <Description>
                                     {strings.plannedSectionCriteriaComment23}
                                 </Description>
+                                <Description>
+                                    {strings.plannedSectionCriteriaComment24}
+                                </Description>
                             </ListView>
                             <Heading level={5}>
                                 {strings.monitoringSectionCriteriaHeading}

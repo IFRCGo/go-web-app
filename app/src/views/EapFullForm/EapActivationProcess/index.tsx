@@ -110,6 +110,9 @@ function EapActivationProcess(props: Props) {
                             <Description>
                                 {strings.activationSectionCriteriaComment2}
                             </Description>
+                            <Description>
+                                {strings.activationSectionCriteriaComment3}
+                            </Description>
                             <Label strong>
                                 {strings.activationSectionCriteriaIntroduction3}
                             </Label>
@@ -119,6 +122,12 @@ function EapActivationProcess(props: Props) {
                                 </Description>
                                 <Description>
                                     {strings.activationSectionCriteriaComment32}
+                                </Description>
+                                <Description>
+                                    {strings.activationSectionCriteriaComment33}
+                                </Description>
+                                <Description>
+                                    {strings.activationSectionCriteriaComment34}
                                 </Description>
                             </ListView>
                         </ListView>

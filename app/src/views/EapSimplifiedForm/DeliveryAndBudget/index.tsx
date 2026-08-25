@@ -156,6 +156,9 @@ function DeliveryAndBudget(props: Props) {
                                 <Description>
                                     {strings.deliverSectionCriteriaComment42}
                                 </Description>
+                                <Description>
+                                    {strings.deliverSectionCriteriaComment43}
+                                </Description>
                             </ListView>
                         </ListView>
                     )}

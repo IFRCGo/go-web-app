@@ -191,6 +191,9 @@ function TriggerModel(props: Props) {
                                 <Description>
                                     {strings.triggerSectionCriteriaComment14}
                                 </Description>
+                                <Description>
+                                    {strings.triggerSectionCriteriaComment15}
+                                </Description>
                             </ListView>
                             <Label strong>
                                 {strings.triggerSectionCriteriaIntroduction2}

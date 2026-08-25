@@ -15,7 +15,10 @@ import {
     TextArea,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { stringValueSelector } from '@ifrc-go/ui/utils';
+import {
+    resolveToComponent,
+    stringValueSelector,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -264,6 +267,22 @@ function SelectionActions(props: Props) {
                             <Description>
                                 {strings.actionsSectionCriteriaComment1}
                             </Description>
+                            <Description>
+                                {resolveToComponent(
+                                    strings.actionsSectionCriteriaComment2,
+                                    {
+                                        guidanceAnnexLink: (
+                                            <Link
+                                                external
+                                                href="https://ifrcorg.sharepoint.com/:f:/s/IFRCSharing/IgB7J6fjDPlsQ6iwh7ej1SpUAa0DvvOAimzrIlOx2DqpprA?e=w4OELM"
+                                                withLinkIcon
+                                            >
+                                                {strings.guidanceAnnexLinkLabel}
+                                            </Link>
+                                        ),
+                                    },
+                                )}
+                            </Description>
                             <Label strong>
                                 {strings.actionsSectionCriteriaIntroduction2}
                             </Label>
@@ -307,6 +326,9 @@ function SelectionActions(props: Props) {
                             </ListView>
                             <Description>
                                 {strings.actionsSectionCriteriaComment5}
+                            </Description>
+                            <Description>
+                                {strings.actionsSectionCriteriaComment6}
                             </Description>
                         </ListView>
                     )}

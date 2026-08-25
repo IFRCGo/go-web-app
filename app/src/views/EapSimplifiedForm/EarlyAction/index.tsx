@@ -135,6 +135,9 @@ function EarlyAction(props: Props) {
                                 <Description>
                                     {strings.earlySectionCriteriaComment14}
                                 </Description>
+                                <Description>
+                                    {strings.earlySectionCriteriaComment15}
+                                </Description>
                             </ListView>
                             <Heading level={5}>
                                 {strings.eapActivationSectionCriteriaHeading}
@@ -149,6 +152,9 @@ function EarlyAction(props: Props) {
                                 <Description>
                                     {strings.earlySectionCriteriaComment22}
                                 </Description>
+                                <Description>
+                                    {strings.earlySectionCriteriaComment23}
+                                </Description>
                             </ListView>
                             <Label strong>
                                 {strings.earlySectionCriteriaIntroduction3}
@@ -162,6 +168,9 @@ function EarlyAction(props: Props) {
                                 </Description>
                                 <Description>
                                     {strings.earlySectionCriteriaComment33}
+                                </Description>
+                                <Description>
+                                    {strings.earlySectionCriteriaComment34}
                                 </Description>
                             </ListView>
                         </ListView>

@@ -152,6 +152,9 @@ function EnablingApproaches(props: Props) {
                                 <Description>
                                     {strings.enablingSectionCriteriaComment23}
                                 </Description>
+                                <Description>
+                                    {strings.enablingSectionCriteriaComment24}
+                                </Description>
                             </ListView>
                             <Heading level={5}>
                                 {strings.enablingMonitoringSectionCriteriaHeading}
