@@ -1,5 +1,39 @@
 # go-web-app
 
+## 7.27.0-beta.3
+
+### Minor Changes
+
+- 37f4f0e: Revamp emergency pages
+
+  - Update emergency page to include more details according to the appeal type and current stage of the event
+  - Rename, restructure and add various new tabs like Emergency Overview, Operation Strategy (DREF), Actions Summary (Field Report), Background
+  - Add Operation Strategy tab for the DREF and it's various stages
+  - Add Actions Summary for the details from Field Report (only applicable in the Field Report only stage)
+  - Update key figures, emergency overview and add Operational Timeline
+  - Show AI-generated DREF summaries and lessons learned in different sections
+  - Add option to link a DREF application to an emergency
+
+- 1a09ccb: Add DREF landing page
+
+  - Add a page for DREF process under Respond
+  - Add an anticipatory pillar with imminent DREF and Early Action Protocols tabs, and a response pillar
+  - Add the DREF decision tree, accessible from navigation bar and from each pillar
+  - Add option to create a new DREF application from the decision tree outcomes and the pillar entry points
+  - Add operations and EAP maps and tables, FAQ sections and key DREF resources
+
+- a1a4d90: Update DREF import template
+
+  - Extend import template for Imminent DREF
+  - Add support for translations in the import template
+  - Disable download and import until the reference data is available
+
+### Patch Changes
+
+- Updated dependencies [04f549a]
+- Updated dependencies [e1f1b42]
+  - @ifrc-go/ui@2.3.0-beta.1
+
 ## 7.27.0-beta.2
 
 ### Minor Changes

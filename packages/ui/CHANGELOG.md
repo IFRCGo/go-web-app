@@ -1,5 +1,17 @@
 # @ifrc-go/ui
 
+## 2.3.0-beta.1
+
+### Minor Changes
+
+- 04f549a: Add a `baseline` option to the `contentAlignment` prop of `InlineLayout`, so a leading icon or marker can sit on the first text baseline instead of the vertical centre.
+- e1f1b42: Add `colorVariant` support in Heading, Breadcrumbs and Description components
+
+  - Add shared `ColorVariant` type in utils, re-used by ButtonLayout's `ButtonColorVariant`
+  - Heading: optional `colorVariant` prop; when set, it also takes precedence over the legacy print colors
+  - Description: optional `colorVariant` prop; `withLightText` now reduces the opacity of the current color using `color-mix` so it composes with any color variant
+  - Breadcrumbs: `colorVariant` prop (defaults to `text`); items and separators now use a uniform color and the current page is emphasized with a medium font weight instead of the previous gray/black hierarchy
+
 ## 2.3.0-beta.0
 
 ### Minor Changes
