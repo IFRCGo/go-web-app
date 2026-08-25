@@ -1,0 +1,9 @@
+{
+    "namespace": "drefSummarySourceLabel",
+    "strings": {
+        "template": "From {source}: {section}",
+        "sourceApplication": "DREF Application",
+        "sourceOperationalUpdate": "DREF Operational Update",
+        "sourceFinalReport": "DREF Final Report"
+    }
+}

@@ -34,6 +34,7 @@ import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import useUrlSearchState from '#hooks/useUrlSearchState';
+import { getEventOrderingWithFallback } from '#utils/domain/emergency';
 import {
     createCountryListColumn,
     createLinkColumn,
@@ -96,7 +97,7 @@ export function Component() {
                 },
             ),
             createLinkColumn<EventListItem, number>(
-                'event_name',
+                'name',
                 strings.allEmergenciesName,
                 (item) => item.name,
                 (item) => ({
@@ -129,6 +130,10 @@ export function Component() {
             createNumberColumn<EventListItem, number>(
                 'num_affected',
                 strings.allEmergenciesAffected,
+                // FIXME(frozenhelium): go-api, ordering by num_affected uses
+                // the raw event field which is empty for most ongoing
+                // emergencies; expose a sortable value that falls back to the
+                // latest field report figure like the one displayed here
                 (item) => item.num_affected ?? getMostRecentAffectedValue(item.field_reports),
                 { sortable: true },
             ),
@@ -188,7 +193,7 @@ export function Component() {
         () => ({
             limit,
             offset,
-            ordering,
+            ordering: getEventOrderingWithFallback(ordering),
             dtype: filterDisasterType,
             // FIXME: The server should actually accept array of number instead
             // of just number

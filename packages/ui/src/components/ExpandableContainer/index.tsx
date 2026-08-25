@@ -42,6 +42,7 @@ function ExpandableContainer(props: Props) {
         withToggleButtonOnFooter,
         toggleButtonLabel,
         footerActions,
+        withoutMessage,
         ...otherProps
     } = props;
 
@@ -127,6 +128,8 @@ function ExpandableContainer(props: Props) {
             // elementRef={containerRef}
             className={_cs(styles.expandableContainer, className)}
             withHeaderBorder={withHeaderBorder && expanded}
+            // a collapsed container should not show its body's status message
+            withoutMessage={withoutMessage || !expanded}
             withoutWrapInHeader={!withToggleButtonOnFooter}
             headerActions={(
                 <>

@@ -47,7 +47,7 @@ type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submissio
 
 export const overviewTabFields: (keyof PartialDref)[] = [
     'national_society',
-    'field_report',
+    'event',
     'type_of_dref',
     'disaster_type',
     'is_man_made_event',

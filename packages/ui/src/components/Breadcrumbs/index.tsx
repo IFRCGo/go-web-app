@@ -2,13 +2,25 @@ import { Children } from 'react';
 import { ChevronRightLineIcon } from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
 
+import { type ColorVariant } from '#utils/style';
+
 import styles from './styles.module.css';
+
+const colorVariantToClassName: Record<ColorVariant, string> = {
+    text: styles.colorVariantText,
+    primary: styles.colorVariantPrimary,
+    secondary: styles.colorVariantSecondary,
+    success: styles.colorVariantSuccess,
+    danger: styles.colorVariantDanger,
+    'text-on-dark': styles.colorVariantTextOnDark,
+};
 
 export interface BreadcrumbsProps {
     className?: string;
     itemClassName?: string;
     separator?: React.ReactNode;
     children: React.ReactNode;
+    colorVariant?: ColorVariant;
 }
 
 function Breadcrumbs(props: BreadcrumbsProps) {
@@ -17,6 +29,7 @@ function Breadcrumbs(props: BreadcrumbsProps) {
         children,
         separator = <ChevronRightLineIcon />,
         itemClassName,
+        colorVariant = 'text',
     } = props;
 
     const items = Children.toArray(children).reduce<React.ReactNode[]>(
@@ -50,7 +63,11 @@ function Breadcrumbs(props: BreadcrumbsProps) {
 
     return (
         <nav
-            className={_cs(styles.breadcrumbs, className)}
+            className={_cs(
+                styles.breadcrumbs,
+                colorVariantToClassName[colorVariant],
+                className,
+            )}
             aria-label="breadcrumb"
         >
             {items}

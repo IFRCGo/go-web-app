@@ -157,6 +157,30 @@ export function Component() {
         },
     );
 
+    // a report is only detached from an event while the server resolves one
+    const handleSubmitSuccess = useCallback(
+        (response: { id: number, event?: number | null }) => {
+            alert.show(
+                strings.formRedirectMessage,
+                { variant: 'success' },
+            );
+
+            if (isDefined(response.event)) {
+                navigate(
+                    'emergencyOverview',
+                    { params: { emergencyId: response.event } },
+                );
+                return;
+            }
+
+            navigate(
+                'fieldReportDetails',
+                { params: { fieldReportId: response.id } },
+            );
+        },
+        [alert, navigate, strings.formRedirectMessage],
+    );
+
     const {
         response: actionsResponse,
     } = useRequest({
@@ -229,16 +253,7 @@ export function Component() {
         // NOTE: Field report can be submitted in non-english languages as well
         useCurrentLanguageForMutation: true,
         body: (ctx: FieldReportBody) => ctx,
-        onSuccess: (response) => {
-            alert.show(
-                strings.formRedirectMessage,
-                { variant: 'success' },
-            );
-            navigate(
-                'fieldReportDetails',
-                { params: { fieldReportId: response.id } },
-            );
-        },
+        onSuccess: handleSubmitSuccess,
         onFailure: ({
             value: {
                 messageForNotification,
@@ -283,16 +298,7 @@ export function Component() {
         // NOTE: Field report can be submitted in non-english languages as well
         useCurrentLanguageForMutation: true,
         body: (ctx: FieldReportPostBody) => ctx,
-        onSuccess: (response) => {
-            alert.show(
-                strings.formRedirectMessage,
-                { variant: 'success' },
-            );
-            navigate(
-                'fieldReportDetails',
-                { params: { fieldReportId: response.id } },
-            );
-        },
+        onSuccess: handleSubmitSuccess,
         onFailure: ({
             value: {
                 messageForNotification,

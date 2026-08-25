@@ -159,7 +159,7 @@ export function Component() {
                                 label={strings.emergencyIFRCSupportedOperation}
                                 value={(
                                     <Link
-                                        to="emergencyDetails"
+                                        to="emergencyOverview"
                                         urlParams={{ emergencyId: eventId }}
                                         withUnderline
                                     >

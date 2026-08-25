@@ -3,10 +3,14 @@ import {
     ReactNode,
     useRef,
 } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
 
 import useSpacingToken from '#hooks/useSpacingToken';
 import {
+    ColorVariant,
     paddingSpacings,
     SpacingType,
 } from '#utils/style';
@@ -24,6 +28,15 @@ const levelToClassName: Record<HeadingLevel, string> = {
     6: styles.levelSix,
 };
 
+const colorVariantToClassName: Record<ColorVariant, string> = {
+    text: styles.colorVariantText,
+    primary: styles.colorVariantPrimary,
+    secondary: styles.colorVariantSecondary,
+    success: styles.colorVariantSuccess,
+    danger: styles.colorVariantDanger,
+    'text-on-dark': styles.colorVariantTextOnDark,
+};
+
 export interface Props {
     className?: string;
     level?: HeadingLevel;
@@ -32,6 +45,7 @@ export interface Props {
     centerAligned?: boolean;
     variant?: 'form' | 'container';
     spacing?: SpacingType;
+    colorVariant?: ColorVariant;
 }
 
 function Heading(props: Props) {
@@ -43,6 +57,7 @@ function Heading(props: Props) {
         centerAligned,
         variant = 'container',
         spacing,
+        colorVariant,
     } = props;
 
     const spacingClassName = useSpacingToken({
@@ -63,6 +78,7 @@ function Heading(props: Props) {
                 styles.heading,
                 ellipsize && styles.ellipsized,
                 levelToClassName[level],
+                isDefined(colorVariant) && colorVariantToClassName[colorVariant],
                 centerAligned && styles.centerAligned,
                 variant === 'form' && spacingClassName,
                 variant === 'form' && styles.withBottomBorder,

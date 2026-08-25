@@ -27,6 +27,7 @@ import {
 
 import useFilterState from '#hooks/useFilterState';
 import { type TypeOfDrefEnum } from '#utils/constants';
+import { createLinkColumn } from '#utils/domain/tableHelpers';
 import { useRequest } from '#utils/restRequest';
 
 import DrefTableActions, { type Props as DrefTableActionsProps } from '../DrefTableActions';
@@ -100,10 +101,21 @@ function CompletedDrefTable(props: Props) {
                 (item) => item.created_at,
                 { columnClassName: styles.date },
             ),
-            createStringColumn<DrefResultItem, Key>(
+            // completed DREFs are always approved, so the event exists
+            createLinkColumn<DrefResultItem, Key>(
                 'appeal_code',
                 strings.completedDrefTableAppealCodeHeading,
                 (item) => item.appeal_code,
+                (item) => {
+                    const eventId = item.dref.event;
+                    return {
+                        to: isDefined(eventId) ? 'emergenciesLayout' : undefined,
+                        urlParams: isDefined(eventId)
+                            ? { emergencyId: eventId }
+                            : undefined,
+                        withEllipsizedContent: true,
+                    };
+                },
                 { columnClassName: styles.appealCode },
             ),
             createStringColumn<DrefResultItem, Key>(
