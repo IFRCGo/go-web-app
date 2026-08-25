@@ -6,6 +6,9 @@
         "drefImportFailed": "Failed to import",
         "drefImportSelectFile": "Select file (xlsx)",
         "drefImportTemplate": "Please select the filled template for the DREF Application",
-        "drefImportFailedDescription": "Failed to process the selected import file, make sure you've downloaded the import template from the GO platform. Please contact your DREF focal point in your region."
+        "drefImportFailedDescription": "Failed to process the selected import file, make sure you've downloaded the import template from the GO platform. Please contact your DREF focal point in your region.",
+        "drefImportDataPending": "Loading the data required to read the template…",
+        "drefImportDataMissingTitle": "Required data could not be loaded",
+        "drefImportDataMissingDescription": "Some reference data needed to read the template (such as countries and DREF types) is unavailable. Please refresh the page and try again."
     }
 }

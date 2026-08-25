@@ -742,6 +742,8 @@ const schema: DrefFormSchema = {
 
                         ...conditionalFields,
                         is_surge_personnel_deployed: {},
+                        // FIXME: obsolete field, not rendered in this form — only in
+                        // DrefFinalReportForm. Verify and remove.
                         people_targeted_with_early_actions: {
                             validations: [positiveIntegerCondition],
                         },

@@ -7,7 +7,9 @@ async function fullAppImport(
     ifrcApiKey: string,
     applicationId: string,
 ) {
-    const endpoint = resolveUrl(ifrcApiUrl, `Application/${applicationId}/Translation/fullappimport`);
+    // The api-url is the service base URL without the /api suffix,
+    // consistent with push-migrations-to-ifrc and export-strings-for-mock
+    const endpoint = resolveUrl(ifrcApiUrl, `api/Application/${applicationId}/Translation/fullappimport`);
     const translationFile = readFileSync(importFilePath);
     const uint8FileData = new Uint8Array(translationFile);
     const blob = new Blob([uint8FileData], {

@@ -1,0 +1,2135 @@
+{
+    "parent": "000090-1787644199336.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "dataMissingDescription",
+            "namespace": "accountMyFormsDref",
+            "value": "Some reference data needed for the template (such as countries and DREF types) is unavailable. Please refresh the page and try again."
+        },
+        {
+            "action": "add",
+            "key": "dataMissingTitle",
+            "namespace": "accountMyFormsDref",
+            "value": "Required data could not be loaded"
+        },
+        {
+            "action": "add",
+            "key": "dataPendingMessage",
+            "namespace": "accountMyFormsDref",
+            "value": "Loading the data required to build the template…"
+        },
+        {
+            "action": "add",
+            "key": "selectDrefTypeLabel",
+            "namespace": "accountMyFormsDref",
+            "value": "Select type of DREF for template"
+        },
+        {
+            "action": "add",
+            "key": "drefImportDataMissingDescription",
+            "namespace": "drefApplicationForm",
+            "value": "Some reference data needed to read the template (such as countries and DREF types) is unavailable. Please refresh the page and try again."
+        },
+        {
+            "action": "add",
+            "key": "drefImportDataMissingTitle",
+            "namespace": "drefApplicationForm",
+            "value": "Required data could not be loaded"
+        },
+        {
+            "action": "add",
+            "key": "drefImportDataPending",
+            "namespace": "drefApplicationForm",
+            "value": "Loading the data required to read the template…"
+        },
+        {
+            "action": "add",
+            "key": "columnDescriptionHeader",
+            "namespace": "drefImportTemplate",
+            "value": "Description"
+        },
+        {
+            "action": "add",
+            "key": "columnFieldHeader",
+            "namespace": "drefImportTemplate",
+            "value": "Field"
+        },
+        {
+            "action": "add",
+            "key": "columnValueHeader",
+            "namespace": "drefImportTemplate",
+            "value": "Value"
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Criteria and Eligibility"
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityImminent",
+            "namespace": "drefImportTemplate",
+            "value": "Before completing the template, ensure you meet the following criteria:\n\n--- The DREF responds to an imminent crisis where a forecast trigger/threshold has been or is about to be met.\n--- Scenario analysis and hazard monitoring information is available.\n--- The sub-total of the proposed Early Action and Early Response budgets is exactly CHF75,000.\n--- The operation is implemented within a short anticipatory window (around 45 days).\n--- NS has no overdue DREF reports."
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityResponse",
+            "namespace": "drefImportTemplate",
+            "value": "Before completing the template, ensure you meet the following criteria:\n\n--- A Field Report has been published to inform the DREF decision.\n--- NS has no overdue DREF reports.\n--- The support cost is no more than 40% (check under the “Resource Budget Summary” tab).\n--- The operation supports at least 100 households (HH).\n--- The budget allows no more than CHF100 per person (Total Budget ÷ Number of Targeted People).\n--- If requesting more than CHF500,000, check the IFRC categorisation with the Regional Office Information Management (RO IM) team (yellow category ceiling)."
+        },
+        {
+            "action": "add",
+            "key": "coverHeading",
+            "namespace": "drefImportTemplate",
+            "value": "DISASTER RESPONSE EMERGENCY FUND"
+        },
+        {
+            "action": "add",
+            "key": "coverHowToUseDescription",
+            "namespace": "drefImportTemplate",
+            "value": "<b>Mandatory fields</b>\nInput required information in the “Value” column. Do not add data outside of these designated fields.\n\n<b>Collaboration</b>\nThis Excel file can be uploaded to OneDrive/SharePoint/Google Drive for multiple users to work on simultaneously. Please note that only one user can edit any specific cell at a time.\n\n<b>Entry limits</b>\nSome sections, like sources of information, risks and mitigation, and indicators, have a maximum of <b>5 entries</b>. Please do not attempt to add more."
+        },
+        {
+            "action": "add",
+            "key": "coverHowToUseHeading",
+            "namespace": "drefImportTemplate",
+            "value": "How to use the template"
+        },
+        {
+            "action": "add",
+            "key": "coverNoteImminent",
+            "namespace": "drefImportTemplate",
+            "value": "<b>Ensure your Imminent DREF request reaches the Regional Office (RO) with enough time for technical review and approval before the forecast trigger window closes.</b>"
+        },
+        {
+            "action": "add",
+            "key": "coverNoteResponse",
+            "namespace": "drefImportTemplate",
+            "value": "<b>Ensure your DREF request reaches the Regional Office (RO) with enough time for a 24-hour technical review</b>, addressing comments, and getting approval within 10 days (sudden onset) or 14 days (slow onset/replenishment) from the trigger date."
+        },
+        {
+            "action": "add",
+            "key": "coverOverviewDescription",
+            "namespace": "drefImportTemplate",
+            "value": "This template is designed to assist National Societies (NS) in submitting a Disaster Relief Emergency Fund (DREF) request. The completed template will be imported into the GO platform to generate the DREF application form. Please ensure that all required fields are completed correctly, as the import can only be done once. After importing, further edits should be made directly in the GO platform."
+        },
+        {
+            "action": "add",
+            "key": "coverOverviewHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Overview"
+        },
+        {
+            "action": "add",
+            "key": "coverStepsDescription",
+            "namespace": "drefImportTemplate",
+            "value": "1. Ensure the template is fully completed and all fields are correctly filled.\n2. Log in to the GO platform.\n3. Create a “New DREF Application” and use the <b>Import</b> function to upload this Excel file.\n4. After importing, any additional work on the application should be done directly in the GO platform."
+        },
+        {
+            "action": "add",
+            "key": "coverStepsHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Steps for importing the template"
+        },
+        {
+            "action": "add",
+            "key": "coverStructureHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Structure of the template"
+        },
+        {
+            "action": "add",
+            "key": "coverStructureImminent",
+            "namespace": "drefImportTemplate",
+            "value": "The template is divided into the following sections:\n\n<b><i>Operation Overview</i></b> – general context of the operation.\n<b><i>Scenario Analysis</i></b> – information on the imminent hazard triggering the DREF request.\n<b><i>Plan</i></b> – proposed early actions, early response and support services.\n<b><i>Timeframes and Contacts</i></b> – key timeframes and relevant contact details."
+        },
+        {
+            "action": "add",
+            "key": "coverStructureResponse",
+            "namespace": "drefImportTemplate",
+            "value": "The template is divided into the following sections:\n\n<b><i>Operation Overview</i></b> – general context of the emergency operation.\n<b><i>Event Details</i></b> – information on the event triggering the DREF request.\n<b><i>Actions and Needs</i></b> – description of key actions and needs.\n<b><i>Operation Plan</i></b> – outline of the planned operation and identified risks.\n<b><i>Timeframes and Contacts</i></b> – key timeframes and relevant contact details."
+        },
+        {
+            "action": "add",
+            "key": "coverSubHeading",
+            "namespace": "drefImportTemplate",
+            "value": "<b><i>Import template</i></b>"
+        },
+        {
+            "action": "add",
+            "key": "coverTabName",
+            "namespace": "drefImportTemplate",
+            "value": "DREF Import"
+        },
+        {
+            "action": "add",
+            "key": "immAboutSupportServicesHeading",
+            "namespace": "drefImportTemplate",
+            "value": "About Support Services"
+        },
+        {
+            "action": "add",
+            "key": "immActivitiesLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Activities"
+        },
+        {
+            "action": "add",
+            "key": "immActivityDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Describe the activities planned under this sector. Leave blank for sectors that do not apply."
+        },
+        {
+            "action": "add",
+            "key": "immActivityLabel",
+            "namespace": "drefImportTemplate",
+            "value": "List of activities"
+        },
+        {
+            "action": "add",
+            "key": "immAddressedHumanitarianImpactsDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Prioritized impact of the foreseen disaster."
+        },
+        {
+            "action": "add",
+            "key": "immAddressedHumanitarianImpactsLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Which severe humanitarian impacts are your actions addressing, and why?"
+        },
+        {
+            "action": "add",
+            "key": "immCountryDesc",
+            "namespace": "drefImportTemplate",
+            "value": "NOTE: You may add the targeted region during the import"
+        },
+        {
+            "action": "add",
+            "key": "immCountryLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Affected Country"
+        },
+        {
+            "action": "add",
+            "key": "immDescriptionOfTheHazardHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Description of the Hazard"
+        },
+        {
+            "action": "add",
+            "key": "immDisasterTypeDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Select the relevant type of disaster from the drop-down list."
+        },
+        {
+            "action": "add",
+            "key": "immDisasterTypeLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Type of disaster"
+        },
+        {
+            "action": "add",
+            "key": "immEstimatedNumberOfAffectedBoysUnder18Label",
+            "namespace": "drefImportTemplate",
+            "value": "Estimated number of affected boys (under 18)"
+        },
+        {
+            "action": "add",
+            "key": "immEstimatedNumberOfAffectedFemaleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Estimated number of affected female"
+        },
+        {
+            "action": "add",
+            "key": "immEstimatedNumberOfAffectedGirlsUnder18Label",
+            "namespace": "drefImportTemplate",
+            "value": "Estimated number of affected girls (under 18)"
+        },
+        {
+            "action": "add",
+            "key": "immEstimatedNumberOfAffectedMaleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Estimated number of affected male"
+        },
+        {
+            "action": "add",
+            "key": "immHazardDateAndLocationDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Include here the forecasted date of impact as well as the geographical areas at risk."
+        },
+        {
+            "action": "add",
+            "key": "immHazardDateAndLocationLabel",
+            "namespace": "drefImportTemplate",
+            "value": "When and where is the hazard expected to happen?"
+        },
+        {
+            "action": "add",
+            "key": "immHazardDateDesc",
+            "namespace": "drefImportTemplate",
+            "value": "MM/DD/YYYY. Must be today or a future date."
+        },
+        {
+            "action": "add",
+            "key": "immHazardDateLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Date when the trigger was met / is expected to be met"
+        },
+        {
+            "action": "add",
+            "key": "immHazardVulnerabilitiesAndRisksDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Based on comparison of past events, what humanitarian impacts do you expect? Of what magnitude? (e.g. last time there was a cyclone making landfall with this windspeed, XX houses were destroyed, and we had to launch a DREF/emergency appeal for CHF xxx)."
+        },
+        {
+            "action": "add",
+            "key": "immHazardVulnerabilitiesAndRisksLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Explain the underlying vulnerabilities and risks the hazard poses for at-risk communities?"
+        },
+        {
+            "action": "add",
+            "key": "immIsManMadeEventDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Select Yes or No from the drop-down list."
+        },
+        {
+            "action": "add",
+            "key": "immIsManMadeEventLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Is this a man made event?"
+        },
+        {
+            "action": "add",
+            "key": "immIsSurgePersonnelDeployedDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Select Yes or No from the drop-down list."
+        },
+        {
+            "action": "add",
+            "key": "immIsSurgePersonnelDeployedLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Will surge personnel be deployed?"
+        },
+        {
+            "action": "add",
+            "key": "immNationalSocietyDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Indicate your National Society by selecting it from the drop-down list."
+        },
+        {
+            "action": "add",
+            "key": "immNationalSocietyLabel",
+            "namespace": "drefImportTemplate",
+            "value": "National society"
+        },
+        {
+            "action": "add",
+            "key": "immNsRequestDateDesc",
+            "namespace": "drefImportTemplate",
+            "value": "DD/MM/YYYY"
+        },
+        {
+            "action": "add",
+            "key": "immNsRequestDateLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Date of National Society Application"
+        },
+        {
+            "action": "add",
+            "key": "immNumAffectedDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Includes all those whose lives and livelihoods are at risk as a direct result of the shock or stress."
+        },
+        {
+            "action": "add",
+            "key": "immNumAffectedLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Total population likely to be affected"
+        },
+        {
+            "action": "add",
+            "key": "immOperationTimeframeImminentDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Fixed operation timeframe. This value is predefined and cannot be changed."
+        },
+        {
+            "action": "add",
+            "key": "immOperationTimeframeImminentLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Operation timeframe (days)"
+        },
+        {
+            "action": "add",
+            "key": "immProposedActionBudgetDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Budget for this proposed action. The sub-total of Early Action and Early Response budgets must equal exactly CHF 75,000."
+        },
+        {
+            "action": "add",
+            "key": "immProposedActionBudgetLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Budget (CHF)"
+        },
+        {
+            "action": "add",
+            "key": "immProposedActionsHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Proposed Actions"
+        },
+        {
+            "action": "add",
+            "key": "immProposedActionsLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Proposed Actions"
+        },
+        {
+            "action": "add",
+            "key": "immSourceInformationLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Source Information"
+        },
+        {
+            "action": "add",
+            "key": "immSourceLinkDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Specify the names (up to 5) of the key information sources. If possible, provide links.\nThe names will be shown in the export as an hyperlink."
+        },
+        {
+            "action": "add",
+            "key": "immSourceLinkLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Link"
+        },
+        {
+            "action": "add",
+            "key": "immSourceNameLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "immSurgePersonnelDeployedDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Describe the skills and qualifications/profile of the surge personnel or any additional staff (to be) deployed specifically for the operation.\nWhat expertise or skill sets are required for the personnel being deployed?\nWhat roles will these personnel fulfil?\nAre there specific tasks or sectors they will be managing?"
+        },
+        {
+            "action": "add",
+            "key": "immSurgePersonnelDeployedLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Role profile of the deployed personnel"
+        },
+        {
+            "action": "add",
+            "key": "immTimeframeHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Timeframe"
+        },
+        {
+            "action": "add",
+            "key": "immTitleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "DREF Title"
+        },
+        {
+            "action": "add",
+            "key": "immTypeOfOnsetDesc",
+            "namespace": "drefImportTemplate",
+            "value": "The type of onset is selected by default."
+        },
+        {
+            "action": "add",
+            "key": "immTypeOfOnsetLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Type of Onset"
+        },
+        {
+            "action": "add",
+            "key": "needDesc_community_engagement_and_accountability",
+            "namespace": "drefImportTemplate",
+            "value": "Needs and gaps in efforts to actively engaged in decision-making processes and have access to accurate information. Need for transparency, feedback mechanisms, and accountability to those being assisted."
+        },
+        {
+            "action": "add",
+            "key": "needDesc_education",
+            "namespace": "drefImportTemplate",
+            "value": "Gaps in providing children and youth with access to education, even in emergencies. This includes disruption of the education system, insufficient temporary learning spaces, educational materials, and efforts to keep students engaged in learning during crises."
+        },
+        {
+            "action": "add",
+            "key": "needDesc_environment_sustainability",
+            "namespace": "drefImportTemplate",
+            "value": "Needs and gaps related to ensuring that response activities are environmentally sustainable, minimising harm to the environment and integrating green practices into recovery and rehabilitation efforts."
+        },
+        {
+            "action": "add",
+            "key": "needDesc_health",
+            "namespace": "drefImportTemplate",
+            "value": "Needs and gaps related to healthcare services for affected communities, including medical assistance, mental health and psychosocial support, and the prevention of disease outbreaks."
+        },
+        {
+            "action": "add",
+            "key": "needDesc_livelihoods_and_basic_needs",
+            "namespace": "drefImportTemplate",
+            "value": "Basic survival needs like food, clothing, and essential household items, as well as restoring livelihoods (e.g., farming, small businesses) to help affected communities regain economic stability."
+        },
+        {
+            "action": "add",
+            "key": "needDesc_migration_and_displacement",
+            "namespace": "drefImportTemplate",
+            "value": "Needs and gaps related to supporting displaced individuals and communities, including refugees, migrants, and internally displaced persons."
+        },
+        {
+            "action": "add",
+            "key": "needDesc_multi_purpose_cash_grants",
+            "namespace": "drefImportTemplate",
+            "value": "Needs and gaps related to providing cash assistance that can be used flexibly by households to meet their most urgent needs, such as food, shelter, healthcare, or other expenses."
+        },
+        {
+            "action": "add",
+            "key": "needDesc_protection_gender_and_inclusion",
+            "namespace": "drefImportTemplate",
+            "value": "Needs and gaps related to protection of vulnerable groups, including women, children, older people, people with disabilities, minority groups, etc."
+        },
+        {
+            "action": "add",
+            "key": "needDesc_risk_reduction_climate_adaptation_and_recovery",
+            "namespace": "drefImportTemplate",
+            "value": "Needs and gaps relate to the efforts to reduce the impact of future disasters through risk reduction strategies, climate change adaptation measures, and recovery planning to help communities become more resilient."
+        },
+        {
+            "action": "add",
+            "key": "needDesc_shelter_housing_and_settlements",
+            "namespace": "drefImportTemplate",
+            "value": "Immediate shelter needs and the recovery of housing for displaced or affected populations. It includes emergency shelter provisions, housing repairs, and support for longer-term settlement planning.\n\n# houses and infrastructure damaged, type/condition of damage (total, severe, partial), availability of public facilities – evacuation shelters, schools, etc. nearby and how are they used."
+        },
+        {
+            "action": "add",
+            "key": "needDesc_water_sanitation_and_hygiene",
+            "namespace": "drefImportTemplate",
+            "value": "Gaps related to the provision of clean water, adequate sanitation, and hygiene support to prevent waterborne diseases and ensure healthy living conditions."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_activation_of_contingency_plans",
+            "namespace": "drefImportTemplate",
+            "value": "Putting pre-established emergency plans into action when a disaster occurs. Contingency plans outline specific steps to be taken in response to different scenarios."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_assessment",
+            "namespace": "drefImportTemplate",
+            "value": "Refers to conducting rapid needs assessments to gather essential data on the impact of the event and the specific needs of affected populations. Assessments guide the development of an appropriate response."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_community_engagement_and_accountability",
+            "namespace": "drefImportTemplate",
+            "value": "Ensuring affected communities are actively engaged in decision-making processes and have access to accurate information. It promotes transparency, feedback mechanisms, and accountability to those being assisted."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_coordination",
+            "namespace": "drefImportTemplate",
+            "value": "Collaboration with other humanitarian actors, government agencies, and partners to ensure a coherent and effective response. Coordination helps avoid duplication of efforts and ensures resources are used efficiently."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_education",
+            "namespace": "drefImportTemplate",
+            "value": "Actions related to ensuring that children and youth have access to education, even in emergencies. This includes temporary learning spaces, educational materials, and efforts to keep the youth engaged in learning during crises."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_environment_sustainability",
+            "namespace": "drefImportTemplate",
+            "value": "Ensuring that response activities are environmentally sustainable, minimising harm to the environment and integrating green practices into recovery and rehabilitation efforts."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_health",
+            "namespace": "drefImportTemplate",
+            "value": "Healthcare services for affected communities, including medical assistance, mental health and psychosocial support, and the prevention of disease outbreaks.\n\nBackground on affected / not-affected health service delivery, supply chain, and logistics, and what different actors (hospitals, clinics, government, partners, etc…) are doing to support the health-related needs.\n\nCommon types of infectious diseases in the area / prone in that particular crisis.\n\nHow affected people are reacting and coping (positive and/or negative coping strategies), and what is the availability and accessibility of MHPSS services and mental health institutions."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_livelihoods_and_basic_needs",
+            "namespace": "drefImportTemplate",
+            "value": "Providing basic survival needs like food, clothing, and essential household items, as well as restoring livelihoods (e.g., farming, small businesses) to help affected communities regain economic stability."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_migration_and_displacement",
+            "namespace": "drefImportTemplate",
+            "value": "Supporting displaced individuals and communities, including refugees, migrants, and internally displaced persons. This sector looks at safe, dignified solutions and addresses the unique needs of those on the move."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_multi_purpose_cash",
+            "namespace": "drefImportTemplate",
+            "value": "Providing cash assistance that can be used flexibly by households to meet their most urgent needs, such as food, shelter, healthcare, or other expenses."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_national_society_eoc",
+            "namespace": "drefImportTemplate",
+            "value": "Activation of the National Society's Emergency Operations Centre, which coordinates response activities, manages resources, and monitors the evolving situation during emergencies."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_national_society_readiness",
+            "namespace": "drefImportTemplate",
+            "value": "Relates to the preparedness of the National Society to respond effectively to emergencies. This includes staff readiness, operational capacity, and logistical preparations."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_other",
+            "namespace": "drefImportTemplate",
+            "value": "This section captures any other actions that do not fit into the above sectors but are critical to the emergency response. Be specific when describing these additional needs."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_protection_gender_and_inclusion",
+            "namespace": "drefImportTemplate",
+            "value": "Protection of vulnerable groups, including women, children, older people, people with disabilities, minority groups, etc. It ensures gender-sensitive approaches and promotes inclusivity in emergency response efforts."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_resource_mobilization",
+            "namespace": "drefImportTemplate",
+            "value": "Securing the necessary financial, material, and human resources to support emergency response efforts, including fundraising, partnerships, and donations."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_risk_reduction_climate_adaptation_and_recovery",
+            "namespace": "drefImportTemplate",
+            "value": "Efforts to reduce the impact of future disasters through risk reduction strategies, climate change adaptation measures, and recovery planning to help communities become more resilient."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_shelter_housing_and_settlements",
+            "namespace": "drefImportTemplate",
+            "value": "Actions related to immediate shelter needs and the recovery of housing for displaced or affected populations. It includes emergency shelter provisions, housing repairs, and support for longer-term settlement planning."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_water_sanitation_and_hygiene",
+            "namespace": "drefImportTemplate",
+            "value": "Provision of clean water, adequate sanitation, and hygiene support to prevent waterborne diseases and ensure healthy living conditions."
+        },
+        {
+            "action": "add",
+            "key": "optIndicator",
+            "namespace": "drefImportTemplate",
+            "value": "Indicator #{n}"
+        },
+        {
+            "action": "add",
+            "key": "optNo",
+            "namespace": "drefImportTemplate",
+            "value": "No"
+        },
+        {
+            "action": "add",
+            "key": "optRisk",
+            "namespace": "drefImportTemplate",
+            "value": "Risk #{n}"
+        },
+        {
+            "action": "add",
+            "key": "optSource",
+            "namespace": "drefImportTemplate",
+            "value": "Source #{n}"
+        },
+        {
+            "action": "add",
+            "key": "optYes",
+            "namespace": "drefImportTemplate",
+            "value": "Yes"
+        },
+        {
+            "action": "add",
+            "key": "respAboutSupportServicesHeading",
+            "namespace": "drefImportTemplate",
+            "value": "About Support Services"
+        },
+        {
+            "action": "add",
+            "key": "respAmountRequestedDesc",
+            "namespace": "drefImportTemplate",
+            "value": "General funding requested to fund the interventions."
+        },
+        {
+            "action": "add",
+            "key": "respAmountRequestedLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Requested Amount in CHF"
+        },
+        {
+            "action": "add",
+            "key": "respBoysLabel1",
+            "namespace": "drefImportTemplate",
+            "value": "Targeted Population:"
+        },
+        {
+            "action": "add",
+            "key": "respBoysLabel2",
+            "namespace": "drefImportTemplate",
+            "value": "Boys (under 18)"
+        },
+        {
+            "action": "add",
+            "key": "respChildSafeguardingRiskLevelDesc",
+            "namespace": "drefImportTemplate",
+            "value": "What was the risk level for child safeguarding risk analysis?"
+        },
+        {
+            "action": "add",
+            "key": "respChildSafeguardingRiskLevelLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Child safeguarding risk level"
+        },
+        {
+            "action": "add",
+            "key": "respCommunicationDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Describe how the National Society will manage internal and external communication throughout the operation."
+        },
+        {
+            "action": "add",
+            "key": "respCommunicationDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "- What communication channels will be used to share information internally among teams and externally with stakeholders, partners, and the public?"
+        },
+        {
+            "action": "add",
+            "key": "respCommunicationDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "- How will the National Society ensure transparent and effective communication with the affected communities?"
+        },
+        {
+            "action": "add",
+            "key": "respCommunicationDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "- Is there a media strategy in place for external communication, such as press releases or social media updates?"
+        },
+        {
+            "action": "add",
+            "key": "respCommunicationDesc5",
+            "namespace": "drefImportTemplate",
+            "value": "- Will the IFRC be supporting with communication? What roles will be involved?"
+        },
+        {
+            "action": "add",
+            "key": "respCommunicationLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Please briefly explain the National Societies communication strategy for this operation."
+        },
+        {
+            "action": "add",
+            "key": "respCompleteChildSafeguardingRiskDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Select Yes or No from the drop-down list."
+        },
+        {
+            "action": "add",
+            "key": "respCompleteChildSafeguardingRiskLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Did you complete the Child Safeguarding Risk Analysis in previous operations?"
+        },
+        {
+            "action": "add",
+            "key": "respCountryDesc",
+            "namespace": "drefImportTemplate",
+            "value": "NOTE: You may add the targeted region during the import"
+        },
+        {
+            "action": "add",
+            "key": "respCountryLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Affected Country"
+        },
+        {
+            "action": "add",
+            "key": "respCurrentNationalSocietyActionsHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Current National Society Actions"
+        },
+        {
+            "action": "add",
+            "key": "respDescriptionOfTheEventHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Description of the Event"
+        },
+        {
+            "action": "add",
+            "key": "respDidItAffectSameAreaLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Has a similar event affected the same area(s) in the last 3 years?"
+        },
+        {
+            "action": "add",
+            "key": "respDidItAffectSamePopulationDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Indicate only if there was a similar event affecting the same area in the last 3 years.\nOtherwise, leave the box empty."
+        },
+        {
+            "action": "add",
+            "key": "respDidItAffectSamePopulationLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Did it affect the same population groups?"
+        },
+        {
+            "action": "add",
+            "key": "respDidNationalSocietyDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Select Yes or No from the drop-down list."
+        },
+        {
+            "action": "add",
+            "key": "respDidNationalSocietyLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Has the National Society started any actions?"
+        },
+        {
+            "action": "add",
+            "key": "respDidNsRequestFundDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Indicate only if the national society responded\nOtherwise, leave the box empty."
+        },
+        {
+            "action": "add",
+            "key": "respDidNsRequestFundLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Did the National Society request funding from DREF for that event(s)?"
+        },
+        {
+            "action": "add",
+            "key": "respDidNsRespondDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Indicate only if it affected the same population groups\nOtherwise, leave the box empty."
+        },
+        {
+            "action": "add",
+            "key": "respDidNsRespondLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Did the National Society respond?"
+        },
+        {
+            "action": "add",
+            "key": "respDisabilityPeoplePerLabel1",
+            "namespace": "drefImportTemplate",
+            "value": "Estimated Percentage:"
+        },
+        {
+            "action": "add",
+            "key": "respDisabilityPeoplePerLabel2",
+            "namespace": "drefImportTemplate",
+            "value": "People with Disability"
+        },
+        {
+            "action": "add",
+            "key": "respDisasterCategoryDesc",
+            "namespace": "drefImportTemplate",
+            "value": "https://www.ifrc.org/sites/default/files/2021-07/IFRC%20Emergency%20Response%20Framework%20-%202017.pdf"
+        },
+        {
+            "action": "add",
+            "key": "respDisasterCategoryLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Disaster Category"
+        },
+        {
+            "action": "add",
+            "key": "respDisasterTypeDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Select the relevant type of disaster from the drop-down list."
+        },
+        {
+            "action": "add",
+            "key": "respDisasterTypeLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Type of disaster"
+        },
+        {
+            "action": "add",
+            "key": "respDisplacedPeopleLabel1",
+            "namespace": "drefImportTemplate",
+            "value": "Estimated number of"
+        },
+        {
+            "action": "add",
+            "key": "respDisplacedPeopleLabel2",
+            "namespace": "drefImportTemplate",
+            "value": "People on the move"
+        },
+        {
+            "action": "add",
+            "key": "respDisplacedPeopleLabel3",
+            "namespace": "drefImportTemplate",
+            "value": "(if any)"
+        },
+        {
+            "action": "add",
+            "key": "respDrefRecurrentTextLabel",
+            "namespace": "drefImportTemplate",
+            "value": "If you have answered yes to all questions above, justify why the use of DREF for a recurrent event, or how this event should not be considered recurrent"
+        },
+        {
+            "action": "add",
+            "key": "respEstimatedNumberOfAffectedFemaleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Estimated number of affected female"
+        },
+        {
+            "action": "add",
+            "key": "respEstimatedNumberOfAffectedMaleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Estimated number of affected male"
+        },
+        {
+            "action": "add",
+            "key": "respEstimatedNumberOfAffectedMinorsLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Estimated number of affected minors"
+        },
+        {
+            "action": "add",
+            "key": "respEventDateDesc",
+            "namespace": "drefImportTemplate",
+            "value": "DD/MM/YYY"
+        },
+        {
+            "action": "add",
+            "key": "respEventDateLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Date of the Event / Date when the trigger was met"
+        },
+        {
+            "action": "add",
+            "key": "respEventDescriptionDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Clearly describe:"
+        },
+        {
+            "action": "add",
+            "key": "respEventDescriptionDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "What happened:"
+        },
+        {
+            "action": "add",
+            "key": "respEventDescriptionDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "Briefly explain the nature of the emergency (e.g., flood, earthquake, epidemic). Include key details such as the intensity, and any unique aspects of the event."
+        },
+        {
+            "action": "add",
+            "key": "respEventDescriptionDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "Where:"
+        },
+        {
+            "action": "add",
+            "key": "respEventDescriptionDesc5",
+            "namespace": "drefImportTemplate",
+            "value": "Specify the geographic location(s) affected. Be as precise as possible, including names of countries, regions, cities, or specific areas impacted by the event."
+        },
+        {
+            "action": "add",
+            "key": "respEventDescriptionDesc6",
+            "namespace": "drefImportTemplate",
+            "value": "When:"
+        },
+        {
+            "action": "add",
+            "key": "respEventDescriptionDesc7",
+            "namespace": "drefImportTemplate",
+            "value": "Indicate the date and time when the event occurred or began. If the situation is ongoing, mention that and provide relevant updates on the timeframe."
+        },
+        {
+            "action": "add",
+            "key": "respEventDescriptionLabel",
+            "namespace": "drefImportTemplate",
+            "value": "What happened, where and when?"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Describe how the event produces negative impacts on lives, livelihoods, well-being and infrastructure."
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc10",
+            "namespace": "drefImportTemplate",
+            "value": "- Are economic impacts (e.g., loss of livelihoods, market disruptions) discussed in detail?"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc11",
+            "namespace": "drefImportTemplate",
+            "value": "Comparative Analysis:"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc12",
+            "namespace": "drefImportTemplate",
+            "value": "- If applicable, does the document compare the current disaster to previous similar events in the region to contextualize its scale?"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc13",
+            "namespace": "drefImportTemplate",
+            "value": "- Are there any predictions or projections about how the situation might develop, based on past experiences or current trends?"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc14",
+            "namespace": "drefImportTemplate",
+            "value": "Sources and Validation:"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc15",
+            "namespace": "drefImportTemplate",
+            "value": "- Are the data and statistics provided in this subsection supported by credible sources (e.g., government reports, UN agencies, credible NGOs)?"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc16",
+            "namespace": "drefImportTemplate",
+            "value": "- Are sources cited appropriately, ensuring transparency and the ability to verify information?"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "Explain which people are most likely to experience the impacts of this hazard? Where do they live, and why are they vulnerable? Please explain which groups (e.g elderly, children, people with disabilities, IDPs, Refugees, etc.) are most likely to be affected? Provide historic information on how communities have been affected by the magnitude of this hazard in the past?"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "Consider the following:"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "Humanitarian Impact:"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc5",
+            "namespace": "drefImportTemplate",
+            "value": "- Are the statistics on damages and losses (e.g., number of people affected, casualties, displaced populations) clearly stated and supported by reliable data?"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc6",
+            "namespace": "drefImportTemplate",
+            "value": "- Is the scale of the disaster described in terms of its impact on different sectors (e.g., housing, health, water and sanitation, livelihoods)?"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc7",
+            "namespace": "drefImportTemplate",
+            "value": "- Are vulnerable groups (e.g., women, children, elderly, disabled) and their specific needs highlighted?"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc8",
+            "namespace": "drefImportTemplate",
+            "value": "Extent of Damage:"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeDesc9",
+            "namespace": "drefImportTemplate",
+            "value": "- Does the section include detailed information on the physical destruction (e.g., homes, infrastructure, public services)?"
+        },
+        {
+            "action": "add",
+            "key": "respEventScopeLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Scope and scale of the event"
+        },
+        {
+            "action": "add",
+            "key": "respGirlsLabel1",
+            "namespace": "drefImportTemplate",
+            "value": "Targeted Population:"
+        },
+        {
+            "action": "add",
+            "key": "respGirlsLabel2",
+            "namespace": "drefImportTemplate",
+            "value": "Girls (under 18)"
+        },
+        {
+            "action": "add",
+            "key": "respGovernmentRequestedAssistanceDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Select Yes or No from the drop-down list."
+        },
+        {
+            "action": "add",
+            "key": "respGovernmentRequestedAssistanceLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Government has requested international assistance"
+        },
+        {
+            "action": "add",
+            "key": "respHasAntiFraudCorruptionPolicyLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Does your National Society have anti-fraud and corruption policy?"
+        },
+        {
+            "action": "add",
+            "key": "respHasAntiSexualHarassmentPolicyLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Does your National Society have anti-sexual harassment policy?"
+        },
+        {
+            "action": "add",
+            "key": "respHasChildProtectionPolicyLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Does your National Society have child protection/child safeguarding policy?"
+        },
+        {
+            "action": "add",
+            "key": "respHasChildSafeguardingRiskAnalysisAssessmentDesc",
+            "namespace": "drefImportTemplate",
+            "value": "The IFRC Child Safeguarding Risk Analysis helps Operations quickly identify and rate their key child safeguarding risks in order to reduce the risk of harm against children, as outlined as a requirement in the IFRC Child Safeguarding Policy."
+        },
+        {
+            "action": "add",
+            "key": "respHasChildSafeguardingRiskAnalysisAssessmentLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Has the child safeguarding risk analysis assessment been completed?"
+        },
+        {
+            "action": "add",
+            "key": "respHasSexualAbusePolicyLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Does your National Society have prevention of sexual exploitation and abuse policy?"
+        },
+        {
+            "action": "add",
+            "key": "respHasWhistleblowerProtectionPolicyLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Does your National Society have whistleblower protection policy?"
+        },
+        {
+            "action": "add",
+            "key": "respHumanResourceDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Overview of the human resources that will be engaged in the operation, including both staff and volunteers."
+        },
+        {
+            "action": "add",
+            "key": "respHumanResourceDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "- How many staff members and volunteers are expected to participate?"
+        },
+        {
+            "action": "add",
+            "key": "respHumanResourceDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "- What specific roles or responsibilities will they have during the operation?"
+        },
+        {
+            "action": "add",
+            "key": "respHumanResourceDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "- Are there any key leadership positions or coordinators overseeing the activities?"
+        },
+        {
+            "action": "add",
+            "key": "respHumanResourceLabel",
+            "namespace": "drefImportTemplate",
+            "value": "How many staff and volunteers will be involved in this operation. Briefly describe their role."
+        },
+        {
+            "action": "add",
+            "key": "respIcrcActionsHeading",
+            "namespace": "drefImportTemplate",
+            "value": "ICRC Actions Related To The Current Event"
+        },
+        {
+            "action": "add",
+            "key": "respIcrcDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Presence or not of ICRC in country, and support directly provided for this emergency response. Other programs and support provided outside of the scope of this emergency should not be indicated here."
+        },
+        {
+            "action": "add",
+            "key": "respIcrcLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Description"
+        },
+        {
+            "action": "add",
+            "key": "respIdentifiedGapsDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Consider the following:"
+        },
+        {
+            "action": "add",
+            "key": "respIdentifiedGapsDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "- Unmet needs: are there specific sectors (e.g., shelter, WASH, health) where needs remain unmet or only partially addressed?"
+        },
+        {
+            "action": "add",
+            "key": "respIdentifiedGapsDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "- Resource shortages: highlight any shortages in available resources (e.g., funding, personnel, supplies) that limit the ability to meet the identified needs."
+        },
+        {
+            "action": "add",
+            "key": "respIdentifiedGapsDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "- Operational challenges: mention any operational constraints that are preventing a full response to the needs (e.g., logistical issues, insufficient capacity)."
+        },
+        {
+            "action": "add",
+            "key": "respIdentifiedGapsDesc5",
+            "namespace": "drefImportTemplate",
+            "value": "- Coordination issues: note any challenges in coordinating with other actors or agencies that have resulted in gaps in service delivery or response coverage."
+        },
+        {
+            "action": "add",
+            "key": "respIdentifiedGapsDesc6",
+            "namespace": "drefImportTemplate",
+            "value": "- Vulnerable groups: identify any specific vulnerable groups whose needs may not have been fully captured or addressed during the assessment (e.g., displaced persons, elderly, people with disabilities)."
+        },
+        {
+            "action": "add",
+            "key": "respIdentifiedGapsLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Any identified gaps/limitations in the assessment"
+        },
+        {
+            "action": "add",
+            "key": "respIfrcDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Presence or not of IFRC in country (if not, indicate the cluster covering). Support provided for this response, domestic coordination, technical, strategic, surge. Explain what support is being provided in terms of Secretariat services: PMER, Finance, Admin, HR, Security, logistics, NSD."
+        },
+        {
+            "action": "add",
+            "key": "respIfrcLabel",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "respIfrcNetworkActionsHeading",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC Network Actions Related To The Current Event"
+        },
+        {
+            "action": "add",
+            "key": "respIndicatorsLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Indicators"
+        },
+        {
+            "action": "add",
+            "key": "respIndicatorTargetDesc",
+            "namespace": "drefImportTemplate",
+            "value": "For each indicator, set a target. This helps track progress and measure whether the operation is achieving its key objectives, making it easier to report results later on."
+        },
+        {
+            "action": "add",
+            "key": "respIndicatorTargetLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Target"
+        },
+        {
+            "action": "add",
+            "key": "respIndicatorTitleDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Start by choosing indicators from the IFRC indicator databank whenever possible. This makes it easier to compare and analyse results across all emergency operations.\n\nPick indicators that align with the planned activities. This ensures that the indicators accurately reflect the actions being taken on the ground. Missing important indicators could mean missed chances to showcase the positive impact of the work being done.\n\nKeep in mind that more indicators can mean more work. Each indicator selected requires monitoring, tracking, and reporting, so be sure to choose the ones that best reflect the key outcomes of your actions.\n\nConsider the type of indicator unit. For example, it’s often simpler and clearer to track and report on the “number of people” rather than a “percentage of people.”"
+        },
+        {
+            "action": "add",
+            "key": "respIndicatorTitleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Title"
+        },
+        {
+            "action": "add",
+            "key": "respInterventionBudgetDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Budget planned to be spent on the activities under this sector."
+        },
+        {
+            "action": "add",
+            "key": "respInterventionBudgetLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Budget"
+        },
+        {
+            "action": "add",
+            "key": "respInterventionDescriptionDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Specific activities that will be carried out as part of the intervention in each sector. The activities should directly address the identified needs and align with the operation’s strategic objectives."
+        },
+        {
+            "action": "add",
+            "key": "respInterventionDescriptionDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "- What specific actions will be taken in this sector to meet the identified needs?"
+        },
+        {
+            "action": "add",
+            "key": "respInterventionDescriptionDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "A list should start with an ' * ' followed by a space. There are no limits to the number of lists that can be included."
+        },
+        {
+            "action": "add",
+            "key": "respInterventionDescriptionDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "Example:"
+        },
+        {
+            "action": "add",
+            "key": "respInterventionDescriptionDesc5",
+            "namespace": "drefImportTemplate",
+            "value": "* Activity A"
+        },
+        {
+            "action": "add",
+            "key": "respInterventionDescriptionDesc6",
+            "namespace": "drefImportTemplate",
+            "value": "* Activity B"
+        },
+        {
+            "action": "add",
+            "key": "respInterventionDescriptionDesc7",
+            "namespace": "drefImportTemplate",
+            "value": "* Activity C"
+        },
+        {
+            "action": "add",
+            "key": "respInterventionDescriptionLabel",
+            "namespace": "drefImportTemplate",
+            "value": "List of activities"
+        },
+        {
+            "action": "add",
+            "key": "respInterventionPersonTargetedDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Number of people planned to be reached through the activities under this sector."
+        },
+        {
+            "action": "add",
+            "key": "respInterventionPersonTargetedLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Person targeted"
+        },
+        {
+            "action": "add",
+            "key": "respIsManMadeEventDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Select Yes or No from the drop-down list."
+        },
+        {
+            "action": "add",
+            "key": "respIsManMadeEventDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "Is the event caused or triggered by human interventions?"
+        },
+        {
+            "action": "add",
+            "key": "respIsManMadeEventLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Is this a man made event?"
+        },
+        {
+            "action": "add",
+            "key": "respIsSurgePersonnelDeployedDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Select Yes or No from the drop-down list."
+        },
+        {
+            "action": "add",
+            "key": "respIsSurgePersonnelDeployedLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Will be surge personnel be deployed?"
+        },
+        {
+            "action": "add",
+            "key": "respIsThereMajorCoordinationMechanismDesc",
+            "namespace": "drefImportTemplate",
+            "value": "- Inform on the inter-agency / inter-governmental coordination that has been formally or informally set up.\n- If possible, include the methods of coordination / information sharing.\n- If possible, include brief information how task / locations / etc. are coordinated and divided.\n"
+        },
+        {
+            "action": "add",
+            "key": "respIsThereMajorCoordinationMechanismLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Are there major coordination mechanisms in place?"
+        },
+        {
+            "action": "add",
+            "key": "respIsVolunteerTeamDiverseDesc",
+            "namespace": "drefImportTemplate",
+            "value": "This question is about making sure your team includes the right mix of people to best support those affected. For example, if you’re helping single female heads of households, it’s important to have enough female volunteers to make everyone feel comfortable and understood. Including team members who share the same language or cultural background as the people you’re helping can also make a big difference in building trust and providing effective support."
+        },
+        {
+            "action": "add",
+            "key": "respIsVolunteerTeamDiverseLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Does your volunteer team reflect the gender, age, and cultural diversity of the people you’re helping? What gaps exist in your volunteer team’s gender, age, or cultural diversity, and how are you addressing them to ensure inclusive and appropriate support?"
+        },
+        {
+            "action": "add",
+            "key": "respLessonsLearnedDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Indicate only if there was a similar event affecting the same area in the last 3 years."
+        },
+        {
+            "action": "add",
+            "key": "respLessonsLearnedDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "Specify how the lessons learnt from these previous operations are planned to be used to mitigate similar challenges in the current operation."
+        },
+        {
+            "action": "add",
+            "key": "respLessonsLearnedDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "The format should be concise, actionable, and focused on a specific insight:"
+        },
+        {
+            "action": "add",
+            "key": "respLessonsLearnedDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "[Action or Practice] + [Outcome/Result] + [Key Takeaway or Recommendation]"
+        },
+        {
+            "action": "add",
+            "key": "respLessonsLearnedDesc5",
+            "namespace": "drefImportTemplate",
+            "value": "Example:"
+        },
+        {
+            "action": "add",
+            "key": "respLessonsLearnedDesc6",
+            "namespace": "drefImportTemplate",
+            "value": "Engaging local suppliers early in the procurement process led to faster delivery of relief items, highlighting the need to establish pre-agreed contracts with reliable vendors before emergencies."
+        },
+        {
+            "action": "add",
+            "key": "respLessonsLearnedLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Lessons Learned"
+        },
+        {
+            "action": "add",
+            "key": "respLogisticCapacityOfNsDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Explain the responsibility for procurement activities during the operation."
+        },
+        {
+            "action": "add",
+            "key": "respLogisticCapacityOfNsDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "- Who will be responsible for procurement (National Society or IFRC)?"
+        },
+        {
+            "action": "add",
+            "key": "respLogisticCapacityOfNsDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "- Will procurement involve local or international suppliers?"
+        },
+        {
+            "action": "add",
+            "key": "respLogisticCapacityOfNsDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "- Will it be for replenishment or for distribution? "
+        },
+        {
+            "action": "add",
+            "key": "respLogisticCapacityOfNsDesc5",
+            "namespace": "drefImportTemplate",
+            "value": "- If for distribution, how long is the tendering expected to take? "
+        },
+        {
+            "action": "add",
+            "key": "respLogisticCapacityOfNsDesc6",
+            "namespace": "drefImportTemplate",
+            "value": "- For Cash and Voucher Assistance, what is the status of the Financial Service Provider?"
+        },
+        {
+            "action": "add",
+            "key": "respLogisticCapacityOfNsLabel",
+            "namespace": "drefImportTemplate",
+            "value": "If there is procurement, will be done by National Society or IFRC?"
+        },
+        {
+            "action": "add",
+            "key": "respMajorCoordinationMechanismDesc",
+            "namespace": "drefImportTemplate",
+            "value": "List coordination mechanisms/platform in place at local/district and national level. Indicate the lead authorities/agencies. How the National Society is involved/positioned in this coordination. Does the NS in any lead/co-lead role? Any identified gap/overlap in the coordination (e.g., sector missing…)?\nIndicate only if there are major coordination mechanism in place\nOtherwise, leave the box empty."
+        },
+        {
+            "action": "add",
+            "key": "respMajorCoordinationMechanismLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Major coordination mechanism"
+        },
+        {
+            "action": "add",
+            "key": "respMenLabel1",
+            "namespace": "drefImportTemplate",
+            "value": "Targeted Population:"
+        },
+        {
+            "action": "add",
+            "key": "respMenLabel2",
+            "namespace": "drefImportTemplate",
+            "value": "Men"
+        },
+        {
+            "action": "add",
+            "key": "respMitigationDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Actions or strategies that will be implemented to reduce or manage the identified risks, ensuring the operation can proceed as planned."
+        },
+        {
+            "action": "add",
+            "key": "respMitigationDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "- What specific measures or strategies will be put in place to mitigate the risks identified?"
+        },
+        {
+            "action": "add",
+            "key": "respMitigationDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "- Will contingency plans or additional resources be required to address these risks?"
+        },
+        {
+            "action": "add",
+            "key": "respMitigationLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Mitigation action"
+        },
+        {
+            "action": "add",
+            "key": "respNationalAuthoritiesDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Brief description of actions taken by the national authorities."
+        },
+        {
+            "action": "add",
+            "key": "respNationalAuthoritiesLabel",
+            "namespace": "drefImportTemplate",
+            "value": "National authorities"
+        },
+        {
+            "action": "add",
+            "key": "respNationalSocietyActionsLabel",
+            "namespace": "drefImportTemplate",
+            "value": "National Society Actions"
+        },
+        {
+            "action": "add",
+            "key": "respNationalSocietyDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Indicate your National Society by selecting it from the drop-down list."
+        },
+        {
+            "action": "add",
+            "key": "respNationalSocietyLabel",
+            "namespace": "drefImportTemplate",
+            "value": "National society"
+        },
+        {
+            "action": "add",
+            "key": "respNeedDescriptionDesc",
+            "namespace": "drefImportTemplate",
+            "value": "<ins>needs_identified.description</ins>"
+        },
+        {
+            "action": "add",
+            "key": "respNeedDescriptionLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Description"
+        },
+        {
+            "action": "add",
+            "key": "respNeedsIdentifiedLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Needs (Gaps) Identified"
+        },
+        {
+            "action": "add",
+            "key": "respNsActionDescriptionDesc",
+            "namespace": "drefImportTemplate",
+            "value": "<ins>national_society_actions.description</ins>"
+        },
+        {
+            "action": "add",
+            "key": "respNsActionDescriptionLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Description"
+        },
+        {
+            "action": "add",
+            "key": "respNsRequestDateDesc",
+            "namespace": "drefImportTemplate",
+            "value": "DD/MM/YYY"
+        },
+        {
+            "action": "add",
+            "key": "respNsRequestDateLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Date of National Society Application"
+        },
+        {
+            "action": "add",
+            "key": "respNsRequestTextDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Indicate only if the national society requested funding from DREF for that event(s).\nOtherwise, leave the box empty."
+        },
+        {
+            "action": "add",
+            "key": "respNsRequestTextLabel",
+            "namespace": "drefImportTemplate",
+            "value": "If yes, please specify which operations"
+        },
+        {
+            "action": "add",
+            "key": "respNsRespondDateDesc",
+            "namespace": "drefImportTemplate",
+            "value": "DD/MM/YYY"
+        },
+        {
+            "action": "add",
+            "key": "respNsRespondDateLabel",
+            "namespace": "drefImportTemplate",
+            "value": "If yes, start date of National Society actions"
+        },
+        {
+            "action": "add",
+            "key": "respNumAffectedDesc",
+            "namespace": "drefImportTemplate",
+            "value": "People Affected include all those whose lives and livelihoods have been impacted as a direct result of the event."
+        },
+        {
+            "action": "add",
+            "key": "respNumAffectedLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Total affected population"
+        },
+        {
+            "action": "add",
+            "key": "respObjectiveAndStrategyHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Objective and Strategy Rationale"
+        },
+        {
+            "action": "add",
+            "key": "respOperationObjectiveDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "The objective statement should clearly and concisely describe the primary goal of the operation, focusing on the humanitarian impact and the specific needs the operation aims to address."
+        },
+        {
+            "action": "add",
+            "key": "respOperationObjectiveDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "The IFRC-DREF operation aims to [primary action] in order to [desired impact] for [target population] affected by [event/disaster], by providing [key services/interventions] and ensuring [core outcomes such as protection, dignity, and resilience] over [operation period]."
+        },
+        {
+            "action": "add",
+            "key": "respOperationObjectiveLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Overall objective of the operation"
+        },
+        {
+            "action": "add",
+            "key": "respOperationTimeframeDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Indicate the number of months, e.g."
+        },
+        {
+            "action": "add",
+            "key": "respOperationTimeframeDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "4"
+        },
+        {
+            "action": "add",
+            "key": "respOperationTimeframeDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "."
+        },
+        {
+            "action": "add",
+            "key": "respOperationTimeframeLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Operation timeframe"
+        },
+        {
+            "action": "add",
+            "key": "respOtherActorsActionsHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Other Actors Actions Related To The Current Event"
+        },
+        {
+            "action": "add",
+            "key": "respPartnerNationalSocietyDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Briefly set out which PNS are present and give details of PNS contributions/roles on the ground and remotely for this specific operation"
+        },
+        {
+            "action": "add",
+            "key": "respPartnerNationalSocietyLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Participating National Societies"
+        },
+        {
+            "action": "add",
+            "key": "respPeopleAssistedDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Explain the logic behind the targets. Which groups are targeted and why these particular groups? Explain how you will target vulnerable groups (e.g., Migrants, refugees, pregnant women, older people, etc.)"
+        },
+        {
+            "action": "add",
+            "key": "respPeopleAssistedDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "Mention if any data were used to identify who is most vulnerable."
+        },
+        {
+            "action": "add",
+            "key": "respPeopleAssistedLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Who will be targeted through this operation?"
+        },
+        {
+            "action": "add",
+            "key": "respPeopleInNeedDesc",
+            "namespace": "drefImportTemplate",
+            "value": "People in Need are those members whose physical security, basic rights, dignity, living conditions or livelihoods are threatened or have been disrupted, and whose current level of access to basic services, goods and social protection is inadequate to re-establish normal living conditions without additional assistance."
+        },
+        {
+            "action": "add",
+            "key": "respPeopleInNeedLabel1",
+            "namespace": "drefImportTemplate",
+            "value": "People in need"
+        },
+        {
+            "action": "add",
+            "key": "respPeopleInNeedLabel2",
+            "namespace": "drefImportTemplate",
+            "value": "(Optional)"
+        },
+        {
+            "action": "add",
+            "key": "respPeoplePerLocalLabel1",
+            "namespace": "drefImportTemplate",
+            "value": "Estimated Percentage:"
+        },
+        {
+            "action": "add",
+            "key": "respPeoplePerLocalLabel2",
+            "namespace": "drefImportTemplate",
+            "value": "Rural"
+        },
+        {
+            "action": "add",
+            "key": "respPeoplePerUrbanLabel1",
+            "namespace": "drefImportTemplate",
+            "value": "Estimated Percentage:"
+        },
+        {
+            "action": "add",
+            "key": "respPeoplePerUrbanLabel2",
+            "namespace": "drefImportTemplate",
+            "value": "Urban"
+        },
+        {
+            "action": "add",
+            "key": "respPlannedInterventionsHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Planned Interventions"
+        },
+        {
+            "action": "add",
+            "key": "respPlannedInterventionsLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Add the interventions that apply"
+        },
+        {
+            "action": "add",
+            "key": "respPmerDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Describe the mechanisms that will be used to track the progress and effectiveness of the operation."
+        },
+        {
+            "action": "add",
+            "key": "respPmerDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "- What systems will be used to monitor the operation's activities and outcomes?"
+        },
+        {
+            "action": "add",
+            "key": "respPmerDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "- How will progress be tracked, and who will be responsible for monitoring?"
+        },
+        {
+            "action": "add",
+            "key": "respPmerDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "- What indicators or milestones will be used to assess the success of the operation?"
+        },
+        {
+            "action": "add",
+            "key": "respPmerDesc5",
+            "namespace": "drefImportTemplate",
+            "value": "- Will there be IFRC monitoring visits? How will it be deployed?"
+        },
+        {
+            "action": "add",
+            "key": "respPmerLabel",
+            "namespace": "drefImportTemplate",
+            "value": "How will this operation be monitored?"
+        },
+        {
+            "action": "add",
+            "key": "respPopulationNumberDescPrefix",
+            "namespace": "drefImportTemplate",
+            "value": "Number, e.g. XX,XXX."
+        },
+        {
+            "action": "add",
+            "key": "respPopulationNumberDescSuffix",
+            "namespace": "drefImportTemplate",
+            "value": "If 0, leave the box empty."
+        },
+        {
+            "action": "add",
+            "key": "respPopulationPercentageDescPrefix",
+            "namespace": "drefImportTemplate",
+            "value": "Percentage, e.g. XX%."
+        },
+        {
+            "action": "add",
+            "key": "respPopulationPercentageDescSuffix",
+            "namespace": "drefImportTemplate",
+            "value": "If 0, leave the box empty."
+        },
+        {
+            "action": "add",
+            "key": "respPreviousOperationHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Previous Operation"
+        },
+        {
+            "action": "add",
+            "key": "respResponseStrategyDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Elaborate on the overall plan, strategy and approach of the operation; explain the reasoning behind the chosen strategy for the emergency operation."
+        },
+        {
+            "action": "add",
+            "key": "respResponseStrategyDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "Explain how the identified needs/gaps and actions taken/plans are linked."
+        },
+        {
+            "action": "add",
+            "key": "respResponseStrategyDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "- Highlight the most urgent needs the operation aims to address."
+        },
+        {
+            "action": "add",
+            "key": "respResponseStrategyDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "- Describe the main priorities and explain why these priorities were chosen based on the specific context of the emergency."
+        },
+        {
+            "action": "add",
+            "key": "respResponseStrategyDesc5",
+            "namespace": "drefImportTemplate",
+            "value": "- Justify why particular methods and actions were selected and how they are expected to achieve the desired outcomes."
+        },
+        {
+            "action": "add",
+            "key": "respResponseStrategyDesc6",
+            "namespace": "drefImportTemplate",
+            "value": "- Include any key factors that influence the strategy; mention how these factors were considered in shaping the operation."
+        },
+        {
+            "action": "add",
+            "key": "respResponseStrategyLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Operation strategy rationale"
+        },
+        {
+            "action": "add",
+            "key": "respRiskDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Identify up to 5 key potential risks or threats that could negatively impact the success of the operation."
+        },
+        {
+            "action": "add",
+            "key": "respRiskDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "These can range from environmental risks to social or logistical challenges."
+        },
+        {
+            "action": "add",
+            "key": "respRiskDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "- What are the primary risks that could affect the operation’s implementation?"
+        },
+        {
+            "action": "add",
+            "key": "respRiskDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "- Are there any context-specific risks that need to be considered?"
+        },
+        {
+            "action": "add",
+            "key": "respRiskDesc5",
+            "namespace": "drefImportTemplate",
+            "value": "- How might these risks impact the operation’s objectives, timeline, or resources?"
+        },
+        {
+            "action": "add",
+            "key": "respRiskLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Risk"
+        },
+        {
+            "action": "add",
+            "key": "respRiskSecurityConcernDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Describe any specific security or safety threats that could impact the safety of personnel, volunteers, and communities during the operation."
+        },
+        {
+            "action": "add",
+            "key": "respRiskSecurityConcernDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "- Are there any security concerns related to the areas where the operation will take place (e.g., conflict zones, high-crime areas)?"
+        },
+        {
+            "action": "add",
+            "key": "respRiskSecurityConcernDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "- What safety risks could impact the well-being of staff, volunteers, or beneficiaries (e.g., dangerous terrain, health risks)?"
+        },
+        {
+            "action": "add",
+            "key": "respRiskSecurityConcernDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "- Are there any specific security protocols or measures that need to be established or followed during the operation?"
+        },
+        {
+            "action": "add",
+            "key": "respRiskSecurityConcernLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Please indicate any security and safety concerns for this operation"
+        },
+        {
+            "action": "add",
+            "key": "respRiskSecurityLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Risk and security considerations"
+        },
+        {
+            "action": "add",
+            "key": "respSelectionCriteriaDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Explain the rational and logic behind which groups are being targeted and why and address vulnerable groups"
+        },
+        {
+            "action": "add",
+            "key": "respSelectionCriteriaLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Explain the selection criteria for the targeted population"
+        },
+        {
+            "action": "add",
+            "key": "respSourceInformationLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Source Information"
+        },
+        {
+            "action": "add",
+            "key": "respSourceLinkDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Specify the names (up to 5) of the key information sources. If possible, provide links.\nThe names will be shown in the export as an hyperlink."
+        },
+        {
+            "action": "add",
+            "key": "respSourceLinkLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Link"
+        },
+        {
+            "action": "add",
+            "key": "respSourceNameLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "respSurgePersonnelDeployedDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Describe the skills and qualifications/profile of the surge personnel or any additional staff (to be) deployed specifically for the operation."
+        },
+        {
+            "action": "add",
+            "key": "respSurgePersonnelDeployedDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "- What expertise or skill sets are required for the personnel being deployed?"
+        },
+        {
+            "action": "add",
+            "key": "respSurgePersonnelDeployedDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "- What roles will these personnel fulfil?"
+        },
+        {
+            "action": "add",
+            "key": "respSurgePersonnelDeployedDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "- Are there specific tasks or sectors they will be managing?"
+        },
+        {
+            "action": "add",
+            "key": "respSurgePersonnelDeployedLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Role profile of the deployed personnel"
+        },
+        {
+            "action": "add",
+            "key": "respTargetingStrategyHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Targeting Strategy"
+        },
+        {
+            "action": "add",
+            "key": "respTitleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "DREF Title"
+        },
+        {
+            "action": "add",
+            "key": "respTotalTargetedPopulationHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Total Targeted Population"
+        },
+        {
+            "action": "add",
+            "key": "respTotalTargetedPopulationLabel1",
+            "namespace": "drefImportTemplate",
+            "value": "Targeted Population:"
+        },
+        {
+            "action": "add",
+            "key": "respTotalTargetedPopulationLabel2",
+            "namespace": "drefImportTemplate",
+            "value": "Total"
+        },
+        {
+            "action": "add",
+            "key": "respTypeOfOnsetDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Select the type of onset from the drop-down list."
+        },
+        {
+            "action": "add",
+            "key": "respTypeOfOnsetLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Type of Onset"
+        },
+        {
+            "action": "add",
+            "key": "respTypeOfOnsetSlowBody",
+            "namespace": "drefImportTemplate",
+            "value": " - slow onset events evolve gradually from incremental changes occurring over many months/years or from an increased frequency or intensity of recurring events (e.g. Droughts, Food insecurity, Epidemics, etc.)"
+        },
+        {
+            "action": "add",
+            "key": "respTypeOfOnsetSlowTerm",
+            "namespace": "drefImportTemplate",
+            "value": "Slow-onset disaster"
+        },
+        {
+            "action": "add",
+            "key": "respTypeOfOnsetSuddenBody",
+            "namespace": "drefImportTemplate",
+            "value": " – a single, discrete event that occurs in a matter of days or even hours (e.g. earthquakes, flash floods)."
+        },
+        {
+            "action": "add",
+            "key": "respTypeOfOnsetSuddenTerm",
+            "namespace": "drefImportTemplate",
+            "value": "Sudden-onset disaster"
+        },
+        {
+            "action": "add",
+            "key": "respUnOrOtherActorDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Brief description of actions taken by the UN or other actors."
+        },
+        {
+            "action": "add",
+            "key": "respUnOrOtherActorLabel",
+            "namespace": "drefImportTemplate",
+            "value": "UN or other actors"
+        },
+        {
+            "action": "add",
+            "key": "respWomenLabel1",
+            "namespace": "drefImportTemplate",
+            "value": "Targeted Population:"
+        },
+        {
+            "action": "add",
+            "key": "respWomenLabel2",
+            "namespace": "drefImportTemplate",
+            "value": "Women"
+        },
+        {
+            "action": "add",
+            "key": "validationDateError",
+            "namespace": "drefImportTemplate",
+            "value": "Please enter a date"
+        },
+        {
+            "action": "add",
+            "key": "validationErrorTitle",
+            "namespace": "drefImportTemplate",
+            "value": "Invalid value"
+        },
+        {
+            "action": "add",
+            "key": "validationIntegerError",
+            "namespace": "drefImportTemplate",
+            "value": "Please enter an integer greater than 0"
+        },
+        {
+            "action": "add",
+            "key": "validationListError",
+            "namespace": "drefImportTemplate",
+            "value": "Please select a value from the list"
+        },
+        {
+            "action": "add",
+            "key": "validationNumberError",
+            "namespace": "drefImportTemplate",
+            "value": "Please enter a number greater than 0"
+        }
+    ]
+}

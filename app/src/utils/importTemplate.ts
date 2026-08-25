@@ -27,10 +27,19 @@ type ExtractValidation<T> = T extends ValidationType
     ? T
     : never;
 
+// Tag-free alternative to pseudo-HTML; a line break is a `{ text: '\n' }` segment.
+interface Segment {
+    text: string;
+    bold?: boolean;
+    italic?: boolean;
+    underline?: boolean;
+}
+
 interface BaseField {
-    label: string;
-    description?: string;
+    label: string | Segment[];
+    description?: string | Segment[];
     headingBefore?: string;
+    defaultValue?: string | number | boolean;
 }
 
 interface InputField<
@@ -126,6 +135,7 @@ type InputTemplateField = {
     description?: string | CellRichTextValue;
     headingBefore?: string;
     context: { field: string, key: string }[],
+    defaultValue?: string | number | boolean;
 } & ({
     dataValidation: 'list';
     optionsKey: ObjectKey;
@@ -169,6 +179,56 @@ function createInsPlugin(
             };
         },
     };
+}
+
+function buildRichText(segments: Segment[]): CellRichTextValue {
+    return {
+        richText: segments
+            .filter((segment) => segment.text !== '')
+            .map((segment) => {
+                const font: { bold?: boolean, italic?: boolean, underline?: boolean } = {};
+                if (segment.bold) { font.bold = true; }
+                if (segment.italic) { font.italic = true; }
+                if (segment.underline) { font.underline = true; }
+
+                if (Object.keys(font).length === 0) {
+                    return { text: segment.text };
+                }
+
+                return { text: segment.text, font };
+            }),
+    };
+}
+
+// A plain string still goes through parsePseudoHtml (which resolves <ins>).
+function resolveRichText(
+    value: string | Segment[],
+    insPlugin: ParsePlugin,
+): string | CellRichTextValue;
+function resolveRichText(
+    value: string | Segment[] | undefined,
+    insPlugin: ParsePlugin,
+): string | CellRichTextValue | undefined;
+function resolveRichText(
+    value: string | Segment[] | undefined,
+    insPlugin: ParsePlugin,
+): string | CellRichTextValue | undefined {
+    if (Array.isArray(value)) {
+        return buildRichText(value);
+    }
+
+    return parsePseudoHtml(value, [insPlugin]);
+}
+
+// Headings render as plain text; flatten a Segment[] label/description if used.
+function toPlainText(value: string | Segment[] | undefined): string | undefined {
+    if (isNotDefined(value)) {
+        return undefined;
+    }
+    if (typeof value === 'string') {
+        return value;
+    }
+    return value.map((segment) => segment.text).join('');
 }
 
 export function createImportTemplate<
@@ -223,13 +283,14 @@ export function createImportTemplate<
         const field = {
             type: 'input',
             name: fieldName,
-            label: parsePseudoHtml(schema.label, [insPlugin]),
-            description: parsePseudoHtml(schema.description, [insPlugin]),
+            label: resolveRichText(schema.label, insPlugin),
+            description: resolveRichText(schema.description, insPlugin),
             dataValidation: (schema.validation === 'number' || schema.validation === 'date' || schema.validation === 'integer' || schema.validation === 'textArea')
                 ? schema.validation
                 : undefined,
             outlineLevel,
             context,
+            defaultValue: schema.defaultValue,
         } satisfies InputTemplateField;
 
         fields.push(field);
@@ -240,12 +301,13 @@ export function createImportTemplate<
         const field = {
             type: 'input',
             name: fieldName,
-            label: parsePseudoHtml(schema.label, [insPlugin]),
-            description: parsePseudoHtml(schema.description, [insPlugin]),
+            label: resolveRichText(schema.label, insPlugin),
+            description: resolveRichText(schema.description, insPlugin),
             outlineLevel,
             dataValidation: 'list',
             optionsKey: schema.optionsKey,
             context,
+            defaultValue: schema.defaultValue,
         } satisfies InputTemplateField;
 
         fields.push(field);
@@ -255,8 +317,8 @@ export function createImportTemplate<
     const headingField = {
         type: 'heading',
         name: fieldName,
-        label: schema.label,
-        description: schema.description,
+        label: toPlainText(schema.label) ?? '',
+        description: toPlainText(schema.description),
         outlineLevel,
         context,
     } satisfies HeadingTemplateField;
@@ -362,8 +424,12 @@ export function getValueFromImportTemplate<
             const updatedValue = value.replace(/(^|\n)\s*\*/g, '$1•');
             return updatedValue;
         }
+        const isTextField = schema.validation === 'string'
+            || schema.validation === 'textArea'
+            || schema.validation === 'date';
+
         // TODO: add validation from schema.validation
-        return value;
+        return isTextField ? value?.toString() : value;
     }
 
     if (schema.type === 'select') {

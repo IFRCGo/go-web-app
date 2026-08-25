@@ -20,16 +20,23 @@ import {
     COLOR_PRIMARY_BLUE,
     COLOR_PRIMARY_RED,
     COLOR_WHITE,
+    DREF_TYPE_IMMINENT,
     DREF_TYPE_RESPONSE,
     FONT_FAMILY_HEADER,
     type TypeOfDrefEnum,
 } from '#utils/constants';
 import {
+    DREF_OPTIONS_SHEET_NAME,
+    DREF_TYPE_CELL_COLUMN,
+    DREF_TYPE_CELL_ROW,
     type DrefSheetName,
+    getDrefSheetNames,
     SHEET_ACTIONS_NEEDS,
     SHEET_EVENT_DETAIL,
     SHEET_OPERATION,
     SHEET_OPERATION_OVERVIEW,
+    SHEET_PLAN,
+    SHEET_SCENARIO_ANALYSIS,
     SHEET_TIMEFRAMES_AND_CONTACTS,
 } from '#utils/domain/dref';
 import {
@@ -45,7 +52,19 @@ import {
     timeframeAndContactsTabFields,
 } from '#views/DrefApplicationForm/common';
 
-import { type OptionsMapping } from './useImportTemplateSchema';
+import {
+    type OptionsMapping,
+    type TemplateStrings,
+} from './useImportTemplateSchema';
+
+type CoverStrings = TemplateStrings['cover'];
+interface ValidationStrings {
+    numberError: string;
+    integerError: string;
+    dateError: string;
+    listError: string;
+    errorTitle: string;
+}
 
 // FIXME: move to utils
 function hexToArgb(hexStr: string, alphaStr = 'ff') {
@@ -227,6 +246,7 @@ function addHeadingRow(
 }
 
 function addInputRow(
+    validationStrings: ValidationStrings,
     rowType: 'alt' | 'normal',
     sheet: Worksheet,
     rowNum: number,
@@ -237,6 +257,7 @@ function addInputRow(
     dataValidation?: 'number' | 'integer' | 'date' | 'text',
 ): Row
 function addInputRow(
+    validationStrings: ValidationStrings,
     rowType: 'alt' | 'normal',
     sheet: Worksheet,
     rowNum: number,
@@ -249,6 +270,7 @@ function addInputRow(
     optionsWorksheet?: Worksheet,
 ): Row
 function addInputRow(
+    validationStrings: ValidationStrings,
     rowType: 'alt' | 'normal',
     sheet: Worksheet,
     rowNum: number,
@@ -307,8 +329,8 @@ function addInputRow(
             type: 'decimal',
             operator: 'greaterThan',
             formulae: [0],
-            error: 'Please enter a number greater than 0',
-            errorTitle: 'Invalid value',
+            error: validationStrings.numberError,
+            errorTitle: validationStrings.errorTitle,
             showErrorMessage: true,
             allowBlank: true,
         };
@@ -317,8 +339,8 @@ function addInputRow(
             type: 'whole',
             operator: 'greaterThan',
             formulae: [0],
-            error: 'Please enter an integer greater than 0',
-            errorTitle: 'Invalid value',
+            error: validationStrings.integerError,
+            errorTitle: validationStrings.errorTitle,
             showErrorMessage: true,
             allowBlank: true,
         };
@@ -327,8 +349,8 @@ function addInputRow(
             type: 'date',
             operator: 'greaterThan',
             formulae: ['1970-1-1'],
-            error: 'Please enter a date',
-            errorTitle: 'Invalid value',
+            error: validationStrings.dateError,
+            errorTitle: validationStrings.errorTitle,
             showErrorMessage: true,
             allowBlank: true,
         };
@@ -347,8 +369,8 @@ function addInputRow(
             inputCell.dataValidation = {
                 type: 'list',
                 formulae: [formulae],
-                error: 'Please select a value from the list',
-                errorTitle: 'Invalid value',
+                error: validationStrings.listError,
+                errorTitle: validationStrings.errorTitle,
                 showErrorMessage: true,
                 allowBlank: true,
             };
@@ -361,7 +383,11 @@ function addInputRow(
 async function generateCoverWorksheet(
     coverWorksheet: Worksheet,
     workbook: Workbook,
+    typeOfDref: TypeOfDrefEnum,
+    coverStrings: CoverStrings,
 ) {
+    const isImminent = typeOfDref === DREF_TYPE_IMMINENT;
+
     function writeCellRange(
         row: string,
         col: string,
@@ -447,43 +473,49 @@ async function generateCoverWorksheet(
         alignment: { wrapText: true, vertical: 'middle' },
     };
 
-    const heading = writeCellRange('C1', 'L3', 'DISASTER RESPONSE EMERGENCY FUND');
+    const heading = writeCellRange('C1', 'L3', coverStrings.heading);
     heading.style = introH1Style;
 
-    const subHeading = writeCellRange('C4', 'L6', '<b><i>Import template</i></b>');
+    const subHeading = writeCellRange('C4', 'L6', coverStrings.subHeading);
     subHeading.style = introH2Style;
 
-    const overviewHeading = writeCellRange('C11', 'L11', 'Overview');
+    const overviewHeading = writeCellRange('C11', 'L11', coverStrings.overviewHeading);
     overviewHeading.style = introH3Style;
 
-    const overviewDescription = writeCellRange('C12', 'L18', 'This template is designed to assist National Societies (NS) in submitting a Disaster Relief Emergency Fund (DREF) request. The completed template will be imported into the GO platform to generate the DREF application form. Please ensure that all required fields are completed correctly, as the import can only be done once. After importing, further edits should be made directly in the GO platform.');
+    const overviewDescription = writeCellRange('C12', 'L18', coverStrings.overviewDescription);
     overviewDescription.style = introDescriptionStyle;
 
-    const eligibilityCriteriaHeading = writeCellRange('C21', 'L21', 'Criteria and Eligibility');
+    const eligibilityCriteriaHeading = writeCellRange('C21', 'L21', coverStrings.eligibilityHeading);
     eligibilityCriteriaHeading.style = introH3Style;
 
-    const eligibilityCriteriaDescription = writeCellRange('C22', 'L33', 'Before completing the template, ensure you meet the following criteria:\n\n--- A Field Report has been published to inform the DREF decision.\n--- NS has no overdue DREF reports.\n--- The support cost is no more than 40% (check under the “Resource Budget Summary” tab).\n--- The operation supports at least 100 households (HH).\n--- The budget allows no more than CHF100 per person (Total Budget ÷ Number of Targeted People).\n--- If requesting more than CHF500,000, check the IFRC categorisation with the Regional Office Information Management (RO IM) team (yellow category ceiling).');
+    const eligibilityCriteriaDescription = writeCellRange('C22', 'L33', isImminent
+        ? coverStrings.eligibilityImminent
+        : coverStrings.eligibilityResponse);
     eligibilityCriteriaDescription.style = introDescriptionStyle;
 
-    const note = writeCellRange('C36', 'L40', '<b>Ensure your DREF request reaches the Regional Office (RO) with enough time for a 24-hour technical review</b>, addressing comments, and getting approval within 10 days (sudden onset) or 14 days (slow onset/replenishment) from the trigger date.');
+    const note = writeCellRange('C36', 'L40', isImminent
+        ? coverStrings.noteImminent
+        : coverStrings.noteResponse);
     note.style = introDescriptionStyle;
 
-    const howToUseHeading = writeCellRange('P11', 'Y11', 'How to use the template');
+    const howToUseHeading = writeCellRange('P11', 'Y11', coverStrings.howToUseHeading);
     howToUseHeading.style = introH3Style;
 
-    const howToUseDescription = writeCellRange('P12', 'Y24', '<b>Mandatory fields</b>\nInput required information in the “Value” column. Do not add data outside of these designated fields.\n\n<b>Collaboration</b>\nThis Excel file can be uploaded to OneDrive/SharePoint/Google Drive for multiple users to work on simultaneously. Please note that only one user can edit any specific cell at a time.\n\n<b>Entry limits</b>\nSome sections, like sources of information, risks and mitigation, and indicators, have a maximum of <b>5 entries</b>. Please do not attempt to add more.');
+    const howToUseDescription = writeCellRange('P12', 'Y24', coverStrings.howToUseDescription);
     howToUseDescription.style = introDescriptionStyle;
 
-    const structureOfTemplateHeading = writeCellRange('P27', 'Y27', 'Structure of the template');
+    const structureOfTemplateHeading = writeCellRange('P27', 'Y27', coverStrings.structureHeading);
     structureOfTemplateHeading.style = introH3Style;
 
-    const structureOfTemplateDescription = writeCellRange('P28', 'Y36', 'The template is divided into the following sections:\n\n<b><i>Operation Overview</i></b> – general context of the emergency operation.\n<b><i>Event Details</i></b> – information on the event triggering the DREF request.\n<b><i>Actions and Needs</i></b> – description of key actions and needs.\n<b><i>Operation Plan</i></b> – outline of the planned operation and identified risks.\n<b><i>Timeframes and Contacts</i></b> – key timeframes and relevant contact details.');
+    const structureOfTemplateDescription = writeCellRange('P28', 'Y36', isImminent
+        ? coverStrings.structureImminent
+        : coverStrings.structureResponse);
     structureOfTemplateDescription.style = introDescriptionStyle;
 
-    const stepsForImportingHeading = writeCellRange('P39', 'Y39', 'Steps for importing the template');
+    const stepsForImportingHeading = writeCellRange('P39', 'Y39', coverStrings.stepsHeading);
     stepsForImportingHeading.style = introH3Style;
 
-    const stepsForImportingDescription = writeCellRange('P40', 'Y46', '1. Ensure the template is fully completed and all fields are correctly filled.\n2. Log in to the GO platform.\n3. Create a “New DREF Application” and use the <b>Import</b> function to upload this Excel file.\n4. After importing, any additional work on the application should be done directly in the GO platform.');
+    const stepsForImportingDescription = writeCellRange('P40', 'Y46', coverStrings.stepsDescription);
     stepsForImportingDescription.style = introDescriptionStyle;
 
     const cells = selectRange(coverWorksheet, 'A:1', 'Z:48');
@@ -506,7 +538,11 @@ async function generateOtherWorksheets(
     templateActions: TemplateField[],
     optionsWorksheet: Worksheet,
     workbook: Workbook,
+    validationStrings: ValidationStrings,
+    typeOfDref: TypeOfDrefEnum,
 ) {
+    const isImminent = typeOfDref === DREF_TYPE_IMMINENT;
+
     const fieldNameToTabNameMap: Record<string, string> = {
         ...listToMap(
             overviewTabFields,
@@ -516,7 +552,7 @@ async function generateOtherWorksheets(
         ...listToMap(
             eventDetailTabFields,
             (key) => key as string,
-            () => SHEET_EVENT_DETAIL,
+            () => (isImminent ? SHEET_SCENARIO_ANALYSIS : SHEET_EVENT_DETAIL),
         ),
         ...listToMap(
             actionsTabFields,
@@ -526,7 +562,7 @@ async function generateOtherWorksheets(
         ...listToMap(
             operationTabFields,
             (key) => key as string,
-            () => SHEET_OPERATION,
+            () => (isImminent ? SHEET_PLAN : SHEET_OPERATION),
         ),
         ...listToMap(
             timeframeAndContactsTabFields,
@@ -579,6 +615,7 @@ async function generateOtherWorksheets(
                 const rowType = (i - lastHeadingIndex) % 2 === 0 ? 'alt' : 'normal';
                 if (templateAction.dataValidation === 'list') {
                     addInputRow(
+                        validationStrings,
                         rowType,
                         worksheet,
                         row,
@@ -609,6 +646,7 @@ async function generateOtherWorksheets(
                     }
 
                     addInputRow(
+                        validationStrings,
                         rowType,
                         worksheet,
                         row,
@@ -620,6 +658,7 @@ async function generateOtherWorksheets(
                     );
                 } else {
                     addInputRow(
+                        validationStrings,
                         rowType,
                         worksheet,
                         row,
@@ -630,6 +669,11 @@ async function generateOtherWorksheets(
                         templateAction.dataValidation,
                     );
                 }
+
+                if (isDefined(templateAction.defaultValue)) {
+                    // eslint-disable-next-line no-param-reassign
+                    worksheet.getCell(row, 2).value = templateAction.defaultValue;
+                }
             }
         });
     });
@@ -638,6 +682,7 @@ async function generateOtherWorksheets(
 async function generateOptionsWorksheet(
     optionsWorksheet: Worksheet,
     optionsMap: OptionsMapping,
+    typeOfDref: TypeOfDrefEnum,
 ) {
     // eslint-disable-next-line no-param-reassign
     optionsWorksheet.state = 'veryHidden';
@@ -660,6 +705,11 @@ async function generateOptionsWorksheet(
             });
         }
     });
+
+    // Embed the DREF type far beyond the option columns so it can't collide;
+    // the import reads it back to pick the schema.
+    const typeCell = optionsWorksheet.getCell(DREF_TYPE_CELL_ROW, DREF_TYPE_CELL_COLUMN);
+    typeCell.value = typeOfDref;
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -671,6 +721,8 @@ export async function generateTemplate(
     drefTypeLabelMap: Record<TypeOfDrefEnum, string> | undefined,
     typeOfDref: TypeOfDrefEnum,
 
+    templateStrings: TemplateStrings,
+
     callback: () => void,
 ) {
     const workbook = new xlsx.Workbook();
@@ -678,51 +730,45 @@ export async function generateTemplate(
     workbook.created = now;
 
     const coverWorksheet = workbook.addWorksheet(
-        'DREF Import',
-        { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
-    );
-    const overviewWorksheet = workbook.addWorksheet(
-        SHEET_OPERATION_OVERVIEW,
-        { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
-    );
-    const eventDetailsWorksheet = workbook.addWorksheet(
-        SHEET_EVENT_DETAIL,
-        { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
-    );
-    const actionsNeedsWorksheet = workbook.addWorksheet(
-        SHEET_ACTIONS_NEEDS,
-        { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
-    );
-    const operationWorksheet = workbook.addWorksheet(
-        SHEET_OPERATION,
-        { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
-    );
-    const timeframeAndContactsWorksheet = workbook.addWorksheet(
-        SHEET_TIMEFRAMES_AND_CONTACTS,
+        templateStrings.coverTabName,
         { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
     );
 
-    const optionsWorksheet = workbook.addWorksheet('options');
+    // Only create this type's sheets; generateOtherWorksheets drops fields whose
+    // target sheet doesn't exist.
+    const sheetMap: Partial<Record<DrefSheetName, xlsx.Worksheet>> = {};
+    getDrefSheetNames(typeOfDref).forEach((sheetName) => {
+        sheetMap[sheetName] = workbook.addWorksheet(
+            sheetName,
+            { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
+        );
+    });
 
-    await generateCoverWorksheet(coverWorksheet, workbook);
+    const optionsWorksheet = workbook.addWorksheet(DREF_OPTIONS_SHEET_NAME);
 
-    await generateOptionsWorksheet(optionsWorksheet, optionsMap);
+    await generateCoverWorksheet(coverWorksheet, workbook, typeOfDref, templateStrings.cover);
+
+    await generateOptionsWorksheet(optionsWorksheet, optionsMap, typeOfDref);
 
     await generateOtherWorksheets(
         templateActions,
         optionsWorksheet,
         workbook,
+        {
+            numberError: templateStrings.validationNumberError,
+            integerError: templateStrings.validationIntegerError,
+            dateError: templateStrings.validationDateError,
+            listError: templateStrings.validationListError,
+            errorTitle: templateStrings.validationErrorTitle,
+        },
+        typeOfDref,
     );
 
-    const sheetMap: Record<DrefSheetName, xlsx.Worksheet> = {
-        [SHEET_OPERATION_OVERVIEW]: overviewWorksheet,
-        [SHEET_EVENT_DETAIL]: eventDetailsWorksheet,
-        [SHEET_ACTIONS_NEEDS]: actionsNeedsWorksheet,
-        [SHEET_OPERATION]: operationWorksheet,
-        [SHEET_TIMEFRAMES_AND_CONTACTS]: timeframeAndContactsWorksheet,
-    };
     Object.values(sheetMap).forEach(
         (sheet) => {
+            if (isNotDefined(sheet)) {
+                return;
+            }
             const worksheet = sheet;
             worksheet.properties.defaultRowHeight = 30;
             worksheet.properties.showGridLines = false;
@@ -730,20 +776,20 @@ export async function generateTemplate(
             worksheet.columns = [
                 {
                     key: 'field',
-                    header: 'Field',
+                    header: templateStrings.columnFieldHeader,
                     protection: { locked: true },
                     width: 50,
                     style: { alignment: { wrapText: true } },
                 },
                 {
                     key: 'value',
-                    header: 'Value',
+                    header: templateStrings.columnValueHeader,
                     width: 85,
                     style: { alignment: { wrapText: true } },
                 },
                 {
                     key: 'description',
-                    header: 'Description',
+                    header: templateStrings.columnDescriptionHeader,
                     width: 80,
                 },
             ];

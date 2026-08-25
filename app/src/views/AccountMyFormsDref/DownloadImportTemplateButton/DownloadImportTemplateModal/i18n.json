@@ -2,7 +2,11 @@
     "namespace": "accountMyFormsDref",
     "strings": {
         "heading": "Download DREF import template",
+        "selectDrefTypeLabel": "Select type of DREF for template",
         "description": "The download template (.xlsx) can be used to fill up the DREF form separately and import back from the \"New DREF Application\" page in the GO.",
-        "downloadButtonLabel": "Download"
+        "downloadButtonLabel": "Download",
+        "dataPendingMessage": "Loading the data required to build the template…",
+        "dataMissingTitle": "Required data could not be loaded",
+        "dataMissingDescription": "Some reference data needed for the template (such as countries and DREF types) is unavailable. Please refresh the page and try again."
     }
 }
