@@ -29,8 +29,8 @@ import {
 } from '#utils/constants';
 import { createImportTemplate } from '#utils/importTemplate';
 
-import useImportTemplateSchema from './useImportTemplateSchema';
-import { generateTemplate } from './utils';
+import useImportTemplateSchema from './template/useImportTemplateSchema';
+import { generateTemplate } from './template/utils';
 
 import i18n from './i18n.json';
 
@@ -57,7 +57,7 @@ function DownloadImportTemplateModal(props: Props) {
     const [generationPending, setGenerationPending] = useState(false);
     const [typeOfDref, setTypeOfDref] = useState<TypeOfDrefEnum>(DREF_TYPE_RESPONSE);
 
-    const { drefSchemaByType, optionsMap } = useImportTemplateSchema();
+    const { drefSchemaByType, optionsMap, templateStrings } = useImportTemplateSchema();
     const drefFormSchema = drefSchemaByType[typeOfDref];
     const templateActions = isDefined(drefFormSchema)
         ? createImportTemplate(drefFormSchema, optionsMap)
@@ -90,8 +90,7 @@ function DownloadImportTemplateModal(props: Props) {
         || globalEnumsPending
         || (isImminentType && primarySectorsPending);
 
-    // The template's dropdowns are populated from this reference data; refuse to
-    // generate a half-empty template if any of the required data is missing.
+    // Refuse to generate a half-empty template if the dropdown reference data hasn't loaded.
     const requiredDataReady = optionsMap.national_society.length > 0
         && optionsMap.disaster_type.length > 0
         && optionsMap.type_of_onset.length > 0
@@ -114,6 +113,7 @@ function DownloadImportTemplateModal(props: Props) {
                     optionsMap,
                     drefTypeLabelMap,
                     typeOfDref,
+                    templateStrings,
                     () => {
                         setGenerationPending(false);
                         onComplete();
@@ -126,6 +126,7 @@ function DownloadImportTemplateModal(props: Props) {
     }, [
         templateActions,
         optionsMap,
+        templateStrings,
         onComplete,
         drefTypeLabelMap,
         typeOfDref,
@@ -148,7 +149,7 @@ function DownloadImportTemplateModal(props: Props) {
             <ListView layout="block">
                 <RadioInput
                     name={undefined}
-                    label="Select type of DREF for template"
+                    label={strings.selectDrefTypeLabel}
                     options={supportedTypeOptions}
                     keySelector={typeOfDrefKeySelector}
                     labelSelector={stringValueSelector}

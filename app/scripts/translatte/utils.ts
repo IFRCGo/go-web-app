@@ -48,7 +48,7 @@ export function resolveUrl(base: string, endpoint: string): string {
     return new URL(normalizedEndpoint, normalizedBase).toString();
 }
 
-export function resolveCellValue(cellValue: CellValue): string | number | boolean | undefined {
+function resolveCellValue(cellValue: CellValue): string | number | boolean | undefined {
     if (isNotDefined(cellValue)) {
         return undefined;
     }
@@ -94,7 +94,7 @@ export function resolveCellValue(cellValue: CellValue): string | number | boolea
     return resolveCellValue(cellValue.result);
 }
 
-export function getStringValueFromCellValue(cellValue: CellValue | undefined) {
+function getStringValueFromCellValue(cellValue: CellValue | undefined) {
     if (isNotDefined(cellValue)) {
         return undefined;
     }
