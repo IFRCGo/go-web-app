@@ -181,6 +181,15 @@ function createInsPlugin(
     };
 }
 
+// Emits the token createInsPlugin resolves: the label/description of whichever
+// option of `optionsKey` the current row belongs to.
+export function insertOptionText(
+    optionsKey: string,
+    valueField: 'label' | 'description',
+) {
+    return `<ins>${optionsKey}.${valueField}</ins>`;
+}
+
 function buildRichText(segments: Segment[]): CellRichTextValue {
     return {
         richText: segments

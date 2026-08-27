@@ -12,7 +12,14 @@ import {
     DREF_TYPE_RESPONSE,
     type TypeOfDrefEnum,
 } from '#utils/constants';
-import { type TemplateSchema } from '#utils/importTemplate';
+import {
+    insertOptionText,
+    type TemplateSchema,
+} from '#utils/importTemplate';
+import {
+    toBold,
+    toItalic,
+} from '#utils/richText';
 import {
     ONSET_SUDDEN,
     OPERATION_TIMEFRAME_IMMINENT,
@@ -23,6 +30,20 @@ import i18n from './i18n.json';
 
 // Numbered slots each repeatable list (source/risk/indicator) offers in the template.
 const MAX_LIST_ENTRIES = 5;
+
+// Line breaks belong in code, not in the translated strings: strings are
+// translated by hand, and an escape sequence is easy to drop or mistype.
+function joinLines(...lines: string[]) {
+    return lines.join('\n');
+}
+
+function joinParagraphs(...paragraphs: string[]) {
+    return paragraphs.join('\n\n');
+}
+
+function toSectionName(name: string) {
+    return toBold(toItalic(name));
+}
 
 function useImportTemplateSchema() {
     const strings = useTranslation(i18n);
@@ -45,7 +66,12 @@ function useImportTemplateSchema() {
         shelter_housing_and_settlements: strings.nsActionDesc_shelter_housing_and_settlements,
         livelihoods_and_basic_needs: strings.nsActionDesc_livelihoods_and_basic_needs,
         multi_purpose_cash: strings.nsActionDesc_multi_purpose_cash,
-        health: strings.nsActionDesc_health,
+        health: joinParagraphs(
+            strings.nsActionDesc_health1,
+            strings.nsActionDesc_health2,
+            strings.nsActionDesc_health3,
+            strings.nsActionDesc_health4,
+        ),
         water_sanitation_and_hygiene: strings.nsActionDesc_water_sanitation_and_hygiene,
         protection_gender_and_inclusion: strings.nsActionDesc_protection_gender_and_inclusion,
         education: strings.nsActionDesc_education,
@@ -65,7 +91,10 @@ function useImportTemplateSchema() {
     }), [strings]);
 
     const needsIdentifiedDescMap: Record<string, string> = useMemo(() => ({
-        shelter_housing_and_settlements: strings.needDesc_shelter_housing_and_settlements,
+        shelter_housing_and_settlements: joinParagraphs(
+            strings.needDesc_shelter_housing_and_settlements1,
+            strings.needDesc_shelter_housing_and_settlements2,
+        ),
         livelihoods_and_basic_needs: strings.needDesc_livelihoods_and_basic_needs,
         multi_purpose_cash_grants: strings.needDesc_multi_purpose_cash_grants,
         health: strings.needDesc_health,
@@ -247,7 +276,10 @@ function useImportTemplateSchema() {
                 label: strings.respDidItAffectSamePopulationLabel,
                 optionsKey: '__boolean',
                 validation: 'boolean',
-                description: strings.respDidItAffectSamePopulationDesc,
+                description: joinLines(
+                    strings.respDidItAffectSamePopulationDesc,
+                    strings.respOtherwiseLeaveEmpty,
+                ),
             },
 
             did_ns_respond: {
@@ -255,7 +287,10 @@ function useImportTemplateSchema() {
                 label: strings.respDidNsRespondLabel,
                 optionsKey: '__boolean',
                 validation: 'boolean',
-                description: strings.respDidNsRespondDesc,
+                description: joinLines(
+                    strings.respDidNsRespondDesc,
+                    strings.respOtherwiseLeaveEmpty,
+                ),
             },
 
             did_ns_request_fund: {
@@ -263,14 +298,20 @@ function useImportTemplateSchema() {
                 label: strings.respDidNsRequestFundLabel,
                 optionsKey: '__boolean',
                 validation: 'boolean',
-                description: strings.respDidNsRequestFundDesc,
+                description: joinLines(
+                    strings.respDidNsRequestFundDesc,
+                    strings.respOtherwiseLeaveEmpty,
+                ),
             },
 
             ns_request_text: {
                 type: 'input',
                 label: [{ text: strings.respNsRequestTextLabel, italic: true }],
                 validation: 'string',
-                description: strings.respNsRequestTextDesc,
+                description: joinLines(
+                    strings.respNsRequestTextDesc,
+                    strings.respOtherwiseLeaveEmpty,
+                ),
             },
 
             dref_recurrent_text: {
@@ -322,7 +363,6 @@ function useImportTemplateSchema() {
                 type: 'input',
                 label: strings.respEventDateLabel,
                 validation: 'date',
-                description: strings.respEventDateDesc,
             },
 
             num_affected: {
@@ -443,7 +483,10 @@ function useImportTemplateSchema() {
                             type: 'input',
                             validation: 'string',
                             label: strings.respSourceLinkLabel,
-                            description: strings.respSourceLinkDesc,
+                            description: joinLines(
+                                strings.respSourceLinkDesc1,
+                                strings.respSourceLinkDesc2,
+                            ),
                         },
                     },
                 },
@@ -464,7 +507,6 @@ function useImportTemplateSchema() {
                 type: 'input',
                 validation: 'date',
                 label: strings.respNsRespondDateLabel,
-                description: strings.respNsRespondDateDesc,
             },
 
             national_society_actions: {
@@ -482,7 +524,10 @@ function useImportTemplateSchema() {
                             type: 'input',
                             validation: 'textArea',
                             label: strings.respNsActionDescriptionLabel,
-                            description: strings.respNsActionDescriptionDesc,
+                            description: insertOptionText(
+                                'national_society_actions',
+                                'description',
+                            ),
                         },
                     },
                 },
@@ -539,14 +584,24 @@ function useImportTemplateSchema() {
                 validation: 'boolean',
                 optionsKey: '__boolean',
                 label: strings.respIsThereMajorCoordinationMechanismLabel,
-                description: strings.respIsThereMajorCoordinationMechanismDesc,
+                // NOTE: the trailing blank line comes from the original template copy
+                description: joinLines(
+                    strings.respIsThereMajorCoordinationMechanismDesc1,
+                    strings.respIsThereMajorCoordinationMechanismDesc2,
+                    strings.respIsThereMajorCoordinationMechanismDesc3,
+                    '',
+                ),
             },
 
             major_coordination_mechanism: {
                 type: 'input',
                 validation: 'textArea',
                 label: strings.respMajorCoordinationMechanismLabel,
-                description: strings.respMajorCoordinationMechanismDesc,
+                description: joinLines(
+                    strings.respMajorCoordinationMechanismDesc1,
+                    strings.respMajorCoordinationMechanismDesc2,
+                    strings.respOtherwiseLeaveEmpty,
+                ),
             },
 
             needs_identified: {
@@ -561,7 +616,10 @@ function useImportTemplateSchema() {
                             type: 'input',
                             validation: 'textArea',
                             label: strings.respNeedDescriptionLabel,
-                            description: strings.respNeedDescriptionDesc,
+                            description: insertOptionText(
+                                'needs_identified',
+                                'description',
+                            ),
                         },
                     },
                 },
@@ -954,7 +1012,12 @@ function useImportTemplateSchema() {
                                         type: 'input',
                                         validation: 'string',
                                         label: strings.respIndicatorTitleLabel,
-                                        description: strings.respIndicatorTitleDesc,
+                                        description: joinParagraphs(
+                                            strings.respIndicatorTitleDesc1,
+                                            strings.respIndicatorTitleDesc2,
+                                            strings.respIndicatorTitleDesc3,
+                                            strings.respIndicatorTitleDesc4,
+                                        ),
                                     },
                                     target: {
                                         type: 'input',
@@ -1079,7 +1142,6 @@ function useImportTemplateSchema() {
                 type: 'input',
                 validation: 'date',
                 label: strings.respNsRequestDateLabel,
-                description: strings.respNsRequestDateDesc,
             },
 
             operation_timeframe: {
@@ -1222,7 +1284,10 @@ function useImportTemplateSchema() {
                             type: 'input',
                             validation: 'string',
                             label: strings.immSourceLinkLabel,
-                            description: strings.immSourceLinkDesc,
+                            description: joinLines(
+                                strings.immSourceLinkDesc1,
+                                strings.immSourceLinkDesc2,
+                            ),
                         },
                     },
                 },
@@ -1280,7 +1345,12 @@ function useImportTemplateSchema() {
                 type: 'input',
                 validation: 'string',
                 label: strings.immSurgePersonnelDeployedLabel,
-                description: strings.immSurgePersonnelDeployedDesc,
+                description: joinLines(
+                    strings.immSurgePersonnelDeployedDesc1,
+                    strings.immSurgePersonnelDeployedDesc2,
+                    strings.immSurgePersonnelDeployedDesc3,
+                    strings.immSurgePersonnelDeployedDesc4,
+                ),
             },
 
             addressed_humanitarian_impacts: {
@@ -1297,7 +1367,6 @@ function useImportTemplateSchema() {
                 type: 'input',
                 validation: 'date',
                 label: strings.immNsRequestDateLabel,
-                description: strings.immNsRequestDateDesc,
             },
 
             operation_timeframe_imminent: {
@@ -1317,35 +1386,139 @@ function useImportTemplateSchema() {
         [DREF_TYPE_IMMINENT]: imminentSchema,
     }), [responseSchema, imminentSchema]);
 
-    const templateStrings = useMemo(() => ({
-        columnFieldHeader: strings.columnFieldHeader,
-        columnValueHeader: strings.columnValueHeader,
-        columnDescriptionHeader: strings.columnDescriptionHeader,
-        validationNumberError: strings.validationNumberError,
-        validationIntegerError: strings.validationIntegerError,
-        validationDateError: strings.validationDateError,
-        validationListError: strings.validationListError,
-        validationErrorTitle: strings.validationErrorTitle,
-        coverTabName: strings.coverTabName,
-        cover: {
-            heading: strings.coverHeading,
-            subHeading: strings.coverSubHeading,
-            overviewHeading: strings.coverOverviewHeading,
-            overviewDescription: strings.coverOverviewDescription,
-            eligibilityHeading: strings.coverEligibilityHeading,
-            eligibilityResponse: strings.coverEligibilityResponse,
-            eligibilityImminent: strings.coverEligibilityImminent,
-            noteResponse: strings.coverNoteResponse,
-            noteImminent: strings.coverNoteImminent,
-            howToUseHeading: strings.coverHowToUseHeading,
-            howToUseDescription: strings.coverHowToUseDescription,
-            structureHeading: strings.coverStructureHeading,
-            structureResponse: strings.coverStructureResponse,
-            structureImminent: strings.coverStructureImminent,
-            stepsHeading: strings.coverStepsHeading,
-            stepsDescription: strings.coverStepsDescription,
-        },
-    }), [strings]);
+    const templateStrings = useMemo(() => {
+        const maxEntries = resolveToString(
+            strings.coverHowToUseMaxEntries,
+            { count: MAX_LIST_ENTRIES },
+        );
+        const operationOverviewSection = toSectionName(strings.coverSectionOperationOverview);
+        const timeframesAndContactsStructureLine = resolveToString(
+            strings.coverStructureTimeframesAndContacts,
+            {
+                timeframesAndContacts: toSectionName(
+                    strings.coverSectionTimeframesAndContacts,
+                ),
+            },
+        );
+
+        return {
+            columnFieldHeader: strings.columnFieldHeader,
+            columnValueHeader: strings.columnValueHeader,
+            columnDescriptionHeader: strings.columnDescriptionHeader,
+            validationNumberError: strings.validationNumberError,
+            validationIntegerError: strings.validationIntegerError,
+            validationDateError: strings.validationDateError,
+            validationListError: strings.validationListError,
+            validationErrorTitle: strings.validationErrorTitle,
+            coverTabName: strings.coverTabName,
+            cover: {
+                heading: strings.coverHeading,
+                subHeading: toBold(toItalic(strings.coverSubHeading)),
+                overviewHeading: strings.coverOverviewHeading,
+                overviewDescription: strings.coverOverviewDescription,
+                eligibilityHeading: strings.coverEligibilityHeading,
+                eligibilityResponse: joinParagraphs(
+                    strings.coverEligibilityIntro,
+                    joinLines(
+                        strings.coverEligibilityResponse1,
+                        strings.coverEligibilityResponse2,
+                        strings.coverEligibilityResponse3,
+                        strings.coverEligibilityResponse4,
+                        strings.coverEligibilityResponse5,
+                        strings.coverEligibilityResponse6,
+                    ),
+                ),
+                eligibilityImminent: joinParagraphs(
+                    strings.coverEligibilityIntro,
+                    joinLines(
+                        strings.coverEligibilityImminent1,
+                        strings.coverEligibilityImminent2,
+                        strings.coverEligibilityImminent3,
+                        strings.coverEligibilityImminent4,
+                        strings.coverEligibilityImminent5,
+                    ),
+                ),
+                noteResponse: resolveToString(
+                    strings.coverNoteResponse,
+                    { highlight: toBold(strings.coverNoteResponseHighlight) },
+                ),
+                noteImminent: toBold(strings.coverNoteImminent),
+                howToUseHeading: strings.coverHowToUseHeading,
+                howToUseDescription: joinParagraphs(
+                    joinLines(
+                        toBold(strings.coverHowToUseMandatoryFieldsHeading),
+                        strings.coverHowToUseMandatoryFieldsDescription,
+                    ),
+                    joinLines(
+                        toBold(strings.coverHowToUseCollaborationHeading),
+                        strings.coverHowToUseCollaborationDescription,
+                    ),
+                    joinLines(
+                        toBold(strings.coverHowToUseEntryLimitsHeading),
+                        resolveToString(
+                            strings.coverHowToUseEntryLimitsDescription,
+                            { maxEntries: toBold(maxEntries) },
+                        ),
+                    ),
+                ),
+                structureHeading: strings.coverStructureHeading,
+                structureResponse: joinParagraphs(
+                    strings.coverStructureIntro,
+                    joinLines(
+                        resolveToString(
+                            strings.coverStructureResponseOperationOverview,
+                            { operationOverview: operationOverviewSection },
+                        ),
+                        resolveToString(
+                            strings.coverStructureEventDetails,
+                            { eventDetails: toSectionName(strings.coverSectionEventDetails) },
+                        ),
+                        resolveToString(
+                            strings.coverStructureActionsAndNeeds,
+                            { actionsAndNeeds: toSectionName(strings.coverSectionActionsAndNeeds) },
+                        ),
+                        resolveToString(
+                            strings.coverStructureOperationPlan,
+                            { operationPlan: toSectionName(strings.coverSectionOperationPlan) },
+                        ),
+                        timeframesAndContactsStructureLine,
+                    ),
+                ),
+                structureImminent: joinParagraphs(
+                    strings.coverStructureIntro,
+                    joinLines(
+                        resolveToString(
+                            strings.coverStructureImminentOperationOverview,
+                            { operationOverview: operationOverviewSection },
+                        ),
+                        resolveToString(
+                            strings.coverStructureScenarioAnalysis,
+                            {
+                                scenarioAnalysis: toSectionName(
+                                    strings.coverSectionScenarioAnalysis,
+                                ),
+                            },
+                        ),
+                        resolveToString(
+                            strings.coverStructurePlan,
+                            { plan: toSectionName(strings.coverSectionPlan) },
+                        ),
+                        timeframesAndContactsStructureLine,
+                    ),
+                ),
+                stepsHeading: strings.coverStepsHeading,
+                stepsDescription: joinLines(
+                    strings.coverStepsDescription1,
+                    strings.coverStepsDescription2,
+                    resolveToString(
+                        strings.coverStepsDescription3,
+                        { importAction: toBold(strings.coverStepsImportAction) },
+                    ),
+                    strings.coverStepsDescription4,
+                ),
+            },
+        };
+    }, [strings]);
 
     return {
         drefSchemaByType,
