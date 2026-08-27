@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.27.0-beta.4
+
+### Minor Changes
+
+- bc073d8: Restructure translation strings for the DREF Import Template
+
 ## 7.27.0-beta.3
 
 ### Minor Changes
