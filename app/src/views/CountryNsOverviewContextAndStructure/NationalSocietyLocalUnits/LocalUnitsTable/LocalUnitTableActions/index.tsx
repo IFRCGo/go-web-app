@@ -7,17 +7,14 @@ import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
-import { isDefined } from '@togglecorp/fujs';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
-import { environment } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import useCountry from '#hooks/domain/useCountry';
 import usePermissions from '#hooks/domain/usePermissions';
 
 import {
     EXTERNALLY_MANAGED,
-    type ManageResponse,
     VALIDATED,
 } from '../../common';
 import LocalUnitDeleteModal from '../../LocalUnitDeleteModal';
@@ -34,9 +31,8 @@ export interface Props {
     localUnitType: number;
     isBulkUploadLocalUnit: boolean;
     status: number | undefined;
-    onDeleteActionSuccess: () => void;
-    onValidationActionSuccess: () => void;
-    manageResponse: ManageResponse;
+    onLocalUnitUpdate: () => void;
+    isExternallyManagedType?: boolean;
 }
 
 function LocalUnitsTableActions(props: Props) {
@@ -47,9 +43,8 @@ function LocalUnitsTableActions(props: Props) {
         localUnitType,
         status,
         isBulkUploadLocalUnit,
-        onValidationActionSuccess,
-        onDeleteActionSuccess,
-        manageResponse,
+        onLocalUnitUpdate,
+        isExternallyManagedType,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -64,27 +59,29 @@ function LocalUnitsTableActions(props: Props) {
         isLocalUnitRegionValidatorByType,
         isSuperUser,
         isGuestUser,
+        isCountryAdmin,
+        isRegionAdmin,
+        canEditLocalUnit,
     } = usePermissions();
 
     const isLocked = status !== VALIDATED;
 
-    const isExternallyManaged = status === EXTERNALLY_MANAGED
-        || (isDefined(localUnitType)
-            && isDefined(manageResponse)
-            && !!manageResponse[localUnitType]?.enabled);
+    const countryAdmin = isCountryAdmin(countryDetails?.id);
+    const regionAdmin = isRegionAdmin(countryDetails?.region);
 
-    const hasPermission = isAuthenticated
+    const isExternallyManaged = status === EXTERNALLY_MANAGED
+        || isExternallyManagedType;
+
+    const hasValidatePermission = isAuthenticated
         && !isExternallyManaged
         && (isSuperUser
             || isLocalUnitGlobalValidatorByType(localUnitType)
             || isLocalUnitCountryValidatorByType(countryDetails?.id, localUnitType)
             || isLocalUnitRegionValidatorByType(countryDetails?.region, localUnitType));
 
-    const hasValidatePermission = isAuthenticated
-        && (isSuperUser
-            || isLocalUnitGlobalValidatorByType(localUnitType)
-            || isLocalUnitCountryValidatorByType(countryDetails?.id, localUnitType)
-            || isLocalUnitRegionValidatorByType(countryDetails?.region, localUnitType));
+    const hasAddEditLocalUnitPermission = !isLocked && (
+        (hasValidatePermission || countryAdmin || regionAdmin || canEditLocalUnit(countryId))
+    && !isBulkUploadLocalUnit);
 
     const [readOnlyLocalUnitModal, setReadOnlyLocalUnitModal] = useState(false);
 
@@ -114,18 +111,18 @@ function LocalUnitsTableActions(props: Props) {
 
     const handleValidationSuccess = useCallback(() => {
         setShowValidateLocalUnitModalFalse();
-        onValidationActionSuccess();
-    }, [onValidationActionSuccess, setShowValidateLocalUnitModalFalse]);
+        onLocalUnitUpdate();
+    }, [onLocalUnitUpdate, setShowValidateLocalUnitModalFalse]);
 
     const handleLocalUnitsFormModalClose = useCallback(
         (shouldUpdate?: boolean) => {
             setShowLocalUnitModalFalse();
 
             if (shouldUpdate) {
-                onDeleteActionSuccess();
+                onLocalUnitUpdate();
             }
         },
-        [setShowLocalUnitModalFalse, onDeleteActionSuccess],
+        [setShowLocalUnitModalFalse, onLocalUnitUpdate],
     );
 
     const handleViewLocalUnitClick = useCallback(
@@ -155,7 +152,7 @@ function LocalUnitsTableActions(props: Props) {
         <>
             <TableActions
                 persistent
-                extraActions={environment !== 'production' && (
+                extraActions={(
                     <>
                         <DropdownMenuItem
                             type="button"
@@ -165,7 +162,8 @@ function LocalUnitsTableActions(props: Props) {
                         >
                             {strings.localUnitActionsView}
                         </DropdownMenuItem>
-                        {(hasPermission && !isBulkUploadLocalUnit) && (
+                        {(hasValidatePermission
+                            && !isBulkUploadLocalUnit) && (
                             <DropdownMenuItem
                                 type="button"
                                 name={undefined}
@@ -174,7 +172,7 @@ function LocalUnitsTableActions(props: Props) {
                                 {strings.localUnitActionsDelete}
                             </DropdownMenuItem>
                         )}
-                        {!isLocked && (hasPermission && !isBulkUploadLocalUnit) && (
+                        {(hasAddEditLocalUnitPermission) && (
                             <DropdownMenuItem
                                 type="button"
                                 name={localUnitId}
@@ -186,11 +184,11 @@ function LocalUnitsTableActions(props: Props) {
                     </>
                 )}
             >
-                {hasValidatePermission && (environment !== 'production') && (
+                {hasValidatePermission && (
                     <LocalUnitValidateButton
                         onClick={handleValidateLocalUnitClick}
                         status={status}
-                        hasValidatePermission={hasPermission}
+                        hasValidatePermission={hasValidatePermission}
                     />
                 )}
             </TableActions>
@@ -204,19 +202,17 @@ function LocalUnitsTableActions(props: Props) {
             )}
             {showLocalUnitModal && (
                 <LocalUnitsFormModal
-                    manageResponse={manageResponse}
                     onClose={handleLocalUnitsFormModalClose}
                     localUnitId={localUnitId}
                     readOnly={readOnlyLocalUnitModal}
                     setReadOnly={setReadOnlyLocalUnitModal}
-                    onDeleteActionSuccess={onDeleteActionSuccess}
                 />
             )}
             {showDeleteLocalUnitModal && (
                 <LocalUnitDeleteModal
                     onClose={setShowDeleteLocalUnitModalFalse}
                     localUnitName={localUnitName}
-                    onDeleteActionSuccess={onDeleteActionSuccess}
+                    onDeleteActionSuccess={onLocalUnitUpdate}
                     localUnitId={localUnitId}
                 />
             )}

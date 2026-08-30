@@ -1,0 +1,11 @@
+{
+    "parent": "000071-1771573734033.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "downloadImportTemplateButtonLabel",
+            "namespace": "accountMyFormsDref",
+            "value": "Download Import Template"
+        }
+    ]
+}

@@ -191,6 +191,7 @@ function ComponentInput(props: Props) {
             key={component.id}
             heading={getComponentTitle(component)}
             headerDescription={component.description}
+            withLargeBreakpointInHeader
             headerActions={(
                 <SelectInput
                     readOnly={readOnly}
@@ -204,10 +205,12 @@ function ComponentInput(props: Props) {
                     options={ratingOptions}
                     disabled={disabled}
                     keySelector={numericIdSelector}
+                    spacing="sm"
                     labelSelector={ratingLabelSelector}
                 />
             )}
             withToggleButtonOnFooter
+            withoutWrapInFooter
             initiallyExpanded
             withBackground
             withPadding

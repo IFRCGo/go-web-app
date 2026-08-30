@@ -1,0 +1,245 @@
+{
+    "parent": "000082-1779160752582.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "addSubscriptionLabel",
+            "namespace": "emailPreferences",
+            "value": "New Alert Subscription"
+        },
+        {
+            "action": "add",
+            "key": "alertFrequencies",
+            "namespace": "emailPreferences",
+            "value": "Alert limit (per day)"
+        },
+        {
+            "action": "add",
+            "key": "countries",
+            "namespace": "emailPreferences",
+            "value": "Countries"
+        },
+        {
+            "action": "add",
+            "key": "deleteSubscriptionConfirmationHeading",
+            "namespace": "emailPreferences",
+            "value": "Delete Alert Subscription"
+        },
+        {
+            "action": "add",
+            "key": "deleteSubscriptionConfirmationMessage",
+            "namespace": "emailPreferences",
+            "value": "Are you sure you want to delete your subscription?"
+        },
+        {
+            "action": "add",
+            "key": "deleteSubscriptionLabel",
+            "namespace": "emailPreferences",
+            "value": "Delete"
+        },
+        {
+            "action": "add",
+            "key": "deleteSubscriptionTitle",
+            "namespace": "emailPreferences",
+            "value": "Delete Alert Subscription"
+        },
+        {
+            "action": "add",
+            "key": "description",
+            "namespace": "emailPreferences",
+            "value": "Alerts are powered by Montandon data from GDACS and USGS. You'll receive email alerts with key impact figures and similar past events in the area."
+        },
+        {
+            "action": "add",
+            "key": "disasters",
+            "namespace": "emailPreferences",
+            "value": "Disasters"
+        },
+        {
+            "action": "add",
+            "key": "editSubscriptionLabel",
+            "namespace": "emailPreferences",
+            "value": "Edit"
+        },
+        {
+            "action": "add",
+            "key": "editSubscriptionTitle",
+            "namespace": "emailPreferences",
+            "value": "Edit Alert Subscription"
+        },
+        {
+            "action": "add",
+            "key": "emptyMessage",
+            "namespace": "emailPreferences",
+            "value": "No subscriptions"
+        },
+        {
+            "action": "add",
+            "key": "heading",
+            "namespace": "emailPreferences",
+            "value": "Email Alert Subscriptions"
+        },
+        {
+            "action": "add",
+            "key": "regions",
+            "namespace": "emailPreferences",
+            "value": "Regions"
+        },
+        {
+            "action": "add",
+            "key": "subscriptionDeletedFailureMessage",
+            "namespace": "emailPreferences",
+            "value": "Subscription could not be deleted."
+        },
+        {
+            "action": "add",
+            "key": "subscriptionDeletedSuccessMessage",
+            "namespace": "emailPreferences",
+            "value": "Your subscription has been deleted."
+        },
+        {
+            "action": "add",
+            "key": "unlimitedOption",
+            "namespace": "emailPreferences",
+            "value": "No limit"
+        },
+        {
+            "action": "add",
+            "key": "addSubscriptionHeading",
+            "namespace": "subscriptionModal",
+            "value": "New subscription"
+        },
+        {
+            "action": "add",
+            "key": "alertPerDayDescription",
+            "namespace": "subscriptionModal",
+            "value": "Choose how many alerts (emails) you wish to receive in a day."
+        },
+        {
+            "action": "add",
+            "key": "alertPerDayLabel",
+            "namespace": "subscriptionModal",
+            "value": "Alerts per day"
+        },
+        {
+            "action": "add",
+            "key": "cancelButtonLabel",
+            "namespace": "subscriptionModal",
+            "value": "Cancel"
+        },
+        {
+            "action": "add",
+            "key": "countriesSelectedLabel",
+            "namespace": "subscriptionModal",
+            "value": "{numCountries} {countryLabel} selected"
+        },
+        {
+            "action": "add",
+            "key": "countryLabelPlural",
+            "namespace": "subscriptionModal",
+            "value": "countries"
+        },
+        {
+            "action": "add",
+            "key": "countryLabelSingular",
+            "namespace": "subscriptionModal",
+            "value": "country"
+        },
+        {
+            "action": "add",
+            "key": "createFailureMessage",
+            "namespace": "subscriptionModal",
+            "value": "Failed to create subscription."
+        },
+        {
+            "action": "add",
+            "key": "createSuccessMessage",
+            "namespace": "subscriptionModal",
+            "value": "Successfully created subscription."
+        },
+        {
+            "action": "add",
+            "key": "cycloneLabel",
+            "namespace": "subscriptionModal",
+            "value": "Cyclone"
+        },
+        {
+            "action": "add",
+            "key": "earthquakeLabel",
+            "namespace": "subscriptionModal",
+            "value": "Earthquake"
+        },
+        {
+            "action": "add",
+            "key": "editSubscriptionHeading",
+            "namespace": "subscriptionModal",
+            "value": "Edit subscription"
+        },
+        {
+            "action": "add",
+            "key": "floodLabel",
+            "namespace": "subscriptionModal",
+            "value": "Flood"
+        },
+        {
+            "action": "add",
+            "key": "hazardTypeDescription",
+            "namespace": "subscriptionModal",
+            "value": "Select disaster types for which you'd like to receive alerts"
+        },
+        {
+            "action": "add",
+            "key": "hazardTypeHeading",
+            "namespace": "subscriptionModal",
+            "value": "Disaster Types"
+        },
+        {
+            "action": "add",
+            "key": "regionSelectionDescription",
+            "namespace": "subscriptionModal",
+            "value": "Select regions or countries for which you’d like to receive alerts. If you select a country, your regional selection will be void. This selection will apply to the options below."
+        },
+        {
+            "action": "add",
+            "key": "regionSelectionHeading",
+            "namespace": "subscriptionModal",
+            "value": "Regions/Countries"
+        },
+        {
+            "action": "add",
+            "key": "subscriptionTitleLabel",
+            "namespace": "subscriptionModal",
+            "value": "Enter subscription title"
+        },
+        {
+            "action": "add",
+            "key": "subscriptionTitlePlaceholder",
+            "namespace": "subscriptionModal",
+            "value": "e.g. Nepal Flood"
+        },
+        {
+            "action": "add",
+            "key": "unlimitedOptionValue",
+            "namespace": "subscriptionModal",
+            "value": "No limit"
+        },
+        {
+            "action": "add",
+            "key": "updateButtonLabel",
+            "namespace": "subscriptionModal",
+            "value": "Save"
+        },
+        {
+            "action": "add",
+            "key": "updateFailureMessage",
+            "namespace": "subscriptionModal",
+            "value": "Failed to update subscription."
+        },
+        {
+            "action": "add",
+            "key": "updateSuccessMessage",
+            "namespace": "subscriptionModal",
+            "value": "Successfully updated subscription."
+        }
+    ]
+}

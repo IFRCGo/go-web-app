@@ -36,7 +36,6 @@ jobs:
             packages/go-ui-storybook/**
   ui:
     name: Build UI Library
-    environment: 'test'
     runs-on: ubuntu-latest
     needs: [changed-files]
     if: ${{ needs.changed-files.outputs.any_changed == 'true' }}
@@ -52,7 +51,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -81,7 +80,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -113,7 +112,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - uses: actions/download-artifact@v4
         with:

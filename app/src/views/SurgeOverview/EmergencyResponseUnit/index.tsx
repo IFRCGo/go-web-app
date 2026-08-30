@@ -3,7 +3,6 @@ import OngoingEruDeployments from '#views/ActiveSurgeDeployments/OngoingEruDeplo
 
 import EmergencyResponseUnitReadiness from './EmergencyResponseUnitReadiness';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     return (

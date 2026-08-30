@@ -35,6 +35,7 @@
         &.text-type {
             text-align: justify;
             white-space: pre-wrap;
+            overflow-wrap: anywhere;
         }
     }
 

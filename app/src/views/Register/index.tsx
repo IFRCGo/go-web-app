@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import {
     Button,
+    Container,
     Description,
     ListView,
     SelectInput,
@@ -170,7 +171,6 @@ const formSchema: FormSchema = {
     },
 };
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -291,162 +291,167 @@ export function Component() {
                 />
             )}
         >
-            <ListView layout="block">
-                <NonFieldError
-                    error={formError}
-                    withFallbackError
-                />
-                <ListView layout="grid">
-                    <TextInput
-                        name="first_name"
-                        label={strings.registerFirstName}
-                        value={formValue.first_name}
-                        onChange={setFieldValue}
-                        error={fieldError?.first_name}
-                        disabled={pending}
-                        withAsterisk
-                        autoFocus
+            <Container
+                withCenteredContent
+                withPadding
+            >
+                <ListView layout="block">
+                    <NonFieldError
+                        error={formError}
+                        withFallbackError
                     />
-                    <TextInput
-                        name="last_name"
-                        label={strings.registerLastName}
-                        value={formValue.last_name}
-                        onChange={setFieldValue}
-                        error={fieldError?.last_name}
-                        disabled={pending}
-                        withAsterisk
-                    />
-                </ListView>
-                <TextInput
-                    name="email"
-                    label={strings.registerEmail}
-                    value={formValue.email}
-                    onChange={setFieldValue}
-                    error={fieldError?.email}
-                    disabled={pending}
-                    withAsterisk
-                />
-                <ListView layout="grid">
-                    <TextInput
-                        name="password"
-                        type="password"
-                        label={strings.registerPassword}
-                        value={formValue.password}
-                        onChange={setFieldValue}
-                        error={fieldError?.password}
-                        disabled={pending}
-                        withAsterisk
-                    />
-                    <TextInput
-                        name="confirm_password"
-                        type="password"
-                        label={strings.registerConfirmPassword}
-                        value={formValue.confirm_password}
-                        onChange={setFieldValue}
-                        error={fieldError?.confirm_password}
-                        disabled={pending}
-                        withAsterisk
-                    />
-                </ListView>
-                <div />
-                <ListView layout="grid">
-                    <CountrySelectInput
-                        label={strings.registerCountry}
-                        name="country"
-                        value={formValue?.country}
-                        onChange={setFieldValue}
-                        error={fieldError?.country}
-                        disabled={pending}
-                        withAsterisk
-                    />
-                    <TextInput
-                        name="city"
-                        label={strings.registerCity}
-                        value={formValue.city}
-                        onChange={setFieldValue}
-                        error={fieldError?.city}
-                        disabled={pending}
-                        withAsterisk
-                    />
-                    <SelectInput
-                        label={strings.registerOrganizationType}
-                        name="organization_type"
-                        value={formValue.organization_type}
-                        onChange={handleOrganizationTypeChange}
-                        keySelector={keySelector}
-                        labelSelector={labelSelector}
-                        options={organizationTypes}
-                        error={fieldError?.organization_type}
-                        disabled={pending}
-                        withAsterisk
-                    />
-                    {isNationalSociety ? (
-                        <SelectInput
-                            label={strings.registerOrganizationName}
-                            name="organization"
-                            options={nationalSocietyOptions}
-                            keySelector={nsLabelSelector}
-                            labelSelector={nsLabelSelector}
-                            value={formValue.organization}
-                            onChange={setFieldValue}
-                            error={fieldError?.organization}
-                            disabled={pending}
-                            withAsterisk
-                        />
-                    ) : (
+                    <ListView layout="grid">
                         <TextInput
-                            name="organization"
-                            label={strings.registerOrganizationName}
-                            value={formValue.organization}
+                            name="first_name"
+                            label={strings.registerFirstName}
+                            value={formValue.first_name}
                             onChange={setFieldValue}
-                            error={fieldError?.organization}
+                            error={fieldError?.first_name}
+                            disabled={pending}
+                            withAsterisk
+                            autoFocus
+                        />
+                        <TextInput
+                            name="last_name"
+                            label={strings.registerLastName}
+                            value={formValue.last_name}
+                            onChange={setFieldValue}
+                            error={fieldError?.last_name}
                             disabled={pending}
                             withAsterisk
                         />
+                    </ListView>
+                    <TextInput
+                        name="email"
+                        label={strings.registerEmail}
+                        value={formValue.email}
+                        onChange={setFieldValue}
+                        error={fieldError?.email}
+                        disabled={pending}
+                        withAsterisk
+                    />
+                    <ListView layout="grid">
+                        <TextInput
+                            name="password"
+                            type="password"
+                            label={strings.registerPassword}
+                            value={formValue.password}
+                            onChange={setFieldValue}
+                            error={fieldError?.password}
+                            disabled={pending}
+                            withAsterisk
+                        />
+                        <TextInput
+                            name="confirm_password"
+                            type="password"
+                            label={strings.registerConfirmPassword}
+                            value={formValue.confirm_password}
+                            onChange={setFieldValue}
+                            error={fieldError?.confirm_password}
+                            disabled={pending}
+                            withAsterisk
+                        />
+                    </ListView>
+                    <div />
+                    <ListView layout="grid">
+                        <CountrySelectInput
+                            label={strings.registerCountry}
+                            name="country"
+                            value={formValue?.country}
+                            onChange={setFieldValue}
+                            error={fieldError?.country}
+                            disabled={pending}
+                            withAsterisk
+                        />
+                        <TextInput
+                            name="city"
+                            label={strings.registerCity}
+                            value={formValue.city}
+                            onChange={setFieldValue}
+                            error={fieldError?.city}
+                            disabled={pending}
+                            withAsterisk
+                        />
+                        <SelectInput
+                            label={strings.registerOrganizationType}
+                            name="organization_type"
+                            value={formValue.organization_type}
+                            onChange={handleOrganizationTypeChange}
+                            keySelector={keySelector}
+                            labelSelector={labelSelector}
+                            options={organizationTypes}
+                            error={fieldError?.organization_type}
+                            disabled={pending}
+                            withAsterisk
+                        />
+                        {isNationalSociety ? (
+                            <SelectInput
+                                label={strings.registerOrganizationName}
+                                name="organization"
+                                options={nationalSocietyOptions}
+                                keySelector={nsLabelSelector}
+                                labelSelector={nsLabelSelector}
+                                value={formValue.organization}
+                                onChange={setFieldValue}
+                                error={fieldError?.organization}
+                                disabled={pending}
+                                withAsterisk
+                            />
+                        ) : (
+                            <TextInput
+                                name="organization"
+                                label={strings.registerOrganizationName}
+                                value={formValue.organization}
+                                onChange={setFieldValue}
+                                error={fieldError?.organization}
+                                disabled={pending}
+                                withAsterisk
+                            />
+                        )}
+                        <TextInput
+                            name="department"
+                            label={strings.registerDepartment}
+                            value={formValue.department}
+                            onChange={setFieldValue}
+                            error={fieldError?.department}
+                            disabled={pending}
+                        />
+                        <TextInput
+                            name="position"
+                            label={strings.registerPosition}
+                            value={formValue.position}
+                            onChange={setFieldValue}
+                            error={fieldError?.position}
+                            disabled={pending}
+                        />
+                        <TextInput
+                            name="phone_number"
+                            label={strings.registerPhoneNumber}
+                            value={formValue.phone_number}
+                            onChange={setFieldValue}
+                            error={fieldError?.phone_number}
+                            disabled={pending}
+                        />
+                    </ListView>
+                    {justificationNeeded && (
+                        <>
+                            <Description withLightText>
+                                {strings.registerJustify}
+                            </Description>
+                            <TextArea
+                                name="justification"
+                                label={strings.registerJustification}
+                                value={formValue.justification}
+                                error={fieldError?.justification}
+                                onChange={setFieldValue}
+                                disabled={pending}
+                                rows={5}
+                                withAsterisk
+                            />
+                        </>
                     )}
-                    <TextInput
-                        name="department"
-                        label={strings.registerDepartment}
-                        value={formValue.department}
-                        onChange={setFieldValue}
-                        error={fieldError?.department}
-                        disabled={pending}
-                    />
-                    <TextInput
-                        name="position"
-                        label={strings.registerPosition}
-                        value={formValue.position}
-                        onChange={setFieldValue}
-                        error={fieldError?.position}
-                        disabled={pending}
-                    />
-                    <TextInput
-                        name="phone_number"
-                        label={strings.registerPhoneNumber}
-                        value={formValue.phone_number}
-                        onChange={setFieldValue}
-                        error={fieldError?.phone_number}
-                        disabled={pending}
-                    />
                 </ListView>
-                {justificationNeeded && (
-                    <>
-                        <Description withLightText>
-                            {strings.registerJustify}
-                        </Description>
-                        <TextArea
-                            name="justification"
-                            label={strings.registerJustification}
-                            value={formValue.justification}
-                            error={fieldError?.justification}
-                            onChange={setFieldValue}
-                            disabled={pending}
-                            rows={5}
-                            withAsterisk
-                        />
-                    </>
-                )}
-            </ListView>
+            </Container>
             <ListView
                 layout="block"
                 withCenteredContents

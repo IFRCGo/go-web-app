@@ -9,6 +9,7 @@ import { type ContextInterface } from '@togglecorp/toggle-request';
 import {
     api,
     riskApi,
+    translationApi,
 } from '#config';
 import { type UserAuth } from '#contexts/user';
 import {
@@ -39,8 +40,10 @@ export interface TransformedError {
     debugMessage: string;
 }
 
+type ApiType = 'go' | 'risk' | 'translation';
+
 export interface AdditionalOptions {
-    apiType?: 'go' | 'risk';
+    apiType?: ApiType;
     formData?: boolean;
     isCsvRequest?: boolean;
     enforceEnglishForQuery?: boolean;
@@ -111,6 +114,18 @@ type GoContextInterface = ContextInterface<
     AdditionalOptions
 >;
 
+function getEndPoint(apiType: ApiType | undefined) {
+    if (apiType === 'risk') {
+        return riskApi;
+    }
+
+    if (apiType === 'translation') {
+        return translationApi;
+    }
+
+    return api;
+}
+
 export const processGoUrls: GoContextInterface['transformUrl'] = (url, _, additionalOptions) => {
     if (isFalsyString(url)) {
         return '';
@@ -123,10 +138,12 @@ export const processGoUrls: GoContextInterface['transformUrl'] = (url, _, additi
 
     const { apiType } = additionalOptions;
 
-    return resolveUrl(
-        apiType === 'risk' ? riskApi : api,
+    const resolvedUrl = resolveUrl(
+        getEndPoint(apiType),
         url,
     );
+
+    return resolvedUrl;
 };
 
 type Literal = string | number | boolean | File;
@@ -164,6 +181,8 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     } = requestOptions;
 
     const {
+        // FIXME: undefined type should only be applicable for the external requests
+        apiType = 'go',
         formData,
         isCsvRequest,
         isExcelRequest,
@@ -176,9 +195,12 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     const user = getFromStorage<UserAuth | undefined>(KEY_USER_STORAGE);
     const token = user?.token;
 
-    const defaultHeaders: HeadersInit = {
-        Authorization: token ? `Token ${token}` : '',
-    };
+    // FIXME: only inject on go apis
+    const defaultHeaders: HeadersInit = {};
+
+    if (apiType === 'go' && isDefined(token)) {
+        defaultHeaders.Authorization = `Token ${token}`;
+    }
 
     if (method === 'GET') {
         // Query
@@ -239,7 +261,17 @@ const isSuccessfulStatus = (status: number): boolean => status >= 200 && status 
 
 const isContentTypeExcel = (res: Response): boolean => res.headers.get('content-type') === CONTENT_TYPE_EXCEL;
 
-const isContentTypeJson = (res: Response): boolean => res.headers.get('content-type') === CONTENT_TYPE_JSON;
+const isContentTypeJson = (res: Response): boolean => {
+    const contentTypeHeaders = res.headers.get('content-type');
+
+    if (isNotDefined(contentTypeHeaders)) {
+        return false;
+    }
+
+    const mediaTypes = contentTypeHeaders.split('; ');
+
+    return mediaTypes[0]?.toLowerCase() === CONTENT_TYPE_JSON;
+};
 
 const isLoginRedirect = (url: string): boolean => new URL(url).pathname.includes('login');
 

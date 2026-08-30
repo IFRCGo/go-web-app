@@ -1,0 +1,8 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "overviewKeyActorsPartnerPlaceholder": "Enter partner",
+        "overviewKeyActorsDescriptionLabel": "Description",
+        "overviewKeyActorsDeleteButton": "Delete Actor"
+    }
+}

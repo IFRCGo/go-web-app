@@ -9,7 +9,6 @@ import { SortContext } from '@ifrc-go/ui/contexts';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     createDateColumn,
-    createStringColumn,
     numericIdSelector,
     resolveToComponent,
 } from '@ifrc-go/ui/utils';
@@ -20,7 +19,8 @@ import useUserMe from '#hooks/domain/useUserMe';
 import useFilterState from '#hooks/useFilterState';
 import {
     createCountryListColumn,
-    createLinkColumn,
+    createDisasterTypeColumn,
+    createEventColumn,
 } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
@@ -28,12 +28,10 @@ import {
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type FieldReportResponse = GoApiResponse<'/api/v2/field-report/'>;
 type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const userMe = useUserMe();
@@ -71,12 +69,9 @@ export function Component() {
                 'created_at',
                 strings.createdAtHeading,
                 (item) => item.start_date,
-                {
-                    sortable: true,
-                    columnClassName: styles.createdAt,
-                },
+                { sortable: true },
             ),
-            createLinkColumn<FieldReportListItem, number>(
+            createEventColumn<FieldReportListItem, number>(
                 'summary',
                 strings.nameHeading,
                 (item) => item.summary,
@@ -84,12 +79,9 @@ export function Component() {
                     to: 'fieldReportDetails',
                     urlParams: { fieldReportId: item.id },
                 }),
-                {
-                    sortable: true,
-                    columnClassName: styles.summary,
-                },
+                { sortable: true },
             ),
-            createLinkColumn<FieldReportListItem, number>(
+            createEventColumn<FieldReportListItem, number>(
                 'event_name',
                 strings.emergencyHeading,
                 (item) => item.event_details?.name,
@@ -97,22 +89,19 @@ export function Component() {
                     to: 'emergenciesLayout',
                     urlParams: { emergencyId: item.event },
                 }),
-                { columnClassName: styles.event },
             ),
-            createStringColumn<FieldReportListItem, number>(
+            createDisasterTypeColumn<FieldReportListItem, number>(
                 'dtype',
                 strings.disasterTypeHeading,
                 (item) => item.dtype_details?.name,
                 {
                     sortable: true,
-                    columnClassName: styles.disasterType,
                 },
             ),
             createCountryListColumn<FieldReportListItem, number>(
                 'countries',
                 strings.countryHeading,
                 (item) => item.countries_details,
-                { columnClassName: styles.countries },
             ),
         ]),
         [
@@ -140,7 +129,6 @@ export function Component() {
 
     return (
         <Container
-            className={styles.accountMyFormsFieldReport}
             heading={heading}
             withHeaderBorder
             headerActions={(
@@ -165,7 +153,6 @@ export function Component() {
                 <Table
                     pending={fieldReportResponsePending}
                     filtered={false}
-                    className={styles.table}
                     columns={columns}
                     keySelector={numericIdSelector}
                     data={fieldReportResponse?.results}

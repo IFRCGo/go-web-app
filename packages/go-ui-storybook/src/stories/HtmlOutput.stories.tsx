@@ -8,7 +8,7 @@ import HtmlOutput from './HtmlOutput';
 type Story = StoryObj<typeof HtmlOutput>;
 
 const meta: Meta<typeof HtmlOutput> = {
-    title: 'Components/HtmlOutput',
+    title: 'Outputs/HtmlOutput',
     component: HtmlOutput,
     parameters: {
         layout: 'centered',

@@ -3,7 +3,7 @@ import { AST_NODE_TYPES, parse, TSESTree } from "@typescript-eslint/typescript-e
 import { visitorKeys } from '@typescript-eslint/visitor-keys';
 
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
-import { readFileSync } from 'fs';
+import { readdirSync, readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { JSONLanguage } from '@eslint/json';
 
@@ -51,7 +51,7 @@ function getMemberKey(node: TSESTree.MemberExpression) {
 
     // strings['title']
     if (node.computed && node.property?.type === "Literal" && typeof node.property.value === "string") {
-        node.property.value;
+        return node.property.value;
     }
 
     return undefined;
@@ -241,12 +241,28 @@ const i18nUsage: ESLint.Plugin = {
             },
             create: (context) => {
                 const usedKeysMap: Record<string, boolean> = {};
-                const indexFilePath = join(dirname(context.filename), 'index.tsx');
-                const indexFileContent = readFileSync(indexFilePath, 'utf-8');
 
-                const usedKeys = getUsedKeys(indexFileContent);
-                usedKeys?.forEach((key) => {
-                    usedKeysMap[key] = true;
+                // Scan all sibling .ts/.tsx (not just index.tsx) so keys used in a
+                // co-located hook also count; tolerate a missing index.tsx.
+                const directory = dirname(context.filename);
+                let siblingFiles: string[] = [];
+                try {
+                    siblingFiles = readdirSync(directory).filter(
+                        (file) => file.endsWith('.ts') || file.endsWith('.tsx'),
+                    );
+                } catch {
+                    siblingFiles = [];
+                }
+
+                siblingFiles.forEach((file) => {
+                    try {
+                        const content = readFileSync(join(directory, file), 'utf-8');
+                        getUsedKeys(content).forEach((key) => {
+                            usedKeysMap[key] = true;
+                        });
+                    } catch {
+                        // Ignore unreadable / unparsable siblings.
+                    }
                 });
 
                 let stringsStartLineNumber: number;

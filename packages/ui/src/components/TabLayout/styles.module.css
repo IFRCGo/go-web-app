@@ -1,3 +1,26 @@
+.tab-wrapper {
+    display: grid;
+    position: relative;
+    border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+    grid-template-columns: min-content 1fr min-content;
+
+    .active-border {
+        position: absolute;
+        bottom: 0;
+        left: 15%;
+        border-bottom: var(--go-ui-width-separator-md) solid var(--go-ui-color-primary-red);
+        width: 70%;
+    }
+
+    &.active {
+        border-bottom: initial;
+
+        .bottom-border {
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        }
+    }
+}
+
 .tab-layout {
     --variant-color: inherit;
     --text-color: var(--variant-color);
@@ -13,6 +36,10 @@
     color: var(--text-color);
     user-select: none;
     font-weight: var(--go-ui-font-weight-medium);
+
+    &.errored {
+        text-decoration: underline wavy var(--go-ui-color-primary-red);
+    }
 
     &.color-variant-text {
         --variant-color: var(--go-ui-color-text);
@@ -93,9 +120,17 @@
         width: auto;
         text-align: start;
 
+        .forward-icon {
+            opacity: 0;
+            font-size: 1.5rem;
+        }
+
         &.active {
             --text-color: var(--variant-color);
-            font-weight: var(--go-ui-font-weight-bold);
+
+            .forward-icon {
+                opacity: 1;
+            }
         }
     }
 
@@ -107,37 +142,79 @@
         &.active {
             --text-color: var(--variant-color);
         }
+
+        &.completed {
+            --text-color: var(--variant-color);
+        }
     }
 
-    &.disabled {
-        opacity: var(--go-ui-opacity-disabled-element);
+    .visual-feedback {
+        --visual-feedback-offset: 0.25rem;
+        --du: var(--go-ui-duration-transition-medium);
+        --de: calc(var(--du) / 4);
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: var(--du) var(--de) background-color ease-in-out,
+            var(--du) var(--de) width ease-in-out,
+            var(--du) var(--de) height ease-in-out,
+            var(--du) var(--de) top ease-in-out,
+            var(--du) var(--de) left ease-in-out,
+            var(--du) box-shadow ease-in-out;
+        border-radius: var(--go-ui-border-radius-md);
+        background-color: transparent;
+        width: 100%;
+        height: 100%;
+
+        user-select: none;
+        pointer-events: none;
     }
+
 
     &:not(.disabled) {
         cursor: pointer;
     }
-}
 
-.tab-wrapper {
-    display: grid;
-    position: relative;
-    border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-    grid-template-columns: min-content 1fr min-content;
+    &:not(.disabled):not(.readOnly) {
+        cursor: pointer;
 
-    .active-border {
-        position: absolute;
-        bottom: 0;
-        left: 15%;
-        border-bottom: var(--go-ui-width-separator-md) solid var(--go-ui-color-primary-red);
-        width: 70%;
+        &:hover {
+            .visual-feedback {
+                --visual-feedback-color: color-mix(in srgb, var(--variant-color) 5%, transparent);
+                top: 0;
+                left: 0;
+                transition: var(--du) background-color ease-in-out,
+                    var(--du) width ease-in-out,
+                    var(--du) height ease-in-out,
+                    var(--du) left ease-in-out,
+                    var(--du) top ease-in-out,
+                    var(--du) var(--de) box-shadow ease-in-out;
+                box-shadow: 0 0 0 var(--visual-feedback-offset) var(--visual-feedback-color);
+                background-color: var(--visual-feedback-color);
+                width: 100%;
+                height: 100%;
+            }
+
+            &.style-variant-outline {
+                &.color-variant-primary {
+                    --background-color: var(--go-ui-color-primary-red);
+                    --outline-color: var(--go-ui-color-primary-red);
+                    --text-color: var(--go-ui-color-text-on-dark);
+                }
+            }
+
+            &.style-variant-transparent,
+            &.style-variant-action {
+                &.color-variant-text {
+                    --variant-color: var(--go-ui-color-primary-red);
+                    --text-color: var(--go-ui-color-primary-red);
+                }
+            }
+        }
     }
 
-    &.active {
-        border-bottom: initial;
-
-        .bottom-border {
-            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-        }
+    &.disabled {
+        opacity: var(--go-ui-opacity-disabled-element);
     }
 }
 
@@ -161,13 +238,18 @@
         }
     }
 
+    .tab-layout { /* stylelint-disable-line no-descending-specificity */
+        /* FIXME: use css variable */
+        max-width: 13rem;
+        overflow-wrap: break-word;
+    }
 
     .dot-wrapper {
         display: flex;
         align-items: center;
         padding: var(--go-ui-spacing-xs) 0;
 
-        .before-dot {
+        .before-line {
             flex-grow: 1;
             border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
         }
@@ -176,7 +258,7 @@
             flex-shrink: 0;
         }
 
-        .after-dot {
+        .after-line {
             flex-grow: 1;
             border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
         }
@@ -189,47 +271,50 @@
             background-color: var(--go-ui-color-primary-red);
         }
 
-        .before-dot {
-            border-color: var(--go-ui-color-primary-blue);
+        .before-line {
+            border-color: var(--go-ui-color-primary-red);
         }
     }
 
     &.completed {
+        color: var(--go-ui-color-primary-red);
+
         &:not(.active) {
             .dot {
-                background-color: var(--go-ui-color-primary-blue);
+                background-color: var(--go-ui-color-primary-red);
             }
         }
 
-        .after-dot,
-        .before-dot {
-            border-color: var(--go-ui-color-primary-blue);
+        .after-line,
+        .before-line {
+            border-color: var(--go-ui-color-primary-red);
         }
     }
 
     &.first-step {
-        .before-dot {
+        .before-line {
             border-color: transparent;
         }
 
         &.completed,
         &.active {
-            .before-dot {
+            .before-line {
                 border-color: transparent;
             }
         }
     }
 
     &.last-step {
-        .after-dot {
+        .after-line {
             border-color: transparent;
         }
 
         &.completed,
         &.active {
-            .after-dot {
+            .after-line {
                 border-color: transparent;
             }
         }
     }
 }
+

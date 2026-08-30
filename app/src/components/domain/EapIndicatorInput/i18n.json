@@ -1,0 +1,8 @@
+{
+    "namespace": "eapIndicatorInput",
+    "strings": {
+        "removeButtonTitle": "Remove",
+        "titleInputLabel": "Indicator name",
+        "targetInputLabel": "Indicator Target"
+    }
+}

@@ -3,6 +3,8 @@ import { bound } from '@togglecorp/fujs';
 export type SpacingType = 'none' | '5xs' | '4xs' | '3xs' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
 export type SpacingMode = 'row-gap' | 'column-gap' | 'padding-inline' | 'padding-block';
 
+export type ColorVariant = 'text' | 'text-on-dark' | 'primary' | 'secondary' | 'success' | 'danger';
+
 export const gapSpacings: SpacingMode[] = ['row-gap', 'column-gap'];
 export const paddingSpacings: SpacingMode[] = ['padding-block', 'padding-inline'];
 export const fullSpacings: SpacingMode[] = [
@@ -64,13 +66,7 @@ export function getSpacingValue(
         spacingTokens.length - 1,
     );
 
-    const spacingValue = spacingTokens[
-        bound(
-            startIndex,
-            0,
-            spacingTokens.length - 1,
-        )
-    ];
+    const spacingValue = spacingTokens[startIndex];
 
     return spacingValue;
 }

@@ -48,7 +48,7 @@
 
     .meta-section {
         display: grid;
-        grid-gap: var(--go-ui-width-separator-lg);
+        gap: var(--go-ui-width-separator-lg);
         grid-template-columns: 1fr 1fr 1fr;
         background-color: var(--pdf-element-bg);
         padding: var(--go-ui-spacing-md);
@@ -57,13 +57,13 @@
     .top-rated-component-content {
         display: grid;
         flex-grow: 0;
-        grid-gap: var(--go-ui-spacing-sm);
+        gap: var(--go-ui-spacing-sm);
         grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 
         .top-rated-component {
             border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
             padding: var(--go-ui-spacing-sm);
-            page-break-inside: avoid;
+            break-inside: avoid;
 
             .label {
                 margin-bottom: var(--go-ui-spacing-xs);
@@ -80,9 +80,9 @@
 
         .rated-component {
             display: grid;
-            grid-gap: var(--go-ui-spacing-md);
+            gap: var(--go-ui-spacing-md);
             grid-template-columns: 1fr 1fr 1fr;
-            page-break-inside: avoid;
+            break-inside: avoid;
 
             .label {
                 font-size: var(--go-ui-font-size-sm);

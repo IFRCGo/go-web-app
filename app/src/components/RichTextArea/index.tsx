@@ -38,7 +38,7 @@ type InheritedProps<T> = Omit<InputContainerProps, 'input'> & {
     ) => void;
 }
 interface Props<T extends string | undefined> extends InheritedProps<T> {
-    inputElementRef?: React.RefObject<HTMLInputElement>;
+    inputElementRef?: React.RefObject<HTMLInputElement | null>;
     placeholder?: string;
 }
 
@@ -80,7 +80,8 @@ function RichTextArea<T extends string | undefined>(props: Props<T>) {
 
     // eslint-disable-next-line react/destructuring-assignment
     if (props.placeholder !== undefined) {
-        // eslint-disable-next-line react/destructuring-assignment
+        // NOTE(frozenhelium): editorOptions mutated before passing to editor; safe this render
+        // eslint-disable-next-line react/destructuring-assignment, react-hooks/immutability
         editorOptions.placeholder = props.placeholder;
     }
 

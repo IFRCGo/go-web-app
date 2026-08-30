@@ -2,7 +2,7 @@
     display: flex;
     align-items: flex-start;
     cursor: pointer;
-    gap: var(--go-ui-spacing-sm);
+    gap: var(--go-ui-spacing-3xs);
 
     &.with-background {
         border-radius: var(--go-ui-border-radius-md);
@@ -62,15 +62,8 @@
         }
     }
 
-    &.disabled-checkbox {
-        display: flex;
-        align-items: flex-start;
+    &.disabled {
+        opacity: var(--go-ui-opacity-disabled-element);
         cursor: not-allowed;
-        gap: var(--go-ui-spacing-sm);
-        color: var(--go-ui-color-gray-40);
-
-        .checkmark {
-            color: var(--go-ui-color-gray-40);
-        }
     }
 }

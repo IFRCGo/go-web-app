@@ -66,6 +66,23 @@
         }
     }
 
+    &.with-full-height {
+        flex-grow: 1;
+        height: 100%;
+
+        .view-container {
+            height: 100%;
+
+            .relative-wrapper {
+                height: 100%;
+
+                .map {
+                    height: 100%;
+                }
+            }
+        }
+    }
+
     &.presentation-mode {
         background-color: var(--go-ui-color-background);
         width: 100vw;

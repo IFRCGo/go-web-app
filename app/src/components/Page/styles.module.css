@@ -23,7 +23,7 @@
         }
 
         .main-section {
-            padding: var(--go-ui-spacing-xl) var(--go-ui-spacing-lg);
+            padding: var(--go-ui-spacing-4xl) var(--go-ui-spacing-lg);
         }
     }
 }

@@ -26,12 +26,9 @@ import {
 } from '@ifrc-go/ui/hooks';
 import {
     _cs,
-    isDefined,
-    isFalsyString,
-    listToGroupList,
+    isNotDefined,
     listToMap,
     mapToList,
-    mapToMap,
 } from '@togglecorp/fujs';
 
 import GlobalFooter from '#components/GlobalFooter';
@@ -46,8 +43,8 @@ import UserContext from '#contexts/user';
 import useAuth from '#hooks/domain/useAuth';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import {
-    useLazyRequest,
     useRequest,
+    useTranslationLazyRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -85,7 +82,7 @@ export function Component() {
         languageNamespaceStatus,
     } = useContext(LanguageContext);
 
-    const languageRequestTimeoutRef = useRef<number | undefined>();
+    const languageRequestTimeoutRef = useRef<number | undefined>(undefined);
 
     const registerDomainData = useCallback(
         (name: CacheKey) => {
@@ -99,53 +96,44 @@ export function Component() {
 
     const {
         trigger: fetchLanguage,
-    } = useLazyRequest<'/api/v2/language/{id}/', { pages: Array<string> }>({
-        url: '/api/v2/language/{id}/',
+    } = useTranslationLazyRequest<'/strings', { pages: string[] }>({
+        apiType: 'translation',
+        url: '/strings',
         // FIXME: fix typing in server (medium priority)
-        query: ({ pages }) => ({ page_name: pages }) as never,
-        pathVariables: () => ({ id: currentLanguage }),
+        query: ({ pages }) => ({
+            pages: pages.join(','),
+            lang: currentLanguage,
+        }),
         onSuccess: (response, { pages }) => {
-            const stringMap = mapToMap(
-                listToGroupList(
-                    response.strings?.map(({ value, page_name, ...otherArgs }) => {
-                        // NOTE: removing empty translations or translations without pages
-                        if (isFalsyString(value) || isFalsyString(page_name)) {
-                            return undefined;
-                        }
-                        return {
-                            value,
-                            page_name,
-                            ...otherArgs,
-                        };
-                    }).filter(isDefined),
-                    ({ page_name }) => page_name ?? 'common',
-                ),
-                (key) => key,
-                (values) => (
-                    listToMap(
-                        values,
-                        ({ key }) => key,
-                        ({ value }) => value,
-                    )
-                ),
-            );
+            if (!response?.ok || isNotDefined(response.data?.strings)) {
+                return;
+            }
+
+            const translationsByPage = response.data.strings;
 
             setStrings(
-                (prevValue) => {
-                    const namespaces = Object.keys(prevValue);
-
-                    return {
+                (prevStrings) => {
+                    const newStrings = {
+                        ...prevStrings,
                         ...listToMap(
-                            namespaces,
-                            (namespace) => namespace,
-                            (namespace) => ({
-                                ...prevValue[namespace],
-                                ...stringMap?.[namespace],
-                            }),
+                            pages,
+                            (page) => page,
+                            (page) => {
+                                const existingTranslations = prevStrings[page];
+                                const newTranslations = translationsByPage[page] ?? {};
+
+                                return {
+                                    ...existingTranslations,
+                                    ...newTranslations,
+                                };
+                            },
                         ),
                     };
+
+                    return newStrings;
                 },
             );
+
             setLanguageNamespaceStatus(
                 (prevValue) => ({
                     ...prevValue,
@@ -156,6 +144,7 @@ export function Component() {
                     ),
                 }),
             );
+
             setLanguagePending(false);
         },
         onFailure: (err, { pages }) => {
@@ -177,18 +166,13 @@ export function Component() {
         },
     });
 
-    const queuedLanguages = useMemo(
-        () => {
-            const languages = mapToList(
-                languageNamespaceStatus,
-                (item, key) => ({ key, status: item }),
-            );
-            return languages
-                .filter((item) => item.status === 'queued')
-                .map((item) => item.key)
-                .sort()
-                .join(',');
-        },
+    const queuedNamespaces = useMemo(
+        () => mapToList(
+            languageNamespaceStatus,
+            (item, key) => ({ key, status: item }),
+        ).filter((item) => item.status === 'queued')
+            .map((item) => item.key)
+            .sort(),
         [languageNamespaceStatus],
     );
 
@@ -197,22 +181,21 @@ export function Component() {
             if (
                 languagePending
                 || currentLanguage === 'en'
-                || isFalsyString(queuedLanguages)
+                || isNotDefined(queuedNamespaces)
+                || queuedNamespaces.length === 0
             ) {
                 return undefined;
             }
 
             languageRequestTimeoutRef.current = window.setTimeout(
                 () => {
-                    const keys = queuedLanguages.split(',');
-
                     unstable_batchedUpdates(() => {
                         // FIXME: check if the component is still mounted
                         setLanguageNamespaceStatus(
                             (prevState) => ({
                                 ...prevState,
                                 ...listToMap(
-                                    keys,
+                                    queuedNamespaces,
                                     (key) => key,
                                     () => 'pending',
                                 ),
@@ -221,7 +204,7 @@ export function Component() {
                         setLanguagePending(true);
                     });
 
-                    fetchLanguage({ pages: keys });
+                    fetchLanguage({ pages: queuedNamespaces });
                 },
                 // FIXME: use constant
                 200,
@@ -232,7 +215,7 @@ export function Component() {
             };
         },
         [
-            queuedLanguages,
+            queuedNamespaces,
             languagePending,
             currentLanguage,
             fetchLanguage,

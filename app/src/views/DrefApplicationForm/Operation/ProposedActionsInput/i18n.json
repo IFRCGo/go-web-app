@@ -1,8 +1,8 @@
 {
     "namespace": "drefApplicationForm",
     "strings": {
-        "drefFromProposedEarlyActionLabel": "Early Actions",
-        "drefFromProposedEarlyResponseLabel": "Early Response",
+        "drefFormProposedEarlyActionLabel": "Early Actions",
+        "drefFormProposedEarlyResponseLabel": "Early Response",
         "drefFormProposedActionBudgetLabel": "Budget(CHF)",
         "drefFormAddProposedActionLabel": "Add proposed action",
         "drefFormProposedActionSectorLabel": "Select the sector"

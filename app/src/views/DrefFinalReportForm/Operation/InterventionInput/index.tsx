@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
     Button,
@@ -11,7 +10,6 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     isDefined,
     isNotDefined,
-    randomString,
 } from '@togglecorp/fujs';
 import {
     type ArrayError,
@@ -76,26 +74,9 @@ function InterventionInput(props: Props) {
 
     const {
         setValue: onIndicatorChange,
-        removeValue: onIndicatorRemove,
     } = useFormArray<'indicators', IndicatorFormFields>(
         'indicators' as const,
         onFieldChange,
-    );
-
-    const handleIndicatorAddButtonClick = useCallback(
-        () => {
-            const newIndicatorItem: IndicatorFormFields = {
-                client_id: randomString(),
-            };
-
-            onFieldChange(
-                (oldValue: IndicatorFormFields[] | undefined) => (
-                    [...(oldValue ?? []), newIndicatorItem]
-                ),
-                'indicators' as const,
-            );
-        },
-        [onFieldChange],
     );
 
     return (
@@ -211,15 +192,6 @@ function InterventionInput(props: Props) {
             <Container
                 heading={strings.drefFormIndicatorsLabel}
                 headingLevel={5}
-                footerIcons={(
-                    <Button
-                        name={undefined}
-                        onClick={handleIndicatorAddButtonClick}
-                        disabled={disabled || readOnly}
-                    >
-                        {strings.drefAddIndicatorButtonLabel}
-                    </Button>
-                )}
             >
                 <NonFieldError error={getErrorObject(error?.indicators)} />
                 {value?.indicators?.map((indicator, i) => (
@@ -228,7 +200,6 @@ function InterventionInput(props: Props) {
                         index={i}
                         value={indicator}
                         onChange={onIndicatorChange}
-                        onRemove={onIndicatorRemove}
                         error={getErrorObject(error?.indicators)}
                         disabled={disabled}
                         readOnly={readOnly}

@@ -1,0 +1,21 @@
+.clamped-content {
+    .content {
+        width: 100%;
+
+        &.collapsed {
+            overflow: hidden;
+
+            &.size-sm {
+                max-height: min(9rem, 30vh);
+            }
+
+            &.size-md {
+                max-height: min(20rem, 50vh);
+            }
+
+            &.size-lg {
+                max-height: min(40rem, 70vh);
+            }
+        }
+    }
+}

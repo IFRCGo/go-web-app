@@ -11,7 +11,7 @@ import {
     isDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
-import getBbox from '@turf/bbox';
+import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import ActiveOperationMap from '#components/domain/ActiveOperationMap';
 import AppealsOverYearsChart from '#components/domain/AppealsOverYearsChart';
@@ -19,19 +19,21 @@ import AppealsTable from '#components/domain/AppealsTable';
 import HighlightedOperations from '#components/domain/HighlightedOperations';
 import RegionKeyFigures from '#components/domain/RegionKeyFigures';
 import TabPage from '#components/TabPage';
+import { getGeoJsonBounds } from '#utils/geo';
 import { type RegionOutletContext } from '#utils/outletContext';
 
 import RecentEmergenciesTable from './RecentEmergenciesTable';
 
 import i18n from './i18n.json';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { regionId } = useParams<{ regionId: string }>();
     const { regionResponse } = useOutletContext<RegionOutletContext>();
 
-    const bbox = regionResponse ? getBbox(regionResponse.bbox) : undefined;
+    const bbox: LngLatBoundsLike | undefined = regionResponse
+        ? getGeoJsonBounds(regionResponse.bbox)
+        : undefined;
 
     const strings = useTranslation(i18n);
 

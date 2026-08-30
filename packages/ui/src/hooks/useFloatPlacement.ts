@@ -52,7 +52,7 @@ const defaultPlacement: Placement = {
 };
 
 function useFloatPlacement(
-    parentRef: React.RefObject<HTMLElement | undefined>,
+    parentRef: React.RefObject<HTMLElement | null>,
     preferredWidth?: number,
 ) {
     const [placements, setPlacements] = useState<{

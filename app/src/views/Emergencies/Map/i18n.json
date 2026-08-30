@@ -1,7 +1,7 @@
 {
     "namespace": "emergencies",
     "strings": {
-        "emergenciesMapTitle":"IFRC GO - Emergencies ({numEmergencies})",
+        "emergenciesMapTitle":"Emergencies in the last 30 days ({numEmergencies})",
         "emergenciesMapViewAll": "View All Emergencies",
         "emergenciesMapPopoverEmpty": "No events",
         "emergenciesDownloadMapTitle": "Emergencies",

@@ -1,0 +1,8 @@
+{
+    "namespace": "eapMap",
+    "strings": {
+        "eapMapTitle": "Approved EAPs",
+        "eapMapType": "EAP type",
+        "eapMapLoginRequired": "Log in to view the map of approved EAPs."
+    }
+}

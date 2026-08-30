@@ -4,9 +4,6 @@
         "localUnitsTableName": "Name",
         "localUnitsTableAddress": "Address",
         "localUnitsTableType": "Type",
-        "localUnitsTableFocal": "Focal Person",
-        "localUnitsTableStatus": "Status",
-        "localUnitsTablePhoneNumber": "Phone Number",
-        "localUnitsTableEmail": "Email"
+        "localUnitsTableStatus": "Status"
     }
 }

@@ -3,17 +3,23 @@
     "strings": {
         "emergencyPageTitle": "IFRC GO - Emergency - {emergencyName}",
         "emergencyPageTitleFallback": "IFRC GO - Emergency",
-        "emergencyTabDetails":"Emergency Details",
-        "emergencyTabReports":"Reports/Documents",
+        "emergencyLoadFailureTitle": "Failed to load the Emergency details.",
+        "emergencyTabDetails":"Emergency Overview",
+        "emergencyTabActionsSummary": "Actions Summary",
+        "emergencyTabOperationStrategy": "Operation Strategy",
+        "emergencyTabBackground": "Background",
+        "emergencyTabReports":"Documents",
         "emergencyTabActivities":"Activities",
         "emergencyTabSurge":"Surge",
-        "emergencyPeopleTargetedLabel":"People Targeted",
+        "emergencyPeopleTargetedLabel":"Targeted Population",
         "emergencyFundingRequirementsLabel":"Funding Requirements (CHF)",
         "emergencyFundingLabel":"Funding (CHF)",
+        "operationTimelineLabel": "Operation Timeline",
         "home": "Home",
         "emergencies": "Emergencies",
         "emergencyEdit": "Edit Event",
         "emergencyFollow":"Follow",
-        "emergencyUnfollow":"Unfollow"
+        "emergencyUnfollow":"Unfollow",
+        "emergencyOperationEnded": "Operation Ended"
     }
 }

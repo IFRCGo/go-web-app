@@ -150,6 +150,8 @@ function SubscriptionPreferences() {
                 (record) => record.event,
             ).filter(isDefined) ?? [];
 
+            // FIXME(frozenhelium): Initialises form state from server data; once only
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setValue({
                 weeklyDigest,
                 newEmergencies,

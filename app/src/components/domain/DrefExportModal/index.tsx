@@ -24,6 +24,7 @@ import {
     type TypeOfDrefEnum,
 } from '#utils/constants';
 import {
+    type GoApiBody,
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
@@ -33,18 +34,24 @@ import styles from './styles.module.css';
 
 type ExportTypeEnum = components<'read'>['schemas']['ExportTypeEnum'];
 type ExportStatusEnum = components<'read'>['schemas']['ExportStatusEnum'];
+type ExportBody = GoApiBody<'/api/v2/pdf-export/', 'POST'>;
 
 const EXPORT_STATUS_PENDING = 0 satisfies ExportStatusEnum;
 const EXPORT_STATUS_COMPLETED = 1 satisfies ExportStatusEnum;
 const EXPORT_STATUS_ERRORED = 2 satisfies ExportStatusEnum;
 
-interface Props {
+// NOTE: Final reports have separate v1 and v2 export views
+type Props = {
     id: number;
     onCancel: () => void;
-    applicationType: 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT';
     drefType?: TypeOfDrefEnum | null;
-    isDrefImminentV2?: boolean;
-}
+} & ({
+    applicationType: 'DREF' | 'OPS_UPDATE';
+    isDrefImminentV2?: never;
+} | {
+    applicationType: 'FINAL_REPORT';
+    isDrefImminentV2: boolean;
+});
 
 function DrefExportModal(props: Props) {
     const {
@@ -83,9 +90,12 @@ function DrefExportModal(props: Props) {
                 export_id: id,
                 export_type: type,
                 is_pga: includePga,
-                selector: '#pdf-preview-ready',
+                // selector: '#pdf-preview-ready',
                 per_country: undefined,
-            };
+                summary: undefined,
+                version: undefined,
+                diff: undefined,
+            } satisfies ExportBody;
         },
         [
             id,

@@ -43,10 +43,10 @@ import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 
 import ExportButton from '#components/domain/ExportButton';
+import OpsLearningKeyInsights from '#components/domain/OpsLearningKeyInsights';
 import { type RegionOption } from '#components/domain/RegionSelectInput';
 import Link from '#components/Link';
 import Page from '#components/Page';
-import { type components } from '#generated/types';
 import useCountry from '#hooks/domain/useCountry';
 import useDisasterTypes, { type DisasterType } from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
@@ -54,6 +54,13 @@ import useSecondarySector from '#hooks/domain/useSecondarySector';
 import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
+import {
+    SUMMARY_NO_EXTRACT_AVAILABLE,
+    SUMMARY_STATUS_FAILED,
+    SUMMARY_STATUS_PENDING,
+    SUMMARY_STATUS_STARTED,
+    SUMMARY_STATUS_SUCCESS,
+} from '#utils/domain/opsLearning';
 import { getFormattedComponentName } from '#utils/domain/per';
 import {
     type GoApiResponse,
@@ -65,20 +72,12 @@ import Filters, {
     type FilterValue,
     type PerLearningType,
 } from './Filters';
-import KeyInsights from './KeyInsights';
 import Stats from './Stats';
 import Summary, { type Props as SummaryProps } from './Summary';
 
 import i18n from './i18n.json';
 
-type SummaryStatusEnum = components<'read'>['schemas']['OpsLearningSummaryStatusEnum'];
 const opsLearningDashboardURL = 'https://app.powerbi.com/view?r=eyJrIjoiMTM4Y2ZhZGEtNGZmMS00ODZhLWFjZjQtMTE2ZTIyYTI0ODc4IiwidCI6ImEyYjUzYmU1LTczNGUtNGU2Yy1hYjBkLWQxODRmNjBmZDkxNyIsImMiOjh9&pageName=ReportSectionfa0be9512521e929ae4a';
-const SUMMARY_STATUS_PENDING = 1 satisfies SummaryStatusEnum;
-const SUMMARY_STATUS_STARTED = 2 satisfies SummaryStatusEnum;
-const SUMMARY_STATUS_SUCCESS = 3 satisfies SummaryStatusEnum;
-const SUMMARY_NO_EXTRACT_AVAILABLE = 4 satisfies SummaryStatusEnum;
-const SUMMARY_STATUS_FAILED = 5 satisfies SummaryStatusEnum;
-
 type OpsLearningSummaryResponse = GoApiResponse<'/api/v2/ops-learning/summary/'>;
 type OpsLearningSectorSummary = OpsLearningSummaryResponse['sectors'][number];
 type OpsLearningComponentSummary = OpsLearningSummaryResponse['components'][number];
@@ -99,7 +98,6 @@ const regionKeySelector = (region: RegionOption) => region.key;
 const disasterTypeLabelSelector = (type: DisasterType) => type.name ?? '?';
 const perLearningTypeKeySelector = (perLearningType: PerLearningType) => perLearningType.key;
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -503,9 +501,17 @@ export function Component() {
             </ListView>
             <Stats query={query} />
             {showKeyInsights && (
-                <KeyInsights
-                    opsLearningSummaryResponse={opsLearningSummaryResponse}
-                />
+                <Container
+                    heading={strings.opsLearningSummariesHeading}
+                    withPadding
+                    withDarkBackground
+                    headingLevel={5}
+                    spacing="lg"
+                >
+                    <OpsLearningKeyInsights
+                        opsLearningSummaryResponse={opsLearningSummaryResponse}
+                    />
+                </Container>
             )}
             <Container
                 pending={opsLearningSummaryPending

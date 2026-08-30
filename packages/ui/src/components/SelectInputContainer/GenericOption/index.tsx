@@ -73,6 +73,7 @@ function GenericOption<
         [optionKey, option, onClick],
     );
 
+    // FIXME: use button layout
     return (
         <RawButton
             elementRef={divRef}

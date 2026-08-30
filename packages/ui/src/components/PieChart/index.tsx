@@ -115,6 +115,8 @@ function PieChart<D>(props: Props<D>) {
                 }
 
                 const currentAngle = 360 * (value / totalValueSafe);
+                // FIXME(frozenhelium): False positive — local accumulator inside useMemo
+                // eslint-disable-next-line react-hooks/immutability
                 endAngle += currentAngle;
 
                 return {

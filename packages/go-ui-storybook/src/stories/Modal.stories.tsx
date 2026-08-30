@@ -8,7 +8,6 @@ import {
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
-    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
@@ -38,7 +37,7 @@ const meta: Meta<ModalSpecificProps> = {
 
 export default meta;
 
-function Template(args:Args) {
+function Template(args: ModalSpecificProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [
         {
@@ -113,6 +112,6 @@ export const Default: Story = {
         closeOnEscape: false,
         withoutCloseButton: false,
         closeOnClickOutside: true,
-        size: 'md',
+        size: 'sm',
     },
 };

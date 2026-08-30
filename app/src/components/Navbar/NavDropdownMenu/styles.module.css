@@ -1,0 +1,6 @@
+.dropdown {
+    .tab-list {
+        border-inline-end: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        border-block-end: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+    }
+}

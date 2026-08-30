@@ -192,7 +192,6 @@ export default function RapidResponsePersonnelTable(props: Props) {
                     startDate: item.start_date,
                     endDate: item.end_date,
                 }),
-                { columnClassName: styles.timeline },
             ),
         ]),
         [

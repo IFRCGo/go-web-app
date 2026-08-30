@@ -33,7 +33,7 @@ type ChecklistSpecificProps = ChecklistProps<ListKey, string, Option>;
 type Story = StoryObj<ChecklistSpecificProps>;
 
 const meta: Meta<typeof Checklist> = {
-    title: 'Components/Checklist',
+    title: 'Inputs/Checklist',
     component: Checklist,
     parameters: {
         layout: 'centered',

@@ -40,7 +40,7 @@ type StackedProgressBarSpecificProps = StackedProgressBarProps<Category>;
 type Story = StoryObj<StackedProgressBarSpecificProps>;
 
 const meta: Meta<typeof StackedProgressBar> = {
-    title: 'Components/StackedProgressBar',
+    title: 'Visualization/StackedProgressBar',
     component: StackedProgressBar,
     parameters: {
         layout: 'centered',

@@ -7,25 +7,27 @@ import {
     Container,
     Description,
     DropdownMenu,
+    Heading,
+    InlineFrame,
     Label,
     ListView,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToComponent } from '@ifrc-go/ui/utils';
 
 import Link from '#components/Link';
 import Page from '#components/Page';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
-// TODO: Does this need translation?
+// NOTE: These are links and email bodies and don't need to be translated
 const emailSubject = encodeURIComponent('Explore Montandon Data');
-const linkToMontandon = 'https://radiantearth.github.io/stac-browser/#/external/montandon-eoapi-stage.ifrc.org/stac/';
-const emailBody = encodeURIComponent(`Sharing with you a link to Montandon API: ${linkToMontandon}`);
+const linkToMontandonStacBrowser = 'https://ifrcgo.org/stac-browser/';
+const emailBody = encodeURIComponent(`Sharing with you a link to Montandon API: ${linkToMontandonStacBrowser}`);
 const mailtoLink = `mailto:?subject=${emailSubject}&body=${emailBody}`;
+const linkToMontandonNotebooks = 'https://ifrcgo.org/montandon-notebooks/';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -35,7 +37,6 @@ export function Component() {
             title={strings.montandonPageTitle}
             heading={strings.montandonHeading}
             description={strings.montandonHeadingDescription}
-            mainSectionClassName={styles.content}
             actions={(
                 <>
                     <DropdownMenu
@@ -71,7 +72,6 @@ export function Component() {
                                     label={strings.validLabel}
                                     value={strings.validValue}
                                 />
-                                <div className={styles.separator} />
                                 <Label>
                                     {strings.stacLocationText}
                                 </Label>
@@ -89,7 +89,7 @@ export function Component() {
                     </DropdownMenu>
                     <DropdownMenu
                         label={strings.sharePopupTitle}
-                        labelBefore={<ShareLineIcon className={styles.icon} />}
+                        labelBefore={<ShareLineIcon />}
                         labelColorVariant="primary"
                         preferredPopupWidth={30}
                         persistent
@@ -103,7 +103,7 @@ export function Component() {
                             footerActions={(
                                 <Link
                                     href={mailtoLink}
-                                    before={<MailIcon className={styles.icon} />}
+                                    before={<MailIcon />}
                                     colorVariant="primary"
                                     styleVariant="outline"
                                     external
@@ -129,11 +129,9 @@ export function Component() {
                 </>
             )}
             info={(
-                <iframe
-                    className={styles.iframe}
+                <InlineFrame
                     src="https://www.youtube.com/embed/BEWxqYfrQek"
                     title={strings.videoTitle}
-                    allow=""
                     allowFullScreen
                 />
             )}
@@ -145,16 +143,7 @@ export function Component() {
                         spacing="sm"
                     >
                         <Link
-                            href="https://montandon-eoapi-stage.ifrc.org/stac/api.html"
-                            colorVariant="primary"
-                            styleVariant="outline"
-                            external
-                            withLinkIcon
-                        >
-                            {strings.accessAPILabel}
-                        </Link>
-                        <Link
-                            href="https://radiantearth.github.io/stac-browser/#/external/montandon-eoapi-stage.ifrc.org/stac/"
+                            href={linkToMontandonStacBrowser}
                             colorVariant="primary"
                             styleVariant="outline"
                             external
@@ -166,14 +155,9 @@ export function Component() {
                 )}
                 spacing="xl"
             >
-                <ListView
-                    layout="grid"
-                    numPreferredGridColumns={3}
-                    minGridColumnSize="20rem"
-                >
+                <ListView layout="block">
                     <Container
-                        className={styles.guideCard}
-                        heading={strings.resources}
+                        heading={strings.gettingStartedGuide}
                         withHeaderBorder
                         withPadding
                         withBackground
@@ -183,88 +167,130 @@ export function Component() {
                             layout="block"
                             withSpacingOpticalCorrection
                         >
-                            <Link
-                                href="https://github.com/IFRCGo/monty-stac-extension/blob/main/README.md"
-                                external
-                                withLinkIcon
-                            >
-                                {strings.visitGithub}
-                            </Link>
-                            <Link
-                                href="https://go-wiki.ifrc.org/en/home"
-                                external
-                                withLinkIcon
-                            >
-                                {strings.goWiki}
-                            </Link>
-                            <Link
-                                href="https://montandon-eoapi-stage.ifrc.org/stac/api"
-                                external
-                                withLinkIcon
-                            >
-                                {strings.apiDescription}
-                            </Link>
-                            <Link
-                                href="https://montandon-eoapi-stage.ifrc.org/stac/api.html"
-                                external
-                                withLinkIcon
-                            >
-                                {strings.apiDocumentation}
-                            </Link>
+                            <Heading level={5}>
+                                {strings.guideGetYourToken}
+                            </Heading>
+                            <ol type="a">
+                                <li>
+                                    {resolveToComponent(
+                                        strings.guideVisitAccountPage,
+                                        {
+                                            goAccountPageLink: (
+                                                <Link
+                                                    to="accountDetails"
+                                                    withUnderline
+                                                >
+                                                    {strings.goAccountPageLinkButtonTitle}
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                </li>
+                                <li>{strings.guideGenerateNewToken}</li>
+                                <li>{strings.guideSaveToken}</li>
+                            </ol>
+                            <Heading level={5}>
+                                {strings.guideExploreData}
+                            </Heading>
+                            <ol type="a">
+                                <li>
+                                    {resolveToComponent(
+                                        strings.guideMontandonNotebooks,
+                                        {
+                                            montandonNotebookLink: (
+                                                <Link
+                                                    href={linkToMontandonNotebooks}
+                                                    withUnderline
+                                                    withLinkIcon
+                                                    external
+                                                >
+                                                    {strings.montandonNotebooksLinkButtonTitle}
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                </li>
+                                <li>
+                                    {resolveToComponent(
+                                        strings.guideStacBrowser,
+                                        {
+                                            montandonStacBrowserLink: (
+                                                <Link
+                                                    href={linkToMontandonStacBrowser}
+                                                    withUnderline
+                                                    withLinkIcon
+                                                    external
+                                                >
+                                                    {
+
+                                                        strings.montandonStacBrowserLinkButtonTitle
+                                                    }
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                </li>
+                            </ol>
                         </ListView>
                     </Container>
-                    <Container
-                        heading={strings.blogPosts}
-                        withPadding
-                        withBackground
-                        withShadow
-                        withHeaderBorder
+                    <ListView
+                        layout="grid"
+                        numPreferredGridColumns={3}
+                        minGridColumnSize="30rem"
                     >
-                        <ListView
-                            layout="block"
-                            withSpacingOpticalCorrection
+                        <Container
+                            heading={strings.blogPosts}
+                            withPadding
+                            withBackground
+                            withShadow
+                            withHeaderBorder
                         >
-                            <Link
-                                href="https://ifrcgoproject.medium.com/toward-a-more-comprehensive-understanding-of-disasters-fc422d65377"
-                                external
-                                withLinkIcon
+                            <ListView
+                                layout="block"
+                                withSpacingOpticalCorrection
                             >
-                                {strings.leveragingDataBlogPostTitle}
-                            </Link>
-                            <Link
-                                href="https://ifrcgoproject.medium.com/scaled-up-ambitions-require-scaled-up-systems-4a92456fab59"
-                                external
-                                withLinkIcon
-                            >
-                                {strings.scaledUpSystemsBlogPostTitle}
-                            </Link>
-                        </ListView>
-                    </Container>
-                    <Container
-                        heading={strings.contact}
-                        withPadding
-                        withBackground
-                        withShadow
-                        withHeaderBorder
-                    >
-                        <ListView
-                            layout="block"
-                            withSpacingOpticalCorrection
+                                <Link
+                                    href="https://ifrcgoproject.medium.com/toward-a-more-comprehensive-understanding-of-disasters-fc422d65377"
+                                    external
+                                    withLinkIcon
+                                >
+                                    {strings.leveragingDataBlogPostTitle}
+                                </Link>
+                                <Link
+                                    href="https://ifrcgoproject.medium.com/scaled-up-ambitions-require-scaled-up-systems-4a92456fab59"
+                                    external
+                                    withLinkIcon
+                                >
+                                    {strings.scaledUpSystemsBlogPostTitle}
+                                </Link>
+                            </ListView>
+                        </Container>
+                        <Container
+                            heading={strings.contact}
+                            withPadding
+                            withBackground
+                            withShadow
+                            withHeaderBorder
                         >
-                            <Link
-                                href="mailto:im@ifrc.org"
-                                colorVariant="primary"
-                                styleVariant="filled"
-                                external
-                                spacing="sm"
+                            <ListView
+                                layout="block"
+                                withSpacingOpticalCorrection
                             >
-                                im@ifrc.org
-                            </Link>
-                            <Description>
-                                {strings.contactText}
-                            </Description>
-                        </ListView>
-                    </Container>
+                                <Link
+                                    href="mailto:im@ifrc.org"
+                                    colorVariant="primary"
+                                    styleVariant="filled"
+                                    external
+                                    spacing="sm"
+                                >
+                                    im@ifrc.org
+                                </Link>
+                                <Description>
+                                    {strings.contactText}
+                                </Description>
+                            </ListView>
+                        </Container>
+                    </ListView>
                 </ListView>
             </Container>
         </Page>

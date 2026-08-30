@@ -21,5 +21,15 @@
 
 .expand-column {
     width: 0%;
-    min-width: 3rem;
+    min-width: 3.5rem;
+}
+
+.progress-column {
+    width: 0%;
+    min-width: 8rem;
+}
+
+.timeline-column {
+    width: 0%;
+    min-width: 22rem;
 }

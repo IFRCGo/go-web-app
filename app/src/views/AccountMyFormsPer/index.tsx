@@ -33,7 +33,7 @@ import RegionSelectInput, { type RegionOption } from '#components/domain/RegionS
 import Link from '#components/Link';
 import WikiLink from '#components/WikiLink';
 import useFilterState from '#hooks/useFilterState';
-import { createLinkColumn } from '#utils/domain/tableHelpers';
+import { createCountryColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
     useRequest,
@@ -47,7 +47,6 @@ import styles from './styles.module.css';
 type AggregatedPerProcessStatusResponse = GoApiResponse<'/api/v2/aggregated-per-process-status/'>;
 type PerProcessStatusItem = NonNullable<AggregatedPerProcessStatusResponse['results']>[number];
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -113,7 +112,7 @@ export function Component() {
 
     const baseColumn = useMemo(
         () => ([
-            createLinkColumn<PerProcessStatusItem, number>(
+            createCountryColumn<PerProcessStatusItem, number>(
                 'country',
                 strings.tableCountryTitle,
                 (item) => item.country_details?.name,
@@ -140,7 +139,10 @@ export function Component() {
                 'phase',
                 strings.tablePerPhaseTitle,
                 (item) => (isDefined(item.phase) ? `${item.phase} - ${item.phase_display}` : DEFAULT_INVALID_TEXT),
-                { sortable: true },
+                {
+                    sortable: true,
+                    columnClassName: styles.phaseColumn,
+                },
             ),
             createElementColumn<PerProcessStatusItem, number, PerTableActionsProps>(
                 'actions',

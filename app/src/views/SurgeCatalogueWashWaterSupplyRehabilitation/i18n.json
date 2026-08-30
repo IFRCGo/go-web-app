@@ -18,7 +18,7 @@
         "personnelCompositionValueTwoItem": "Emergency water supply engineer (bulk/networked systems)",
         "personnelCompositionValueThreeItem": "Emergency water supply engineer (point/ground water sources)",
         "personnelCompositionValueFourItem": "Hygiene promoter/community mobiliser (behaviour change/gender and inclusion/community engagement and accountability)",
-        "personnelCompositionValueFiveItem": "Logistics and contracting officer",
+        "personnelCompositionValueFiveItem": "Finance, Admin and Logistics (FAD) delegate",
         "standardComponent": "Standard Component",
         "standardComponentItemOne": "Each team is fully equipped with surveillance, survey, camera & mapping tools to conduct water system assessments and water system design and a hygiene promotion box.",
         "standardComponentItemTwo": "The WSR has access to backstopping technical advice/communities of practice and can call upon remote support for work on some aspects of the damage assessment.",
@@ -30,7 +30,7 @@
         "specificationCostLabel": "Cost (indicative)",
         "specificationCostValue": "CHF 5,000 (equipment only)",
         "specificationNSLabel": "National societies providing this service",
-        "specificationNSValue": "Norwegian, Netherlands.",
+        "specificationNSValue": "Norwegian, Netherlands, Kenya.",
         "additionalResources": "Additional Resources",
         "additionalResourcesNorCross": "NorCross {link}",
         "additionalResourcesNorCrossLink": "Water Supply Rehabilitation ERU Handbook/SOP"

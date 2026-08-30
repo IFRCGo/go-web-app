@@ -1,12 +1,12 @@
 import {
     Container,
+    Description,
     Image,
     InlineFrame,
     Label,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { resolveToComponent } from '@ifrc-go/ui/utils';
 
 import arcLogo from '#assets/icons/arc_logo.png';
 import aurcLogo from '#assets/icons/aurc_logo.svg';
@@ -28,28 +28,14 @@ import { useRequest } from '#utils/restRequest';
 import VideoList from './VideoList';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const { response: contactsResponse } = useRequest({
         url: '/api/v2/main_contact/',
     });
-
-    const contactDescription = resolveToComponent(
-        strings.aboutFurtherInfo,
-        {
-            contactLink: (
-                <Link
-                    href="mailto:im@ifrc.org"
-                    external
-                >
-                    im@ifrc.org
-                </Link>
-            ),
-        },
-    );
 
     return (
         <Page
@@ -58,12 +44,14 @@ export function Component() {
             description={strings.resourcesDescription}
             info={(
                 <InlineFrame
+                    className={styles.introductionVideo}
                     title="GO introduction video"
                     src="https://www.youtube.com/embed/dwPsQzla9A4"
                     allowFullScreen
                 />
             )}
         >
+            <div className={styles.reservedSpace} />
             <Container
                 heading={strings.goUserGuidance}
                 spacing="xl"
@@ -132,12 +120,15 @@ export function Component() {
                     </Container>
                 </ListView>
             </Container>
+            <div />
             <Container
                 heading={strings.referenceVideos}
                 withCenteredHeading
+                spacing="xl"
             >
                 <VideoList />
             </Container>
+            <div />
             <Container
                 heading={strings.ifrcResources}
                 spacing="xl"
@@ -300,60 +291,87 @@ export function Component() {
                     </Container>
                 </ListView>
             </Container>
+            <div />
             <Container
                 heading={strings.aboutContacts}
-                headerDescription={contactDescription}
                 spacing="xl"
                 withCenteredHeading
             >
                 <ListView
-                    layout="grid"
-                    numPreferredGridColumns={5}
+                    layout="block"
+                    spacing="xl"
                 >
-                    {contactsResponse?.results?.map((contact) => (
-                        <Container
-                            key={contact.extent}
-                            heading={contact.extent}
-                            headingLevel={6}
-                            withPadding
-                            withShadow
-                            withBackground
-                        >
-                            <ListView
-                                layout="block"
-                                withSpacingOpticalCorrection
-                                spacing="sm"
+                    <ListView
+                        layout="grid"
+                        numPreferredGridColumns={5}
+                    >
+                        {contactsResponse?.results?.map((contact) => (
+                            <Container
+                                key={contact.extent}
+                                heading={contact.extent}
+                                headingLevel={6}
+                                withPadding
+                                withShadow
+                                withBackground
                             >
-                                <Label strong>
-                                    {contact.name}
-                                </Label>
-                                <Link
-                                    href={`mailto:${contact.email}`}
-                                    external
-                                    withLinkIcon
-                                    withEllipsizedContent
+                                <ListView
+                                    layout="block"
+                                    withSpacingOpticalCorrection
+                                    spacing="sm"
                                 >
-                                    {contact.email}
-                                </Link>
-                            </ListView>
-                        </Container>
-                    ))}
+                                    <Label strong>
+                                        {contact.name}
+                                    </Label>
+                                    <Link
+                                        href={`mailto:${contact.email}`}
+                                        external
+                                        withLinkIcon
+                                        withEllipsizedContent
+                                    >
+                                        {contact.email}
+                                    </Link>
+                                </ListView>
+                            </Container>
+                        ))}
+                    </ListView>
+                    <ListView
+                        layout="block"
+                        withSpacingOpticalCorrection
+                        withCenteredContents
+                        spacing="xs"
+                    >
+                        <Description withLightText>
+                            {strings.aboutFurtherInfo}
+                        </Description>
+                        <Link
+                            href="mailto:im@ifrc.org"
+                            external
+                            withLinkIcon
+                            colorVariant="primary"
+                            styleVariant="filled"
+                        >
+                            im@ifrc.org
+                        </Link>
+                    </ListView>
                 </ListView>
             </Container>
+            <div />
             <Container
                 heading={strings.aboutGoFundingTitle}
                 headerDescription={strings.aboutGoFundingDescription}
                 withCenteredHeading
                 withCenteredHeaderDescription
+                spacing="xl"
             >
                 <ListView
                     layout="grid"
                     numPreferredGridColumns={5}
-                    spacing="2xl"
+                    spacing="lg"
                 >
                     <Link
                         href="https://www.redcross.org/"
                         external
+                        styleVariant="transparent"
                     >
                         <Image
                             withContainedFit
@@ -365,6 +383,7 @@ export function Component() {
                     <Link
                         href="https://www.redcross.org.au/"
                         external
+                        styleVariant="transparent"
                     >
                         <Image
                             withContainedFit
@@ -376,6 +395,7 @@ export function Component() {
                     <Link
                         href="https://www.redcross.org.uk/"
                         external
+                        styleVariant="transparent"
                     >
                         <Image
                             withContainedFit
@@ -387,6 +407,7 @@ export function Component() {
                     <Link
                         href="https://www.redcross.ca/"
                         external
+                        styleVariant="transparent"
                     >
                         <Image
                             withContainedFit
@@ -398,6 +419,7 @@ export function Component() {
                     <Link
                         href="https://en.rodekors.dk/"
                         external
+                        styleVariant="transparent"
                     >
                         <Image
                             withContainedFit
@@ -409,6 +431,7 @@ export function Component() {
                     <Link
                         href="https://www.redcross.fi/"
                         external
+                        styleVariant="transparent"
                     >
                         <Image
                             withContainedFit
@@ -420,6 +443,7 @@ export function Component() {
                     <Link
                         href="https://www.jrc.or.jp/english/"
                         external
+                        styleVariant="transparent"
                     >
                         <Image
                             withContainedFit
@@ -431,6 +455,7 @@ export function Component() {
                     <Link
                         href="https://www.rodekruis.nl/"
                         external
+                        styleVariant="transparent"
                     >
                         <Image
                             withContainedFit
@@ -442,6 +467,7 @@ export function Component() {
                     <Link
                         href="https://www2.cruzroja.es/"
                         external
+                        styleVariant="transparent"
                     >
                         <Image
                             withContainedFit
@@ -453,6 +479,7 @@ export function Component() {
                     <Link
                         href="https://www.ericsson.com/en"
                         external
+                        styleVariant="transparent"
                     >
                         <Image
                             withContainedFit
@@ -464,6 +491,7 @@ export function Component() {
                     <Link
                         href="https://www.admin.ch/gov/de/start.html"
                         external
+                        styleVariant="transparent"
                     >
                         <Image
                             withContainedFit
@@ -475,6 +503,7 @@ export function Component() {
                     <Link
                         href="https://www.usaid.gov/"
                         external
+                        styleVariant="transparent"
                     >
                         <Image
                             withContainedFit
@@ -486,6 +515,7 @@ export function Component() {
                     <Link
                         href="https://www.pdc.org/"
                         external
+                        styleVariant="transparent"
                     >
                         <Image
                             withContainedFit
@@ -496,6 +526,7 @@ export function Component() {
                     </Link>
                 </ListView>
             </Container>
+            <div />
         </Page>
     );
 }

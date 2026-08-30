@@ -45,6 +45,8 @@ function useUrlSearchState<VALUE>(
 
     const potentialValue = searchParams.get(key);
     const value = useMemo(
+        // FIXME(frozenhelium): Reading ref.current in useMemo avoids stale closure
+        // eslint-disable-next-line react-hooks/refs
         () => deserializerRef.current(potentialValue),
         [potentialValue],
     );

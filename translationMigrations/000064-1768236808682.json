@@ -1,0 +1,49 @@
+{
+    "parent": "000063-1765977376504.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "eruMHPSSOfficer",
+            "namespace": "surgeCatalogueHealth",
+            "value": "ERU - MHPSS Officer"
+        },
+        {
+            "action": "remove",
+            "key": "communityOutreachOfficer",
+            "namespace": "surgeCatalogueHealth"
+        },
+        {
+            "action": "remove",
+            "key": "psychoSocialSupportOfficer",
+            "namespace": "surgeCatalogueHealth"
+        },
+        {
+            "action": "update",
+            "key": "healthPSSAdditionalResourcesLink",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "newValue": "For additional information, please contact Bhanu.PRATAP@ifrc.org."
+        },
+        {
+            "action": "add",
+            "key": "additionWashPortal",
+            "namespace": "surgeCatalogueWash",
+            "value": "IFRC's WASH Portal"
+        },
+        {
+            "action": "add",
+            "key": "additionWashPortalDetail",
+            "namespace": "surgeCatalogueWash",
+            "value": "This is an online resource and toolbox for WASH practitioners."
+        },
+        {
+            "action": "remove",
+            "key": "additionWatsan",
+            "namespace": "surgeCatalogueWash"
+        },
+        {
+            "action": "remove",
+            "key": "additionWatsanDetail",
+            "namespace": "surgeCatalogueWash"
+        }
+    ]
+}

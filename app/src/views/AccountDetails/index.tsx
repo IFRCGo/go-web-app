@@ -23,6 +23,7 @@ import {
 
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
+import useCountry from '#hooks/domain/useCountry';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useUserMe from '#hooks/domain/useUserMe';
 import useFilterState from '#hooks/useFilterState';
@@ -37,7 +38,6 @@ import i18n from './i18n.json';
 
 const TOKEN_PAGE_SIZE = 12;
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -58,6 +58,9 @@ export function Component() {
         api_profile_org_types,
         ({ key }) => key,
     );
+
+    // Resolve user's country name from numeric ID
+    const userCountry = useCountry({ id: meResponse?.profile?.country ?? -1 });
 
     const onEditProfileCancel = useCallback(() => {
         setShowEditProfileModal(false);
@@ -105,7 +108,7 @@ export function Component() {
                         </Button>
                         <Button
                             name
-                            after={(<PencilFillIcon />)}
+                            before={<PencilFillIcon />}
                             onClick={setShowEditProfileModal}
                             disabled={isNotDefined(meResponse)}
                         >
@@ -141,6 +144,11 @@ export function Component() {
                         label={strings.phoneNumberLabel}
                         value={meResponse?.profile?.phone_number}
                         strongLabel
+                    />
+                    <TextOutput
+                        strongLabel
+                        label={strings.countryLabel}
+                        value={userCountry?.name}
                     />
                     <TextOutput
                         strongLabel
@@ -185,8 +193,7 @@ export function Component() {
                             {strings.externalConnectionMontandonDescription}
                             &nbsp;
                             <Link
-                                external
-                                href="https://docs.google.com/document/d/1USM6IQwBB1jUuyIHe_Bmmc0_gTFibzxBwZ9Oy4YiYx0/edit?usp=sharing"
+                                to="montandonLandingPage"
                                 withLinkIcon
                                 withUnderline
                             >
@@ -218,6 +225,8 @@ export function Component() {
                     withPadding
                     withDarkBackground
                     spacing="lg"
+                    empty={isNotDefined(montandonTokenResponse)
+                        || montandonTokenResponse.results.length === 0}
                 >
                     <ListView
                         layout="grid"

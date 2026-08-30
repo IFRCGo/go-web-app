@@ -11,7 +11,7 @@ import type {
 import Container from './Container';
 
 const meta = {
-    title: 'Components/Container',
+    title: 'Container/Container',
     component: Container,
     parameters: {
         layout: 'centered',
@@ -30,31 +30,20 @@ export const Default: Story = {
     args: {
         heading: 'Container Heading',
         headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
+        footer: 'Footer content',
         filters: 'Filter content',
         children: 'Container content',
-    },
-};
-
-export const ContentViewType: Story = {
-    args: {
-        heading: 'Container Heading',
-        headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
-        filters: 'Filter content',
-        children: 'Container content',
-        contentViewType: 'default',
     },
 };
 
 export const EllipsizeHeading: Story = {
     args: {
-        heading: 'Container Heading',
+        heading: 'This extremely long container heading is intentionally written to test how the Container component behave',
         headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
+        footer: 'Footer content',
         filters: 'Filter content',
         children: 'Container content',
-        ellipsizeHeading: true,
+        withEllipsizedHeading: true,
     },
 };
 
@@ -62,50 +51,25 @@ export const FooterAction: Story = {
     args: {
         heading: 'Container Heading',
         headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
+        footer: 'Footer content',
         filters: 'Filter content',
         children: 'Container content',
-        footerActions: [
-            <Button
-                key="container-footer-action"
-                name={undefined}
-            >
-                save
-            </Button>,
-        ],
+        footerActions: (
+            <Button key="container-footer-action" name={undefined}>
+                Save
+            </Button>
+        ),
     },
 };
+
 export const WithFooterIcons: Story = {
     args: {
         heading: 'Container Heading',
         headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
+        footer: 'Footer content',
         filters: 'Filter content',
         children: 'Container content',
         footerIcons: <WikiLineIcon />,
-    },
-};
-
-export const WithGridViewAndPadding: Story = {
-    args: {
-        heading: 'Container Heading',
-        headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
-        filters: 'Filter content',
-        children: 'Container content',
-        contentViewType: 'grid',
-        spacing: 'default',
-        numPreferredGridContentColumns: 2,
-    },
-};
-
-export const ContainerElementRef: Story = {
-    args: {
-        heading: 'Container Heading',
-        headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
-        filters: 'Filter content',
-        children: 'Container content',
     },
 };
 
@@ -113,64 +77,21 @@ export const WithHeadingLevel: Story = {
     args: {
         heading: 'Container Heading',
         headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
+        footer: 'Footer content',
         filters: 'Filter content',
         children: 'Container content',
-        contentViewType: 'default',
-        spacing: 'default',
         headingLevel: 1,
-        numPreferredGridContentColumns: 2,
     },
 };
 
-export const WithIcons: Story = {
+export const WithCenteredContent: Story = {
     args: {
         heading: 'Container Heading',
         headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
+        footer: 'Footer content',
         filters: 'Filter content',
         children: 'Container content',
-        contentViewType: 'default',
-        spacing: 'default',
-        icons: <WikiLineIcon />,
-    },
-};
-
-export const NumPreferredGridContentColumns: Story = {
-    args: {
-        heading: 'Container Heading',
-        headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
-        filters: 'Filter content',
-        children: 'Container content',
-        contentViewType: 'default',
-        spacing: 'default',
-        numPreferredGridContentColumns: 2,
-    },
-};
-export const WithSpacing: Story = {
-    args: {
-        heading: 'Container Heading',
-        headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
-        filters: 'Filter content',
-        children: 'Container content',
-        contentViewType: 'default',
-        spacing: 'none',
-        numPreferredGridContentColumns: 2,
-    },
-};
-
-export const WithGridViewInFilter: Story = {
-    args: {
-        heading: 'Container Heading',
-        headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
-        filters: 'Filter content',
-        children: 'Container content',
-        contentViewType: 'default',
-        spacing: 'default',
-        numPreferredGridContentColumns: 2,
+        withCenteredContent: true,
     },
 };
 
@@ -178,40 +99,64 @@ export const WithHeaderBorder: Story = {
     args: {
         heading: 'Container Heading',
         headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
+        footer: 'Footer content',
         filters: 'Filter content',
         children: 'Container content',
-        contentViewType: 'grid',
-        spacing: 'default',
-        numPreferredGridContentColumns: 2,
         withHeaderBorder: true,
     },
 };
 
-export const WithInternalPadding: Story = {
+export const WithBackground: Story = {
     args: {
-        heading: 'Container Heading',
-        headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
-        filters: 'Filter content',
-        children: 'Container content',
-        contentViewType: 'grid',
-        spacing: 'default',
-        numPreferredGridContentColumns: 2,
-        withInternalPadding: true,
+        heading: 'Container with Background',
+        headerDescription: 'This container has a background',
+        children: 'Content goes here',
+        withBackground: true,
+        withPadding: true,
     },
 };
 
-export const WithoutWrapInHeading: Story = {
+export const WithShadow: Story = {
     args: {
-        heading: 'Container Heading',
-        headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
-        filters: 'Filter content',
-        children: 'Container content',
-        contentViewType: 'grid',
-        spacing: 'default',
-        numPreferredGridContentColumns: 2,
-        withoutWrapInHeading: true,
+        heading: 'Container with Shadow',
+        children: 'Content with shadow',
+        withShadow: true,
+        withPadding: true,
+    },
+};
+
+export const WithPadding: Story = {
+    args: {
+        heading: 'Container with Padding',
+        children: 'Content with internal padding',
+        withPadding: true,
+        withBackground: true,
+    },
+};
+
+export const PendingState: Story = {
+    args: {
+        heading: 'Pending Container',
+        children: 'Waiting for data...',
+        pending: true,
+        pendingMessage: 'Loading data, please wait...',
+    },
+};
+
+export const ErrorState: Story = {
+    args: {
+        heading: 'Errored Container',
+        children: 'Data failed to load',
+        errored: true,
+        errorMessage: 'Something went wrong!',
+    },
+};
+
+export const EmptyState: Story = {
+    args: {
+        heading: 'Empty Container',
+        children: null,
+        empty: true,
+        emptyMessage: 'No content available.',
     },
 };

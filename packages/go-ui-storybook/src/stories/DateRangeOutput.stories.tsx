@@ -9,7 +9,7 @@ import DateRangeOutput from './DateRangeOutput';
 type Story = StoryObj<DateRangeOutputProps>;
 
 const meta: Meta<typeof DateRangeOutput> = {
-    title: 'Components/DateRangeOutput',
+    title: 'Outputs/DateRangeOutput',
     component: DateRangeOutput,
     parameters: {
         layout: 'centered',

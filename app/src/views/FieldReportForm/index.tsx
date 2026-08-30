@@ -1,5 +1,4 @@
 import {
-    type ElementRef,
     useCallback,
     useMemo,
     useRef,
@@ -121,14 +120,13 @@ function getNextStep(
     return undefined;
 }
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { fieldReportId } = useParams<{ fieldReportId: string }>();
     const { navigate } = useRouting();
     const alert = useAlert();
     const strings = useTranslation(i18n);
-    const formContentRef = useRef<ElementRef<'div'>>(null);
+    const formContentRef = useRef<HTMLDivElement>(null);
     const currentLanguage = useCurrentLanguage();
     const { state } = useLocation();
 
@@ -157,6 +155,30 @@ export function Component() {
                 bulletin: BULLETIN_PUBLISHED_NO,
             },
         },
+    );
+
+    // a report is only detached from an event while the server resolves one
+    const handleSubmitSuccess = useCallback(
+        (response: { id: number, event?: number | null }) => {
+            alert.show(
+                strings.formRedirectMessage,
+                { variant: 'success' },
+            );
+
+            if (isDefined(response.event)) {
+                navigate(
+                    'emergencyOverview',
+                    { params: { emergencyId: response.event } },
+                );
+                return;
+            }
+
+            navigate(
+                'fieldReportDetails',
+                { params: { fieldReportId: response.id } },
+            );
+        },
+        [alert, navigate, strings.formRedirectMessage],
     );
 
     const {
@@ -231,16 +253,7 @@ export function Component() {
         // NOTE: Field report can be submitted in non-english languages as well
         useCurrentLanguageForMutation: true,
         body: (ctx: FieldReportBody) => ctx,
-        onSuccess: (response) => {
-            alert.show(
-                strings.formRedirectMessage,
-                { variant: 'success' },
-            );
-            navigate(
-                'fieldReportDetails',
-                { params: { fieldReportId: response.id } },
-            );
-        },
+        onSuccess: handleSubmitSuccess,
         onFailure: ({
             value: {
                 messageForNotification,
@@ -285,16 +298,7 @@ export function Component() {
         // NOTE: Field report can be submitted in non-english languages as well
         useCurrentLanguageForMutation: true,
         body: (ctx: FieldReportPostBody) => ctx,
-        onSuccess: (response) => {
-            alert.show(
-                strings.formRedirectMessage,
-                { variant: 'success' },
-            );
-            navigate(
-                'fieldReportDetails',
-                { params: { fieldReportId: response.id } },
-            );
-        },
+        onSuccess: handleSubmitSuccess,
         onFailure: ({
             value: {
                 messageForNotification,
@@ -425,10 +429,13 @@ export function Component() {
         ],
     );
 
+    // FIXME(frozenhelium): toggle-form submit callbacks are ref-backed
     const handleFormSubmit = createSubmitHandler(
         validate,
         onErrorSet,
+        // eslint-disable-next-line react-hooks/refs
         handleSubmit,
+        // eslint-disable-next-line react-hooks/refs
         handleFormError,
     );
 

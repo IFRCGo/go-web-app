@@ -73,7 +73,7 @@ function useNumericChartData<DATUM>(data: DATUM[] | null | undefined, options: O
         yScale = 'linear',
     } = options;
 
-    const [containerRef, setContainerRef] = useState<React.RefObject<HTMLDivElement>>(
+    const [containerRef, setContainerRef] = useState<React.RefObject<HTMLDivElement | null>>(
         createRef,
     );
 

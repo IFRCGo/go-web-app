@@ -1,0 +1,8 @@
+{
+    "namespace": "emergencyOperationType",
+    "strings": {
+        "imminentDref": "Imminent DREF",
+        "responseDref": "Response DREF",
+        "emergencyAppeal": "Emergency Appeal"
+    }
+}

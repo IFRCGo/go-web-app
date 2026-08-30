@@ -1,9 +1,9 @@
 import {
-    type ElementRef,
     type RefObject,
     useEffect,
 } from 'react';
 import {
+    type HeadingProps,
     ListView,
     PageContainer,
     PageHeader,
@@ -41,10 +41,12 @@ interface Props {
     mainSectionClassName?: string;
     wikiLink?: React.ReactNode;
     withBackgroundColorInMainSection?: boolean;
-    elementRef?: RefObject<ElementRef<'div'>>;
+    elementRef?: RefObject<HTMLDivElement | null>;
     blockingContent?: React.ReactNode;
     contentOriginalLanguage?: TranslationModuleOriginalLanguageEnum;
     beforeHeaderContent?: React.ReactNode;
+    headerBackground?: React.ReactNode;
+    headingColorVariant?: HeadingProps['colorVariant'];
 }
 
 function Page(props: Props) {
@@ -65,6 +67,8 @@ function Page(props: Props) {
         blockingContent,
         contentOriginalLanguage,
         beforeHeaderContent,
+        headerBackground,
+        headingColorVariant,
     } = props;
 
     const currentLanguage = useCurrentLanguage();
@@ -121,6 +125,8 @@ function Page(props: Props) {
                     heading={heading}
                     description={description}
                     info={info}
+                    background={headerBackground}
+                    headingColorVariant={headingColorVariant}
                 />
             )}
             {isNotDefined(blockingContent) && (
@@ -138,7 +144,7 @@ function Page(props: Props) {
                 >
                     <ListView
                         layout="block"
-                        spacing="xl"
+                        spacing="4xl"
                     >
                         { children }
                     </ListView>

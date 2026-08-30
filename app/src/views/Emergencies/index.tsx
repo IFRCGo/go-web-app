@@ -80,7 +80,6 @@ const oneYearAgo = new Date();
 oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 oneYearAgo.setHours(0, 0, 0, 0);
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -300,10 +299,15 @@ export function Component() {
                     )}
                 </Container>
             </ListView>
-            {eventsResponse && (
-                <Map eventList={eventsResponse.results} />
-            )}
-            <EmergenciesTable />
+            <ListView
+                layout="block"
+                spacing="sm"
+            >
+                {eventsResponse && (
+                    <Map eventList={eventsResponse.results} />
+                )}
+                <EmergenciesTable />
+            </ListView>
             {isIfrcAdmin && (
                 <FlashUpdateTable />
             )}

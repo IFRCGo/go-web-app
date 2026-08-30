@@ -41,7 +41,7 @@ const keySelector = (d: Option) => d.label;
 const rendererParams = (_: string, datum: Option) => ({ label: datum.label });
 
 const meta: Meta<typeof RawList> = {
-    title: 'Components/RawList',
+    title: 'Inputs/RawList',
     component: RawList,
     parameters: {
         layout: 'centered',

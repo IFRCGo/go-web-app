@@ -3,7 +3,10 @@ import {
     ChevronLeftLineIcon,
     ChevronRightLineIcon,
 } from '@ifrc-go/icons';
-import { Button } from '@ifrc-go/ui';
+import {
+    Button,
+    ListView,
+} from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import Link from '#components/Link';
@@ -15,7 +18,6 @@ import DownloadImportTemplateButton from './DownloadImportTemplateButton';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const [currentView, setCurrentView] = useState<'active' | 'completed'>('active');
@@ -23,7 +25,11 @@ export function Component() {
 
     return (
         <div className={styles.accountDrefApplications}>
-            <div className={styles.drefFeedbackForm}>
+            <ListView
+                layout="block"
+                withCenteredContents
+            >
+                <DownloadImportTemplateButton />
                 <Link
                     href="https://forms.office.com/e/wFQsu0V7Zb"
                     styleVariant="action"
@@ -33,10 +39,7 @@ export function Component() {
                 >
                     {strings.drefFeedbackForm}
                 </Link>
-            </div>
-            <div className={styles.actions}>
-                <DownloadImportTemplateButton />
-            </div>
+            </ListView>
             {currentView === 'active' && (
                 <ActiveDrefTable
                     actions={(

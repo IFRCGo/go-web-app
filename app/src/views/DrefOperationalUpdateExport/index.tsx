@@ -67,7 +67,6 @@ const colorMap: Record<DisasterCategory, string | undefined> = {
     [DISASTER_CATEGORY_RED]: styles.red,
 };
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { opsUpdateId } = useParams<{ opsUpdateId: string }>();

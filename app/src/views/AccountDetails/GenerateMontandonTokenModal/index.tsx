@@ -143,6 +143,7 @@ function GenerateMontandonTokenModal(props: Props) {
                     <>
                         <TokenDetails
                             data={tokenResponse}
+                            withoutPadding
                         />
                         <div className={styles.note}>
                             {strings.tokenNote}

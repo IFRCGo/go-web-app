@@ -6,7 +6,7 @@ import styles from './styles.module.css';
 interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'size'> {
     startColor: string;
     endColor: string;
-    elementRef?: RefObject<HTMLDivElement>;
+    elementRef?: RefObject<HTMLDivElement | null>;
 }
 
 function GradientBar(props: Props) {

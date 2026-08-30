@@ -1,0 +1,47 @@
+.advance-payment-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--go-ui-spacing-md);
+
+    @media screen and (max-width: 40rem) {
+        grid-template-columns: 1fr;
+    }
+
+    .block {
+        display: flex;
+        flex-direction: column;
+        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        border-radius: var(--go-ui-border-radius-md);
+        padding: var(--go-ui-spacing-md);
+        gap: var(--go-ui-spacing-sm);
+
+        .block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--go-ui-spacing-sm);
+        }
+
+        .block-title {
+            font-weight: var(--go-ui-font-weight-semibold);
+        }
+
+        .chip {
+            font-size: var(--go-ui-font-size-sm);
+        }
+
+        .funding-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: var(--go-ui-border-radius-md);
+            background-color: var(--go-ui-color-gray-20);
+            padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-sm);
+            gap: var(--go-ui-spacing-sm);
+
+            .funding-amount {
+                font-weight: var(--go-ui-font-weight-semibold);
+            }
+        }
+    }
+}

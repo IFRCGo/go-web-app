@@ -18,7 +18,6 @@ type BackendPowerBiAuth = {
     expires_at?: string; // new field for expiry (ISO string)
 };
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const {

@@ -263,9 +263,9 @@ function Operation(props: Props) {
         );
     }, [setFieldValue]);
 
-    const totalBudgetFromInterventions = useMemo(
-        () => sumSafe(value?.planned_interventions?.map((pi) => pi.budget)),
-        [value?.planned_interventions],
+    // FIXME(frozenhelium): useMemo removed for React Compiler compatibility
+    const totalBudgetFromInterventions = sumSafe(
+        value?.planned_interventions?.map((pi) => pi.budget),
     );
 
     // NOTE: || used intentionally instead of ??

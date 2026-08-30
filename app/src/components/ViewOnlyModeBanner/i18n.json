@@ -1,0 +1,6 @@
+{
+    "namespace": "common",
+    "strings": {
+        "viewOnlyModeBannerMessage": "This form is currently in view-only mode!"
+    }
+}

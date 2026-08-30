@@ -24,11 +24,7 @@ import {
 } from '@togglecorp/fujs';
 import mapboxgl from 'mapbox-gl';
 
-import goLogo from '#assets/icons/go-logo-2020.svg';
-import {
-    appTitle,
-    mbtoken,
-} from '#config';
+import { mbtoken } from '#config';
 import RouteContext from '#contexts/route';
 import UserContext, {
     type UserAuth,
@@ -53,15 +49,13 @@ import {
 
 import wrappedRoutes, { unwrappedRoutes } from './routes';
 
-import styles from './styles.module.css';
-
 const requestContextValue = {
     transformUrl: processGoUrls,
     transformOptions: processGoOptions,
     transformResponse: processGoResponse,
     transformError: processGoError,
 };
-const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRouter);
+const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouterV7(createBrowserRouter);
 const router = sentryCreateBrowserRouter(unwrappedRoutes);
 mapboxgl.accessToken = mbtoken;
 mapboxgl.setRTLTextPlugin(
@@ -202,6 +196,8 @@ function Application() {
 
     // Hydration
     useEffect(() => {
+        // FIXME(frozenhelium): hydrateUserAuth calls setState internally; one-time hydration
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         hydrateUserAuth();
 
         const language = getFromStorage<Language>(KEY_LANGUAGE_STORAGE);
@@ -246,16 +242,6 @@ function Application() {
                         <RequestContext.Provider value={requestContextValue}>
                             <RouterProvider
                                 router={router}
-                                fallbackElement={(
-                                    <div className={styles.fallbackElement}>
-                                        <img
-                                            className={styles.goLogo}
-                                            alt="IFRC GO"
-                                            src={goLogo}
-                                        />
-                                        {`${appTitle} loading...`}
-                                    </div>
-                                )}
                             />
                         </RequestContext.Provider>
                     </AlertContext.Provider>

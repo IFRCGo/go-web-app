@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import {
     Button,
+    Container,
+    ListView,
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -20,7 +22,6 @@ import { useLazyRequest } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 interface FormFields {
     username?: string;
@@ -41,7 +42,6 @@ const formSchema: FormSchema = {
     }),
 };
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -102,37 +102,44 @@ export function Component() {
 
     return (
         <Page
-            className={styles.resendValidationEmail}
             title={strings.pageTitle}
             heading={strings.pageHeading}
-            description={strings.pageDescription}
         >
-            <form
-                className={styles.form}
-                onSubmit={handleFormSubmit}
-            >
-                <NonFieldError
-                    error={formError}
-                    withFallbackError
-                />
-                <TextInput
-                    name="username"
-                    label={strings.emailInputLabel}
-                    value={formValue.username}
-                    onChange={setFieldValue}
-                    error={fieldError?.username}
-                    disabled={pending}
-                    withAsterisk
-                    autoFocus
-                />
-                <Button
-                    name={undefined}
-                    type="submit"
-                    className={styles.submitButton}
-                    disabled={pending}
+            <form onSubmit={handleFormSubmit}>
+                <Container
+                    withCenteredContent
+                    headerDescription={strings.pageDescription}
+                    spacing="2xl"
                 >
-                    {strings.submitButtonLabel}
-                </Button>
+                    <ListView
+                        layout="block"
+                        spacing="2xl"
+                    >
+                        <NonFieldError
+                            error={formError}
+                            withFallbackError
+                        />
+                        <TextInput
+                            name="username"
+                            label={strings.emailInputLabel}
+                            value={formValue.username}
+                            onChange={setFieldValue}
+                            error={fieldError?.username}
+                            disabled={pending}
+                            withAsterisk
+                            autoFocus
+                        />
+                        <ListView withCenteredContents>
+                            <Button
+                                name={undefined}
+                                type="submit"
+                                disabled={pending}
+                            >
+                                {strings.submitButtonLabel}
+                            </Button>
+                        </ListView>
+                    </ListView>
+                </Container>
             </form>
         </Page>
     );

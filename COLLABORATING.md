@@ -11,7 +11,8 @@ This document offers guidelines for collaborators on codebase maintenance, testi
 
 ## Development
 
-* [Developing](./collaborating/developing.md)
+* [Development Workflow](./collaborating/development-workflow.md)
+* [Deployment Workflow](./collaborating/deployment-workflow.md)
 * [Translation](./collaborating/translation.md)
 * [Building](./collaborating/building.md)
 * [Testing](./collaborating/testing.md)

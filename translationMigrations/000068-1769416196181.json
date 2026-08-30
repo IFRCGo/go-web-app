@@ -1,0 +1,53 @@
+{
+    "parent": "000067-1769409822797.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "catalogueDSCoordinator",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "Digital Systems Coordinator"
+        },
+        {
+            "action": "add",
+            "key": "catalogueDSOfficer",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "Digital Tools Officer"
+        },
+        {
+            "action": "add",
+            "key": "catalogueITDDetailBold",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "Digital system"
+        },
+        {
+            "action": "add",
+            "key": "catalogueITTDetailBold",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "Information Technology and Telecom"
+        },
+        {
+            "action": "update",
+            "key": "catalogueITCoordinator",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "newValue": "IT & Telecom Coordinator"
+        },
+        {
+            "action": "update",
+            "key": "catalogueITDDetail",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "newValue": " surge service ensures the selection and integration of systems and tools tailored to local user needs and contexts, for the surge operations and beyond, while considering factors like data laws, cost, and local capacity. It strengthens the IM function, allowing it to focus on its core responsibilities, by handling complex system implementation, enabling faster, higher-quality, and more relevant assistance delivery."
+        },
+        {
+            "action": "update",
+            "key": "catalogueITOfficer",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "newValue": "IT & Telecom Officer"
+        },
+        {
+            "action": "update",
+            "key": "catalogueITTDetail",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "newValue": " surge service is mainly the IT/TEL ERU. This unit establishes local communication networks and links between the field and the secretariat, to ensure the smooth flow of information to assist operational coordination. The ERU has a range of technology such as satellite phones, high-frequency and very high frequency radio systems, depending on the geographical location and local legal situation."
+        }
+    ]
+}

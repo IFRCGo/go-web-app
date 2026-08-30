@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { SearchLineIcon } from '@ifrc-go/icons';
 import { TableActions } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
@@ -117,7 +116,6 @@ function PerTableActions(props: Props) {
                             type="link"
                             to="perOverviewForm"
                             urlParams={{ perId }}
-                            before={<SearchLineIcon />}
                         >
                             {resolveToString(strings.tableActionEditLabel, { phaseDisplay: phaseMap?.[PER_PHASE_OVERVIEW] ?? '--' })}
                         </DropdownMenuItem>
@@ -126,7 +124,6 @@ function PerTableActions(props: Props) {
                             type="link"
                             to="perOverviewForm"
                             urlParams={{ perId }}
-                            before={<SearchLineIcon />}
                         >
                             {resolveToString(strings.tableActionViewLabel, { phaseDisplay: phaseMap?.[PER_PHASE_OVERVIEW] ?? '--' })}
                         </DropdownMenuItem>

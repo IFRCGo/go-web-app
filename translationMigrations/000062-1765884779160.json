@@ -1,0 +1,133 @@
+{
+    "parent": "000061-1765266578743.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "addOtherProfilesButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Add Other Profiles"
+        },
+        {
+            "action": "add",
+            "key": "localUnitReviewButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Review"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewPharmacists",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Pharmacists"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewRemovedOtherProfiles",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Removed Other profiles"
+        },
+        {
+            "action": "add",
+            "key": "otherProfileNumberOutputLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Number"
+        },
+        {
+            "action": "add",
+            "key": "otherProfilePositionOutputLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Position"
+        },
+        {
+            "action": "add",
+            "key": "otherProfilesNumberLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Number"
+        },
+        {
+            "action": "add",
+            "key": "otherProfilesPositionLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Position"
+        },
+        {
+            "action": "add",
+            "key": "otherProfilesRemoveLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Remove"
+        },
+        {
+            "action": "add",
+            "key": "otherTrainingFacilities",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Other training facilities"
+        },
+        {
+            "action": "add",
+            "key": "pharmacists",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Pharmacists"
+        },
+        {
+            "action": "add",
+            "key": "qualifiersTitle",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Qualifiers"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitsTableEmail",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitsTableFocal",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitsTablePhoneNumber",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "otherProfiles",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "add",
+            "key": "contentStructureNote",
+            "namespace": "localUnitImportModal",
+            "value": "To enable multi-select functionality in certain fields, please click \"Enable Macros\" when prompted after opening the downloaded template file."
+        },
+        {
+            "action": "add",
+            "key": "contentStructureNoteLabel",
+            "namespace": "localUnitImportModal",
+            "value": "Note"
+        },
+        {
+            "action": "update",
+            "key": "contentStructureDescription",
+            "namespace": "localUnitImportModal",
+            "newValue": "The contents in the xlsx should follow the structure provided in {templateLink}."
+        },
+        {
+            "action": "update",
+            "key": "modalDescription",
+            "namespace": "localUnitImportModal",
+            "newValue": "Please select a local unit type and upload the xlsx file"
+        },
+        {
+            "action": "update",
+            "key": "uploadFileSectionDescription",
+            "namespace": "localUnitImportModal",
+            "newValue": "Please make sure to select a supported file format (xlsx, xlsm) with size less than 10MB"
+        },
+        {
+            "action": "update",
+            "key": "uploadFileSectionTitle",
+            "namespace": "localUnitImportModal",
+            "newValue": "Upload xlsx file"
+        }
+    ]
+}

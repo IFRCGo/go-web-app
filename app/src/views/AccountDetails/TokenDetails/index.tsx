@@ -17,10 +17,14 @@ import i18n from './i18n.json';
 
 interface Props {
     data: GoApiResponse<'/api/v2/external-token/{id}/'> | undefined;
+    withoutPadding?: boolean;
 }
 
 function TokenDetails(props: Props) {
-    const { data } = props;
+    const {
+        data,
+        withoutPadding,
+    } = props;
 
     const alert = useAlert();
     const strings = useTranslation(i18n);
@@ -52,7 +56,7 @@ function TokenDetails(props: Props) {
             headerDescription={(
                 <ListView
                     withSpacingOpticalCorrection
-                    spacing="xs"
+                    spacing="3xs"
                     layout="block"
                 >
                     <TextOutput
@@ -69,9 +73,8 @@ function TokenDetails(props: Props) {
                     />
                 </ListView>
             )}
-            withBackground
-            withPadding
-            withShadow
+            withBackground={!withoutPadding}
+            withPadding={!withoutPadding}
         >
             {isDefined(data?.token) && (
                 <Description

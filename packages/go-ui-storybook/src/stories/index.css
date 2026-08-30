@@ -170,3 +170,19 @@
     padding-top: var(--go-ui-spacing-md);
     padding-bottom: var(--go-ui-spacing-md);
 }
+
+.layout-content {
+    background-color: var(--go-ui-color-gray-30);
+    padding: var(--go-ui-spacing-md);
+    margin-bottom: 1px;
+}
+
+.list-view-sidebar {
+    background-color: var(--go-ui-color-gray-40);
+    padding: var(--go-ui-spacing-md);
+}
+
+.dash-border {
+    border: var(--go-ui-spacing-5xs) dashed var(--go-ui-color-gray-40);
+    background-color: var(--go-ui-color-gray-10);
+}

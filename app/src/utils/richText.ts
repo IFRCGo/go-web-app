@@ -40,6 +40,16 @@ const underlinePlugin: ParsePlugin = {
     }),
 };
 
+// Emphasis for parsePseudoHtml, applied in code so that translated strings can
+// stay tag-free and be composed with resolveToString.
+export function toBold(text: string) {
+    return `<${boldPlugin.tag}>${text}</${boldPlugin.tag}>`;
+}
+
+export function toItalic(text: string) {
+    return `<${italicsPlugin.tag}>${text}</${italicsPlugin.tag}>`;
+}
+
 /**
  * Convert subset of html into excel's richtext format
  * @param value string with or without html tags

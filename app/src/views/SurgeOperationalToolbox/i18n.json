@@ -1,7 +1,6 @@
 {
     "namespace": "surgeOperationalToolbox",
     "strings": {
-        "surgeOperationalToolboxHeading": "Operational Timeline Toolbox",
         "surgeOperationalToolboxHeadingDescription": "For Orange and Red Emergencies",
         "operationalToolboxOverviewHeading": "Overview of the Toolbox",
         "overviewSectionHeader": "This operational toolbox is a central repository with key operational document helpful for your mission like templates, checklists, guidance and examples.",

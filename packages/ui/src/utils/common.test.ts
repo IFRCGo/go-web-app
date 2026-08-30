@@ -6,7 +6,9 @@ import {
 
 import {
     denormalizeList,
+    getWordCount,
     splitList,
+    trimToWordLimit,
 } from './common';
 
 test('Split list', () => {
@@ -188,4 +190,25 @@ test('Denormalize List', () => {
             userId: 2, userName: 'Bob', postId: 3, postTitle: 'POST BY BOB 1',
         },
     ]);
+});
+
+test('Get word count', () => {
+    expect(getWordCount(undefined)).toBe(0);
+    expect(getWordCount(null)).toBe(0);
+    expect(getWordCount('')).toBe(0);
+    expect(getWordCount('   \n  ')).toBe(0);
+    expect(getWordCount('hello')).toBe(1);
+    expect(getWordCount('  hello   world  ')).toBe(2);
+    expect(getWordCount('hello\nworld\tagain')).toBe(3);
+    expect(getWordCount('• one\n• two')).toBe(4);
+});
+
+test('Trim to word limit', () => {
+    expect(trimToWordLimit(undefined, 5)).toBe(undefined);
+    expect(trimToWordLimit('one two', 5)).toBe('one two');
+    expect(trimToWordLimit('one two three', 3)).toBe('one two three');
+    expect(trimToWordLimit('one two three', 2)).toBe('one two');
+    expect(trimToWordLimit('  one   two   three  ', 2)).toBe('  one   two');
+    expect(trimToWordLimit('one two three', 0)).toBe(undefined);
+    expect(trimToWordLimit('one\ntwo\nthree', 2)).toBe('one\ntwo');
 });

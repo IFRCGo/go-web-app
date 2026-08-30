@@ -3,7 +3,7 @@ import { _cs } from '@togglecorp/fujs';
 import styles from './styles.module.css';
 
 export interface Props extends Omit<React.HTMLProps<HTMLIFrameElement>, 'ref' | 'size'> {
-    elementRef?: React.RefObject<HTMLIFrameElement>;
+    elementRef?: React.RefObject<HTMLIFrameElement | null>;
     size?: 'sm' | 'md' | 'lg';
 }
 

@@ -50,6 +50,7 @@ interface Props {
     presentationModeAdditionalAfterContent?: React.ReactNode;
     onPresentationModeChange?: (newPresentationMode: boolean) => void;
     children?: React.ReactNode;
+    withFullHeight?: boolean;
 }
 
 function GoMapContainer(props: Props) {
@@ -63,6 +64,7 @@ function GoMapContainer(props: Props) {
         presentationModeAdditionalAfterContent,
         onPresentationModeChange,
         children,
+        withFullHeight,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -161,6 +163,7 @@ function GoMapContainer(props: Props) {
                 styles.goMapContainer,
                 printMode && styles.printMode,
                 presentationMode && styles.presentationMode,
+                withFullHeight && styles.withFullHeight,
                 className,
             )}
             headingLevel={2}
@@ -236,12 +239,15 @@ function GoMapContainer(props: Props) {
             withPadding={presentationMode}
         >
             <ListView
+                className={styles.viewContainer}
                 layout="block"
                 spacing={presentationMode ? 'lg' : 'none'}
             >
                 {presentationMode && presentationModeAdditionalBeforeContent}
                 <div className={styles.relativeWrapper}>
-                    <MapContainer className={styles.map} />
+                    <MapContainer
+                        className={styles.map}
+                    />
                     <InfoPopup
                         infoLabel={strings.infoLabel}
                         className={styles.mapDisclaimer}

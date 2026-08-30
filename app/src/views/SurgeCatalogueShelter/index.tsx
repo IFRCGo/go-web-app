@@ -6,7 +6,6 @@ import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer'
 
 import i18n from './i18n.json';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -41,7 +40,7 @@ export function Component() {
     const technicalData: LinkData[] = [
         {
             title: strings.catalogueShelterAndSettlement,
-            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXP0VQ7Tpn1Er_QH8bOk-IYBdqlK7oVvx470Vi9v-7YNAg',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/IQASE04__XmuSKuLSbOfLkpxAajYZB4gIwT9fLvbNTUVrfE',
             external: true,
             withLinkIcon: true,
         },

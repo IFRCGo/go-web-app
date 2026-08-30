@@ -6,15 +6,11 @@ import { isDefined } from '@togglecorp/fujs';
 
 import useDebouncedValue from '#hooks/useDebouncedValue';
 
-function useSizeTracking(ref: React.RefObject<HTMLElement | SVGSVGElement>, disabled = false) {
-    const [size, setSize] = useState(() => {
-        const bcr = ref.current?.getBoundingClientRect();
-
-        return {
-            width: bcr?.width ?? 0,
-            height: bcr?.height ?? 0,
-        };
-    });
+function useSizeTracking(
+    ref: React.RefObject<HTMLElement | SVGSVGElement | null>,
+    disabled = false,
+) {
+    const [size, setSize] = useState({ width: 0, height: 0 });
 
     useEffect(() => {
         const resizeObserver = new ResizeObserver((entries) => {

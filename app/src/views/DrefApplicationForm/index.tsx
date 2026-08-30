@@ -1,10 +1,13 @@
 import {
-    type ElementRef,
     useCallback,
+    useMemo,
     useRef,
     useState,
 } from 'react';
-import { useParams } from 'react-router-dom';
+import {
+    useLocation,
+    useParams,
+} from 'react-router-dom';
 import { DownloadTwoLineIcon } from '@ifrc-go/icons';
 import {
     Button,
@@ -34,18 +37,21 @@ import {
 
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import DrefExportModal from '#components/domain/DrefExportModal';
-import { type FieldReportItem as FieldReportSearchItem } from '#components/domain/FieldReportSearchSelectInput';
+import { type EventItem as EventSearchItem } from '#components/domain/EventSearchSelectInput';
 import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
+import ViewOnlyModeBanner from '#components/ViewOnlyModeBanner';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
     DREF_STATUS_DRAFT,
+    DREF_STATUS_FAILED,
     DREF_STATUS_FINALIZED,
+    ONSET_SUDDEN,
 } from '#utils/constants';
 import {
     type GoApiResponse,
@@ -76,6 +82,7 @@ import Overview from './Overview';
 import drefSchema, {
     type DrefRequestBody,
     type DrefRequestPostBody,
+    type PartialDref,
 } from './schema';
 import Submission from './Submission';
 
@@ -83,26 +90,26 @@ import i18n from './i18n.json';
 
 type GetDrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
 
-type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
+type DrefTabKey = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
 
 // FIXME: fix typings in server (medium priority)
-function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDrefEnum | '' | undefined) {
+function getNextStep(current: DrefTabKey, direction: 1 | -1, typeOfDref: TypeOfDrefEnum | '' | undefined) {
     if (typeOfDref === TYPE_LOAN && direction === 1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
+        const mapping: { [key in DrefTabKey]?: DrefTabKey } = {
             overview: 'eventDetail',
             eventDetail: 'submission',
         };
         return mapping[current];
     }
     if (typeOfDref === TYPE_LOAN && direction === -1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
+        const mapping: { [key in DrefTabKey]?: DrefTabKey } = {
             submission: 'eventDetail',
             eventDetail: 'overview',
         };
         return mapping[current];
     }
     if (typeOfDref === TYPE_IMMINENT && direction === 1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
+        const mapping: { [key in DrefTabKey]?: DrefTabKey } = {
             overview: 'eventDetail',
             eventDetail: 'operation',
             operation: 'submission',
@@ -110,7 +117,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
         return mapping[current];
     }
     if (typeOfDref === TYPE_IMMINENT && direction === -1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
+        const mapping: { [key in DrefTabKey]?: DrefTabKey } = {
             submission: 'operation',
             operation: 'eventDetail',
             eventDetail: 'overview',
@@ -118,7 +125,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
         return mapping[current];
     }
     if (direction === 1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
+        const mapping: { [key in DrefTabKey]?: DrefTabKey } = {
             overview: 'eventDetail',
             eventDetail: 'actions',
             actions: 'operation',
@@ -127,7 +134,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
         return mapping[current];
     }
     if (direction === -1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
+        const mapping: { [key in DrefTabKey]?: DrefTabKey } = {
             submission: 'operation',
             operation: 'actions',
             actions: 'eventDetail',
@@ -138,18 +145,38 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
     return undefined;
 }
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { drefId } = useParams<{ drefId: string }>();
+    const { state: navigationState } = useLocation();
+    // A new DREF can be seeded with any partial form value passed via router state
+    // (e.g. from the DREF decision tree); an existing DREF loads from the API instead.
+    const initialValueFromRouteState = isNotDefined(drefId)
+        ? (navigationState as PartialDref | null)
+        : undefined;
+
+    // set by the Emergency page's "Create DREF Application" action
+    const prefilledEventId = useMemo(
+        () => {
+            if (isDefined(drefId)) {
+                return undefined;
+            }
+
+            const eventIdFromState = Number(navigationState?.event);
+            return Number.isFinite(eventIdFromState) && eventIdFromState > 0
+                ? eventIdFromState
+                : undefined;
+        },
+        [drefId, navigationState],
+    );
 
     const alert = useAlert();
     const { navigate } = useRouting();
     const strings = useTranslation(i18n);
 
-    const formContentRef = useRef<ElementRef<'div'>>(null);
+    const tabListRef = useRef<HTMLDivElement>(null);
 
-    const [activeTab, setActiveTab] = useState<TabKeys>('overview');
+    const [activeTab, setActiveTab] = useState<DrefTabKey>('overview');
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const currentLanguage = useCurrentLanguage();
 
@@ -162,13 +189,13 @@ export function Component() {
         setTrue: setShowExportModalTrue,
         setFalse: setShowExportModalFalse,
     }] = useBooleanState(false);
-    const lastModifiedAtRef = useRef<string | undefined>();
+    const lastModifiedAtRef = useRef<string | undefined>(undefined);
 
     const [districtOptions, setDistrictOptions] = useState<
         DistrictItem[] | undefined | null
     >([]);
-    const [fieldReportOptions, setFieldReportOptions] = useState<
-        FieldReportSearchItem[] | undefined | null
+    const [eventOptions, setEventOptions] = useState<
+        EventSearchItem[] | undefined | null
     >([]);
 
     const {
@@ -183,6 +210,24 @@ export function Component() {
         {
             value: {
                 operation_timeframe_imminent: OPERATION_TIMEFRAME_IMMINENT,
+                ...initialValueFromRouteState,
+                // Route-state seeding skips the type select's change handler,
+                // which derives these fields; without them the imminent-only
+                // inputs (proposed actions) do not render.
+                ...(initialValueFromRouteState?.type_of_dref === TYPE_IMMINENT ? {
+                    type_of_onset: initialValueFromRouteState.type_of_onset ?? ONSET_SUDDEN,
+                    proposed_action: initialValueFromRouteState.proposed_action ?? [
+                        {
+                            client_id: randomString(),
+                            proposed_type: EARLY_ACTION,
+                        },
+                        {
+                            client_id: randomString(),
+                            proposed_type: EARLY_RESPONSE,
+                        },
+                    ],
+                } : undefined),
+                ...(isDefined(prefilledEventId) ? { event: prefilledEventId } : undefined),
             },
         },
     );
@@ -308,6 +353,7 @@ export function Component() {
 
     const loadResponseToFormValue = useCallback((response: GetDrefResponse) => {
         handleDrefLoad(response);
+
         const {
             planned_interventions,
             proposed_action,
@@ -570,7 +616,7 @@ export function Component() {
 
     const handleFormSubmit = useCallback(
         (modifiedAt?: string) => {
-            formContentRef.current?.scrollIntoView();
+            tabListRef.current?.scrollIntoView();
 
             // FIXME: use createSubmitHandler
             const result = validate();
@@ -586,7 +632,7 @@ export function Component() {
                     cover_image_file: isNotDefined(result.value.cover_image_file?.id)
                         ? null : result.value.cover_image_file,
                     event_map_file: isNotDefined(result.value.event_map_file?.id)
-                        ? null : result.value.cover_image_file,
+                        ? null : result.value.event_map_file,
                 } as DrefRequestBody);
             } else {
                 createDref({
@@ -611,8 +657,8 @@ export function Component() {
         [handleFormSubmit],
     );
 
-    const handleTabChange = useCallback((newTab: TabKeys) => {
-        formContentRef.current?.scrollIntoView();
+    const handleTabChange = useCallback((newTab: DrefTabKey) => {
+        tabListRef.current?.scrollIntoView({ behavior: 'smooth' });
         setActiveTab(newTab);
     }, []);
 
@@ -621,16 +667,86 @@ export function Component() {
     const saveDrefPending = createDrefPending || updateDrefPending;
     const disabled = fetchingDref || saveDrefPending;
 
-    const languageMismatch = isDefined(drefId)
-        && isDefined(drefResponse)
-        && currentLanguage !== drefResponse?.translation_module_original_language;
+    // NOTE: this also covers the case where DREF is finalized
+    // and the user's language is not english
+    const languageMismatch = isNotDefined(drefId)
+        ? false
+        : currentLanguage !== drefResponse?.translation_module_original_language;
 
-    const readOnly = languageMismatch
-        && (drefResponse?.status === DREF_STATUS_FINALIZED
-        || drefResponse?.status === DREF_STATUS_DRAFT);
+    const isEditable = useMemo(() => {
+        // New DREF
+        if (isNotDefined(drefId)) {
+            return true;
+        }
+
+        if (isNotDefined(drefResponse)) {
+            return false;
+        }
+
+        if (languageMismatch) {
+            return false;
+        }
+
+        const { status } = drefResponse;
+
+        if (status === DREF_STATUS_DRAFT
+            || status === DREF_STATUS_FINALIZED
+            || status === DREF_STATUS_FAILED
+        ) {
+            return true;
+        }
+
+        return false;
+    }, [languageMismatch, drefResponse, drefId]);
+
+    const readOnly = !isEditable;
 
     const shouldHideForm = fetchingDref
         || isDefined(drefResponseError);
+
+    type Tab = {
+        key: DrefTabKey;
+        label: string;
+    }
+
+    const tabs = useMemo<Tab[]>(() => {
+        const defaultTabs: Tab[] = [
+            { key: 'overview', label: strings.formTabOverviewLabel },
+            { key: 'eventDetail', label: strings.formTabEventDetailLabel },
+            { key: 'actions', label: strings.formTabActionsLabel },
+            { key: 'operation', label: strings.formTabOperationLabel },
+            { key: 'submission', label: strings.formTabSubmissionLabel },
+        ];
+
+        if (isNotDefined(value)) {
+            return defaultTabs;
+        }
+
+        const { type_of_dref } = value;
+
+        if (isNotDefined(type_of_dref)) {
+            return defaultTabs;
+        }
+
+        if (type_of_dref === TYPE_IMMINENT) {
+            return [
+                { key: 'overview', label: strings.formTabOverviewLabel },
+                { key: 'eventDetail', label: strings.formTabScenarioAnalysisLabel },
+                { key: 'operation', label: strings.formTabPlanLabel },
+                { key: 'submission', label: strings.formTabSubmissionLabel },
+            ] satisfies Tab[];
+        }
+
+        if (type_of_dref === TYPE_LOAN) {
+            return [
+                { key: 'overview', label: strings.formTabOverviewLabel },
+                { key: 'eventDetail', label: strings.formTabEventDetailLabel },
+                { key: 'submission', label: strings.formTabSubmissionLabel },
+            ];
+        }
+
+        return defaultTabs;
+    }, [value, strings]);
 
     return (
         <Tabs
@@ -640,7 +756,6 @@ export function Component() {
             styleVariant="step"
         >
             <Page
-                elementRef={formContentRef}
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
                 description={(
@@ -680,54 +795,26 @@ export function Component() {
                     </>
                 )}
                 info={!shouldHideForm && (
-                    <TabList styleVariant="step">
-                        <Tab
-                            name="overview"
-                            step={1}
-                            errored={checkTabErrors(formError, 'overview')}
-                        >
-                            {strings.formTabOverviewLabel}
-                        </Tab>
-                        <Tab
-                            name="eventDetail"
-                            step={2}
-                            errored={checkTabErrors(formError, 'eventDetail')}
-                        >
-                            {value?.type_of_dref === TYPE_IMMINENT
-                                ? strings.formTabScenarioAnalysisLabel
-                                : strings.formTabEventDetailLabel}
-                        </Tab>
-                        {value.type_of_dref !== TYPE_LOAN
-                            && value.type_of_dref !== TYPE_IMMINENT && (
+                    <TabList
+                        styleVariant="step"
+                        elementRef={tabListRef}
+                    >
+                        {tabs.map((tab, i) => (
                             <Tab
-                                name="actions"
-                                step={3}
-                                errored={checkTabErrors(formError, 'actions')}
+                                key={tab.key}
+                                name={tab.key}
+                                step={i + 1}
+                                errored={checkTabErrors(formError, tab.key)}
                             >
-                                {strings.formTabActionsLabel}
+                                {tab.label}
                             </Tab>
-                        )}
-                        {value.type_of_dref !== TYPE_LOAN && (
-                            <Tab
-                                name="operation"
-                                step={4}
-                                errored={checkTabErrors(formError, 'operation')}
-                            >
-                                {value?.type_of_dref === TYPE_IMMINENT
-                                    ? strings.formTabPlanLabel
-                                    : strings.formTabOperationLabel}
-                            </Tab>
-                        )}
-                        <Tab
-                            name="submission"
-                            step={value.type_of_dref === TYPE_LOAN ? 3 : 5}
-                            errored={checkTabErrors(formError, 'submission')}
-                        >
-                            {strings.formTabSubmissionLabel}
-                        </Tab>
+                        ))}
                     </TabList>
                 )}
                 withBackgroundColorInMainSection
+                beforeHeaderContent={!fetchingDref && readOnly && (
+                    <ViewOnlyModeBanner />
+                )}
             >
                 {fetchingDref && (
                     <Message
@@ -735,10 +822,10 @@ export function Component() {
                         title={strings.formLoadingMessage}
                     />
                 )}
-                {languageMismatch && (
+                {!fetchingDref && languageMismatch && (
                     <LanguageMismatchMessage
                         title={strings.formEditNotAvailableInSelectedLanguageMessage}
-                        originalLanguage={drefResponse.translation_module_original_language}
+                        originalLanguage={drefResponse?.translation_module_original_language}
                         selectedLanguage={currentLanguage}
                     />
                 )}
@@ -766,8 +853,8 @@ export function Component() {
                                 disabled={disabled}
                                 districtOptions={districtOptions}
                                 setDistrictOptions={setDistrictOptions}
-                                fieldReportOptions={fieldReportOptions}
-                                setFieldReportOptions={setFieldReportOptions}
+                                eventOptions={eventOptions}
+                                setEventOptions={setEventOptions}
                             />
                         </TabPanel>
                         <TabPanel name="eventDetail">
@@ -832,7 +919,7 @@ export function Component() {
                                 <Button
                                     name={undefined}
                                     onClick={handleFormSubmit}
-                                    disabled={disabled}
+                                    disabled={disabled || readOnly}
                                 >
                                     {strings.formSaveButtonLabel}
                                 </Button>

@@ -3,8 +3,8 @@ import {
     type LinkProps as RouterLinkProps,
 } from 'react-router-dom';
 import {
+    ArrowRightUpLineIcon,
     ChevronRightLineIcon,
-    ExternalLinkLineIcon,
 } from '@ifrc-go/icons';
 import {
     ButtonLayout,
@@ -36,7 +36,7 @@ type PickedButtonLayoutProps =
     | 'textSize'
     | 'disabled';
 
-export type CommonLinkProps = Pick<ButtonLayoutProps, PickedButtonLayoutProps> & {
+type CommonLinkProps = Pick<ButtonLayoutProps, PickedButtonLayoutProps> & {
     withEllipsizedContent?: boolean;
     withLinkIcon?: boolean;
     withUnderline?: boolean;
@@ -51,7 +51,7 @@ interface InternalLinkProps extends Omit<RouterLinkProps, 'to'> {
     urlHash?: string;
 }
 
-export interface ExternalLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
+interface ExternalLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
     external: true;
     href: string | undefined | null;
     to?: never;
@@ -65,10 +65,10 @@ export type Props = CommonLinkProps & (InternalLinkProps | ExternalLinkProps);
 function Link(props: Props) {
     const {
         className,
-        colorVariant = 'secondary',
+        colorVariant = 'text',
         styleVariant = 'action',
         spacing,
-        spacingOffset = -3,
+        spacingOffset = styleVariant === 'action' ? -5 : -3,
         withoutPadding,
         withFullWidth,
         children,
@@ -121,10 +121,10 @@ function Link(props: Props) {
                 <>
                     {after}
                     {withLinkIcon && external && (
-                        <ExternalLinkLineIcon />
+                        <ArrowRightUpLineIcon className={styles.linkIcon} />
                     )}
                     {withLinkIcon && !external && (
-                        <ChevronRightLineIcon />
+                        <ChevronRightLineIcon className={styles.linkIcon} />
                     )}
                 </>
             )}

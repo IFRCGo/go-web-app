@@ -1,5 +1,426 @@
 # go-web-app
 
+## 7.27.0-beta.4
+
+### Minor Changes
+
+- bc073d8: Restructure translation strings for the DREF Import Template
+
+## 7.27.0-beta.3
+
+### Minor Changes
+
+- 37f4f0e: Revamp emergency pages
+
+  - Update emergency page to include more details according to the appeal type and current stage of the event
+  - Rename, restructure and add various new tabs like Emergency Overview, Operation Strategy (DREF), Actions Summary (Field Report), Background
+  - Add Operation Strategy tab for the DREF and it's various stages
+  - Add Actions Summary for the details from Field Report (only applicable in the Field Report only stage)
+  - Update key figures, emergency overview and add Operational Timeline
+  - Show AI-generated DREF summaries and lessons learned in different sections
+  - Add option to link a DREF application to an emergency
+
+- 1a09ccb: Add DREF landing page
+
+  - Add a page for DREF process under Respond
+  - Add an anticipatory pillar with imminent DREF and Early Action Protocols tabs, and a response pillar
+  - Add the DREF decision tree, accessible from navigation bar and from each pillar
+  - Add option to create a new DREF application from the decision tree outcomes and the pillar entry points
+  - Add operations and EAP maps and tables, FAQ sections and key DREF resources
+
+- a1a4d90: Update DREF import template
+
+  - Extend import template for Imminent DREF
+  - Add support for translations in the import template
+  - Disable download and import until the reference data is available
+
+### Patch Changes
+
+- Updated dependencies [04f549a]
+- Updated dependencies [e1f1b42]
+  - @ifrc-go/ui@2.3.0-beta.1
+
+## 7.27.0-beta.2
+
+### Minor Changes
+
+- 3baa90a: Fix page breaks in the EAP Summary export and validate EAP file uploads
+
+  - Start each main section of the EAP Summary export on a new page
+  - Show an error for unsupported files and upload only the accepted ones
+  - Allow `.xlsx` files in EAP file uploads
+  - Disable removing a file while the file input is disabled
+
+## 7.27.0-beta.1
+
+### Minor Changes
+
+- 7da14db: Add montandon landing page link to token pages
+- 7cd1e0b: Update Expected Time of Submission in EAP forms
+
+  - Choose the month and year from separate dropdowns
+  - Add a Not Sure option to clear the date in the Full EAP form
+
+- 65527b8: Update EAP forms and exports
+
+  - Add summary, map, strategy and budget sections to the EAP summary export
+  - Add an activation checklist to prepositioning and early action activities
+  - Add a disaster sub-type to EAP registration
+  - Add word limits to long text fields
+  - Attach files with captions in form sections
+  - Ask for confirmation before discarding planned operation data
+  - Update contact sections, labels and descriptions
+  - Fix validation errors in the forms
+
+- 16f427e: Fix DREF Imminent Final Report exporting with the old (v1) layout when exported from the Completed DREF table
+- 49d3924: Improve table column size for DREF final report pdf export (Implementation section)
+- bafb599: Update Active Operations map
+
+  - Add tooltip for crisis categorisation tab in active operation map
+  - Update legend labels
+
+- c32d3f9: Fix the link to stac browser
+
+### Patch Changes
+
+- de16eb8: Add Public Health Analyst role profile to Surge CoS, at /surge/catalogue/health
+- Updated dependencies [a7eda50]
+- Updated dependencies [7cd1e0b]
+  - @ifrc-go/ui@2.3.0-beta.0
+
+## 7.27.0-beta.0
+
+### Minor Changes
+
+- b8e7c9a: Add notification preferences for email alerts under account settings
+
+## 7.26.0
+
+### Minor Changes
+
+- 4b0cd41: Update navigation pop-up style
+- fd26ab5: Implement EAP (Early Action Protocol) forms & exports (Only available in Staging)
+
+      - Add forms for EAP registration, Simplified EAP & Full EAP
+      - Add pdf exports
+          - With and without track change for Simplified EAP
+          - With and without track change for Full EAP
+          - Summary for Full EAP
+      - Add EAP Application tab in account > my forms to list and track status of EAP
+      - Create a workflow to maintain EAP lifecycle from registration to approval
+
+- 518d2c6: Update Active Operations Map show Crisis Categorization
+  - Add a toggle to select between "Appeal Types" and "Crisis Categorization"
+
+### Patch Changes
+
+- c82582c: Surge Catalogue of Services
+  - Fix NS list providing WASH M20: /surge/catalogue/wash/msm20-eru
+  - Add Service catalogue and Job aids to Digital Surge: /surge/catalogue/digital-systems
+- abd1c9c: Fix links in the PDF export
+- d056029: Update Catalogue of Surge Services:
+
+  - Change Personnel composition on Water Supply Rehabilitation
+  - Fix link of Shelter and Settlements on Shelter
+
+- Updated dependencies [cf73a97]
+- Updated dependencies [4b0cd41]
+  - @ifrc-go/ui@2.2.0
+
+## 7.26.0-beta.2
+
+### Patch Changes
+
+- c22a7a7: Update Active Operation Map in homepage
+
+  - Display map data based on emergency severity levels
+  - Update legend and map to reflect crisis and appeals types
+
+## 7.26.0-beta.1
+
+### Minor Changes
+
+- fd26ab5: Implement Early Action Protocol (EAP) forms & exports
+
+      - Add forms for EAP registration, Simplified EAP & Full EAP
+      - Add pdf exports
+          - With and without track change for Simplified EAP
+          - With and without track change for Full EAP
+          - Summary for Full EAP
+      - Add EAP Application tab in account > my forms to list and track status of EAP
+      - Create a workflow to maintain EAP lifecycle from registration to approval
+
+### Patch Changes
+
+- c82582c: Surge Catalogue of Services
+  - Fix NS list providing WASH M20: /surge/catalogue/wash/msm20-eru
+  - Add Service catalogue and Job aids to Digital Surge: /surge/catalogue/digital-systems
+- abd1c9c: Fix links in the PDF export
+- Updated dependencies [cf73a97]
+  - @ifrc-go/ui@2.2.0-beta.1
+
+## 7.26.0-beta.0
+
+### Minor Changes
+
+- 4b0cd41: Update navigation pop-up style
+
+### Patch Changes
+
+- Updated dependencies [4b0cd41]
+  - @ifrc-go/ui@2.2.0-beta.0
+
+## 7.25.0
+
+### Minor Changes
+
+- 521c1b5: Fix event map being replace by cover image is DREF forms
+- fb87ba5: Update DREF Application Forms and Exports
+
+  - Update Proposed Activities behavior in Imminent DREF Application & Final Report forms
+    - Make activities optional when budget is Zero for Early Response
+  - Update PDF export
+    - Remove duplicate display of risk regions
+    - Update PGA bank detail description
+
+- 52aefd2: Fix Radio Inputs not allowing to clear the value
+
+### Patch Changes
+
+- 6aa37a7: Use current year in Surge overview Top 5 deployments
+- 53774e6: Fix Old DREF Final Reports not being able to update in languages other than English
+- 25f062c: Make import template button label translatable in Account > DREF
+- 7a9514d: Update Montandon landing page
+  - Add 'Getting started' section
+  - Enable external links
+- e97709b: Update Catalogue of Surge Services
+
+  - Update WASH WSR NS service proveders
+  - Update Health ERU MHPSS NS service providers
+
+- 728b388: Update the DREF forms
+
+  - Make forms view-only for approved and finalizing status
+  - Add a view-only banner
+  - Update language mismatch message title
+
+- 47ab0c0: Remove Swagger API link from Montandon landing page
+- 93f1c9b: Add country to account details page and edit form
+- 2e50084: Update dref forms
+
+  - Hide view only and language mismatch banner in pending state
+  - Enable share functionality on read-only mode
+  - Fix UI for old final report form
+
+- becb909: Update Ops. Learning disclaimer to refer specific AI model being used (GPT 4o-mini)
+- Updated dependencies [22038c4]
+- Updated dependencies [bd93064]
+- Updated dependencies [52aefd2]
+- Updated dependencies [e619fc8]
+  - @ifrc-go/ui@2.1.0
+
+## 7.25.0-beta.9
+
+### Minor Changes
+
+- fb87ba5: Update DREF Application Forms and Exports
+
+  - Update Proposed Activities behavior in Imminent DREF Application & Final Report forms
+    - Make activities optional when budget is Zero for Early Response
+  - Update PDF export
+    - Remove duplicate display of risk regions
+    - Update PGA bank detail description
+
+## 7.25.0-beta.8
+
+### Patch Changes
+
+- 2e50084: Update dref forms
+
+  - Hide view only and language mismatch banner in pending state
+  - Enable share functionality on read-only mode
+  - Fix UI for old final report form
+
+- Updated dependencies [bd93064]
+  - @ifrc-go/ui@2.1.0-beta.3
+
+## 7.25.0-beta.7
+
+### Patch Changes
+
+- 728b388: Update the DREF forms
+
+  - Make forms view-only for approved and finalizing status
+  - Add a view-only banner
+  - Update language mismatch message title
+
+- Updated dependencies [e619fc8]
+  - @ifrc-go/ui@2.1.0-beta.2
+
+## 7.25.0-beta.6
+
+### Patch Changes
+
+- 47ab0c0: Remove Swagger API link from Montandon landing page
+
+## 7.25.0-beta.5
+
+### Patch Changes
+
+- 7a9514d: Update Montandon landing page
+  - Add 'Getting started' section
+  - Enable external links
+
+## 7.25.0-beta.4
+
+### Patch Changes
+
+- 25f062c: Make import template button label translatable in Account > DREF
+
+## 7.25.0-beta.3
+
+### Patch Changes
+
+- 53774e6: Fix Old DREF Final Reports not being able to update in languages other than English
+
+## 7.25.0-beta.2
+
+### Patch Changes
+
+- 6aa37a7: Use current year in Surge overview Top 5 deployments
+- Updated dependencies [22038c4]
+  - @ifrc-go/ui@2.0.1-beta.1
+
+## 7.25.0-beta.1
+
+### Patch Changes
+
+- e97709b: Update Catalogue of Surge Services
+
+  - Update WASH WSR NS service proveders
+  - Update Health ERU MHPSS NS service providers
+
+- 93f1c9b: Add country to account details page and edit form
+- becb909: Update Ops. Learning disclaimer to refer specific AI model being used (GPT 4o-mini)
+
+## 7.25.0-beta.0
+
+### Minor Changes
+
+- 521c1b5: Fix event map being replace by cover image is DREF forms
+- 52aefd2: Fix Radio Inputs not allowing to clear the value
+
+### Patch Changes
+
+- Updated dependencies [52aefd2]
+  - @ifrc-go/ui@2.0.1-beta.0
+
+## 7.24.0
+
+### Minor Changes
+
+- 3fbfeba: Enable editing of DREF forms in all languages
+
+  - Added new FINALIZING DREF status which indicates form is being finalized and the original language content is being translated into english.
+  - Added new FINALIZED DREF status which indicates for hase been finalized and the original language has been switched to english.
+  - Added new FAILED DREF status which indicates form finalization process has failed.
+  - Added final report and operational update confirmation modal.
+  - Added view mode for all DREF forms.
+  - Integrated finalize API in DREF table.
+  - Updated DREF status and publish APIs to support approval workflow.
+
+- 92b4a38: Update Local Units Externally Managed working mechanism
+
+  - Changing a local unit type to "Externally managed" will convert all "Validated" local unit type to "Externally Managed"
+  - Changing back from externally managed will convert all local units to "Validated" type
+  - Switching to "Externally managed" is disabled if there are "Unvalidated" or "Validation" local units.
+
+- 09e2d2e: Accomodate changes from GO UI revamp
+
+### Patch Changes
+
+- aaf44e1: Local Unit Form Improvements
+
+  - Improved the Local Unit form with location search, new fields, and better field ordering and layout.
+  - Updated map zoom behavior for more accurate location selection.
+  - Enhanced add, edit, and delete permissions, including organization-based edit access.
+  - Refined the import modal with updated file naming and descriptions.
+
+- 6bc2fe6: Update UI to accomodate GO UI changes
+- 451a842: Fix Field Report form getting an error in Risk Analysis section
+- 44cbd06: Change Additional Resources on /surge/catalogue/wash (WASH)
+  Changes on /surge/catalogue/health (Health)
+  - Add ERU - MHPSS Officer
+  - Remove MHPS Community Outreach Officer and ERU Health facility MHPS Officer
+    Change contact names on /surge/catalogue/health/eru-psychosocial-support
+- b6f7e91: Remove obsolete links in Montandon landing page
+- 9b3121e: Add Risk Management section in Catalogue of Surge services
+  Reword unavailablity message in spark dashboard
+- fc2c154: Update Catalogue of Surge / Digital Systems
+  - Update texts
+  - Add redirections from old url
+  - Update links
+- b0905f1: Position and Keywords filter for all Surge Alerts (/alerts/all)
+- 1cd68ee: Renaming IT to Digital Systems, Tools and Information Technology – Surge CoS
+- 9957c1d: Update DREF Final Report
+
+  - Remove option to add and remove indicators
+  - Update timeframe unit from "months" to days for imminent export
+
+- c1bde25: Add Prepare / Supply Chain / SPARK menu item to navigation
+  Remove Programmatic Partnerships menu from navigation
+  Change aboutHealthMapping PDF URL in /resources
+- Updated dependencies [9957c1d]
+- Updated dependencies [6bc2fe6]
+- Updated dependencies [92b4a38]
+- Updated dependencies [09e2d2e]
+  - @ifrc-go/ui@2.0.0
+
+## 7.24.0-beta.5
+
+### Minor Changes
+
+- 92b4a38: Update Local Units Externally Managed working mechanism
+
+  - Changing a local unit type to "Externally managed" will convert all "Validated" local unit type to "Externally Managed"
+  - Changing back from externally managed will convert all local units to "Validated" type
+  - Switching to "Externally managed" is disabled if there are "Unvalidated" or "Validation" local units.
+
+### Patch Changes
+
+- 44cbd06: Change Additional Resources on /surge/catalogue/wash (WASH)
+  Changes on /surge/catalogue/health (Health)
+  - Add ERU - MHPSS Officer
+  - Remove MHPS Community Outreach Officer and ERU Health facility MHPS Officer
+    Change contact names on /surge/catalogue/health/eru-psychosocial-support
+- 1cd68ee: Renaming IT to Digital Systems, Tools and Information Technology – Surge CoS
+- Updated dependencies [92b4a38]
+  - @ifrc-go/ui@2.0.0-beta.3
+
+## 7.24.0-beta.4
+
+### Patch Changes
+
+- aaf44e1: Local Unit Form Improvements
+
+  - Improved the Local Unit form with location search, new fields, and better field ordering and layout.
+  - Updated map zoom behavior for more accurate location selection.
+  - Enhanced add, edit, and delete permissions, including organization-based edit access.
+  - Refined the import modal with updated file naming and descriptions.
+
+## 7.24.0-beta.3
+
+### Patch Changes
+
+- 451a842: Fix Field Report form getting an error in Risk Analysis section
+- 9957c1d: Update DREF Final Report
+
+  - Remove option to add and remove indicators
+  - Update timeframe unit from "months" to days for imminent export
+
+- Updated dependencies [9957c1d]
+  - @ifrc-go/ui@2.0.0-beta.2
+
 ## 7.24.0-beta.2
 
 ### Patch Changes

@@ -1,0 +1,31 @@
+.region-list {
+    min-width: 8rem;
+}
+
+.country-list {
+    min-width: 8rem;
+}
+
+.country {
+    min-width: 8rem;
+}
+
+.event {
+    min-width: 14rem;
+}
+
+.title {
+    min-width: 14rem;
+}
+
+.appeal-code {
+    min-width: 8rem;
+}
+
+.disaster-type {
+    min-width: 8rem;
+}
+
+.budget {
+    min-width: 8rem;
+}

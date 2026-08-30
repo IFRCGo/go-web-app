@@ -37,12 +37,12 @@ testWithTmpDir('test listMigrations', async ({ tmpdir }) => {
         (await getMigrationFilesAttrs(
             tmpdir,
             'migrations',
-        )).map((item) => ({ ...item, fileName: undefined })),
+        )).map(({ migrationFileName, num, timestamp }) => ({ migrationFileName, num, timestamp })),
     ).toEqual([
-        { migrationName: '001-1000000000000.json', num: '001', timestamp: '1000000000000' },
-        { migrationName: '002-1000000000000.json', num: '002', timestamp: '1000000000000' },
-        { migrationName: '003-1000000000000.json', num: '003', timestamp: '1000000000000' },
-        { migrationName: '004-1000000000000.json', num: '004', timestamp: '1000000000000' },
-        { migrationName: '005-1000000000000.json', num: '005', timestamp: '1000000000000' },
+        { migrationFileName: '001-1000000000000.json', num: '001', timestamp: '1000000000000' },
+        { migrationFileName: '002-1000000000000.json', num: '002', timestamp: '1000000000000' },
+        { migrationFileName: '003-1000000000000.json', num: '003', timestamp: '1000000000000' },
+        { migrationFileName: '004-1000000000000.json', num: '004', timestamp: '1000000000000' },
+        { migrationFileName: '005-1000000000000.json', num: '005', timestamp: '1000000000000' },
     ]);
 });

@@ -20,6 +20,8 @@ function ChartContainer(props: Props) {
     return (
         <div
             className={_cs(styles.chartContainer, className)}
+            // FIXME(frozenhelium): False positive — containerRef is a RefCallback, not a ref object
+            // eslint-disable-next-line react-hooks/refs
             ref={chartData.containerRef}
         >
             <svg className={styles.svg}>

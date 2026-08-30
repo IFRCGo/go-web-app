@@ -11,7 +11,7 @@ import TextArea from './TextArea';
 type Story = StoryObj<typeof meta>;
 
 const meta: Meta<typeof TextArea> = {
-    title: 'Components/TextArea',
+    title: 'Inputs/TextArea',
     component: TextArea,
     parameters: {
         layout: 'centered',
@@ -83,5 +83,23 @@ export const WithAsterisk: Story = {
     args: {
         label: 'Feedback',
         withAsterisk: true,
+    },
+};
+
+export const WithCharacterLimit: Story = {
+    render: Template,
+    args: {
+        label: 'Feedback',
+        maxLength: 100,
+        value: 'I appreciate the quick response from your support team!',
+    },
+};
+
+export const WithWordLimit: Story = {
+    render: Template,
+    args: {
+        label: 'Feedback',
+        maxWords: 10,
+        value: 'I appreciate the quick response from your support team!',
     },
 };

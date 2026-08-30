@@ -80,47 +80,40 @@ function Template(args:Args) {
 
 export const Default: Story = {
     render: Template,
-};
-
-export const Primary: Story = {
-    render: Template,
     args: {
-        variant: 'primary',
+        styleVariant: 'tab',
     },
 };
 
-export const Secondary: Story = {
+export const Pill: Story = {
     render: Template,
     args: {
-        variant: 'secondary',
-    },
-};
-
-export const Tertiary: Story = {
-    render: Template,
-    args: {
-        variant: 'tertiary',
+        styleVariant: 'pill',
+        colorVariant: 'primary',
     },
 };
 
 export const Step: Story = {
     render: Template,
     args: {
-        variant: 'step',
+        styleVariant: 'step',
+        colorVariant: 'primary',
     },
 };
 
 export const Vertical: Story = {
     render: Template,
     args: {
-        variant: 'vertical',
+        styleVariant: 'vertical',
+        colorVariant: 'primary',
     },
 };
 
 export const VerticalCompact: Story = {
     render: Template,
     args: {
-        variant: 'vertical-compact',
+        styleVariant: 'vertical-compact',
+        colorVariant: 'primary',
     },
 };
 

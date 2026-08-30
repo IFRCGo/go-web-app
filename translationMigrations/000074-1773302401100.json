@@ -1,0 +1,10 @@
+{
+    "parent": "000073-1773284377611.json",
+    "actions": [
+        {
+            "action": "remove",
+            "key": "accessAPILabel",
+            "namespace": "montandonLandingPage"
+        }
+    ]
+}

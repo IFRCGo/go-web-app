@@ -1,0 +1,6 @@
+.activity-items,
+.indicator-items {
+    display: grid;
+    gap: var(--go-ui-width-separator-md);
+    grid-template-columns: 2fr 1fr;
+}

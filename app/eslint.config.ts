@@ -101,6 +101,11 @@ const appConfigs = compat.config({
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'warn',
 
+        'react-hooks/preserve-manual-memoization': 'error',
+        'react-hooks/refs': 'error',
+        'react-hooks/set-state-in-effect': 'error',
+        'react-hooks/immutability': 'error',
+
         'react/require-default-props': ['warn', { ignoreFunctionalComponents: true }],
         'simple-import-sort/imports': 'warn',
         'simple-import-sort/exports': 'warn',

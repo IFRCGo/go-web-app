@@ -158,6 +158,7 @@ function ActiveRapidResponseAlertsTable() {
                     countryId: surgeAlert.country?.id,
                 },
             }),
+            { columnClassName: styles.country },
         ),
         createStringColumn<SurgeAlertListItem, number>(
             'molnix_status',

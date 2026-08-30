@@ -1,0 +1,15 @@
+{
+    "namespace": "drefOperationsTable",
+    "strings": {
+        "drefOpsHeading": "DREF operations",
+        "drefOpsStartDate": "Start date",
+        "drefOpsCode": "Appeal code",
+        "drefOpsOperation": "Operation",
+        "drefOpsDisasterType": "Hazard type",
+        "drefOpsFunding": "Funding",
+        "drefOpsCountry": "Country",
+        "drefOpsFilterSearchPlaceholder": "Search",
+        "drefOpsFilterAllYears": "All Years",
+        "drefOpsClearFilters": "Clear Filters"
+    }
+}

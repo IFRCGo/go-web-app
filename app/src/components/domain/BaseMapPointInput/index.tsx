@@ -1,8 +1,12 @@
 import {
     useCallback,
     useMemo,
+    useState,
 } from 'react';
-import { NumberInput } from '@ifrc-go/ui';
+import {
+    ListView,
+    NumberInput,
+} from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     _cs,
@@ -10,40 +14,61 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 import {
+    MapCenter,
     MapContainer,
     MapLayer,
     MapSource,
 } from '@togglecorp/re-map';
 import { type ObjectError } from '@togglecorp/toggle-form';
-import getBbox from '@turf/bbox';
 import {
+    type AnySourceData,
     type CircleLayer,
     type FillLayer,
+    type FitBoundsOptions,
+    type FlyToOptions,
     type LngLat,
     type Map,
     type MapboxGeoJSONFeature,
     type Point,
 } from 'mapbox-gl';
 
-import DiffWrapper from '#components/DiffWrapper';
 import BaseMap, { type Props as BaseMapProps } from '#components/domain/BaseMap';
 import useCountry from '#hooks/domain/useCountry';
-import { hasChanged } from '#utils/common';
 import {
     COLOR_LIGHT_GREY,
     COLOR_PRIMARY_RED,
 } from '#utils/constants';
+import { getGeoJsonBounds } from '#utils/geo';
 import { localUnitMapStyle } from '#utils/map';
 
 import ActiveCountryBaseMapLayer from '../ActiveCountryBaseMapLayer';
+import LocationSearchInput, { type LocationSearchResult } from '../LocationSearchInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+const centerOptions = {
+    zoom: 16,
+    duration: 1000,
+} satisfies FlyToOptions;
+
+const geoJsonSourceOptions = {
+    type: 'geojson',
+} satisfies AnySourceData;
 
 interface GeoPoint {
     lng: number;
     lat: number
 }
+
+const fitBoundsOptions = {
+    padding: {
+        left: 20,
+        top: 20,
+        bottom: 50,
+        right: 20,
+    },
+} satisfies FitBoundsOptions;
 
 type Value = Partial<GeoPoint>;
 
@@ -51,7 +76,7 @@ interface Props<NAME> extends BaseMapProps {
     country?: number | undefined;
     name: NAME;
     value: Value | undefined | null;
-    previousValue?: Value | undefined | null;
+    prevValue?: Value | undefined | null;
     onChange: (newValue: Value | undefined, name: NAME) => void;
     onClick?: (feature: MapboxGeoJSONFeature, lngLat: LngLat, map: Map) => void;
     mapContainerClassName?: string;
@@ -59,9 +84,8 @@ interface Props<NAME> extends BaseMapProps {
     readOnly?: boolean;
     required?: boolean;
     error?: ObjectError<Value>;
-    showChanges?: boolean;
-    showPreviousValue?: boolean;
-    diffWrapperClassName?: string;
+    withDiffView?: boolean;
+    withPrevValue?: boolean;
 }
 
 function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
@@ -69,7 +93,7 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
         className,
         name,
         value,
-        previousValue,
+        prevValue,
         onChange,
         onClick,
         baseLayers,
@@ -81,25 +105,13 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
         country,
         required,
         error,
-        showChanges = false,
-        showPreviousValue = false,
-        diffWrapperClassName,
+        withDiffView = false,
+        withPrevValue = false,
         ...otherProps
     } = props;
 
     const countryDetails = useCountry({ id: country ?? -1 });
     const strings = useTranslation(i18n);
-
-    const bounds = useMemo(
-        () => {
-            if (isNotDefined(countryDetails)) {
-                return undefined;
-            }
-
-            return getBbox(countryDetails.bbox);
-        },
-        [countryDetails],
-    );
 
     const pointGeoJson = useMemo<GeoJSON.Feature | undefined>(
         () => {
@@ -189,52 +201,77 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
         [value, onChange, name],
     );
 
+    const bounds = useMemo(
+        () => {
+            if (isNotDefined(countryDetails)) {
+                return undefined;
+            }
+
+            return getGeoJsonBounds(
+                countryDetails.bbox,
+            );
+        },
+        [countryDetails],
+    );
+
+    const [searchResult, setSearchResult] = useState<LocationSearchResult | undefined>();
+
+    // FIXME(frozenhelium): useMemo removed for React Compiler compatibility
+    const center = (() => {
+        if (isDefined(value?.lng) && isDefined(value?.lat)) {
+            return [value.lng, value.lat] satisfies [number, number];
+        }
+        if (isDefined(searchResult)) {
+            return [+searchResult.lon, +searchResult.lat] satisfies [number, number];
+        }
+
+        return undefined;
+    })();
+
     return (
         <div className={_cs(styles.baseMapPointInput, className)}>
-            <div className={styles.locationInputs}>
-                <DiffWrapper
-                    diffViewEnabled={showChanges}
-                    showPreviousValue={showPreviousValue}
+            <ListView spacing="sm">
+                <NumberInput
+                    name="lat"
+                    label={strings.latitude}
                     value={value?.lat}
-                    previousValue={previousValue?.lat}
-                    className={diffWrapperClassName}
-                >
-                    <NumberInput
-                        changed={hasChanged(value?.lat, previousValue?.lat)}
-                        name="lat"
-                        label={strings.latitude}
-                        value={value?.lat}
-                        onChange={handleLatInputChange}
-                        readOnly={readOnly}
-                        error={error?.lat}
-                        required={required}
-                    />
-                </DiffWrapper>
-                <DiffWrapper
-                    diffViewEnabled={showChanges}
-                    showPreviousValue={showPreviousValue}
+                    onChange={handleLatInputChange}
+                    readOnly={readOnly}
+                    error={error?.lat}
+                    required={required}
+                    prevValue={prevValue?.lat}
+                    withPrevValue={withPrevValue}
+                    withDiffView={withDiffView}
+                />
+                <NumberInput
+                    name="lng"
+                    label={strings.longitude}
                     value={value?.lng}
-                    previousValue={previousValue?.lng}
-                    className={diffWrapperClassName}
-                >
-                    <NumberInput
-                        changed={hasChanged(value?.lng, previousValue?.lng)}
-                        name="lng"
-                        label={strings.longitude}
-                        value={value?.lng}
-                        onChange={handleLngInputChange}
+                    onChange={handleLngInputChange}
+                    readOnly={readOnly}
+                    error={error?.lng}
+                    required={required}
+                    prevValue={prevValue?.lng}
+                    withPrevValue={withPrevValue}
+                    withDiffView={withDiffView}
+                />
+            </ListView>
+            {isDefined(countryDetails) && (
+                <div className={styles.locationSearch}>
+                    <LocationSearchInput
                         readOnly={readOnly}
-                        error={error?.lng}
-                        required={required}
+                        countryIso={countryDetails.iso}
+                        onResultSelect={setSearchResult}
                     />
-                </DiffWrapper>
-            </div>
+                </div>
+            )}
             <BaseMap
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...otherProps}
                 mapOptions={{
                     zoom: 18,
                     bounds,
+                    fitBoundsOptions,
                     ...mapOptions,
                 }}
                 mapStyle={mapStyle}
@@ -255,19 +292,25 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
                 )}
             >
                 <MapContainer
-                    className={mapContainerClassName}
+                    className={_cs(styles.mapContainer, mapContainerClassName)}
                 />
                 {isDefined(pointGeoJson) && (
                     <MapSource
                         sourceKey="selected-point"
                         geoJson={pointGeoJson}
-                        sourceOptions={{ type: 'geojson' }}
+                        sourceOptions={geoJsonSourceOptions}
                     >
                         <MapLayer
                             layerKey="point-circle"
                             layerOptions={circleLayerOptions}
                         />
                     </MapSource>
+                )}
+                {center && (
+                    <MapCenter
+                        center={center}
+                        centerOptions={centerOptions}
+                    />
                 )}
                 {children}
             </BaseMap>

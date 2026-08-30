@@ -1,0 +1,28 @@
+{
+    "namespace": "subscriptionModal",
+    "strings": {
+        "addSubscriptionHeading": "New subscription",
+        "editSubscriptionHeading": "Edit subscription",
+        "earthquakeLabel": "Earthquake",
+        "cycloneLabel": "Cyclone",
+        "floodLabel": "Flood",
+        "updateButtonLabel": "Save",
+        "cancelButtonLabel": "Cancel",
+        "subscriptionTitleLabel": "Enter subscription title",
+        "subscriptionTitlePlaceholder": "e.g. Nepal Flood",
+        "alertPerDayDescription": "Choose how many alerts (emails) you wish to receive in a day.",
+        "alertPerDayLabel": "Alerts per day",
+        "regionSelectionHeading": "Regions/Countries",
+        "regionSelectionDescription": "Select regions or countries for which you’d like to receive alerts. If you select a country, your regional selection will be void. This selection will apply to the options below.",
+        "hazardTypeHeading": "Disaster Types",
+        "hazardTypeDescription": "Select disaster types for which you'd like to receive alerts",
+        "updateFailureMessage": "Failed to update subscription.",
+        "updateSuccessMessage": "Successfully updated subscription.",
+        "createFailureMessage": "Failed to create subscription.",
+        "createSuccessMessage": "Successfully created subscription.",
+        "countriesSelectedLabel": "{numCountries} {countryLabel} selected",
+        "countryLabelSingular": "country",
+        "countryLabelPlural": "countries",
+        "unlimitedOptionValue": "No limit"
+    }
+}

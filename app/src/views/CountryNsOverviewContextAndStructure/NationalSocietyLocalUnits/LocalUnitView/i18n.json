@@ -55,12 +55,14 @@
         "localUnitViewDentist": "Dentist",
         "localUnitViewNursingAid": "Nursing aid",
         "localUnitViewMidwife": "Midwife",
-        "localUnitViewOtherMedicalHeal": "Other medical heal",
+        "localUnitViewPharmacists": "Pharmacists",
         "localUnitViewOtherProfiles": "Other profiles",
+        "localUnitViewRemovedOtherProfiles": "Removed Other profiles",
+        "localUnitViewOtherMedicalHeal": "Other medical heal",
         "localUnitViewCommentsNS": "Comments by the NS",
         "localUnitViewLatitude": "Latitude",
         "localUnitViewLongitude": "Longitude",
-        "localUnitViewUpdateReason": "Edit reason",
+        "localUnitViewUpdateReason": "Reason for edit",
         "localUnitViewNoChanges": "No changes found"
     }
 }

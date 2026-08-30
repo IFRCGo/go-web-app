@@ -40,7 +40,6 @@ function simplifiedKeySelector(item: ActivityItem) {
     return item.id;
 }
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -160,7 +159,7 @@ export function Component() {
                                 label={strings.emergencyIFRCSupportedOperation}
                                 value={(
                                     <Link
-                                        to="emergencyDetails"
+                                        to="emergencyOverview"
                                         urlParams={{ emergencyId: eventId }}
                                         withUnderline
                                     >

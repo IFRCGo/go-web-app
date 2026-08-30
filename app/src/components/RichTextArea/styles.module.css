@@ -2,31 +2,23 @@
     position: relative;
     z-index: 0;
 
-    :global {
-        .tox-tinymce {
-            margin: unset;
-            border: unset;
-            border-radius: unset;
-            width: 100%;
+    & :global(.tox-tinymce) {
+        margin: unset;
+        border: unset;
+        border-radius: unset;
+        width: 100%;
+    }
 
-            .tox-editor-container {
-                .tox-editor-header {
-                    .tox-toolbar-overlord {
-                        .tox-toolbar__primary {
-                            background: unset;
-                            background-color: unset;
-                        }
-                    }
-                }
+    & :global(.tox-tinymce .tox-editor-container .tox-editor-header .tox-toolbar-overlord .tox-toolbar__primary) {
+        background: unset;
+        background-color: unset;
+    }
 
-                .tox-edit-area__iframe {
-                    background-color: unset;
-                }
-            }
+    & :global(.tox-tinymce .tox-editor-container .tox-edit-area__iframe) {
+        background-color: unset;
+    }
 
-            .tox-statusbar {
-                background-color: unset;
-            }
-        }
+    & :global(.tox-tinymce .tox-statusbar) {
+        background-color: unset;
     }
 }

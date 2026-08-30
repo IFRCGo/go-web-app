@@ -12,43 +12,60 @@
     animation: fade-in var(--go-ui-duration-transition-medium) ease-in forwards;
 
     .focus-container {
+        --spacing: calc(var(--go-ui-spacing-md) * 2);
+        --max-full-width: calc(100% - var(--spacing));
+        --max-page-width: calc(var(--go-ui-page-width-max) - var(--spacing));
+        --max-full-height: calc(100% - var(--spacing));
+
+        --max-width: min(var(--max-full-width), var(--max-page-width));
+        --max-height: var(--max-full-height);
+
         display: block;
         width: 100%;
-        width: calc(100% - var(--go-ui-spacing-md) * 2);
-        max-height: calc(100% - var(--go-ui-spacing-md) * 2);
+        max-width: var(--max-width);
+        height: 100%;
+        max-height: var(--max-height);
         overflow: auto;
         animation: slide-down var(--go-ui-duration-transition-medium) ease-in forwards;
 
         &.size-sm {
-            max-width: var(--go-ui-width-modal-sm);
+            max-width: min(var(--max-width), var(--go-ui-width-modal-sm));
+            height: auto;
+            /* FIXME: use variable */
+            min-height: min(var(--max-height), 18vh, 12rem);
         }
 
         &.size-md {
-            max-width: var(--go-ui-width-modal-md);
+            max-width: min(var(--max-width), var(--go-ui-width-modal-md));
+            height: auto;
+            /* FIXME: use variable */
+            min-height: min(var(--max-height), 32vh, 20rem);
         }
 
         &.size-lg {
-            max-width: var(--go-ui-width-modal-lg);
-            min-height: 50vh;
+            max-width: min(var(--max-width), var(--go-ui-width-modal-lg));
+            max-height: min(var(--max-height), 70vh);
         }
 
         &.size-xl {
-            max-width: var(--go-ui-width-modal-lg);
-            min-height: 80vh;
+            max-width: min(var(--max-width), var(--go-ui-width-modal-xl));
+            max-height: min(var(--max-height), 90vh);
         }
 
+        /* FIXME: remove either size-full or page-width variant */
         &.size-full {
-            width: calc(100vw - var(--go-ui-spacing-md) * 2);
-            height: calc(100vh - var(--go-ui-spacing-md) * 2);
+            width: 100%;
+            height: 100%;
         }
 
         &.page-width {
-            max-width: var(--go-ui-page-width-max);
-            height: calc(100vh - var(--go-ui-spacing-md) * 2);
+            width: 100%;
+            height: 100%;
         }
 
         &.size-auto {
-            max-width: fit-content;
+            width: max-content;
+            height: max-content;
         }
 
         .modal {
@@ -57,9 +74,7 @@
             box-shadow: var(--go-ui-box-shadow-2xl);
             background-color: var(--go-ui-color-white);
             width: 100%;
-            min-width: var(--go-ui-width-min-modal);
             height: 100%;
-            min-height: var(--go-ui-height-min-modal);
             overflow: auto;
 
             .close-icon {

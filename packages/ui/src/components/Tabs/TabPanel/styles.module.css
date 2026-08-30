@@ -1,0 +1,5 @@
+.tab-panel {
+    &.with-contents-only {
+        display: contents;
+    }
+}

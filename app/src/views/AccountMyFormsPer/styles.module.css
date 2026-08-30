@@ -3,4 +3,8 @@
         border-bottom: unset;
         background-color: var(--go-ui-color-gray-20);
     }
+
+    .phase-column {
+        min-width: 9rem;
+    }
 }

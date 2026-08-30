@@ -35,7 +35,7 @@
 
     .meta-section {
         display: grid;
-        grid-gap: var(--go-ui-width-separator-md);
+        gap: var(--go-ui-width-separator-md);
         grid-template-columns: 1fr 1fr 1fr 1fr;
 
         .meta-item {
@@ -72,7 +72,7 @@
 
     .event-images {
         display: grid;
-        grid-gap: var(--go-ui-spacing-sm);
+        gap: var(--go-ui-spacing-sm);
         grid-template-columns: repeat(auto-fit, minmax(50mm, 1fr));
     }
 
@@ -80,7 +80,7 @@
     .movement-partners-actions-content,
     .ns-actions-content {
         display: grid;
-        grid-gap: var(--go-ui-width-separator-md);
+        gap: var(--go-ui-width-separator-md);
         grid-template-columns: 1fr 2fr;
     }
 
@@ -114,9 +114,9 @@
 
     .target-population-content {
         display: grid;
-        grid-gap: var(--go-ui-width-separator-md);
+        gap: var(--go-ui-width-separator-md);
         grid-template-columns: 2fr 1fr 2fr 1fr;
-        page-break-inside: avoid;
+        break-inside: avoid;
 
         .disabilities-population {
             grid-column: span 2;
@@ -138,7 +138,7 @@
     .source-information-list {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-gap: var(--go-ui-width-separator-md);
+        gap: var(--go-ui-width-separator-md);
 
         .potential-risks-heading {
             grid-column: span 2;
@@ -193,7 +193,7 @@
     .planned-intervention-indicators {
         display: grid;
         grid-template-columns: 5fr 2fr 2fr;
-        grid-gap: var(--go-ui-width-separator-sm);
+        gap: var(--go-ui-width-separator-sm);
 
         .actual-label,
         .title-label,

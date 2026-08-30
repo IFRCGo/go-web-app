@@ -1,0 +1,35 @@
+{
+    "parent": "000075-1773727064890.json",
+    "actions": [
+        {
+            "action": "update",
+            "key": "nationalSocietyBankDescription",
+            "namespace": "drefApplicationExport",
+            "newValue": "to which the IFRC shall transfer the funds."
+        },
+        {
+            "action": "update",
+            "key": "drefFromProposedEarlyActionLabel",
+            "newKey": "drefFormProposedEarlyActionLabel",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "update",
+            "key": "drefFromProposedEarlyResponseLabel",
+            "newKey": "drefFormProposedEarlyResponseLabel",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "update",
+            "key": "drefFromProposedEarlyActionLabel",
+            "newKey": "drefFormProposedEarlyActionLabel",
+            "namespace": "drefFinalReportForm"
+        },
+        {
+            "action": "update",
+            "key": "drefFromProposedEarlyResponseLabel",
+            "newKey": "drefFormProposedEarlyResponseLabel",
+            "namespace": "drefFinalReportForm"
+        }
+    ]
+}

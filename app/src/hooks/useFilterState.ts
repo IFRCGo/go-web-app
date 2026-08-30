@@ -77,12 +77,7 @@ function useFilterState<FILTER extends object>(options: {
         debounceTime = 200,
     } = options;
 
-    type Reducer = (
-        prevState: FilterState<FILTER>,
-        action: FilterActions<FILTER>,
-    ) => FilterState<FILTER>;
-
-    const [state, dispatch] = useReducer<Reducer>(
+    const [state, dispatch] = useReducer<FilterState<FILTER>, [action: FilterActions<FILTER>]>(
         (prevState, action) => {
             if (action.type === 'reset-filter') {
                 return {

@@ -27,6 +27,7 @@ import {
 
 import useFilterState from '#hooks/useFilterState';
 import { type TypeOfDrefEnum } from '#utils/constants';
+import { createLinkColumn } from '#utils/domain/tableHelpers';
 import { useRequest } from '#utils/restRequest';
 
 import DrefTableActions, { type Props as DrefTableActionsProps } from '../DrefTableActions';
@@ -34,6 +35,8 @@ import Filters, { type FilterValue } from '../Filters';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+const NUM_ITEMS_PER_PAGE = 10;
 
 interface Props {
     className?: string;
@@ -58,7 +61,7 @@ function CompletedDrefTable(props: Props) {
         offset,
     } = useFilterState<FilterValue>({
         filter: {},
-        pageSize: 6,
+        pageSize: NUM_ITEMS_PER_PAGE,
     });
 
     const {
@@ -98,10 +101,21 @@ function CompletedDrefTable(props: Props) {
                 (item) => item.created_at,
                 { columnClassName: styles.date },
             ),
-            createStringColumn<DrefResultItem, Key>(
+            // completed DREFs are always approved, so the event exists
+            createLinkColumn<DrefResultItem, Key>(
                 'appeal_code',
                 strings.completedDrefTableAppealCodeHeading,
                 (item) => item.appeal_code,
+                (item) => {
+                    const eventId = item.dref.event;
+                    return {
+                        to: isDefined(eventId) ? 'emergenciesLayout' : undefined,
+                        urlParams: isDefined(eventId)
+                            ? { emergencyId: eventId }
+                            : undefined,
+                        withEllipsizedContent: true,
+                    };
+                },
                 { columnClassName: styles.appealCode },
             ),
             createStringColumn<DrefResultItem, Key>(
@@ -136,10 +150,12 @@ function CompletedDrefTable(props: Props) {
                     id,
                     drefId: item.dref.id,
                     status: item.status,
-                    drefType: item.drefType,
+                    // NOTE: drefType is only set on the expanded sub-rows
+                    drefType: item.drefType ?? item.dref.type_of_dref,
                     // FIXME: fix typing in server (medium priority)
                     // the application_type should be an enum
                     applicationType: item.application_type as 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT',
+                    isDrefImminentV2: item.dref.is_dref_imminent_v2 ?? false,
                     canAddOpsUpdate: false,
                     canCreateFinalReport: false,
                 }),

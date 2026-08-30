@@ -5,8 +5,9 @@
     background-color: transparent;
     padding: 0;
     width: 100%;
-    min-height: 2.5em;
-    max-height: min(20rem, 50vh);
+    min-height: 5em;
+    /* FIXME: use variable */
+    max-height: min(50rem, 80vh);
     resize: none;
     color: inherit;
     font-family: inherit;

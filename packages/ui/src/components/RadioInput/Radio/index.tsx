@@ -63,10 +63,10 @@ function Radio<NAME>(props: Props<NAME>) {
                 before={value ? (
                     <RadioButtonLineIcon className={styles.activeIcon} />
                 ) : (
-                    <CheckboxBlankCircleLineIcon />
+                    <CheckboxBlankCircleLineIcon className={styles.blankIcon} />
                 )}
                 className={className}
-                spacingOffset={-2}
+                spacingOffset={-4}
                 spacing={spacing}
                 after={after}
                 withoutPadding
@@ -76,13 +76,16 @@ function Radio<NAME>(props: Props<NAME>) {
                 <ListView
                     layout="block"
                     withSpacingOpticalCorrection
-                    spacingOffset={-2}
+                    spacingOffset={-3}
                     spacing={spacing}
                 >
                     <Label>
                         {children}
                     </Label>
-                    <Description textSize="sm">
+                    <Description
+                        textSize="sm"
+                        withLightText
+                    >
                         {description}
                     </Description>
                 </ListView>

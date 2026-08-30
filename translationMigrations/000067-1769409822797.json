@@ -1,0 +1,60 @@
+{
+    "parent": "000066-1768996132048.json",
+    "actions": [
+        {
+            "action": "remove",
+            "key": "emailLabel",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "sharePopupTitle",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "shareUrlLabel",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "sourcePopupTitle",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "stacIdLabel",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "stacIdValue",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "stacLocationText",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "stacVersionLabel",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "stacVersionValue",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "validLabel",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "validValue",
+            "namespace": "montandonLandingPage"
+        }
+    ]
+}

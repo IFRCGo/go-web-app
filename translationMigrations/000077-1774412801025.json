@@ -1,0 +1,17 @@
+{
+    "parent": "000076-1774257790601.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "regionalPageLinkLabel",
+            "namespace": "common",
+            "value": "{regionName} regional page"
+        },
+        {
+            "action": "update",
+            "key": "countryDropdownSearchPlaceholder",
+            "namespace": "common",
+            "newValue": "Search..."
+        }
+    ]
+}

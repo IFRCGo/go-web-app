@@ -3,7 +3,7 @@
     --go-ui-font-family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
     --go-ui-font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-    --go-ui-optical-correction-factor: 1.25;
+    --go-ui-optical-correction-factor: 1.5;
     --base-font-size: 0.875rem;
     --go-ui-font-size-export: 0.6875rem;
 
@@ -17,23 +17,18 @@
     --go-ui-font-size-3xl: calc(var(--base-font-size) * 2.1428);
     --go-ui-font-size-4xl: calc(var(--base-font-size) * 2.7142);
 
-    @media screen and (max-width: 40rem) {
-        --base-font-size: 0.875rem;
-    }
-
-
     --go-ui-height-icon-multiplier: 1.33em;
 
-    --go-ui-height-brand-icon: 2.5rem;
+    --go-ui-height-brand-icon: 2.25rem;
     --go-ui-height-social-icon: 2.5rem;
     --go-ui-height-key-figure-icon: 3rem;
-    --go-ui-height-status-icon: 2.5rem;
+    --go-ui-height-status-icon: 2.536rem;
     --go-ui-height-compact-status-icon: 2rem;
 
     --go-ui-line-height-none: 1;
     --go-ui-line-height-xs: 1.125;
     --go-ui-line-height-sm: 1.25;
-    --go-ui-line-height-md: 1.375;
+    --go-ui-line-height-md: 1.5;
 
     --go-ui-height-map-md: min(40rem, 70vh);
 
@@ -49,36 +44,24 @@
     --go-ui-width-screen-xl: 1280px;
     --go-ui-width-screen-2xl: 1536px;
 
-    --base-spacing: 1rem;
+    --base-spacing: 0.03125rem;
 
-    --go-ui-spacing-5xs: calc(var(--base-spacing) * 0.1);
-    --go-ui-spacing-4xs: calc(var(--base-spacing) * 0.2);
-    --go-ui-spacing-3xs: calc(var(--base-spacing) * 0.3);
-    --go-ui-spacing-2xs: calc(var(--base-spacing) * 0.4);
-    --go-ui-spacing-xs: calc(var(--base-spacing) * 0.6);
-    --go-ui-spacing-sm: calc(var(--base-spacing) * 0.8);
-    --go-ui-spacing-md: calc(var(--base-spacing) * 1);
-    --go-ui-spacing-lg: calc(var(--base-spacing) * 1.5);
-    --go-ui-spacing-xl: calc(var(--base-spacing) * 2.25);
-    --go-ui-spacing-2xl: calc(var(--base-spacing) * 3.5);
-    --go-ui-spacing-3xl: calc(var(--base-spacing) * 4.75);
-    --go-ui-spacing-4xl: calc(var(--base-spacing) * 6);
-    --go-ui-spacing-5xl: calc(var(--base-spacing) * 7.25);
+    --go-ui-spacing-5xs: calc(var(--base-spacing) * 3);
+    --go-ui-spacing-4xs: calc(var(--base-spacing) * 6);
+    --go-ui-spacing-3xs: calc(var(--base-spacing) * 10);
+    --go-ui-spacing-2xs: calc(var(--base-spacing) * 15);
+    --go-ui-spacing-xs: calc(var(--base-spacing) * 21);
+    --go-ui-spacing-sm: calc(var(--base-spacing) * 28);
+    --go-ui-spacing-md: calc(var(--base-spacing) * 36);
+    --go-ui-spacing-lg:  calc(var(--base-spacing) * 47);
+    --go-ui-spacing-xl:  calc(var(--base-spacing) * 62);
+    --go-ui-spacing-2xl: calc(var(--base-spacing) * 82);
+    --go-ui-spacing-3xl: calc(var(--base-spacing) * 110);
+    --go-ui-spacing-4xl: calc(var(--base-spacing) * 145);
+    --go-ui-spacing-5xl: calc(var(--base-spacing) * 195);
 
     @media screen and (max-width: 40rem) {
-        --go-ui-spacing-5xs: calc(var(--base-spacing) * 0.1);
-        --go-ui-spacing-4xs: calc(var(--base-spacing) * 0.2);
-        --go-ui-spacing-3xs: calc(var(--base-spacing) * 0.3);
-        --go-ui-spacing-2xs: calc(var(--base-spacing) * 0.4);
-        --go-ui-spacing-xs: calc(var(--base-spacing) * 0.6);
-        --go-ui-spacing-sm: calc(var(--base-spacing) * 0.8);
-        --go-ui-spacing-md: calc(var(--base-spacing) * 1);
-        --go-ui-spacing-lg: calc(var(--base-spacing) * 1.25);
-        --go-ui-spacing-xl: calc(var(--base-spacing) * 1.5625);
-        --go-ui-spacing-2xl: calc(var(--base-spacing) * 1.95);
-        --go-ui-spacing-3xl: calc(var(--base-spacing) * 2.44);
-        --go-ui-spacing-4xl: calc(var(--base-spacing) * 3);
-        --go-ui-spacing-5xl: calc(var(--base-spacing) * 3.8);
+        --base-spacing: 0.0277777rem;
     }
 
     --go-ui-width-separator-sm: 1pt;
@@ -233,11 +216,13 @@
     --go-ui-color-map-dot-fba: #ff6b00;
     --go-ui-color-map-dot-multiple-types: #4c5d9b;
 
-    --go-ui-width-content-max: 50rem;
+    --go-ui-width-content-max: 56rem;
     --go-ui-page-header-description-width-max: var(--go-ui-width-content-max);
     /* 1280px + 1.5rem padding on both sides */
     --go-ui-page-width-max: 83rem;
     --mapbox-icon-width: 88px;
+
+    --go-ui-page-size-unit: calc(min(100vw, var(--go-ui-width-content-max)) / 100);
 
     --go-ui-export-page-margin: 10mm 10mm 16mm 10mm;
 

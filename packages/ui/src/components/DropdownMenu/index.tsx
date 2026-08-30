@@ -24,6 +24,7 @@ export interface Props {
     activeClassName?: string;
 
     popupClassName?: string;
+    withoutPopupPadding?: boolean;
     preferredPopupWidth?: number;
 
     label?: React.ReactNode;
@@ -33,14 +34,15 @@ export interface Props {
     labelColorVariant?: ButtonProps<undefined>['colorVariant'];
     labelStyleVariant?: ButtonProps<undefined>['styleVariant'];
     labelWithoutPadding?: boolean;
+    labelWithoutAdditionalInlinePadding?: boolean;
 
     children?: React.ReactNode;
 
     withoutDropdownIcon?: boolean;
-    componentRef?: React.MutableRefObject<{
+    componentRef?: React.RefObject<{
         setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>;
     } | null>;
-    elementRef?: React.RefObject<HTMLDivElement>;
+    elementRef?: React.RefObject<HTMLDivElement | null>;
     persistent?: boolean;
 }
 
@@ -59,6 +61,7 @@ function DropdownMenu(props: Props) {
         labelColorVariant,
         labelStyleVariant,
         labelWithoutPadding,
+        labelWithoutAdditionalInlinePadding,
 
         withoutDropdownIcon,
         componentRef,
@@ -67,6 +70,7 @@ function DropdownMenu(props: Props) {
 
         popupClassName,
         preferredPopupWidth,
+        withoutPopupPadding,
     } = props;
 
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -124,6 +128,7 @@ function DropdownMenu(props: Props) {
             <Button
                 name={undefined}
                 className={_cs(
+                    styles.dropdownMenu,
                     showDropdown && activeClassName,
                     className,
                 )}
@@ -143,13 +148,18 @@ function DropdownMenu(props: Props) {
                     </>
                 ) : undefined}
                 before={labelBefore}
+                withoutAdditionalInlinePadding={labelWithoutAdditionalInlinePadding}
             >
                 {label}
             </Button>
             {showDropdown && (
                 <Popup
                     elementRef={dropdownRef}
-                    className={_cs(styles.dropdownContent, popupClassName)}
+                    className={_cs(
+                        styles.dropdownContent,
+                        withoutPopupPadding && styles.withoutPadding,
+                        popupClassName,
+                    )}
                     parentRef={buttonRef}
                     preferredWidth={preferredPopupWidth}
                 >

@@ -2,4 +2,5 @@
     overflow-wrap: anywhere;
     color: var(--go-ui-color-blue);
     font-size: inherit;
+    font-weight: var(--go-ui-font-weight-medium);
 }

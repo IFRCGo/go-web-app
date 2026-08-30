@@ -15,6 +15,7 @@ import {
     Button,
     Container,
     Description,
+    InlineLayout,
     KeyFigure,
     Label,
     LegendItem,
@@ -387,6 +388,8 @@ function PrivateCountryPreparedness() {
     const hasRatingCounts = hasAssessmentStats && assessmentStats.ratingCounts.length > 0;
     const hasAnswerCounts = hasAssessmentStats && assessmentStats.answerCounts.length > 0;
     const hasRatedComponents = hasAssessmentStats && assessmentStats.topRatedComponents.length > 0;
+    const hasTopFiveRatedComponents = hasAssessmentStats
+        && assessmentStats.topFiveRatedComponents.length > 0;
     const hasRatingsByArea = hasAssessmentStats && assessmentStats.ratingByArea.length > 0;
     const hasPriorityComponents = hasPrioritizationStats
         && prioritizationStats.componentsWithRating.length > 0;
@@ -531,17 +534,19 @@ function PrivateCountryPreparedness() {
                             heading={strings.totalBenchmarkSummaryHeading}
                             withHeaderBorder
                         >
-                            <StackedProgressBar
-                                data={assessmentStats.answerCounts}
-                                valueSelector={numericCountSelector}
-                                labelSelector={stringLabelSelector}
-                                colorSelector={perBenchmarkColorSelector}
-                            />
-                            <KeyFigure
-                                value={assessmentStats?.averageRating}
-                                label={strings.averageComponentRatingLabel}
-                                valueType="number"
-                            />
+                            <ListView layout="block">
+                                <StackedProgressBar
+                                    data={assessmentStats.answerCounts}
+                                    valueSelector={numericCountSelector}
+                                    labelSelector={stringLabelSelector}
+                                    colorSelector={perBenchmarkColorSelector}
+                                />
+                                <KeyFigure
+                                    value={assessmentStats?.averageRating}
+                                    label={strings.averageComponentRatingLabel}
+                                    valueType="number"
+                                />
+                            </ListView>
                         </Container>
                     )}
                     {showComponentsByArea && (
@@ -567,7 +572,7 @@ function PrivateCountryPreparedness() {
                             />
                         </Container>
                     )}
-                    {hasRatedComponents && (
+                    {hasTopFiveRatedComponents && (
                         <Container
                             heading={strings.highlightedTopRatedComponentHeading}
                             withHeaderBorder
@@ -575,6 +580,7 @@ function PrivateCountryPreparedness() {
                             <ListView
                                 layout="grid"
                                 numPreferredGridColumns={3}
+                                spacing="sm"
                             >
                                 {assessmentStats.topFiveRatedComponents.map(
                                     (component) => (
@@ -679,41 +685,39 @@ function PrivateCountryPreparedness() {
                 >
                     <ListView
                         layout="block"
-                        spacing="xs"
+                        spacing="2xs"
                     >
                         {assessmentStats.topRatedComponents.map((component) => {
                             const progressBarColor = getPerAreaColor(component.area.area_num);
 
                             return (
-                                <Container
-                                    withPadding
-                                    withBackground
-                                    withShadow
+                                <ListView
+                                    layout="grid"
+                                    numPreferredGridColumns={4}
                                     key={`${component.details.id}-${component.details.component_num}-${component.details.component_letter}`}
+                                    withPadding
+                                    spacing="sm"
                                 >
-                                    <ListView
-                                        layout="grid"
-                                        numPreferredGridColumns={4}
-                                    >
-                                        <Label strong>
-                                            {getFormattedComponentName(component.details)}
-                                        </Label>
+                                    <Label strong>
+                                        {getFormattedComponentName(component.details)}
+                                    </Label>
+                                    <InlineLayout contentAlignment="center">
                                         <ProgressBar
                                             value={component.rating?.value ?? 0}
                                             totalValue={5}
                                             colorVariant="custom"
                                             color={progressBarColor}
                                         />
-                                        <Label strong>
-                                            {isDefined(component.rating)
-                                                ? `${component.rating.value} - ${component.rating.title}`
-                                                : strings.componentNotReviewed}
-                                        </Label>
-                                        <Description>
-                                            {component.notes}
-                                        </Description>
-                                    </ListView>
-                                </Container>
+                                    </InlineLayout>
+                                    <Label strong>
+                                        {isDefined(component.rating)
+                                            ? `${component.rating.value} - ${component.rating.title}`
+                                            : strings.componentNotReviewed}
+                                    </Label>
+                                    <Description>
+                                        {component.notes}
+                                    </Description>
+                                </ListView>
                             );
                         })}
                     </ListView>
@@ -759,10 +763,9 @@ function PrivateCountryPreparedness() {
                             {strings.upload}
                         </GoSingleFileInput>
                     )}
-                    footer={(
-                        (perDocuments?.length ?? 0 > 9) ? strings.uploadLimitDisclaimer
-                            : undefined
-                    )}
+                    footer={(perDocuments?.length ?? 0 > 9)
+                        ? <Description withLightText>{strings.uploadLimitDisclaimer}</Description>
+                        : undefined}
                     errored={isDefined(perDocumentsError)}
                 >
                     <ListView

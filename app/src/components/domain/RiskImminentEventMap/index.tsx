@@ -23,7 +23,6 @@ import {
     MapSource,
     MapState,
 } from '@togglecorp/re-map';
-import getBbox from '@turf/bbox';
 import getBuffer from '@turf/buffer';
 import type {
     LngLatBoundsLike,
@@ -39,6 +38,7 @@ import {
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
+import { getGeoJsonBounds } from '#utils/geo';
 
 import LayerOptions, { type LayerOptionsValue } from './LayerOptions';
 import {
@@ -199,10 +199,15 @@ function RiskImminentEventMap<
             if (isNotDefined(activePoint)) {
                 return bbox;
             }
+
             const bufferedPoint = getBuffer(activePoint, 10);
 
+            if (isNotDefined(bufferedPoint)) {
+                return bbox;
+            }
+
             if (activeEventFootprint) {
-                return getBbox({
+                return getGeoJsonBounds({
                     ...activeEventFootprint,
                     features: [
                         ...activeEventFootprint.features,
@@ -211,7 +216,7 @@ function RiskImminentEventMap<
                 });
             }
 
-            return getBbox(bufferedPoint);
+            return getGeoJsonBounds(bufferedPoint);
         },
         [activeEvent, activeEventFootprint, pointFeatureSelector, bbox, activeEventExposurePending],
     );
@@ -487,7 +492,7 @@ function RiskImminentEventMap<
             >
                 <ListView
                     layout="block"
-                    spacing="sm"
+                    spacing="2xs"
                 >
                     <RawList
                         data={events}

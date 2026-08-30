@@ -1,0 +1,17 @@
+{
+    "parent": "000068-1769416196181.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "countryInputLabel",
+            "namespace": "accountDetails",
+            "value": "Country"
+        },
+        {
+            "action": "add",
+            "key": "countryLabel",
+            "namespace": "accountDetails",
+            "value": "Country"
+        }
+    ]
+}

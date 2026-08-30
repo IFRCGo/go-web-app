@@ -14,16 +14,16 @@
 
     .bank-details {
         display: grid;
-        grid-gap: var(--go-ui-width-separator-md);
+        gap: var(--go-ui-width-separator-md);
         grid-template-columns: 1fr 1fr;
-        page-break-inside: avoid;
+        break-inside: avoid;
     }
 
     .dref-signed {
         display: grid;
-        grid-gap: var(--go-ui-spacing-xl);
+        gap: var(--go-ui-spacing-xl);
         grid-template-columns: 1fr 1fr;
-        page-break-inside: avoid;
+        break-inside: avoid;
 
         .dref-table {
             display: flex;

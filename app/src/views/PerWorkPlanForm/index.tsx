@@ -1,5 +1,4 @@
 import {
-    type ElementRef,
     useCallback,
     useMemo,
     useRef,
@@ -59,7 +58,6 @@ import i18n from './i18n.json';
 
 const defaultValue: PartialWorkPlan = {};
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -72,7 +70,7 @@ export function Component() {
         refetchStatusResponse,
         readOnly: readOnlyFromContext,
     } = useOutletContext<PerProcessOutletContext>();
-    const formContentRef = useRef<ElementRef<'div'>>(null);
+    const formContentRef = useRef<HTMLDivElement>(null);
 
     const {
         value,
@@ -290,16 +288,21 @@ export function Component() {
         formContentRef.current?.scrollIntoView();
     }, []);
 
+    // FIXME(frozenhelium): toggle-form submit callbacks are ref-backed
     const handleSave = createSubmitHandler(
         validate,
         setError,
+        // eslint-disable-next-line react-hooks/refs
         handleFinalSubmit,
+        // eslint-disable-next-line react-hooks/refs
         handleFormError,
     );
     const handleFinalizeWorkplan = createSubmitHandler(
         validate,
         setError,
+        // eslint-disable-next-line react-hooks/refs
         handleSubmit,
+        // eslint-disable-next-line react-hooks/refs
         handleFormError,
     );
 
@@ -334,7 +337,11 @@ export function Component() {
             errorMessage={workPlanResponseError?.value.messageForNotification}
             elementRef={formContentRef}
         >
+            {/* eslint-disable-next-line max-len */}
+            {/* FIXME(frozenhelium): actionDivRef.current read in render to conditionally mount a Portal — valid DOM pattern */}
+            {/* eslint-disable-next-line react-hooks/refs */}
             {actionDivRef?.current && (
+                // eslint-disable-next-line react-hooks/refs
                 <Portal container={actionDivRef.current}>
                     <Button
                         name={undefined}

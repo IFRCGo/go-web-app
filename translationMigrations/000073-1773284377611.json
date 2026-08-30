@@ -1,0 +1,168 @@
+{
+    "parent": "000072-1773206343469.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "emailLabel",
+            "namespace": "montandonLandingPage",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "gettingStartedGuide",
+            "namespace": "montandonLandingPage",
+            "value": "Getting Started Guide"
+        },
+        {
+            "action": "add",
+            "key": "goAccountPageLinkButtonTitle",
+            "namespace": "montandonLandingPage",
+            "value": "GO Account Page"
+        },
+        {
+            "action": "add",
+            "key": "guideExploreData",
+            "namespace": "montandonLandingPage",
+            "value": "2. Explore data and use cases"
+        },
+        {
+            "action": "add",
+            "key": "guideGenerateNewToken",
+            "namespace": "montandonLandingPage",
+            "value": "Generate a new token in the Montandon section."
+        },
+        {
+            "action": "add",
+            "key": "guideGetYourToken",
+            "namespace": "montandonLandingPage",
+            "value": "1. Get your token."
+        },
+        {
+            "action": "add",
+            "key": "guideMontandonNotebooks",
+            "namespace": "montandonLandingPage",
+            "value": "Access data and explore the API through {montandonNotebookLink}"
+        },
+        {
+            "action": "add",
+            "key": "guideSaveToken",
+            "namespace": "montandonLandingPage",
+            "value": "Copy and save the generated token, as you will not be able to view it again."
+        },
+        {
+            "action": "add",
+            "key": "guideStacBrowser",
+            "namespace": "montandonLandingPage",
+            "value": "Browse data sources using the {montandonStacBrowserLink}"
+        },
+        {
+            "action": "add",
+            "key": "guideVisitAccountPage",
+            "namespace": "montandonLandingPage",
+            "value": "Visit the {goAccountPageLink} (you must be logged in)."
+        },
+        {
+            "action": "add",
+            "key": "montandonNotebooksLinkButtonTitle",
+            "namespace": "montandonLandingPage",
+            "value": "Montandon Notebooks"
+        },
+        {
+            "action": "add",
+            "key": "montandonStacBrowserLinkButtonTitle",
+            "namespace": "montandonLandingPage",
+            "value": "Montandon STAC browser"
+        },
+        {
+            "action": "add",
+            "key": "sharePopupTitle",
+            "namespace": "montandonLandingPage",
+            "value": "Share"
+        },
+        {
+            "action": "add",
+            "key": "shareUrlLabel",
+            "namespace": "montandonLandingPage",
+            "value": "Share the URL of this page:"
+        },
+        {
+            "action": "add",
+            "key": "sourcePopupTitle",
+            "namespace": "montandonLandingPage",
+            "value": "Source Data"
+        },
+        {
+            "action": "add",
+            "key": "stacIdLabel",
+            "namespace": "montandonLandingPage",
+            "value": "ID"
+        },
+        {
+            "action": "add",
+            "key": "stacIdValue",
+            "namespace": "montandonLandingPage",
+            "value": "stac-fastapi"
+        },
+        {
+            "action": "add",
+            "key": "stacLocationText",
+            "namespace": "montandonLandingPage",
+            "value": "The STAC metadata file is located at"
+        },
+        {
+            "action": "add",
+            "key": "stacVersionLabel",
+            "namespace": "montandonLandingPage",
+            "value": "STAC Version"
+        },
+        {
+            "action": "add",
+            "key": "stacVersionValue",
+            "namespace": "montandonLandingPage",
+            "value": "1.0.0"
+        },
+        {
+            "action": "add",
+            "key": "validLabel",
+            "namespace": "montandonLandingPage",
+            "value": "Valid"
+        },
+        {
+            "action": "add",
+            "key": "validValue",
+            "namespace": "montandonLandingPage",
+            "value": "Yes"
+        },
+        {
+            "action": "remove",
+            "key": "apiDescription",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "apiDocumentation",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "goWiki",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "resources",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "visitGithub",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "update",
+            "key": "montandonHeadingDescription",
+            "namespace": "montandonLandingPage",
+            "newValue": "Montandon is the world’s largest disaster database — a global public good with applications far beyond IFRC. Montandon integrates three key types of data: 1) forecasted and recorded natural hazards; 2) impact data on these hazards; and 3) operational response data (where available). Montandon contains more than 2 million of records about hazards and their impacts for hundreds of thousands of events."
+        }
+    ]
+}

@@ -18,5 +18,9 @@
             display: none;
         }
     }
+
+    &.with-overflow {
+        overflow-block: auto;
+    }
 }
 

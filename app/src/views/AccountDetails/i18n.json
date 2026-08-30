@@ -4,6 +4,7 @@
         "accountInformationHeading": "Account Information",
         "usernameLabel": "Username",
         "fullNameLabel": "Full Name",
+        "countryLabel": "Country",
         "cityLabel": "City",
         "emailLabel": "Email",
         "phoneNumberLabel": "Phone Number",

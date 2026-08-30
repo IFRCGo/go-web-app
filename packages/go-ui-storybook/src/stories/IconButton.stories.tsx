@@ -12,7 +12,7 @@ type IconButtonSpecificProps = IconButtonProps<string>;
 type Story = StoryObj<IconButtonSpecificProps>;
 
 const meta: Meta<typeof IconButton> = {
-    title: 'Components/IconButton',
+    title: 'Action/IconButton',
     component: IconButton,
     parameters: {
         layout: 'centered',

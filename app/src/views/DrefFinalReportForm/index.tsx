@@ -1,6 +1,6 @@
 import {
-    type ElementRef,
     useCallback,
+    useMemo,
     useRef,
     useState,
 } from 'react';
@@ -37,10 +37,12 @@ import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage'
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
+import ViewOnlyModeBanner from '#components/ViewOnlyModeBanner';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useAlert from '#hooks/useAlert';
 import {
     DREF_STATUS_DRAFT,
+    DREF_STATUS_FAILED,
     DREF_STATUS_FINALIZED,
     DREF_TYPE_IMMINENT,
     type TypeOfDrefEnum,
@@ -61,7 +63,6 @@ import {
     checkTabErrors,
     EARLY_ACTION,
     EARLY_RESPONSE,
-    TYPE_IMMINENT,
 } from './common';
 import EventDetail from './EventDetail';
 import ObsoletePayloadModal from './ObsoletePayloadModal';
@@ -77,44 +78,37 @@ type GetFinalReportResponse = GoApiResponse<'/api/v2/dref-final-report/{id}/'>;
 
 type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
 
-function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDrefEnum | '' | undefined) {
-    if (typeOfDref === TYPE_IMMINENT && direction === 1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
-            overview: 'eventDetail',
-            eventDetail: 'operation',
-            operation: 'submission',
-        };
-        return mapping[current];
+function getTabKeyList(typeOfDref: TypeOfDrefEnum | undefined | null) {
+    if (typeOfDref === DREF_TYPE_IMMINENT) {
+        return [
+            'overview',
+            'eventDetail',
+            'operation',
+            'submission',
+        ] satisfies TabKeys[];
     }
-    if (typeOfDref === TYPE_IMMINENT && direction === -1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
-            submission: 'operation',
-            operation: 'eventDetail',
-            eventDetail: 'overview',
-        };
-        return mapping[current];
-    }
-    if (direction === 1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
-            overview: 'eventDetail',
-            eventDetail: 'actions',
-            actions: 'operation',
-            operation: 'submission',
-        };
-        return mapping[current];
-    }
-    if (direction === -1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
-            submission: 'operation',
-            operation: 'actions',
-            actions: 'eventDetail',
-            eventDetail: 'overview',
-        };
-        return mapping[current];
-    }
-    return undefined;
+
+    return [
+        'overview',
+        'eventDetail',
+        'actions',
+        'operation',
+        'submission',
+    ] satisfies TabKeys[];
 }
-/** @knipignore */
+
+function getNextStep(
+    current: TabKeys,
+    direction: 1 | -1,
+    typeOfDref: TypeOfDrefEnum | undefined | null,
+) {
+    const tabKeyList = getTabKeyList(typeOfDref);
+
+    const currentIndex = tabKeyList.findIndex((key) => key === current);
+
+    return tabKeyList[currentIndex + direction];
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { finalReportId } = useParams<{ finalReportId: string }>();
@@ -122,7 +116,7 @@ export function Component() {
     const alert = useAlert();
     const strings = useTranslation(i18n);
 
-    const formContentRef = useRef<ElementRef<'div'>>(null);
+    const tabListRef = useRef<HTMLDivElement>(null);
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [isPreviousImminent, setIsPreviousImminent] = useState(false);
@@ -139,7 +133,7 @@ export function Component() {
         setTrue: setShowExportModalTrue,
         setFalse: setShowExportModalFalse,
     }] = useBooleanState(false);
-    const lastModifiedAtRef = useRef<string | undefined>();
+    const lastModifiedAtRef = useRef<string | undefined>(undefined);
 
     const {
         value,
@@ -373,7 +367,7 @@ export function Component() {
 
     const handleFormSubmit = useCallback(
         (modifiedAt?: string) => {
-            formContentRef.current?.scrollIntoView();
+            tabListRef.current?.scrollIntoView();
 
             // FIXME: use createSubmitHandler
             const result = validate();
@@ -388,7 +382,7 @@ export function Component() {
                 cover_image_file: isNotDefined(result.value.cover_image_file?.id)
                     ? null : result.value.cover_image_file,
                 event_map_file: isNotDefined(result.value.event_map_file?.id)
-                    ? null : result.value.cover_image_file,
+                    ? null : result.value.event_map_file,
             } as FinalReportRequestBody);
         },
         [validate, setError, updateFinalReport],
@@ -404,7 +398,7 @@ export function Component() {
     );
 
     const handleTabChange = useCallback((newTab: TabKeys) => {
-        formContentRef.current?.scrollIntoView();
+        tabListRef.current?.scrollIntoView({ behavior: 'smooth' });
         setActiveTab(newTab);
     }, []);
 
@@ -413,16 +407,52 @@ export function Component() {
     const saveFinalReportPending = updateFinalReportPending;
     const disabled = fetchingFinalReport || saveFinalReportPending;
 
-    const languageMismatch = isDefined(finalReportId)
-        && isDefined(finalReportResponse)
-        && currentLanguage !== finalReportResponse?.translation_module_original_language;
+    const languageMismatch = currentLanguage
+        !== finalReportResponse?.translation_module_original_language;
 
-    const readOnly = languageMismatch
-        && (finalReportResponse?.status === DREF_STATUS_FINALIZED
-            || finalReportResponse?.status === DREF_STATUS_DRAFT);
+    const isEditable = useMemo(() => {
+        if (isNotDefined(drefId)) {
+            return false;
+        }
+
+        if (isNotDefined(finalReportResponse)) {
+            return false;
+        }
+
+        if (languageMismatch) {
+            return false;
+        }
+
+        const { status } = finalReportResponse;
+
+        if (status === DREF_STATUS_DRAFT
+            || status === DREF_STATUS_FINALIZED
+            || status === DREF_STATUS_FAILED
+        ) {
+            return true;
+        }
+
+        return false;
+    }, [languageMismatch, finalReportResponse, drefId]);
+
+    const readOnly = !isEditable;
 
     const shouldHideForm = fetchingFinalReport
         || isDefined(finalReportResponseError);
+
+    const tabNameMap: Record<TabKeys, string> = {
+        overview: strings.formTabOverviewLabel,
+        eventDetail: finalReportResponse?.type_of_dref === DREF_TYPE_IMMINENT
+            ? strings.formTabEventDevelopmentLabel
+            : strings.formTabEventDetailLabel,
+        actions: strings.formTabActionsLabel,
+        operation: finalReportResponse?.type_of_dref === DREF_TYPE_IMMINENT
+            ? strings.formTabImplementation
+            : strings.formTabOperationLabel,
+        submission: strings.formTabSubmissionLabel,
+    };
+
+    const tabKeyList = getTabKeyList(finalReportResponse?.type_of_dref);
 
     return (
         <Tabs
@@ -432,7 +462,6 @@ export function Component() {
             styleVariant="step"
         >
             <Page
-                elementRef={formContentRef}
                 className={styles.drefFinalReportForm}
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
@@ -468,52 +497,24 @@ export function Component() {
                     </>
                 )}
                 info={!shouldHideForm && (
-                    <TabList className={styles.tabList}>
-                        <Tab
-                            name="overview"
-                            step={1}
-                            errored={checkTabErrors(formError, 'overview')}
-                        >
-                            {strings.formTabOverviewLabel}
-                        </Tab>
-                        <Tab
-                            name="eventDetail"
-                            step={2}
-                            errored={checkTabErrors(formError, 'eventDetail')}
-                        >
-                            {finalReportResponse?.type_of_dref !== DREF_TYPE_IMMINENT
-                                ? strings.formTabEventDetailLabel
-                                : strings.formTabEventDevelopmentLabel}
-                        </Tab>
-                        {finalReportResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+                    <TabList elementRef={tabListRef}>
+                        {tabKeyList.map((tabKey, i) => (
                             <Tab
-                                name="actions"
-                                step={3}
-                                errored={checkTabErrors(formError, 'actions')}
+                                key={tabKey}
+                                name={tabKey}
+                                step={i + 1}
+                                errored={checkTabErrors(formError, tabKey)}
                             >
-                                {strings.formTabActionsLabel}
+                                {tabNameMap[tabKey]}
                             </Tab>
-                        )}
-                        <Tab
-                            name="operation"
-                            step={4}
-                            errored={checkTabErrors(formError, 'operation')}
-                        >
-                            {finalReportResponse?.type_of_dref !== DREF_TYPE_IMMINENT
-                                ? strings.formTabOperationLabel
-                                : strings.formTabImplementation}
-                        </Tab>
-                        <Tab
-                            name="submission"
-                            step={5}
-                            errored={checkTabErrors(formError, 'submission')}
-                        >
-                            {strings.formTabSubmissionLabel}
-                        </Tab>
+                        ))}
                     </TabList>
                 )}
                 withBackgroundColorInMainSection
                 mainSectionClassName={styles.content}
+                beforeHeaderContent={!fetchingFinalReport && readOnly && (
+                    <ViewOnlyModeBanner />
+                )}
             >
                 {fetchingFinalReport && (
                     <Message
@@ -521,14 +522,14 @@ export function Component() {
                         title={strings.formLoadingMessage}
                     />
                 )}
-                {languageMismatch && (
+                {!fetchingFinalReport && languageMismatch && (
                     <LanguageMismatchMessage
                         title={strings.formNotAvailableInSelectedLanguageMessage}
-                        originalLanguage={finalReportResponse.translation_module_original_language}
+                        originalLanguage={finalReportResponse?.translation_module_original_language}
                         selectedLanguage={currentLanguage}
                     />
                 )}
-                {isDefined(finalReportResponseError) && (
+                {!fetchingFinalReport && isDefined(finalReportResponseError) && (
                     <Message
                         variant="error"
                         title={strings.formLoadErrorTitle}

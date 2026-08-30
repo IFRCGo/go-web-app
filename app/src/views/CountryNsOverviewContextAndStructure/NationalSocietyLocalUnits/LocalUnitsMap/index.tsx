@@ -38,8 +38,10 @@ import {
     MapLayer,
     MapSource,
 } from '@togglecorp/re-map';
-import getBbox from '@turf/bbox';
-import { type SymbolLayer } from 'mapbox-gl';
+import {
+    type LngLatBoundsLike,
+    type SymbolLayer,
+} from 'mapbox-gl';
 
 import ActiveCountryBaseMapLayer from '#components/domain/ActiveCountryBaseMapLayer';
 import BaseMap from '#components/domain/BaseMap';
@@ -56,6 +58,7 @@ import {
     DURATION_MAP_ZOOM,
     MAX_PAGE_LIMIT,
 } from '#utils/constants';
+import { getGeoJsonBounds } from '#utils/geo';
 import { localUnitMapStyle } from '#utils/map';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
@@ -64,14 +67,13 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
-import { type ManageResponse } from '../common';
 import {
     AUTHENTICATED,
     PUBLIC,
 } from '../common';
 import type { FilterValue } from '../Filters';
 import LocalUnitsFormModal from '../LocalUnitsFormModal';
-import { TYPE_HEALTH_CARE } from '../LocalUnitsFormModal/LocalUnitsForm/schema';
+import { TYPE_HEALTH_CARE } from '../LocalUnitsFormModal/schema';
 import LocalUnitStatus from '../LocalUnitStatus';
 
 import i18n from './i18n.json';
@@ -131,14 +133,12 @@ function emailKeySelector(email: string) {
 interface Props {
     filter: FilterValue;
     localUnitsOptions: GoApiResponse<'/api/v2/local-units-options/'> | undefined;
-    manageResponse: ManageResponse;
 }
 
 function LocalUnitsMap(props: Props) {
     const {
         filter,
         localUnitsOptions,
-        manageResponse,
     } = props;
     const { countryResponse } = useOutletContext<CountryOutletContext>();
     const { isAuthenticated } = useAuth();
@@ -225,9 +225,9 @@ function LocalUnitsMap(props: Props) {
         [loadedIcons, localUnitsOptions],
     );
 
-    const countryBounds = useMemo(() => (
+    const countryBounds = useMemo<LngLatBoundsLike | undefined>(() => (
         (countryResponse && countryResponse.bbox)
-            ? getBbox(countryResponse.bbox)
+            ? getGeoJsonBounds(countryResponse.bbox)
             : undefined
     ), [countryResponse]);
 
@@ -331,11 +331,15 @@ function LocalUnitsMap(props: Props) {
     );
 
     const handleLocalUnitsFormModalClose = useCallback(
-        () => {
+        (shouldUpdate?: boolean) => {
             setShowLocalUnitViewModalFalse();
             setReadOnlyLocalUnitModal(true);
+
+            if (shouldUpdate) {
+                refetchLocalUnits();
+            }
         },
-        [setShowLocalUnitViewModalFalse],
+        [setShowLocalUnitViewModalFalse, refetchLocalUnits],
     );
 
     const emailRendererParams = useCallback(
@@ -608,12 +612,10 @@ function LocalUnitsMap(props: Props) {
             </BaseMap>
             {(showLocalUnitModal && (
                 <LocalUnitsFormModal
-                    manageResponse={manageResponse}
                     onClose={handleLocalUnitsFormModalClose}
                     localUnitId={clickedPointProperties?.localUnitId}
                     readOnly={readOnlyLocalUnitModal}
                     setReadOnly={setReadOnlyLocalUnitModal}
-                    onDeleteActionSuccess={refetchLocalUnits}
                 />
             ))}
         </Container>

@@ -1,7 +1,15 @@
 import { useMemo } from 'react';
-import { isDefined } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
+import { type GlobalEnums } from '#contexts/domain';
 import useUserMe from '#hooks/domain/useUserMe';
+
+type OrganizationType = NonNullable<GlobalEnums['api_profile_org_types']>[number]['key'];
+
+const canEditLocalUnitOrganization: OrganizationType[] = ['NTLS', 'DLGN', 'SCRT'];
 
 function usePermissions() {
     const userMe = useUserMe();
@@ -20,7 +28,7 @@ function usePermissions() {
                 && isDefined(countryId)
                 && !!userMe?.is_admin_for_countries?.includes(countryId)
             );
-            const isRegionAdmin = (regionId: number | undefined) => (
+            const isRegionAdmin = (regionId: number | null | undefined) => (
                 !isGuestUser
                 && isDefined(regionId)
                 && !!userMe?.is_admin_for_regions?.includes(regionId)
@@ -96,6 +104,19 @@ function usePermissions() {
                 )
             );
 
+            const canEditLocalUnit = (
+                countryId: number | undefined,
+            ) => {
+                if (isGuestUser
+                    || isNotDefined(countryId)
+                    || isNotDefined(userMe?.profile.org_type)) return false;
+
+                return (
+                    userMe?.profile.country === countryId
+                    && canEditLocalUnitOrganization.includes(userMe?.profile.org_type)
+                );
+            };
+
             const isPerAdmin = !isGuestUser
                 && ((userMe?.is_per_admin_for_countries.length ?? 0) > 0
                     || (userMe?.is_per_admin_for_regions.length ?? 0) > 0);
@@ -126,6 +147,7 @@ function usePermissions() {
                 isSuperUser,
                 isGuestUser,
                 isRegionalOrCountryAdmin,
+                canEditLocalUnit,
             };
         },
         [userMe],

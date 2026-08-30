@@ -20,8 +20,6 @@ import {
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
-import { DREF_TYPE_IMMINENT } from '#utils/constants';
-
 import { TYPE_IMMINENT } from '../common';
 import { type PartialFinalReport } from '../schema';
 
@@ -178,21 +176,19 @@ function Submission(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                {value?.type_of_dref !== DREF_TYPE_IMMINENT && (
-                    <InputSection
-                        title={strings.drefFormGlideNum}
-                        numPreferredColumns={2}
-                    >
-                        <TextInput
-                            name="glide_code"
-                            value={value.glide_code}
-                            onChange={setFieldValue}
-                            error={error?.glide_code}
-                            readOnly={readOnly}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                )}
+                <InputSection
+                    title={strings.drefFormGlideNum}
+                    numPreferredColumns={2}
+                >
+                    <TextInput
+                        name="glide_code"
+                        value={value.glide_code}
+                        onChange={setFieldValue}
+                        error={error?.glide_code}
+                        readOnly={readOnly}
+                        disabled={disabled}
+                    />
+                </InputSection>
                 <InputSection
                     title={strings.drefFormAppealManager}
                     description={strings.drefFormAppealManagerDescription}

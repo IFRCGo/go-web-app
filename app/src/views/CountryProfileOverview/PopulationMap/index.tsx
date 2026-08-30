@@ -19,10 +19,10 @@ import {
     MapBounds,
     MapLayer,
 } from '@togglecorp/re-map';
-import getBbox from '@turf/bbox';
 import {
     type FillLayer,
     type LineLayer,
+    type LngLatBoundsLike,
     type SymbolLayer,
 } from 'mapbox-gl';
 
@@ -40,6 +40,7 @@ import {
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
+import { getGeoJsonBounds } from '#utils/geo';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -85,8 +86,9 @@ function PopulationMap(props: Props) {
 
     const countryData = useCountry({ id: data?.id ?? -1 });
 
-    const bounds = (isDefined(countryData) && isDefined(countryData.bbox))
-        ? getBbox(countryData?.bbox)
+    const bounds: LngLatBoundsLike | undefined = (
+        isDefined(countryData) && isDefined(countryData.bbox)
+    ) ? getGeoJsonBounds(countryData.bbox)
         : undefined;
 
     const districtsMap = useMemo(() => (

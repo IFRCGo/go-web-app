@@ -1,0 +1,7 @@
+{
+    "namespace": "emergencyTimelineProgressBar",
+    "strings": {
+        "startLabel": "Start",
+        "endLabel": "End"
+    }
+}

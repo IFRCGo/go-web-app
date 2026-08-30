@@ -19,6 +19,7 @@ import {
 } from '@togglecorp/fujs';
 
 import AppealsTable from '#components/domain/AppealsTable';
+import CountryPastEventsChart from '#components/domain/CountryPastEventsChart';
 import TabPage from '#components/TabPage';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
@@ -28,7 +29,6 @@ import {
 
 import CountryHistoricalKeyFigures from './CountryHistoricalKeyFigures';
 import EmergenciesOverMonth from './EmergenciesOverMonth';
-import PastEventsChart from './PastEventsChart';
 
 import i18n from './i18n.json';
 
@@ -51,7 +51,6 @@ function timePeriodKeySelector({ key }: { key: TimePeriodKey }) {
     return key;
 }
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -203,7 +202,7 @@ export function Component() {
                     </ListView>
                 </ListView>
             </Container>
-            <PastEventsChart
+            <CountryPastEventsChart
                 countryId={countryId}
             />
             {isDefined(countryId) && (

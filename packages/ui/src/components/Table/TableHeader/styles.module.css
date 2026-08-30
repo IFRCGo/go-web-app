@@ -1,6 +1,4 @@
 .th {
-    border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
-    background-color: var(--go-ui-color-white);
     overflow: hidden;
     vertical-align: bottom;
     text-align: left;

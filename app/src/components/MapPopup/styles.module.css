@@ -8,26 +8,24 @@
     font-family: var(--go-ui-font-family-sans-serif);
     font-size: var(--go-ui-font-size-md);
 
-    :global {
-        .mapboxgl-tip {
-            flex-shrink: 0;
-        }
+    & :global(.mapboxgl-tip) {
+        flex-shrink: 0;
+    }
 
-        .mapboxgl-popup-content {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            padding: 0;
-            overflow: auto;
+    & :global(.mapboxgl-popup-content) {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding: 0;
+        overflow: auto;
+    }
 
-            >div {
-                display: flex;
-                flex-direction: column;
-                flex-grow: 1;
-                padding: 0;
-                overflow: auto;
-            }
-        }
+    & :global(.mapboxgl-popup-content > div) {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding: 0;
+        overflow: auto;
     }
 
     .container {
@@ -46,4 +44,3 @@
         }
     }
 }
-

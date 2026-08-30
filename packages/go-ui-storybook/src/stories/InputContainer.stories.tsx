@@ -9,7 +9,7 @@ import InputContainer, { InputContainerProps } from './InputContainer';
 type Story = StoryObj<InputContainerProps>;
 
 const meta: Meta<InputContainerProps> = {
-    title: 'Components/InputContainer',
+    title: 'Container/InputContainer',
     component: InputContainer,
     parameters: {
         layout: 'centered',
@@ -39,14 +39,8 @@ export const Default: Story = {
         icons: undefined,
         disabled: false,
         error: undefined,
-        actionsContainerClassName: '',
-        errorContainerClassName: '',
-        hintContainerClassName: '',
-        iconsContainerClassName: '',
         errorOnTooltip: false,
         hint: '',
-        inputSectionClassName: '',
-        labelClassName: '',
         readOnly: false,
         required: false,
         variant: 'form',
@@ -117,5 +111,13 @@ export const WithIcon: Story = {
     args: {
         ...Default.args,
         icons: <CalendarLineIcon />,
+    },
+};
+
+export const WithPadding: Story = {
+    args: {
+        ...Default.args,
+        withPadding: true,
+        withBackground: true,
     },
 };

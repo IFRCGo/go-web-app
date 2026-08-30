@@ -15,7 +15,6 @@ import { SortContext } from '@ifrc-go/ui/contexts';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     createDateColumn,
-    createNumberColumn,
     createProgressColumn,
     createStringColumn,
     getPercentage,
@@ -31,7 +30,13 @@ import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput'
 import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useFilterState from '#hooks/useFilterState';
-import { createLinkColumn } from '#utils/domain/tableHelpers';
+import {
+    createAppealCodeColumn,
+    createBudgetColumn,
+    createCountryColumn,
+    createDisasterTypeColumn,
+    createEventColumn,
+} from '#utils/domain/tableHelpers';
 import type {
     GoApiResponse,
     GoApiUrlQuery,
@@ -144,15 +149,12 @@ function AppealsTable(props: Props) {
                     columnClassName: styles.appealType,
                 },
             ),
-            createStringColumn<AppealListItem, string>(
+            createAppealCodeColumn<AppealListItem, string>(
                 'code',
                 strings.appealsTableCode,
                 (item) => item.code,
-                {
-                    columnClassName: styles.code,
-                },
             ),
-            createLinkColumn<AppealListItem, string>(
+            createEventColumn<AppealListItem, string>(
                 'operation',
                 strings.appealsTableOperation,
                 (item) => item.name,
@@ -161,20 +163,17 @@ function AppealsTable(props: Props) {
                     urlParams: { emergencyId: item.event },
                 }),
             ),
-            createStringColumn<AppealListItem, string>(
+            createDisasterTypeColumn<AppealListItem, string>(
                 'dtype',
                 strings.appealsTableDisasterType,
                 (item) => item.dtype?.name,
                 { sortable: true },
             ),
-            createNumberColumn<AppealListItem, string>(
+            createBudgetColumn<AppealListItem, string>(
                 'amount_requested',
                 strings.appealsTableRequestedAmount,
                 (item) => item.amount_requested,
-                {
-                    sortable: true,
-                    suffix: ' CHF',
-                },
+                { sortable: true },
             ),
             createProgressColumn<AppealListItem, string>(
                 'amount_funded',
@@ -188,7 +187,7 @@ function AppealsTable(props: Props) {
                 { sortable: true },
             ),
             variant !== 'country'
-                ? createLinkColumn<AppealListItem, string>(
+                ? createCountryColumn<AppealListItem, string>(
                     'country',
                     strings.appealsTableCountry,
                     (item) => item.country?.name,

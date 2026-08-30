@@ -8,8 +8,6 @@ import {
 import Link from '#components/Link';
 import { type GoApiResponse } from '#utils/restRequest';
 
-import styles from './styles.module.css';
-
 type GetKeyDocumentResponse = GoApiResponse<'/api/v2/country-document/'>;
 type KeyDocumentItem = NonNullable<GetKeyDocumentResponse['results']>[number];
 
@@ -36,8 +34,8 @@ function DocumentListCard(props: Props) {
             withPadding
             withShadow
             withBackground
-            className={styles.documentListCard}
             withContentOverflow
+            withFixedHeight
         >
             <ListView
                 layout="block"

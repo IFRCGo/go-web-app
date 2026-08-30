@@ -1,3 +1,15 @@
-.td {
-    border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+.table-data {
+    --cell-border-color: var(--go-ui-color-separator);
+    --cell-background-color: transparent;
+
+    border-bottom: var(--go-ui-width-separator-sm) solid var(--cell-border-color);
+    background-color: var(--cell-background-color);
+    padding: var(--go-ui-spacing-sm);
+    overflow: hidden;
+    overflow-wrap: break-word;
+
+    &.expanded-content-cell {
+        --cell-border-color: var(--go-ui-color-separator-light);
+        --cell-background-color: var(--go-ui-color-background);
+    }
 }

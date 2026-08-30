@@ -1,6 +1,6 @@
 .surge-catalogue {
     display: grid;
-    grid-gap: var(--go-ui-spacing-xl);
+    gap: var(--go-ui-spacing-xl);
     grid-template-columns: calc(16rem + 8%) 1fr;
 
     .tab-list {

@@ -60,7 +60,7 @@ function ChartAxes(props: Props) {
         yAxisLabelWidth = 20,
     } = props;
 
-    const hoverOutTimeoutRef = useRef<number | undefined>();
+    const hoverOutTimeoutRef = useRef<number | undefined>(undefined);
 
     const yAxisTickHeight = dataAreaSize.height / yAxisTicks.length;
 

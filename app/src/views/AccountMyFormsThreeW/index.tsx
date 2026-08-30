@@ -118,7 +118,6 @@ interface Props {
     className?: string;
 }
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component(props: Props) {
     const { className } = props;

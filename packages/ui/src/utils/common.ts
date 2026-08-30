@@ -19,6 +19,7 @@ import {
     sum,
 } from '@togglecorp/fujs';
 
+import { type Props as InputContainerProps } from '#components/InputContainer';
 import { type Language } from '#contexts/language';
 
 import {
@@ -819,3 +820,88 @@ export const getContrastColor = (hexcolor: string): string => {
     const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
     return luminance > 0.5 ? '#000000' : '#FFFFFF';
 };
+
+function isDefinedValue(value: unknown) {
+    if (isNotDefined(value)) {
+        return false;
+    }
+
+    if (value === '') {
+        return false;
+    }
+
+    return true;
+}
+
+function isNotDefinedValue(value: unknown) {
+    if (isNotDefined(value)) {
+        return true;
+    }
+
+    if (value === '') {
+        return true;
+    }
+
+    return false;
+}
+
+const WORD_PATTERN = /\S+/g;
+
+export function getWordCount(value: string | undefined | null) {
+    if (isNotDefined(value)) {
+        return 0;
+    }
+
+    return [...value.matchAll(WORD_PATTERN)].length;
+}
+
+export function trimToWordLimit(
+    value: string | undefined,
+    maxWords: number,
+): string | undefined {
+    if (isNotDefined(value)) {
+        return value;
+    }
+
+    if (maxWords <= 0) {
+        return undefined;
+    }
+
+    const matches = [...value.matchAll(WORD_PATTERN)];
+
+    if (matches.length <= maxWords) {
+        return value;
+    }
+
+    const lastAllowedWord = matches[maxWords - 1];
+    const trimmedValue = value.slice(
+        0,
+        (lastAllowedWord.index ?? 0) + lastAllowedWord[0].length,
+    );
+
+    return trimmedValue === '' ? undefined : trimmedValue;
+}
+
+export function getHighlightMode<VALUE>(
+    value: VALUE | undefined | null,
+    prevValue: VALUE | undefined | null,
+    withDiffView?: boolean,
+): InputContainerProps['highlightMode'] {
+    if (!withDiffView) {
+        return undefined;
+    }
+
+    if (isNotDefinedValue(prevValue) && isDefinedValue(value)) {
+        return 'add';
+    }
+
+    if (isNotDefinedValue(value) && isDefinedValue(prevValue)) {
+        return 'remove';
+    }
+
+    if (value !== prevValue) {
+        return 'update';
+    }
+
+    return undefined;
+}

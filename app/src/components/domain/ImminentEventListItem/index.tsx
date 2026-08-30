@@ -72,7 +72,7 @@ function ImminentEventListItem(props: Props) {
             )}
             headerDescription={description}
             spacing="sm"
-            withBackground
+            withDarkBackground
             withPadding
             withoutSpacingOpticalCorrection
             withContentWell

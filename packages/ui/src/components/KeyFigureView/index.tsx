@@ -52,19 +52,24 @@ function KeyFigureView(props: Props) {
             withoutSpacingOpticalCorrection={isDefined(icon) || isDefined(info)}
         >
             <ListView layout="block">
-                {(isDefined(icon) || isDefined(info)) && (
-                    <InlineLayout
-                        after={info}
-                        childrenContainerClassName={styles.icon}
-                        contentAlignment="start"
-                    >
-                        {icon}
-                    </InlineLayout>
-                )}
-                <KeyFigure
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...keyFigureProps}
-                />
+                <ListView
+                    layout="block"
+                    spacing="none"
+                >
+                    {(isDefined(icon) || isDefined(info)) && (
+                        <InlineLayout
+                            after={info}
+                            childrenContainerClassName={styles.icon}
+                            contentAlignment="start"
+                        >
+                            {icon}
+                        </InlineLayout>
+                    )}
+                    <KeyFigure
+                        // eslint-disable-next-line react/jsx-props-no-spreading
+                        {...keyFigureProps}
+                    />
+                </ListView>
                 {isDefined(progress) && (
                     <ProgressBar
                         title={progressTitle}

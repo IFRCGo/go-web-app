@@ -1,6 +1,6 @@
 .indicator {
     display: grid;
-    grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+    gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
     grid-template-columns: 7fr 3fr 3fr 1fr;
     align-items: center;
 

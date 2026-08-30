@@ -1,0 +1,543 @@
+{
+    "parent": "000091-1787644777189.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "coverEligibilityImminent1",
+            "namespace": "drefImportTemplate",
+            "value": "--- The DREF responds to an imminent crisis where a forecast trigger/threshold has been or is about to be met."
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityImminent2",
+            "namespace": "drefImportTemplate",
+            "value": "--- Scenario analysis and hazard monitoring information is available."
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityImminent3",
+            "namespace": "drefImportTemplate",
+            "value": "--- The sub-total of the proposed Early Action and Early Response budgets is exactly CHF75,000."
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityImminent4",
+            "namespace": "drefImportTemplate",
+            "value": "--- The operation is implemented within a short anticipatory window (around 45 days)."
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityImminent5",
+            "namespace": "drefImportTemplate",
+            "value": "--- NS has no overdue DREF reports."
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityIntro",
+            "namespace": "drefImportTemplate",
+            "value": "Before completing the template, ensure you meet the following criteria:"
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityResponse1",
+            "namespace": "drefImportTemplate",
+            "value": "--- A Field Report has been published to inform the DREF decision."
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityResponse2",
+            "namespace": "drefImportTemplate",
+            "value": "--- NS has no overdue DREF reports."
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityResponse3",
+            "namespace": "drefImportTemplate",
+            "value": "--- The support cost is no more than 40% (check under the “Resource Budget Summary” tab)."
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityResponse4",
+            "namespace": "drefImportTemplate",
+            "value": "--- The operation supports at least 100 households (HH)."
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityResponse5",
+            "namespace": "drefImportTemplate",
+            "value": "--- The budget allows no more than CHF100 per person (Total Budget ÷ Number of Targeted People)."
+        },
+        {
+            "action": "add",
+            "key": "coverEligibilityResponse6",
+            "namespace": "drefImportTemplate",
+            "value": "--- If requesting more than CHF500,000, check the IFRC categorisation with the Regional Office Information Management (RO IM) team (yellow category ceiling)."
+        },
+        {
+            "action": "add",
+            "key": "coverHowToUseCollaborationDescription",
+            "namespace": "drefImportTemplate",
+            "value": "This Excel file can be uploaded to OneDrive/SharePoint/Google Drive for multiple users to work on simultaneously. Please note that only one user can edit any specific cell at a time."
+        },
+        {
+            "action": "add",
+            "key": "coverHowToUseCollaborationHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Collaboration"
+        },
+        {
+            "action": "add",
+            "key": "coverHowToUseEntryLimitsDescription",
+            "namespace": "drefImportTemplate",
+            "value": "Some sections, like sources of information, risks and mitigation, and indicators, have a maximum of {maxEntries}. Please do not attempt to add more."
+        },
+        {
+            "action": "add",
+            "key": "coverHowToUseEntryLimitsHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Entry limits"
+        },
+        {
+            "action": "add",
+            "key": "coverHowToUseMandatoryFieldsDescription",
+            "namespace": "drefImportTemplate",
+            "value": "Input required information in the “Value” column. Do not add data outside of these designated fields."
+        },
+        {
+            "action": "add",
+            "key": "coverHowToUseMandatoryFieldsHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Mandatory fields"
+        },
+        {
+            "action": "add",
+            "key": "coverHowToUseMaxEntries",
+            "namespace": "drefImportTemplate",
+            "value": "{count} entries"
+        },
+        {
+            "action": "add",
+            "key": "coverNoteResponseHighlight",
+            "namespace": "drefImportTemplate",
+            "value": "Ensure your DREF request reaches the Regional Office (RO) with enough time for a 24-hour technical review"
+        },
+        {
+            "action": "add",
+            "key": "coverSectionActionsAndNeeds",
+            "namespace": "drefImportTemplate",
+            "value": "Actions and Needs"
+        },
+        {
+            "action": "add",
+            "key": "coverSectionEventDetails",
+            "namespace": "drefImportTemplate",
+            "value": "Event Details"
+        },
+        {
+            "action": "add",
+            "key": "coverSectionOperationOverview",
+            "namespace": "drefImportTemplate",
+            "value": "Operation Overview"
+        },
+        {
+            "action": "add",
+            "key": "coverSectionOperationPlan",
+            "namespace": "drefImportTemplate",
+            "value": "Operation Plan"
+        },
+        {
+            "action": "add",
+            "key": "coverSectionPlan",
+            "namespace": "drefImportTemplate",
+            "value": "Plan"
+        },
+        {
+            "action": "add",
+            "key": "coverSectionScenarioAnalysis",
+            "namespace": "drefImportTemplate",
+            "value": "Scenario Analysis"
+        },
+        {
+            "action": "add",
+            "key": "coverSectionTimeframesAndContacts",
+            "namespace": "drefImportTemplate",
+            "value": "Timeframes and Contacts"
+        },
+        {
+            "action": "add",
+            "key": "coverStepsDescription1",
+            "namespace": "drefImportTemplate",
+            "value": "1. Ensure the template is fully completed and all fields are correctly filled."
+        },
+        {
+            "action": "add",
+            "key": "coverStepsDescription2",
+            "namespace": "drefImportTemplate",
+            "value": "2. Log in to the GO platform."
+        },
+        {
+            "action": "add",
+            "key": "coverStepsDescription3",
+            "namespace": "drefImportTemplate",
+            "value": "3. Create a “New DREF Application” and use the {importAction} function to upload this Excel file."
+        },
+        {
+            "action": "add",
+            "key": "coverStepsDescription4",
+            "namespace": "drefImportTemplate",
+            "value": "4. After importing, any additional work on the application should be done directly in the GO platform."
+        },
+        {
+            "action": "add",
+            "key": "coverStepsImportAction",
+            "namespace": "drefImportTemplate",
+            "value": "Import"
+        },
+        {
+            "action": "add",
+            "key": "coverStructureActionsAndNeeds",
+            "namespace": "drefImportTemplate",
+            "value": "{actionsAndNeeds} – description of key actions and needs."
+        },
+        {
+            "action": "add",
+            "key": "coverStructureEventDetails",
+            "namespace": "drefImportTemplate",
+            "value": "{eventDetails} – information on the event triggering the DREF request."
+        },
+        {
+            "action": "add",
+            "key": "coverStructureImminentOperationOverview",
+            "namespace": "drefImportTemplate",
+            "value": "{operationOverview} – general context of the operation."
+        },
+        {
+            "action": "add",
+            "key": "coverStructureIntro",
+            "namespace": "drefImportTemplate",
+            "value": "The template is divided into the following sections:"
+        },
+        {
+            "action": "add",
+            "key": "coverStructureOperationPlan",
+            "namespace": "drefImportTemplate",
+            "value": "{operationPlan} – outline of the planned operation and identified risks."
+        },
+        {
+            "action": "add",
+            "key": "coverStructurePlan",
+            "namespace": "drefImportTemplate",
+            "value": "{plan} – proposed early actions, early response and support services."
+        },
+        {
+            "action": "add",
+            "key": "coverStructureResponseOperationOverview",
+            "namespace": "drefImportTemplate",
+            "value": "{operationOverview} – general context of the emergency operation."
+        },
+        {
+            "action": "add",
+            "key": "coverStructureScenarioAnalysis",
+            "namespace": "drefImportTemplate",
+            "value": "{scenarioAnalysis} – information on the imminent hazard triggering the DREF request."
+        },
+        {
+            "action": "add",
+            "key": "coverStructureTimeframesAndContacts",
+            "namespace": "drefImportTemplate",
+            "value": "{timeframesAndContacts} – key timeframes and relevant contact details."
+        },
+        {
+            "action": "add",
+            "key": "immSourceLinkDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Specify the names (up to 5) of the key information sources. If possible, provide links."
+        },
+        {
+            "action": "add",
+            "key": "immSourceLinkDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "The names will be shown in the export as an hyperlink."
+        },
+        {
+            "action": "add",
+            "key": "immSurgePersonnelDeployedDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Describe the skills and qualifications/profile of the surge personnel or any additional staff (to be) deployed specifically for the operation."
+        },
+        {
+            "action": "add",
+            "key": "immSurgePersonnelDeployedDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "What expertise or skill sets are required for the personnel being deployed?"
+        },
+        {
+            "action": "add",
+            "key": "immSurgePersonnelDeployedDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "What roles will these personnel fulfil?"
+        },
+        {
+            "action": "add",
+            "key": "immSurgePersonnelDeployedDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "Are there specific tasks or sectors they will be managing?"
+        },
+        {
+            "action": "add",
+            "key": "needDesc_shelter_housing_and_settlements1",
+            "namespace": "drefImportTemplate",
+            "value": "Immediate shelter needs and the recovery of housing for displaced or affected populations. It includes emergency shelter provisions, housing repairs, and support for longer-term settlement planning."
+        },
+        {
+            "action": "add",
+            "key": "needDesc_shelter_housing_and_settlements2",
+            "namespace": "drefImportTemplate",
+            "value": "# houses and infrastructure damaged, type/condition of damage (total, severe, partial), availability of public facilities – evacuation shelters, schools, etc. nearby and how are they used."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_health1",
+            "namespace": "drefImportTemplate",
+            "value": "Healthcare services for affected communities, including medical assistance, mental health and psychosocial support, and the prevention of disease outbreaks."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_health2",
+            "namespace": "drefImportTemplate",
+            "value": "Background on affected / not-affected health service delivery, supply chain, and logistics, and what different actors (hospitals, clinics, government, partners, etc…) are doing to support the health-related needs."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_health3",
+            "namespace": "drefImportTemplate",
+            "value": "Common types of infectious diseases in the area / prone in that particular crisis."
+        },
+        {
+            "action": "add",
+            "key": "nsActionDesc_health4",
+            "namespace": "drefImportTemplate",
+            "value": "How affected people are reacting and coping (positive and/or negative coping strategies), and what is the availability and accessibility of MHPSS services and mental health institutions."
+        },
+        {
+            "action": "add",
+            "key": "respIndicatorTitleDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Start by choosing indicators from the IFRC indicator databank whenever possible. This makes it easier to compare and analyse results across all emergency operations."
+        },
+        {
+            "action": "add",
+            "key": "respIndicatorTitleDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "Pick indicators that align with the planned activities. This ensures that the indicators accurately reflect the actions being taken on the ground. Missing important indicators could mean missed chances to showcase the positive impact of the work being done."
+        },
+        {
+            "action": "add",
+            "key": "respIndicatorTitleDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "Keep in mind that more indicators can mean more work. Each indicator selected requires monitoring, tracking, and reporting, so be sure to choose the ones that best reflect the key outcomes of your actions."
+        },
+        {
+            "action": "add",
+            "key": "respIndicatorTitleDesc4",
+            "namespace": "drefImportTemplate",
+            "value": "Consider the type of indicator unit. For example, it’s often simpler and clearer to track and report on the “number of people” rather than a “percentage of people.”"
+        },
+        {
+            "action": "add",
+            "key": "respIsThereMajorCoordinationMechanismDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "- Inform on the inter-agency / inter-governmental coordination that has been formally or informally set up."
+        },
+        {
+            "action": "add",
+            "key": "respIsThereMajorCoordinationMechanismDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "- If possible, include the methods of coordination / information sharing."
+        },
+        {
+            "action": "add",
+            "key": "respIsThereMajorCoordinationMechanismDesc3",
+            "namespace": "drefImportTemplate",
+            "value": "- If possible, include brief information how task / locations / etc. are coordinated and divided."
+        },
+        {
+            "action": "add",
+            "key": "respMajorCoordinationMechanismDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "List coordination mechanisms/platform in place at local/district and national level. Indicate the lead authorities/agencies. How the National Society is involved/positioned in this coordination. Does the NS in any lead/co-lead role? Any identified gap/overlap in the coordination (e.g., sector missing…)?"
+        },
+        {
+            "action": "add",
+            "key": "respMajorCoordinationMechanismDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "Indicate only if there are major coordination mechanism in place"
+        },
+        {
+            "action": "add",
+            "key": "respOtherwiseLeaveEmpty",
+            "namespace": "drefImportTemplate",
+            "value": "Otherwise, leave the box empty."
+        },
+        {
+            "action": "add",
+            "key": "respSourceLinkDesc1",
+            "namespace": "drefImportTemplate",
+            "value": "Specify the names (up to 5) of the key information sources. If possible, provide links."
+        },
+        {
+            "action": "add",
+            "key": "respSourceLinkDesc2",
+            "namespace": "drefImportTemplate",
+            "value": "The names will be shown in the export as an hyperlink."
+        },
+        {
+            "action": "remove",
+            "key": "coverEligibilityImminent",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "coverEligibilityResponse",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "coverHowToUseDescription",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "coverStepsDescription",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "coverStructureImminent",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "coverStructureResponse",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "immNsRequestDateDesc",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "immSourceLinkDesc",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "immSurgePersonnelDeployedDesc",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "needDesc_shelter_housing_and_settlements",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "nsActionDesc_health",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "respEventDateDesc",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "respIndicatorTitleDesc",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "respIsThereMajorCoordinationMechanismDesc",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "respMajorCoordinationMechanismDesc",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "respNeedDescriptionDesc",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "respNsActionDescriptionDesc",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "respNsRequestDateDesc",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "respNsRespondDateDesc",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "remove",
+            "key": "respSourceLinkDesc",
+            "namespace": "drefImportTemplate"
+        },
+        {
+            "action": "update",
+            "key": "coverNoteImminent",
+            "namespace": "drefImportTemplate",
+            "newValue": "Ensure your Imminent DREF request reaches the Regional Office (RO) with enough time for technical review and approval before the forecast trigger window closes."
+        },
+        {
+            "action": "update",
+            "key": "coverNoteResponse",
+            "namespace": "drefImportTemplate",
+            "newValue": "{highlight}, addressing comments, and getting approval within 10 days (sudden onset) or 14 days (slow onset/replenishment) from the trigger date."
+        },
+        {
+            "action": "update",
+            "key": "coverSubHeading",
+            "namespace": "drefImportTemplate",
+            "newValue": "Import template"
+        },
+        {
+            "action": "update",
+            "key": "immHazardDateDesc",
+            "namespace": "drefImportTemplate",
+            "newValue": "Must be today or a future date."
+        },
+        {
+            "action": "update",
+            "key": "respDidItAffectSamePopulationDesc",
+            "namespace": "drefImportTemplate",
+            "newValue": "Indicate only if there was a similar event affecting the same area in the last 3 years."
+        },
+        {
+            "action": "update",
+            "key": "respDidNsRequestFundDesc",
+            "namespace": "drefImportTemplate",
+            "newValue": "Indicate only if the national society responded"
+        },
+        {
+            "action": "update",
+            "key": "respDidNsRespondDesc",
+            "namespace": "drefImportTemplate",
+            "newValue": "Indicate only if it affected the same population groups"
+        },
+        {
+            "action": "update",
+            "key": "respNsRequestTextDesc",
+            "namespace": "drefImportTemplate",
+            "newValue": "Indicate only if the national society requested funding from DREF for that event(s)."
+        }
+    ]
+}

@@ -91,7 +91,7 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
         yDomain,
     } = options;
 
-    const [containerRef, setContainerRef] = useState<React.RefObject<HTMLDivElement>>(
+    const [containerRef, setContainerRef] = useState<React.RefObject<HTMLDivElement | null>>(
         createRef,
     );
 

@@ -8,8 +8,8 @@ import styles from './styles.module.css';
 export interface Props {
     className?: string;
     pointerClassName?: string;
-    elementRef?: React.RefObject<HTMLDivElement>;
-    parentRef: React.RefObject<HTMLElement | undefined>;
+    elementRef?: React.RefObject<HTMLDivElement | null>;
+    parentRef: React.RefObject<HTMLElement | null>;
     children?: React.ReactNode;
     preferredWidth?: number;
 }

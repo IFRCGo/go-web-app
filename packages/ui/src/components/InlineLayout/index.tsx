@@ -12,7 +12,7 @@ import {
 import styles from './styles.module.css';
 
 export interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'before' | 'after' | 'name' | 'value' | 'onClick'> {
-    elementRef?: React.RefObject<HTMLDivElement>;
+    elementRef?: React.RefObject<HTMLDivElement | null>;
     className?: string;
 
     before?: React.ReactNode;
@@ -29,7 +29,7 @@ export interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'be
     withAdditionalInlinePadding?: boolean;
     withEllipsizedContent?: boolean;
 
-    contentAlignment?: 'start' | 'center' | 'end';
+    contentAlignment?: 'start' | 'center' | 'end' | 'baseline';
     contentJustification?: 'start' | 'center' | 'end';
     withInlineDisplay?: boolean;
 }
@@ -89,6 +89,7 @@ function InlineLayout(props: Props) {
                 spacingClassName,
                 contentAlignment === 'start' && styles.startAlignedContent,
                 contentAlignment === 'end' && styles.endAlignedContent,
+                contentAlignment === 'baseline' && styles.baselineAlignedContent,
                 withInlineDisplay && styles.withInlineDisplay,
                 className,
             )}
@@ -104,6 +105,7 @@ function InlineLayout(props: Props) {
                     {before}
                 </div>
             )}
+            {/* FIXME: remove unnecessary gap when children is empty */}
             <div
                 className={_cs(
                     styles.children,

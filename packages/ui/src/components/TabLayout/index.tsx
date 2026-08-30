@@ -1,4 +1,7 @@
-import { CheckFillIcon } from '@ifrc-go/icons';
+import {
+    ChevronRightLineIcon,
+    CloseLineIcon,
+} from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
 
 import InlineLayout, { type Props as InlineLayoutProps } from '#components/InlineLayout';
@@ -25,6 +28,15 @@ const styleVariantToClassName: Record<TabStyleVariant, string> = {
     'vertical-compact': styles.styleVariantVerticalCompact,
 };
 
+const styleVariantToSpacingOffset: Record<TabStyleVariant, number> = {
+    tab: 1,
+    pill: 0,
+    step: -1,
+    nav: 0,
+    vertical: 0,
+    'vertical-compact': -2,
+};
+
 export interface Props extends Omit<InlineLayoutProps, 'withPadding'> {
     className?: string;
     tabWrapperClassName?: string;
@@ -46,7 +58,7 @@ function TabLayout(props: Props) {
     const {
         colorVariant = 'primary',
         styleVariant = 'nav',
-        spacingOffset = styleVariant === 'tab' ? 1 : 0,
+        spacingOffset = styleVariantToSpacingOffset[styleVariant],
         className,
         disabled,
         children,
@@ -58,6 +70,7 @@ function TabLayout(props: Props) {
         isFirstStep,
         isLastStep,
         errored,
+        after,
         ...inlineLayoutProps
     } = props;
 
@@ -71,7 +84,10 @@ function TabLayout(props: Props) {
         <InlineLayout
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...inlineLayoutProps}
-            withPadding={!(withoutPadding || styleVariant === 'vertical-compact' || styleVariant === 'nav')}
+            withPadding={!(withoutPadding
+                || styleVariant === 'vertical-compact'
+                || styleVariant === 'nav'
+            )}
             className={_cs(
                 styles.tabLayout,
                 colorVariantToClassName[colorVariant],
@@ -79,15 +95,19 @@ function TabLayout(props: Props) {
                 stepCompleted && styles.completed,
                 disabled && styles.disabled,
                 active && styles.active,
-                // FIXME: implement this
                 errored && styles.errored,
                 className,
             )}
             spacingOffset={spacingOffset}
             withAdditionalInlinePadding={styleVariant === 'pill'}
+            after={(
+                <>
+                    {after}
+                    {styleVariant === 'vertical-compact' && <ChevronRightLineIcon className={styles.forwardIcon} />}
+                </>
+            )}
         >
             {children}
-            <span className={styles.visualFeedback} />
         </InlineLayout>
     );
 
@@ -123,13 +143,11 @@ function TabLayout(props: Props) {
                 role="tab"
             >
                 <div className={styles.dotWrapper}>
-                    <div className={styles.beforeDot} />
+                    <div className={styles.beforeLine} />
                     <div className={styles.dot}>
-                        {stepCompleted && (
-                            <CheckFillIcon className={styles.icon} />
-                        )}
+                        {errored && <CloseLineIcon className={styles.icon} />}
                     </div>
-                    <div className={styles.afterDot} />
+                    <div className={styles.afterLine} />
                 </div>
                 {tabContent}
             </div>

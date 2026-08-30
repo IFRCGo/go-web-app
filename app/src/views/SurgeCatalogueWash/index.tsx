@@ -6,7 +6,6 @@ import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer'
 
 import i18n from './i18n.json';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -114,7 +113,7 @@ export function Component() {
     const additionalData: LinkData[] = [
         {
             title: strings.learnMore,
-            href: 'https://watsanmissionassistant.org/',
+            href: 'https://wash.ifrc.org/',
             external: true,
             withLinkIcon: true,
         },
@@ -186,9 +185,9 @@ export function Component() {
                 heading={strings.additionalResources}
             >
                 <CatalogueInfoCard
-                    title={strings.additionWatsan}
+                    title={strings.additionWashPortal}
                     data={additionalData}
-                    description={strings.additionWatsanDetail}
+                    description={strings.additionWashPortalDetail}
                 />
             </SurgeCardContainer>
         </SurgeCatalogueContainer>

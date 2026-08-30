@@ -54,6 +54,8 @@ function MapPopup(props: Props) {
                 withHeaderBorder
                 withoutWrapInHeader
                 withPadding
+                withBackground
+                withContentOverflow
                 headerActions={(
                     <>
                         {headerActions}

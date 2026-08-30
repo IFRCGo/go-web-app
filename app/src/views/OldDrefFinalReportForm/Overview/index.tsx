@@ -11,9 +11,10 @@ import {
 import {
     Button,
     Container,
+    InlineLayout,
     InputSection,
-    List,
     ListView,
+    RawList,
     SelectInput,
     TextArea,
     TextInput,
@@ -38,9 +39,9 @@ import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import DrefShareModal from '#components/domain/DrefShareModal';
-import UserItem from '#components/domain/DrefShareModal/UserItem';
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
+import ShareUserItem from '#components/domain/ShareUserItem';
 import { type User } from '#components/domain/UserSearchMultiSelectInput';
 import Link from '#components/Link';
 import useCountry from '#hooks/domain/useCountry';
@@ -131,27 +132,19 @@ function Overview(props: Props) {
         setFieldValue(nationalSociety, 'country');
     }, [setFieldValue]);
 
-    const handleGenerateTitleButtonClick = useCallback(
-        () => {
-            const countryName = countryOptions?.find(
-                (country) => country.id === value?.country,
-            )?.name || '{Country}';
-            const disasterName = disasterTypes?.find(
-                (disasterType) => disasterType.id === value?.disaster_type,
-            )?.name || '{Disaster}';
-            const currentYear = new Date().getFullYear();
+    // FIXME(frozenhelium): useCallback removed for React Compiler compatibility
+    const handleGenerateTitleButtonClick = () => {
+        const countryName = countryOptions?.find(
+            (country) => country.id === value?.country,
+        )?.name || '{Country}';
+        const disasterName = disasterTypes?.find(
+            (disasterType) => disasterType.id === value?.disaster_type,
+        )?.name || '{Disaster}';
+        const currentYear = new Date().getFullYear();
 
-            const title = `${countryName} ${disasterName} ${currentYear}`;
-            setFieldValue(title, 'title');
-        },
-        [
-            countryOptions,
-            disasterTypes,
-            value?.disaster_type,
-            value?.country,
-            setFieldValue,
-        ],
-    );
+        const title = `${countryName} ${disasterName} ${currentYear}`;
+        setFieldValue(title, 'title');
+    };
 
     const userRendererParams = useCallback((userId: number, user: User) => ({
         userId,
@@ -196,29 +189,32 @@ function Overview(props: Props) {
             <Container
                 heading={strings.drefFormSharingHeading}
             >
-                <ListView>
+                <ListView layout="block">
                     <InputSection
                         title={strings.drefOperationalShareApplicationLabel}
                         description={strings.drefOperationalShareApplicationDescription}
                         numPreferredColumns={1}
                     >
-                        <List
-                            className={styles.userList}
-                            messageClassName={styles.message}
-                            data={drefUsers}
-                            renderer={UserItem}
-                            keySelector={userKeySelector}
-                            rendererParams={userRendererParams}
+                        <Container
+                            empty={isNotDefined(drefUsers) || drefUsers.length === 0}
                             emptyMessage={strings.userListEmptyMessage}
-                            errored={false}
-                            filtered={false}
-                            pending={false}
-                            compact
-                        />
+                        >
+                            <ListView
+                                withWrap
+                                spacing="xs"
+                            >
+                                <RawList
+                                    data={drefUsers}
+                                    renderer={ShareUserItem}
+                                    keySelector={userKeySelector}
+                                    rendererParams={userRendererParams}
+                                />
+                            </ListView>
+                        </Container>
                         <Button
                             name={undefined}
                             onClick={setShowShareModalTrue}
-                            disabled={isNotDefined(drefId) || readOnly}
+                            disabled={isNotDefined(drefId)}
                             before={<ShareLineIcon />}
                         >
                             {strings.formShareButtonLabel}
@@ -375,29 +371,30 @@ function Overview(props: Props) {
                         />
                     </InputSection>
                     <InputSection title={strings.drefFormTitle}>
-                        <div className={styles.titleContainer}>
+                        <InlineLayout
+                            after={(
+                                <Button
+                                    name={undefined}
+                                    onClick={handleGenerateTitleButtonClick}
+                                    disabled={disabled
+                                        || readOnly
+                                        || isNotDefined(value?.country)
+                                        || isNotDefined(value?.disaster_type)
+                                        || isNotDefined(disasterTypes)}
+                                >
+                                    {strings.drefFormGenerateTitle}
+                                </Button>
+                            )}
+                        >
                             <TextInput
                                 name="title"
-                                className={styles.titleInput}
                                 value={value?.title}
                                 onChange={setFieldValue}
                                 error={error?.title}
                                 disabled={disabled}
                                 readOnly={readOnly}
                             />
-                            <Button
-                                className={styles.generateTitleButton}
-                                name={undefined}
-                                onClick={handleGenerateTitleButtonClick}
-                                disabled={disabled
-                                    || readOnly
-                                    || isNotDefined(value?.country)
-                                    || isNotDefined(value?.disaster_type)
-                                    || isNotDefined(disasterTypes)}
-                            >
-                                {strings.drefFormGenerateTitle}
-                            </Button>
-                        </div>
+                        </InlineLayout>
                     </InputSection>
                     <InputSection
                         title={strings.drefFormUploadMap}

@@ -27,7 +27,7 @@ const maxValue = Math.max(...data.map(valueSelector));
 type BarChartSpecificProps = BarChartProps<Option>;
 type Story = StoryObj<BarChartSpecificProps>;
 const meta: Meta<BarChartSpecificProps> = {
-    title: 'Components/BarChart',
+    title: 'Visualization/BarChart',
     component: BarChart,
     parameters: {
         layout: 'centered',

@@ -11,9 +11,10 @@ const textSizeToClassName: Record<TextSize, string> = {
 };
 
 export interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'size'> {
-    elementRef?: React.RefObject<HTMLDivElement>;
+    elementRef?: React.RefObject<HTMLDivElement | null>;
     strong?: boolean;
     textSize?: TextSize;
+    withUppercaseLetters?: boolean;
 }
 
 function Label(props: Props) {
@@ -23,6 +24,7 @@ function Label(props: Props) {
         className,
         strong,
         textSize = 'md',
+        withUppercaseLetters,
     } = props;
 
     if (!children) {
@@ -36,6 +38,7 @@ function Label(props: Props) {
                 styles.label,
                 strong && styles.strong,
                 textSizeToClassName[textSize],
+                withUppercaseLetters && styles.withUppercaseLetters,
                 className,
             )}
         >

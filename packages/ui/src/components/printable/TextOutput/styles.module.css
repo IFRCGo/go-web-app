@@ -1,4 +1,19 @@
 .text-output {
+    break-inside: avoid;
+
+    &.with-padding {
+        padding: var(--go-ui-spacing-sm);
+    }
+
+    &.with-background {
+        background-color: var(--go-ui-color-background);
+    }
+
+    &.block-variant {
+        display: flex;
+        flex-direction: column;
+    }
+
     &.default-variant {
         display: flex;
         flex-wrap: wrap;

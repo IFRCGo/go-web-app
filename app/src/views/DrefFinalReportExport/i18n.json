@@ -29,6 +29,7 @@
         "operationStartDateLabel": "Operation Start Date",
         "operationTimeframeLabel": "Total Operating Timeframe",
         "monthsSuffix": " months",
+        "daysSuffix": " days",
         "operationEndDateLabel": "Operational End Date",
         "targetedAreasLabel": "Targeted Regions",
         "eventDescriptionSectionHeading": "Description of the Event",
@@ -37,7 +38,6 @@
         "whatWhereWhenSectionHeading": "What happened, where and when?",
         "dateOfEventSlowHeading": "Date of event",
         "dateWhenTriggerWasMetHeading": "Date when the trigger was met",
-
         "eventDevelopmentSectionHeading": "Update regarding the event’s development",
         "scopeAndScaleSectionHeading": "Scope and Scale",
         "eventsImpactHeading": "Events impact",

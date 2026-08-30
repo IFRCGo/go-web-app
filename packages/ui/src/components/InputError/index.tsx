@@ -31,7 +31,7 @@ function InputError(props: Props) {
 
     const [hasParentRef, setHasParentRef] = useState(false);
 
-    const parentRef = useRef<HTMLElement | undefined>();
+    const parentRef = useRef<HTMLElement | null>(null);
     const dummyRef = useRef<HTMLDivElement>(null);
 
     useEffect(
@@ -51,6 +51,8 @@ function InputError(props: Props) {
             }
 
             parentRef.current = parentElement;
+            // FIXME(frozenhelium): setState on mount signals parent DOM is available
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setHasParentRef(true);
         },
         [],

@@ -32,7 +32,7 @@ function Tooltip(props: Props) {
     const [hasParentRef, setHasParentRef] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
 
-    const parentRef = useRef<HTMLElement>();
+    const parentRef = useRef<HTMLElement | null>(null);
     const dummyRef = useRef<HTMLDivElement>(null);
 
     useEffect(
@@ -62,6 +62,8 @@ function Tooltip(props: Props) {
             parentRef.current = parentNode as HTMLElement;
             parentNode.addEventListener('mouseover', handleMouseEnter);
             parentNode.addEventListener('mouseout', handleMouseOut);
+            // FIXME(frozenhelium): setState on mount signals parent DOM is available
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setHasParentRef(true);
 
             return () => {
@@ -83,7 +85,7 @@ function Tooltip(props: Props) {
             {showPopup && (
                 <Popup
                     className={_cs(styles.tooltipContent, className)}
-                    parentRef={parentRef as React.RefObject<HTMLElement>}
+                    parentRef={parentRef as React.RefObject<HTMLElement | null>}
                     pointerClassName={styles.pointer}
                     preferredWidth={preferredWidth}
                 >

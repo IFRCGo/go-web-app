@@ -1,0 +1,11 @@
+{
+    "namespace": "localUnitExportModal",
+    "strings": {
+        "modalHeading": "Export Local Units for {countryName}",
+        "modalDescription": "Please select a local unit type to Generate an xlsx export!",
+        "generateExportButtonLabel": "Generate export",
+        "exportSuccessMessage": "Local units exported successfully",
+        "exportFailedToSaveMessage": "Failed to save the exported file!",
+        "localUnitTypeInputLabel": "Local unit type"
+    }
+}

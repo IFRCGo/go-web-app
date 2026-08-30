@@ -53,7 +53,7 @@ SearchSelectInputProps<OptionKey, string, Option, object, never>;
 type Story = StoryObj<SearchSelectInputSpecificProps>;
 
 const meta: Meta<typeof SearchSelectInput> = {
-    title: 'Components/SearchSelectInput',
+    title: 'Inputs/SearchSelectInput',
     component: SearchSelectInput,
     parameters: {
         layout: 'centered',

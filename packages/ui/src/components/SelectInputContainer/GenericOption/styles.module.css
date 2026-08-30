@@ -1,10 +1,10 @@
 .generic-option {
     display: flex;
-    gap: var(--go-ui-spacing-md);
-    padding: var(--go-ui-spacing-sm);
+    gap: var(--go-ui-spacing-sm);
+    padding: var(--go-ui-spacing-2xs);
     text-align: left;
 
     &:hover {
-        background-color: var(--go-ui-color-gray-20);
+        background-color: color-mix(in srgb, var(--go-ui-color-text-black) 5%, transparent);
     }
 }

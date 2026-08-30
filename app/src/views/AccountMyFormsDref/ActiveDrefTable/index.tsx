@@ -5,6 +5,7 @@ import {
 } from 'react';
 import {
     Container,
+    ListView,
     Pager,
     Table,
     TableBodyContent,
@@ -41,6 +42,11 @@ import {
     DREF_TYPE_LOAN,
     type TypeOfDrefEnum,
 } from '#utils/constants';
+import {
+    createCountryColumn,
+    createLinkColumn,
+    createTitleColumn,
+} from '#utils/domain/tableHelpers';
 import { useRequest } from '#utils/restRequest';
 
 import DrefTableActions, { type Props as DrefTableActionsProps } from '../DrefTableActions';
@@ -49,7 +55,7 @@ import Filters, { type FilterValue } from '../Filters';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const NUM_ITEMS_PER_PAGE = 6;
+const NUM_ITEMS_PER_PAGE = 10;
 
 interface Props {
     className?: string;
@@ -74,7 +80,7 @@ function ActiveDrefTable(props: Props) {
         offset,
     } = useFilterState<FilterValue>({
         filter: {},
-        pageSize: 6,
+        pageSize: NUM_ITEMS_PER_PAGE,
     });
 
     const { dref_dref_status: drefStatus } = useGlobalEnums();
@@ -239,19 +245,29 @@ function ActiveDrefTable(props: Props) {
                 'created_at',
                 strings.activeDrefTableCreatedHeading,
                 (item) => item.created_at,
-                { columnClassName: styles.date },
             ),
-            createStringColumn<LatestDref, Key>(
+            // event lives on the original dref (not the stage objects), so
+            // resolve it via latestDrefToOriginalMap; drafts have none
+            createLinkColumn<LatestDref, Key>(
                 'appeal_code',
                 strings.activeDrefTableAppealCodeHeading,
                 (item) => item.appeal_code,
+                (item) => {
+                    const eventId = latestDrefToOriginalMap[item.id]?.event;
+                    return {
+                        to: isDefined(eventId) ? 'emergenciesLayout' : undefined,
+                        urlParams: isDefined(eventId)
+                            ? { emergencyId: eventId }
+                            : undefined,
+                        withEllipsizedContent: true,
+                    };
+                },
                 { columnClassName: styles.appealCode },
             ),
-            createStringColumn<LatestDref, Key>(
+            createTitleColumn<LatestDref, Key>(
                 'title',
                 strings.activeDrefTableTitleHeading,
                 (item) => item.title,
-                { columnClassName: styles.title },
             ),
             createStringColumn<LatestDref, Key>(
                 'type',
@@ -259,11 +275,14 @@ function ActiveDrefTable(props: Props) {
                 (item) => item.application_type_display,
                 { columnClassName: styles.stage },
             ),
-            createStringColumn<LatestDref, Key>(
+            createCountryColumn<LatestDref, Key>(
                 'country',
                 strings.activeDrefTableCountryHeading,
                 (item) => item.country_details?.name,
-                { columnClassName: styles.country },
+                (item) => ({
+                    to: 'countriesLayout',
+                    urlParams: { countryId: item.country },
+                }),
             ),
             createStringColumn<LatestDref, Key>(
                 'type_of_dref',
@@ -279,15 +298,21 @@ function ActiveDrefTable(props: Props) {
                     columnClassName: styles.status,
                     headerInfoTitle: strings.activeDrefTableStatusHeading,
                     headerInfoDescription: (
-                        statusDescription?.map((status) => (
-                            <TextOutput
-                                key={status.key}
-                                strongLabel
-                                withoutLabelColon
-                                label={status.status}
-                                value={status.description}
-                            />
-                        ))
+                        <ListView
+                            layout="block"
+                            withSpacingOpticalCorrection
+                        >
+                            {statusDescription?.map((status) => (
+                                <TextOutput
+                                    key={status.key}
+                                    strongLabel
+                                    withoutLabelColon
+                                    label={status.status}
+                                    value={status.description}
+                                    withBlockLayout
+                                />
+                            ))}
+                        </ListView>
                     ),
                 },
             ),
@@ -308,6 +333,8 @@ function ActiveDrefTable(props: Props) {
                             drefType,
                             status: item.status,
                             applicationType,
+                            // NOTE: Sub-rows only, never final reports
+                            isDrefImminentV2: false,
                             canAddOpsUpdate: false,
                             canCreateFinalReport: false,
                             hasPermissionToApprove: false,
@@ -322,6 +349,8 @@ function ActiveDrefTable(props: Props) {
                         country_details,
                         is_dref_imminent_v2,
                         starting_language,
+                        country,
+                        event,
                     } = originalDref;
 
                     const is_published = status === DREF_STATUS_APPROVED;
@@ -345,18 +374,22 @@ function ActiveDrefTable(props: Props) {
                         ? userRegionCoordinatorMap?.[drefRegion] ?? false
                         : false;
 
+                    const countryId = isDefined(country) ? country : undefined;
+
                     return {
                         id,
                         drefId: originalDref.id,
                         drefType,
                         status: item.status,
-                        isDrefImminentV2: is_dref_imminent_v2,
+                        isDrefImminentV2: is_dref_imminent_v2 ?? false,
                         applicationType,
                         canAddOpsUpdate,
                         canCreateFinalReport,
                         hasPermissionToApprove: isRegionCoordinator || userMe?.is_superuser,
                         onPublishSuccess: refetchActiveDref,
                         startingLanguage: starting_language as Language,
+                        countryId,
+                        event,
                     };
                 },
             ),
@@ -454,7 +487,7 @@ function ActiveDrefTable(props: Props) {
                 <Pager
                     activePage={page}
                     itemsCount={activeDrefResponse?.count ?? 0}
-                    maxItemsPerPage={NUM_ITEMS_PER_PAGE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

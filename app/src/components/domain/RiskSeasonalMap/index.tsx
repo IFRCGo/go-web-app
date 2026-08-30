@@ -922,7 +922,7 @@ function RiskSeasonalMap(props: Props) {
                 >
                     <ListView
                         layout="block"
-                        spacing="sm"
+                        spacing="2xs"
                     >
                         {filteredData?.map(
                             (dataItem) => {

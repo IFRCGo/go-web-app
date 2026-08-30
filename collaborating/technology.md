@@ -18,8 +18,16 @@ The IFRC GO web application is built using [React](https://react.dev/) and [Vite
 * **Routing**
   * [React Router](https://www.npmjs.com/package/react-router-dom) for client-side routing
 
-* **Excel Exports**
+* **Rich Text Editing**
+  * [TinyMCE](https://www.tiny.cloud/) via [tinymce-react](https://www.npmjs.com/package/@tinymce/tinymce-react) for rich text input fields
+
+* **Business Intelligence**
+  * [powerbi-client](https://www.npmjs.com/package/powerbi-client) for embedding Power BI reports
+
+* **Excel and CSV I/O**
   * [exceljs](https://www.npmjs.com/package/exceljs) for generating and importing Excel files
+  * [xlsx](https://www.npmjs.com/package/xlsx) for reading Excel files
+  * [papaparse](https://www.npmjs.com/package/papaparse) for parsing CSV files
 
 * **Data Fetching**
   * [@togglecorp/toggle-request](https://www.npmjs.com/package/@togglecorp/toggle-request), a hooks-based request library
@@ -32,6 +40,10 @@ The IFRC GO web application is built using [React](https://react.dev/) and [Vite
   * [Sentry](https://sentry.io/welcome/) for reporting exceptions and monitoring application performance and reliability
   * [Playwright](https://playwright.dev/) for end-to-end testing
   * [Vitest](https://vitest.dev/) for unit testing
+
+* **Translation**
+  * [translatte](../app/scripts/translatte/) — custom CLI tooling for managing translation strings, generating migration files, and syncing with the translation server
+  * [cacheppuccino](../cacheppuccino/) — translation caching service (git submodule); provides an OpenAPI schema used to generate TypeScript types for translation API calls
 
 * **Versioning and Changelog**
   * [Changesets](https://github.com/changesets/changesets) for managing versioning and generating changelogs

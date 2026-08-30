@@ -2,7 +2,7 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Description from '#components/Description';
-import Heading from '#components/Heading';
+import Heading, { Props as HeadingProps } from '#components/Heading';
 import InlineView from '#components/InlineView';
 import ListView from '#components/ListView';
 import PageContainer from '#components/PageContainer';
@@ -17,6 +17,8 @@ export interface Props {
     breadCrumbs?: React.ReactNode;
     info?: React.ReactNode;
     wikiLink?: React.ReactNode;
+    background?: React.ReactNode;
+    headingColorVariant?: HeadingProps['colorVariant'];
 }
 
 function PageHeader(props: Props) {
@@ -28,6 +30,8 @@ function PageHeader(props: Props) {
         breadCrumbs,
         info,
         wikiLink,
+        background,
+        headingColorVariant,
     } = props;
 
     if (!(actions || breadCrumbs || info || description || heading)) {
@@ -41,6 +45,7 @@ function PageHeader(props: Props) {
                 styles.pageHeader,
                 className,
             )}
+            background={background}
         >
             <ListView
                 layout="block"
@@ -56,6 +61,7 @@ function PageHeader(props: Props) {
                             {wikiLink}
                         </ListView>
                     )}
+                    wrapBreakpoint="lg"
                 >
                     {breadCrumbs}
                 </InlineView>
@@ -65,6 +71,7 @@ function PageHeader(props: Props) {
                     <Heading
                         level={1}
                         className={styles.heading}
+                        colorVariant={headingColorVariant}
                     >
                         { heading }
                     </Heading>

@@ -4,13 +4,14 @@ import {
 } from '@togglecorp/fujs';
 import { removeNull } from '@togglecorp/toggle-form';
 
-import { type PartialLocalUnits } from '#views/CountryNsOverviewContextAndStructure/NationalSocietyLocalUnits/LocalUnitsFormModal/LocalUnitsForm/schema';
+// FIXME: imports from views should not be allowed
+import { type PartialLocalUnits } from '#views/CountryNsOverviewContextAndStructure/NationalSocietyLocalUnits/LocalUnitsFormModal/schema';
 
 import { type GoApiResponse } from './restRequest';
 
 type LocalUnitResponse = NonNullable<GoApiResponse<'/api/v2/local-units/{id}/'>>;
 
-export function getFormFields(value: LocalUnitResponse | PartialLocalUnits) {
+export function getFormFields(value: LocalUnitResponse | PartialLocalUnits | undefined) {
     const {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         created_at,
@@ -30,7 +31,7 @@ export function getFormFields(value: LocalUnitResponse | PartialLocalUnits) {
         ...formValues
         // Note: the cast is safe as we're only trying to
         // remove fields if they exist
-    } = removeNull(value) as LocalUnitResponse;
+    } = removeNull(value ?? {}) as LocalUnitResponse || undefined;
 
     const {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

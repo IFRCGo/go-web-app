@@ -11,7 +11,7 @@ import { SpacingType } from '#utils/style';
 import styles from './styles.module.css';
 
 export interface Props extends React.HTMLProps<HTMLDivElement> {
-    elementRef?: React.RefObject<HTMLDivElement>;
+    elementRef?: React.RefObject<HTMLDivElement | null>;
     className?: string;
     spacing?: SpacingType;
     children: React.ReactNode;
@@ -61,6 +61,7 @@ function TabListLayout(props: Props) {
                     role="tablist"
                     spacing={styleVariant === 'vertical' ? 'none' : spacing}
                     withSpacingOpticalCorrection={styleVariant === 'vertical-compact'}
+                    spacingOffset={styleVariant === 'vertical-compact' ? -2 : 0}
                 >
                     {children}
                 </ListView>
@@ -74,6 +75,8 @@ function TabListLayout(props: Props) {
                         : spacing}
                     role="tablist"
                     withWrap={styleVariant === 'nav'}
+                    withSpacingOpticalCorrection
+                    withStartAlignment={styleVariant === 'step'}
                 >
                     {children}
                 </ListView>

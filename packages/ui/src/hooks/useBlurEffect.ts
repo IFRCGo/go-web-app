@@ -4,8 +4,8 @@ function useBlurEffect(
     shouldWatch: boolean,
     // NOTE: the api is a bit different
     callback: (clickedInside: boolean, clickedInParent: boolean, e: Event) => void,
-    elementRef: React.RefObject<HTMLElement>,
-    parentRef: React.RefObject<HTMLElement>,
+    elementRef: React.RefObject<HTMLElement | null>,
+    parentRef: React.RefObject<HTMLElement | null>,
 ) {
     React.useEffect(
         () => {

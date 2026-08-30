@@ -10,10 +10,14 @@ import mergeMigrations from './commands/mergeMigrations';
 import applyMigrations from './commands/applyMigrations';
 import generateMigration from './commands/generateMigration';
 import exportMigration from './commands/exportMigration';
-import pushMigration from './commands/pushMigration';
 import pushStringsFromExcel from './commands/pushStringsFromExcel';
 import exportServerStringsToExcel from './commands/exportServerStringsToExcel';
+import exportStringsForMock from './commands/exportStringsForMock';
 import clearServerStrings from './commands/clearServerStrings';
+import pushMigrationsToIfrc from './commands/pushMigrationsToIfrc';
+import pushStringsFromExcelToIfrc from './commands/pushStringsFromExcelToIfrc';
+import lintMigrations from './commands/lintMigrations';
+import pushMigrationsToGo from './commands/pushMigrationsToGo';
 
 const currentDir = cwd();
 
@@ -40,6 +44,22 @@ yargs(hideBin(process.argv))
         },
         async (argv) => {
             await lint(currentDir, argv.TRANSLATION_FILE as string[], argv.fix as boolean | undefined);
+        },
+    )
+    .command(
+        'lint-migrations <MIGRATION_DIR_PATH>',
+        'Lint migration files for diverging migrations',
+        (yargs) => {
+            yargs.positional('MIGRATION_DIR_PATH', {
+                type: 'string',
+                describe: 'Read the files from TRANSLATION_FILE',
+            });
+        },
+        async (argv) => {
+            await lintMigrations(
+                currentDir,
+                argv.MIGRATION_DIR_PATH as string,
+            );
         },
     )
     .command(
@@ -193,37 +213,6 @@ yargs(hideBin(process.argv))
         },
     )
     .command(
-        'push-migration <MIGRATION_FILE_PATH>',
-        'Push migration file to the server',
-        (yargs) => {
-            yargs.positional('MIGRATION_FILE_PATH', {
-                type: 'string',
-                describe: 'Find the migration file on MIGRATION_FILE_PATH',
-            });
-            yargs.options({
-                'api-url': {
-                    type: 'string',
-                    describe: 'URL for the API server',
-                    require: true,
-                },
-                'auth-token': {
-                    type: 'string',
-                    describe: 'Authentication token to access the API server',
-                    require: true,
-                },
-            });
-        },
-        async (argv) => {
-            const migrationFilePath = (argv.MIGRATION_FILE_PATH as string);
-
-            await pushMigration(
-                migrationFilePath,
-                argv.apiUrl as string,
-                argv.authToken as string,
-            );
-        },
-    )
-    .command(
         'push-strings-from-excel <IMPORT_FILE_PATH>',
         'Import migration from excel file and push it to server',
         (yargs) => {
@@ -255,6 +244,113 @@ yargs(hideBin(process.argv))
         },
     )
     .command(
+        'push-strings-from-excel-to-ifrc <IMPORT_FILE_PATH>',
+        'Import migration from excel file and push it to server',
+        (yargs) => {
+            yargs.positional('IMPORT_FILE_PATH', {
+                type: 'string',
+                describe: 'Find the import file on IMPORT_FILE_PATH',
+            });
+            yargs.options({
+                'api-key': {
+                    type: 'string',
+                    describe: 'API key to access the API server',
+                    require: true,
+                },
+                'api-url': {
+                    type: 'string',
+                    describe: 'URL for the API server',
+                    require: true,
+                },
+                'application-id': {
+                    type: 'string',
+                    describe: 'Application ID in the translation service',
+                    require: true,
+                }
+            });
+        },
+        async (argv) => {
+            const importFilePath = (argv.IMPORT_FILE_PATH as string);
+
+            await pushStringsFromExcelToIfrc(
+                importFilePath,
+                argv.apiUrl as string,
+                argv.apiKey as string,
+                argv.applicationId as string,
+            );
+        },
+    )
+    .command(
+        'push-migrations-to-go <MIGRATION_DIR_PATH>',
+        'Push migrations to GO API',
+        (yargs) => {
+            yargs.positional('MIGRATION_DIR_PATH', {
+                type: 'string',
+                describe: 'Find the import file on MIGRATION_DIR_PATH',
+            });
+            yargs.options({
+                'auth-token': {
+                    type: 'string',
+                    describe: 'Authentication token to access the API server',
+                    require: true,
+                },
+                'api-url': {
+                    type: 'string',
+                    describe: 'URL for the API server',
+                    require: true,
+                }
+            });
+        },
+        async (argv) => {
+            const migrationDirPath = (argv.MIGRATION_DIR_PATH as string);
+
+            await pushMigrationsToGo(
+                currentDir,
+                migrationDirPath,
+                argv.apiUrl as string,
+                argv.authToken as string,
+            );
+        },
+    )
+    .command(
+        'push-migrations-to-ifrc <MIGRATION_DIR_PATH>',
+        'Push migrations to IFRC translations service',
+        (yargs) => {
+            yargs.positional('MIGRATION_DIR_PATH', {
+                type: 'string',
+                describe: 'Find the import file on MIGRATION_DIR_PATH',
+            });
+            yargs.options({
+                'api-key': {
+                    type: 'string',
+                    describe: 'Authentication token to access the API server',
+                    require: true,
+                },
+                'api-url': {
+                    type: 'string',
+                    describe: 'URL for the API server',
+                    require: true,
+                },
+                'application-id': {
+                    type: 'string',
+                    describe: 'Application ID in the translation service',
+                    require: true,
+                }
+            });
+        },
+        async (argv) => {
+            const migrationDirPath = (argv.MIGRATION_DIR_PATH as string);
+
+            await pushMigrationsToIfrc(
+                currentDir,
+                migrationDirPath,
+                argv.apiUrl as string,
+                argv.apiKey as string,
+                argv.applicationId as string,
+            );
+        },
+    )
+    .command(
         'export-server-strings <API_URL>',
         'Export server strings to excel file',
         (yargs) => {
@@ -280,6 +376,48 @@ yargs(hideBin(process.argv))
                 argv.API_URL as string,
                 argv.authToken as string | undefined,
                 argv.outputFileName as string | undefined
+            );
+        },
+    )
+    .command(
+        'export-strings-for-mock <TRANSLATION_FILE..>',
+        'Export local i18n strings to an excel file in the IFRC translation service export format, filling translations from the service (mock source for the translation cache server)',
+        (yargs) => {
+            yargs.positional('TRANSLATION_FILE', {
+                type: 'string',
+                describe: 'Read the files from TRANSLATION_FILE',
+            });
+            yargs.options({
+                'api-url': {
+                    type: 'string',
+                    describe: 'URL for the IFRC translation service API',
+                    require: true,
+                },
+                'api-key': {
+                    type: 'string',
+                    describe: 'API key to access the IFRC translation service',
+                    require: true,
+                },
+                'application-id': {
+                    type: 'string',
+                    describe: 'Application ID in the translation service',
+                    require: true,
+                },
+                'output-file-name': {
+                    type: 'string',
+                    describe: 'Output excel file name (default: translations)',
+                    require: false,
+                },
+            });
+        },
+        async (argv) => {
+            await exportStringsForMock(
+                currentDir,
+                argv.TRANSLATION_FILE as string[],
+                argv.apiUrl as string,
+                argv.apiKey as string,
+                argv.applicationId as string,
+                argv.outputFileName as string | undefined,
             );
         },
     )

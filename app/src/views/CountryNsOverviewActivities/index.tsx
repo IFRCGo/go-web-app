@@ -2,7 +2,6 @@ import TabPage from '#components/TabPage';
 
 import NationalSocietyDevelopmentInitiatives from './NationalSocietyDevelopmentInitiatives';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     return (

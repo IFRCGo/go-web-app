@@ -3,7 +3,6 @@
     "strings": {
         "drefFormIndicatorTitleLabel": "Title",
         "drefFormIndicatorTargetLabel": "Target",
-        "drefOperationalUpdateIndicatorActualLabel": "Actual",
-        "drefIndicatorRemoveButtonLabel": "Remove"
+        "drefOperationalUpdateIndicatorActualLabel": "Actual"
     }
 }

@@ -1,0 +1,2094 @@
+{
+    "parent": "000088-1786604379488.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "userMenuDrefAnticipatoryPillar",
+            "namespace": "common",
+            "value": "Anticipatory Pillar"
+        },
+        {
+            "action": "add",
+            "key": "userMenuDrefDecisionTree",
+            "namespace": "common",
+            "value": "DREF Decision Tree"
+        },
+        {
+            "action": "add",
+            "key": "userMenuDrefResponsePillar",
+            "namespace": "common",
+            "value": "Response Pillar"
+        },
+        {
+            "action": "update",
+            "key": "userMenuDrefProcess",
+            "namespace": "common",
+            "newValue": "Disaster Response Emergency Fund (DREF)"
+        },
+        {
+            "action": "update",
+            "key": "userMenuDrefProcessDescription",
+            "namespace": "common",
+            "newValue": "The following are IFRC Applications that include Disaster Response Emergency Fund (DREF) and Early Action Protocols (EAP)."
+        },
+        {
+            "action": "add",
+            "key": "drefAnticipatoryPillarTab",
+            "namespace": "dref",
+            "value": "Anticipatory Pillar"
+        },
+        {
+            "action": "add",
+            "key": "drefDescription",
+            "namespace": "dref",
+            "value": "The Disaster Response Emergency Fund (DREF) provides rapid and reliable funding to National Societies to prepare for and respond to crises. This page is the main hub for understanding how DREF works, choosing the right modality, and exploring active operations."
+        },
+        {
+            "action": "add",
+            "key": "drefHeading",
+            "namespace": "dref",
+            "value": "Disaster Response Emergency Fund (DREF)"
+        },
+        {
+            "action": "add",
+            "key": "drefResponsePillarTab",
+            "namespace": "dref",
+            "value": "Response Pillar"
+        },
+        {
+            "action": "add",
+            "key": "home",
+            "namespace": "dref",
+            "value": "Home"
+        },
+        {
+            "action": "add",
+            "key": "respond",
+            "namespace": "dref",
+            "value": "Respond"
+        },
+        {
+            "action": "add",
+            "key": "anticipatoryIntroOne",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "The Anticipatory Pillar of the Disaster Response Emergency Fund (DREF) enables National Red Cross and Red Crescent Societies to act before a disaster strikes. By providing preapproving plans and budgets during peacetime, National Societies can implement anticipatory or early action activities, based on pre-agreed triggers, that aim to reduce or mitigate the humanitarian impacts of predictable hazards on at-risk communities."
+        },
+        {
+            "action": "add",
+            "key": "anticipatoryIntroTwo",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Traditionally, humanitarian assistance was triggered only after a disaster had already caused damage. This often resulted in delayed response, increased human suffering, and greater financial costs. In contrast, anticipatory action allows the humanitarian system to shift from a reactive to a proactive model, responding to predicted disasters rather than waiting for the consequences to unfold."
+        },
+        {
+            "action": "add",
+            "key": "eapCardButton",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Register EAP"
+        },
+        {
+            "action": "add",
+            "key": "eapCardHeading",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Early Action Protocols (EAP)"
+        },
+        {
+            "action": "add",
+            "key": "eapCardText",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Use this when you want to have a plan that guides the implementation of early action activities which will reduce and mitigate the humanitarian impacts of a forecasted hazard. These plans are developed and approved in peacetime, and bring together a pre-agreed plan with preapproved trigger and guaranteed funding, which gives National Society the confidence to work in advance of both weather and non-weather-related events. Two types exist: the Early Action Protocol (EAP) and the Simplified Early Action Protocol (sEAP)."
+        },
+        {
+            "action": "add",
+            "key": "eapTabDescriptionEap",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Full Early Action Protocol (EAP) is a detailed, 5-year plan that outlines a National Society’s strategy for acting in advance of specific forecasted hazards. The EAP allows for up to two activations within its implementation timeframe."
+        },
+        {
+            "action": "add",
+            "key": "eapTabDescriptionLead",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "EAPs and sEAPs are pre-approved plans that outline a National Society’s strategy for acting in advance of specific forecasted hazards."
+        },
+        {
+            "action": "add",
+            "key": "eapTabDescriptionSeap",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Simplified Early Action Protocol (sEAP), which offers a streamlined, two-year alternative for National Societies seeking a lighter entry point into anticipatory action. The sEAP allows for one activation only within its implementation timeframe."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharacteristicsQuestion",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "EAP Characteristics"
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharBudget",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Total budget: capped at CHF 950,000 (with two activations)."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharComponents",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Components: the EAP covers three components readiness, prepositioned stock and early actions:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharCoverage",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Coverage: ideally, the EAP has national coverage, however, it may also be localised coverage, depending on the context."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharEarlyAction",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Early action activities: implemented within the lead time between the trigger and the hazard’s impact, ensuring timely assistance. This should be budgeted twice, to take into account the double activation."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharPrepositioned",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Prepositioned stock activities: two-time (double) stock allocation; prepositioning activities aim to ensure that the National Society has the stock or materials required to implement the early action when the trigger is reached. The first procurement should be done as soon as possible after EAP approval, and the second procurement should be done as soon as possible following the first activation, in preparation for a potential second activation."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharPurpose",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Purpose: a comprehensive funding instrument supporting anticipatory action for weather and non-weather-related hazards with impact-based triggers for extreme events with sufficient lead times and predictable patterns."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharReadiness",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Readiness activities: annual capacity building actions, such as simulations and training, salaries for staff, etc., which are done throughout the EAP lifespan, ensuring the National Society has adequate capacity to implement the early action."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharScale",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Scale of event: the EAP must target events that historically have had significant demonstrable humanitarian impact."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharTimeframe",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Timeframe: valid for 5 years once approved."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharTrigger",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Trigger mechanism: based on predictions and a predefined thresholds that activate early actions in advance of a foreseen disaster (e.g. cyclone wind speed above 150 km/h; or rainfall predictions for the next 72 hours exceeding 300 mm)."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharTriggerContext",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Triggers are very context-specific and are based on a menu of available forecasts."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharTriggerDatabase",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "For more information on triggers, visit the trigger database on the Anticipation Hub."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharTriggerEstablished",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Triggers are established during the EAP development process and validated through consultation with experts."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharTriggerReached",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Once the trigger is reached, the National Society can immediately start implementing the early actions and request the early action fund transfer from the IFRC Delegation."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessAgreementHeading",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Signing of project agreement"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessAgreementSign",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "The National Society signs the project agreement with the IFRC."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessAgreementStatus",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "When the project agreement is signed the DREF AA team will change the status to Approved."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevAccessForm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Access the form and complete all the sections. For a detailed overview on developing an s/EAP, consult the"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevAccessFormLink",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Anticipatory Action Manual: A Red Cross Red Crescent Practitioners’ Guide"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevAddressComments",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Once the review is completed the DREF team will update the status to NS addressing comments. The National Society will have 3 months to address comments by providing detailed written response in the review checklist and edit the s/EAP form and budget as necessary. The review checklist and budget should be uploaded in GO."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevApproval",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "The DREF team will process the Approval by the Appeal manager and edit the status in the GO Platform to Approved."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevBudgetValidation",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Once the protocol is validated, the IFRC Project manager should request the validation of the budget by the Regional Finance Unit and upload in the system the validated budget."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevelopmentHeading",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Development, submission and approval process"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevInitialReview",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "The initial simultaneous review by the Validation Committee will take 14 days."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevNextVersions",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Once a new version is submitted, the Validation Committee will take one week to review the next versions of the s/EAP. Based on the responses provided by the National Society, the Validation Committee may decide to:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevNoteBelowStandards",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Note: If the protocol is significantly below standards and requires much work which might take more than 3 months, the Validation Committee will close the application and ask the National Society to rework on it and submit a new version as a new application after improvement of the protocol."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevNoteIterations",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Note: if after several iterations, the comments from the Validation Committee are not yet properly addressed and the protocol is still not considered up to standard, the Validation Committee might decide to close the application and request the National Society to rework the comments and submit a new version as a new submission after improvement."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevRegister",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Register the interest of the NS in developing an s/EAP through the GO Platform."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevStatusUnderReview",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "The status in GO will change to Under Review."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevSubmit",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Submit the s/EAP"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevSupplementary",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Have supplementary questions, based on the responses/edits made by the National Society. The National Society will have one month to respond to the supplementary questions and make the necessary adjustments to the form and budget."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevValidate",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Technically validate the s/EAP"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessManagementHeading",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "s/EAP management"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessQuestion",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Early Action Protocols (EAPs and sEAPs) Process"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessReportingActivationReport",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "The National Society needs to complete an activation report, two months after the end of the activation timeframe."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessReportingAnnual",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Produce annual reports on the pre-positioning and readiness activities according to the reporting schedule in the Project Agreement and in line with the DREF Procedures."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessReportingFinalReport",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "If the s/EAP comes to the end of the operational timeframe without an activation, the National Society should produce a Final Report."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessReportingHeading",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Reporting and learning"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessReportingIfActivated",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "If the s/EAP is activated:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessReportingWorkshop",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "The NS should conduct a Lessons Learned Workshop within the operational timeframe and produce a Lessons Learned Report."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessRevisionHeading",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Revision of the s/EAP and resubmission"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessRevisionResubmit",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Once revised, the National Society focal point can resubmit to the IFRC-DREF via the GO platform for a full round of funding and another five years for an EAP or two years for a sEAP."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessRevisionRevise",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "After the activation of a sEAP or the second activation of the EAP, or after the end of the lifespan without an activation, the National Society, with support from the IFRC Delegation can revise the original s/EAP narrative and resubmit it."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessStockHeading",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Stock prepositioning and annual readiness"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessStockProcure",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Procure and preposition stock required for early action activities (e.g., shelter strengthening kits, sandbags for flood prone areas etc.) immediately after project agreement signature."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessStockReadiness",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Conduct annual readiness activities as outlined in the approved s/EAP."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessTriggerAnnounce",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Announce the activation of the s/EAP via the activation template, share the activation with the DREF Operations Project Manager along with the request for payment for the early action activities."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessTriggerHeading",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Trigger monitoring and activating the s/EAP"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessTriggerImplement",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Implement planned early actions reducing or mitigating the impact of the hazard for at risk communities within the lead time."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessTriggerMonitor",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Monitor forecasts and activate early actions based on pre-agreed triggers."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessTriggerNoteExceptional",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Note: If the pre-agreed trigger is not reached, but the National Society has evidence that the disaster of a similar scale is imminent, the s/EAP might activate based on exceptional approval. The National Society should provide as much supporting information as possible to justify the activation. Exceptional approval will be decided on case-by-case basis."
+        },
+        {
+            "action": "add",
+            "key": "faqFullEapBulletActivities",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Selection of early action activities."
+        },
+        {
+            "action": "add",
+            "key": "faqFullEapBulletBudget",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "A detailed budget covering annual readiness activities, stock required for early action, and early action activities."
+        },
+        {
+            "action": "add",
+            "key": "faqFullEapBulletHazard",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "A description of the hazard and risk analysis."
+        },
+        {
+            "action": "add",
+            "key": "faqFullEapBulletRoles",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Roles and responsibilities of all actors."
+        },
+        {
+            "action": "add",
+            "key": "faqFullEapBulletTrigger",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "A clear and concise trigger statement, including the lead time for early action."
+        },
+        {
+            "action": "add",
+            "key": "faqFullEapIncludes",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "The EAP includes:"
+        },
+        {
+            "action": "add",
+            "key": "faqFullEapIntro",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Full Early Action Protocol (EAP) is a detailed, 5-year plan that outlines a National Society's strategy for acting in advance of specific forecasted hazards."
+        },
+        {
+            "action": "add",
+            "key": "faqFullEapOutro",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "This modality offers predictability and a robust framework for anticipatory action, supporting stronger coordination between National Societies, IFRC delegations, and partners."
+        },
+        {
+            "action": "add",
+            "key": "faqFullEapQuestion",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "What is an Early Action Protocol (EAP)?"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharacteristicsQuestion",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Imminent DREF Characteristics"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharComponents",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Components: no readiness and prepositioning activities as the focus is entirely on immediate early action."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharEarlyAction",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Early action activities: activities which will prevent or mitigate the expected impact of the disaster. Early action activities are time-sensitive and must be implemented rapidly in advance of the hazard. National Societies may include items procurement for immediate use, or replenishment. Early action should be at least 75% of the budget."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharEarlyResponse",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Early response activities: only if the disaster has unfolded, and for activities in the first hours and days following the impact of the disaster. Early response should be at most 25% of the budget."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharThresholds",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Total allocation thresholds capped at:"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharThresholdsNoRrp",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "CHF 80,000, if Rapid Response Personnel (RRP) is not requested. In this case, the Imminent DREF does not include an allocation for IFRC direct costs, it is solely for the National Society."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharThresholdsWithRrp",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "CHF 90,800, if Rapid Response Personnel (RRP) was requested. In this case, the Imminent DREF includes IFRC direct costs for deployment of Rapid Response Personnel."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharTimeframe",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Operating timeframe: 45 days, with no possibility of extension."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharTrigger",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Trigger mechanism: no pre-agreed trigger; decision is driven by high-confidence forecasts or expert judgement of an imminent event (e.g. a government or national/regional weather agency issues a severe weather alert for a specific area with high certainty)."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentDrefBulletNotYet",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "A disaster has not yet occurred, but is highly likely to happen in the near future based on reliable forecasts or early warnings; or"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentDrefBulletUnfolding",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "A disaster has begun to unfold, but has not yet reached its peak impact, and there remains a short lead time to mitigate the worst effects."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentDrefIntro",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Imminent DREF is specifically designed for situations where a National Society does not have a pre-approved Early Action Protocol (EAP) or Simplified EAP (sEAP) but has the opportunity to implement early action in advance of a hazard that is clearly on the horizon."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentDrefOutro",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Imminent DREF should not be a replacement for longer-term anticipatory planning. Rather, it serves as a critical stopgap in situations where the National Society has had no time or resources to formalize a pre-approved protocol. It is also an entry point for a National Society who is still in the process of developing an s/EAP or has an EAP in place which covers a higher scale of disaster."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentDrefQuestion",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "What is an Imminent DREF?"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentDrefScope",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "This modality is intended exclusively for sudden-onset disasters where the risk of disaster is clear and imminent, but where the window to act is extremely limited. It enables National Societies to implement critical early action and early response actions when:"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessImplBegin",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Begin implementation immediately upon approval, with a maximum timeframe of 45 days, with no possibility for extension."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessImplCoordinate",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "During implementation, the National Society may also coordinate directly with local authorities and technical agencies to align early action efforts and ensure community needs are met effectively."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessImplementationHeading",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Imminent DREF implementation"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessImplEnsure",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Ensure that early actions and early response activities are implemented according to the approved plan (using the published version, not the application document, since changes in the activities might be requested in the approval email)."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessImplFunds",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Manage funds strictly according to the allocated budget"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessImplGovernment",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "The National Society may work closely with government agencies and local stakeholders to access real time hazard data and coordinate outreach to at-risk communities."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessPlanningBankLetter",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Attach or reference a valid Bank Letter confirming banking details to avoid delays in disbursement"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessPlanningBudget",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Split the budget into a minimum of 75% for early action and up to 25% for early response."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessPlanningHeading",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Planning and submission"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessPlanningSubmit",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Sign and submit"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessPlanningTemplate",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Use the standard template, which includes the plan, budget, and optional request for Rapid Response Personnel."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessPlanningTiming",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "The request should be submitted at least 3 days before expected impact and up to one month in advance, when the event has a high likelihood of manifesting."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessQuestion",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Imminent DREF Process"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessReportingHeading",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Imminent DREF Reporting"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessScenarioOne",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Scenario 1: The disaster does not materialize or materializes but with low impact."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessScenarioOneBalance",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Return any unspent balances to the IFRC-DREF."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessScenarioOneReport",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Submit a Final Report (narrative and financial) within 2 months of the end of the operation."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessScenarioTwo",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Scenario 2: The disaster materializes with high impact and the National Society needs international financial support to assist the affected population."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessScenarioTwoRequest",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Submit a request for an additional DREF allocation for response via an operations update. The budget cap of the 2nd allocation should include the 1st imminent DREF allocation"
+        },
+        {
+            "action": "add",
+            "key": "faqSeapBulletNewHazard",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "is working on a new type of hazard for which the anticipatory action approach is still evolving."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapBulletNoPartner",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "does not have a partner to support the development of a full EAP and/or may not have sufficient historical data or a robust trigger model to meet the criteria for a full EAP, or"
+        },
+        {
+            "action": "add",
+            "key": "faqSeapBulletSmallerScale",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "wishes to address an event of a smaller scale than the full EAP or"
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharacteristicsQuestion",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "sEAP Characteristics"
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharBudget",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Total budget: capped at CHF 220,000 (with one activation)."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharComponents",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Components: the sEAP allows National Societies to access pre-approved funding for readiness and prepositioned stock as well as funding for early action activities – same as the EAP. Based on this experience, a National Society can use the sEAP as a stepping stone, while it works on developing a full EAP."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharCoverage",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Coverage: ideally, the sEAP has national coverage, however, it may also be localized coverage, depending on the context."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharPurpose",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Purpose: a more accessible and lighter version to enable a National Society. Also applicable for weather and non-weather-related hazards."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharScale",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Scale of event: the sEAP is not meant for events of seasonal average but must target events that historically have had a demonstrable humanitarian impact."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharTimeframe",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "sEAP timeframe: valid for 2 years once approved."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharTrigger",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Trigger mechanism: similar to the full EAP, an sEAP needs a clear and concise trigger statement with an identified forecast or expert judgement and threshold; however, less evidence is required, so it may suit hazards where there is less data available."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapIntro",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "sEAP is an additional pathway for a National Society to access pre-agreed funding from the Anticipatory Pillar of the DREF. The sEAP is “medium-term” (2 years instead of 5 years) funding alternative for a National Society who:"
+        },
+        {
+            "action": "add",
+            "key": "faqSeapQuestion",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "What is a Simplified Early Action Protocol (sEAP)?"
+        },
+        {
+            "action": "add",
+            "key": "fullAnticipatoryGuidanceLink",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Full Anticipatory Pillar Guidance"
+        },
+        {
+            "action": "add",
+            "key": "imminentCardButton",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Start Imminent DREF"
+        },
+        {
+            "action": "add",
+            "key": "imminentCardHeading",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Imminent DREF"
+        },
+        {
+            "action": "add",
+            "key": "imminentCardText",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Use this for sudden-onset disasters only, when the event has not materialized yet and the National Society has no Early Action Protocol in place to act ahead. The template is short and approval is quick, so your decision-making has to be quick too."
+        },
+        {
+            "action": "add",
+            "key": "imminentTabDescription",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Imminent DREF is meant for sudden-onset disasters only and can be used in the context where a disaster has not started to unfold, but has a high likelihood of happening, or a disaster which has started to unfold and has not reached its full impact yet. An imminent DREF has a short and simple request template and a quick approval process, but requires strong decision-making processes to ensure timely implementation."
+        },
+        {
+            "action": "add",
+            "key": "subTabEap",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Early Action Protocols"
+        },
+        {
+            "action": "add",
+            "key": "subTabImminent",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Imminent DREF"
+        },
+        {
+            "action": "add",
+            "key": "backButton",
+            "namespace": "drefDecisionTree",
+            "value": "Back"
+        },
+        {
+            "action": "add",
+            "key": "deadEndMessage",
+            "namespace": "drefDecisionTree",
+            "value": "No recommendation is configured for this path yet. Please coordinate with your Delegation and DREF Focal Point."
+        },
+        {
+            "action": "add",
+            "key": "disclaimer",
+            "namespace": "drefDecisionTree",
+            "value": "For guidance purposes only, and under consideration that both the National Society and the disaster are eligible for DREF. Always coordinate with your Delegation and DREF Focal Point."
+        },
+        {
+            "action": "add",
+            "key": "drefApplicationFormButton",
+            "namespace": "drefDecisionTree",
+            "value": "DREF Application Form"
+        },
+        {
+            "action": "add",
+            "key": "drefGuidelinesButton",
+            "namespace": "drefDecisionTree",
+            "value": "DREF Guidelines"
+        },
+        {
+            "action": "add",
+            "key": "eapDevelopmentRegistrationButton",
+            "namespace": "drefDecisionTree",
+            "value": "Early Action Protocol Development Registration"
+        },
+        {
+            "action": "add",
+            "key": "nextButton",
+            "namespace": "drefDecisionTree",
+            "value": "Next"
+        },
+        {
+            "action": "add",
+            "key": "noteAdvancePayment",
+            "namespace": "drefDecisionTree",
+            "value": "As this is a sudden-onset event, your National Society may also request an advance payment while developing the DREF Application."
+        },
+        {
+            "action": "add",
+            "key": "noteConductAssessment",
+            "namespace": "drefDecisionTree",
+            "value": "If not using the Assessment-type DREF Application form, conduct a further assessment before applying for DREF."
+        },
+        {
+            "action": "add",
+            "key": "noteEapActivationByEmail",
+            "namespace": "drefDecisionTree",
+            "value": "Please note that currently the EAP Activation process cannot be done through the IFRC GO platform. Kindly submit your activation notification through the following email address: dref.anticipatorypillar@ifrc.org"
+        },
+        {
+            "action": "add",
+            "key": "noteEmergencyAppealUnavailable",
+            "namespace": "drefDecisionTree",
+            "value": "Please note that currently Emergency Appeals cannot be done through the IFRC GO platform."
+        },
+        {
+            "action": "add",
+            "key": "noteInsufficientEvidence",
+            "namespace": "drefDecisionTree",
+            "value": "If evidence is insufficient to justify a full response, consider an Assessment DREF allocation first to generate the necessary evidence before scaling up the intervention."
+        },
+        {
+            "action": "add",
+            "key": "noteJustifyExceptionalApproval",
+            "namespace": "drefDecisionTree",
+            "value": "Make sure to include all the necessary information to justify the exceptional approval."
+        },
+        {
+            "action": "add",
+            "key": "noteLinkFollowingResources",
+            "namespace": "drefDecisionTree",
+            "value": "Check the following resources for more details."
+        },
+        {
+            "action": "add",
+            "key": "noteLinkLearnMore",
+            "namespace": "drefDecisionTree",
+            "value": "Click here to learn more."
+        },
+        {
+            "action": "add",
+            "key": "noteRecurrentEvents",
+            "namespace": "drefDecisionTree",
+            "value": "For recurrent events, your National Society may need to provide additional information or justification for the use of DREF."
+        },
+        {
+            "action": "add",
+            "key": "optionNatureSlow",
+            "namespace": "drefDecisionTree",
+            "value": "Slow Onset Emergency"
+        },
+        {
+            "action": "add",
+            "key": "optionNatureSudden",
+            "namespace": "drefDecisionTree",
+            "value": "Sudden Onset Emergency"
+        },
+        {
+            "action": "add",
+            "key": "optionNo",
+            "namespace": "drefDecisionTree",
+            "value": "No"
+        },
+        {
+            "action": "add",
+            "key": "optionSizeLarge",
+            "namespace": "drefDecisionTree",
+            "value": "Large-scale emergency requiring broader support"
+        },
+        {
+            "action": "add",
+            "key": "optionSizeSmall",
+            "namespace": "drefDecisionTree",
+            "value": "Small/medium-scale emergency"
+        },
+        {
+            "action": "add",
+            "key": "optionYes",
+            "namespace": "drefDecisionTree",
+            "value": "Yes"
+        },
+        {
+            "action": "add",
+            "key": "outcomeAssessmentDref",
+            "namespace": "drefDecisionTree",
+            "value": "Consider Assessment DREF"
+        },
+        {
+            "action": "add",
+            "key": "outcomeDevelopEap",
+            "namespace": "drefDecisionTree",
+            "value": "Consider developing an Early Action Protocol"
+        },
+        {
+            "action": "add",
+            "key": "outcomeDroughtDref",
+            "namespace": "drefDecisionTree",
+            "value": "Consider Response DREF focused on Drought disaster type"
+        },
+        {
+            "action": "add",
+            "key": "outcomeEapActivation",
+            "namespace": "drefDecisionTree",
+            "value": "Consider EAP Activation"
+        },
+        {
+            "action": "add",
+            "key": "outcomeEmergencyAppeal",
+            "namespace": "drefDecisionTree",
+            "value": "Consider Emergency Appeal"
+        },
+        {
+            "action": "add",
+            "key": "outcomeExceptionalApproval",
+            "namespace": "drefDecisionTree",
+            "value": "Potentially eligible for exceptional approval for the EAP Activation"
+        },
+        {
+            "action": "add",
+            "key": "outcomeImminentDref",
+            "namespace": "drefDecisionTree",
+            "value": "Consider Imminent DREF"
+        },
+        {
+            "action": "add",
+            "key": "outcomeResponseDref",
+            "namespace": "drefDecisionTree",
+            "value": "Consider Response DREF"
+        },
+        {
+            "action": "add",
+            "key": "questionAlertIssued",
+            "namespace": "drefDecisionTree",
+            "value": "Has an alert been issued?"
+        },
+        {
+            "action": "add",
+            "key": "questionAlertRelated",
+            "namespace": "drefDecisionTree",
+            "value": "Is the alert related to a slow-onset hazard, civil unrest, election readiness or epidemic?"
+        },
+        {
+            "action": "add",
+            "key": "questionDroughtFocusAnticipatory",
+            "namespace": "drefDecisionTree",
+            "value": "Are you anticipating specifically the impacts of drought, food insecurity, or water shortages?"
+        },
+        {
+            "action": "add",
+            "key": "questionDroughtFocusResponse",
+            "namespace": "drefDecisionTree",
+            "value": "Are you responding specifically to drought, food insecurity, or water shortages?"
+        },
+        {
+            "action": "add",
+            "key": "questionEapTrigger",
+            "namespace": "drefDecisionTree",
+            "value": "Has the pre-agreed trigger of the EAP been reached?"
+        },
+        {
+            "action": "add",
+            "key": "questionEnoughInfo",
+            "namespace": "drefDecisionTree",
+            "value": "Do you have enough information to justify the response?"
+        },
+        {
+            "action": "add",
+            "key": "questionEventOccurred",
+            "namespace": "drefDecisionTree",
+            "value": "Has the event already occurred?"
+        },
+        {
+            "action": "add",
+            "key": "questionGeoCoverage",
+            "namespace": "drefDecisionTree",
+            "value": "Is the geographical coverage the same as indicated in the EAP?"
+        },
+        {
+            "action": "add",
+            "key": "questionHasEap",
+            "namespace": "drefDecisionTree",
+            "value": "Does the National Society have an Early Action Protocol in place?"
+        },
+        {
+            "action": "add",
+            "key": "questionNature",
+            "namespace": "drefDecisionTree",
+            "value": "What is the nature of the disaster?"
+        },
+        {
+            "action": "add",
+            "key": "questionRiskThreshold",
+            "namespace": "drefDecisionTree",
+            "value": "Is the level of risk similar to the EAP threshold?"
+        },
+        {
+            "action": "add",
+            "key": "questionSize",
+            "namespace": "drefDecisionTree",
+            "value": "What size of operation are you aiming at?"
+        },
+        {
+            "action": "add",
+            "key": "restartButton",
+            "namespace": "drefDecisionTree",
+            "value": "Restart"
+        },
+        {
+            "action": "add",
+            "key": "title",
+            "namespace": "drefDecisionTree",
+            "value": "DREF DECISION TREE - DREF FUNDING OPTIONS"
+        },
+        {
+            "action": "add",
+            "key": "drefDecisionTreeButtonLabel",
+            "namespace": "drefDecisionTreeButton",
+            "value": "DREF Decision Tree"
+        },
+        {
+            "action": "add",
+            "key": "decisionTreeCalloutDescription",
+            "namespace": "drefDecisionTreeCallout",
+            "value": "If you are not sure which DREF application (response or anticipatory) best fits your situation, use the following decision tree, which will help you with your selection."
+        },
+        {
+            "action": "add",
+            "key": "decisionTreeCalloutHeading",
+            "namespace": "drefDecisionTreeCallout",
+            "value": "DREF Decision Tree"
+        },
+        {
+            "action": "remove",
+            "key": "drefDrefApplication",
+            "namespace": "drefDetail"
+        },
+        {
+            "action": "remove",
+            "key": "drefIntroDetailOne",
+            "namespace": "drefDetail"
+        },
+        {
+            "action": "remove",
+            "key": "drefIntroDetailTwo",
+            "namespace": "drefDetail"
+        },
+        {
+            "action": "remove",
+            "key": "drefIntroHeading",
+            "namespace": "drefDetail"
+        },
+        {
+            "action": "remove",
+            "key": "drefProcessDetailOne",
+            "namespace": "drefDetail"
+        },
+        {
+            "action": "remove",
+            "key": "drefProcessDetailTwo",
+            "namespace": "drefDetail"
+        },
+        {
+            "action": "remove",
+            "key": "drefProcessHeading",
+            "namespace": "drefDetail"
+        },
+        {
+            "action": "remove",
+            "key": "drefProcessListOne",
+            "namespace": "drefDetail"
+        },
+        {
+            "action": "remove",
+            "key": "drefProcessListTwo",
+            "namespace": "drefDetail"
+        },
+        {
+            "action": "remove",
+            "key": "drefProcessSubHeading",
+            "namespace": "drefDetail"
+        },
+        {
+            "action": "add",
+            "key": "aaManualDescription",
+            "namespace": "drefKeyResources",
+            "value": "A detailed overview on how to develop an Early Action Protocol."
+        },
+        {
+            "action": "add",
+            "key": "aaManualName",
+            "namespace": "drefKeyResources",
+            "value": "AA Manual"
+        },
+        {
+            "action": "add",
+            "key": "anticipationHubDescription",
+            "namespace": "drefKeyResources",
+            "value": "A wealth of resources available on anticipatory action for a range of stakeholders."
+        },
+        {
+            "action": "add",
+            "key": "anticipationHubName",
+            "namespace": "drefKeyResources",
+            "value": "Anticipation Hub Website"
+        },
+        {
+            "action": "add",
+            "key": "drefGuidelinesDescription",
+            "namespace": "drefKeyResources",
+            "value": "Detailed technical guidance covering eligibility criteria, activity design, budget planning, and implementation standards."
+        },
+        {
+            "action": "add",
+            "key": "drefGuidelinesName",
+            "namespace": "drefKeyResources",
+            "value": "DREF Guidelines"
+        },
+        {
+            "action": "add",
+            "key": "drefProceduresDescription",
+            "namespace": "drefKeyResources",
+            "value": "Comprehensive operational procedures for all DREF modalities including application, approval, and reporting requirements."
+        },
+        {
+            "action": "add",
+            "key": "drefProceduresName",
+            "namespace": "drefKeyResources",
+            "value": "DREF Procedures"
+        },
+        {
+            "action": "add",
+            "key": "erfDescription",
+            "namespace": "drefKeyResources",
+            "value": "Official Framework which determines the mechanisms, roles and responsibilities, as well as operational pathways for IFRC supported operations."
+        },
+        {
+            "action": "add",
+            "key": "erfName",
+            "namespace": "drefKeyResources",
+            "value": "Emergency Response Framework (ERF)"
+        },
+        {
+            "action": "add",
+            "key": "keyResourcesHeading",
+            "namespace": "drefKeyResources",
+            "value": "Key DREF resources"
+        },
+        {
+            "action": "add",
+            "key": "openDocument",
+            "namespace": "drefKeyResources",
+            "value": "Open document"
+        },
+        {
+            "action": "add",
+            "key": "rbmDescription",
+            "namespace": "drefKeyResources",
+            "value": "Guidance on results-based planning, monitoring, reporting, and operational learning for DREF operations, helping teams deliver measurable, accountable, and effective humanitarian responses."
+        },
+        {
+            "action": "add",
+            "key": "rbmName",
+            "namespace": "drefKeyResources",
+            "value": "Results-Based Management (RBM)"
+        },
+        {
+            "action": "add",
+            "key": "drefMapDisasterTypePlaceholder",
+            "namespace": "drefOperationsMap",
+            "value": "All Hazards"
+        },
+        {
+            "action": "add",
+            "key": "drefMapFunding",
+            "namespace": "drefOperationsMap",
+            "value": "Funding requested"
+        },
+        {
+            "action": "add",
+            "key": "drefMapLegendDref",
+            "namespace": "drefOperationsMap",
+            "value": "DREF"
+        },
+        {
+            "action": "add",
+            "key": "drefMapTitle",
+            "namespace": "drefOperationsMap",
+            "value": "Map of DREF operations"
+        },
+        {
+            "action": "add",
+            "key": "drefOpsClearFilters",
+            "namespace": "drefOperationsTable",
+            "value": "Clear Filters"
+        },
+        {
+            "action": "add",
+            "key": "drefOpsCode",
+            "namespace": "drefOperationsTable",
+            "value": "Appeal code"
+        },
+        {
+            "action": "add",
+            "key": "drefOpsCountry",
+            "namespace": "drefOperationsTable",
+            "value": "Country"
+        },
+        {
+            "action": "add",
+            "key": "drefOpsDisasterType",
+            "namespace": "drefOperationsTable",
+            "value": "Hazard type"
+        },
+        {
+            "action": "add",
+            "key": "drefOpsFilterAllYears",
+            "namespace": "drefOperationsTable",
+            "value": "All Years"
+        },
+        {
+            "action": "add",
+            "key": "drefOpsFilterSearchPlaceholder",
+            "namespace": "drefOperationsTable",
+            "value": "Search"
+        },
+        {
+            "action": "add",
+            "key": "drefOpsFunding",
+            "namespace": "drefOperationsTable",
+            "value": "Funding"
+        },
+        {
+            "action": "add",
+            "key": "drefOpsHeading",
+            "namespace": "drefOperationsTable",
+            "value": "DREF operations"
+        },
+        {
+            "action": "add",
+            "key": "drefOpsOperation",
+            "namespace": "drefOperationsTable",
+            "value": "Operation"
+        },
+        {
+            "action": "add",
+            "key": "drefOpsStartDate",
+            "namespace": "drefOperationsTable",
+            "value": "Start date"
+        },
+        {
+            "action": "remove",
+            "key": "eapDescription",
+            "namespace": "drefProcess"
+        },
+        {
+            "action": "remove",
+            "key": "eapHeading",
+            "namespace": "drefProcess"
+        },
+        {
+            "action": "remove",
+            "key": "eapProcessDrefTab",
+            "namespace": "drefProcess"
+        },
+        {
+            "action": "remove",
+            "key": "eapProcessEapTab",
+            "namespace": "drefProcess"
+        },
+        {
+            "action": "add",
+            "key": "drefApplicationFormLink",
+            "namespace": "drefResponsePillar",
+            "value": "DREF Application Form"
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentBulletCriteria",
+            "namespace": "drefResponsePillar",
+            "value": "Context meets Response DREF criteria"
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentBulletGoodStanding",
+            "namespace": "drefResponsePillar",
+            "value": "National Society in good standing with IFRC"
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentBulletPlanning",
+            "namespace": "drefResponsePillar",
+            "value": "Planning to submit full DREF application"
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentBulletSuddenOnset",
+            "namespace": "drefResponsePillar",
+            "value": "Sudden-onset emergency requiring immediate action"
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentFormLink",
+            "namespace": "drefResponsePillar",
+            "value": "Advance Payment Form"
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentFunding",
+            "namespace": "drefResponsePillar",
+            "value": "Funding available"
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentIntro",
+            "namespace": "drefResponsePillar",
+            "value": "Access rapid funding within 24 hours of a sudden-onset disaster to begin lifesaving activities before your full DREF application is approved. Part of the Immediate Response Protocol (IRP), not the DREF mechanism itself."
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentOrangeRedAmount",
+            "namespace": "drefResponsePillar",
+            "value": "CHF 100,000"
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentOrangeRedLabel",
+            "namespace": "drefResponsePillar",
+            "value": "Orange/Red-scale"
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentQuestion",
+            "namespace": "drefResponsePillar",
+            "value": "What is an Emergency Advance Payment?"
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentSuddenOnsetChip",
+            "namespace": "drefResponsePillar",
+            "value": "Sudden-onset only"
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentWhenToUseTitle",
+            "namespace": "drefResponsePillar",
+            "value": "When to use"
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentYellowAmount",
+            "namespace": "drefResponsePillar",
+            "value": "CHF 30,000"
+        },
+        {
+            "action": "add",
+            "key": "faqAdvancePaymentYellowLabel",
+            "namespace": "drefResponsePillar",
+            "value": "Yellow-scale events"
+        },
+        {
+            "action": "add",
+            "key": "faqCharacteristicsQuestion",
+            "namespace": "drefResponsePillar",
+            "value": "Response DREF Characteristics"
+        },
+        {
+            "action": "add",
+            "key": "faqCharComponents",
+            "namespace": "drefResponsePillar",
+            "value": "Components: Response DREF operations may include:"
+        },
+        {
+            "action": "add",
+            "key": "faqCharComponentsAssessments",
+            "namespace": "drefResponsePillar",
+            "value": "Emergency needs assessments when additional information is required to define the scale, targeting and priorities of the response."
+        },
+        {
+            "action": "add",
+            "key": "faqCharComponentsDirect",
+            "namespace": "drefResponsePillar",
+            "value": "Direct response activities, such as evacuations, relief distributions, cash and voucher assistance, emergency shelter, health, WASH and protection."
+        },
+        {
+            "action": "add",
+            "key": "faqCharComponentsEarlyRecovery",
+            "namespace": "drefResponsePillar",
+            "value": "Early recovery activities where these are justified by the context and included within the applicable DREF parameters."
+        },
+        {
+            "action": "add",
+            "key": "faqCharComponentsHumanResources",
+            "namespace": "drefResponsePillar",
+            "value": "Human resources, volunteer mobilisation, logistics, monitoring, community engagement and accountability."
+        },
+        {
+            "action": "add",
+            "key": "faqCharConsiderationAssessments",
+            "namespace": "drefResponsePillar",
+            "value": "DREF for Assessments: when there is insufficient information to justify or design a full response operation."
+        },
+        {
+            "action": "add",
+            "key": "faqCharConsiderationDrought",
+            "namespace": "drefResponsePillar",
+            "value": "considerations for drought, food insecurity and water shortages, including evidence requirements, early-warning data, IPC analysis, extended timeframes and early recovery."
+        },
+        {
+            "action": "add",
+            "key": "faqCharConsiderationDroughtLink",
+            "namespace": "drefResponsePillar",
+            "value": "Drought DREF:"
+        },
+        {
+            "action": "add",
+            "key": "faqCharConsiderationLoan",
+            "namespace": "drefResponsePillar",
+            "value": "bridge financing for Red-level emergencies linked to an Emergency Appeal."
+        },
+        {
+            "action": "add",
+            "key": "faqCharConsiderationLoanLink",
+            "namespace": "drefResponsePillar",
+            "value": "DREF Loan:"
+        },
+        {
+            "action": "add",
+            "key": "faqCharConsiderationReadiness",
+            "namespace": "drefResponsePillar",
+            "value": "support for election readiness, civil unrest readiness and epidemic readiness when credible analysis indicates that the situation is likely to escalate."
+        },
+        {
+            "action": "add",
+            "key": "faqCharConsiderationReadinessLink",
+            "namespace": "drefResponsePillar",
+            "value": "Readiness actions:"
+        },
+        {
+            "action": "add",
+            "key": "faqCharConsiderations",
+            "namespace": "drefResponsePillar",
+            "value": "Specific Response DREF considerations:"
+        },
+        {
+            "action": "add",
+            "key": "faqCharCost",
+            "namespace": "drefResponsePillar",
+            "value": "Cost considerations: a minimum reach of 100 households, or approximately 500 people, is recommended. The indicative cost per beneficiary is CHF 150, and the recommended budget ratio is 60 per cent for direct interventions and 40 per cent for support services. These recommendations do not apply to assessment-focused or epidemic operations where the cost structure may be different."
+        },
+        {
+            "action": "add",
+            "key": "faqCharPlanning",
+            "namespace": "drefResponsePillar",
+            "value": "Planning and budget: the situation analysis, identified needs, operational strategy, activities, targets, indicators and budget must be consistent. Activities should be feasible for the National Society to deliver within the approved timeframe and should complement the response of authorities, Movement partners and other organisations."
+        },
+        {
+            "action": "add",
+            "key": "faqCharThresholds",
+            "namespace": "drefResponsePillar",
+            "value": "Funding thresholds: up to CHF 500,000 for Yellow-level emergencies and up to CHF 1,000,000 for Orange-level emergencies. Red-level emergencies are normally addressed through an Emergency Appeal, although DREF Loan support may be considered for critical start-up activities."
+        },
+        {
+            "action": "add",
+            "key": "faqCharTimeframe",
+            "namespace": "drefResponsePillar",
+            "value": "Operating timeframe: For standard Response DREF operations, up to six months for Yellow-level emergencies and up to nine months for Orange-level emergencies. Longer timeframes apply to the Drought DREF parameter when the operation includes anticipatory, response and early recovery activities."
+        },
+        {
+            "action": "add",
+            "key": "faqCharTrigger",
+            "namespace": "drefResponsePillar",
+            "value": "Trigger mechanism: a clear trigger based on credible information about the occurrence, scale or worsening impact of an emergency. Triggers may include a sudden-onset disaster, a developing slow-onset crisis, verified impact data, government declarations, disease trends, displacement figures or other evidence of humanitarian need."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessImplementationCommunity",
+            "namespace": "drefResponsePillar",
+            "value": "maintaining community engagement and feedback mechanisms;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessImplementationCoordinate",
+            "namespace": "drefResponsePillar",
+            "value": "coordinating with authorities, Movement partners and other actors;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessImplementationDeliver",
+            "namespace": "drefResponsePillar",
+            "value": "delivering activities according to the approved plan;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessImplementationFunds",
+            "namespace": "drefResponsePillar",
+            "value": "managing funds in line with the approved budget;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessImplementationHeading",
+            "namespace": "drefResponsePillar",
+            "value": "Implementation, reporting and learning"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessImplementationIntro",
+            "namespace": "drefResponsePillar",
+            "value": "The National Society leads implementation and is responsible for:"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessImplementationMonitor",
+            "namespace": "drefResponsePillar",
+            "value": "monitoring activities, reach and expenditure;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessImplementationOutro",
+            "namespace": "drefResponsePillar",
+            "value": "Implementation should remain responsive to changing needs, but any material change to the operational strategy, budget or timeframe must follow the applicable DREF revision and approval process."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessImplementationReporting",
+            "namespace": "drefResponsePillar",
+            "value": "completing the required final reporting and closure processes."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessImplementationUpdates",
+            "namespace": "drefResponsePillar",
+            "value": "submitting Operations Updates when changes or additional support are required; and"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningAdvance",
+            "namespace": "drefResponsePillar",
+            "value": "For a sudden-onset emergency requiring immediate liquidity, an Emergency Advance Payment may be requested within 24 hours while the full application is being prepared."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningAssessment",
+            "namespace": "drefResponsePillar",
+            "value": "determine whether further assessment is needed;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningCapacity",
+            "namespace": "drefResponsePillar",
+            "value": "assess available National Society resources and capacity;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningEligible",
+            "namespace": "drefResponsePillar",
+            "value": "confirm that the proposed activities are eligible, feasible and proportionate."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningGaps",
+            "namespace": "drefResponsePillar",
+            "value": "identify remaining humanitarian gaps;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningHeading",
+            "namespace": "drefResponsePillar",
+            "value": "Planning and submission"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningIntro",
+            "namespace": "drefResponsePillar",
+            "value": "The Response DREF process begins when a National Society identifies a disaster or developing crisis and assesses whether external support is required."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningLink",
+            "namespace": "drefResponsePillar",
+            "value": "The application should link the situation analysis, identified needs, target population, planned activities and budget."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningOffline",
+            "namespace": "drefResponsePillar",
+            "value": "offline using the dedicated Excel template, which is then uploaded to GO."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningOnline",
+            "namespace": "drefResponsePillar",
+            "value": "online through the GO Platform using the DREF Application template; or"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningOption",
+            "namespace": "drefResponsePillar",
+            "value": "select the appropriate DREF option;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningReview",
+            "namespace": "drefResponsePillar",
+            "value": "review government, Movement and partner response;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningStrategy",
+            "namespace": "drefResponsePillar",
+            "value": "develop the operational strategy, indicators, workplan and budget; and"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningSubmitted",
+            "namespace": "drefResponsePillar",
+            "value": "The application can be prepared and submitted:"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningSupported",
+            "namespace": "drefResponsePillar",
+            "value": "The National Society, supported by the IFRC Delegation and relevant technical teams, should:"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningTiming",
+            "namespace": "drefResponsePillar",
+            "value": "Applications should be submitted as soon as possible, ideally within five days of the disaster or trigger date. Drought DREF requests must be submitted and approved within 21 days of the trigger."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessPlanningTrigger",
+            "namespace": "drefResponsePillar",
+            "value": "identify the trigger and analyse the humanitarian situation;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewAgreement",
+            "namespace": "drefResponsePillar",
+            "value": "the Project Agreement and payment process are completed."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewAllocation",
+            "namespace": "drefResponsePillar",
+            "value": "the DREF Allocation Request is prepared;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewApproval",
+            "namespace": "drefResponsePillar",
+            "value": "the DREF Appeal Manager approves the application, budget and release of funds; and"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewChecklist",
+            "namespace": "drefResponsePillar",
+            "value": "the Review Checklist is finalised;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewComments",
+            "namespace": "drefResponsePillar",
+            "value": "The National Society responds to comments and provides revisions or clarifications where required. For sudden-onset operations, the full Operational Quality Review should normally be completed within 10 days. For slow-onset operations, it should normally be completed within 21 days of the identified trigger."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewCompleteIntro",
+            "namespace": "drefResponsePillar",
+            "value": "Once the reviews are complete:"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewEligibilityBudget",
+            "namespace": "drefResponsePillar",
+            "value": "whether the budget contains eligible and non-duplicated costs; and"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewEligibilityCompliance",
+            "namespace": "drefResponsePillar",
+            "value": "whether the National Society meets the required compliance standards;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewEligibilityHeading",
+            "namespace": "drefResponsePillar",
+            "value": "Eligibility, Compliance and Risk Management Review"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewEligibilityIntro",
+            "namespace": "drefResponsePillar",
+            "value": "This mandatory review confirms:"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewEligibilityRisks",
+            "namespace": "drefResponsePillar",
+            "value": "whether key operational, financial and delivery risks have been identified."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewEligibilityRules",
+            "namespace": "drefResponsePillar",
+            "value": "whether the operation is eligible under DREF rules;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewEligibilityTiming",
+            "namespace": "drefResponsePillar",
+            "value": "This review should normally be completed within 24 hours of submission."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewFinance",
+            "namespace": "drefResponsePillar",
+            "value": "Regional Finance validates the budget and confirms that the proposed costs are eligible and correctly classified."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewHeading",
+            "namespace": "drefResponsePillar",
+            "value": "Review, approval and disbursement"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewIntro",
+            "namespace": "drefResponsePillar",
+            "value": "Once the application is submitted, two reviews take place in parallel."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewPackage",
+            "namespace": "drefResponsePillar",
+            "value": "the final package is submitted for approval;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewQualityCapacity",
+            "namespace": "drefResponsePillar",
+            "value": "the capacity of the National Society to deliver the operation."
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewQualityCoherence",
+            "namespace": "drefResponsePillar",
+            "value": "the coherence of the response strategy;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewQualityFeasibility",
+            "namespace": "drefResponsePillar",
+            "value": "the feasibility of implementation;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewQualityHeading",
+            "namespace": "drefResponsePillar",
+            "value": "Operational Quality Review"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewQualityIntro",
+            "namespace": "drefResponsePillar",
+            "value": "The Operational Quality Review assesses:"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewQualityMonitoring",
+            "namespace": "drefResponsePillar",
+            "value": "the monitoring and accountability arrangements; and"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewQualityNeeds",
+            "namespace": "drefResponsePillar",
+            "value": "the strength of the needs analysis;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewQualityTargeting",
+            "namespace": "drefResponsePillar",
+            "value": "the appropriateness of the targeting;"
+        },
+        {
+            "action": "add",
+            "key": "faqProcessReviewQualityTechnical",
+            "namespace": "drefResponsePillar",
+            "value": "the technical quality of the activities;"
+        },
+        {
+            "action": "add",
+            "key": "faqResponseDrefParaOne",
+            "namespace": "drefResponsePillar",
+            "value": "The Response DREF provides rapid and flexible financial support to National Societies responding to small- and medium-scale emergencies. It can be used following a sudden-onset disaster or while a slow-onset crisis is developing, when the situation exceeds the National Society’s available capacity and requires additional humanitarian support."
+        },
+        {
+            "action": "add",
+            "key": "faqResponseDrefParaThree",
+            "namespace": "drefResponsePillar",
+            "value": "The type of crisis, the available evidence and the likely scale of the response determine how the operation should be designed. Where the emergency is expected to require a broader international response, the DREF may be linked to an Emergency Appeal. In Red-level emergencies, a DREF Loan can provide bridge financing for critical start-up activities while donor contributions to the Appeal are being mobilised."
+        },
+        {
+            "action": "add",
+            "key": "faqResponseDrefParaTwo",
+            "namespace": "drefResponsePillar",
+            "value": "The Response DREF is designed to support locally led, needs-based action. It may fund direct humanitarian assistance, an assessment to clarify the situation and inform a later response, or activities responding to a developing crisis such as drought, food insecurity, water shortages or disease outbreaks."
+        },
+        {
+            "action": "add",
+            "key": "faqResponseDrefQuestion",
+            "namespace": "drefResponsePillar",
+            "value": "What is a Response DREF?"
+        },
+        {
+            "action": "add",
+            "key": "faqResponseProcessQuestion",
+            "namespace": "drefResponsePillar",
+            "value": "Response DREF Process"
+        },
+        {
+            "action": "add",
+            "key": "fullResponseGuidanceLink",
+            "namespace": "drefResponsePillar",
+            "value": "Full Response Pillar Guidance"
+        },
+        {
+            "action": "add",
+            "key": "responseIntro",
+            "namespace": "drefResponsePillar",
+            "value": "The Response Pillar provides funding for small- and medium-scale emergencies, whether triggered by sudden-onset events or developing slow-onset crises. It includes Response DREF grants for locally led humanitarian action and DREF Loans, which provide bridge financing for large-scale Red-category emergencies linked to an Emergency Appeal. Response DREF is a flexible mechanism, but its design may need to be adapted to the context, available evidence and operational purpose. Specific considerations apply when it is used for drought, assessments or readiness actions in situations such as epidemics, civil unrest or elections."
+        },
+        {
+            "action": "add",
+            "key": "eapMapLoginRequired",
+            "namespace": "eapMap",
+            "value": "Log in to view the map of approved EAPs."
+        },
+        {
+            "action": "add",
+            "key": "eapMapTitle",
+            "namespace": "eapMap",
+            "value": "Approved EAPs"
+        },
+        {
+            "action": "add",
+            "key": "eapMapType",
+            "namespace": "eapMap",
+            "value": "EAP type"
+        },
+        {
+            "action": "add",
+            "key": "eapTableCountry",
+            "namespace": "eapTable",
+            "value": "Country"
+        },
+        {
+            "action": "add",
+            "key": "eapTableDate",
+            "namespace": "eapTable",
+            "value": "Date of Approval / Activation"
+        },
+        {
+            "action": "add",
+            "key": "eapTableDisasterType",
+            "namespace": "eapTable",
+            "value": "Disaster Type"
+        },
+        {
+            "action": "add",
+            "key": "eapTableHeading",
+            "namespace": "eapTable",
+            "value": "Recent EAPs"
+        },
+        {
+            "action": "add",
+            "key": "eapTableLoginRequired",
+            "namespace": "eapTable",
+            "value": "Log in to view recent EAPs."
+        },
+        {
+            "action": "add",
+            "key": "eapTableName",
+            "namespace": "eapTable",
+            "value": "EAP Title"
+        },
+        {
+            "action": "add",
+            "key": "eapTableRequirements",
+            "namespace": "eapTable",
+            "value": "Requirements (CHF)"
+        },
+        {
+            "action": "add",
+            "key": "eapTableStatus",
+            "namespace": "eapTable",
+            "value": "EAP Status"
+        },
+        {
+            "action": "remove",
+            "key": "eapContent",
+            "namespace": "earlyActionProtocols"
+        },
+        {
+            "action": "remove",
+            "key": "eapContentHeading",
+            "namespace": "earlyActionProtocols"
+        },
+        {
+            "action": "remove",
+            "key": "eapContentSubHeadingOne",
+            "namespace": "earlyActionProtocols"
+        },
+        {
+            "action": "remove",
+            "key": "eapContentSubHeadingThree",
+            "namespace": "earlyActionProtocols"
+        },
+        {
+            "action": "remove",
+            "key": "eapContentSubHeadingTwo",
+            "namespace": "earlyActionProtocols"
+        },
+        {
+            "action": "remove",
+            "key": "eapDescriptionOne",
+            "namespace": "earlyActionProtocols"
+        },
+        {
+            "action": "remove",
+            "key": "eapDescriptionThree",
+            "namespace": "earlyActionProtocols"
+        },
+        {
+            "action": "remove",
+            "key": "eapDescriptionTwo",
+            "namespace": "earlyActionProtocols"
+        },
+        {
+            "action": "remove",
+            "key": "eapRegistrationLink",
+            "namespace": "earlyActionProtocols"
+        },
+        {
+            "action": "add",
+            "key": "imminentMapDisasterTypePlaceholder",
+            "namespace": "imminentDrefMap",
+            "value": "All Hazards"
+        },
+        {
+            "action": "add",
+            "key": "imminentMapLegend",
+            "namespace": "imminentDrefMap",
+            "value": "Imminent DREF"
+        },
+        {
+            "action": "add",
+            "key": "imminentMapLoginRequired",
+            "namespace": "imminentDrefMap",
+            "value": "Log in to view the map of imminent DREF operations."
+        },
+        {
+            "action": "add",
+            "key": "imminentMapStatus",
+            "namespace": "imminentDrefMap",
+            "value": "Status"
+        },
+        {
+            "action": "add",
+            "key": "imminentMapTitle",
+            "namespace": "imminentDrefMap",
+            "value": "Map of Imminent DREF operations"
+        },
+        {
+            "action": "add",
+            "key": "imminentClearFilters",
+            "namespace": "imminentDrefTable",
+            "value": "Clear Filters"
+        },
+        {
+            "action": "add",
+            "key": "imminentCode",
+            "namespace": "imminentDrefTable",
+            "value": "Appeal Code"
+        },
+        {
+            "action": "add",
+            "key": "imminentCountry",
+            "namespace": "imminentDrefTable",
+            "value": "Country"
+        },
+        {
+            "action": "add",
+            "key": "imminentDisasterType",
+            "namespace": "imminentDrefTable",
+            "value": "Disaster Type"
+        },
+        {
+            "action": "add",
+            "key": "imminentFilterAllYears",
+            "namespace": "imminentDrefTable",
+            "value": "All Years"
+        },
+        {
+            "action": "add",
+            "key": "imminentFilterSearchPlaceholder",
+            "namespace": "imminentDrefTable",
+            "value": "Search"
+        },
+        {
+            "action": "add",
+            "key": "imminentLoginRequired",
+            "namespace": "imminentDrefTable",
+            "value": "Log in to view imminent DREF operations."
+        },
+        {
+            "action": "add",
+            "key": "imminentOperation",
+            "namespace": "imminentDrefTable",
+            "value": "Operation"
+        },
+        {
+            "action": "add",
+            "key": "imminentStartDate",
+            "namespace": "imminentDrefTable",
+            "value": "Start Date"
+        },
+        {
+            "action": "add",
+            "key": "imminentTableHeading",
+            "namespace": "imminentDrefTable",
+            "value": "Imminent DREF operations"
+        }
+    ]
+}

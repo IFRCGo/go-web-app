@@ -1,0 +1,121 @@
+{
+    "parent": "000080-1777541728949.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "appealTabName",
+            "namespace": "activeOperationMap",
+            "value": "Appeal Types"
+        },
+        {
+            "action": "add",
+            "key": "crisisOrangeEmergency",
+            "namespace": "activeOperationMap",
+            "value": "Orange Emergency"
+        },
+        {
+            "action": "add",
+            "key": "crisisRedEmergency",
+            "namespace": "activeOperationMap",
+            "value": "Red Emergency"
+        },
+        {
+            "action": "add",
+            "key": "crisisTabName",
+            "namespace": "activeOperationMap",
+            "value": "Crisis Categorisation"
+        },
+        {
+            "action": "add",
+            "key": "crisisYellowEmergency",
+            "namespace": "activeOperationMap",
+            "value": "Yellow Emergency"
+        },
+        {
+            "action": "add",
+            "key": "lastUpdateLabel",
+            "namespace": "activeOperationMap",
+            "value": "Last update"
+        },
+        {
+            "action": "add",
+            "key": "disasterCategorisation",
+            "namespace": "emergencyDetails",
+            "value": "Disaster Categorisation"
+        },
+        {
+            "action": "remove",
+            "key": "disasterCategorization",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "add",
+            "key": "emergencyHoldingERUTitle",
+            "namespace": "surgeOverview",
+            "value": "NS Holding the ERU"
+        },
+        {
+            "action": "add",
+            "key": "emergencySupportERUTitle",
+            "namespace": "surgeOverview",
+            "value": "NS Supporting the ERU"
+        },
+        {
+            "action": "add",
+            "key": "eruHoldingERUTitle",
+            "namespace": "surgeOverview",
+            "value": "NS Holding this ERU"
+        },
+        {
+            "action": "add",
+            "key": "eruReadinessNoData",
+            "namespace": "surgeOverview",
+            "value": "Data not available"
+        },
+        {
+            "action": "add",
+            "key": "eruSupportERUTitle",
+            "namespace": "surgeOverview",
+            "value": "NS Supporting this ERU"
+        },
+        {
+            "action": "add",
+            "key": "nationalReadinessNoData",
+            "namespace": "surgeOverview",
+            "value": "Data not available"
+        },
+        {
+            "action": "remove",
+            "key": "eruNSEquipmentReadiness",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "eruNSFundingReadiness",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "eruPeopleReadiness",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "update",
+            "key": "eruEquipmentReadiness",
+            "newKey": "equipmentReadiness",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "update",
+            "key": "eruFundingReadiness",
+            "newKey": "fundingReadiness",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "update",
+            "key": "eruNSPeopleReadiness",
+            "newKey": "peopleReadiness",
+            "namespace": "surgeOverview"
+        }
+    ]
+}

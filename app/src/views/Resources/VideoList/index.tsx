@@ -52,35 +52,33 @@ function VideoList() {
 
     return (
         <ListView
-            withPadding
-            withDarkBackground
+            className={styles.scrollView}
+            spacing="sm"
         >
-            <ListView className={styles.scrollView}>
-                {videoLinks.map(
-                    (videoLink) => (
-                        <ListView
-                            key={videoLink.id}
-                            layout="block"
-                            withBackground
-                            withPadding
-                            className={styles.videoItem}
-                        >
-                            <InlineFrame
-                                title={videoLink.heading}
-                                src={videoLink.embedId}
-                                allowFullScreen
-                                size="sm"
-                            />
-                            <Heading level={5}>
-                                {videoLink.heading}
-                            </Heading>
-                            <Description>
-                                {videoLink.description}
-                            </Description>
-                        </ListView>
-                    ),
-                )}
-            </ListView>
+            {videoLinks.map(
+                (videoLink) => (
+                    <ListView
+                        key={videoLink.id}
+                        layout="block"
+                        withDarkBackground
+                        withPadding
+                        className={styles.videoItem}
+                        spacing="sm"
+                    >
+                        <InlineFrame
+                            title={videoLink.heading}
+                            src={videoLink.embedId}
+                            allowFullScreen
+                        />
+                        <Heading level={5}>
+                            {videoLink.heading}
+                        </Heading>
+                        <Description>
+                            {videoLink.description}
+                        </Description>
+                    </ListView>
+                ),
+            )}
         </ListView>
     );
 }

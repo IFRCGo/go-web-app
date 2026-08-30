@@ -4,8 +4,11 @@ import {
     Button,
     ButtonLayout,
     Container,
+    DateOutput,
     KeyFigure,
+    Label,
     ListView,
+    NumberOutput,
     ProgressBar,
     TextOutput,
     Tooltip,
@@ -27,7 +30,6 @@ import {
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type EventResponse = GoApiResponse<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
@@ -138,37 +140,24 @@ function OperationCard(props: Props) {
                 <>
                     <Tooltip
                         description={(
-                            <>
-                                <div className={styles.severityContainer}>
-                                    <TextOutput
-                                        label={(
-                                            <SeverityIndicator
-                                                level={ifrc_severity_level}
-                                            />
-                                        )}
-                                        value={ifrc_severity_level_display}
-                                        withoutLabelColon
-                                    />
-                                    {ifrc_severity_level_update_date && ','}
-                                    {ifrc_severity_level_update_date && (
-                                        <TextOutput
-                                            className={styles.date}
-                                            value={ifrc_severity_level_update_date}
-                                            valueType="date"
-                                            withoutLabelColon
-                                        />
-                                    )}
-                                </div>
+                            <ListView
+                                layout="block"
+                                withSpacingOpticalCorrection
+                            >
+                                <ListView spacing="xs">
+                                    <SeverityIndicator level={ifrc_severity_level} />
+                                    {ifrc_severity_level_display}
+                                    <DateOutput value={ifrc_severity_level_update_date} />
+                                </ListView>
                                 <TextOutput
                                     label={<FocusLineIcon />}
                                     value={countriesInfoDisplay}
                                     withoutLabelColon
                                 />
-                            </>
+                            </ListView>
                         )}
                     />
                     <SeverityIndicator
-                        className={styles.severityIndicator}
                         level={ifrc_severity_level}
                     />
                 </>
@@ -204,7 +193,6 @@ function OperationCard(props: Props) {
                         </ButtonLayout>
                     ) : <div />}
                     <TextOutput
-                        className={styles.lastUpdated}
                         label={strings.operationCardLastUpdated}
                         value={updated_at}
                         valueType="date"
@@ -219,14 +207,18 @@ function OperationCard(props: Props) {
                     value={coverage}
                     totalValue={100}
                     title={(
-                        <TextOutput
-                            label={strings.operationCardFundingCoverage}
-                            value={coverage}
-                            valueType="number"
-                            suffix="%"
-                            textSize="sm"
-                            withUppercaseLetters
-                        />
+                        <ListView
+                            spacing="xs"
+                            withSpaceBetweenContents
+                        >
+                            <Label withUppercaseLetters>
+                                {strings.operationCardFundingCoverage}
+                            </Label>
+                            <NumberOutput
+                                value={coverage}
+                                suffix="%"
+                            />
+                        </ListView>
                     )}
                 />
             )}
@@ -251,11 +243,10 @@ function OperationCard(props: Props) {
                     valueOptions={{ compact: true }}
                 />
                 <KeyFigure
-                    className={styles.figure}
                     value={amountRequested}
                     label={(
                         <Link
-                            to="emergencyReportsAndDocuments"
+                            to="emergencyDocuments"
                             urlParams={{ emergencyId: id }}
                             colorVariant="text"
                         >

@@ -20,6 +20,7 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
+import EmailPreferences from './EmailPreferences';
 import SubscriptionPreferences from './SubscriptionPreferences';
 
 import i18n from './i18n.json';
@@ -27,7 +28,6 @@ import styles from './styles.module.css';
 
 type OperationsResponse = GoApiResponse<'/api/v2/event/'>;
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -72,6 +72,7 @@ export function Component() {
 
     return (
         <TabPage>
+            <EmailPreferences />
             <Container
                 className={styles.operationsFollowing}
                 heading={strings.operationFollowingHeading}

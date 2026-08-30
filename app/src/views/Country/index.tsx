@@ -42,7 +42,6 @@ import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { countryId } = useParams<{ countryId: string }>();
@@ -182,7 +181,6 @@ export function Component() {
                     external
                     href={resolveUrl(adminUrl, `api/country/${countryId}/change/`)}
                     before={<PencilFillIcon />}
-                    spacing="sm"
                     colorVariant="primary"
                     styleVariant="outline"
                 >

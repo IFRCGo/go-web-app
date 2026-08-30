@@ -17,7 +17,10 @@ import {
 } from '@togglecorp/fujs';
 
 import SelectInputContainer, { Props as SelectInputContainerProps } from '#components/SelectInputContainer';
-import { rankedSearchOnList } from '#utils/common';
+import {
+    getHighlightMode,
+    rankedSearchOnList,
+} from '#utils/common';
 
 import Option from './Option';
 
@@ -35,6 +38,9 @@ export type SearchMultiSelectInputProps<
 > = (
     Omit<{
         value: OPTION_KEY[] | undefined | null;
+        prevValue?: OPTION_KEY[] | undefined | null;
+        withDiffView?: boolean;
+
         onChange: (newValue: OPTION_KEY[], name: NAME) => void;
         options: OPTION[] | undefined | null;
         searchOptions?: OPTION[] | undefined | null;
@@ -101,6 +107,8 @@ function SearchMultiSelectInput<
         optionsPending,
         optionsErrored,
         value: valueFromProps,
+        prevValue,
+        withDiffView,
         sortFunction,
         searchOptions: searchOptionsFromProps,
         onSearchValueChange,
@@ -140,11 +148,23 @@ function SearchMultiSelectInput<
         [options, keySelector, labelSelector],
     );
 
-    const valueDisplay = useMemo(
-        () => (
-            value.map((v) => optionsLabelMap[v] ?? '?').join(', ')
+    const highlightMode = useMemo(
+        () => getHighlightMode(
+            JSON.stringify(value),
+            JSON.stringify(prevValue),
+            withDiffView,
         ),
+        [prevValue, value, withDiffView],
+    );
+
+    const valueDisplay = useMemo(
+        () => value.map((v) => optionsLabelMap[v] ?? '?').join(', '),
         [value, optionsLabelMap],
+    );
+
+    const prevValueDisplay = useMemo(
+        () => prevValue?.map((v) => optionsLabelMap[v] ?? '?').join(', '),
+        [prevValue, optionsLabelMap],
     );
 
     // NOTE: we can skip this calculation if optionsShowInitially is false
@@ -315,6 +335,8 @@ function SearchMultiSelectInput<
             persistentOptionPopup
             nonClearable={false}
             hasValue={isDefined(value) && value.length > 0}
+            prevValue={prevValueDisplay}
+            highlightMode={highlightMode}
         />
     );
 }

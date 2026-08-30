@@ -4,3 +4,6 @@
 [submodule "go-risk-module-api"]
 	path = go-risk-module-api
 	url = git@github.com:IFRCGo/go-risk-module-api.git
+[submodule "cacheppuccino"]
+	path = cacheppuccino
+	url = git@github.com:IFRCGo/cacheppuccino.git

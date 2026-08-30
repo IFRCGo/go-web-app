@@ -68,7 +68,7 @@ function GlobalFooter(props: Props) {
                 layout="grid"
                 numPreferredGridColumns={5}
                 spacing="xl"
-                minGridColumnSize="20rem"
+                minGridColumnSize="14rem"
             >
                 <Container
                     heading={strings.footerAboutGo}

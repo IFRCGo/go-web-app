@@ -14,14 +14,6 @@
         "sources": "Sources",
         "dataBank": "The World Bank",
         "unicef": "UNICEF",
-        "hdr": "HDR",
-        "seasonalCalendarHeading": "Seasonal Calendar",
-        "seasonalCalendarTooltipEventLabel": "Event",
-        "seasonalCalendarTooltipEventTypeLabel": "Event type",
-        "seasonalCalendarTooltipMonthsLabel": "Months",
-        "seasonalCalendarTooltipSourceLabel": "Source",
-        "seasonalCalenderDataNotAvailable": "Data is not available!",
-        "source": "Source",
-        "acaps": "ACAPS"
+        "hdr": "HDR"
     }
 }

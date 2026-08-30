@@ -1,6 +1,9 @@
 .footer {
     background-color: var(--go-ui-color-primary-gray);
-    color: var(--go-ui-color-white);
+
+    * {
+        color: var(--go-ui-color-text-on-dark);
+    }
 
     .social-icon {
         font-size: var(--go-ui-height-social-icon);

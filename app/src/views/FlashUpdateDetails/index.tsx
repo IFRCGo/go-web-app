@@ -41,7 +41,6 @@ import FlashUpdateShareModal from './FlashUpdateShareModal';
 
 import i18n from './i18n.json';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -216,7 +215,7 @@ export function Component() {
                                 {flashUpdateResponse.map_files.map((item) => (
                                     <Image
                                         key={item.id}
-                                        src={item.file}
+                                        src={item.file ?? undefined}
                                         size="md"
                                     />
                                 ))}
@@ -237,7 +236,7 @@ export function Component() {
                                     {flashUpdateResponse?.graphics_files?.map((item) => (
                                         <Image
                                             key={item.id}
-                                            src={item.file}
+                                            src={item.file ?? undefined}
                                             caption={item.caption}
                                             size="md"
                                         />

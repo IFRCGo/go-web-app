@@ -1,10 +1,12 @@
 .inline-view {
-    &.with-wrap {
+    &.with-sm-wrap-breakpoint,
+    &.with-md-wrap-breakpoint,
+    &.with-lg-wrap-breakpoint {
         container-type: inline-size;
     }
 
     @container (max-width: 18rem) {
-        &.with-wrap {
+        &.with-sm-wrap-breakpoint {
             >.inline-layout {
                 &:has(> .before-content) {
                     grid-template-columns: auto minmax(0, 1fr);
@@ -15,9 +17,43 @@
                 }
 
                 > .after-content {
-                    grid-row-start: 1;
                     grid-column: 1 / -1;
-                    justify-self: end;
+                }
+            }
+        }
+    }
+
+    @container (max-width: 24rem) {
+        &.with-md-wrap-breakpoint {
+            >.inline-layout {
+                &:has(> .before-content) {
+                    grid-template-columns: auto minmax(0, 1fr);
+                }
+
+                &:not(:has(> .before-content)) {
+                    grid-template-columns: minmax(0, 1fr);
+                }
+
+                > .after-content {
+                    grid-column: 1 / -1;
+                }
+            }
+        }
+    }
+
+    @container (max-width: 32rem) {
+        &.with-lg-wrap-breakpoint {
+            >.inline-layout {
+                &:has(> .before-content) {
+                    grid-template-columns: auto minmax(0, 1fr);
+                }
+
+                &:not(:has(> .before-content)) {
+                    grid-template-columns: minmax(0, 1fr);
+                }
+
+                > .after-content {
+                    grid-column: 1 / -1;
                 }
             }
         }

@@ -20,7 +20,7 @@ type InheritedProps<NAME> = Omit<InputContainerProps, 'input'>
 & Omit<RawInputProps<NAME>, 'type' | 'className' | 'elementRef'>;
 
 export interface Props<T> extends InheritedProps<T> {
-    inputElementRef?: React.RefObject<HTMLInputElement>;
+    inputElementRef?: React.RefObject<HTMLInputElement | null>;
     inputClassName?: string;
 }
 

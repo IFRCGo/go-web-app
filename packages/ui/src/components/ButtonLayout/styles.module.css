@@ -27,7 +27,7 @@
     }
 
     &.color-variant-text {
-        --variant-color: var(--go-ui-color-text);
+        --variant-color: var(--go-ui-color-text-black);
     }
 
     &.color-variant-text-on-dark {
@@ -75,6 +75,10 @@
         --outline-color: transparent;
         --background-color: transparent;
         padding: 0;
+    }
+
+    &.text-size-extra-small {
+        font-size: var(--go-ui-font-size-xs);
     }
 
     &.text-size-small {
@@ -133,6 +137,22 @@
                 background-color: var(--visual-feedback-color);
                 width: 100%;
                 height: 100%;
+            }
+
+            &.style-variant-outline {
+                &.color-variant-primary {
+                    --background-color: var(--go-ui-color-primary-red);
+                    --outline-color: var(--go-ui-color-primary-red);
+                    --text-color: var(--go-ui-color-text-on-dark);
+                }
+            }
+
+            &.style-variant-transparent,
+            &.style-variant-action {
+                &.color-variant-text {
+                    --variant-color: var(--go-ui-color-primary-red);
+                    --text-color: var(--go-ui-color-primary-red);
+                }
             }
         }
     }

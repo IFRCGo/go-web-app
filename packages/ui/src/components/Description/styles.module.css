@@ -1,10 +1,19 @@
 .description {
+    /* NOTE: currentColor here resolves to the inherited color, so the
+       component looks unchanged when no color variant is set */
+    --variant-color: currentColor;
+
     overflow-wrap: anywhere;
+    color: var(--variant-color);
 
     &.with-centered-content {
         margin: 0 auto;
         max-width: var(--go-ui-width-content-max);
         text-align: center;
+    }
+
+    &.text-size-extra-small {
+        font-size: var(--go-ui-font-size-xs);
     }
 
     &.text-size-small {
@@ -19,8 +28,32 @@
         font-size: var(--go-ui-font-size-lg);
     }
 
+    &.color-variant-text {
+        --variant-color: var(--go-ui-color-text);
+    }
+
+    &.color-variant-text-on-dark {
+        --variant-color: var(--go-ui-color-text-on-dark);
+    }
+
+    &.color-variant-primary {
+        --variant-color: var(--go-ui-color-primary-red);
+    }
+
+    &.color-variant-secondary {
+        --variant-color: var(--go-ui-color-primary-blue);
+    }
+
+    &.color-variant-success {
+        --variant-color: var(--go-ui-color-positive);
+    }
+
+    &.color-variant-danger {
+        --variant-color: var(--go-ui-color-negative);
+    }
+
     &.with-light-text {
-        color: var(--go-ui-color-text-light);
+        color: color-mix(in srgb, var(--variant-color) 50%, transparent);
     }
 
     &:empty {

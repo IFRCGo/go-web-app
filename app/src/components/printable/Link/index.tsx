@@ -1,28 +1,36 @@
-import { _cs } from '@togglecorp/fujs';
-
-import GoLink, {
-    type CommonLinkProps,
-    type ExternalLinkProps,
-} from '#components/Link';
+import {
+    _cs,
+    isFalsyString,
+} from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
-type Props = Omit<CommonLinkProps, 'withUnderline'> & Omit<ExternalLinkProps, 'external'>;
+interface Props {
+    className?: string;
+    href: string | undefined | null;
+    children: React.ReactNode;
+}
 
 function Link(props: Props) {
     const {
         className,
-        ...otherProps
+        href,
+        children,
     } = props;
 
+    if (isFalsyString(href)) {
+        return null;
+    }
+
     return (
-        <GoLink
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...otherProps}
-            external
-            withUnderline
+        <a
             className={_cs(styles.link, className)}
-        />
+            target="_blank"
+            rel="noopener noreferrer"
+            href={href}
+        >
+            {children}
+        </a>
     );
 }
 

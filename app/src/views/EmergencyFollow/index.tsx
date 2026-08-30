@@ -1,4 +1,7 @@
-import { useMemo } from 'react';
+import {
+    useContext,
+    useMemo,
+} from 'react';
 import {
     Navigate,
     useParams,
@@ -7,14 +10,15 @@ import { Message } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isNotDefined } from '@togglecorp/fujs';
 
+import DomainContext from '#contexts/domain';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
+    const { invalidate } = useContext(DomainContext);
 
     const { emergencyId } = useParams<{ emergencyId: string }>();
 
@@ -31,6 +35,9 @@ export function Component() {
         url: '/api/v2/add_subscription/',
         method: 'POST',
         body,
+        onSuccess: () => {
+            invalidate('user-me');
+        },
     });
 
     if (pending) {

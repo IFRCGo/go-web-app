@@ -1,7 +1,6 @@
 .option {
     display: flex;
     align-items: center;
-    padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
     overflow: auto;
 
     &.active {

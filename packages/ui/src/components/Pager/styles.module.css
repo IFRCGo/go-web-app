@@ -1,16 +1,17 @@
 .pager {
     .page-list {
         display: flex;
-        gap: var(--go-ui-spacing-xs);
         align-items: center;
 
         .page-button {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 2rem;
-            height: 2rem;
+            /* FIXME: use variable */
+            width: 1.875rem;
+            height: 1.875rem;
             line-height: 1;
+            font-size: var(--go-ui-font-size-sm);
 
             &.active {
                 border-radius: 50%;

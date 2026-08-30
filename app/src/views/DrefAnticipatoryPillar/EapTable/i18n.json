@@ -1,0 +1,13 @@
+{
+    "namespace": "eapTable",
+    "strings": {
+        "eapTableHeading": "Recent EAPs",
+        "eapTableDate": "Date of Approval / Activation",
+        "eapTableName": "EAP Title",
+        "eapTableStatus": "EAP Status",
+        "eapTableCountry": "Country",
+        "eapTableDisasterType": "Disaster Type",
+        "eapTableRequirements": "Requirements (CHF)",
+        "eapTableLoginRequired": "Log in to view recent EAPs."
+    }
+}

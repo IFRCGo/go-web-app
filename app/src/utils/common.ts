@@ -1,5 +1,8 @@
 import { type Language } from '@ifrc-go/ui/contexts';
-import { DEFAULT_INVALID_TEXT } from '@ifrc-go/ui/utils';
+import {
+    DEFAULT_INVALID_TEXT,
+    getWordCount,
+} from '@ifrc-go/ui/utils';
 import {
     isNotDefined,
     isTruthyString,
@@ -72,21 +75,101 @@ export function joinStrings(
     return values.filter(Boolean).join(separator);
 }
 
-export function hasChanged(prevValue: unknown, newValue: unknown) {
-    // NOTE: we consider `null` and `undefined` as same for
-    // this scenario
-    if (isNotDefined(prevValue) && isNotDefined(newValue)) {
+const imageFileExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg', 'avif'];
+
+// NOTE: not using `new URL` here as it throws for the relative urls
+export function getFileNameFromUrl(urlString: string | undefined | null) {
+    if (isNotDefined(urlString)) {
+        return undefined;
+    }
+
+    const [pathname] = urlString.split(/[?#]/);
+    return pathname?.split('/').pop();
+}
+
+export function isImageFile(urlString: string | undefined | null) {
+    const fileName = getFileNameFromUrl(urlString);
+
+    if (isNotDefined(fileName)) {
         return false;
     }
 
-    if (typeof newValue === 'string'
-        || typeof newValue === 'number'
-        || typeof newValue === 'boolean'
-        || typeof newValue === 'bigint'
-    ) {
-        return newValue !== prevValue;
+    const extension = fileName.split('.').pop()?.toLowerCase();
+    return isTruthyString(extension) && imageFileExtensions.includes(extension);
+}
+
+export function isFileAccepted(file: File, accept: string | undefined | null) {
+    if (isNotDefined(accept)) {
+        return true;
     }
 
-    // TODO: add better method to check the diff
-    return JSON.stringify(prevValue) !== JSON.stringify(newValue);
+    const acceptedFormats = accept
+        .split(',')
+        .map((format) => format.trim().toLowerCase())
+        .filter(isTruthyString);
+
+    if (acceptedFormats.length === 0
+        || acceptedFormats.includes('*')
+        || acceptedFormats.includes('*/*')
+    ) {
+        return true;
+    }
+
+    const fileName = file.name.toLowerCase();
+    const fileType = file.type.toLowerCase();
+
+    return acceptedFormats.some((format) => {
+        if (format.startsWith('.')) {
+            return fileName.endsWith(format);
+        }
+
+        if (format.endsWith('/*')) {
+            return fileType.startsWith(format.substring(0, format.length - 1));
+        }
+
+        return fileType === format;
+    });
+}
+
+export function formatSourceLink(value: string | undefined): string | undefined {
+    if (
+        isNotDefined(value)
+            || value.startsWith('http://')
+            || value.startsWith('https://')
+            || value === 'h'
+            || value === 'ht'
+            || value === 'htt'
+            || value === 'http'
+            || value === 'http:'
+            || value === 'http:/'
+            || value === 'https'
+            || value === 'https:'
+            || value === 'https:/'
+    ) {
+        return value;
+    }
+
+    return `https://${value}`;
+}
+
+export function lengthSmallerOrEqualToCondition(
+    x?: number,
+    type: 'word' | 'character' = 'word',
+) {
+    return (value: string | undefined) => {
+        if (isNotDefined(value) || isNotDefined(x)) {
+            return undefined;
+        }
+
+        const length = type === 'word' ? getWordCount(value) : value.length;
+
+        if (length <= x) {
+            return undefined;
+        }
+
+        // FIXME: use translations
+        return type === 'word'
+            ? `Must be smaller or equal to ${x} words`
+            : `Length must be smaller or equal to ${x}`;
+    };
 }

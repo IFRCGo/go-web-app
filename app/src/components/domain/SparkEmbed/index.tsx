@@ -55,7 +55,10 @@ function PowerBiEmbed(props: PowerBiEmbedProps) {
                 panes: {
                     filters: { visible: false },
                 },
-                layoutType: models.LayoutType.FitToWidth,
+                layoutType: models.LayoutType.Custom,
+                customLayout: {
+                    displayOption: models.DisplayOption.FitToWidth,
+                },
                 // Enable/disable parts of the UI as needed
                 navContentPaneEnabled: true,
             },

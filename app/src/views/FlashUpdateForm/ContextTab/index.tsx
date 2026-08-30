@@ -124,7 +124,8 @@ function ContextTab(props: Props) {
     ), [countryOptions]);
     const disasterOptions = useDisasterType();
 
-    const handleTitleGenerateButtonClick = useCallback(() => {
+    // FIXME(frozenhelium): useCallback removed for React Compiler compatibility
+    const handleTitleGenerateButtonClick = () => {
         const countriesTitles = value.country_district
             ?.map((country) => (country.country ? countryTitleMapById[country.country] : undefined))
             .filter(isDefined)
@@ -134,13 +135,7 @@ function ContextTab(props: Props) {
         const selectedHazard = disasterOptions?.find((item) => item.id === value?.hazard_type);
 
         onValueChange(`${countriesTitles ?? 'Countries'} - ${selectedHazard?.name ?? 'Hazard'}  ${date}`, 'title');
-    }, [
-        disasterOptions,
-        countryTitleMapById,
-        value?.country_district,
-        value?.hazard_type,
-        onValueChange,
-    ]);
+    };
 
     return (
         <Container

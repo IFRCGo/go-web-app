@@ -1,4 +1,15 @@
 .container {
+    &.with-centered-content {
+        margin: 0 auto;
+        width: 100%;
+        max-width: var(--go-ui-width-content-max);
+    }
+
+    &.with-fixed-height {
+        /* FIXME: use variable */
+        max-height: 18rem;
+    }
+
     &.with-shadow {
         box-shadow: var(--go-ui-box-shadow-md);
     }
@@ -8,12 +19,26 @@
         background-color: var(--go-ui-color-foreground);
     }
 
+    &.with-border {
+        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        border-radius: var(--go-ui-border-radius-lg);
+    }
+
     &.with-dark-background {
         border-radius: var(--go-ui-border-radius-lg);
         background-color: var(--go-ui-color-background);
     }
 
+    &.form-variant {
+        >.before-container {
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        }
+    }
+
     .content {
+        display: flex;
+        flex-direction: column;
+
         &:empty {
             display: none;
         }
@@ -29,7 +54,7 @@
         }
 
         &.with-overflow {
-            &:not(:has(.with-padding-overflow)) {
+            &.without-padding-overflow {
                 overflow-block: auto;
             }
 
@@ -37,6 +62,7 @@
                 display: contents;
 
                 .overflow-container {
+                    flex-grow: 1;
                     overflow-block: auto;
                 }
             }

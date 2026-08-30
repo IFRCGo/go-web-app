@@ -1,0 +1,193 @@
+{
+    "parent": "000065-1768988438105.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "manageExternallyHeading",
+            "namespace": "configureLocalUnitsModal",
+            "value": "Manage Local Units externally"
+        },
+        {
+            "action": "add",
+            "key": "updateFailureMessage",
+            "namespace": "configureLocalUnitsModal",
+            "value": "Failed to update local unit configuration!"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitActionsLabel",
+            "namespace": "configureLocalUnitsModal"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitTypeTableLabel",
+            "namespace": "configureLocalUnitsModal"
+        },
+        {
+            "action": "add",
+            "key": "confirmationModalMakeExternallyManagedDescription",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "You are about to set {localUnitType} local units to be managed externally. All the existing {localUnitType} local units will be changed to have the validation status of \"Externally Managed\", and they will no longer be editable. Only bulk uploads will be allowed for adding, editing or removing local units"
+        },
+        {
+            "action": "add",
+            "key": "confirmationModalRemoveExternallyManagedDescription",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "You are about to remove {localUnitType} local units from being externally managed. All the existing {localUnitType} local units will be changed to have the validation status of \"Validated\" and can be edited."
+        },
+        {
+            "action": "add",
+            "key": "exportButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Export Local Units"
+        },
+        {
+            "action": "add",
+            "key": "highlightChangesLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Highlight changes"
+        },
+        {
+            "action": "add",
+            "key": "otherProfilesHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Other profiles"
+        },
+        {
+            "action": "add",
+            "key": "savingMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Submitting changes..."
+        },
+        {
+            "action": "add",
+            "key": "showChangesLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Show previous value"
+        },
+        {
+            "action": "remove",
+            "key": "confirmationFailedMessage",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "confirmationSuccessDisabledMessage",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "confirmationSuccessEnabledMessage",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "doneButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "editButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitDeleteButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitsModalReadOnlyHeading",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "viewChangesLabel",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "confirmationModalDescription",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newValue": "Please enter the name of your national society to proceed."
+        },
+        {
+            "action": "update",
+            "key": "localUnitsModalHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newValue": "Local Unit - {localUnitType}"
+        },
+        {
+            "action": "update",
+            "key": "localUnitViewUpdateReason",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newValue": "Reason for edit"
+        },
+        {
+            "action": "update",
+            "key": "noLocalUnitEditPermission",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newValue": "You do not have permission to edit this Local Unit type"
+        },
+        {
+            "action": "add",
+            "key": "exportFailedToSaveMessage",
+            "namespace": "localUnitExportModal",
+            "value": "Failed to save the exported file!"
+        },
+        {
+            "action": "add",
+            "key": "exportSuccessMessage",
+            "namespace": "localUnitExportModal",
+            "value": "Local units exported successfully"
+        },
+        {
+            "action": "add",
+            "key": "generateExportButtonLabel",
+            "namespace": "localUnitExportModal",
+            "value": "Generate export"
+        },
+        {
+            "action": "add",
+            "key": "localUnitTypeInputLabel",
+            "namespace": "localUnitExportModal",
+            "value": "Local unit type"
+        },
+        {
+            "action": "add",
+            "key": "modalDescription",
+            "namespace": "localUnitExportModal",
+            "value": "Please select a local unit type to Generate an xlsx export!"
+        },
+        {
+            "action": "add",
+            "key": "modalHeading",
+            "namespace": "localUnitExportModal",
+            "value": "Export Local Units for {countryName}"
+        },
+        {
+            "action": "add",
+            "key": "importWarning",
+            "namespace": "localUnitImportModal",
+            "value": "Please be aware that this action will replace all the existing local units of selected type! To avoid potential loss of data, please make sure to export the local units!"
+        },
+        {
+            "action": "update",
+            "key": "selectFileButtonLabel",
+            "namespace": "localUnitImportModal",
+            "newValue": "Select a file to upload"
+        },
+        {
+            "action": "add",
+            "key": "processingMessage",
+            "namespace": "localUnitImportSummary",
+            "value": "Processing uploaded data"
+        },
+        {
+            "action": "update",
+            "key": "validateLocalUnitHeading",
+            "namespace": "localUnitValidateModal",
+            "newValue": "Review \"{localUnitName}\""
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "parent": "000074-1773302401100.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "viewOnlyModeBannerMessage",
+            "namespace": "common",
+            "value": "This form is currently in view-only mode!"
+        },
+        {
+            "action": "update",
+            "key": "formEditNotAvailableInSelectedLanguageMessage",
+            "namespace": "drefApplicationForm",
+            "newValue": "DREF Application is not available for edit in the selected language!"
+        },
+        {
+            "action": "update",
+            "key": "formNotAvailableInSelectedLanguageMessage",
+            "namespace": "drefFinalReportForm",
+            "newValue": "DREF Final Report is not available for edit in the selected language!"
+        },
+        {
+            "action": "update",
+            "key": "formNotAvailableInSelectedLanguageMessage",
+            "namespace": "drefOperationalUpdateForm",
+            "newValue": "DREF Operational Update is not available for edit in the selected language!"
+        }
+    ]
+}

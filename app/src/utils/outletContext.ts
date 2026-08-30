@@ -2,7 +2,7 @@ import type { GoApiResponse } from '#utils/restRequest';
 
 // FIXME: move this to context
 
-type EmergencyResponse = GoApiResponse<'/api/v2/event/{id}/'>;
+type EmergencyResponse = GoApiResponse<'/api/v2/emergency/{id}/'>;
 
 type EmergencySnippetsResponse = GoApiResponse<'/api/v2/event_snippet/'>;
 type Snippets = EmergencySnippetsResponse['results'];
@@ -17,6 +17,7 @@ interface EmergencyAdditionalTabs {
 
 export interface EmergencyOutletContext {
     emergencyResponse: EmergencyResponse | undefined;
+    emergencyResponsePending: boolean;
     emergencyAdditionalTabs: EmergencyAdditionalTabs[] | undefined;
 }
 
@@ -40,6 +41,6 @@ export interface PerProcessOutletContext {
     fetchingStatus: boolean,
     statusResponse: PerProcessStatusResponse | undefined,
     refetchStatusResponse: () => void,
-    actionDivRef: React.RefObject<HTMLDivElement>,
+    actionDivRef: React.RefObject<HTMLDivElement | null>,
     readOnly?: boolean;
 }

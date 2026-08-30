@@ -1,6 +1,7 @@
 import Container from '#components/Container';
 import Description from '#components/Description';
 import InfoPopup from '#components/InfoPopup';
+import InputError from '#components/InputError';
 import ListView from '#components/ListView';
 
 type NumColumn = 1 | 2 | 3 | 4;
@@ -10,7 +11,10 @@ export interface Props {
     children?: React.ReactNode;
     description?: React.ReactNode;
     // contentSectionClassName?: string;
-    tooltip?: string;
+    tooltip?: React.ReactNode;
+    // NOTE: rendered outside the column grid so that it spans the full width
+    // instead of consuming one column like a child would
+    error?: React.ReactNode;
     withoutTitleSection?: boolean;
     withFullWidthContent?: boolean;
     withoutPadding?: boolean;
@@ -18,6 +22,7 @@ export interface Props {
     withAsteriskOnTitle?: boolean;
     numPreferredColumns?: NumColumn;
     withShadow?: boolean;
+    headerActions?: React.ReactNode;
 }
 
 function InputSection(props: Props) {
@@ -27,6 +32,7 @@ function InputSection(props: Props) {
         children,
         description,
         tooltip,
+        error,
         // contentSectionClassName,
         withoutTitleSection = false,
         withoutPadding = false,
@@ -35,7 +41,17 @@ function InputSection(props: Props) {
         numPreferredColumns = 1,
         withFullWidthContent,
         withShadow,
+        headerActions,
     } = props;
+
+    const inputs = (
+        <ListView
+            layout="grid"
+            numPreferredGridColumns={numPreferredColumns}
+        >
+            {children}
+        </ListView>
+    );
 
     const content = (
         <>
@@ -49,15 +65,18 @@ function InputSection(props: Props) {
                             )}
                         </>
                     )}
-                    // headingDescription={withAsteriskOnTitle && (
-                    //     <span aria-hidden className={styles.asterisk}>
-                    //         *
-                    //     </span>
-                    // )}
-                    headerActions={tooltip && <InfoPopup description={tooltip} />}
+                    headerActions={(
+                        <>
+                            {tooltip && <InfoPopup description={tooltip} />}
+                            {headerActions}
+                        </>
+                    )}
                     headingLevel={6}
                 >
-                    <Description withLightText>
+                    <Description
+                        withLightText
+                        textSize="sm"
+                    >
                         <ListView
                             layout="block"
                             withSpacingOpticalCorrection
@@ -67,12 +86,14 @@ function InputSection(props: Props) {
                     </Description>
                 </Container>
             )}
-            <ListView
-                layout="grid"
-                numPreferredGridColumns={numPreferredColumns}
-            >
-                {children}
-            </ListView>
+            {error ? (
+                <ListView layout="block">
+                    {inputs}
+                    <InputError>
+                        {error}
+                    </InputError>
+                </ListView>
+            ) : inputs}
         </>
     );
 

@@ -16,6 +16,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import {
+    dateGreaterThanOrEqualCondition,
     positiveIntegerCondition,
     positiveNumberCondition,
 } from '#utils/form';
@@ -767,7 +768,7 @@ const schema: OpsUpdateFormSchema = {
         formFields = addCondition(
             formFields,
             formValue,
-            ['type_of_dref'],
+            ['type_of_dref', 'reporting_start_date'],
             submissionDrefTypeRelatedFields,
             (val): SubmissionDrefTypeRelatedFields => {
                 const baseSubmissionFields: SubmissionDrefTypeRelatedFields = {
@@ -801,7 +802,15 @@ const schema: OpsUpdateFormSchema = {
                         new_operational_start_date: {},
                         new_operational_end_date: {},
                         reporting_start_date: {},
-                        reporting_end_date: {},
+                        // FIXME(frozenhelium): go-api, the server does not
+                        // validate the reporting timeframe date ordering, so
+                        // records saved outside this form can still have an
+                        // end date before the start date
+                        reporting_end_date: {
+                            validations: isDefined(val?.reporting_start_date)
+                                ? [dateGreaterThanOrEqualCondition(val.reporting_start_date)]
+                                : undefined,
+                        },
                         glide_code: {},
                         national_society_contact_name: {},
                         national_society_contact_title: {},

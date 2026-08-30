@@ -1,5 +1,4 @@
 import {
-    type ElementRef,
     useCallback,
     useRef,
     useState,
@@ -65,10 +64,9 @@ import schema, {
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const formContentRef = useRef<ElementRef<'div'>>(null);
+    const formContentRef = useRef<HTMLDivElement>(null);
 
     const strings = useTranslation(i18n);
     const { flashUpdateId } = useParams<{ flashUpdateId: string }>();
@@ -466,14 +464,20 @@ export function Component() {
                                     {strings.flashUpdateContinueButtonLabel}
                                 </Button>
                             </div>
+                            {/* eslint-disable-next-line max-len */}
+                            {/* FIXME(frozenhelium): handleSubmit and handleFormError are stable ref-backed callbacks from toggle-form */}
                             <Button
                                 name={undefined}
-                                onClick={createSubmitHandler(
-                                    validate,
-                                    setError,
-                                    handleSubmit,
-                                    handleFormError,
-                                )}
+                                onClick={
+                                    createSubmitHandler(
+                                        validate,
+                                        setError,
+                                        // eslint-disable-next-line react-hooks/refs
+                                        handleSubmit,
+                                        // eslint-disable-next-line react-hooks/refs
+                                        handleFormError,
+                                    )
+                                }
                                 disabled={activeTab !== 'focal' || submitPending}
                             >
                                 {strings.flashUpdateSubmitButtonLabel}

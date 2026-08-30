@@ -1,0 +1,54 @@
+{
+    "parent": "000060-1764233906932.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "daysSuffix",
+            "namespace": "drefFinalReportExport",
+            "value": " days"
+        },
+        {
+            "action": "remove",
+            "key": "drefAddIndicatorButtonLabel",
+            "namespace": "drefFinalReportForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefIndicatorRemoveButtonLabel",
+            "namespace": "drefFinalReportForm"
+        },
+        {
+            "action": "update",
+            "key": "emergenciesMapTitle",
+            "namespace": "emergencies",
+            "newValue": "Emergencies in the last 30 days ({numEmergencies})"
+        },
+        {
+            "action": "remove",
+            "key": "drefAddIndicatorButtonLabel",
+            "namespace": "oldDrefFinalReportForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefIndicatorRemoveButtonLabel",
+            "namespace": "oldDrefFinalReportForm"
+        },
+        {
+            "action": "update",
+            "key": "aboutFurtherInfo",
+            "namespace": "resources",
+            "newValue": "For any further information, please contact:"
+        },
+        {
+            "action": "update",
+            "key": "resourcesDescription",
+            "namespace": "resources",
+            "newValue": "IFRC GO aims to make all disaster information universally accessible and useful to IFRC responders. In this section you can find all the relevant guides and resources to support your experience with GO."
+        },
+        {
+            "action": "remove",
+            "key": "surgeOperationalToolboxHeading",
+            "namespace": "surgeOperationalToolbox"
+        }
+    ]
+}

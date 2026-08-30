@@ -1,11 +1,22 @@
 .base-map-point-input {
     display: flex;
+    position: relative;
     flex-direction: column;
     gap: var(--go-ui-spacing-md);
+    isolation: isolate;
 
-    .location-inputs {
-        display: grid;
-        gap: var(--go-ui-spacing-sm);
-        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    .map-container {
+        background-color: var(--go-ui-color-background);
+        height: 32rem;
+    }
+
+    .location-search {
+        position: absolute;
+        right: var(--go-ui-spacing-sm);
+        bottom: var(--go-ui-spacing-sm);
+        z-index: 1;
+        border-radius: var(--go-ui-border-radius-lg);
+        background-color: var(--go-ui-color-foreground);
+        padding: var(--go-ui-spacing-sm);
     }
 }

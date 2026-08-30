@@ -1,7 +1,7 @@
 import xlsx from 'exceljs';
 
 import { fetchServerState } from "../utils";
-import { isFalsyString, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
+import { isFalsyString, isTruthyString, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
 
 async function exportServerStringsToExcel(
     apiUrl: string,
@@ -25,8 +25,8 @@ async function exportServerStringsToExcel(
     );
 
     worksheet.columns = [
-        { header: 'Namespace', key: 'namespace' },
-        { header: 'Key', key: 'key' },
+        { header: 'page', key: 'page' },
+        { header: 'key', key: 'key' },
         { header: 'EN', key: 'en' },
         { header: 'FR', key: 'fr' },
         { header: 'ES', key: 'es' },
@@ -35,7 +35,7 @@ async function exportServerStringsToExcel(
 
     const keyGroupedStrings = mapToList(
         listToGroupList(
-            serverStrings,
+            serverStrings.filter(({ page_name, key }) => isTruthyString(page_name) && isTruthyString(key)),
             ({ page_name, key }) => `${page_name}:${key}`,
         ),
         (list) => {
@@ -52,7 +52,7 @@ async function exportServerStringsToExcel(
             const { key, page_name } = list[0];
 
             return {
-                namespace: page_name,
+                page: page_name,
                 key: key,
                 en: value.en,
                 fr: hash.fr === hash.en ? value.fr : undefined,

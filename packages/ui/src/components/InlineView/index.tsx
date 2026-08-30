@@ -7,7 +7,7 @@ import styles from './styles.module.css';
 export interface Props extends InlineLayoutProps {
     layoutClassName?: string;
     layoutElementRef?: InlineLayoutProps['elementRef'];
-    withoutWrap?: boolean;
+    wrapBreakpoint?: 'sm' | 'md' | 'lg' | 'none';
 }
 
 function InlineView(props: Props) {
@@ -27,7 +27,7 @@ function InlineView(props: Props) {
         spacingOffset,
         withPadding,
         withoutSpacingOpticalCorrection,
-        withoutWrap = false,
+        wrapBreakpoint = 'md',
 
         ...divProps
     } = props;
@@ -39,7 +39,9 @@ function InlineView(props: Props) {
             ref={elementRef}
             className={_cs(
                 styles.inlineView,
-                !withoutWrap && styles.withWrap,
+                wrapBreakpoint === 'sm' && styles.withSmWrapBreakpoint,
+                wrapBreakpoint === 'md' && styles.withMdWrapBreakpoint,
+                wrapBreakpoint === 'lg' && styles.withLgWrapBreakpoint,
                 className,
             )}
         >

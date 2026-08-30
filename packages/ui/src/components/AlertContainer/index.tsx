@@ -61,6 +61,10 @@ function AlertContainer(props: Props) {
         [removeAlert],
     );
 
+    if (alerts.length === 0) {
+        return null;
+    }
+
     return (
         <Portal>
             <div className={_cs(styles.alertContainer, className)}>

@@ -1,0 +1,29 @@
+{
+    "parent": "000083-1779870557954.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "crisisCategorisationDescription",
+            "namespace": "activeOperationMap",
+            "value": "The Crisis Categorisation enables the IFRC Network to systematically assess and assign severity levels to disasters based on standardized indicators. It supports both single-country and multi-country emergencies, allowing to input specific vulnerability data per country, consolidate those scores into a final IFRC Severity Level, and automatically track the history of all categorisation changes."
+        },
+        {
+            "action": "update",
+            "key": "crisisOrangeEmergency",
+            "namespace": "activeOperationMap",
+            "newValue": "Orange Level"
+        },
+        {
+            "action": "update",
+            "key": "crisisRedEmergency",
+            "namespace": "activeOperationMap",
+            "newValue": "Red Level"
+        },
+        {
+            "action": "update",
+            "key": "crisisYellowEmergency",
+            "namespace": "activeOperationMap",
+            "newValue": "Yellow Level"
+        }
+    ]
+}

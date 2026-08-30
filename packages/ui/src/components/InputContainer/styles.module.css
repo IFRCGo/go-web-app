@@ -6,12 +6,12 @@
         transition: var(--go-ui-duration-transition-medium) var(--go-ui-color-gray-10) ease-in-out;
         border-bottom: var(--go-ui-width-separator-thin) solid transparent;
         border-radius: var(--go-ui-border-radius-md);
-        background-color: var(--go-ui-color-element-background);
     }
 
-    &.changed {
+    &.general-variant {
         .input-section {
-            background-color: var(--go-ui-color-semantic-yellow);
+            border-radius: 0;
+            border-bottom-color: var(--go-ui-color-separator);
         }
     }
 
@@ -23,31 +23,58 @@
         }
     }
 
-    &.errored {
-        .input-section {
-            border-color: var(--go-ui-color-red);
-        }
-    }
-
-    &.general {
-        .input-section {
-            border-radius: 0;
-            border-bottom-color: var(--go-ui-color-separator);
-        }
-    }
-
-    &.read-only {
-        &:not(.changed) {
+    &.with-update-highlight {
+        &.form-variant,
+        &.transparent-variant,
+        &.general-variant {
             .input-section {
-                background-color: var(--go-ui-color-readonly-element-background);
+                background-color: color-mix(in srgb, var(--go-ui-color-semantic-yellow) 30%, transparent);
             }
         }
     }
 
-    &:not(.read-only):not(.disabled) {
-        .input-section {
-            &:hover,
-            &:focus-within {
+    &.with-add-highlight {
+        &.form-variant,
+        &.transparent-variant,
+        &.general-variant {
+            .input-section {
+                background-color: color-mix(in srgb, var(--go-ui-color-green) 20%, transparent);
+            }
+        }
+    }
+
+    &.with-remove-highlight {
+        &.form-variant,
+        &.transparent-variant,
+        &.general-variant {
+            .input-section {
+                background-color: color-mix(in srgb, var(--go-ui-color-red) 20%, transparent);
+            }
+        }
+    }
+
+    &.form-variant {
+        .input-section { /* stylelint-disable-line no-descending-specificity */
+            background-color: var(--go-ui-color-element-background);
+        }
+
+        &.errored {
+            .input-section {
+                border-color: var(--go-ui-color-red);
+            }
+        }
+
+        &:not(.read-only):not(.disabled) {
+            .input-section {
+                &:hover,
+                &:focus-within {
+                    border-bottom-color: var(--go-ui-color-primary-red);
+                }
+            }
+        }
+
+        &:not(.disabled):not(.read-only):hover:enabled {
+            .input-section {
                 border-bottom-color: var(--go-ui-color-primary-red);
             }
         }
@@ -62,12 +89,6 @@
         &.error-on-tooltip {
             position: absolute;
             min-width: 10rem;
-        }
-    }
-
-    &:not(.disabled):not(.read-only):hover:enabled {
-        .input-section {
-            border-bottom-color: var(--go-ui-color-primary-red);
         }
     }
 }

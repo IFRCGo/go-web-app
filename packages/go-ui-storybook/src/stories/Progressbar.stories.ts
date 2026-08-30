@@ -7,7 +7,7 @@ import type {
 import ProgressBar from './ProgressBar';
 
 const meta = {
-    title: 'Components/ProgressBar',
+    title: 'Visualization/ProgressBar',
     component: ProgressBar,
     parameters: {
         layout: 'centered',
@@ -30,6 +30,7 @@ export const Default: Story = {
         value: 75,
         title: 'Total Projects Completed',
         totalValue: 150,
+        colorVariant: 'primary',
     },
 };
 
@@ -44,5 +45,34 @@ export const WithDescription: Story = {
     args: {
         ...Default.args,
         description: 'Number of projects completed successfully this year.',
+    },
+};
+
+export const Success: Story = {
+    args: {
+        value: 40,
+        totalValue: 100,
+        title: 'Successful Projects',
+        colorVariant: 'success',
+    },
+};
+
+export const Danger: Story = {
+    args: {
+        value: 20,
+        totalValue: 100,
+        title: 'Failed Projects',
+        colorVariant: 'danger',
+    },
+};
+
+export const CustomColor: Story = {
+    args: {
+        value: 50,
+        totalValue: 100,
+        title: 'Custom Color Progress',
+        colorVariant: 'custom',
+        color: '#FF5733',
+        showPercentageInTitle: true,
     },
 };

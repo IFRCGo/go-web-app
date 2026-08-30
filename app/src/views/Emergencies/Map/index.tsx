@@ -255,9 +255,7 @@ function EmergenciesMap(props: Props) {
                 </Link>
             )}
         >
-            <GlobalMap
-                onAdminZeroFillClick={handleCountryClick}
-            >
+            <GlobalMap onAdminZeroFillClick={handleCountryClick}>
                 <GoMapContainer
                     title={strings.emergenciesDownloadMapTitle}
                     footer={(
@@ -334,21 +332,27 @@ function EmergenciesMap(props: Props) {
                         empty={isNotDefined(popupDetails) || popupDetails.length === 0}
                         emptyMessage={strings.emergenciesMapPopoverEmpty}
                     >
-                        {popupDetails?.map(
-                            (event) => (
-                                <Container
-                                    key={event.details.id}
-                                    heading={event.details.name}
-                                    headingLevel={5}
-                                >
-                                    <TextOutput
-                                        label={strings.emergenciesPeopleAffected}
-                                        value={getNumAffected(event.details)}
-                                        valueType="number"
-                                    />
-                                </Container>
-                            ),
-                        )}
+                        <ListView
+                            layout="block"
+                            withSpacingOpticalCorrection
+                        >
+                            {popupDetails?.map(
+                                (event) => (
+                                    <Container
+                                        key={event.details.id}
+                                        heading={event.details.name}
+                                        headingLevel={6}
+                                        spacing="2xs"
+                                    >
+                                        <TextOutput
+                                            label={strings.emergenciesPeopleAffected}
+                                            value={getNumAffected(event.details)}
+                                            valueType="number"
+                                        />
+                                    </Container>
+                                ),
+                            )}
+                        </ListView>
                     </MapPopup>
                 )}
             </GlobalMap>

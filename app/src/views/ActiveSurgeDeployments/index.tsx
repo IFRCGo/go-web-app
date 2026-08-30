@@ -6,7 +6,6 @@ import OngoingEruDeployments from './OngoingEruDeployments';
 import OngoingRapidResponseDeployments from './OngoingRapidResponseDeployments';
 import SurgeMap from './SurgeMap';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     return (

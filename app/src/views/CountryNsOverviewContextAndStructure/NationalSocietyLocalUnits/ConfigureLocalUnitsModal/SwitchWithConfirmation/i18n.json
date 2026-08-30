@@ -1,0 +1,12 @@
+{
+    "namespace": "countryNsOverviewContextAndStructure",
+    "strings": {
+        "confirmationModalHeading": "Confirmation",
+        "confirmationModalDescription": "Please enter the name of your national society to proceed.",
+        "confirmationModalMakeExternallyManagedDescription": "You are about to set {localUnitType} local units to be managed externally. All the existing {localUnitType} local units will be changed to have the validation status of \"Externally Managed\", and they will no longer be editable. Only bulk uploads will be allowed for adding, editing or removing local units",
+        "confirmationModalRemoveExternallyManagedDescription": "You are about to remove {localUnitType} local units from being externally managed. All the existing {localUnitType} local units will be changed to have the validation status of \"Validated\" and can be edited.",
+        "confirmButtonLabel": "Confirm",
+        "societyNameTextLabel": "Enter your National Society name",
+        "cancelButtonLabel": "Cancel"
+    }
+}

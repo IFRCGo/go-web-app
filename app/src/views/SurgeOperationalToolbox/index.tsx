@@ -1,7 +1,9 @@
 import { type MouseEventHandler } from 'react';
 import {
     Container,
+    Description,
     ExpandableContainer,
+    Label,
     ListView,
     TextOutput,
 } from '@ifrc-go/ui';
@@ -429,7 +431,6 @@ const operationTimelineContent: OperationTimelineContent[] = [
     },
 ];
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -584,60 +585,70 @@ export function Component() {
 
     return (
         <TabPage>
-            <Container
-                headingLevel={2}
-                heading={strings.surgeOperationalToolboxHeading}
-                headerDescription={strings.surgeOperationalToolboxHeadingDescription}
+            <Label
+                strong
+                textSize="lg"
             >
-                <ListView layout="block">
-                    <ExpandableContainer
-                        heading={strings.operationalToolboxOverviewHeading}
-                        initiallyExpanded
-                        withPadding
+                {strings.surgeOperationalToolboxHeadingDescription}
+            </Label>
+            <ListView layout="block">
+                <ExpandableContainer
+                    heading={strings.operationalToolboxOverviewHeading}
+                    initiallyExpanded
+                    withDarkBackground
+                    withPadding
+                    spacing="lg"
+                    headerDescription={strings.overviewSectionHeader}
+                >
+                    <Container
+                        heading={strings.overviewNavigationHowTo}
+                        headingLevel={5}
+                        withContentWell
                     >
-                        <Container
-                            heading={strings.overviewNavigationHowTo}
-                            headingLevel={4}
-                            headerDescription={strings.overviewSectionHeader}
-                        >
-                            <ListView layout="block">
-                                <TextOutput
-                                    value={strings.toolboxValue}
-                                    label={strings.toolboxLabel}
-                                    strongLabel
-                                />
-                                <TextOutput
-                                    value={strings.timelineValue}
-                                    label={strings.timelineLabel}
-                                    strongLabel
-                                />
-                                <div>{strings.overviewSectionFooter}</div>
-                            </ListView>
-                        </Container>
-                    </ExpandableContainer>
-                    <div>
-                        <OperationalTimelineTitle />
-                        <OperationalTimelineBody
-                            onClick={handleClick}
-                            onMouseOver={handleHover}
-                            onMouseOut={handleMouseOut}
-                        />
-                    </div>
-                    <div>
-                        <div>{fundingCoverageDescription}</div>
-                        <div>{perSectionHeading}</div>
-                        <ul>
-                            <li>{strings.perSectionOne}</li>
-                            <li>{strings.perSectionTwo}</li>
-                            <li>{perSectionThree}</li>
-                            <li>{strings.perSectionFour}</li>
-                            <li>{perSectionFive}</li>
-                            <li>{strings.perSectionSix}</li>
-                        </ul>
-                        <div>{perSectionFooter}</div>
-                    </div>
+                        <ListView layout="block">
+                            <TextOutput
+                                value={strings.toolboxValue}
+                                label={strings.toolboxLabel}
+                                strongLabel
+                                withBlockLayout
+                            />
+                            <TextOutput
+                                value={strings.timelineValue}
+                                label={strings.timelineLabel}
+                                withBlockLayout
+                                strongLabel
+                            />
+                        </ListView>
+                    </Container>
+                    <Description>{strings.overviewSectionFooter}</Description>
+                </ExpandableContainer>
+                <div>
+                    <OperationalTimelineTitle />
+                    <OperationalTimelineBody
+                        onClick={handleClick}
+                        onMouseOver={handleHover}
+                        onMouseOut={handleMouseOut}
+                    />
+                </div>
+                <ListView
+                    layout="block"
+                    withSpacingOpticalCorrection
+                    withPadding
+                    withDarkBackground
+                >
+                    <div>{fundingCoverageDescription}</div>
+                    <div>{perSectionHeading}</div>
+                    <ul>
+                        <li>{strings.perSectionOne}</li>
+                        <li>{strings.perSectionTwo}</li>
+                        <li>{perSectionThree}</li>
+                        <li>{strings.perSectionFour}</li>
+                        <li>{perSectionFive}</li>
+                        <li>{strings.perSectionSix}</li>
+                    </ul>
+                    <div>{perSectionFooter}</div>
                 </ListView>
-            </Container>
+            </ListView>
         </TabPage>
     );
 }

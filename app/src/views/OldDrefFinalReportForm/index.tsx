@@ -1,5 +1,4 @@
 import {
-    type ElementRef,
     useCallback,
     useRef,
     useState,
@@ -36,6 +35,7 @@ import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage'
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
+import ViewOnlyModeBanner from '#components/ViewOnlyModeBanner';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useAlert from '#hooks/useAlert';
 import {
@@ -91,7 +91,6 @@ function getNextStep(current: TabKeys, direction: 1 | -1) {
     }
     return undefined;
 }
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { finalReportId } = useParams<{ finalReportId: string }>();
@@ -99,7 +98,7 @@ export function Component() {
     const alert = useAlert();
     const strings = useTranslation(i18n);
 
-    const formContentRef = useRef<ElementRef<'div'>>(null);
+    const formContentRef = useRef<HTMLDivElement>(null);
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [isPreviousImminent, setIsPreviousImminent] = useState(false);
@@ -116,7 +115,7 @@ export function Component() {
         setTrue: setShowExportModalTrue,
         setFalse: setShowExportModalFalse,
     }] = useBooleanState(false);
-    const lastModifiedAtRef = useRef<string | undefined>();
+    const lastModifiedAtRef = useRef<string | undefined>(undefined);
 
     const {
         value,
@@ -255,6 +254,7 @@ export function Component() {
         method: 'PATCH',
         pathVariables: isDefined(finalReportId) ? { id: finalReportId } : undefined,
         body: (formFields: FinalReportRequestBody) => formFields,
+        useCurrentLanguageForMutation: true,
         onSuccess: (response) => {
             alert.show(
                 strings.formSaveRequestSuccessMessage,
@@ -451,6 +451,9 @@ export function Component() {
                 )}
                 withBackgroundColorInMainSection
                 mainSectionClassName={styles.content}
+                beforeHeaderContent={!fetchingFinalReport && readOnly && (
+                    <ViewOnlyModeBanner />
+                )}
             >
                 {fetchingFinalReport && (
                     <Message
@@ -458,14 +461,14 @@ export function Component() {
                         title={strings.formLoadingMessage}
                     />
                 )}
-                {languageMismatch && (
+                {!fetchingFinalReport && languageMismatch && (
                     <LanguageMismatchMessage
                         title={strings.formNotAvailableInSelectedLanguageMessage}
                         originalLanguage={finalReportResponse.translation_module_original_language}
                         selectedLanguage={currentLanguage}
                     />
                 )}
-                {isDefined(finalReportResponseError) && (
+                {!fetchingFinalReport && isDefined(finalReportResponseError) && (
                     <Message
                         variant="error"
                         title={strings.formLoadErrorTitle}

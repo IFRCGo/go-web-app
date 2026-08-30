@@ -9,7 +9,7 @@ import PageContainer from './PageContainer';
 type Story = StoryObj<PageContainerProps>;
 
 const meta: Meta<typeof PageContainer> = {
-    title: 'Components/PageContainer',
+    title: 'Container/PageContainer',
     component: PageContainer,
     parameters: {
         layout: 'centered',

@@ -31,9 +31,9 @@ function TableHeader<N extends string | number>(props: Props<N>) {
     } = props;
 
     const elementRef = useRef<HTMLTableCellElement>(null);
-    const mouseDownXOnResizeHandleRef = useRef<number | undefined>();
-    const headingWidthRef = useRef<number | undefined>();
-    const finalHeadingWidthRef = useRef<number | undefined>();
+    const mouseDownXOnResizeHandleRef = useRef<number | undefined>(undefined);
+    const headingWidthRef = useRef<number | undefined>(undefined);
+    const finalHeadingWidthRef = useRef<number | undefined>(undefined);
 
     // FIXME: this should temporarily just update the dom
     const handleMouseMove = useCallback((e: MouseEvent) => {

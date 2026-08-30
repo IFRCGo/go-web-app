@@ -9,7 +9,6 @@ import MembershipCoordinationTable from './MembershipCoordinationTable';
 import Presence from './Presence';
 import SupportingPartnersContacts from './SupportingPartnersContacts';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const {

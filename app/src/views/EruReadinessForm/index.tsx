@@ -5,10 +5,9 @@ import {
 } from 'react';
 import {
     Button,
-    Container,
+    Checklist,
     InputSection,
     ListView,
-    MultiSelectInput,
     SelectInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -74,7 +73,6 @@ function eruTypeKeySelector(eruType: EruOption) {
 
 const defaultFormValues: FormType = {};
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -365,51 +363,47 @@ export function Component() {
                 </>
             )}
         >
-            <NonFieldError
-                error={formError}
-                withFallbackError
-            />
-            <Container withFooterBorder>
-                <ListView layout="block">
-                    <InputSection
-                        title={strings.eruSelectNationalSociety}
-                        withAsteriskOnTitle
-                    >
-                        <SelectInput
-                            name="eru_owner"
-                            options={permittedEruOwners}
-                            onChange={handleEruOwnerChange}
-                            value={value.eru_owner}
-                            keySelector={eruOwnerKeySelector}
-                            labelSelector={eruOwnerLabelSelector}
-                            error={error?.eru_owner}
-                            required
-                            disabled={pending}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eruSelectErus}
-                    >
-                        <MultiSelectInput
-                            name="eru_types"
-                            options={eruTypeOptions}
-                            value={eruTypes}
-                            keySelector={eruTypeKeySelector}
-                            labelSelector={stringValueSelector}
-                            onChange={handleSelectEru}
-                            required
-                            disabled={pending || isNotDefined(value.eru_owner)}
-                            error={getErrorString(error?.eru_types)}
-                        />
-                    </InputSection>
-                </ListView>
-            </Container>
-            <Container
-                pending={fetchEruReadinessDataPending}
-                headerDescription={(
-                    <NonFieldError error={getErrorObject(error?.eru_types)} />
-                )}
+            <ListView
+                layout="block"
+                spacing="lg"
             >
+                <NonFieldError
+                    error={formError}
+                    withFallbackError
+                />
+                <InputSection
+                    title={strings.eruSelectNationalSociety}
+                    withAsteriskOnTitle
+                >
+                    <SelectInput
+                        name="eru_owner"
+                        options={permittedEruOwners}
+                        onChange={handleEruOwnerChange}
+                        value={value.eru_owner}
+                        keySelector={eruOwnerKeySelector}
+                        labelSelector={eruOwnerLabelSelector}
+                        error={error?.eru_owner}
+                        required
+                        disabled={pending}
+                    />
+                </InputSection>
+                <InputSection
+                    withFullWidthContent
+                    title={strings.eruSelectErus}
+                >
+                    <Checklist
+                        name="eru_types"
+                        options={eruTypeOptions}
+                        value={eruTypes}
+                        keySelector={eruTypeKeySelector}
+                        labelSelector={stringValueSelector}
+                        onChange={handleSelectEru}
+                        disabled={pending || isNotDefined(value.eru_owner)}
+                        error={getErrorString(error?.eru_types)}
+                        checkListLayout="grid"
+                        checkListLayoutPreferredGridColumns={4}
+                    />
+                </InputSection>
                 <ListView layout="block">
                     {value.eru_types?.map((eru, index) => (
                         <EruInputItem
@@ -421,7 +415,7 @@ export function Component() {
                         />
                     ))}
                 </ListView>
-            </Container>
+            </ListView>
         </Page>
     );
 }

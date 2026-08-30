@@ -2,6 +2,7 @@
     "namespace": "localUnitImportSummary",
     "strings": {
         "statusLabel": "Status",
+        "processingMessage": "Processing uploaded data",
         "downloadErrorDetailFileLabel": "Download error details",
         "downloadAttachedFileLabel": "Download attached file",
         "rowsSuccessLabel": "{numRows} of {total} rows processed successfully!",

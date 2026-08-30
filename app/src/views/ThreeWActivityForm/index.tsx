@@ -1,5 +1,4 @@
 import {
-    type ElementRef,
     useCallback,
     useMemo,
     useRef,
@@ -133,14 +132,13 @@ const titleSelector = (item: { title: string }) => item.title;
 
 // FIXME: Fix styling
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     // NOTE: We are only showing has_no_data_on_people_reached after the user
     // submits for the first time. This is to force/enable user to add data
     const beforeSubmitRef = useRef(true);
-    const formContentRef = useRef<ElementRef<'div'>>(null);
+    const formContentRef = useRef<HTMLDivElement>(null);
 
     const {
         value,
@@ -420,16 +418,15 @@ export function Component() {
         [setFieldValue],
     );
 
-    const activitiesBySector = useMemo(() => (
-        listToGroupList(
-            (value?.activities ?? []).filter((activity) => isDefined(activity.sector)),
-            (activity) => activity.sector ?? 0,
-            (activity, _, index) => ({
-                ...activity,
-                mainIndex: index,
-            }),
-        )
-    ), [value?.activities]);
+    // FIXME(frozenhelium): useMemo removed for React Compiler compatibility
+    const activitiesBySector = listToGroupList(
+        (value?.activities ?? []).filter((activity) => isDefined(activity.sector)),
+        (activity) => activity.sector ?? 0,
+        (activity, _, index) => ({
+            ...activity,
+            mainIndex: index,
+        }),
+    );
 
     const actionItemsBySector = useMemo(() => (
         listToGroupList(
@@ -560,30 +557,22 @@ export function Component() {
     const countries = useCountry();
     const nationalSocieties = useNationalSociety();
 
-    const selectedCountryDetail = useMemo(() => (
-        countries?.find((country) => country.id === value?.country)
-    ), [
-        countries,
-        value?.country,
-    ]);
+    // FIXME(frozenhelium): useMemo removed for React Compiler compatibility
+    const selectedCountryDetail = countries?.find((country) => country.id === value?.country);
 
-    const selectedNationalSocietyDetail = useMemo(() => (
-        nationalSocieties?.find((country) => country.id === value?.reporting_ns)
-    ), [
-        nationalSocieties,
-        value?.reporting_ns,
-    ]);
+    // FIXME(frozenhelium): useMemo removed for React Compiler compatibility
+    const selectedNationalSocietyDetail = nationalSocieties?.find(
+        (country) => country.id === value?.reporting_ns,
+    );
 
-    const selectedDeployedEruLabel = useMemo(() => {
+    // FIXME(frozenhelium): useMemo removed for React Compiler compatibility
+    const selectedDeployedEruLabel = (() => {
         const selectedEru = erusResponse?.results?.find((eru) => eru.id === value?.deployed_eru);
         if (isNotDefined(selectedEru)) {
             return undefined;
         }
         return deployedEruLabelSelector(selectedEru);
-    }, [
-        erusResponse,
-        value?.deployed_eru,
-    ]);
+    })();
 
     const disabled = fetchingActivity || createActivityPending || updateActivityPending;
 

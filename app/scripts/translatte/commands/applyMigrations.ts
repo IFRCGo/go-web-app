@@ -129,7 +129,7 @@ async function applyMigrations(
 
     const migrationFilesAttrs = await getMigrationFilesAttrs(projectPath, migrationFilePath);
     const selectedMigrationFilesAttrs = from
-        ? migrationFilesAttrs.filter((item) => (item.migrationName > from))
+        ? migrationFilesAttrs.filter((item) => (item.migrationFileName > from))
         : migrationFilesAttrs;
 
     console.info(`Found ${selectedMigrationFilesAttrs.length} migration files`);
@@ -139,7 +139,7 @@ async function applyMigrations(
     }
 
     const selectedMigrations = await readMigrations(
-        selectedMigrationFilesAttrs.map((migration) => migration.fileName),
+        selectedMigrationFilesAttrs.map((migration) => migration.filePath),
     );
 
     const lastMigration = selectedMigrations[selectedMigrations.length - 1];

@@ -189,7 +189,6 @@ function LocalUnitImportHistoryModal(props: Props) {
                 ) : undefined}
             size="md"
             onClose={onClose}
-            withFooterBorder
             withHeaderBorder
         >
             <Table

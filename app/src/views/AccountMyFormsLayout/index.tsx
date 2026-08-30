@@ -4,10 +4,10 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import NavigationTab from '#components/NavigationTab';
 import TabPage from '#components/TabPage';
+import { environment } from '#config';
 
 import i18n from './i18n.json';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -35,6 +35,13 @@ export function Component() {
                 >
                     {strings.threeWTabTitle}
                 </NavigationTab>
+                {environment !== 'production' && (
+                    <NavigationTab
+                        to="accountMyFormsEap"
+                    >
+                        {strings.eapApplications}
+                    </NavigationTab>
+                )}
             </NavigationTabList>
             <Outlet />
         </TabPage>

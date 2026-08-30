@@ -2,8 +2,6 @@
     --color-dref: var(--go-ui-color-primary-blue);
     --color-emergency-appeal: var(--go-ui-color-primary-red);
 
-    background-color: var(--go-ui-color-background);
-
     .emergency-appeal-point-icon,
     .dref-point-icon {
         align-self: center;

@@ -27,6 +27,7 @@ import {
 import { type GoApiBody } from '#utils/restRequest';
 
 import {
+    EARLY_ACTION,
     SUB_TOTAL,
     SURGE_DEPLOYMENT_COST,
     TYPE_ASSESSMENT,
@@ -595,41 +596,77 @@ const schema: FinalReportFormSchema = {
                             requiredValidation: requiredListCondition,
                             keySelector: (action) => action.client_id,
                             member: () => ({
-                                fields: (): ProposedActionsFields => ({
-                                    client_id: {},
-                                    id: { defaultValue: undefinedValue },
-                                    total_budget: {
-                                        required: true,
-                                        validations: [
-                                            positiveIntegerCondition,
-                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                                        ],
-                                    },
-                                    proposed_type: {
-                                        required: true,
-                                    },
-                                    total_expenditure: {
-                                        required: true,
-                                        validations: [
-                                            positiveIntegerCondition,
-                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                                        ],
-                                    },
-                                    activities: {
-                                        required: true,
-                                        requiredValidation: requiredListCondition,
-                                        keySelector: (activity) => activity.client_id,
-                                        member: () => ({
-                                            fields: (): ActivitiesFields => ({
-                                                client_id: {},
-                                                id: { defaultValue: undefinedValue },
-                                                sector: { required: true },
-                                                activity: {},
+                                fields: (proposedActionValue): ProposedActionsFields => {
+                                    const defaultProposedActionSchema = {
+                                        client_id: {},
+                                        id: { defaultValue: undefinedValue },
+                                        total_budget: {
+                                            required: true,
+                                            validations: [
+                                                positiveIntegerCondition,
+                                                lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                                            ],
+                                        },
+                                        total_expenditure: {
+                                            required: true,
+                                            validations: [
+                                                positiveIntegerCondition,
+                                                lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                                            ],
+                                        },
+                                        proposed_type: {
+                                            required: true,
+                                        },
+                                        activities: {
+                                            keySelector: (activity) => activity.client_id,
+                                            member: () => ({
+                                                fields: (): ActivitiesFields => ({
+                                                    client_id: {},
+                                                    id: { defaultValue: undefinedValue },
+                                                    sector: { required: true },
+                                                    activity: {},
+                                                }),
                                             }),
-                                        }),
-                                        validation: requiredListCondition,
-                                    },
-                                }),
+                                        },
+                                    } satisfies ProposedActionsFields;
+
+                                    return addCondition(
+                                        defaultProposedActionSchema,
+                                        proposedActionValue,
+                                        ['total_budget'],
+                                        ['activities'],
+                                        (proposedValue) => {
+                                            if (proposedValue?.total_budget !== 0) {
+                                                return {
+                                                    activities: {
+                                                        ...defaultProposedActionSchema.activities,
+                                                        required: true,
+                                                        requiredValidation: requiredListCondition,
+                                                        validation: requiredListCondition,
+                                                    },
+                                                };
+                                            }
+
+                                            return {
+                                                activities: {
+                                                    ...defaultProposedActionSchema.activities,
+                                                    forceValue: [],
+                                                },
+                                            };
+                                        },
+                                    );
+                                },
+                                validation: (action) => {
+                                    if (!action || action.proposed_type !== EARLY_ACTION) {
+                                        return undefined;
+                                    }
+
+                                    if ((action.activities?.length ?? 0) > 0) {
+                                        return undefined;
+                                    }
+
+                                    return 'There must be at least one early action activity';
+                                },
                             }),
                         },
                         sub_total_cost: {

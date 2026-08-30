@@ -1,0 +1,22 @@
+{
+    "namespace": "emailPreferences",
+    "strings": {
+        "heading": "Email Alert Subscriptions",
+        "description": "Alerts are powered by Montandon data from GDACS and USGS. You'll receive email alerts with key impact figures and similar past events in the area.",
+        "emptyMessage": "No subscriptions",
+        "alertFrequencies": "Alert limit (per day)",
+        "unlimitedOption": "No limit",
+        "countries": "Countries",
+        "regions": "Regions",
+        "disasters": "Disasters",
+        "addSubscriptionLabel": "New Alert Subscription",
+        "editSubscriptionLabel": "Edit",
+        "editSubscriptionTitle": "Edit Alert Subscription",
+        "deleteSubscriptionLabel": "Delete",
+        "deleteSubscriptionTitle": "Delete Alert Subscription",
+        "deleteSubscriptionConfirmationHeading": "Delete Alert Subscription",
+        "deleteSubscriptionConfirmationMessage": "Are you sure you want to delete your subscription?",
+        "subscriptionDeletedSuccessMessage": "Your subscription has been deleted.",
+        "subscriptionDeletedFailureMessage": "Subscription could not be deleted."
+    }
+}

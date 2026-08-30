@@ -1,5 +1,4 @@
 import {
-    type ElementRef,
     useCallback,
     useMemo,
     useRef,
@@ -76,11 +75,10 @@ type PerFormArea = NonNullable<PerFormQuestionResponse['results']>[number]['comp
 
 const defaultFormAreas: PerFormArea[] = [];
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
-    const formContentRef = useRef<ElementRef<'div'>>(null);
+    const formContentRef = useRef<HTMLDivElement>(null);
     const strings = useTranslation(i18n);
     const alert = useAlert();
     const { navigate } = useRouting();
@@ -343,16 +341,21 @@ export function Component() {
     const minArea = areas[0]?.area_num ?? 1;
     const maxArea = areas[areas.length - 1]?.area_num ?? areas.length;
 
+    // FIXME(frozenhelium): toggle-form submit callbacks are ref-backed
     const handleFormSubmit = createSubmitHandler(
         validate,
         setError,
+        // eslint-disable-next-line react-hooks/refs
         handleSubmit,
+        // eslint-disable-next-line react-hooks/refs
         handleFormError,
     );
     const handleFormFinalSubmit = createSubmitHandler(
         validate,
         setError,
+        // eslint-disable-next-line react-hooks/refs
         handleFinalSubmit,
+        // eslint-disable-next-line react-hooks/refs
         handleFormError,
     );
 
@@ -389,7 +392,11 @@ export function Component() {
 
     return (
         <TabPage>
+            {/* eslint-disable-next-line max-len */}
+            {/* FIXME(frozenhelium): actionDivRef.current read in render to conditionally mount a Portal — valid DOM pattern */}
+            {/* eslint-disable-next-line react-hooks/refs */}
             {actionDivRef.current && (
+                // eslint-disable-next-line react-hooks/refs
                 <Portal container={actionDivRef.current}>
                     <Button
                         name={undefined}

@@ -11,6 +11,7 @@ import {
     useNavigationType,
 } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
+import { replayIntegration } from '@sentry/react';
 import {
     isDefined,
     isNotDefined,
@@ -36,16 +37,14 @@ if (isDefined(sentryAppDsn)) {
         release: `${appTitle}@${appVersion}+${appCommitHash}`,
         environment,
         integrations: [
-            new Sentry.BrowserTracing({
-                routingInstrumentation: Sentry.reactRouterV6Instrumentation(
-                    React.useEffect,
-                    useLocation,
-                    useNavigationType,
-                    createRoutesFromChildren,
-                    matchRoutes,
-                ),
+            Sentry.reactRouterV7BrowserTracingIntegration({
+                useEffect: React.useEffect,
+                useLocation,
+                useNavigationType,
+                createRoutesFromChildren,
+                matchRoutes,
             }),
-            new Sentry.Replay(),
+            replayIntegration(),
         ],
 
         // Set tracesSampleRate to 1.0 to capture 100%

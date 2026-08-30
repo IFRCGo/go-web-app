@@ -1,9 +1,7 @@
 .dropdown-menu {
     align-items: center;
 
-    .icons,
-    .content,
-    .actions {
+    >* {
         pointer-events: none;
     }
 
@@ -16,6 +14,9 @@
 .dropdown-content {
     display: flex;
     flex-direction: column;
-    padding: var(--go-ui-spacing-sm) 0;
     gap: var(--go-ui-spacing-2xs);
+
+    &:not(.without-padding) {
+        padding: var(--go-ui-spacing-sm) 0;
+    }
 }

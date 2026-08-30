@@ -1,6 +1,7 @@
 import {
     HTMLProps,
     RefObject,
+    useMemo,
 } from 'react';
 import {
     _cs,
@@ -12,7 +13,7 @@ import BlockView from '#components/BlockView';
 import DefaultMessage from '#components/DefaultMessage';
 import Description from '#components/Description';
 import Heading, { type Props as HeadingProps } from '#components/Heading';
-import InlineView from '#components/InlineView';
+import InlineView, { Props as InlineViewProps } from '#components/InlineView';
 import ListView from '#components/ListView';
 import useSpacingToken from '#hooks/useSpacingToken';
 import {
@@ -24,7 +25,7 @@ import {
 import styles from './styles.module.css';
 
 export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
-    elementRef?: RefObject<HTMLDivElement>;
+    elementRef?: RefObject<HTMLDivElement | null>;
     className?: string;
 
     heading?: React.ReactNode;
@@ -37,6 +38,7 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
     withCenteredHeaderDescription?: boolean;
     withCenteredHeading?: boolean;
     withoutWrapInHeader?: boolean;
+    variant?: 'form' | 'default';
 
     filters?: React.ReactNode;
     children: React.ReactNode;
@@ -47,6 +49,10 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
     footerActions?: React.ReactNode;
     footer?: React.ReactNode;
     withFooterBorder?: boolean;
+
+    // FIXME: these props should be merged
+    withoutWrapInFooter?: boolean;
+    withLargeBreakpointInHeader?: boolean,
 
     pending?: boolean;
     overlayPending?: boolean;
@@ -59,15 +65,22 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
     pendingMessage?: React.ReactNode;
     withoutMessageIcon?: boolean;
     withCompactMessage?: boolean;
+    withoutMessage?: boolean;
 
     withBackground?: boolean;
     withDarkBackground?: boolean;
     withShadow?: boolean;
     withPadding?: boolean;
 
+    withBorder?: boolean;
+
     spacing?: SpacingType;
     spacingOffset?: number;
     withoutSpacingOpticalCorrection?: boolean;
+    withFixedHeight?: boolean;
+
+    withCenteredContent?: boolean;
+    withOverflow?: boolean;
 }
 
 function Container(props: Props) {
@@ -77,7 +90,7 @@ function Container(props: Props) {
 
         heading,
         withEllipsizedHeading,
-        headingLevel,
+        headingLevel = 3,
         headerIcons,
         headerActions,
         headerDescription,
@@ -85,6 +98,8 @@ function Container(props: Props) {
         withCenteredHeading,
         withCenteredHeaderDescription,
         withoutWrapInHeader,
+        withLargeBreakpointInHeader,
+        variant = 'default',
 
         filters,
 
@@ -92,6 +107,7 @@ function Container(props: Props) {
         footer,
         footerActions,
         withFooterBorder,
+        withoutWrapInFooter,
 
         children,
         withContentOverflow,
@@ -108,14 +124,20 @@ function Container(props: Props) {
         errorMessage,
         withoutMessageIcon,
         withCompactMessage,
+        withoutMessage = false,
 
         withBackground,
         withDarkBackground,
         withShadow,
         withPadding,
+        withBorder,
+        withFixedHeight,
         spacing,
         spacingOffset = 0,
         withoutSpacingOpticalCorrection,
+
+        withCenteredContent,
+        withOverflow,
 
         ...divProps
     } = props;
@@ -154,23 +176,41 @@ function Container(props: Props) {
 
     const mainContent = (children || empty || pending || errored || filtered) && (
         <>
-            <DefaultMessage
-                className={styles.message}
-                pending={pending}
-                filtered={filtered}
-                errored={errored}
-                empty={empty}
-                overlayPending={overlayPending}
-                emptyMessage={emptyMessage}
-                filteredEmptyMessage={filteredEmptyMessage}
-                pendingMessage={pendingMessage}
-                errorMessage={errorMessage}
-                withoutIcon={withoutMessageIcon}
-                compact={withCompactMessage}
-            />
+            {!withoutMessage && (
+                <DefaultMessage
+                    className={styles.message}
+                    pending={pending}
+                    filtered={filtered}
+                    errored={errored}
+                    empty={empty}
+                    overlayPending={overlayPending}
+                    emptyMessage={emptyMessage}
+                    filteredEmptyMessage={filteredEmptyMessage}
+                    pendingMessage={pendingMessage}
+                    errorMessage={errorMessage}
+                    withoutIcon={withoutMessageIcon}
+                    compact={withCompactMessage}
+                />
+            )}
             {!empty && !errored && (!pending || overlayPending) && overflowChildren}
         </>
     );
+
+    const headerWrapBreakpoint = useMemo<InlineViewProps['wrapBreakpoint']>(() => {
+        if (withoutWrapInHeader) {
+            return 'none';
+        }
+
+        if (headingLevel > 3) {
+            return 'sm';
+        }
+
+        if (withLargeBreakpointInHeader) {
+            return 'lg';
+        }
+
+        return 'md';
+    }, [headingLevel, withLargeBreakpointInHeader, withoutWrapInHeader]);
 
     return (
         <BlockView
@@ -183,25 +223,32 @@ function Container(props: Props) {
                 withDarkBackground && styles.withDarkBackground,
                 withShadow && styles.withShadow,
                 withContentWell && styles.withContentWell,
+                withFixedHeight && styles.withFixedHeight,
+                withCenteredContent && styles.withCenteredContent,
+                withBorder && styles.withBorder,
+                variant === 'form' && styles.formVariant,
                 className,
             )}
             spacing={spacing}
             spacingOffset={spacingOffset}
             withoutSpacingOpticalCorrection={withoutSpacingOpticalCorrection}
             withPadding={withPadding}
+            beforeContainerClassName={styles.beforeContainer}
             before={shouldShowHeader && (
                 <ListView
                     spacing={spacing}
                     spacingOffset={spacingOffset}
                     layout="block"
                     withSpacingOpticalCorrection
+                    withBackground={variant === 'form'}
+                    withPadding={variant === 'form'}
                 >
                     {shouldShowHeadingRow && (
                         <InlineView
                             spacing={spacing}
                             spacingOffset={spacingOffset - 1}
                             withoutSpacingOpticalCorrection={withoutSpacingOpticalCorrection}
-                            withoutWrap={withoutWrapInHeader}
+                            wrapBreakpoint={headerWrapBreakpoint}
                             before={headerIcons}
                             after={headerActions && (
                                 <ListView
@@ -216,6 +263,7 @@ function Container(props: Props) {
                             <Heading
                                 level={headingLevel}
                                 ellipsize={withEllipsizedHeading}
+                                spacing={spacing}
                                 centerAligned={withCenteredHeading}
                             >
                                 {heading}
@@ -236,19 +284,22 @@ function Container(props: Props) {
                     withoutSpacingOpticalCorrection={withoutSpacingOpticalCorrection}
                     before={footerIcons}
                     after={footerActions}
+                    wrapBreakpoint={withoutWrapInFooter ? 'none' : 'lg'}
                 >
                     {footer}
                 </InlineView>
             )}
-            withbeforeSeparator={withHeaderBorder}
-            withafterSeparator={withFooterBorder}
+            withBeforeSeparator={withHeaderBorder}
+            withAfterSeparator={withFooterBorder}
             childrenContainerClassName={_cs(
                 styles.content,
                 overlayPending && styles.pendingOverlaid,
                 withContentOverflow && styles.withOverflow,
                 withPadding && withContentOverflow && styles.withPaddingOverflow,
+                !withPadding && withContentOverflow && styles.withoutPaddingOverflow,
                 withContentWell && contentSpacingClassName,
             )}
+            withOverflow={withOverflow}
         >
             {isDefined(filters) && (
                 <ListView

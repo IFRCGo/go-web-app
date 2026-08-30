@@ -3,7 +3,7 @@
     "strings": {
         "aboutResourcesTitle": "IFRC GO - About",
         "aboutResources": "Resources",
-        "resourcesDescription": "GO is a Red Cross Red Crescent platform to connect information on emergency needs with the right response.",
+        "resourcesDescription": "IFRC GO aims to make all disaster information universally accessible and useful to IFRC responders. In this section you can find all the relevant guides and resources to support your experience with GO.",
         "goUserGuidance": "GO User Guidance",
         "goReferenceMaterial": "GO Reference Material",
         "goUserReferenceMaterial": "These materials provide more information on how and why GO does what it does.",
@@ -31,7 +31,7 @@
         "aboutLearningPlatform": "Learning Platform",
         "aboutHealthMapping": "Health Mapping - Phase 1 Report",
         "aboutContacts": "GO Contacts",
-        "aboutFurtherInfo": "For any further information, please contact {contactLink}",
+        "aboutFurtherInfo": "For any further information, please contact:",
         "aboutGoFundingTitle": "Funding & Support",
         "aboutGoFundingDescription": "GO has received dedicated personnel and funding support from:",
         "aboutCoreCompetencyFramework": "Core Competency Framework",

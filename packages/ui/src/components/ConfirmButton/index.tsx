@@ -4,11 +4,7 @@ import {
 } from 'react';
 
 import Button, { Props as ButtonProps } from '#components/Button';
-import ListView from '#components/ListView';
-import Modal from '#components/Modal';
-import useTranslation from '#hooks/useTranslation';
-
-import i18n from './i18n.json';
+import ConfirmModal from '#components/ConfirmModal';
 
 export interface Props<NAME> extends ButtonProps<NAME> {
     confirmMessage?: React.ReactNode;
@@ -18,11 +14,9 @@ export interface Props<NAME> extends ButtonProps<NAME> {
 }
 
 function ConfirmButton<NAME>(props: Props<NAME>) {
-    const strings = useTranslation(i18n);
-
     const {
-        confirmHeading = strings.confirmation,
-        confirmMessage = strings.confirmMessage,
+        confirmHeading,
+        confirmMessage,
         name,
         onConfirm,
         onClick,
@@ -37,6 +31,13 @@ function ConfirmButton<NAME>(props: Props<NAME>) {
             onConfirm(confirmName);
         },
         [onConfirm],
+    );
+
+    const handleCancelClick = useCallback(
+        () => {
+            setShowConfirmation(false);
+        },
+        [],
     );
 
     const handleOnClick = useCallback(
@@ -58,30 +59,13 @@ function ConfirmButton<NAME>(props: Props<NAME>) {
                 onClick={handleOnClick}
             />
             {showConfirmation && (
-                <Modal
+                <ConfirmModal
+                    name={name}
                     heading={confirmHeading}
-                    closeOnEscape={false}
-                    size="sm"
-                    footerActions={(
-                        <ListView>
-                            <Button
-                                name={false}
-                                onClick={setShowConfirmation}
-                            >
-                                {strings.buttonCancel}
-                            </Button>
-                            <Button
-                                name={name}
-                                styleVariant="filled"
-                                onClick={handleConfirmClick}
-                            >
-                                {strings.buttonOk}
-                            </Button>
-                        </ListView>
-                    )}
-                >
-                    {confirmMessage}
-                </Modal>
+                    message={confirmMessage}
+                    onCancel={handleCancelClick}
+                    onConfirm={handleConfirmClick}
+                />
             )}
         </>
     );

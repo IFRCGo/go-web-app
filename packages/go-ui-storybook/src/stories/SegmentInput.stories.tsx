@@ -24,11 +24,11 @@ const options: Option[] = [
 const keySelector = (o: Option) => o.key;
 const labelSelector = (o: Option) => o.label;
 
-type SegmentInputSpecificProps = SegmentInputProps<string, Option, string, never>;
+type SegmentInputSpecificProps = SegmentInputProps<string, Option, string>;
 type Story = StoryObj<SegmentInputSpecificProps>;
 
 const meta = {
-    title: 'Components/SegmentInput',
+    title: 'Inputs/SegmentInput',
     component: SegmentInput,
     parameters: {
         layout: 'centered',

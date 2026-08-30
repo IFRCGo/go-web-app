@@ -1,16 +1,18 @@
 .alert-container {
-    isolation: isolate;
     position: fixed;
-    top: 0;
+    top: var(--go-ui-spacing-2xl);
     left: 50%;
     transform: translateX(-50%);
 
     /* NOTE: we're setting z-index to make it appear on top of modals and pop-ups */
     z-index: 1;
 
-    padding: var(--go-ui-spacing-2xl) 0;
+    width: 100%;
+    /* FIXME: use variables */
+    max-width: 26rem;
     max-height: calc(100vh - 2 * var(--go-ui-spacing-2xl));
     overflow: auto;
+    isolation: isolate;
     scrollbar-width: none;
 
     &::-webkit-scrollbar {
@@ -18,6 +20,6 @@
     }
 
     .alert {
-        margin: var(--go-ui-spacing-sm) 0;
+        margin: var(--go-ui-spacing-2xs) 0;
     }
 }

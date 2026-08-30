@@ -3,7 +3,7 @@ import { _cs } from '@togglecorp/fujs';
 import styles from './styles.module.css';
 
 export interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'size'> {
-    elementRef?: React.RefObject<HTMLDivElement>;
+    elementRef?: React.RefObject<HTMLDivElement | null>;
     value: string;
     shape?: 'round' | 'square';
     size?: 'sm' | 'md' | 'lg';

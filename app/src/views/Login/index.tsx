@@ -62,7 +62,6 @@ const formSchema: FormSchema = {
     }),
 };
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -149,14 +148,17 @@ export function Component() {
             heading={strings.loginHeader}
             description={strings.loginSubHeader}
         >
-            <Container
-                pending={loginPending}
-                spacing="lg"
-            >
-                <form
-                    onSubmit={handleFormSubmit}
+            <form onSubmit={handleFormSubmit}>
+                <Container
+                    pending={loginPending}
+                    spacing="lg"
+                    withCenteredContent
+                    withPadding
                 >
-                    <ListView layout="block">
+                    <ListView
+                        layout="block"
+                        spacing="xl"
+                    >
                         <NonFieldError
                             error={formError}
                             withFallbackError
@@ -185,7 +187,10 @@ export function Component() {
                                 disabled={loginPending}
                             />
                         </ListView>
-                        <ListView layout="block">
+                        <ListView
+                            layout="block"
+                            withSpacingOpticalCorrection
+                        >
                             <Link
                                 to="recoverAccount"
                                 title={strings.loginRecoverTitle}
@@ -217,8 +222,8 @@ export function Component() {
                             </div>
                         </ListView>
                     </ListView>
-                </form>
-            </Container>
+                </Container>
+            </form>
         </Page>
     );
 }

@@ -6,4 +6,8 @@
             text-decoration: underline;
         }
     }
+
+    .link-icon {
+        font-size: var(--go-ui-height-icon-multiplier);
+    }
 }

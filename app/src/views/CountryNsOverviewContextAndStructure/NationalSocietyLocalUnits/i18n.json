@@ -5,8 +5,9 @@
         "localUnitsMapView": "Map view",
         "localUnitsListView": "List view",
         "addLocalUnitLabel": "Add a Local Unit",
-        "importDropdownLabel": "Import Local Units",
+        "exportButtonLabel": "Export Local Units",
         "configureDropdownLabel": "Configure Local Units",
+        "importDropdownLabel": "Import Local Units",
         "viewPreviousImportsDropdownLabel": "View previous imports"
     }
 }

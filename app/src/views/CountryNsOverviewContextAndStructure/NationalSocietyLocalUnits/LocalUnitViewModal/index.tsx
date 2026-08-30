@@ -1,7 +1,10 @@
-import { Modal } from '@ifrc-go/ui';
+import {
+    ListView,
+    Modal,
+} from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
-import { type PartialLocalUnits } from '../LocalUnitsFormModal/LocalUnitsForm/schema';
+import { type PartialLocalUnits } from '../LocalUnitsFormModal/schema';
 import LocalUnitView from '../LocalUnitView';
 
 import i18n from './i18n.json';
@@ -34,11 +37,13 @@ function LocalUnitViewModal(props: Props) {
             footerActions={footerActions}
             withContentOverflow
         >
-            <LocalUnitView
-                localUnitId={localUnitId}
-                locallyChangedValue={locallyChangedValue}
-            />
-            {children}
+            <ListView layout="block">
+                <LocalUnitView
+                    localUnitId={localUnitId}
+                    locallyChangedValue={locallyChangedValue}
+                />
+                {children}
+            </ListView>
         </Modal>
     );
 }

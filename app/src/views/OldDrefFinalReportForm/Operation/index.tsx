@@ -153,7 +153,8 @@ function Operation(props: Props) {
         setValue,
     ]);
 
-    const warnings = useMemo(() => {
+    // FIXME(frozenhelium): useMemo removed for React Compiler compatibility
+    const warnings = (() => {
         if (isNotDefined(value?.num_assisted)) {
             return [];
         }
@@ -170,14 +171,7 @@ function Operation(props: Props) {
         }
 
         return w;
-    }, [
-        strings.drefFinalReportTotalTargeted,
-        value?.assisted_num_of_women,
-        value?.assisted_num_of_men,
-        value?.assisted_num_of_girls_under_18,
-        value?.assisted_num_of_boys_under_18,
-        value?.num_assisted,
-    ]);
+    })();
 
     const interventionMap = useMemo(() => (
         listToMap(

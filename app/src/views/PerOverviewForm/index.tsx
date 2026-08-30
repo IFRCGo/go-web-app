@@ -1,5 +1,4 @@
 import {
-    type ElementRef,
     useCallback,
     useRef,
     useState,
@@ -74,7 +73,6 @@ function perAssessmentMethodsKeySelector(option: PerOverviewAssessmentMethods) {
     return option.key;
 }
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -91,7 +89,7 @@ export function Component() {
     const { per_overviewassessmentmethods } = useGlobalEnums();
     const userMe = useUserMe();
 
-    const formContentRef = useRef<ElementRef<'div'>>(null);
+    const formContentRef = useRef<HTMLDivElement>(null);
     const isSettingUpProcess = useRef(false);
 
     const {
@@ -375,7 +373,11 @@ export function Component() {
             )}
             spacing="xl"
         >
+            {/* eslint-disable-next-line max-len */}
+            {/* FIXME(frozenhelium): actionDivRef.current read in render to conditionally mount a Portal — valid DOM pattern */}
+            {/* eslint-disable-next-line react-hooks/refs */}
             {actionDivRef.current && (
+                // eslint-disable-next-line react-hooks/refs
                 <Portal container={actionDivRef.current}>
                     <Button
                         name={undefined}

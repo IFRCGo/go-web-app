@@ -2,6 +2,9 @@
     "namespace": "goMultiFileInput",
     "strings": {
         "goMultiFailedUploadMessage": "Failed to upload the file!",
-        "goMultiDeleteButton": "Delete"
+        "noFileSelected": "No file Selected",
+        "goMultiDeleteButton": "Delete",
+        "unsupportedFileFormatMessage": "Unsupported file format!",
+        "unsupportedFileFormatDescription": "{fileNames} could not be added. Only the following file formats are accepted: {fileFormats}."
     }
 }

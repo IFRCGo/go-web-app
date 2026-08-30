@@ -22,8 +22,10 @@ import {
 import Link from '#components/Link';
 import useFilterState from '#hooks/useFilterState';
 import {
+    createBudgetColumn,
     createCountryListColumn,
-    createLinkColumn,
+    createDisasterTypeColumn,
+    createEventColumn,
 } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
@@ -31,7 +33,6 @@ import {
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type EventResponse = GoApiResponse<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
@@ -73,12 +74,9 @@ function EventItemsTable(props: Props) {
                 'created_at',
                 strings.regionEmergenciesTableDate,
                 (item) => item.created_at,
-                {
-                    sortable: true,
-                    columnClassName: styles.createdAt,
-                },
+                { sortable: true },
             ),
-            createLinkColumn<EventListItem, number>(
+            createEventColumn<EventListItem, number>(
                 'name',
                 strings.regionEmergenciesTableName,
                 (item) => item.name,
@@ -88,7 +86,7 @@ function EventItemsTable(props: Props) {
                 }),
                 { sortable: true },
             ),
-            createStringColumn<EventListItem, number>(
+            createDisasterTypeColumn<EventListItem, number>(
                 'dtype',
                 strings.regionEmergenciesTableDisasterType,
                 (item) => item.dtype?.name,
@@ -99,15 +97,12 @@ function EventItemsTable(props: Props) {
                 (item) => item.glide,
                 { sortable: true },
             ),
-            createNumberColumn<EventListItem, number>(
+            createBudgetColumn<EventListItem, number>(
                 'amount_requested',
                 strings.regionEmergenciesTableRequestedAmt,
                 (item) => sumSafe(
                     item.appeals.map((appeal) => appeal.amount_requested),
                 ),
-                {
-                    suffix: ' CHF',
-                },
             ),
             createNumberColumn<EventListItem, number>(
                 'num_affected',
@@ -177,7 +172,6 @@ function EventItemsTable(props: Props) {
 
     return (
         <Container
-            className={styles.recentEmergenciesTable}
             heading={heading}
             withHeaderBorder
             headerActions={(
@@ -198,12 +192,12 @@ function EventItemsTable(props: Props) {
                     onActivePageChange={setPage}
                 />
             )}
+            withLargeBreakpointInHeader
         >
             <SortContext.Provider value={sortState}>
                 <Table
                     filtered={false}
                     pending={eventPending}
-                    className={styles.table}
                     columns={columns}
                     keySelector={keySelector}
                     data={eventResponse?.results}

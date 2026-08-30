@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import {
     Button,
+    Container,
+    ListView,
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -20,7 +22,6 @@ import { useLazyRequest } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 interface FormFields {
     email?: string;
@@ -43,7 +44,6 @@ const formSchema: FormSchema = {
     }),
 };
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -103,37 +103,44 @@ export function Component() {
 
     return (
         <Page
-            className={styles.recoverAccount}
             title={strings.pageTitle}
             heading={strings.pageHeading}
-            description={strings.pageDescription}
         >
-            <form
-                className={styles.form}
-                onSubmit={handleFormSubmit}
-            >
-                <NonFieldError
-                    error={formError}
-                    withFallbackError
-                />
-                <TextInput
-                    name="email"
-                    label={strings.emailInputLabel}
-                    value={formValue.email}
-                    onChange={setFieldValue}
-                    error={fieldError?.email}
-                    disabled={pending}
-                    withAsterisk
-                    autoFocus
-                />
-                <Button
-                    name={undefined}
-                    type="submit"
-                    className={styles.submitButton}
-                    disabled={pending}
+            <form onSubmit={handleFormSubmit}>
+                <Container
+                    spacing="2xl"
+                    headerDescription={strings.pageDescription}
+                    withCenteredContent
                 >
-                    {strings.submitButtonLabel}
-                </Button>
+                    <ListView
+                        layout="block"
+                        spacing="2xl"
+                    >
+                        <NonFieldError
+                            error={formError}
+                            withFallbackError
+                        />
+                        <TextInput
+                            name="email"
+                            label={strings.emailInputLabel}
+                            value={formValue.email}
+                            onChange={setFieldValue}
+                            error={fieldError?.email}
+                            disabled={pending}
+                            withAsterisk
+                            autoFocus
+                        />
+                        <ListView withCenteredContents>
+                            <Button
+                                name={undefined}
+                                type="submit"
+                                disabled={pending}
+                            >
+                                {strings.submitButtonLabel}
+                            </Button>
+                        </ListView>
+                    </ListView>
+                </Container>
             </form>
         </Page>
     );

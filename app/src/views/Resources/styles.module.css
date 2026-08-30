@@ -1,0 +1,8 @@
+.introduction-video {
+    margin-block-end: -10rem;
+    z-index: 1;
+}
+
+.reserved-space {
+    margin-block-start: 10rem;
+}

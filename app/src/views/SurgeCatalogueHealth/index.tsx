@@ -6,7 +6,6 @@ import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer'
 
 import i18n from './i18n.json';
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -121,6 +120,12 @@ export function Component() {
             withLinkIcon: true,
         },
         {
+            title: strings.publicHealthAnalyst,
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/IQAr-ZmOmRooTZr023tipXAEAQ5_l-Vo4rnDBVyVYraedZc',
+            external: true,
+            withLinkIcon: true,
+        },
+        {
             title: strings.publicHealthCoordinator,
             href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQQznuV_sHtGi7HH1PJ96Q0BWaetAeQgBdZlNg9vFsXOhw',
             external: true,
@@ -151,18 +156,6 @@ export function Component() {
             withLinkIcon: true,
         },
         {
-            title: strings.communityOutreachOfficer,
-            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUmGi0NkR7BMrpiRyCG-JA8Bvgkd_iGRNcgCsspKZ3WzSA',
-            external: true,
-            withLinkIcon: true,
-        },
-        {
-            title: strings.psychoSocialSupportOfficer,
-            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETfznq8SFXJCmfMt7C3145wBjPPorxLNryy9t4YDXgM9VQ',
-            external: true,
-            withLinkIcon: true,
-        },
-        {
             title: strings.healthInformationManagement,
             href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXjPQtXpM7tGpAk6QSaMCAkBMQjlA4EVwZRJT1_zPGVKFw',
             external: true,
@@ -180,6 +173,12 @@ export function Component() {
         {
             title: strings.eruPublicHealth,
             href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EmuhNZ7JWjNHtwmW6cCWrFYBjklsiPNM4vqHc2PYUOIE2w',
+            external: true,
+            withLinkIcon: true,
+        },
+        {
+            title: strings.eruMHPSSOfficer,
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/IQD_n4fIbRorS6PBc5ZVLEAnAZr7DycXkrvUw3j1MlCH8Kg',
             external: true,
             withLinkIcon: true,
         },

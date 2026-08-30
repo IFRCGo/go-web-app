@@ -23,7 +23,7 @@ import styles from './styles.module.css';
 export interface Props extends ContainerProps {
     initiallyExpanded?: boolean;
     onExpansionChange?: (isExpanded: boolean) => void;
-    componentRef?: React.MutableRefObject<{
+    componentRef?: React.RefObject<{
         setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
     } | null>;
     toggleButtonLabel?: [React.ReactNode, React.ReactNode];
@@ -42,6 +42,7 @@ function ExpandableContainer(props: Props) {
         withToggleButtonOnFooter,
         toggleButtonLabel,
         footerActions,
+        withoutMessage,
         ...otherProps
     } = props;
 
@@ -127,6 +128,9 @@ function ExpandableContainer(props: Props) {
             // elementRef={containerRef}
             className={_cs(styles.expandableContainer, className)}
             withHeaderBorder={withHeaderBorder && expanded}
+            // a collapsed container should not show its body's status message
+            withoutMessage={withoutMessage || !expanded}
+            withoutWrapInHeader={!withToggleButtonOnFooter}
             headerActions={(
                 <>
                     {headerActions}

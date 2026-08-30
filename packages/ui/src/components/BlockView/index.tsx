@@ -19,7 +19,7 @@ import {
 import styles from './styles.module.css';
 
 export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref' | 'before' | 'after'> {
-    elementRef?: RefObject<HTMLDivElement>;
+    elementRef?: RefObject<HTMLDivElement | null>;
     className?: string;
 
     before?: React.ReactNode;
@@ -32,10 +32,11 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref' | 'before' 
     spacing?: SpacingType;
     spacingOffset?: number;
     withPadding?: boolean;
-    withbeforeSeparator?: boolean;
-    withafterSeparator?: boolean;
+    withBeforeSeparator?: boolean;
+    withAfterSeparator?: boolean;
 
     withoutSpacingOpticalCorrection?: boolean;
+    withOverflow?: boolean;
 }
 
 function BlockView(props: Props) {
@@ -51,9 +52,10 @@ function BlockView(props: Props) {
         spacing,
         spacingOffset,
         withPadding,
-        withbeforeSeparator,
-        withafterSeparator,
+        withBeforeSeparator,
+        withAfterSeparator,
         withoutSpacingOpticalCorrection,
+        withOverflow,
 
         ...divProps
     } = props;
@@ -87,6 +89,7 @@ function BlockView(props: Props) {
             className={_cs(
                 styles.blockLayout,
                 spacingClassName,
+                withOverflow && styles.withOverflow,
                 className,
             )}
             ref={elementRef}
@@ -102,7 +105,7 @@ function BlockView(props: Props) {
                     {before}
                 </div>
             )}
-            {withbeforeSeparator && <hr className={styles.separator} />}
+            {withBeforeSeparator && <hr className={styles.separator} />}
             {isDefined(children) && (
                 <div
                     className={_cs(
@@ -114,7 +117,7 @@ function BlockView(props: Props) {
                     {children}
                 </div>
             )}
-            {withafterSeparator && <hr className={styles.separator} />}
+            {withAfterSeparator && <hr className={styles.separator} />}
             {after && (
                 <div
                     className={_cs(

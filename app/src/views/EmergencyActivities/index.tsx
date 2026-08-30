@@ -1,7 +1,4 @@
-import {
-    useCallback,
-    useMemo,
-} from 'react';
+import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { InformationLineIcon } from '@ifrc-go/icons';
 import {
@@ -125,7 +122,6 @@ function getAggregatedValues(values: { title: string, count: number }[]) {
 
     return sortedValues;
 }
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -311,7 +307,8 @@ export function Component() {
         },
     });
 
-    const handleExportClick = useCallback(() => {
+    // FIXME(frozenhelium): useCallback removed for React Compiler compatibility
+    const handleExportClick = () => {
         if (!emergencyProjectListResponse?.count || !emergencyResponse) {
             return;
         }
@@ -322,11 +319,7 @@ export function Component() {
                 event: [emergencyResponse.id],
             },
         );
-    }, [
-        triggerExportStart,
-        emergencyResponse,
-        emergencyProjectListResponse?.count,
-    ]);
+    };
 
     return (
         <TabPage>

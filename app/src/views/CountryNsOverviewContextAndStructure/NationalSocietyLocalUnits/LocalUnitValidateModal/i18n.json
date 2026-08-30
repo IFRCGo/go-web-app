@@ -3,7 +3,7 @@
     "strings": {
         "validationSuccessMessage": "{localUnitName} was validated.",
         "validationFailureMessage": "Failed to validate {localUnitName}",
-        "validateLocalUnitHeading": "Review \"{localUnitName}\"?",
+        "validateLocalUnitHeading": "Review \"{localUnitName}\"",
         "requestedChangesTitle": "Requested changes",
         "rejectionReasonLabel": "Reason for rejection",
         "revertChangesSuccessMessage": "Local unit reverted successfully!",

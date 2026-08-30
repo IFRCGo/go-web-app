@@ -1,0 +1,23 @@
+{
+    "parent": "000077-1774412801025.json",
+    "actions": [
+        {
+            "action": "update",
+            "key": "specificationNSValue",
+            "namespace": "surgeCatalogueWashKitMsm20Eru",
+            "newValue": "Austrian, German, Spanish, Swedish."
+        },
+        {
+            "action": "add",
+            "key": "catalogueITServiceCatalogue",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "Service catalogue"
+        },
+        {
+            "action": "add",
+            "key": "catalogueITJobAids",
+            "namespace": "surgeCatalogueInformationTechnology",
+            "value": "Job aids"
+        }
+    ]
+}

@@ -25,9 +25,10 @@
                     position: sticky;
                     top: 0;
                     z-index: 1;
+                    background-color: var(--go-ui-color-background);
 
                     .header-component {
-                        padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-sm);
+                        padding: var(--go-ui-spacing-xs);
                         font-size: var(--go-ui-font-size-sm);
                     }
                 }

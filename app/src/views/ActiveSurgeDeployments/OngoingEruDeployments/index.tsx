@@ -230,7 +230,6 @@ function OngoingEruDeployments() {
                     startDate: item.start_date,
                     endDate: item.end_date,
                 }),
-                { columnClassName: styles.timeline },
             ),
             createEmptyColumn<EruListItem, number>(),
         ]),

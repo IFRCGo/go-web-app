@@ -1,8 +1,4 @@
 .readiness-icon {
-    display: flex;
-    align-items: center;
-    gap: var(--go-ui-spacing-xs);
-
     .icon {
         flex-shrink: 0;
     }

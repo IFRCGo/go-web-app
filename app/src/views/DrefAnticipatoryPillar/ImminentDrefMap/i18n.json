@@ -1,0 +1,10 @@
+{
+    "namespace": "imminentDrefMap",
+    "strings": {
+        "imminentMapTitle": "Map of Imminent DREF operations",
+        "imminentMapDisasterTypePlaceholder": "All Hazards",
+        "imminentMapLegend": "Imminent DREF",
+        "imminentMapLoginRequired": "Log in to view the map of imminent DREF operations.",
+        "imminentMapStatus": "Status"
+    }
+}

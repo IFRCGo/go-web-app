@@ -33,41 +33,44 @@ export const Default: Story = {
             <div key="services">Services</div>,
             <div key="contacts">Contact</div>,
         ],
-        variant: 'primary',
+        styleVariant: 'nav',
+        colorVariant: 'primary',
     },
 };
 
 export const Primary: Story = {
     args: {
         ...Default.args,
-        variant: 'primary',
+        styleVariant: 'nav',
+        colorVariant: 'primary',
     },
 };
 
 export const Secondary: Story = {
     args: {
         ...Default.args,
-        variant: 'secondary',
+        styleVariant: 'nav',
+        colorVariant: 'secondary',
     },
 };
 
 export const Tertiary: Story = {
     args: {
         ...Default.args,
-        variant: 'tertiary',
+        styleVariant: 'pill',
     },
 };
 
 export const Step: Story = {
     args: {
         ...Default.args,
-        variant: 'step',
+        styleVariant: 'step',
     },
 };
 
 export const Vertical: Story = {
     args: {
         ...Default.args,
-        variant: 'vertical',
+        styleVariant: 'vertical',
     },
 };

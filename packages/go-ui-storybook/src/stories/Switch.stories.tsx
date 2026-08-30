@@ -14,7 +14,7 @@ type SwitchSpecificProps = SwitchProps<string>;
 type Story = StoryObj<SwitchSpecificProps>;
 
 const meta: Meta<typeof Switch> = {
-    title: 'Components/ Switch',
+    title: 'Inputs/Switch',
     component: Switch,
     parameters: {
         layout: 'centered',

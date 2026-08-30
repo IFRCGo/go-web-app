@@ -12,7 +12,7 @@ type RawFileInputSpecificProps = RawFileInputProps<string>;
 type Story = StoryObj<RawFileInputSpecificProps>;
 
 const meta: Meta<typeof RawFileInput> = {
-    title: 'Components/RawFileInput',
+    title: 'Inputs/RawFileInput',
     component: RawFileInput,
     parameters: {
         layout: 'centered',
@@ -30,7 +30,6 @@ export const Default: Story = {
     args: {
         name: 'RawFileInput',
         children: 'Upload File',
-        multiple: false,
         onChange: fn(),
     },
 };
@@ -39,8 +38,9 @@ export const Multiple: Story = {
     args: {
         name: 'RawFileInput',
         children: 'Upload Files',
-        variant: 'secondary',
         multiple: true,
+        styleVariant: 'outline',
+        colorVariant: 'primary',
         onChange: fn(),
     },
 };
@@ -50,7 +50,6 @@ export const WithAccept: Story = {
         name: 'RawFileInput',
         accept: 'image/png,image/jpeg',
         children: 'Upload Image',
-        multiple: false,
         onChange: fn(),
     },
 };
@@ -59,7 +58,6 @@ export const Disabled: Story = {
     args: {
         name: 'RawFileInput',
         children: 'Export',
-        multiple: false,
         onChange: fn(),
         disabled: true,
     },
@@ -70,7 +68,6 @@ export const ReadOnly: Story = {
         name: 'RawFileInput',
         children: 'Export',
         readOnly: true,
-        multiple: false,
         onChange: fn(),
     },
 };

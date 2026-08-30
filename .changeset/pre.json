@@ -2,19 +2,29 @@
   "mode": "pre",
   "tag": "beta",
   "initialVersions": {
-    "go-web-app": "7.23.0",
-    "go-ui-storybook": "1.0.8",
-    "@ifrc-go/ui": "1.5.2"
+    "go-web-app": "7.26.0",
+    "go-ui-storybook": "1.0.11",
+    "@ifrc-go/ui": "2.2.0"
   },
   "changesets": [
-    "angry-rings-shave",
-    "brown-banks-act",
-    "few-buckets-obey",
-    "four-facts-glow",
-    "khaki-dolls-begin",
-    "late-hornets-strive",
-    "tiny-ghosts-rule",
-    "twelve-ducks-glow",
-    "wet-eels-mix"
+    "brave-otters-count",
+    "chatty-laws-ask",
+    "eager-falcons-gather",
+    "every-bags-carry",
+    "five-impalas-call",
+    "lovely-waves-spend",
+    "lucky-pandas-marry",
+    "orange-shirts-talk",
+    "plenty-hoops-hammer",
+    "quiet-donkeys-smile",
+    "silly-mangoes-cheer",
+    "smooth-trains-search",
+    "spotty-mice-attend",
+    "strong-moments-cough",
+    "tall-donkeys-attend",
+    "tender-cycles-beg",
+    "wild-trees-invite",
+    "witty-colors-march",
+    "young-bottles-buy"
   ]
 }

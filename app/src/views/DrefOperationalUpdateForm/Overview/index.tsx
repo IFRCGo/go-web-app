@@ -46,9 +46,9 @@ import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import DrefShareModal from '#components/domain/DrefShareModal';
-import UserItem from '#components/domain/DrefShareModal/UserItem';
 import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
+import ShareUserItem from '#components/domain/ShareUserItem';
 import { type User } from '#components/domain/UserSearchMultiSelectInput';
 import Link from '#components/Link';
 import useCountry from '#hooks/domain/useCountry';
@@ -169,27 +169,19 @@ function Overview(props: Props) {
         setShowChangeDrefTypeModalFalse();
     }, [setFieldValue, setShowChangeDrefTypeModalFalse]);
 
-    const handleGenerateTitleButtonClick = useCallback(
-        () => {
-            const countryName = countryOptions?.find(
-                (country) => country.id === value?.country,
-            )?.name || '{Country}';
-            const disasterName = disasterTypes?.find(
-                (disasterType) => disasterType.id === value?.disaster_type,
-            )?.name || '{Disaster}';
-            const currentYear = new Date().getFullYear();
+    // FIXME(frozenhelium): useCallback removed for React Compiler compatibility
+    const handleGenerateTitleButtonClick = () => {
+        const countryName = countryOptions?.find(
+            (country) => country.id === value?.country,
+        )?.name || '{Country}';
+        const disasterName = disasterTypes?.find(
+            (disasterType) => disasterType.id === value?.disaster_type,
+        )?.name || '{Disaster}';
+        const currentYear = new Date().getFullYear();
 
-            const title = `${countryName} ${disasterName} ${currentYear}`;
-            setFieldValue(title, 'title');
-        },
-        [
-            countryOptions,
-            disasterTypes,
-            value?.disaster_type,
-            value?.country,
-            setFieldValue,
-        ],
-    );
+        const title = `${countryName} ${disasterName} ${currentYear}`;
+        setFieldValue(title, 'title');
+    };
 
     const userRendererParams = useCallback((userId: number, user: User) => ({
         userId,
@@ -268,7 +260,7 @@ function Overview(props: Props) {
                             <Button
                                 name={undefined}
                                 onClick={setShowShareModalTrue}
-                                disabled={isNotDefined(opsUpdateId) || readOnly}
+                                disabled={isNotDefined(opsUpdateId)}
                                 before={<ShareLineIcon />}
                             >
                                 {strings.formShareButtonLabel}
@@ -281,7 +273,7 @@ function Overview(props: Props) {
                         >
                             <RawList
                                 data={drefUsers}
-                                renderer={UserItem}
+                                renderer={ShareUserItem}
                                 keySelector={userKeySelector}
                                 rendererParams={userRendererParams}
                             />
@@ -414,6 +406,11 @@ function Overview(props: Props) {
                         }
                         numPreferredColumns={2}
                     >
+                        {/* NOTE: the operation country comes from the DREF
+                        application; changing it mid-operation would detach
+                        the operational update from the linked emergency */}
+                        {/* FIXME(frozenhelium): go-api, the server should
+                        also reject a country change on operational updates */}
                         <CountrySelectInput
                             name="country"
                             label={strings.drefFormAddCountry}
@@ -421,7 +418,7 @@ function Overview(props: Props) {
                             onChange={handleCountryChange}
                             error={error?.country}
                             disabled={disabled}
-                            readOnly={readOnly}
+                            readOnly
                         />
                         <div>
                             <DistrictSearchMultiSelectInput

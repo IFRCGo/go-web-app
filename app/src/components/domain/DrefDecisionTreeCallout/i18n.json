@@ -1,0 +1,7 @@
+{
+    "namespace": "drefDecisionTreeCallout",
+    "strings": {
+        "decisionTreeCalloutHeading": "DREF Decision Tree",
+        "decisionTreeCalloutDescription": "If you are not sure which DREF application (response or anticipatory) best fits your situation, use the following decision tree, which will help you with your selection."
+    }
+}

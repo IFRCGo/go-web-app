@@ -79,7 +79,6 @@ function primarySectoryKeySelector(option: PrimarySector) {
     return option.key;
 }
 
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { drefId } = useParams<{ drefId: string }>();
@@ -848,9 +847,7 @@ export function Component() {
                 <TextOutput
                     className={styles.targetedAreas}
                     label={strings.targetedAreasLabel}
-                    value={district_details?.map(
-                        (district) => district.name,
-                    ).join(', ')}
+                    value={riskRegions}
                     strongValue
                 />
             </Container>
@@ -866,9 +863,6 @@ export function Component() {
                         <Container heading={strings.hazardDate}>
                             <DescriptionText>
                                 {hazard_date_and_location}
-                            </DescriptionText>
-                            <DescriptionText>
-                                {riskRegions}
                             </DescriptionText>
                         </Container>
                     )}

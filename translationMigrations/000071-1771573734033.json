@@ -1,0 +1,17 @@
+{
+    "parent": "000070-1771563504160.json",
+    "actions": [
+        {
+            "action": "update",
+            "key": "healthPSSSpecificationsNsValue",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "newValue": "Canadian, Danish, Spanish, Qatar"
+        },
+        {
+            "action": "update",
+            "key": "specificationNSValue",
+            "namespace": "surgeCatalogueWashWaterSupplyRehabilitation",
+            "newValue": "Norwegian, Netherlands, Kenya."
+        }
+    ]
+}

@@ -4,8 +4,10 @@ import {
     DownloadFillIcon,
 } from '@ifrc-go/icons';
 import {
+    ConfirmButton,
     DateOutput,
-    IconButton,
+    Label,
+    ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
@@ -17,7 +19,6 @@ import {
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type PerDocumentUploadResponse = GoApiResponse<'/api/v2/per-document-upload/'>;
 type PerDocumentListItem = NonNullable<PerDocumentUploadResponse['results']>[number];
@@ -71,16 +72,17 @@ function DocumentCard(props: Props) {
     }, [perDocumentDelete]);
 
     return (
-        <div className={styles.documentItem}>
-            <div
-                className={styles.info}
+        <ListView>
+            <ListView
+                withSpacingOpticalCorrection
+                spacing="xs"
             >
-                <div className={styles.name}>
+                <Label>
                     {getFileNameFromUrl(document.file)}
-                </div>
+                </Label>
                 <DateOutput value={document.created_at} />
-            </div>
-            <div className={styles.actions}>
+            </ListView>
+            <ListView spacing="2xs">
                 <Link
                     external
                     styleVariant="action"
@@ -90,19 +92,18 @@ function DocumentCard(props: Props) {
                 >
                     <DownloadFillIcon />
                 </Link>
-                <IconButton
+                <ConfirmButton
                     name={document.id}
-                    onClick={handleFileDelete}
+                    onConfirm={handleFileDelete}
                     title={strings.removeFileButtonTitle}
-                    ariaLabel={strings.removeFileButtonTitle}
                     styleVariant="action"
                     spacing="none"
                     disabled={perDocumentDeletePending}
                 >
                     <DeleteBinLineIcon />
-                </IconButton>
-            </div>
-        </div>
+                </ConfirmButton>
+            </ListView>
+        </ListView>
     );
 }
 

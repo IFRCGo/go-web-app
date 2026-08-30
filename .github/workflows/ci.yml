@@ -7,19 +7,13 @@ on:
       - 'develop'
 
 env:
-  APP_ADMIN_URL: ${{ vars.APP_ADMIN_URL }}
-  APP_API_ENDPOINT: ${{ vars.APP_API_ENDPOINT }}
-  APP_ENVIRONMENT: ${{ vars.APP_ENVIRONMENT }}
-  APP_MAPBOX_ACCESS_TOKEN: ${{ vars.APP_MAPBOX_ACCESS_TOKEN }}
-  APP_RISK_ADMIN_URL: ${{ vars.APP_RISK_ADMIN_URL }}
-  APP_RISK_API_ENDPOINT: ${{ vars.APP_RISK_API_ENDPOINT }}
-  APP_SENTRY_DSN: ${{ vars.APP_SENTRY_DSN }}
-  APP_SENTRY_NORMALIZE_DEPTH: ${{ vars.APP_SENTRY_NORMALIZE_DEPTH }}
-  APP_SENTRY_TRACES_SAMPLE_RATE: ${{ vars.APP_SENTRY_TRACES_SAMPLE_RATE }}
-  APP_SHOW_ENV_BANNER: ${{ vars.APP_SHOW_ENV_BANNER }}
-  APP_TINY_API_KEY: ${{ vars.APP_TINY_API_KEY }}
-  APP_TITLE: ${{ vars.APP_TITLE }}
-  GITHUB_WORKFLOW: true
+  APP_API_ENDPOINT: 'https://goadmin-stage.ifrc.org/'
+  APP_ENVIRONMENT: 'development'
+  APP_MAPBOX_ACCESS_TOKEN: 'dummy-token'
+  APP_RISK_API_ENDPOINT: 'https://go-risk-api-stage.ifrc.org/'
+  APP_TINY_API_KEY: 'dummy-api-key'
+  APP_TITLE: 'IFRC Go Test'
+  APP_TRANSLATION_API_ENDPOINT: 'https://cacheppuccino-stage.ifrc.org/'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -28,7 +22,6 @@ concurrency:
 jobs:
   ui:
     name: Build UI Library
-    environment: 'test'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -40,7 +33,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -64,7 +57,6 @@ jobs:
 
   test:
     name: Run tests
-    environment: 'test'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -77,7 +69,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -105,7 +97,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -136,7 +128,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -164,7 +156,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -190,7 +182,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -217,7 +209,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -240,13 +232,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: true
+          submodules: recursive
       - name: Install pnpm
         uses: pnpm/action-setup@v4
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -274,7 +266,6 @@ jobs:
 
   build:
     name: Build GO Web App
-    environment: 'test'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -287,7 +278,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -299,19 +290,3 @@ jobs:
 
       - name: Build
         run: pnpm build
-
-  validate_helm:
-    name: Validate Helm
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@main
-
-      - name: Install Helm
-        uses: azure/setup-helm@v4
-
-      - name: Helm lint
-        run: helm lint ./nginx-serve/helm --values ./nginx-serve/helm/values-test.yaml
-
-      - name: Helm template
-        run: helm template ./nginx-serve/helm --values ./nginx-serve/helm/values-test.yaml

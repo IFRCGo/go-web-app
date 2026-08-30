@@ -1,5 +1,4 @@
 import {
-    type ElementRef,
     useCallback,
     useMemo,
     useRef,
@@ -41,11 +40,13 @@ import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage'
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
+import ViewOnlyModeBanner from '#components/ViewOnlyModeBanner';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useAlert from '#hooks/useAlert';
 import {
     DREF_STATUS_APPROVED,
     DREF_STATUS_DRAFT,
+    DREF_STATUS_FAILED,
     DREF_STATUS_FINALIZED,
 } from '#utils/constants';
 import {
@@ -115,7 +116,6 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
     }
     return undefined;
 }
-/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { opsUpdateId } = useParams<{ opsUpdateId: string }>();
@@ -123,7 +123,7 @@ export function Component() {
     const alert = useAlert();
     const strings = useTranslation(i18n);
 
-    const formContentRef = useRef<ElementRef<'div'>>(null);
+    const tabListRef = useRef<HTMLDivElement>(null);
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [isPreviousImminent, setIsPreviousImminent] = useState(false);
@@ -140,7 +140,7 @@ export function Component() {
         setTrue: setShowExportModalTrue,
         setFalse: setShowExportModalFalse,
     }] = useBooleanState(false);
-    const lastModifiedAtRef = useRef<string | undefined>();
+    const lastModifiedAtRef = useRef<string | undefined>(undefined);
 
     const {
         value,
@@ -422,7 +422,7 @@ export function Component() {
 
     const handleFormSubmit = useCallback(
         (modifiedAt?: string) => {
-            formContentRef.current?.scrollIntoView();
+            tabListRef.current?.scrollIntoView();
 
             // FIXME: use createSubmitHandler
             const result = validate();
@@ -437,7 +437,7 @@ export function Component() {
                 cover_image_file: isNotDefined(result.value.cover_image_file?.id)
                     ? null : result.value.cover_image_file,
                 event_map_file: isNotDefined(result.value.event_map_file?.id)
-                    ? null : result.value.cover_image_file,
+                    ? null : result.value.event_map_file,
             } as OpsUpdateRequestBody);
         },
         [validate, setError, updateOpsUpdate],
@@ -453,7 +453,7 @@ export function Component() {
     );
 
     const handleTabChange = useCallback((newTab: TabKeys) => {
-        formContentRef.current?.scrollIntoView();
+        tabListRef.current?.scrollIntoView({ behavior: 'smooth' });
         setActiveTab(newTab);
     }, []);
 
@@ -582,13 +582,35 @@ export function Component() {
         || fetchingDref
         || fetchingPrevOpsUpdate;
 
-    const languageMismatch = isDefined(opsUpdateId)
-        && isDefined(opsUpdateResponse)
-        && currentLanguage !== opsUpdateResponse?.translation_module_original_language;
+    const languageMismatch = currentLanguage
+        !== opsUpdateResponse?.translation_module_original_language;
 
-    const readOnly = languageMismatch
-        && (opsUpdateResponse?.status === DREF_STATUS_FINALIZED
-            || opsUpdateResponse?.status === DREF_STATUS_DRAFT);
+    const isEditable = useMemo(() => {
+        if (isNotDefined(drefId)) {
+            return false;
+        }
+
+        if (isNotDefined(opsUpdateResponse)) {
+            return false;
+        }
+
+        if (languageMismatch) {
+            return false;
+        }
+
+        const { status } = opsUpdateResponse;
+
+        if (status === DREF_STATUS_DRAFT
+            || status === DREF_STATUS_FINALIZED
+            || status === DREF_STATUS_FAILED
+        ) {
+            return true;
+        }
+
+        return false;
+    }, [languageMismatch, opsUpdateResponse, drefId]);
+
+    const readOnly = !isEditable;
 
     const shouldHideForm = fetchingOpsUpdate
         || isDefined(opsUpdateResponseError);
@@ -601,7 +623,6 @@ export function Component() {
             styleVariant="step"
         >
             <Page
-                elementRef={formContentRef}
                 className={styles.drefOperationalUpdateForm}
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
@@ -637,7 +658,10 @@ export function Component() {
                     </>
                 )}
                 info={!shouldHideForm && (
-                    <TabList className={styles.tabList}>
+                    <TabList
+                        elementRef={tabListRef}
+                        className={styles.tabList}
+                    >
                         <Tab
                             name="overview"
                             step={1}
@@ -681,6 +705,9 @@ export function Component() {
                 )}
                 withBackgroundColorInMainSection
                 mainSectionClassName={styles.content}
+                beforeHeaderContent={!fetchingOpsUpdate && readOnly && (
+                    <ViewOnlyModeBanner />
+                )}
             >
                 {fetchingOpsUpdate && (
                     <Message
@@ -688,10 +715,10 @@ export function Component() {
                         title={strings.formLoadingMessage}
                     />
                 )}
-                {languageMismatch && (
+                {!fetchingOpsUpdate && languageMismatch && (
                     <LanguageMismatchMessage
                         title={strings.formNotAvailableInSelectedLanguageMessage}
-                        originalLanguage={opsUpdateResponse.translation_module_original_language}
+                        originalLanguage={opsUpdateResponse?.translation_module_original_language}
                         selectedLanguage={currentLanguage}
                     />
                 )}

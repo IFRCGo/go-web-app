@@ -1,0 +1,8 @@
+{
+    "namespace": "surgeOverview",
+    "strings": {
+        "equipmentReadiness": "Equipment",
+        "peopleReadiness": "People",
+        "fundingReadiness": "Funding"
+    }
+}

@@ -1,7 +1,7 @@
 .surge {
     .key-figure-list {
         display: grid;
-        grid-gap: var(--go-ui-spacing-md);
+        gap: var(--go-ui-spacing-md);
         grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
 
         .key-figure {

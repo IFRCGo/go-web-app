@@ -141,7 +141,8 @@ function Operation(props: Props) {
         setSelectedIntervention(undefined);
     }, [setFieldValue, setSelectedIntervention]);
 
-    const warnings = useMemo(() => {
+    // FIXME(frozenhelium): useMemo removed for React Compiler compatibility
+    const warnings = (() => {
         if (isNotDefined(value?.total_targeted_population)) {
             return [];
         }
@@ -158,17 +159,11 @@ function Operation(props: Props) {
         }
 
         return w;
-    }, [
-        strings.drefOperationalUpdateFormTotalTargetedPopulation,
-        value?.women,
-        value?.men,
-        value?.girls,
-        value?.boys,
-        value?.total_targeted_population,
-    ]);
+    })();
 
     // FIXME: we might need to use this in DREF form as well
-    const warningsBudget = useMemo(() => {
+    // FIXME(frozenhelium): useMemo removed for React Compiler compatibility
+    const warningsBudget = (() => {
         if (isNotDefined(value?.total_dref_allocation)) {
             return [];
         }
@@ -181,11 +176,7 @@ function Operation(props: Props) {
             w.push(strings.drefOperationalUpdateFormTotalDrefAllocation);
         }
         return w;
-    }, [
-        value?.total_dref_allocation,
-        value?.planned_interventions,
-        strings.drefOperationalUpdateFormTotalDrefAllocation,
-    ]);
+    })();
 
     const interventionMap = useMemo(() => (
         listToMap(

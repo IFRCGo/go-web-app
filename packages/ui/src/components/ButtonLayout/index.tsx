@@ -4,12 +4,13 @@ import {
 } from '@togglecorp/fujs';
 
 import InlineLayout, { type Props as InlineLayoutProps } from '#components/InlineLayout';
+import { type ColorVariant } from '#utils/style';
 
 import styles from './styles.module.css';
 
-export type ButtonColorVariant = 'text' | 'text-on-dark' | 'primary' | 'secondary' | 'success' | 'danger';
+export type ButtonColorVariant = ColorVariant;
 export type ButtonStyleVariant = 'outline' | 'filled' | 'transparent' | 'action' | 'translucent';
-export type ButtonTextSize = 'sm' | 'md' | 'lg';
+export type ButtonTextSize = 'xs' | 'sm' | 'md' | 'lg';
 
 const colorVariantToClassName: Record<ButtonColorVariant, string> = {
     text: styles.colorVariantText,
@@ -29,12 +30,13 @@ const styleVariantToClassName: Record<ButtonStyleVariant, string> = {
 };
 
 const textSizeToClassName: Record<ButtonTextSize, string> = {
+    xs: styles.textSizeExtraSmall,
     sm: styles.textSizeSmall,
     md: styles.textSizeMedium,
     lg: styles.textSizeLarge,
 };
 
-export interface Props extends Omit<InlineLayoutProps, 'withPadding'> {
+export interface Props extends Omit<InlineLayoutProps, 'withPadding' | 'withAdditionalInlinePadding'> {
     className?: string;
     children?: React.ReactNode;
     colorVariant?: ButtonColorVariant;
@@ -43,6 +45,7 @@ export interface Props extends Omit<InlineLayoutProps, 'withPadding'> {
     disabled?: boolean;
     withFullWidth?: boolean;
     textSize?: ButtonTextSize;
+    withoutAdditionalInlinePadding?: boolean;
 }
 
 function ButtonLayout(props: Props) {
@@ -57,6 +60,7 @@ function ButtonLayout(props: Props) {
         withFullWidth = false,
         textSize,
         readOnly,
+        withoutAdditionalInlinePadding = false,
         ...inlineLayoutProps
     } = props;
 
@@ -74,7 +78,7 @@ function ButtonLayout(props: Props) {
                 className,
             )}
             spacingOffset={spacingOffset}
-            withAdditionalInlinePadding
+            withAdditionalInlinePadding={!withoutAdditionalInlinePadding}
             withInlineDisplay
             beforeContainerClassName={styles.before}
             afterContainerClassName={styles.after}
