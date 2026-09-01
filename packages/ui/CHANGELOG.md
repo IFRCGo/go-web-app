@@ -1,5 +1,11 @@
 # @ifrc-go/ui
 
+## 2.3.0-beta.2
+
+### Minor Changes
+
+- 5c14fee: Add a `labelClassName` prop to `InputContainer`
+
 ## 2.3.0-beta.1
 
 ### Minor Changes
