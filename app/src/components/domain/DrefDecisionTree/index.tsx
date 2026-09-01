@@ -124,6 +124,7 @@ function DrefDecisionTreeModal(props: Props) {
             'cta.drefApplicationForm': strings.drefApplicationFormButton,
             'cta.drefGuidelines': strings.drefGuidelinesButton,
             'cta.eapDevelopmentRegistration': strings.eapDevelopmentRegistrationButton,
+            'cta.aaManual': strings.aaManualButton,
         }),
         [strings],
     );

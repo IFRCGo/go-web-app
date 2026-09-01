@@ -26,17 +26,16 @@ export const EMERGENCY_APPEAL_RESOURCES_URL = 'https://ifrcorg.sharepoint.com/:f
 export const DREF_ANTICIPATORY_GUIDANCE_URL = `${GO_WIKI_DREF_GUIDELINES}#h-3-anticipatory-pillar`;
 export const DREF_RESPONSE_GUIDANCE_URL: string | undefined = `${GO_WIKI_DREF_GUIDELINES}#h-4-response-pillar`;
 
-// Key DREF resources. The SharePoint links are the ones supplied by the DREF team with
-// their mail-session parameters (ct/or/ga/LOF/cid/ovuser/xsdata) stripped, leaving only
-// the document identity. They still require an IFRC login.
-export const DREF_PROCEDURES_URL: string | undefined = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FNew%20DREF%20Procedures%2FDREF%20Procedures%5Fsigned%2Dversion%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FNew%20DREF%20Procedures';
-export const DREF_GUIDELINES_URL: string | undefined = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FDREF%20Procedures%20and%20Guidelines%2FDREF%20Guidelines%202026%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FDREF%20Procedures%20and%20Guidelines';
-export const DREF_RBM_URL: string | undefined = 'https://ifrcorg.sharepoint.com/:f:/s/IFRCSharing/IgBYYWWQVGHiS5rnwYXIX1ObAYFM5-IBl4BLsh_vSKwQwAE';
+// Key DREF resources, as confirmed by the DREF team (LPC08/LPF03/LPC24). Procedures and
+// RBM are SharePoint share links and require an IFRC login; Guidelines is public.
+export const DREF_PROCEDURES_URL: string | undefined = 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/IQDwmkZKcxsNSrW_CatNVmKpAfd5uNDDdu4enwzYRMBE8tI?e=iwjy9g';
+export const DREF_GUIDELINES_URL: string | undefined = 'https://www.ifrc.org/document/dref-guidelines-2026';
+export const DREF_RBM_URL: string | undefined = 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/IQCmkADgBvdhTaBt6aJJznDnAbB1MoUG-R4PSkprVaYD_K0?e=lgCz1W';
 export const ANTICIPATION_HUB_URL: string | undefined = 'https://www.anticipation-hub.org/';
 export const DREF_ERF_URL: string | undefined = 'https://www.ifrc.org/sites/default/files/2026-04/IFRC%20Emergency%20Response%20Framework.pdf';
 
-// TODO: fill in once the form is published; until then DrefDocumentLink renders a
-// disabled button.
+// TODO: fill in once the form is published. Until then the Advance Payment Form button
+// is hidden entirely (LPC25), not rendered disabled.
 export const DREF_ADVANCE_PAYMENT_FORM_URL: string | undefined = undefined;
 
 // Router state consumed by DrefApplicationForm (via useLocation().state) to seed a
