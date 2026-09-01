@@ -7,6 +7,7 @@ import {
     ONSET_SUDDEN,
 } from '#utils/constants';
 import {
+    DREF_AA_MANUAL_URL,
     DREF_GUIDELINES_ADVANCE_PAYMENT_URL,
     DREF_GUIDELINES_DROUGHT_URL,
     DREF_GUIDELINES_EAP_ACTIVATION_URL,
@@ -26,7 +27,7 @@ import {
 
 // DREF DECISION TREE - DREF FUNDING OPTIONS
 //
-// Mirrors DREFDecisionTree_2026.08.24.pdf. Flat node graph: each question's option
+// Mirrors DREFDecisionTree_2026.08.28.pdf. Flat node graph: each question's option
 // points (`next`) at another node id. Outcomes are shared only where BOTH the seeded
 // form state and the guidance target match, which is why the two "Response DREF" and
 // the two "Drought DREF" leaves are separate nodes: the slow-onset pair links to the
@@ -298,6 +299,12 @@ const drefDecisionTree: DecisionTree = {
                     labelKey: 'cta.eapDevelopmentRegistration',
                 },
                 drefGuidelines(DREF_GUIDELINES_EAP_DEVELOPMENT_URL),
+                // Appended, not prepended: engine.test.ts asserts actions[0] is the form.
+                {
+                    type: 'external',
+                    url: DREF_AA_MANUAL_URL,
+                    labelKey: 'cta.aaManual',
+                },
             ],
         },
     },

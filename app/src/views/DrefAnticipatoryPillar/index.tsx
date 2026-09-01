@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
     Container,
     Description,
-    Heading,
+    GridLayoutItem,
     ListView,
     Tab,
     TabList,
@@ -14,7 +14,10 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import DrefDecisionTreeCallout from '#components/domain/DrefDecisionTreeCallout';
 import DrefDocumentLink from '#components/domain/DrefDocumentLink';
 import DrefKeyResources from '#components/domain/DrefKeyResources';
-import Faq, { type FaqItem } from '#components/domain/Faq';
+import Faq from '#components/domain/Faq';
+import FaqHeading from '#components/domain/Faq/FaqHeading';
+import TermText from '#components/domain/Faq/TermText';
+import FaqList from '#components/domain/FaqList';
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 import { DREF_TYPE_IMMINENT } from '#utils/constants';
@@ -40,242 +43,6 @@ export function Component() {
     const strings = useTranslation(i18n);
     const [activeSubTab, setActiveSubTab] = useState<SubTab>('imminent');
 
-    const imminentFaqItems: FaqItem[] = [
-        {
-            name: 'imminentDref',
-            question: strings.faqImminentDrefQuestion,
-            answer: (
-                <>
-                    <p>{strings.faqImminentDrefIntro}</p>
-                    <p>{strings.faqImminentDrefScope}</p>
-                    <ul>
-                        <li>{strings.faqImminentDrefBulletNotYet}</li>
-                        <li>{strings.faqImminentDrefBulletUnfolding}</li>
-                    </ul>
-                    <p>{strings.faqImminentDrefOutro}</p>
-                </>
-            ),
-        },
-        {
-            name: 'imminentCharacteristics',
-            question: strings.faqImminentCharacteristicsQuestion,
-            answer: (
-                <ul>
-                    <li>{strings.faqImminentCharTimeframe}</li>
-                    <li>{strings.faqImminentCharTrigger}</li>
-                    <li>
-                        {strings.faqImminentCharThresholds}
-                        <ul>
-                            <li>{strings.faqImminentCharThresholdsNoRrp}</li>
-                            <li>{strings.faqImminentCharThresholdsWithRrp}</li>
-                        </ul>
-                    </li>
-                    <li>
-                        {strings.faqImminentCharComponents}
-                        <ul>
-                            <li>{strings.faqImminentCharEarlyAction}</li>
-                            <li>{strings.faqImminentCharEarlyResponse}</li>
-                        </ul>
-                    </li>
-                </ul>
-            ),
-        },
-        {
-            name: 'imminentProcess',
-            question: strings.faqImminentProcessQuestion,
-            answer: (
-                <>
-                    <Heading level={6}>{strings.faqImminentProcessPlanningHeading}</Heading>
-                    <ul>
-                        <li>{strings.faqImminentProcessPlanningTemplate}</li>
-                        <li>{strings.faqImminentProcessPlanningTiming}</li>
-                        <li>{strings.faqImminentProcessPlanningBudget}</li>
-                        <li>{strings.faqImminentProcessPlanningBankLetter}</li>
-                        <li>{strings.faqImminentProcessPlanningSubmit}</li>
-                    </ul>
-                    <Heading level={6}>{strings.faqImminentProcessImplementationHeading}</Heading>
-                    <ul>
-                        <li>{strings.faqImminentProcessImplBegin}</li>
-                        <li>{strings.faqImminentProcessImplEnsure}</li>
-                        <li>{strings.faqImminentProcessImplFunds}</li>
-                        <li>{strings.faqImminentProcessImplGovernment}</li>
-                        <li>{strings.faqImminentProcessImplCoordinate}</li>
-                    </ul>
-                    <Heading level={6}>{strings.faqImminentProcessReportingHeading}</Heading>
-                    <ul>
-                        <li>
-                            {strings.faqImminentProcessScenarioOne}
-                            <ul>
-                                <li>{strings.faqImminentProcessScenarioOneReport}</li>
-                                <li>{strings.faqImminentProcessScenarioOneBalance}</li>
-                            </ul>
-                        </li>
-                        <li>
-                            {strings.faqImminentProcessScenarioTwo}
-                            <ul>
-                                <li>{strings.faqImminentProcessScenarioTwoRequest}</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </>
-            ),
-        },
-    ];
-
-    const eapFaqItems: FaqItem[] = [
-        {
-            name: 'fullEap',
-            question: strings.faqFullEapQuestion,
-            answer: (
-                <>
-                    <p>{strings.faqFullEapIntro}</p>
-                    <p>{strings.faqFullEapIncludes}</p>
-                    <ul>
-                        <li>{strings.faqFullEapBulletHazard}</li>
-                        <li>{strings.faqFullEapBulletTrigger}</li>
-                        <li>{strings.faqFullEapBulletActivities}</li>
-                        <li>{strings.faqFullEapBulletRoles}</li>
-                        <li>{strings.faqFullEapBulletBudget}</li>
-                    </ul>
-                    <p>{strings.faqFullEapOutro}</p>
-                </>
-            ),
-        },
-        {
-            name: 'eapCharacteristics',
-            question: strings.faqEapCharacteristicsQuestion,
-            answer: (
-                <ul>
-                    <li>{strings.faqEapCharPurpose}</li>
-                    <li>{strings.faqEapCharTimeframe}</li>
-                    <li>{strings.faqEapCharCoverage}</li>
-                    <li>{strings.faqEapCharScale}</li>
-                    <li>
-                        {strings.faqEapCharTrigger}
-                        <ul>
-                            <li>{strings.faqEapCharTriggerEstablished}</li>
-                            <li>{strings.faqEapCharTriggerContext}</li>
-                            <li>{strings.faqEapCharTriggerDatabase}</li>
-                        </ul>
-                    </li>
-                    <li>{strings.faqEapCharTriggerReached}</li>
-                    <li>{strings.faqEapCharBudget}</li>
-                    <li>
-                        {strings.faqEapCharComponents}
-                        <ul>
-                            <li>{strings.faqEapCharPrepositioned}</li>
-                            <li>{strings.faqEapCharReadiness}</li>
-                            <li>{strings.faqEapCharEarlyAction}</li>
-                        </ul>
-                    </li>
-                </ul>
-            ),
-        },
-        {
-            name: 'seap',
-            question: strings.faqSeapQuestion,
-            answer: (
-                <>
-                    <p>{strings.faqSeapIntro}</p>
-                    <ul>
-                        <li>{strings.faqSeapBulletNoPartner}</li>
-                        <li>{strings.faqSeapBulletSmallerScale}</li>
-                        <li>{strings.faqSeapBulletNewHazard}</li>
-                    </ul>
-                </>
-            ),
-        },
-        {
-            name: 'seapCharacteristics',
-            question: strings.faqSeapCharacteristicsQuestion,
-            answer: (
-                <ul>
-                    <li>{strings.faqSeapCharPurpose}</li>
-                    <li>{strings.faqSeapCharTimeframe}</li>
-                    <li>{strings.faqSeapCharCoverage}</li>
-                    <li>{strings.faqSeapCharScale}</li>
-                    <li>{strings.faqSeapCharTrigger}</li>
-                    <li>{strings.faqSeapCharBudget}</li>
-                    <li>{strings.faqSeapCharComponents}</li>
-                </ul>
-            ),
-        },
-        {
-            name: 'eapProcess',
-            question: strings.faqEapProcessQuestion,
-            answer: (
-                <>
-                    <Heading level={6}>{strings.faqEapProcessDevelopmentHeading}</Heading>
-                    <ol>
-                        <li>{strings.faqEapProcessDevRegister}</li>
-                        <li>
-                            {strings.faqEapProcessDevAccessForm}
-                            &nbsp;
-                            <Link
-                                external
-                                href={DREF_AA_MANUAL_URL}
-                                withUnderline
-                            >
-                                {strings.faqEapProcessDevAccessFormLink}
-                            </Link>
-                            .
-                        </li>
-                        <li>{strings.faqEapProcessDevSubmit}</li>
-                        <li>{strings.faqEapProcessDevStatusUnderReview}</li>
-                        <li>{strings.faqEapProcessDevInitialReview}</li>
-                        <li>{strings.faqEapProcessDevAddressComments}</li>
-                        <li>{strings.faqEapProcessDevNoteBelowStandards}</li>
-                        <li>
-                            {strings.faqEapProcessDevNextVersions}
-                            <ul>
-                                <li>{strings.faqEapProcessDevValidate}</li>
-                                <li>{strings.faqEapProcessDevSupplementary}</li>
-                            </ul>
-                            <p>{strings.faqEapProcessDevNoteIterations}</p>
-                        </li>
-                        <li>{strings.faqEapProcessDevBudgetValidation}</li>
-                        <li>{strings.faqEapProcessDevApproval}</li>
-                    </ol>
-                    <Heading level={6}>{strings.faqEapProcessManagementHeading}</Heading>
-                    <Heading level={6}>{strings.faqEapProcessAgreementHeading}</Heading>
-                    <p>{strings.faqEapProcessAgreementSign}</p>
-                    <p>{strings.faqEapProcessAgreementStatus}</p>
-                    <Heading level={6}>{strings.faqEapProcessStockHeading}</Heading>
-                    <ul>
-                        <li>{strings.faqEapProcessStockProcure}</li>
-                        <li>{strings.faqEapProcessStockReadiness}</li>
-                    </ul>
-                    <Heading level={6}>{strings.faqEapProcessTriggerHeading}</Heading>
-                    <ul>
-                        <li>{strings.faqEapProcessTriggerMonitor}</li>
-                        <li>
-                            {strings.faqEapProcessTriggerAnnounce}
-                            <p>{strings.faqEapProcessTriggerNoteExceptional}</p>
-                        </li>
-                        <li>{strings.faqEapProcessTriggerImplement}</li>
-                    </ul>
-                    <Heading level={6}>{strings.faqEapProcessReportingHeading}</Heading>
-                    <ul>
-                        <li>{strings.faqEapProcessReportingAnnual}</li>
-                        <li>
-                            {strings.faqEapProcessReportingIfActivated}
-                            <ul>
-                                <li>{strings.faqEapProcessReportingWorkshop}</li>
-                                <li>{strings.faqEapProcessReportingActivationReport}</li>
-                            </ul>
-                        </li>
-                        <li>{strings.faqEapProcessReportingFinalReport}</li>
-                    </ul>
-                    <Heading level={6}>{strings.faqEapProcessRevisionHeading}</Heading>
-                    <ul>
-                        <li>{strings.faqEapProcessRevisionRevise}</li>
-                        <li>{strings.faqEapProcessRevisionResubmit}</li>
-                    </ul>
-                </>
-            ),
-        },
-    ];
-
     return (
         <TabPage>
             <ListView
@@ -286,10 +53,14 @@ export function Component() {
             >
                 <ListView layout="block">
                     <Description>
-                        <p>{strings.anticipatoryIntroOne}</p>
-                        <p>{strings.anticipatoryIntroTwo}</p>
+                        <ListView
+                            layout="block"
+                            spacing="sm"
+                        >
+                            <p>{strings.anticipatoryIntroOne}</p>
+                            <p>{strings.anticipatoryIntroTwo}</p>
+                        </ListView>
                     </Description>
-                    {/* TODO: confirm placement with design (LPF02). */}
                     <ListView
                         withStartAlignment
                         withWrap
@@ -301,39 +72,50 @@ export function Component() {
                         />
                     </ListView>
                 </ListView>
-                <Container
-                    heading={strings.imminentCardHeading}
-                    withHeaderBorder
-                    withBackground
-                    withShadow
-                    withPadding
-                >
-                    <p>{strings.imminentCardText}</p>
-                    <Link
-                        to="newDrefApplicationForm"
-                        state={imminentDrefRouteState}
-                        styleVariant="outline"
-                        colorVariant="primary"
+                <GridLayoutItem columnSpan={2}>
+                    <ListView
+                        layout="grid"
+                        minGridColumnSize="16rem"
                     >
-                        {strings.imminentCardButton}
-                    </Link>
-                </Container>
-                <Container
-                    heading={strings.eapCardHeading}
-                    withHeaderBorder
-                    withBackground
-                    withShadow
-                    withPadding
-                >
-                    <p>{strings.eapCardText}</p>
-                    <Link
-                        to="newEapDevelopmentRegistration"
-                        styleVariant="outline"
-                        colorVariant="primary"
-                    >
-                        {strings.eapCardButton}
-                    </Link>
-                </Container>
+                        <Container
+                            heading={strings.imminentCardHeading}
+                            withHeaderBorder
+                            withBackground
+                            withShadow
+                            withPadding
+                            footer={(
+                                <Link
+                                    to="newDrefApplicationForm"
+                                    state={imminentDrefRouteState}
+                                    styleVariant="outline"
+                                    colorVariant="primary"
+                                >
+                                    {strings.imminentCardButton}
+                                </Link>
+                            )}
+                        >
+                            {strings.imminentCardText}
+                        </Container>
+                        <Container
+                            heading={strings.eapCardHeading}
+                            withHeaderBorder
+                            withBackground
+                            withShadow
+                            withPadding
+                            footer={(
+                                <Link
+                                    to="newEapDevelopmentRegistration"
+                                    styleVariant="outline"
+                                    colorVariant="primary"
+                                >
+                                    {strings.eapCardButton}
+                                </Link>
+                            )}
+                        >
+                            {strings.eapCardText}
+                        </Container>
+                    </ListView>
+                </GridLayoutItem>
             </ListView>
             <Tabs
                 value={activeSubTab}
@@ -350,7 +132,166 @@ export function Component() {
                         spacing="2xl"
                     >
                         <Description>{strings.imminentTabDescription}</Description>
-                        <Faq items={imminentFaqItems} />
+                        <FaqList>
+                            <Faq
+                                name="imminentDref"
+                                question={strings.faqImminentDrefQuestion}
+                            >
+                                <ListView
+                                    layout="block"
+                                    withSpacingOpticalCorrection
+                                >
+                                    <p>{strings.faqImminentDrefIntro}</p>
+                                    <p>{strings.faqImminentDrefScope}</p>
+                                    <ul>
+                                        <li>{strings.faqImminentDrefBulletNotYet}</li>
+                                        <li>{strings.faqImminentDrefBulletUnfolding}</li>
+                                    </ul>
+                                    <p>{strings.faqImminentDrefOutro}</p>
+                                </ListView>
+                            </Faq>
+                            <Faq
+                                name="imminentCharacteristics"
+                                question={strings.faqImminentCharacteristicsQuestion}
+                            >
+                                <ul>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqImminentCharTimeframeTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqImminentCharTimeframeDetail}
+                                        </TermText>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqImminentCharTriggerTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqImminentCharTriggerDetail}
+                                        </TermText>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqImminentCharThresholds}
+                                            variant="bold"
+                                        />
+                                        <ul>
+                                            <li>{strings.faqImminentCharThresholdsNoRrp}</li>
+                                            <li>{strings.faqImminentCharThresholdsWithRrp}</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqImminentCharComponentsTerm}
+                                            variant="bold"
+                                        />
+                                        {' '}
+                                        <TermText
+                                            term={strings.faqImminentCharComponentsNoReadiness}
+                                            variant="underline"
+                                        />
+                                        {' '}
+                                        {strings.faqImminentCharComponentsFocus}
+                                        <ul>
+                                            <li>
+                                                <TermText
+                                                    term={strings.faqImminentCharEarlyActionTerm}
+                                                    variant="bold"
+                                                >
+                                                    {strings.faqImminentCharEarlyActionDetail}
+                                                </TermText>
+                                            </li>
+                                            <li>
+                                                <TermText
+                                                    term={strings.faqImminentCharEarlyResponseTerm}
+                                                    variant="bold"
+                                                >
+                                                    {strings.faqImminentCharEarlyResponseDetail}
+                                                </TermText>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </Faq>
+                            <Faq
+                                name="imminentProcess"
+                                question={strings.faqImminentProcessQuestion}
+                            >
+                                <ListView
+                                    layout="block"
+                                    withSpacingOpticalCorrection
+                                    spacing="sm"
+                                >
+                                    <FaqHeading variant="section">
+                                        {strings.faqImminentProcessPlanningHeading}
+                                    </FaqHeading>
+                                    <ul>
+                                        <li>{strings.faqImminentProcessPlanningTemplate}</li>
+                                        <li>{strings.faqImminentProcessPlanningTiming}</li>
+                                        <li>{strings.faqImminentProcessPlanningBudget}</li>
+                                        <li>{strings.faqImminentProcessPlanningBankLetter}</li>
+                                        <li>{strings.faqImminentProcessPlanningSubmit}</li>
+                                    </ul>
+                                </ListView>
+                                <ListView
+                                    layout="block"
+                                    withSpacingOpticalCorrection
+                                    spacing="sm"
+                                >
+                                    <FaqHeading variant="section">
+                                        {strings.faqImminentProcessImplementationHeading}
+                                    </FaqHeading>
+                                    <ul>
+                                        <li>{strings.faqImminentProcessImplBegin}</li>
+                                        <li>{strings.faqImminentProcessImplEnsure}</li>
+                                        <li>{strings.faqImminentProcessImplFunds}</li>
+                                        <li>{strings.faqImminentProcessImplGovernment}</li>
+                                        <li>{strings.faqImminentProcessImplCoordinate}</li>
+                                    </ul>
+                                </ListView>
+                                <ListView
+                                    layout="block"
+                                    withSpacingOpticalCorrection
+                                    spacing="sm"
+                                >
+                                    <FaqHeading variant="section">
+                                        {strings.faqImminentProcessReportingHeading}
+                                    </FaqHeading>
+                                    <ul>
+                                        <li>
+                                            <TermText
+                                                term={strings.faqImminentProcessScenarioOneTerm}
+                                                variant="underline"
+                                            >
+                                                {strings.faqImminentProcessScenarioOneDetail}
+                                            </TermText>
+                                            <ul>
+                                                <li>
+                                                    {strings.faqImminentProcessScenarioOneReport}
+                                                </li>
+                                                <li>
+                                                    {strings.faqImminentProcessScenarioOneBalance}
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <TermText
+                                                term={strings.faqImminentProcessScenarioTwoTerm}
+                                                variant="underline"
+                                            >
+                                                {strings.faqImminentProcessScenarioTwoDetail}
+                                            </TermText>
+                                            <ul>
+                                                <li>
+                                                    {strings.faqImminentProcessScenarioTwoRequest}
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </ListView>
+                            </Faq>
+                        </FaqList>
                         <DrefDecisionTreeCallout />
                         <ImminentDrefMap />
                         <ImminentDrefTable />
@@ -364,10 +305,369 @@ export function Component() {
                     >
                         <Description>
                             <p>{strings.eapTabDescriptionLead}</p>
-                            <p>{strings.eapTabDescriptionEap}</p>
-                            <p>{strings.eapTabDescriptionSeap}</p>
+                            <ul>
+                                <li>{strings.eapTabDescriptionEap}</li>
+                                <li>{strings.eapTabDescriptionSeap}</li>
+                            </ul>
                         </Description>
-                        <Faq items={eapFaqItems} />
+                        <FaqList>
+                            <Faq
+                                name="fullEap"
+                                question={strings.faqFullEapQuestion}
+                            >
+                                <ListView
+                                    layout="block"
+                                    withSpacingOpticalCorrection
+                                >
+                                    <p>{strings.faqFullEapIntro}</p>
+                                    <p>{strings.faqFullEapIncludes}</p>
+                                    <ul>
+                                        <li>{strings.faqFullEapBulletHazard}</li>
+                                        <li>{strings.faqFullEapBulletTrigger}</li>
+                                        <li>{strings.faqFullEapBulletActivities}</li>
+                                        <li>{strings.faqFullEapBulletRoles}</li>
+                                        <li>{strings.faqFullEapBulletBudget}</li>
+                                    </ul>
+                                    <p>{strings.faqFullEapOutro}</p>
+                                </ListView>
+                            </Faq>
+                            <Faq
+                                name="eapCharacteristics"
+                                question={strings.faqEapCharacteristicsQuestion}
+                            >
+                                <ul>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqEapCharPurposeTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqEapCharPurposeDetail}
+                                        </TermText>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqEapCharTimeframeTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqEapCharTimeframeDetail}
+                                        </TermText>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqEapCharCoverageTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqEapCharCoverageDetail}
+                                        </TermText>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqEapCharScaleTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqEapCharScaleDetail}
+                                        </TermText>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqEapCharTriggerTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqEapCharTriggerDetail}
+                                        </TermText>
+                                        <ul>
+                                            <li>{strings.faqEapCharTriggerEstablished}</li>
+                                            <li>{strings.faqEapCharTriggerContext}</li>
+                                            <li>{strings.faqEapCharTriggerDatabase}</li>
+                                        </ul>
+                                    </li>
+                                    <li>{strings.faqEapCharTriggerReached}</li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqEapCharBudgetTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqEapCharBudgetDetail}
+                                        </TermText>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqEapCharComponentsTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqEapCharComponentsDetail}
+                                        </TermText>
+                                        <ul>
+                                            <li>
+                                                <TermText
+                                                    term={strings.faqEapCharPrepositionedTerm}
+                                                    variant="underline"
+                                                >
+                                                    {strings.faqEapCharPrepositionedDetail}
+                                                </TermText>
+                                            </li>
+                                            <li>
+                                                <TermText
+                                                    term={strings.faqEapCharReadinessTerm}
+                                                    variant="underline"
+                                                >
+                                                    {strings.faqEapCharReadinessDetail}
+                                                </TermText>
+                                            </li>
+                                            <li>
+                                                <TermText
+                                                    term={strings.faqEapCharEarlyActionTerm}
+                                                    variant="underline"
+                                                >
+                                                    {strings.faqEapCharEarlyActionDetail}
+                                                </TermText>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </Faq>
+                            <Faq
+                                name="seap"
+                                question={strings.faqSeapQuestion}
+                            >
+                                <p>{strings.faqSeapIntro}</p>
+                                <ul>
+                                    <li>{strings.faqSeapBulletNoPartner}</li>
+                                    <li>{strings.faqSeapBulletSmallerScale}</li>
+                                    <li>{strings.faqSeapBulletNewHazard}</li>
+                                </ul>
+                            </Faq>
+                            <Faq
+                                name="seapCharacteristics"
+                                question={strings.faqSeapCharacteristicsQuestion}
+                            >
+                                <ul>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqSeapCharPurposeTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqSeapCharPurposeDetail}
+                                        </TermText>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqSeapCharTimeframeTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqSeapCharTimeframeDetail}
+                                        </TermText>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqSeapCharCoverageTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqSeapCharCoverageDetail}
+                                        </TermText>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqSeapCharScaleTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqSeapCharScaleDetail}
+                                        </TermText>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqSeapCharTriggerTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqSeapCharTriggerDetail}
+                                        </TermText>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqSeapCharBudgetTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqSeapCharBudgetDetail}
+                                        </TermText>
+                                    </li>
+                                    <li>
+                                        <TermText
+                                            term={strings.faqSeapCharComponentsTerm}
+                                            variant="bold"
+                                        >
+                                            {strings.faqSeapCharComponentsDetail}
+                                        </TermText>
+                                    </li>
+                                </ul>
+                            </Faq>
+                            <Faq
+                                name="eapProcess"
+                                question={strings.faqEapProcessQuestion}
+                            >
+                                <ListView
+                                    layout="block"
+                                    withSpacingOpticalCorrection
+                                    spacing="sm"
+                                >
+                                    <FaqHeading variant="section">
+                                        {strings.faqEapProcessDevelopmentHeading}
+                                    </FaqHeading>
+                                    <ol>
+                                        <li>{strings.faqEapProcessDevRegister}</li>
+                                        <li>
+                                            {strings.faqEapProcessDevAccessForm}
+                                            &nbsp;
+                                            <Link
+                                                external
+                                                href={DREF_AA_MANUAL_URL}
+                                                withUnderline
+                                                withLinkIcon
+                                            >
+                                                {strings.faqEapProcessDevAccessFormLink}
+                                            </Link>
+                                            .
+                                        </li>
+                                        <li>
+                                            {strings.faqEapProcessDevSubmit}
+                                            <ul>
+                                                <li>{strings.faqEapProcessDevStatusUnderReview}</li>
+                                                <li>{strings.faqEapProcessDevInitialReview}</li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            {strings.faqEapProcessDevAddressComments}
+                                            <p>
+                                                <TermText
+                                                    term={strings.faqNoteTerm}
+                                                    variant="underline"
+                                                >
+                                                    {/* eslint-disable-next-line max-len */}
+                                                    {strings.faqEapProcessDevNoteBelowStandardsDetail}
+                                                </TermText>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            {strings.faqEapProcessDevNextVersions}
+                                            <ul>
+                                                <li>{strings.faqEapProcessDevValidate}</li>
+                                                <li>{strings.faqEapProcessDevSupplementary}</li>
+                                            </ul>
+                                            <p>
+                                                <TermText
+                                                    term={strings.faqNoteTerm}
+                                                    variant="underline"
+                                                >
+                                                    {strings.faqEapProcessDevNoteIterationsDetail}
+                                                </TermText>
+                                            </p>
+                                        </li>
+                                        <li>{strings.faqEapProcessDevBudgetValidation}</li>
+                                        <li>{strings.faqEapProcessDevApproval}</li>
+                                    </ol>
+                                </ListView>
+                                <ListView
+                                    layout="block"
+                                    withSpacingOpticalCorrection
+                                    spacing="sm"
+                                >
+                                    <FaqHeading variant="section">
+                                        {strings.faqEapProcessManagementHeading}
+                                    </FaqHeading>
+                                    <ListView
+                                        layout="block"
+                                        withSpacingOpticalCorrection
+                                    >
+                                        <ListView
+                                            layout="block"
+                                            withSpacingOpticalCorrection
+                                            spacing="2xs"
+                                        >
+                                            <FaqHeading variant="subsection">
+                                                {strings.faqEapProcessAgreementHeading}
+                                            </FaqHeading>
+                                            <p>{strings.faqEapProcessAgreementSign}</p>
+                                            <p>{strings.faqEapProcessAgreementStatus}</p>
+                                        </ListView>
+                                        <ListView
+                                            layout="block"
+                                            withSpacingOpticalCorrection
+                                            spacing="2xs"
+                                        >
+                                            <FaqHeading variant="subsection">
+                                                {strings.faqEapProcessStockHeading}
+                                            </FaqHeading>
+                                            <ul>
+                                                <li>{strings.faqEapProcessStockProcure}</li>
+                                                <li>{strings.faqEapProcessStockReadiness}</li>
+                                            </ul>
+                                        </ListView>
+                                        <ListView
+                                            layout="block"
+                                            withSpacingOpticalCorrection
+                                            spacing="2xs"
+                                        >
+                                            <FaqHeading variant="subsection">
+                                                {strings.faqEapProcessTriggerHeading}
+                                            </FaqHeading>
+                                            <ul>
+                                                <li>{strings.faqEapProcessTriggerMonitor}</li>
+                                                <li>
+                                                    {strings.faqEapProcessTriggerAnnounce}
+                                                    <p>
+                                                        <TermText
+                                                            term={strings.faqNoteTerm}
+                                                            variant="underline"
+                                                        >
+                                                            {/* eslint-disable-next-line max-len */}
+                                                            {strings.faqEapProcessTriggerNoteExceptionalDetail}
+                                                        </TermText>
+                                                    </p>
+                                                </li>
+                                                <li>{strings.faqEapProcessTriggerImplement}</li>
+                                            </ul>
+                                        </ListView>
+                                    </ListView>
+                                </ListView>
+                                <ListView
+                                    layout="block"
+                                    withSpacingOpticalCorrection
+                                    spacing="sm"
+                                >
+                                    <FaqHeading variant="section">
+                                        {strings.faqEapProcessReportingHeading}
+                                    </FaqHeading>
+                                    <ul>
+                                        <li>{strings.faqEapProcessReportingAnnual}</li>
+                                        <li>
+                                            <TermText
+                                                term={strings.faqEapProcessReportingIfActivated}
+                                                variant="underline"
+                                            />
+                                            <ul>
+                                                <li>{strings.faqEapProcessReportingWorkshop}</li>
+                                                <li>
+                                                    {strings.faqEapProcessReportingActivationReport}
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>{strings.faqEapProcessReportingFinalReport}</li>
+                                    </ul>
+                                </ListView>
+                                <ListView
+                                    layout="block"
+                                    withSpacingOpticalCorrection
+                                    spacing="sm"
+                                >
+                                    <FaqHeading variant="section">
+                                        {strings.faqEapProcessRevisionHeading}
+                                    </FaqHeading>
+                                    <ul>
+                                        <li>{strings.faqEapProcessRevisionRevise}</li>
+                                        <li>{strings.faqEapProcessRevisionResubmit}</li>
+                                    </ul>
+                                </ListView>
+                            </Faq>
+                        </FaqList>
                         <DrefDecisionTreeCallout />
                         <EapMap />
                         <EapTable />

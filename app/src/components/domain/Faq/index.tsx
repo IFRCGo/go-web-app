@@ -4,41 +4,42 @@ import {
     ListView,
 } from '@ifrc-go/ui';
 
-export interface FaqItem {
-    // Stable key — independent of the (translatable) question text.
-    name: string;
-    question: ReactNode;
-    answer: ReactNode;
-}
-
 interface Props {
     className?: string;
-    items: FaqItem[];
+    // Anchor id, stable in a way the translated question is not.
+    name: string;
+    question: ReactNode;
+    // Siblings are spaced apart, so do not wrap the answer in a single element.
+    children: ReactNode;
 }
 
 function Faq(props: Props) {
-    const { className, items } = props;
+    const {
+        className,
+        name,
+        question,
+        children,
+    } = props;
 
     return (
-        <ListView
+        <ExpandableContainer
             className={className}
-            layout="block"
-            spacing="xs"
+            id={name}
+            heading={question}
+            headingLevel={5}
+            withHeaderBorder
+            withShadow
+            withPadding
+            withBackground
         >
-            {items.map((item) => (
-                <ExpandableContainer
-                    key={item.name}
-                    heading={item.question}
-                    headingLevel={5}
-                    withHeaderBorder
-                    withShadow
-                    withPadding
-                    withBackground
-                >
-                    {item.answer}
-                </ExpandableContainer>
-            ))}
-        </ListView>
+            <ListView
+                layout="block"
+                spacing="lg"
+                withSpacingOpticalCorrection
+            >
+                {children}
+            </ListView>
+        </ExpandableContainer>
     );
 }
 
