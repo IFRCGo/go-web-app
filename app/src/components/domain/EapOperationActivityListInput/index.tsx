@@ -47,6 +47,7 @@ interface Props<NAME> {
     withActivationSelection?: boolean;
     withoutTimeframeSelection?: boolean;
     leadTimeframeUnit?: TimeFrameEnumKey;
+    isSimplifiedEap?: boolean;
 }
 
 function EapOperationActivityListInput<const NAME extends ActivityInputType>(props: Props<NAME>) {
@@ -61,6 +62,7 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
         withActivationSelection,
         withoutTimeframeSelection,
         leadTimeframeUnit,
+        isSimplifiedEap,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -187,6 +189,7 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
                         withActivationSelection={withActivationSelection}
                         withoutTimeframeSelection={withoutTimeframeSelection}
                         leadTimeframeUnit={leadTimeframeUnit}
+                        isSimplifiedEap={isSimplifiedEap}
                     />
                 ))}
             </ListView>

@@ -16,6 +16,7 @@ import styles from './styles.module.css';
 
 export interface Props {
     className?: string;
+    labelClassName?: string;
     containerRef?: React.RefObject<HTMLDivElement | null>;
     inputSectionRef?: React.RefObject<HTMLDivElement | null>;
 
@@ -60,6 +61,7 @@ function InputContainer(props: Props) {
         icons,
         input,
         label,
+        labelClassName,
         readOnly,
         required,
         variant = 'form',
@@ -108,6 +110,7 @@ function InputContainer(props: Props) {
             withPadding={withPadding}
         >
             <InputLabel
+                className={labelClassName}
                 disabled={disabled}
                 required={isRequired}
             >

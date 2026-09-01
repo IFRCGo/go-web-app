@@ -24,6 +24,10 @@ import PrintableDescription from '#components/printable/PrintableDescription';
 import PrintableLabel from '#components/printable/PrintableLabel';
 import PrintablePage from '#components/printable/PrintablePage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import {
+    getEapAdmin1Areas,
+    getEapAdminAreaTitle,
+} from '#utils/domain/eapAdminArea';
 import { useRequest } from '#utils/restRequest';
 
 import PrintableContactOutput from './PrintableContactOutput';
@@ -116,6 +120,8 @@ export function Component() {
 
     const { disaster_type_details, country_details } = eapRegistrationResponse ?? {};
 
+    const admin1Areas = getEapAdmin1Areas(simplifiedEapResponse?.districts);
+
     const {
         cover_image_file,
         admin2_details,
@@ -203,7 +209,7 @@ export function Component() {
     // FIXME: consider diff view
     const eapTitle = [
         country_details?.name,
-        admin2_details?.map(({ name }) => name).join(', '),
+        getEapAdminAreaTitle(admin2_details, admin1Areas),
         disaster_type_details?.name,
     ]
         .filter(isTruthyString)

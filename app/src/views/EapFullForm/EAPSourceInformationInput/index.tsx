@@ -13,6 +13,7 @@ import {
     type ArrayError,
     getErrorObject,
     type PartialForm,
+    type PurgeNull,
     type SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
@@ -23,7 +24,9 @@ import { formatSourceLink } from '#utils/common';
 
 import i18n from './i18n.json';
 
-type EAPSourceInformation = components['schemas']['EAPSourceInformation'] & {
+type EAPSourceInformation = PurgeNull<
+    components<'write'>['schemas']['EAPSourceInformation']
+> & {
     client_id: string;
 };
 
@@ -94,6 +97,7 @@ function EAPSourceInformationInput(props: Props) {
             >
                 <ListView layout="grid">
                     <TextInput
+                        required
                         label={strings.eapSourceInformationNameLabel}
                         name="source_name"
                         value={value.source_name}

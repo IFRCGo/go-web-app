@@ -132,6 +132,9 @@ function RiskAnalysis(props: Props) {
                                 <Description>
                                     {strings.riskSectionCriteriaComment14}
                                 </Description>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment15}
+                                </Description>
                             </ListView>
                             <Label strong>
                                 {strings.riskSectionCriteriaIntroduction2}
@@ -154,6 +157,9 @@ function RiskAnalysis(props: Props) {
                                 <Description>
                                     {strings.riskSectionCriteriaComment32}
                                 </Description>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment33}
+                                </Description>
                             </ListView>
                             <Label strong>
                                 {strings.riskSectionCriteriaIntroduction4}
@@ -164,6 +170,9 @@ function RiskAnalysis(props: Props) {
                                 </Description>
                                 <Description>
                                     {strings.riskSectionCriteriaComment42}
+                                </Description>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment43}
                                 </Description>
                             </ListView>
                             <Label strong>
@@ -196,6 +205,9 @@ function RiskAnalysis(props: Props) {
                                 </Description>
                                 <Description>
                                     {strings.riskSectionCriteriaComment64}
+                                </Description>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment65}
                                 </Description>
                             </ListView>
                         </ListView>
