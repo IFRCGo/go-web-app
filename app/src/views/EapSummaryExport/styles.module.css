@@ -4,7 +4,7 @@
     gap: var(--go-ui-spacing-lg);
     grid-template-columns: 2fr 2fr;
 
-    .admin2-map {
+    .admin-area-map {
         height: 16rem;
     }
 

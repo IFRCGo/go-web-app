@@ -1,0 +1,6 @@
+.admin-1-input {
+    .district-label {
+        color: var(--go-ui-color-black);
+        font-weight: var(--go-ui-font-weight-medium);
+    }
+}

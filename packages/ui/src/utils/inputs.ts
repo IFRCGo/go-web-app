@@ -11,6 +11,7 @@ export function extractInputContainerProps<MIXED_PROPS extends Partial<InputCont
         containerRef: true,
         inputSectionRef: true,
         label: true,
+        labelClassName: true,
         icons: true,
         input: true,
         actions: true,

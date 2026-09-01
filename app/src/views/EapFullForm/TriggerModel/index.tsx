@@ -7,9 +7,9 @@ import {
     InputSection,
     Label,
     ListView,
+    NumberInput,
     SelectInput,
     TextArea,
-    TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
@@ -25,6 +25,7 @@ import {
     useFormArray,
 } from '@togglecorp/toggle-form';
 
+import Admin1MultiSelectWithDescriptionInput from '#components/domain/Admin1MultiSelectWithDescriptionInput';
 import Admin2Input from '#components/domain/Admin2Input';
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
@@ -34,6 +35,7 @@ import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
+import useCountryHasAdmin2 from '#hooks/domain/useCountryHasAdmin2';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { EAP_ACCEPTED_FILE_FORMATS } from '#utils/constants';
 import {
@@ -83,6 +85,10 @@ function TriggerModel(props: Props) {
     const strings = useTranslation(i18n);
 
     const { eap_timeframe } = useGlobalEnums();
+
+    const { hasAdmin2 } = useCountryHasAdmin2(eapRegistrationDetail?.country);
+    const showAdmin2 = (value?.admin2?.length ?? 0) > 0 || hasAdmin2 === true;
+    const showAdmin1 = (value?.districts?.length ?? 0) > 0 || !showAdmin2;
 
     const { response: templateUrl } = useRequest({
         url: '/api/v2/eap/global-files/{template_type}/',
@@ -185,6 +191,9 @@ function TriggerModel(props: Props) {
                                 <Description>
                                     {strings.triggerSectionCriteriaComment14}
                                 </Description>
+                                <Description>
+                                    {strings.triggerSectionCriteriaComment15}
+                                </Description>
                             </ListView>
                             <Label strong>
                                 {strings.triggerSectionCriteriaIntroduction2}
@@ -207,6 +216,9 @@ function TriggerModel(props: Props) {
                                 <Description>
                                     {strings.triggerSectionCriteriaComment32}
                                 </Description>
+                                <Description>
+                                    {strings.triggerSectionCriteriaComment33}
+                                </Description>
                             </ListView>
                             <Label strong>
                                 {strings.triggerSectionCriteriaIntroduction4}
@@ -217,6 +229,9 @@ function TriggerModel(props: Props) {
                                 </Description>
                                 <Description>
                                     {strings.triggerSectionCriteriaComment42}
+                                </Description>
+                                <Description>
+                                    {strings.triggerSectionCriteriaComment43}
                                 </Description>
                             </ListView>
                             <Label strong>
@@ -249,6 +264,9 @@ function TriggerModel(props: Props) {
                                 </Description>
                                 <Description>
                                     {strings.triggerSectionCriteriaComment64}
+                                </Description>
+                                <Description>
+                                    {strings.triggerSectionCriteriaComment65}
                                 </Description>
                             </ListView>
                         </ListView>
@@ -313,7 +331,7 @@ function TriggerModel(props: Props) {
                         withAsteriskOnTitle
                         numPreferredColumns={2}
                     >
-                        <TextInput
+                        <NumberInput
                             required
                             name="lead_time"
                             value={value?.lead_time}
@@ -610,12 +628,12 @@ function TriggerModel(props: Props) {
                             {strings.triggerSelectFilesLabel}
                         </MultiFileObjectInput>
                     </InputSection>
-                    <InputSection
-                        title={strings.selectRegionTitle}
-                        description={strings.selectRegionDescription}
-                        withAsteriskOnTitle
-                    >
-                        {isDefined(eapRegistrationDetail?.country) && (
+                    {isDefined(eapRegistrationDetail?.country) && showAdmin2 && (
+                        <InputSection
+                            title={strings.selectRegionTitle}
+                            description={strings.selectRegionDescription}
+                            withAsteriskOnTitle
+                        >
                             <Admin2Input
                                 name="admin2"
                                 onChange={setFieldValue}
@@ -624,8 +642,26 @@ function TriggerModel(props: Props) {
                                 error={getErrorString(error?.admin2)}
                                 readOnly={readOnly}
                             />
-                        )}
-                    </InputSection>
+                        </InputSection>
+                    )}
+                    {isDefined(eapRegistrationDetail?.country) && showAdmin1 && (
+                        <InputSection
+                            title={strings.selectRegionTitle}
+                            description={strings.selectRegionDescription}
+                            withAsteriskOnTitle
+                        >
+                            <Admin1MultiSelectWithDescriptionInput
+                                name="districts"
+                                onChange={setFieldValue}
+                                value={value?.districts}
+                                countryId={eapRegistrationDetail.country}
+                                error={getErrorObject(error?.districts)}
+                                maxWords={wordLimits.districts}
+                                disabled={disabled}
+                                readOnly={readOnly}
+                            />
+                        </InputSection>
+                    )}
                     <InputSection
                         title={strings.attachRelevantFilesTitle}
                         description={strings.attachRelevantFilesDescription}
