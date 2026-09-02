@@ -8,6 +8,8 @@ import * as d3 from 'd3';
 
 import useTranslation from '#hooks/useTranslation';
 
+import { PER_CONSIDERATION_GAUGE_COLOR } from '../PERAssessmentPalette';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -17,6 +19,11 @@ export interface Props {
      * @default 33
      */
     percentage?: number;
+
+    /**
+     * Number of National Societies represented by the percentage
+     */
+    count?: number;
 
     /**
      * URL of the icon to display in the center
@@ -31,7 +38,7 @@ export interface Props {
 
     /**
      * Color of the gauge fill
-     * @default '#236192'
+     * @default PER_CONSIDERATION_GAUGE_COLOR
      */
     gaugeColor?: string;
 
@@ -66,9 +73,10 @@ export interface Props {
 
 function PERGaugeChart({
     percentage = 33,
+    count,
     icon,
     label = 'EPI-ready',
-    gaugeColor = '#236192',
+    gaugeColor = PER_CONSIDERATION_GAUGE_COLOR,
     backgroundColor = '#F2F2F2',
     transitionSpeed = 1000,
     onClick = () => undefined,
@@ -202,7 +210,7 @@ function PERGaugeChart({
                     onClick?.();
                 }
             }}
-            aria-label={strings?.gaugeContainerLabel?.replace('{percentage}', percentage.toString())?.replace('{label}', label) ?? `Gauge chart showing ${percentage}% for ${label}`}
+            aria-label={`${strings?.gaugeContainerLabel?.replace('{percentage}', percentage.toString())?.replace('{label}', label) ?? `Gauge chart showing ${percentage}% for ${label}`}${count === undefined ? '' : `, ${count} NS`}`}
         >
             {title && (
                 <div className={styles.title}>
@@ -228,6 +236,13 @@ function PERGaugeChart({
                 {percentage}
                 %
             </div>
+            {count !== undefined && (
+                <div className={styles.count}>
+                    {count}
+                    {' '}
+                    NS
+                </div>
+            )}
         </div>
     );
 }
