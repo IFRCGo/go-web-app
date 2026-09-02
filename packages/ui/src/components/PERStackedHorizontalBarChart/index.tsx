@@ -15,6 +15,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import useTranslation from '#hooks/useTranslation';
 
 import { getContrastColor } from '../../utils/common';
+import { PER_ASSESSMENT_COLORS } from '../PERAssessmentPalette';
 import type {
     DataItem,
     Props,
@@ -38,23 +39,23 @@ ChartJS.register(
 // Define datasets with label and fillColor
 const datasetsConfig = [
     {
-        label: 'Self-assessment',
-        fillColor: '#236192',
+        label: 'Self assessment',
+        fillColor: PER_ASSESSMENT_COLORS.selfAssessment,
         key: 'SelfAssessment',
     },
     {
         label: 'Simulation',
-        fillColor: '#418FDE',
+        fillColor: PER_ASSESSMENT_COLORS.simulation,
         key: 'Simulation',
     },
     {
         label: 'Operational',
-        fillColor: '#009CDD',
+        fillColor: PER_ASSESSMENT_COLORS.operational,
         key: 'Operational',
     },
     {
         label: 'Post-operational',
-        fillColor: '#C6C6C6',
+        fillColor: PER_ASSESSMENT_COLORS.postOperational,
         key: 'PostOperational',
     },
 ];
