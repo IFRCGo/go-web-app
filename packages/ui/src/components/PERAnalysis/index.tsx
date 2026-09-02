@@ -50,6 +50,7 @@ interface Props {
   };
   summary: {
     averageRating: number;
+    assessmentsWithComponentResponses?: number;
   };
   onCycleClick?: (cycle: number) => void;
   activeCycle?: number;
@@ -194,6 +195,15 @@ function PERAnalysis({
                                     {chartData.total_cycles}
                                 </span>
                             </h2>
+                            {summary.assessmentsWithComponentResponses !== undefined && (
+                                <span className={styles.subtitle}>
+                                    {strings?.analysisComponentResponseCountLabel ?? 'Assessments with component responses'}
+                                    {' '}
+                                    <strong className={styles.componentResponseNumber}>
+                                        {summary.assessmentsWithComponentResponses}
+                                    </strong>
+                                </span>
+                            )}
                         </div>
                         <div className={styles.headerMetric}>
                             <h2 className={styles.title}>
