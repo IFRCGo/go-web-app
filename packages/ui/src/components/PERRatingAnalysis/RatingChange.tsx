@@ -14,7 +14,13 @@ interface Props {
 
 function RatingChange({ value, direction, className }: Props) {
     return (
-        <div className={_cs(styles.ratingChange, className)}>
+        <div
+            className={_cs(
+                styles.ratingChange,
+                direction === 'up' ? styles.positive : styles.negative,
+                className,
+            )}
+        >
             {direction === 'up' ? (
                 <CaretUpLineIcon className={styles.upIcon} />
             ) : (
