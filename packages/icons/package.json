@@ -1,0 +1,54 @@
+{
+    "name": "@ifrc-go/icons",
+    "description": "IFRC-GO Icons Library",
+    "version": "2.0.1",
+    "type": "module",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/IFRCGo/go-web-app.git",
+        "directory": "packages/icons"
+    },
+    "keywords": [
+        "ifrc-go",
+        "icons",
+        "react",
+        "svg"
+    ],
+    "scripts": {
+        "download": "tsx scripts/download.ts",
+        "strip-padding": "tsx scripts/strip-padding.ts",
+        "fit-viewbox": "tsx scripts/fit-viewbox.ts",
+        "generate": "tsx scripts/generate.ts",
+        "prebuild": "tsx scripts/generate.ts",
+        "build": "vite build --emptyOutDir",
+        "prestart": "tsx scripts/generate.ts",
+        "start": "vite build --watch",
+        "typecheck": "tsc"
+    },
+    "files": [
+        "dist/*"
+    ],
+    "main": "./dist/index.js",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "peerDependencies": {
+        "react": ">=16"
+    },
+    "devDependencies": {
+        "@types/node": "^20.19.37",
+        "@types/react": "^19.0.0",
+        "@vitejs/plugin-react-swc": "^4.0.0",
+        "glob": "^13.0.0",
+        "svg-path-bbox": "^2.1.0",
+        "tsx": "^4.19.2",
+        "typescript": "^5.9.3",
+        "vite": "^6.0.0",
+        "vite-plugin-dts": "^4.0.0",
+        "vite-tsconfig-paths": "^6.0.0"
+    }
+}

@@ -259,7 +259,7 @@ function SelectInputContainer<
                                 name={undefined}
                                 title={strings.buttonTitleSelect}
                             >
-                                <CheckDoubleFillIcon className={styles.icon} />
+                                <CheckDoubleFillIcon />
                             </Button>
                         )}
                         {!readOnly && !nonClearable && hasValue && (
@@ -271,7 +271,7 @@ function SelectInputContainer<
                                 name={undefined}
                                 title={strings.buttonTitleClear}
                             >
-                                <CloseLineIcon className={styles.icon} />
+                                <CloseLineIcon />
                             </Button>
                         )}
                         {!readOnly && !withoutDropdownIcon && (
@@ -286,8 +286,8 @@ function SelectInputContainer<
                                     : strings.buttonTitleOpen}
                             >
                                 {dropdownShownActual
-                                    ? <ArrowUpSmallFillIcon className={styles.icon} />
-                                    : <ArrowDownSmallFillIcon className={styles.icon} />}
+                                    ? <ArrowUpSmallFillIcon />
+                                    : <ArrowDownSmallFillIcon />}
                             </Button>
                         )}
                     </>

@@ -32,11 +32,7 @@ function InfoPopup(props: Props) {
             label={(
                 <div className={styles.label}>
                     {infoLabel}
-                    {!withoutIcon && icon && (
-                        <div className={styles.icon}>
-                            {icon}
-                        </div>
-                    )}
+                    {!withoutIcon && icon && icon}
                 </div>
             )}
             popupClassName={_cs(styles.dropdownContainer, popupClassName)}

@@ -20,7 +20,7 @@
         position: relative;
         flex-shrink: 0;
         line-height: 0;
-        font-size: var(--go-ui-height-icon-multiplier);
+        font-size: 1.33em;
 
         .input {
             position: absolute;
