@@ -44,3 +44,12 @@
     font-size: var(--go-ui-font-size-lg);
     font-weight: var(--go-ui-font-weight-bold);
 }
+
+.count {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color: var(--go-ui-color-text-light);
+    font-size: var(--go-ui-font-size-sm);
+}
