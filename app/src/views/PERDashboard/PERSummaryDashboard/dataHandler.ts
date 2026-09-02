@@ -1,353 +1,32 @@
 import {
-    type AssessmentRecord,
-    type ChartDataItem,
-    type ComponentSummary,
-    type Filters,
-    type MapAssessmentRecord,
-} from './types';
+    AREA_COLORS,
+    assessmentTypeKey,
+    compareProcessRecency,
+    type FilteredDashboardState,
+    getPhaseColor,
+    getProcessYear,
+    type ProcessRecord,
+    REGION_ORDER,
+} from '../data';
 
-let mapData: MapAssessmentRecord[] = [];
-interface LastUpdateData {
-    lastUpdate: string;
+export interface SummaryKpi {
+    key: string;
+    value: number;
+    color?: string;
+    description: string;
 }
 
-let lastUpdateData: LastUpdateData | null = null;
-
-function initializeData(data: MapAssessmentRecord[], updateData: LastUpdateData) {
-    mapData = data;
-    lastUpdateData = updateData;
+export interface SummaryChartDataItem {
+    name: string;
+    SelfAssessment: number;
+    Simulation: number;
+    PostOperational: number;
+    Operational: number;
+    [key: string]: string | number;
 }
 
-const AREA_COLORS = {
-    'Policy Strategy and Standards': '#8748b3',
-    'Analysis and planning': '#ff8655',
-    'Operations support': '#da283d',
-    'Operational capacity': '#3478ec',
-    Coordination: '#00B2A2',
-} as const;
-
-const PHASE_COLORS = [
-    {
-        phase: 'Orientation',
-        label: 'Orientation',
-        phaseNumber: 1,
-        color: '#00B2A2',
-    },
-    {
-        phase: 'Assessment',
-        label: 'Assessment',
-        phaseNumber: 2,
-        color: '#DA283D',
-    },
-    {
-        phase: 'Prioritisation',
-        label: 'Prioritisation & analysis',
-        phaseNumber: 3,
-        color: '#3377EB',
-    },
-    {
-        phase: 'Workplan',
-        label: 'Workplan',
-        phaseNumber: 4,
-        color: '#8648B3',
-    },
-    {
-        phase: 'Action & accountability',
-        label: 'Action & accountability',
-        phaseNumber: 5,
-        color: '#FF8654',
-    },
-];
-
-function groupByAndFilter(
-    data: Array<MapAssessmentRecord>,
-    groupKey: keyof MapAssessmentRecord,
-    compareKey: keyof MapAssessmentRecord,
-): Array<MapAssessmentRecord> {
-    const groupedDataMap = data.reduce(
-        (acc, record) => {
-            const existingRecord = acc[record[groupKey] as string];
-            if (
-                !existingRecord
-        || (existingRecord
-          && record[compareKey] !== undefined
-          && existingRecord[compareKey] !== undefined
-          && record[compareKey] > existingRecord[compareKey])
-            ) {
-                acc[record[groupKey] as string] = record;
-            }
-            return acc;
-        },
-    {} as Record<string, MapAssessmentRecord>,
-    );
-
-    return Object.values(groupedDataMap);
-}
-
-function assignFillColors(
-    data: Array<AssessmentRecord>,
-): Array<MapAssessmentRecord> {
-    return data.map((record) => {
-        const phaseMatch = PHASE_COLORS.find(
-            (phase) => phase.phase === record.phase_display
-        && phase.phaseNumber === record.phase,
-        );
-        return {
-            ...record,
-            color: phaseMatch ? phaseMatch.color : '#CCCCCC',
-        };
-    });
-}
-
-function applyFilters(
-    data: Array<MapAssessmentRecord>,
-    filters: Filters | null = null,
-): Array<MapAssessmentRecord> {
-    let filteredData = [...data];
-
-    if (!filters) {
-        return filteredData;
-    }
-
-    if (filters.region) {
-        filteredData = filteredData.filter(
-            (record) => record.region_name === filters.region,
-        );
-    }
-
-    if (filters.year) {
-        const yearStr = filters.year.toString();
-        filteredData = filteredData.filter(
-            (record) => new Date(record.date_of_assessment).getFullYear().toString()
-                === yearStr,
-        );
-    }
-
-    if (filters.phase) {
-        filteredData = filteredData.filter(
-            (record) => record.phase === filters.phase,
-        );
-    }
-
-    if (filters.id) {
-        filteredData = filteredData.filter((record) => record.id === filters.id);
-    }
-
-    if (filters.perConsiderations) {
-        filteredData = filteredData.filter(
-            (record) => record[filters.perConsiderations as keyof MapAssessmentRecord],
-        );
-    }
-
-    if (filters.completedAssessment) {
-        filteredData = filteredData.filter((record) => record.phase >= 2);
-    }
-
-    if (filters.highPriorityComponent) {
-        filteredData = filteredData.filter((record) => record.prioritized_components.some(
-            (component) => component.componentTitle === filters.highPriorityComponent,
-        ));
-    }
-
-    if (filters.assessmentType) {
-        filteredData = filteredData.filter(
-            (record) => record.type_of_assessment_name === filters.assessmentType,
-        );
-    }
-
-    if (filters.numberOfCycles !== undefined && filters.numberOfCycles !== null) {
-        const cyclesCount = filters.numberOfCycles;
-        filteredData = filteredData.filter(
-            (record) => record.assessment_number >= cyclesCount,
-        );
-    }
-
-    return filteredData;
-}
-
-function processFilteredMapData(
-    filters: Filters | null = null,
-): Array<MapAssessmentRecord> {
-    const filteredData = applyFilters(mapData, filters);
-    const groupedData = groupByAndFilter(
-        filteredData,
-        'country_id',
-        'assessment_number',
-    );
-    return assignFillColors(groupedData);
-}
-
-function getFilteredMapData(
-    filters: Filters | null = null,
-): Array<MapAssessmentRecord> {
-    return processFilteredMapData(filters);
-}
-
-function getRecordsByRegion(
-    filters: Filters | null = null,
-): Array<{ name: string; count: number }> {
-    const regionNames = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'];
-    const filters2 = { ...filters };
-    filters2.region = null;
-
-    const filteredData = applyFilters(mapData, filters2);
-    const regionCounts = regionNames.reduce(
-        (acc, region) => {
-            acc[region] = { name: region, count: 0 };
-            return acc;
-        },
-    {} as Record<string, { name: string; count: number }>,
-    );
-
-    filteredData.forEach((record) => {
-        const regionName = record.region_name || 'Unknown';
-        if (regionCounts[regionName]) {
-            regionCounts[regionName].count += 1;
-        }
-    });
-
-    return Object.values(regionCounts);
-}
-
-function getRecordsByAssessmentType(
-    filters: Filters | null,
-): Array<{ label: string; count: number }> {
-    const filteredData = applyFilters(mapData, filters);
-
-    // Initialize all assessment types with 0
-    const assessmentTypeCounts: Record<string, number> = {
-        'Self assessment': 0,
-        Simulation: 0,
-        Operational: 0,
-        'Post operational': 0,
-    };
-
-    // Count only if we match the filter
-    filteredData.forEach((record) => {
-        const assessmentType = record.type_of_assessment_name;
-        if (assessmentType && assessmentType in assessmentTypeCounts) {
-            assessmentTypeCounts[assessmentType]! += 1;
-        }
-    });
-
-    // Always return all assessment types, even if count is 0
-    return [
-        { label: 'Self assessment', count: assessmentTypeCounts['Self assessment']! },
-        { label: 'Simulation', count: assessmentTypeCounts.Simulation! },
-        { label: 'Operational', count: assessmentTypeCounts.Operational! },
-        { label: 'Post operational', count: assessmentTypeCounts['Post operational']! },
-    ];
-}
-
-function getStackedBarDataByYearAndRegion(
-    filters: Filters | null,
-): Array<{ year: string; values: Record<string, number>; label: string }> {
-    const regionNames = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'];
-    const filteredData = applyFilters(mapData, filters);
-
-    // Get all possible years from the data
-    const allYears = [
-        ...new Set(
-            mapData.map((record) => new Date(record.date_of_assessment).getFullYear().toString()),
-        ),
-    ].sort();
-
-    // Initialize yearRegionCounts with all years and regions set to 0
-    const yearRegionCounts: Record<string, Record<string, number>> = {};
-    allYears.forEach((year) => {
-        yearRegionCounts[year] = regionNames.reduce(
-            (acc, region) => {
-                acc[region] = 0;
-                return acc;
-            },
-      {} as Record<string, number>,
-        );
-    });
-
-    // Count records for each year and region
-    filteredData.forEach((record) => {
-        const year = new Date(record.date_of_assessment).getFullYear().toString();
-        const region = record.region_name;
-        if (year && region && yearRegionCounts[year] && regionNames.includes(region)) {
-            yearRegionCounts[year]![region]! += 1;
-        }
-    });
-
-    // Convert to array format
-    return Object.entries(yearRegionCounts)
-        .map(([year, values]) => ({
-            year,
-            values,
-            label: year,
-        }))
-        .sort((a, b) => a.year.localeCompare(b.year));
-}
-
-function getComponentSummaryForTreemap(
-    filters: Filters | null,
-): ComponentSummary {
-    const filteredData = applyFilters(mapData, filters);
-
-    const componentFrequency: Record<string, {
-        name: string;
-        id: string;
-        color: string;
-        children: Array<{ name: string; value: number; id: string; color: string }>;
-    }> = {};
-
-    // Process each record's prioritized components
-    filteredData.forEach((record) => {
-        record.prioritized_components.forEach((component) => {
-            const { areaTitle, componentTitle } = component;
-
-            // Initialize area if not exists
-            if (!componentFrequency[areaTitle]) {
-                componentFrequency[areaTitle] = {
-                    name: areaTitle,
-                    id: areaTitle,
-                    color: AREA_COLORS[areaTitle as keyof typeof AREA_COLORS] || '#CCCCCC',
-                    children: [],
-                };
-            }
-
-            // Find or create component in children array
-            const existingComponent = componentFrequency[areaTitle].children.find(
-                (child) => child.name === componentTitle,
-            );
-
-            if (existingComponent) {
-                existingComponent.value += 1;
-            } else {
-                componentFrequency[areaTitle].children.push({
-                    name: componentTitle,
-                    id: `${areaTitle}-${componentTitle}`,
-                    value: 1,
-                    color: AREA_COLORS[areaTitle as keyof typeof AREA_COLORS] || '#CCCCCC',
-                });
-            }
-        });
-    });
-
-    // Sort children by value in descending order
-    Object.values(componentFrequency).forEach((area) => {
-        area.children.sort((a, b) => b.value - a.value);
-    });
-
-    return {
-        name: 'Root',
-        id: 'root',
-        color: '#CCCCCC',
-        children: Object.values(componentFrequency)
-            .filter((area) => area.children.length > 0)
-            .sort((a, b) => b.children.reduce((sum, child) => sum + child.value, 0)
-                - a.children.reduce((sum, child) => sum + child.value, 0)),
-    };
-}
-
-function getPERConsiderations(
-    filters: Filters | null,
-): {
-    data: ChartDataItem[][];
+export interface SummaryConsiderationData {
+    data: SummaryChartDataItem[][];
     totals: {
         totalAssessments: number;
         totalEpiConsiderations: number;
@@ -361,228 +40,104 @@ function getPERConsiderations(
         urbanPercentage: number;
         migrationPercentage: number;
     };
-} {
-    const filteredData = applyFilters(mapData, filters);
-
-    // Define assessment types and normalize names for consistency
-    const assessmentTypeMapping: Record<string, string> = {
-        'Self assessment': 'SelfAssessment',
-        SelfAssessment: 'SelfAssessment',
-        Simulation: 'Simulation',
-        'Post operational': 'PostOperational',
-        PostOperational: 'PostOperational',
-        Operational: 'Operational',
-    };
-
-    // Define regions
-    const regions: Array<string> = [
-        'Africa',
-        'Americas',
-        'Europe',
-        'Asia Pacific',
-        'MENA',
-    ];
-
-    // Initialize summary data structures
-    const considerations: Record<
-        string,
-        Record<string, ChartDataItem>
-    > = {
-        epi_considerations: {},
-        climate_environmental_considerations: {},
-        urban_considerations: {},
-        migration_considerations: {},
-    };
-
-    // Initialize counts per region and assessment type for each consideration
-    regions.forEach((region) => {
-        considerations.epi_considerations![region] = {
-            name: region,
-            SelfAssessment: 0,
-            Simulation: 0,
-            PostOperational: 0,
-            Operational: 0,
-        } as ChartDataItem;
-
-        considerations.climate_environmental_considerations![region] = {
-            name: region,
-            SelfAssessment: 0,
-            Simulation: 0,
-            PostOperational: 0,
-            Operational: 0,
-        } as ChartDataItem;
-
-        considerations.urban_considerations![region] = {
-            name: region,
-            SelfAssessment: 0,
-            Simulation: 0,
-            PostOperational: 0,
-            Operational: 0,
-        } as ChartDataItem;
-
-        considerations.migration_considerations![region] = {
-            name: region,
-            SelfAssessment: 0,
-            Simulation: 0,
-            PostOperational: 0,
-            Operational: 0,
-        } as ChartDataItem;
-    });
-
-    // Initialize total counts
-    let totalAssessments = 0;
-    let totalEpiConsiderations = 0;
-    let totalClimateConsiderations = 0;
-    let totalUrbanConsiderations = 0;
-    let totalMigrationConsiderations = 0;
-
-    // Process the filtered data
-    filteredData.forEach((record) => {
-        const regionName = record.region_name;
-        const assessmentType = assessmentTypeMapping[record.type_of_assessment_name];
-
-        if (!assessmentType || !regions.includes(regionName)) {
-            return; // Skip if assessment type or region is not recognized
-        }
-
-        totalAssessments += 1;
-
-        // EPI Considerations
-        if (record.epi_considerations) {
-            considerations.epi_considerations![regionName]![
-                assessmentType as
-                    'SelfAssessment' |
-                    'Simulation' |
-                    'PostOperational' |
-                    'Operational'
-            ] += 1;
-            totalEpiConsiderations += 1;
-        }
-
-        // Climate Environmental Considerations
-        if (record.climate_environmental_considerations) {
-            const normalizedAssessmentType = assessmentTypeMapping[
-                record.type_of_assessment_name
-            ] as
-                'SelfAssessment' |
-                'Simulation' |
-                'PostOperational' |
-                'Operational';
-            considerations.climate_environmental_considerations![regionName]![
-                normalizedAssessmentType
-            ] += 1;
-            totalClimateConsiderations += 1;
-        }
-
-        // Urban Considerations
-        if (record.urban_considerations) {
-            const normalizedAssessmentType = assessmentTypeMapping[
-                record.type_of_assessment_name
-            ] as
-                'SelfAssessment' |
-                'Simulation' |
-                'PostOperational' |
-                'Operational';
-            considerations.urban_considerations![regionName]![
-                normalizedAssessmentType
-            ] += 1;
-            totalUrbanConsiderations += 1;
-        }
-
-        // Migration Considerations
-        if (record.migration_considerations) {
-            considerations.migration_considerations![regionName]![
-                assessmentType as
-                    'SelfAssessment' |
-                    'Simulation' |
-                    'PostOperational' |
-                    'Operational'
-            ] += 1;
-            totalMigrationConsiderations += 1;
-        }
-    });
-
-    // Convert the considerations data into arrays
-    const epiConsiderationsArray: ChartDataItem[] = regions.map(
-        (region) => considerations.epi_considerations![region]!,
-    );
-
-    const climateConsiderationsArray: ChartDataItem[] = regions.map(
-        (region) => considerations.climate_environmental_considerations![region]!,
-    );
-
-    const urbanConsiderationsArray: ChartDataItem[] = regions.map(
-        (region) => considerations.urban_considerations![region]!,
-    );
-
-    const migrationConsiderationsArray: ChartDataItem[] = regions.map(
-        (region) => considerations.migration_considerations![region]!,
-    );
-
-    // Calculate percentages
-    const epiPercentage = totalAssessments > 0
-        ? (totalEpiConsiderations / totalAssessments) * 100
-        : 0;
-
-    const climatePercentage = totalAssessments > 0
-        ? (totalClimateConsiderations / totalAssessments) * 100
-        : 0;
-
-    const urbanPercentage = totalAssessments > 0
-        ? (totalUrbanConsiderations / totalAssessments) * 100
-        : 0;
-
-    const migrationPercentage = totalAssessments > 0
-        ? (totalMigrationConsiderations / totalAssessments) * 100
-        : 0;
-
-    // Return the summarized data
-    return {
-        data: [
-            epiConsiderationsArray,
-            climateConsiderationsArray,
-            urbanConsiderationsArray,
-            migrationConsiderationsArray,
-        ],
-        totals: {
-            totalAssessments,
-            totalEpiConsiderations,
-            totalClimateConsiderations,
-            totalUrbanConsiderations,
-            totalMigrationConsiderations,
-        },
-        percentages: {
-            epiPercentage: Math.floor(epiPercentage),
-            climatePercentage: Math.floor(climatePercentage),
-            urbanPercentage: Math.floor(urbanPercentage),
-            migrationPercentage: Math.floor(migrationPercentage),
-        },
-    };
 }
 
-function getKPIData(
-    filters: Filters | null = null,
-): Array<{ key: string; value: number; color?: string; description: string }> {
-    // Apply all filters
-    const data = applyFilters(mapData, filters);
+export interface ComponentSummary {
+    id: string;
+    color: string;
+    name: string;
+    value?: number;
+    children?: ComponentSummary[];
+}
 
-    const totalEngaged = data.length;
+export type MapProcessRecord = ProcessRecord & {
+    color: string;
+};
+
+function groupByCountry(processes: ProcessRecord[]): Map<number, ProcessRecord[]> {
+    const result = new Map<number, ProcessRecord[]>();
+    processes.forEach((process) => {
+        if (process.countryId === null) {
+            return;
+        }
+        const countryProcesses = result.get(process.countryId) ?? [];
+        countryProcesses.push(process);
+        result.set(process.countryId, countryProcesses);
+    });
+    return result;
+}
+
+function latestProcess(processes: ProcessRecord[]): ProcessRecord | undefined {
+    return processes.reduce<ProcessRecord | undefined>(
+        (latest, process) => (
+            !latest || compareProcessRecency(process, latest) > 0 ? process : latest
+        ),
+        undefined,
+    );
+}
+
+function emptySummaryChartData(): SummaryChartDataItem[] {
+    return REGION_ORDER.map((region) => ({
+        name: region,
+        SelfAssessment: 0,
+        Simulation: 0,
+        PostOperational: 0,
+        Operational: 0,
+    }));
+}
+
+function countConsiderationByRegionAndType(
+    processes: ProcessRecord[],
+    field: 'epiConsiderations'
+        | 'climateEnvironmentalConsiderations'
+        | 'urbanConsiderations'
+        | 'migrationConsiderations',
+): {
+    chart: SummaryChartDataItem[];
+    count: number;
+} {
+    const chart = emptySummaryChartData();
+    const chartByRegion = new Map(chart.map((item) => [item.name, item]));
+    const processByCountry = groupByCountry(processes);
+    let count = 0;
+
+    processByCountry.forEach((countryProcesses) => {
+        const eligibleProcesses = countryProcesses.filter(
+            (process) => (process.phase ?? 0) >= 2 && process[field] === true,
+        );
+        const process = latestProcess(eligibleProcesses);
+        if (!process) {
+            return;
+        }
+
+        count += 1;
+        const type = assessmentTypeKey(process.typeOfAssessmentName);
+        const regionItem = process.regionName ? chartByRegion.get(process.regionName) : undefined;
+        if (type && regionItem) {
+            regionItem[type] += 1;
+        }
+    });
+
+    return { chart, count };
+}
+
+export function getKPIData(state: FilteredDashboardState): SummaryKpi[] {
+    const countryProcesses = groupByCountry(state.processes);
     let orientation = 0;
     let assessment = 0;
     let action = 0;
     let completed = 0;
 
-    data.forEach((record) => {
-        if (record.phase === 1) {
+    countryProcesses.forEach((processes) => {
+        if (!processes.some((process) => (process.phase ?? 0) >= 2)) {
             orientation += 1;
-        }
-        if (record.phase >= 2) {
+        } else {
             assessment += 1;
         }
-        if (record.phase === 5) {
+        if (processes.some((process) => (process.phase ?? 0) >= 5)) {
             action += 1;
         }
-        if (record.assessment_number >= 2) {
+        if (Math.max(...processes.map((process) => process.assessmentNumber)) >= 2) {
             completed += 1;
         }
     });
@@ -590,47 +145,238 @@ function getKPIData(
     return [
         {
             key: 'total-engaged',
-            value: totalEngaged,
+            value: state.countryIds.size,
             description: 'Total number of NS engaged in PER process',
         },
         {
             key: 'orientation',
             value: orientation,
-            color: '#00B2A2',
+            color: '#A4BEDE',
             description: 'Number of NS currently in initial Orientation phase',
         },
         {
             key: 'assessment',
             value: assessment,
-            color: '#DA283D',
+            color: '#009CDD',
             description: 'Number of NS who completed or are in assessment phase',
         },
         {
             key: 'action',
             value: action,
-            color: '#FF8654',
+            color: '#1B365D',
             description: 'Number of NS at Action & Accountability phase',
         },
         {
             key: 'completed',
             value: completed,
+            color: '#418FDE',
             description: 'Number of NS completed 2+ cycles of PER process',
         },
     ];
 }
 
-function getLastUpdateDate(): string {
-    return lastUpdateData?.lastUpdate ?? 'N/A';
+export function getFilteredMapData(state: FilteredDashboardState): MapProcessRecord[] {
+    return Array.from(state.latestProcessByCountry.values()).map((process) => ({
+        ...process,
+        color: getPhaseColor(process.phase),
+    }));
 }
 
-export {
-    getComponentSummaryForTreemap,
-    getFilteredMapData,
-    getKPIData,
-    getLastUpdateDate,
-    getPERConsiderations,
-    getRecordsByAssessmentType,
-    getRecordsByRegion,
-    getStackedBarDataByYearAndRegion,
-    initializeData,
-};
+export function getRecordsByRegion(
+    state: FilteredDashboardState,
+): Array<{ name: string; count: number }> {
+    const counts = new Map(REGION_ORDER.map((region) => [region, 0]));
+    state.latestProcessByCountry.forEach((process) => {
+        if (process.regionName && counts.has(process.regionName as typeof REGION_ORDER[number])) {
+            const region = process.regionName as typeof REGION_ORDER[number];
+            counts.set(region, counts.get(region)! + 1);
+        }
+    });
+    return REGION_ORDER.map((region) => ({
+        name: region,
+        count: counts.get(region) ?? 0,
+    }));
+}
+
+export function getRecordsByAssessmentType(
+    state: FilteredDashboardState,
+): Array<{ label: string; count: number }> {
+    const labels = [
+        'Self assessment',
+        'Simulation',
+        'Operational',
+        'Post operational',
+    ] as const;
+    const counts = new Map(labels.map((label) => [label, 0]));
+    state.processes.forEach((process) => {
+        const type = assessmentTypeKey(process.typeOfAssessmentName);
+        let label: typeof labels[number] | null = null;
+        if (type === 'SelfAssessment') {
+            label = 'Self assessment';
+        } else if (type === 'Simulation') {
+            label = 'Simulation';
+        } else if (type === 'Operational') {
+            label = 'Operational';
+        } else if (type === 'PostOperational') {
+            label = 'Post operational';
+        }
+        if (label && counts.has(label as typeof labels[number])) {
+            const typedLabel = label as typeof labels[number];
+            counts.set(typedLabel, counts.get(typedLabel)! + 1);
+        }
+    });
+    return labels.map((label) => ({
+        label,
+        count: counts.get(label) ?? 0,
+    }));
+}
+
+export function getStackedBarDataByYearAndRegion(
+    state: FilteredDashboardState,
+): Array<{ year: number; values: Record<string, number>; label: string }> {
+    const byYear = new Map<number, Map<string, number>>();
+    state.processes.forEach((process) => {
+        const year = getProcessYear(process);
+        if (year === null || process.regionName === null || process.countryId === null) {
+            return;
+        }
+        const regionCounts = byYear.get(year) ?? new Map(
+            REGION_ORDER.map((region) => [region, 0]),
+        );
+        const count = regionCounts.get(process.regionName);
+        if (count !== undefined) {
+            regionCounts.set(process.regionName, count + 1);
+        }
+        byYear.set(year, regionCounts);
+    });
+
+    return Array.from(byYear.entries())
+        .sort(([left], [right]) => left - right)
+        .map(([year, regionCounts]) => ({
+            year,
+            label: String(year),
+            values: Object.fromEntries(
+                REGION_ORDER.map((region) => [region, regionCounts.get(region) ?? 0]),
+            ),
+        }));
+}
+
+export function getComponentSummaryForTreemap(
+    state: FilteredDashboardState,
+): ComponentSummary {
+    const prioritizedByCountry = new Map<number, ProcessRecord>();
+    state.processes.forEach((process) => {
+        if (process.countryId === null || process.prioritizedComponents.length === 0) {
+            return;
+        }
+        const current = prioritizedByCountry.get(process.countryId);
+        if (!current || compareProcessRecency(process, current) > 0) {
+            prioritizedByCountry.set(process.countryId, process);
+        }
+    });
+
+    const componentCounts = new Map<string, {
+        areaName: string;
+        componentName: string;
+        count: number;
+        color: string;
+    }>();
+    prioritizedByCountry.forEach((process) => {
+        const seen = new Set<string>();
+        process.prioritizedComponents.forEach((component) => {
+            if (!component.componentTitle) {
+                return;
+            }
+            const key = component.componentId === null
+                ? component.componentTitle
+                : String(component.componentId);
+            if (seen.has(key)) {
+                return;
+            }
+            seen.add(key);
+            const areaName = component.areaTitle ?? 'Unknown';
+            const componentKey = `${areaName}:${key}`;
+            const current = componentCounts.get(componentKey);
+            if (current) {
+                current.count += 1;
+            } else {
+                componentCounts.set(componentKey, {
+                    areaName,
+                    componentName: component.componentTitle,
+                    count: 1,
+                    color: AREA_COLORS[areaName] ?? '#CCCCCC',
+                });
+            }
+        });
+    });
+
+    const areas = new Map<string, ComponentSummary>();
+    componentCounts.forEach((component) => {
+        const area = areas.get(component.areaName) ?? {
+            name: component.areaName,
+            id: component.areaName,
+            color: AREA_COLORS[component.areaName] ?? '#CCCCCC',
+            children: [],
+        };
+        area.children!.push({
+            name: component.componentName,
+            id: `${component.areaName}-${component.componentName}`,
+            value: component.count,
+            color: component.color,
+        });
+        areas.set(component.areaName, area);
+    });
+
+    const children = Array.from(areas.values())
+        .map((area) => ({
+            ...area,
+            children: area.children!.sort((left, right) => (right.value ?? 0) - (left.value ?? 0)),
+        }))
+        .sort((left, right) => (
+            (right.children?.reduce((sum, child) => sum + (child.value ?? 0), 0) ?? 0)
+            - (left.children?.reduce((sum, child) => sum + (child.value ?? 0), 0) ?? 0)
+        ));
+
+    return {
+        name: 'Root',
+        id: 'root',
+        color: '#CCCCCC',
+        children,
+    };
+}
+
+export function getPERConsiderations(
+    state: FilteredDashboardState,
+): SummaryConsiderationData {
+    const epi = countConsiderationByRegionAndType(state.processes, 'epiConsiderations');
+    const climate = countConsiderationByRegionAndType(
+        state.processes,
+        'climateEnvironmentalConsiderations',
+    );
+    const urban = countConsiderationByRegionAndType(state.processes, 'urbanConsiderations');
+    const migration = countConsiderationByRegionAndType(state.processes, 'migrationConsiderations');
+    const totalAssessments = Array.from(groupByCountry(state.processes).values())
+        .filter((processes) => processes.some((process) => (process.phase ?? 0) >= 2))
+        .length;
+
+    const percentage = (count: number) => (totalAssessments > 0
+        ? Math.floor((count / totalAssessments) * 100)
+        : 0);
+
+    return {
+        data: [epi.chart, climate.chart, urban.chart, migration.chart],
+        totals: {
+            totalAssessments,
+            totalEpiConsiderations: epi.count,
+            totalClimateConsiderations: climate.count,
+            totalUrbanConsiderations: urban.count,
+            totalMigrationConsiderations: migration.count,
+        },
+        percentages: {
+            epiPercentage: percentage(epi.count),
+            climatePercentage: percentage(climate.count),
+            urbanPercentage: percentage(urban.count),
+            migrationPercentage: percentage(migration.count),
+        },
+    };
+}
