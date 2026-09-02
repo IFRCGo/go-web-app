@@ -7,6 +7,8 @@
 
 .container {
   margin: 0 auto;
+  min-width: 0;
+  width: 100%;
 }
 
 .card {
@@ -49,6 +51,12 @@
   margin-top: var(--go-ui-spacing-2xs);
   color: var(--go-ui-color-gray-60);
   font-size: var(--go-ui-font-size-sm);
+}
+
+.componentResponseNumber {
+  color: var(--go-ui-color-black);
+  font-size: var(--go-ui-font-size-md);
+  font-weight: var(--go-ui-font-weight-medium);
 }
 
 .totalNumber {
