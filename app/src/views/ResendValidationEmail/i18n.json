@@ -3,7 +3,7 @@
     "strings": {
         "pageTitle": "IFRC GO - Resend Validation Email",
         "pageHeading": "Resend Validation Email",
-        "pageDescription": "Enter the email/username you used during registration",
+        "pageDescription": "Enter the email you used during registration",
         "emailInputLabel": "Email/Username",
         "submitButtonLabel": "Resend",
         "successfulMessageTitle": "Submitted successfully!",
