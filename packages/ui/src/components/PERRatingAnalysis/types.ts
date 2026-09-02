@@ -7,7 +7,7 @@ export type RatingStatus =
 
 export interface PERRatingData {
     name: string;
-    rating: RatingStatus;
+    rating: number;
     status: RatingStatus;
     change: number;
     changeDirection: 'up' | 'down';
@@ -22,11 +22,12 @@ export interface PERAreaData extends PERRatingData {
 export interface PERComponentData extends PERRatingData {
     type: 'component';
     id: number;
+    key: string;
 }
 
 export interface CycleRating {
     cycle: string;
-    rating: RatingStatus;
+    rating: number;
     color: string;
 }
 
@@ -41,7 +42,7 @@ export const COLORS = {
 
 export interface Props {
     overallRating: {
-        rating: RatingStatus;
+        rating: number;
         change: number;
         changeDirection: 'up' | 'down';
         status: RatingStatus;
