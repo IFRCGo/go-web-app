@@ -1,5 +1,5 @@
 import {
-    useEffect,
+    useMemo,
     useState,
 } from 'react';
 import {
@@ -17,142 +17,140 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
-import { mbtoken } from '#config';
+import {
+    api,
+    mbtoken,
+} from '#config';
 import { defaultMapStyle } from '#utils/map';
+import { resolveUrl } from '#utils/resolveUrl';
 
+import {
+    ASSESSMENT_TYPE_COLORS,
+    type DashboardFilterState,
+    EMPTY_FILTERS,
+    normalizeLastUpdate,
+    normalizeMapData,
+    PHASE_COLORS,
+    REGION_COLORS,
+    REGION_ORDER,
+    type RegionName,
+    selectFilteredDashboard,
+} from '../data';
+import {
+    getSnapshotUrl,
+    STATIC_REVIEW_MODE,
+    useJsonRequest,
+} from '../snapshot';
 import {
     getComponentSummaryForTreemap,
     getFilteredMapData,
     getKPIData,
-    getLastUpdateDate,
     getPERConsiderations,
     getRecordsByAssessmentType,
     getRecordsByRegion,
     getStackedBarDataByYearAndRegion,
-    initializeData,
 } from './dataHandler';
-import type {
-    AssessmentRecord,
-    MapAssessmentRecord,
-} from './types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const MAP_DATA_URL = 'https://raw.githubusercontent.com/IFRCGo/ifrc-per-data-fetcher/refs/heads/main/data/map-data.json';
 const LAST_UPDATE_DATA_URL = 'https://raw.githubusercontent.com/IFRCGo/ifrc-per-data-fetcher/refs/heads/main/data/last-update.json';
 
-const PHASE_COLORS = [
-    {
-        phase: 'Orientation',
-        label: 'Orientation',
-        phaseNumber: 1,
-        color: '#00B2A2',
-    },
-    {
-        phase: 'Assessment',
-        label: 'Assessment',
-        phaseNumber: 2,
-        color: '#DA283D',
-    },
-    {
-        phase: 'Prioritisation',
-        label: 'Prioritisation & analysis',
-        phaseNumber: 3,
-        color: '#3377EB',
-    },
-    {
-        phase: 'Workplan',
-        label: 'Workplan',
-        phaseNumber: 4,
-        color: '#8648B3',
-    },
-    {
-        phase: 'Action & accountability',
-        label: 'Action & accountability',
-        phaseNumber: 5,
-        color: '#FF8654',
-    },
-];
+type ActiveFilters = DashboardFilterState;
 
-interface ActiveFilters {
-    id: number | null;
-    region: string | null;
-    assessmentType: string | null;
-    year: number | null;
-    phase: number | null;
-    highPriorityComponent: string | null;
-    perConsiderations: string | null;
-    numberOfCycles: number | null;
-    completedAssessment: boolean | null;
-    highPriorityArea: string | null;
+const REGION_CATEGORIES = Object.entries(REGION_COLORS).map(([label, fillColor]) => ({
+    label,
+    fillColor,
+}));
+
+const REGION_LEGEND_CATEGORIES = Object.entries(REGION_COLORS).map(([label, color]) => ({
+    label,
+    color,
+}));
+
+const ASSESSMENT_TYPE_CATEGORIES = Object.entries(ASSESSMENT_TYPE_COLORS).map(([
+    label,
+    color,
+]) => ({
+    label,
+    color,
+}));
+
+function formatLastUpdate(value: string): string {
+    const dateValue = new Date(value);
+    return Number.isNaN(dateValue.getTime()) ? value : dateValue.toLocaleString();
+}
+
+function considerationKeyFromChartKey(key: string): ActiveFilters['consideration'] {
+    if (key === 'epi_considerations') return 'epi';
+    if (key === 'climate_environmental_considerations') return 'climate';
+    if (key === 'urban_considerations') return 'urban';
+    return 'migration';
+}
+
+function considerationChartKey(
+    consideration: ActiveFilters['consideration'],
+): string | undefined {
+    if (consideration === 'epi') return 'epi_considerations';
+    if (consideration === 'climate') return 'climate_environmental_considerations';
+    if (consideration === 'urban') return 'urban_considerations';
+    if (consideration === 'migration') return 'migration_considerations';
+    return undefined;
+}
+
+function isRegionName(value: string | null): value is RegionName {
+    return value !== null && REGION_ORDER.includes(value as RegionName);
 }
 
 function PERSummaryDashboard() {
     const strings = useTranslation(i18n);
-    const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
-        id: null,
-        region: null,
-        assessmentType: null,
-        year: null,
-        phase: null,
-        highPriorityComponent: null,
-        perConsiderations: null,
-        numberOfCycles: null,
-        completedAssessment: null,
-        highPriorityArea: null,
-    });
+    const [activeFilters, setActiveFilters] = useState<ActiveFilters>(() => ({ ...EMPTY_FILTERS }));
     const [activeTab, setActiveTab] = useState<number>(0);
     const [activePhase, setActivePhase] = useState<number | string | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [mapData, setMapData] = useState<AssessmentRecord[] | null>(null);
-    interface LastUpdateData {
-        lastUpdate: string;
-    }
-    const [lastUpdateData, setLastUpdateData] = useState<LastUpdateData | null>(null);
+    const mapDataUrl = STATIC_REVIEW_MODE
+        ? getSnapshotUrl('per-map-data.json')
+        : resolveUrl(api, 'api/v2/per-map-data');
+    const lastUpdateUrl = STATIC_REVIEW_MODE
+        ? getSnapshotUrl('snapshot.json')
+        : LAST_UPDATE_DATA_URL;
+    const {
+        pending: mapDataPending,
+        response: rawMapData,
+        error: mapDataError,
+    } = useJsonRequest<unknown>(mapDataUrl);
+    const {
+        pending: lastUpdatePending,
+        response: rawLastUpdate,
+        error: lastUpdateError,
+    } = useJsonRequest<unknown>(lastUpdateUrl);
 
-    useEffect(() => {
-        async function fetchData() {
-            setIsLoading(true);
-            setError(null);
-            try {
-                const [mapResponse, lastUpdateResponse] = await Promise.all([
-                    fetch(MAP_DATA_URL, {
-                        headers: {
-                            Accept: 'application/vnd.github.v3.raw',
-                        },
-                    }),
-                    fetch(LAST_UPDATE_DATA_URL, {
-                        headers: {
-                            Accept: 'application/vnd.github.v3.raw',
-                        },
-                    }),
-                ]);
+    const mapData = useMemo(() => normalizeMapData(rawMapData), [rawMapData]);
+    const filteredState = useMemo(
+        () => selectFilteredDashboard(mapData.processes, activeFilters),
+        [activeFilters, mapData.processes],
+    );
+    const lastUpdate = useMemo(() => normalizeLastUpdate(rawLastUpdate), [rawLastUpdate]);
+    const kpiData = useMemo(() => getKPIData(filteredState), [filteredState]);
+    const filteredMapData = useMemo(() => getFilteredMapData(filteredState), [filteredState]);
+    const regionData = useMemo(() => getRecordsByRegion(filteredState), [filteredState]);
+    const assessmentTypeData = useMemo(
+        () => getRecordsByAssessmentType(filteredState),
+        [filteredState],
+    );
+    const yearRegionData = useMemo(
+        () => getStackedBarDataByYearAndRegion(filteredState),
+        [filteredState],
+    );
+    const componentSummary = useMemo(
+        () => getComponentSummaryForTreemap(filteredState),
+        [filteredState],
+    );
+    const considerationData = useMemo(
+        () => getPERConsiderations(filteredState),
+        [filteredState],
+    );
 
-                if (!mapResponse.ok || !lastUpdateResponse.ok) {
-                    throw new Error('Failed to fetch data');
-                }
-
-                const [mapDataResponse, lastUpdateDataResponse] = await Promise.all([
-                    mapResponse.json(),
-                    lastUpdateResponse.json(),
-                ]);
-
-                setMapData(mapDataResponse);
-                setLastUpdateData(lastUpdateDataResponse);
-                initializeData(mapDataResponse, lastUpdateDataResponse);
-            } catch {
-                setError('Failed to load dashboard data');
-            } finally {
-                setIsLoading(false);
-            }
-        }
-
-        fetchData();
-    }, []);
-
-    if (isLoading) {
+    if (mapDataPending || (STATIC_REVIEW_MODE && lastUpdatePending)) {
         return (
             <Container
                 className={styles.perSummaryDashboard}
@@ -163,22 +161,21 @@ function PERSummaryDashboard() {
         );
     }
 
-    if (error) {
+    if (mapDataError || (STATIC_REVIEW_MODE && lastUpdateError)) {
         return (
             <Container
                 className={styles.perSummaryDashboard}
                 aria-label={strings.summaryContainerAriaLabel}
             >
-                {error}
+                Failed to load dashboard data
             </Container>
         );
     }
 
-    if (!mapData || !lastUpdateData) {
-        return null;
-    }
-
-    const updateFilter = (key: keyof ActiveFilters, value: ActiveFilters[keyof ActiveFilters]) => {
+    const updateFilter = <KEY extends keyof ActiveFilters>(
+        key: KEY,
+        value: ActiveFilters[KEY],
+    ) => {
         setActiveFilters((prev) => ({
             ...prev,
             [key]: prev[key] === value ? null : value,
@@ -188,42 +185,54 @@ function PERSummaryDashboard() {
     const handleRegionStackedClick = (item: { label: string; year?: string | number | null }) => {
         if (item.year !== undefined && item.year !== null) {
             updateFilter('year', Number(item.year));
-        } else if (item.label) {
+        } else if (isRegionName(item.label)) {
             updateFilter('region', item.label);
         }
     };
 
     const handleTabClick = (key: string): void => {
-        if (key === 'total-engaged') {
-            updateFilter('phase', null);
-            updateFilter('numberOfCycles', null);
-            updateFilter('completedAssessment', null);
-            setActivePhase(null);
-        }
+        setActiveFilters((prev) => {
+            if (key === 'orientation') {
+                return {
+                    ...prev,
+                    phaseCohort: prev.phaseCohort === 'orientation' ? null : 'orientation',
+                    minimumCycles: null,
+                };
+            }
+            if (key === 'assessment') {
+                return {
+                    ...prev,
+                    phaseCohort: prev.phaseCohort === 'assessment' ? null : 'assessment',
+                    minimumCycles: null,
+                };
+            }
+            if (key === 'action') {
+                return {
+                    ...prev,
+                    phaseCohort: prev.phaseCohort === 'action' ? null : 'action',
+                    minimumCycles: null,
+                };
+            }
+            if (key === 'completed') {
+                return {
+                    ...prev,
+                    phaseCohort: null,
+                    minimumCycles: prev.minimumCycles === 2 ? null : 2,
+                };
+            }
+            return {
+                ...prev,
+                phaseCohort: null,
+                minimumCycles: null,
+            };
+        });
+        let phaseLabel: string | null = null;
         if (key === 'orientation') {
-            updateFilter('phase', 1);
-            updateFilter('numberOfCycles', null);
-            updateFilter('completedAssessment', null);
-            setActivePhase('Orientation');
+            phaseLabel = 'Orientation';
+        } else if (key === 'action') {
+            phaseLabel = 'Action & accountability';
         }
-        if (key === 'assessment') {
-            updateFilter('phase', null);
-            updateFilter('numberOfCycles', null);
-            updateFilter('completedAssessment', true);
-            setActivePhase(null);
-        }
-        if (key === 'action') {
-            setActivePhase('Action & accountability');
-            updateFilter('completedAssessment', null);
-            updateFilter('phase', 5);
-            updateFilter('numberOfCycles', null);
-        }
-        if (key === 'completed') {
-            updateFilter('completedAssessment', null);
-            updateFilter('phase', null);
-            updateFilter('numberOfCycles', 2);
-            setActivePhase(null);
-        }
+        setActivePhase(phaseLabel);
     };
 
     const handleAssessmentTypeClick = (item: { label: string }) => {
@@ -235,65 +244,40 @@ function PERSummaryDashboard() {
         component: string | null;
     }) => {
         if (component) {
-            updateFilter('highPriorityArea', component.area);
             updateFilter('highPriorityComponent', component.component);
         }
     };
 
     const handlePhaseClick = (item: { label: string; color: string; phaseNumber: number }) => {
-        if (activeTab !== 4) {
-            updateFilter('numberOfCycles', null);
-            updateFilter('completedAssessment', null);
-            setActiveTab(0);
-            setActivePhase(null);
-        }
-
-        if (item.label === 'assessment') {
-            updateFilter('numberOfCycles', null);
-            updateFilter('completedAssessment', null);
-            setActiveTab(1);
-        }
-
-        if (item.label === 'Action & accountability') {
-            updateFilter('numberOfCycles', null);
-            updateFilter('completedAssessment', null);
-        }
-
-        updateFilter('phase', item.phaseNumber);
-
-        if (!activeFilters.phase) {
-            setActivePhase(item.label);
+        let phaseCohort: 'orientation' | 'assessment' | 'action';
+        if (item.phaseNumber === 1) {
+            phaseCohort = 'orientation';
+        } else if (item.phaseNumber === 5) {
+            phaseCohort = 'action';
         } else {
-            setActivePhase(null);
+            phaseCohort = 'assessment';
         }
+        setActiveFilters((prev) => ({
+            ...prev,
+            phaseCohort: prev.phaseCohort === phaseCohort ? null : phaseCohort,
+            minimumCycles: null,
+        }));
+        if (phaseCohort === 'orientation') {
+            setActiveTab(1);
+        } else if (phaseCohort === 'assessment') {
+            setActiveTab(2);
+        } else {
+            setActiveTab(3);
+        }
+        setActivePhase(activePhase === item.label ? null : item.label);
     };
-
-    const regionColors = {
-        Africa: '#1B365D',
-        Americas: '#236192',
-        'Asia Pacific': '#418FDE',
-        Europe: '#009CDD',
-        MENA: '#C6C6C6',
-    };
-
-    const regionCategories = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'].map((region) => ({
-        label: region,
-        fillColor: regionColors[region as keyof typeof regionColors],
-    }));
-
-    const regionLegendCategories = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'].map(
-        (region) => ({
-            label: region,
-            color: regionColors[region as keyof typeof regionColors],
-        }),
-    );
 
     return (
         <>
             <div className={styles.lastUpdate}>
                 {strings.summaryLastUpdate}
                 {' '}
-                {new Date(getLastUpdateDate()).toLocaleString()}
+                {formatLastUpdate(lastUpdate)}
             </div>
             {/* <PERExportButton /> */}
             <div className={styles.headerDescription}>
@@ -301,7 +285,7 @@ function PERSummaryDashboard() {
             </div>
             <div className={styles.content}>
                 <PERKPITabs
-                    kpis={getKPIData(activeFilters)}
+                    kpis={kpiData}
                     activeIndex={activeTab}
                     onActiveIndexChange={(index) => {
                         const keys = ['total-engaged', 'orientation', 'assessment', 'action', 'completed'];
@@ -313,8 +297,12 @@ function PERSummaryDashboard() {
 
                 <PERRegionToggle
                     activeRegion={activeFilters?.region}
-                    onRegionClick={(region) => updateFilter('region', region)}
-                    regions={getRecordsByRegion(activeFilters)}
+                    onRegionClick={(region) => {
+                        if (region === null || isRegionName(region)) {
+                            updateFilter('region', region);
+                        }
+                    }}
+                    regions={regionData}
                     precision={0}
                     showCount
                 />
@@ -324,36 +312,29 @@ function PERSummaryDashboard() {
                     headerDescription={strings.mapDescription}
                     className={styles.container}
                     withHeaderBorder
-                    headerActions={(
-                        activeFilters?.phase !== null
-                || activeFilters?.id !== null
-                || activeFilters?.region !== null
-                || activeFilters?.numberOfCycles !== null
-                || activeFilters?.completedAssessment !== null
-                            ? (
-                                <Button
-                                    name={undefined}
-                                    onClick={() => {
-                                        updateFilter('phase', null);
-                                        updateFilter('id', null);
-                                        updateFilter('region', null);
-                                        updateFilter('completedAssessment', null);
-                                        updateFilter('numberOfCycles', null);
-                                        setActiveTab(0);
-                                        setActivePhase(null);
-                                    }}
-                                    aria-label={strings.summaryResetFilterAriaLabel}
-                                >
-                                    {strings.summaryResetFilter}
-                                </Button>
-                            ) : null
-                    )}
+                    headerActions={Object.values(activeFilters).some((value) => value !== null) ? (
+                        <Button
+                            name={undefined}
+                            onClick={() => {
+                                setActiveFilters({ ...EMPTY_FILTERS });
+                                setActiveTab(0);
+                                setActivePhase(null);
+                            }}
+                            aria-label={strings.summaryResetFilterAriaLabel}
+                        >
+                            {strings.summaryResetFilter}
+                        </Button>
+                    ) : null}
                 >
                     <div style={{ height: '470px' }}>
                         <PERMap
-                            data={getFilteredMapData(activeFilters) as MapAssessmentRecord[]}
-                            onClick={(record) => updateFilter('id', record.id)}
-                            valueField="assessment_number"
+                            data={filteredMapData}
+                            onClick={(record) => {
+                                if (record.countryId !== null) {
+                                    updateFilter('countryId', record.countryId);
+                                }
+                            }}
+                            valueField="assessmentNumber"
                             tooltipTrigger="click"
                             enableClickToFilter
                             accessToken={mbtoken}
@@ -395,21 +376,16 @@ function PERSummaryDashboard() {
                         )}
                     >
                         <PERDonutChart
-                            data={getRecordsByAssessmentType(activeFilters)}
+                            data={assessmentTypeData}
                             height={210}
                             width={400}
                             cutout="70%"
                             tooltipEnabled
                             onClick={handleAssessmentTypeClick}
-                            colors={['#236192', '#418FDE', '#009CDD', '#C6C6C6']}
+                            colors={Object.values(ASSESSMENT_TYPE_COLORS)}
                         />
                         <PERChartLegend
-                            data={[
-                                { label: 'Self assessment', color: '#236192' },
-                                { label: 'Simulation', color: '#418FDE' },
-                                { label: 'Operational', color: '#009CDD' },
-                                { label: 'Post operational', color: '#C6C6C6' },
-                            ]}
+                            data={ASSESSMENT_TYPE_CATEGORIES}
                             onClick={handleAssessmentTypeClick}
                             activeIndex={activeFilters?.assessmentType}
                             layout="horizontal"
@@ -439,15 +415,15 @@ function PERSummaryDashboard() {
                         )}
                     >
                         <PERStackedBarChart
-                            data={getStackedBarDataByYearAndRegion(activeFilters)}
+                            data={yearRegionData}
                             onClick={handleRegionStackedClick}
-                            categories={regionCategories}
+                            categories={REGION_CATEGORIES}
                             height={250}
                             tooltipEnabled
                             showDataLabels={false}
                         />
                         <PERChartLegend
-                            data={regionLegendCategories}
+                            data={REGION_LEGEND_CATEGORIES}
                             onClick={handleRegionStackedClick}
                             activeIndex={activeFilters?.region}
                             layout="horizontal"
@@ -467,10 +443,7 @@ function PERSummaryDashboard() {
                         headerActions={activeFilters?.highPriorityComponent !== null && (
                             <Button
                                 name={undefined}
-                                onClick={() => {
-                                    updateFilter('highPriorityComponent', null);
-                                    updateFilter('highPriorityArea', null);
-                                }}
+                                onClick={() => updateFilter('highPriorityComponent', null)}
                                 aria-label={strings.summaryResetFilterAriaLabel}
                             >
                                 {strings.summaryResetFilter}
@@ -478,7 +451,7 @@ function PERSummaryDashboard() {
                         )}
                     >
                         <PERTreemapChart
-                            d={getComponentSummaryForTreemap(activeFilters)}
+                            d={componentSummary}
                             activeIndex={activeFilters?.highPriorityComponent}
                             onClick={handleHighPriorityComponentClick}
                         />
@@ -492,13 +465,13 @@ function PERSummaryDashboard() {
                     }
                     withHeaderBorder
                     headerActions={(
-                        activeFilters?.perConsiderations !== null
-                        || activeFilters?.assessmentType !== null
+                        activeFilters.consideration !== null
+                        || activeFilters.assessmentType !== null
                     ) && (
                         <Button
                             name={undefined}
                             onClick={() => {
-                                updateFilter('perConsiderations', null);
+                                updateFilter('consideration', null);
                                 updateFilter('assessmentType', null);
                             }}
                             aria-label={strings.summaryResetFilterAriaLabel}
@@ -508,11 +481,14 @@ function PERSummaryDashboard() {
                     )}
                 >
                     <PERConsiderations
-                        data={getPERConsiderations(activeFilters)}
+                        data={considerationData}
                         onClickAssessmentType={handleAssessmentTypeClick}
-                        onClickPER={(index) => updateFilter('perConsiderations', index)}
+                        onClickPER={(key) => updateFilter(
+                            'consideration',
+                            considerationKeyFromChartKey(key),
+                        )}
                         activeIndex={activeFilters?.assessmentType}
-                        activePERFilter={activeFilters?.perConsiderations ?? undefined}
+                        activePERFilter={considerationChartKey(activeFilters.consideration)}
                     />
                 </Container>
             </div>
