@@ -110,6 +110,8 @@
     width: calc(100% - 24px);
     color: #F5333F;
     font-size: 10px;
+    line-height: 1.2;
+    min-height: 20px;
     font-weight: 500;
 }
 
