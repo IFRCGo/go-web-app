@@ -107,7 +107,7 @@ function PERTreemapChart({
     const strings = useTranslation(i18n);
     const svgRef = useRef<SVGSVGElement>(null);
     const isAnimatingRef = useRef(false);
-    const tooltipTimeoutRef = useRef<number>();
+    const tooltipTimeoutRef = useRef<number | undefined>(undefined);
     const [data, setData] = useState<TreemapNode>();
 
     // Configuration constants
