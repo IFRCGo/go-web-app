@@ -10,24 +10,26 @@ import useTranslation from '#hooks/useTranslation';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface AssessmentRecord {
-    id: number;
-    assessment_number: number;
-    type_of_assessment: string;
-    country_id: number;
-    country_name: string;
-    country_iso3: string;
-    assessment_date: string;
-    created_at: string;
-    updated_at: string;
-    lat: number;
-    lon: number;
+export interface AssessmentRecord {
+    processId: number;
+    assessmentNumber: number;
+    typeOfAssessmentName: string | null;
+    countryId: number | null;
+    countryName: string | null;
+    countryIso3: string | null;
+    dateOfAssessment: string | null;
+    createdAt: string | null;
+    updatedAt: string | null;
+    longitude: number | null;
+    latitude: number | null;
+    phaseDisplay: string | null;
+    color: string;
+}
+
+type PositionedAssessmentRecord = AssessmentRecord & {
     longitude: number;
     latitude: number;
-    phase_display: string;
-    color: string;
-    date_of_assessment: string;
-}
+};
 
 export interface Props {
     accessToken?: string;
@@ -48,7 +50,7 @@ export interface Props {
 function PERMap({
     accessToken = '',
     data = [],
-    valueField = 'assessment_number',
+    valueField = 'assessmentNumber',
     mapboxStyle = 'mapbox://styles/mapbox/light-v11',
     center = [0, 18],
     zoom = 1,
@@ -70,18 +72,12 @@ function PERMap({
     } | null>(null);
     const [error, setError] = React.useState<string | null>(null);
 
-    React.useEffect(() => {
-        const handleFilter = (event: CustomEvent<AssessmentRecord>) => {
-            if (onClick) {
-                onClick(event.detail);
-            }
-        };
-
-        window.addEventListener('mapFilter', handleFilter as EventListener);
-        return () => {
-            window.removeEventListener('mapFilter', handleFilter as EventListener);
-        };
-    }, [onClick]);
+    const hideTooltip = () => {
+        if (tooltipRef.current) {
+            tooltipRef.current.remove();
+            tooltipRef.current = null;
+        }
+    };
 
     const calculateRadius = (value: number, minValue: number, maxValue: number) => {
         const adjustedMaxValue = minValue === maxValue ? maxValue + 1 : maxValue;
@@ -106,9 +102,11 @@ function PERMap({
             return;
         }
 
-        // Remove any existing tooltips
-        const existingTooltips = document.querySelectorAll('.mapboxgl-popup');
-        existingTooltips.forEach((tooltip) => tooltip.remove());
+        if (d.longitude === null || d.latitude === null) {
+            return;
+        }
+
+        hideTooltip();
 
         const tooltip = new mapboxgl.Popup({
             closeButton: false,
@@ -117,66 +115,69 @@ function PERMap({
             className: styles.customTooltip,
         });
 
+        const root = document.createElement('div');
+        root.className = styles.tooltip;
+        const title = document.createElement('div');
+        title.className = styles.tooltipTitle;
+        title.textContent = d.countryName ?? strings.perMapUnknownCountryLabel;
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = styles.closeButton;
+        closeButton.setAttribute('aria-label', strings.perMapTooltipCloseLabel);
+        closeButton.textContent = '×';
+        closeButton.addEventListener('click', hideTooltip);
+        title.append(closeButton);
+        root.append(title);
+
+        const grid = document.createElement('div');
+        grid.className = styles.tooltipGrid;
+        const addValue = (
+            label: string,
+            value: string,
+            className = styles.tooltipValue,
+            backgroundColor?: string,
+        ) => {
+            const labelNode = document.createElement('div');
+            labelNode.className = styles.tooltipLabel;
+            labelNode.textContent = label;
+            const valueNode = document.createElement('div');
+            valueNode.className = className;
+            valueNode.textContent = value;
+            if (backgroundColor) {
+                valueNode.style.backgroundColor = backgroundColor;
+            }
+            grid.append(labelNode, valueNode);
+        };
+        addValue(
+            strings.perMapCurrentPhaseLabel,
+            d.phaseDisplay ?? 'N/A',
+            styles.tooltipPhase,
+            d.color,
+        );
+        const date = d.dateOfAssessment ? new Date(d.dateOfAssessment) : null;
+        const year = date && !Number.isNaN(date.getTime()) ? String(date.getUTCFullYear()) : 'N/A';
+        addValue(strings.perMapCycleYearLabel, year);
+        addValue(strings.perMapCycleIterationLabel, String(d[valueField] ?? 0));
+        root.append(grid);
+
+        if (enableClickToFilter) {
+            const footer = document.createElement('div');
+            footer.className = styles.tooltipFooter;
+            const filterButton = document.createElement('button');
+            filterButton.type = 'button';
+            filterButton.className = styles.filterButton;
+            filterButton.setAttribute('aria-label', strings.perMapFilterButtonLabel);
+            filterButton.textContent = strings.perMapFilterLabel;
+            filterButton.addEventListener('click', () => onClick?.(d));
+            footer.append(filterButton);
+            root.append(footer);
+        }
+
         tooltip.setLngLat([d.longitude, d.latitude])
-            .setHTML(`
-                <div class="${styles.tooltip}">
-                    <div class="${styles.tooltipTitle}">
-                        ${d.country_name || strings.perMapUnknownCountryLabel}
-                        <button 
-                            class="${styles.closeButton}" 
-                            onclick="this.closest('.mapboxgl-popup').remove()"
-                            aria-label="${strings.perMapTooltipCloseLabel}"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em">
-                                <path fill-rule="evenodd" d="m13.057 11.996 4.716-4.716a.75.75 0 1 0-1.06-1.06l-4.717 4.716L7.28 6.22a.75.75 0 1 0-1.06 1.06l4.716 4.716-4.716 4.716a.75.75 0 1 0 1.06 1.06l4.716-4.715 4.716 4.716a.748.748 0 0 0 1.061 0 .75.75 0 0 0 0-1.061l-4.716-4.716Z" clip-rule="evenodd"></path>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="${styles.tooltipGrid}">
-                        <div class="${styles.tooltipLabel}">${strings.perMapCurrentPhaseLabel}</div>
-                        <div class="${styles.tooltipPhase}" style="background-color: ${d.color}">${d.phase_display}</div>
-
-                        <div class="${styles.tooltipLabel}">${strings.perMapCycleYearLabel}</div>
-                        <div class="${styles.tooltipValue}">${new Date(d.date_of_assessment).getFullYear()}</div>
-
-                        <div class="${styles.tooltipLabel}">${strings.perMapCycleIterationLabel}</div>
-                        <div class="${styles.tooltipValue}">${d[valueField as keyof AssessmentRecord] || 0}</div>
-                    </div>
-                    ${enableClickToFilter ? `
-                        <div class="${styles.tooltipFooter}">
-                            <button
-                                class="${styles.filterButton} js-map-filter"
-                                data-record='${JSON.stringify(d)}'
-                                aria-label="${strings.perMapFilterButtonLabel}"
-                            >
-                                ${strings.perMapFilterLabel}
-                            </button>
-                        </div>
-                    ` : ''}
-                </div>
-            `)
+            .setDOMContent(root)
             .addTo(map.current);
 
         tooltipRef.current = tooltip;
-
-        // Add click handler for filter button
-        const filterButton = tooltip.getElement().querySelector('.js-map-filter');
-        if (filterButton) {
-            filterButton.addEventListener('click', () => {
-                const recordData = filterButton.getAttribute('data-record');
-                if (recordData) {
-                    const record = JSON.parse(recordData);
-                    window.dispatchEvent(new CustomEvent('mapFilter', { detail: record }));
-                }
-            });
-        }
-    };
-
-    const hideTooltip = () => {
-        if (tooltipRef.current) {
-            tooltipRef.current.remove();
-            tooltipRef.current = null;
-        }
     };
 
     const initializeD3Overlay = () => {
@@ -213,7 +214,17 @@ function PERMap({
             return;
         }
 
-        const values = data.map((d: AssessmentRecord) => {
+        const records = data.filter(
+            (record): record is PositionedAssessmentRecord => (
+                record.longitude !== null && record.latitude !== null
+            ),
+        );
+        if (records.length === 0) {
+            bubbleContainer.current.main.selectAll('circle').remove();
+            bubbleContainer.current.hover.selectAll('circle').remove();
+            return;
+        }
+        const values = records.map((d: PositionedAssessmentRecord) => {
             if (typeof d[valueField] === 'number') {
                 return d[valueField];
             }
@@ -224,8 +235,8 @@ function PERMap({
 
         // Explicitly type the selection
         const circles = bubbleContainer.current.main
-            .selectAll<SVGCircleElement, AssessmentRecord>('circle')
-            .data(data, (d) => d.id);
+            .selectAll<SVGCircleElement, PositionedAssessmentRecord>('circle')
+            .data(records, (d) => d.processId);
 
         // Remove old circles
         circles.exit()
@@ -244,19 +255,19 @@ function PERMap({
             .style('stroke-opacity', 0.33)
             .style('cursor', 'pointer')
             .style('pointer-events', 'all')
-            .style('stroke-width', (d: AssessmentRecord) => calculateStrokeWidth(Number(d[valueField]) || 0, minValue, maxValue));
+            .style('stroke-width', (d: PositionedAssessmentRecord) => calculateStrokeWidth(Number(d[valueField]) || 0, minValue, maxValue));
 
         // Update all circles with proper typing
         circles
             .merge(circlesEnter)
-            .style('fill', (d: AssessmentRecord) => d.color || '#007CE0')
-            .style('stroke', (d: AssessmentRecord) => d.color || '#007CE0')
-            .attr('cx', (d: AssessmentRecord) => {
+            .style('fill', (d: PositionedAssessmentRecord) => d.color || '#007CE0')
+            .style('stroke', (d: PositionedAssessmentRecord) => d.color || '#007CE0')
+            .attr('cx', (d: PositionedAssessmentRecord) => {
                 if (!map.current) return 0;
                 const point = map.current.project([d.longitude, d.latitude]);
                 return point.x;
             })
-            .attr('cy', (d: AssessmentRecord) => {
+            .attr('cy', (d: PositionedAssessmentRecord) => {
                 if (!map.current) return 0;
                 const point = map.current.project([d.longitude, d.latitude]);
                 return point.y;
@@ -264,13 +275,13 @@ function PERMap({
             .transition()
             .duration(500)
             .style('opacity', 1)
-            .attr('r', (d: AssessmentRecord) => calculateRadius(Number(d[valueField]) || 0, minValue, maxValue))
-            .style('stroke-width', (d: AssessmentRecord) => calculateStrokeWidth(Number(d[valueField]) || 0, minValue, maxValue));
+            .attr('r', (d: PositionedAssessmentRecord) => calculateRadius(Number(d[valueField]) || 0, minValue, maxValue))
+            .style('stroke-width', (d: PositionedAssessmentRecord) => calculateStrokeWidth(Number(d[valueField]) || 0, minValue, maxValue));
 
         // Add hover circles
         const hoverCircles = bubbleContainer.current.hover
-            .selectAll<SVGCircleElement, AssessmentRecord>('circle')
-            .data(data, (d) => d.id.toString());
+            .selectAll<SVGCircleElement, PositionedAssessmentRecord>('circle')
+            .data(records, (d) => String(d.processId));
 
         hoverCircles.exit().remove();
 
@@ -283,36 +294,31 @@ function PERMap({
             .style('opacity', 0)
             .attr('r', 0);
 
-        const mergedHoverCircles = hoverCircles.merge(hoverCirclesEnter as d3.Selection<
-            SVGCircleElement,
-            AssessmentRecord,
-            SVGGElement,
-            unknown
-        >);
+        const mergedHoverCircles = hoverCircles.merge(hoverCirclesEnter);
 
         mergedHoverCircles
-            .attr('cx', (d: AssessmentRecord) => {
+            .attr('cx', (d: PositionedAssessmentRecord) => {
                 if (!map.current) return 0;
                 const point = map.current.project([d.longitude, d.latitude]);
                 return point.x;
             })
-            .attr('cy', (d: AssessmentRecord) => {
+            .attr('cy', (d: PositionedAssessmentRecord) => {
                 if (!map.current) return 0;
                 const point = map.current.project([d.longitude, d.latitude]);
                 return point.y;
             })
-            .attr('r', (d: AssessmentRecord) => calculateRadius(Number(d[valueField]) || 0, minValue, maxValue) + 2);
+            .attr('r', (d: PositionedAssessmentRecord) => calculateRadius(Number(d[valueField]) || 0, minValue, maxValue) + 2);
 
         // Handle click/hover events
         const handleTooltipTrigger = function handleTooltipTrigger(
             this: SVGCircleElement,
             event: MouseEvent,
-            d: AssessmentRecord,
+            d: PositionedAssessmentRecord,
         ) {
             if (event) showTooltip(d);
             const hoverCircle = bubbleContainer.current?.hover
-                .selectAll<SVGCircleElement, AssessmentRecord>('circle')
-                .filter((hd) => hd.id === d.id);
+                .selectAll<SVGCircleElement, PositionedAssessmentRecord>('circle')
+                .filter((hd) => hd.processId === d.processId);
 
             hoverCircle?.transition()
                 .duration(200)
@@ -331,14 +337,14 @@ function PERMap({
                 tooltipTrigger,
                 handleTooltipTrigger,
             )
-            .on('mouseleave', function handleMouseLeave(this: SVGCircleElement, event: MouseEvent, d: AssessmentRecord) {
+                .on('mouseleave', function handleMouseLeave(this: SVGCircleElement, event: MouseEvent, d: PositionedAssessmentRecord) {
                 if (event && tooltipTrigger === 'hover') {
                     hideTooltip();
                 }
 
-                const hoverCircle = bubbleContainer.current?.hover
-                    .selectAll<SVGCircleElement, AssessmentRecord>('circle')
-                    .filter((hd) => hd.id === d.id);
+                    const hoverCircle = bubbleContainer.current?.hover
+                    .selectAll<SVGCircleElement, PositionedAssessmentRecord>('circle')
+                    .filter((hd) => hd.processId === d.processId);
 
                 hoverCircle?.transition()
                     .duration(200)
