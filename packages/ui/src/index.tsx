@@ -213,6 +213,12 @@ export type {
 } from '#components/types';
 
 // PER Components
+export {
+    PER_ASSESSMENT_COLORS,
+    PER_ASSESSMENT_TYPE_COLORS,
+    PER_CONSIDERATION_GAUGE_COLOR,
+    PER_INACTIVE_COLOR,
+} from './components/PERAssessmentPalette';
 export type { Props as PERAnalysisProps } from './components/PERAnalysis';
 export { default as PERAnalysis } from './components/PERAnalysis';
 export type { Props as PERChartLegendProps } from './components/PERChartLegend';
