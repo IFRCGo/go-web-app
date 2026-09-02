@@ -2,6 +2,7 @@
     "namespace": "common",
     "strings": {
         "analysisAssessmentCountLabel": "Number of PER assessments / process cycle iterations",
+        "analysisComponentResponseCountLabel": "Assessments with component responses",
         "analysisContainerLabel": "PER analysis chart and summary",
         "analysisCycleCardLabel": "PER cycle {cycle} details",
         "analysisChartLabel": "PER analysis chart showing completed cycles and average ratings",
