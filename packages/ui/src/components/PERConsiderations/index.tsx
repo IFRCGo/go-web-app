@@ -5,6 +5,11 @@ import useTranslation from '#hooks/useTranslation';
 import PERChartLegend from '../PERChartLegend';
 import PERGaugeChart from '../PERGaugeChart';
 import PERStackedHorizontalBarChart from '../PERStackedHorizontalBarChart';
+import {
+    PER_ASSESSMENT_COLORS,
+    PER_CONSIDERATION_GAUGE_COLOR,
+    PER_INACTIVE_COLOR,
+} from '../PERAssessmentPalette';
 import environmentIcon from './assets/environment.png';
 import epidemicIcon from './assets/epidemic.png';
 import migrationIcon from './assets/migration.png';
@@ -12,14 +17,6 @@ import urbanIcon from './assets/urban.png';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-// Assessment type colors
-const ASSESSMENT_COLORS = {
-    selfAssessment: '#236192',
-    simulation: '#418FDE',
-    operational: '#009CDD',
-    postOperational: '#C6C6C6',
-} as const;
 
 // Assessment type options with labels and colors
 // const ASSESSMENT_TYPE_OPTIONS = [
@@ -92,19 +89,19 @@ function PERConsiderations({
     const ASSESSMENT_TYPE_OPTIONS = [
         {
             label: strings?.considerationSelfAssessmentLabel ?? 'Self assessment',
-            color: ASSESSMENT_COLORS.selfAssessment,
+            color: PER_ASSESSMENT_COLORS.selfAssessment,
         },
         {
             label: strings?.considerationSimulationLabel ?? 'Simulation',
-            color: ASSESSMENT_COLORS.simulation,
+            color: PER_ASSESSMENT_COLORS.simulation,
         },
         {
             label: strings?.considerationOperationalLabel ?? 'Operational',
-            color: ASSESSMENT_COLORS.operational,
+            color: PER_ASSESSMENT_COLORS.operational,
         },
         {
             label: strings?.considerationPostOperationalLabel ?? 'Post operational',
-            color: ASSESSMENT_COLORS.postOperational,
+            color: PER_ASSESSMENT_COLORS.postOperational,
         },
     ];
 
@@ -125,6 +122,13 @@ function PERConsiderations({
         data.percentages.climatePercentage,
         data.percentages.urbanPercentage,
         data.percentages.migrationPercentage,
+    ];
+
+    const countArray = [
+        data.totals.totalEpiConsiderations,
+        data.totals.totalClimateConsiderations,
+        data.totals.totalUrbanConsiderations,
+        data.totals.totalMigrationConsiderations,
     ];
 
     const globalMaxValue = calculateGlobalMaxValue(data.data);
@@ -173,9 +177,12 @@ function PERConsiderations({
                             <PERGaugeChart
                                 title={strings?.considerationTitleTemplate?.replace('{type}', labels[index]) ?? `PER ${labels[index]} Considerations`}
                                 percentage={percentageArray[index]}
+                                count={countArray[index]}
                                 icon={icons[index]}
                                 label={labels[index]}
-                                gaugeColor={isInactive ? '#C6C6C6' : '#236192'}
+                                gaugeColor={isInactive
+                                    ? PER_INACTIVE_COLOR
+                                    : PER_CONSIDERATION_GAUGE_COLOR}
                                 backgroundColor="#F2F2F2"
                                 transitionSpeed={750}
                                 onClick={() => onClickPER(currentKey)}
