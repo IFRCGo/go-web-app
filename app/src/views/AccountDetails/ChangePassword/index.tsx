@@ -1,5 +1,6 @@
 import {
     useCallback,
+    useContext,
     useMemo,
 } from 'react';
 import {
@@ -22,6 +23,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import NonFieldError from '#components/NonFieldError';
+import UserContext from '#contexts/user';
 import useAlert from '#hooks/useAlert';
 import {
     type GoApiBody,
@@ -30,6 +32,7 @@ import {
 import { transformObjectError } from '#utils/restRequest/error';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 type PasswordChangeRequestBody = GoApiBody<'/change_password', 'POST'>;
 
@@ -50,6 +53,12 @@ function ChangePasswordModal(props: Props) {
 
     const strings = useTranslation(i18n);
     const alert = useAlert();
+    const { removeUserAuth } = useContext(UserContext);
+
+    const handleForgotPassword = useCallback(() => {
+        removeUserAuth();
+        window.location.href = '/recover-account';
+    }, [removeUserAuth]);
 
     const getPasswordMatchCondition = useCallback((referenceVal: string | undefined) => {
         function passwordMatchCondition(val: string | undefined) {
@@ -198,6 +207,14 @@ function ChangePasswordModal(props: Props) {
                     withAsterisk
                     autoFocus
                 />
+                <Button
+                    name={undefined}
+                    onClick={handleForgotPassword}
+                    styleVariant="transparent"
+                    className={styles.forgotPasswordButton}
+                >
+                    {strings.forgotPasswordLink}
+                </Button>
                 <TextInput
                     name="new_password"
                     type="password"
