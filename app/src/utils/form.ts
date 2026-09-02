@@ -55,6 +55,15 @@ export function wordCountLessThanOrEqualToCondition(maxWords: number) {
     );
 }
 
+export function eachLengthSmallerOrEqualToCondition(maxLength: number) {
+    // FIXME: use translations
+    return (value: Maybe<string[]>) => (
+        isDefined(value) && value.some((item) => item.length > maxLength)
+            ? `Each entry must have at most ${maxLength} characters`
+            : undefined
+    );
+}
+
 export function nonZeroCondition(value: Maybe<number>) {
     // FIXME: use translations
     return isDefined(value) && value === 0

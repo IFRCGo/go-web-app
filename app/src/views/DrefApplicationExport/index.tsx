@@ -36,6 +36,7 @@ import Link from '#components/printable/Link';
 import SelectOutput from '#components/SelectOutput';
 import usePrimarySector, { type PrimarySector } from '#hooks/domain/usePrimarySector';
 import useUrlSearchState from '#hooks/useUrlSearchState';
+import { joinStrings } from '#utils/common';
 import {
     DISASTER_CATEGORY_ORANGE,
     DISASTER_CATEGORY_RED,
@@ -299,7 +300,7 @@ export function Component() {
         event_map_file,
         event_scope,
         girls,
-        glide_code,
+        glide_codes,
         government_requested_assistance,
         has_anti_fraud_corruption_policy,
         has_anti_sexual_harassment_policy,
@@ -792,7 +793,7 @@ export function Component() {
                         <TextOutput
                             className={styles.metaItem}
                             label={strings.glideNumberLabel}
-                            value={glide_code}
+                            value={joinStrings(glide_codes ?? [])}
                             strongValue
                         />
                         <TextOutput

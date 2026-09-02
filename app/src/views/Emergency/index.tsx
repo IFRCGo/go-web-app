@@ -473,23 +473,19 @@ export function Component() {
                         {strings.emergencyTabOperationStrategy}
                     </NavigationTab>
                 )}
-                {isDefined(emergencyResponse) && emergencyResponse.stage !== STAGE_FIELD_REPORT && (
-                    <>
-                        <NavigationTab
-                            to="emergencyDocuments"
-                            urlParams={{ emergencyId }}
-                        >
-                            {strings.emergencyTabReports}
-                        </NavigationTab>
-                        {showSurgeTab && (
-                            <NavigationTab
-                                to="emergencySurge"
-                                urlParams={{ emergencyId }}
-                            >
-                                {strings.emergencyTabSurge}
-                            </NavigationTab>
-                        )}
-                    </>
+                <NavigationTab
+                    to="emergencyDocuments"
+                    urlParams={{ emergencyId }}
+                >
+                    {strings.emergencyTabReports}
+                </NavigationTab>
+                {showSurgeTab && emergencyResponse?.stage !== STAGE_FIELD_REPORT && (
+                    <NavigationTab
+                        to="emergencySurge"
+                        urlParams={{ emergencyId }}
+                    >
+                        {strings.emergencyTabSurge}
+                    </NavigationTab>
                 )}
                 {emergencyResponse?.stage === STAGE_EMERGENCY_APPEAL && hasResponseActivity && (
                     <NavigationTab

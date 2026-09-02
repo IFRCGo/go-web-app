@@ -21,6 +21,7 @@ import {
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
+import GlideCodesInput from '#components/domain/GlideCodesInput';
 import TabPage from '#components/TabPage';
 
 import {
@@ -227,11 +228,11 @@ function Submission(props: Props) {
                             title={strings.drefFormGlideNum}
                             numPreferredColumns={2}
                         >
-                            <TextInput
-                                name="glide_code"
-                                value={value.glide_code}
+                            <GlideCodesInput
+                                name="glide_codes"
+                                value={value.glide_codes}
                                 onChange={setFieldValue}
-                                error={error?.glide_code}
+                                error={error?.glide_codes}
                                 disabled={disabled}
                                 readOnly={readOnly}
                             />
