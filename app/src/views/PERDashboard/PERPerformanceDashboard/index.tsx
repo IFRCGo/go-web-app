@@ -1,6 +1,5 @@
 import {
-    type Component,
-    useEffect,
+    useMemo,
     useState,
 } from 'react';
 import {
@@ -14,87 +13,82 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { _cs } from '@togglecorp/fujs';
 
+import { api } from '#config';
+import { resolveUrl } from '#utils/resolveUrl';
+
 import {
-    getComponentRatings,
-    getCycles,
-    getLastUpdateDate,
-    groupDataByRegion,
-    initializeData,
-    summarizeData,
+    EMPTY_FILTERS,
+    normalizeLastUpdate,
+    normalizePerformanceData,
+} from '../data';
+import {
+    getSnapshotUrl,
+    STATIC_REVIEW_MODE,
+    useJsonRequest,
+} from '../snapshot';
+import {
+    getPerformanceCycles,
+    getPerformanceRatings,
+    getPerformanceRegionData,
+    getPerformanceSummary,
+    type PerformanceFilterState,
 } from './dataHandler';
-import { type AssessmentRecord } from './types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const PER_DASHBOARD_DATA_URL = 'https://raw.githubusercontent.com/IFRCGo/ifrc-per-data-fetcher/refs/heads/main/data/per-dashboard-data.json';
 const LAST_UPDATE_DATA_URL = 'https://raw.githubusercontent.com/IFRCGo/ifrc-per-data-fetcher/refs/heads/main/data/last-update.json';
 
-interface ActiveFilters {
-    id: number | null;
-    region: string | null;
-    year: number | null;
-    cycle: number | undefined;
+function formatLastUpdate(value: string): string {
+    const dateValue = new Date(value);
+    return Number.isNaN(dateValue.getTime()) ? value : dateValue.toLocaleString();
 }
 
 function PERPerformanceDashboard() {
     const strings = useTranslation(i18n);
-    const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
-        id: null,
-        region: null,
-        year: null,
-        cycle: undefined,
-    });
+    const [activeFilters, setActiveFilters] = useState<PerformanceFilterState>(() => ({
+        ...EMPTY_FILTERS,
+        cycle: null,
+    }));
+    const dashboardDataUrl = STATIC_REVIEW_MODE
+        ? getSnapshotUrl('per-dashboard-data.json')
+        : resolveUrl(api, 'api/v2/per-dashboard-data');
+    const lastUpdateUrl = STATIC_REVIEW_MODE
+        ? getSnapshotUrl('snapshot.json')
+        : LAST_UPDATE_DATA_URL;
+    const {
+        pending: dashboardDataPending,
+        response: rawDashboardData,
+        error: dashboardDataError,
+    } = useJsonRequest<unknown>(dashboardDataUrl);
+    const {
+        pending: lastUpdatePending,
+        response: rawLastUpdate,
+        error: lastUpdateError,
+    } = useJsonRequest<unknown>(lastUpdateUrl);
+    const dashboardData = useMemo(
+        () => normalizePerformanceData(rawDashboardData),
+        [rawDashboardData],
+    );
+    const lastUpdate = useMemo(() => normalizeLastUpdate(rawLastUpdate), [rawLastUpdate]);
+    const cycleData = useMemo(
+        () => getPerformanceCycles(dashboardData, activeFilters),
+        [activeFilters, dashboardData],
+    );
+    const ratings = useMemo(
+        () => getPerformanceRatings(dashboardData, activeFilters),
+        [activeFilters, dashboardData],
+    );
+    const regionData = useMemo(
+        () => getPerformanceRegionData(dashboardData, activeFilters),
+        [activeFilters, dashboardData],
+    );
+    const summary = useMemo(
+        () => getPerformanceSummary(dashboardData, activeFilters),
+        [activeFilters, dashboardData],
+    );
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    interface DashboardData {
-        assessments: Record<string, Component>;
-    }
-    const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
-    const [lastUpdateData, setLastUpdateData] = useState<AssessmentRecord[]| null>(null);
-
-    useEffect(() => {
-        async function fetchData() {
-            setIsLoading(true);
-            setError(null);
-            try {
-                const [dashboardResponse, lastUpdateResponse] = await Promise.all([
-                    fetch(PER_DASHBOARD_DATA_URL, {
-                        headers: {
-                            Accept: 'application/vnd.github.v3.raw',
-                        },
-                    }),
-                    fetch(LAST_UPDATE_DATA_URL, {
-                        headers: {
-                            Accept: 'application/vnd.github.v3.raw',
-                        },
-                    }),
-                ]);
-
-                if (!dashboardResponse.ok || !lastUpdateResponse.ok) {
-                    throw new Error(strings.performanceFetchFailedError);
-                }
-
-                const [dashboardResponseData, lastUpdateResponseData] = await Promise.all([
-                    dashboardResponse.json(),
-                    lastUpdateResponse.json(),
-                ]);
-
-                setDashboardData(dashboardResponseData);
-                setLastUpdateData(lastUpdateResponseData);
-                initializeData(dashboardResponseData, lastUpdateResponseData);
-            } catch {
-                setError(strings.performanceFetchFailedError);
-            } finally {
-                setIsLoading(false);
-            }
-        }
-
-        fetchData();
-    }, [strings.performanceFetchFailedError]);
-
-    if (isLoading) {
+    if (dashboardDataPending || (STATIC_REVIEW_MODE && lastUpdatePending)) {
         return (
             <Container
                 className={styles.perPerformanceDashboard}
@@ -105,24 +99,20 @@ function PERPerformanceDashboard() {
         );
     }
 
-    if (error) {
+    if (dashboardDataError || (STATIC_REVIEW_MODE && lastUpdateError)) {
         return (
             <Container
                 className={styles.perPerformanceDashboard}
                 aria-label={strings.performanceContainerAriaLabel}
             >
-                {error}
+                {strings.performanceFetchFailedError}
             </Container>
         );
     }
 
-    if (!dashboardData || !lastUpdateData) {
-        return null;
-    }
-
-    const updateFilter = (
-        filterType: keyof ActiveFilters,
-        value: ActiveFilters[keyof ActiveFilters],
+    const updateFilter = <KEY extends keyof PerformanceFilterState>(
+        filterType: KEY,
+        value: PerformanceFilterState[KEY],
     ): void => {
         setActiveFilters((prev) => ({
             ...prev,
@@ -135,17 +125,15 @@ function PERPerformanceDashboard() {
     };
 
     const handleRegionClick = (region: string | null): void => {
-        updateFilter('region', region);
+        updateFilter('region', region as PerformanceFilterState['region']);
     };
-
-    const ratings = getComponentRatings(activeFilters);
 
     return (
         <>
             <div className={styles.lastUpdate}>
                 {strings.performanceLastUpdate}
                 {' '}
-                {new Date(getLastUpdateDate()).toLocaleString()}
+                {formatLastUpdate(lastUpdate)}
             </div>
             <div className={styles.headerDescription}>
                 {strings.performanceHeaderDescription}
@@ -154,7 +142,7 @@ function PERPerformanceDashboard() {
                 <PERRegionToggle
                     activeRegion={activeFilters?.region}
                     onRegionClick={handleRegionClick}
-                    regions={groupDataByRegion()}
+                    regions={regionData}
                     precision={1}
                     showCount={false}
                 />
@@ -165,10 +153,10 @@ function PERPerformanceDashboard() {
                     }
                     className={_cs(styles.container, styles.perAnalysis)}
                     withHeaderBorder
-                    headerActions={activeFilters.cycle !== undefined ? (
+                    headerActions={activeFilters.region !== null || activeFilters.cycle !== null ? (
                         <Button
                             name={undefined}
-                            onClick={() => updateFilter('cycle', undefined)}
+                            onClick={() => setActiveFilters({ ...EMPTY_FILTERS, cycle: null })}
                             aria-label={
                                 strings.performanceResetFilterAriaLabel
                             }
@@ -178,17 +166,14 @@ function PERPerformanceDashboard() {
                     ) : undefined}
                 >
                     <PERAnalysis
-                        data={getCycles(activeFilters)}
-                        summary={summarizeData(activeFilters, true)}
+                        data={cycleData}
+                        summary={summary}
                         onCycleClick={handleCycleClick}
-                        activeCycle={activeFilters.cycle}
+                        activeCycle={activeFilters.cycle ?? undefined}
                     />
                 </Container>
                 <Container
                     heading={strings.globalRatingsHeading}
-                    headerDescription={
-                        strings.globalRatingsDescription
-                    }
                     withHeaderBorder
                     className={_cs(styles.container, styles.ratingAnalysis)}
                 >
