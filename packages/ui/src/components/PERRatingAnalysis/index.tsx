@@ -49,13 +49,16 @@ function PERRatingAnalysis({
             aria-label={strings?.ratingContainerLabel ?? 'PER rating analysis'}
         >
             <div className={styles.ratingItem}>
-                <span className={styles.ratingName}>
+                <span
+                    className={styles.ratingName}
+                    title={strings?.ratingAverageLabel ?? 'Average PER rating'}
+                >
                     <h3 className={styles.sectionTitle}>
                         {strings?.ratingAverageLabel ?? 'Average PER rating'}
                     </h3>
                 </span>
                 <div className={styles.ratingContent}>
-                    <div className={styles.barContainer} style={{ marginTop: 1 }}>
+                    <div className={styles.barContainer}>
                         <RatingBarComponent
                             value={Number(overallRating.rating)}
                             maxValue={5}
@@ -64,7 +67,7 @@ function PERRatingAnalysis({
                             aria-label={strings?.ratingBarLabel?.replace('{value}', overallRating.rating.toString())?.replace('{maxValue}', '5') ?? `Rating bar showing ${overallRating.rating} out of 5`}
                         />
                     </div>
-                    <div className={styles.ratingValueContainer} style={{ marginTop: 3 }}>
+                    <div className={styles.ratingValueContainer}>
                         <span
                             className={styles.ratingValue}
                             aria-label={strings?.ratingValueLabel?.replace('{value}', Number(overallRating.rating).toFixed(1)) ?? `Rating value: ${Number(overallRating.rating).toFixed(1)}`}
@@ -76,20 +79,18 @@ function PERRatingAnalysis({
                             rating={Number(overallRating.rating)}
                         />
                         <Sparkline
-                            ratings={overallRating.cycleRatings.map(
-                                (c) => Number(c.rating),
-                            )}
-                            colors={overallRating.cycleRatings.map(
-                                (c) => c.color,
-                            )}
-                            aria-label={strings?.ratingSparklineLabel ?? 'Rating trend chart'}
+                            name={strings?.ratingAverageLabel ?? 'Average PER rating'}
+                            cycleRatings={overallRating.cycleRatings}
+                            ariaLabel={strings?.ratingSparklineLabel ?? 'Rating trend chart'}
                         />
-                        {overallRating.change !== 0 && (
+                        {overallRating.change !== 0 ? (
                             <RatingChange
                                 value={overallRating.change}
                                 direction={overallRating.changeDirection}
                                 aria-label={strings?.ratingChangeLabel?.replace('{value}', overallRating.change.toString()) ?? `Rating change of ${overallRating.change}`}
                             />
+                        ) : (
+                            <div className={styles.ratingChangePlaceholder} aria-hidden="true" />
                         )}
                     </div>
                 </div>
@@ -104,7 +105,10 @@ function PERRatingAnalysis({
                 <div className={styles.ratingList}>
                     {areaData.map((area) => (
                         <div key={area.name} className={styles.ratingItem}>
-                            <span className={styles.ratingName}>
+                            <span
+                                className={styles.ratingName}
+                                title={area.name}
+                            >
                                 {area.name}
                             </span>
                             <div className={styles.ratingContent}>
@@ -129,20 +133,18 @@ function PERRatingAnalysis({
                                         rating={Number(area.rating)}
                                     />
                                     <Sparkline
-                                        ratings={area.cycleRatings.map(
-                                            (c) => Number(c.rating),
-                                        )}
-                                        colors={area.cycleRatings.map(
-                                            (c) => c.color,
-                                        )}
-                                        aria-label={strings?.ratingSparklineLabel ?? 'Rating trend chart'}
+                                        name={area.name}
+                                        cycleRatings={area.cycleRatings}
+                                        ariaLabel={strings?.ratingSparklineLabel ?? 'Rating trend chart'}
                                     />
-                                    {area.change !== 0 && (
+                                    {area.change !== 0 ? (
                                         <RatingChange
                                             value={area.change}
                                             direction={area.changeDirection}
                                             aria-label={strings?.ratingChangeLabel ? strings.ratingChangeLabel.replace('{value}', area.change.toString()) : `Rating change of ${area.change}`}
                                         />
+                                    ) : (
+                                        <div className={styles.ratingChangePlaceholder} aria-hidden="true" />
                                     )}
                                 </div>
                             </div>
@@ -193,8 +195,11 @@ function PERRatingAnalysis({
                 </div>
                 <div className={styles.ratingList}>
                     {sortedComponentData.map((component) => (
-                        <div key={component.id} className={styles.ratingItem}>
-                            <span className={styles.ratingName}>
+                        <div key={component.key} className={styles.ratingItem}>
+                            <span
+                                className={styles.ratingName}
+                                title={`${component.id}. ${component.name}`}
+                            >
                                 <span
                                     className={styles.ratingPrefix}
                                     aria-label={strings?.ratingComponentPrefixLabel?.replace('{number}', component.id.toString()) ?? `Component ${component.id}`}
@@ -226,20 +231,18 @@ function PERRatingAnalysis({
                                         rating={Number(component.rating)}
                                     />
                                     <Sparkline
-                                        ratings={component.cycleRatings.map(
-                                            (c) => Number(c.rating),
-                                        )}
-                                        colors={component.cycleRatings.map(
-                                            (c) => c.color,
-                                        )}
-                                        aria-label={strings?.ratingSparklineLabel ?? 'Rating trend chart'}
+                                        name={component.name}
+                                        cycleRatings={component.cycleRatings}
+                                        ariaLabel={strings?.ratingSparklineLabel ?? 'Rating trend chart'}
                                     />
-                                    {component.change !== 0 && (
+                                    {component.change !== 0 ? (
                                         <RatingChange
                                             value={component.change}
                                             direction={component.changeDirection}
                                             aria-label={strings?.ratingChangeLabel?.replace('{value}', component.change.toString()) ?? `Rating change of ${component.change}`}
                                         />
+                                    ) : (
+                                        <div className={styles.ratingChangePlaceholder} aria-hidden="true" />
                                     )}
                                 </div>
                             </div>
