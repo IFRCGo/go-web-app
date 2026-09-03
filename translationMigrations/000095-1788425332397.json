@@ -1,0 +1,619 @@
+{
+    "parent": "000094-1788424273601.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "faqEapCharBudgetDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "capped at CHF 950,000 (with two activations)."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharBudgetTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Total budget:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharComponentsDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "the EAP covers three components readiness, prepositioned stock and early actions:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharComponentsTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Components:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharCoverageDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "ideally, the EAP has national coverage, however, it may also be localised coverage, depending on the context."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharCoverageTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Coverage:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharEarlyActionDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "implemented within the lead time between the trigger and the hazard’s impact, ensuring timely assistance. This should be budgeted twice, to take into account the double activation."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharEarlyActionTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Early action activities:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharPrepositionedDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "two-time (double) stock allocation; prepositioning activities aim to ensure that the National Society has the stock or materials required to implement the early action when the trigger is reached. The first procurement should be done as soon as possible after EAP approval, and the second procurement should be done as soon as possible following the first activation, in preparation for a potential second activation."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharPrepositionedTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Prepositioned stock activities:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharPurposeDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "a comprehensive funding instrument supporting anticipatory action for weather and non-weather-related hazards with impact-based triggers for extreme events with sufficient lead times and predictable patterns."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharPurposeTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Purpose:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharReadinessDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "annual capacity building actions, such as simulations and training, salaries for staff, etc., which are done throughout the EAP lifespan, ensuring the National Society has adequate capacity to implement the early action."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharReadinessTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Readiness activities:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharScaleDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "the EAP must target events that historically have had significant demonstrable humanitarian impact."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharScaleTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Scale of event:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharTimeframeDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "valid for 5 years once approved."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharTimeframeTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Timeframe:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharTriggerDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "based on predictions and a predefined thresholds that activate early actions in advance of a foreseen disaster (e.g. cyclone wind speed above 150 km/h; or rainfall predictions for the next 72 hours exceeding 300 mm)."
+        },
+        {
+            "action": "add",
+            "key": "faqEapCharTriggerTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Trigger mechanism:"
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevNoteBelowStandardsDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "If the protocol is significantly below standards and requires much work which might take more than 3 months, the Validation Committee will close the application and ask the National Society to rework on it and submit a new version as a new application after improvement of the protocol."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessDevNoteIterationsDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "if after several iterations, the comments from the Validation Committee are not yet properly addressed and the protocol is still not considered up to standard, the Validation Committee might decide to close the application and request the National Society to rework the comments and submit a new version as a new submission after improvement."
+        },
+        {
+            "action": "add",
+            "key": "faqEapProcessTriggerNoteExceptionalDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "If the pre-agreed trigger is not reached, but the National Society has evidence that the disaster of a similar scale is imminent, the s/EAP might activate based on exceptional approval. The National Society should provide as much supporting information as possible to justify the activation. Exceptional approval will be decided on case-by-case basis."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharComponentsFocus",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "as the focus is entirely on immediate early action."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharComponentsNoReadiness",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "no readiness and prepositioning activities"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharComponentsTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Components:"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharEarlyActionDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "activities which will prevent or mitigate the expected impact of the disaster. Early action activities are time-sensitive and must be implemented rapidly in advance of the hazard. National Societies may include items procurement for immediate use, or replenishment. Early action should be at least 75% of the budget."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharEarlyActionTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Early action activities:"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharEarlyResponseDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "only if the disaster has unfolded, and for activities in the first hours and days following the impact of the disaster. Early response should be at most 25% of the budget."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharEarlyResponseTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Early response activities:"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharTimeframeDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "45 days, with no possibility of extension."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharTimeframeTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Operating timeframe:"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharTriggerDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "no pre-agreed trigger; decision is driven by high-confidence forecasts or expert judgement of an imminent event (e.g. a government or national/regional weather agency issues a severe weather alert for a specific area with high certainty)."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentCharTriggerTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Trigger mechanism:"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessScenarioOneDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "The disaster does not materialize or materializes but with low impact."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessScenarioOneTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Scenario 1:"
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessScenarioTwoDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "The disaster materializes with high impact and the National Society needs international financial support to assist the affected population."
+        },
+        {
+            "action": "add",
+            "key": "faqImminentProcessScenarioTwoTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Scenario 2:"
+        },
+        {
+            "action": "add",
+            "key": "faqNoteTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Note:"
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharBudgetDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "capped at CHF 220,000 (with one activation)."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharBudgetTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Total budget:"
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharComponentsDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "the sEAP allows National Societies to access pre-approved funding for readiness and prepositioned stock as well as funding for early action activities – same as the EAP. Based on this experience, a National Society can use the sEAP as a stepping stone, while it works on developing a full EAP."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharComponentsTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Components:"
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharCoverageDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "ideally, the sEAP has national coverage, however, it may also be localized coverage, depending on the context."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharCoverageTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Coverage:"
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharPurposeDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "a more accessible and lighter version to enable a National Society. Also applicable for weather and non-weather-related hazards."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharPurposeTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Purpose:"
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharScaleDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "the sEAP is not meant for events of seasonal average but must target events that historically have had a demonstrable humanitarian impact."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharScaleTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Scale of event:"
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharTimeframeDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "valid for 2 years once approved."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharTimeframeTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "sEAP timeframe:"
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharTriggerDetail",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "similar to the full EAP, an sEAP needs a clear and concise trigger statement with an identified forecast or expert judgement and threshold; however, less evidence is required, so it may suit hazards where there is less data available."
+        },
+        {
+            "action": "add",
+            "key": "faqSeapCharTriggerTerm",
+            "namespace": "drefAnticipatoryPillar",
+            "value": "Trigger mechanism:"
+        },
+        {
+            "action": "remove",
+            "key": "faqEapCharBudget",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqEapCharComponents",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqEapCharCoverage",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqEapCharEarlyAction",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqEapCharPrepositioned",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqEapCharPurpose",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqEapCharReadiness",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqEapCharScale",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqEapCharTimeframe",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqEapCharTrigger",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqEapProcessDevNoteBelowStandards",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqEapProcessDevNoteIterations",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqEapProcessTriggerNoteExceptional",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqImminentCharComponents",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqImminentCharEarlyAction",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqImminentCharEarlyResponse",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqImminentCharTimeframe",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqImminentCharTrigger",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqImminentProcessScenarioOne",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqImminentProcessScenarioTwo",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqSeapCharBudget",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqSeapCharComponents",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqSeapCharCoverage",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqSeapCharPurpose",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqSeapCharScale",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqSeapCharTimeframe",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqSeapCharTrigger",
+            "namespace": "drefAnticipatoryPillar"
+        },
+        {
+            "action": "update",
+            "key": "eapCardText",
+            "namespace": "drefAnticipatoryPillar",
+            "newValue": "A plan guiding early action activities to reduce and mitigate the humanitarian impact of a forecasted hazard. Developed and approved in peacetime, it combines a pre-agreed plan, preapproved trigger, and guaranteed funding, giving National Societies confidence to act ahead of weather and non-weather-related events. Two types: EAP and sEAP."
+        },
+        {
+            "action": "update",
+            "key": "faqImminentProcessImplFunds",
+            "namespace": "drefAnticipatoryPillar",
+            "newValue": "Manage funds strictly according to the allocated budget."
+        },
+        {
+            "action": "update",
+            "key": "faqImminentProcessPlanningBankLetter",
+            "namespace": "drefAnticipatoryPillar",
+            "newValue": "Attach or reference a valid Bank Letter confirming banking details to avoid delays in disbursement."
+        },
+        {
+            "action": "update",
+            "key": "faqImminentProcessPlanningSubmit",
+            "namespace": "drefAnticipatoryPillar",
+            "newValue": "Sign and submit."
+        },
+        {
+            "action": "update",
+            "key": "faqImminentProcessScenarioTwoRequest",
+            "namespace": "drefAnticipatoryPillar",
+            "newValue": "Submit a request for an additional DREF allocation for response via an operations update. The budget cap of the 2nd allocation should include the 1st imminent DREF allocation."
+        },
+        {
+            "action": "update",
+            "key": "imminentCardText",
+            "namespace": "drefAnticipatoryPillar",
+            "newValue": "For sudden-onset disasters only, when the event has not materialized yet and the National Society has no Early Action Protocol in place to act ahead. The template is short and approval is quick, so your decision-making has to be quick too."
+        },
+        {
+            "action": "add",
+            "key": "aaManualButton",
+            "namespace": "drefDecisionTree",
+            "value": "AA Manual"
+        },
+        {
+            "action": "add",
+            "key": "faqCharComponentsDetail",
+            "namespace": "drefResponsePillar",
+            "value": "Response DREF operations may include:"
+        },
+        {
+            "action": "add",
+            "key": "faqCharComponentsTerm",
+            "namespace": "drefResponsePillar",
+            "value": "Components:"
+        },
+        {
+            "action": "add",
+            "key": "faqCharConsiderationAssessmentsDescription",
+            "namespace": "drefResponsePillar",
+            "value": "when there is insufficient information to justify or design a full response operation."
+        },
+        {
+            "action": "add",
+            "key": "faqCharConsiderationAssessmentsTerm",
+            "namespace": "drefResponsePillar",
+            "value": "DREF for Assessments:"
+        },
+        {
+            "action": "add",
+            "key": "faqCharCostDetail",
+            "namespace": "drefResponsePillar",
+            "value": "a minimum reach of 100 households, or approximately 500 people, is recommended. The indicative cost per beneficiary is CHF 150, and the recommended budget ratio is 60 per cent for direct interventions and 40 per cent for support services. These recommendations do not apply to assessment-focused or epidemic operations where the cost structure may be different."
+        },
+        {
+            "action": "add",
+            "key": "faqCharCostTerm",
+            "namespace": "drefResponsePillar",
+            "value": "Cost considerations:"
+        },
+        {
+            "action": "add",
+            "key": "faqCharPlanningDetail",
+            "namespace": "drefResponsePillar",
+            "value": "the situation analysis, identified needs, operational strategy, activities, targets, indicators and budget must be consistent. Activities should be feasible for the National Society to deliver within the approved timeframe and should complement the response of authorities, Movement partners and other organisations."
+        },
+        {
+            "action": "add",
+            "key": "faqCharPlanningTerm",
+            "namespace": "drefResponsePillar",
+            "value": "Planning and budget:"
+        },
+        {
+            "action": "add",
+            "key": "faqCharThresholdsDetail",
+            "namespace": "drefResponsePillar",
+            "value": "up to CHF 500,000 for Yellow-level emergencies and up to CHF 1,000,000 for Orange-level emergencies. Red-level emergencies are normally addressed through an Emergency Appeal, although DREF Loan support may be considered for critical start-up activities."
+        },
+        {
+            "action": "add",
+            "key": "faqCharThresholdsTerm",
+            "namespace": "drefResponsePillar",
+            "value": "Funding thresholds:"
+        },
+        {
+            "action": "add",
+            "key": "faqCharTimeframeDetail",
+            "namespace": "drefResponsePillar",
+            "value": "For standard Response DREF operations, up to six months for Yellow-level emergencies and up to nine months for Orange-level emergencies. Longer timeframes apply to the Drought DREF parameter when the operation includes anticipatory, response and early recovery activities."
+        },
+        {
+            "action": "add",
+            "key": "faqCharTimeframeTerm",
+            "namespace": "drefResponsePillar",
+            "value": "Operating timeframe:"
+        },
+        {
+            "action": "add",
+            "key": "faqCharTriggerDetail",
+            "namespace": "drefResponsePillar",
+            "value": "a clear trigger based on credible information about the occurrence, scale or worsening impact of an emergency. Triggers may include a sudden-onset disaster, a developing slow-onset crisis, verified impact data, government declarations, disease trends, displacement figures or other evidence of humanitarian need."
+        },
+        {
+            "action": "add",
+            "key": "faqCharTriggerTerm",
+            "namespace": "drefResponsePillar",
+            "value": "Trigger mechanism:"
+        },
+        {
+            "action": "remove",
+            "key": "faqCharComponents",
+            "namespace": "drefResponsePillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqCharConsiderationAssessments",
+            "namespace": "drefResponsePillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqCharCost",
+            "namespace": "drefResponsePillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqCharPlanning",
+            "namespace": "drefResponsePillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqCharThresholds",
+            "namespace": "drefResponsePillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqCharTimeframe",
+            "namespace": "drefResponsePillar"
+        },
+        {
+            "action": "remove",
+            "key": "faqCharTrigger",
+            "namespace": "drefResponsePillar"
+        }
+    ]
+}

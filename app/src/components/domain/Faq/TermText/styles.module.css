@@ -1,0 +1,7 @@
+.bold-term {
+    font-weight: var(--go-ui-font-weight-bold);
+}
+
+.underlined-term {
+    text-decoration: underline dotted;
+}
