@@ -241,7 +241,7 @@ function EapStatus(props: Props) {
                                 && responseFormErrors
                                 && (
                                     <Link
-                                        to="eapFullExport"
+                                        to="fullEapForm"
                                         urlParams={{ eapId }}
                                         urlSearch={isDefined(latestFullEap?.version)
                                             ? `version=${latestFullEap.version}`
