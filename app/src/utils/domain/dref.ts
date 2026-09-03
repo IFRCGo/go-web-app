@@ -1,3 +1,5 @@
+import { isTruthyString } from '@togglecorp/fujs';
+
 import { type components } from '#generated/types';
 import {
     DREF_TYPE_IMMINENT,
@@ -37,6 +39,16 @@ export const DREF_ERF_URL: string | undefined = 'https://www.ifrc.org/sites/defa
 // TODO: fill in once the form is published. Until then the Advance Payment Form button
 // is hidden entirely (LPC25), not rendered disabled.
 export const DREF_ADVANCE_PAYMENT_FORM_URL: string | undefined = undefined;
+
+// The GLIDE inputs keep a row in form state while it is being typed into, so a
+// blank or whitespace-only row can reach submit. The server's list field rejects
+// both (its child is a CharField with allow_blank=False and trim_whitespace=True),
+// and it trims what it does accept, so trim here to keep the round-trip stable.
+export function sanitizeGlideCodes(glideCodes: string[] | undefined) {
+    return glideCodes
+        ?.map((glideCode) => glideCode.trim())
+        .filter(isTruthyString);
+}
 
 // Router state consumed by DrefApplicationForm (via useLocation().state) to seed a
 // NEW application. Entry points (pillar buttons, decision tree) declare intent only;

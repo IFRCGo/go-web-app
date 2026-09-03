@@ -47,6 +47,7 @@ import {
     DREF_TYPE_IMMINENT,
     type TypeOfDrefEnum,
 } from '#utils/constants';
+import { sanitizeGlideCodes } from '#utils/domain/dref';
 import {
     type GoApiResponse,
     useLazyRequest,
@@ -379,6 +380,7 @@ export function Component() {
             updateFinalReport({
                 ...result.value,
                 modified_at: modifiedAt ?? lastModifiedAtRef.current,
+                glide_codes: sanitizeGlideCodes(result.value.glide_codes),
                 cover_image_file: isNotDefined(result.value.cover_image_file?.id)
                     ? null : result.value.cover_image_file,
                 event_map_file: isNotDefined(result.value.event_map_file?.id)

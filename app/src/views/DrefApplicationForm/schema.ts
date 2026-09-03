@@ -20,8 +20,10 @@ import {
     urlCondition,
 } from '@togglecorp/toggle-form';
 
+import { MAX_GLIDE_CODE_LENGTH } from '#utils/constants';
 import {
     dateGreaterThanOrEqualCondition,
+    eachLengthSmallerOrEqualToCondition,
     positiveIntegerCondition,
     positiveNumberCondition,
 } from '#utils/form';
@@ -1024,7 +1026,7 @@ const schema: DrefFormSchema = {
             'media_contact_phone_number',
             'end_date',
             'publishing_date',
-            'glide_code',
+            'glide_codes',
             'operation_timeframe',
             'operation_timeframe_imminent',
         ] as const;
@@ -1053,7 +1055,7 @@ const schema: DrefFormSchema = {
                     media_contact_phone_number: { forceValue: nullValue },
                     end_date: { forceValue: nullValue },
                     publishing_date: { forceValue: nullValue },
-                    glide_code: { forceValue: nullValue },
+                    glide_codes: { forceValue: [] },
                     operation_timeframe: { forceValue: nullValue },
                     operation_timeframe_imminent: { forceValue: nullValue },
                 };
@@ -1090,7 +1092,11 @@ const schema: DrefFormSchema = {
                     ...baseSubmissionFields,
                     end_date: {},
                     publishing_date: {},
-                    glide_code: {},
+                    glide_codes: {
+                        validations: [
+                            eachLengthSmallerOrEqualToCondition(MAX_GLIDE_CODE_LENGTH),
+                        ],
+                    },
                     national_society_contact_name: {},
                     national_society_contact_title: {},
                     national_society_contact_email: { validations: [emailCondition] },

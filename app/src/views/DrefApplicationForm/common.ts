@@ -154,7 +154,7 @@ export const timeframeAndContactsTabFields: (keyof PartialDref)[] = [
     'end_date',
     'publishing_date',
     'appeal_code',
-    'glide_code',
+    'glide_codes',
     'ifrc_appeal_manager_name',
     'ifrc_appeal_manager_email',
     'ifrc_appeal_manager_phone_number',

@@ -45,6 +45,7 @@ import useAuth from '#hooks/domain/useAuth';
 import useDisasterType from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import usePermissions from '#hooks/domain/usePermissions';
+import { joinStrings } from '#utils/common';
 import {
     DREF_TYPE_IMMINENT,
     FIELD_REPORT_STATUS_EARLY_WARNING,
@@ -184,13 +185,14 @@ export function Component() {
         ].find(isTruthyString);
 
     // FIXME(frozenhelium): go-api, an operational update / final report
-    // glide_code is not synced to event.glide (nor dref.glide_code) on
+    // glide code is not synced to event.glide (nor dref.glide_codes) on
     // approval; until it is, read the latest non-empty revision glide here.
+    // event.glide only ever holds the primary code, so it ranks last
     const glideNumber = [
-        drefFinalReport?.glide_code,
-        drefOpsUpdate?.glide_code,
+        joinStrings(drefFinalReport?.glide_codes ?? []),
+        joinStrings(drefOpsUpdate?.glide_codes ?? []),
+        joinStrings(dref?.glide_codes ?? []),
         emergencyResponse?.glide,
-        dref?.glide_code,
     ].find(isTruthyString);
 
     // the emergency payload carries no appeal at DREF stages, so the published
@@ -465,7 +467,11 @@ export function Component() {
                     events.push({
                         key: `ea-start-${emergencyResponse.id}`,
                         date: new Date(emergencyResponse.disaster_start_date),
-                        label: strings.timelineDisasterStart,
+                        label: (
+                            <Label strong>
+                                {strings.timelineDisasterStart}
+                            </Label>
+                        ),
                     });
                 }
 

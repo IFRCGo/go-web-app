@@ -15,8 +15,10 @@ import {
     urlCondition,
 } from '@togglecorp/toggle-form';
 
+import { MAX_GLIDE_CODE_LENGTH } from '#utils/constants';
 import {
     dateGreaterThanOrEqualCondition,
+    eachLengthSmallerOrEqualToCondition,
     positiveIntegerCondition,
     positiveNumberCondition,
 } from '#utils/form';
@@ -759,7 +761,7 @@ const schema: OpsUpdateFormSchema = {
             'national_society_integrity_contact_email',
             'national_society_integrity_contact_phone_number',
             'national_society_hotline_phone_number',
-            'glide_code',
+            'glide_codes',
         ] as const;
         type SubmissionDrefTypeRelatedFields = Pick<
             OpsUpdateFormSchemaFields,
@@ -788,7 +790,7 @@ const schema: OpsUpdateFormSchema = {
                     media_contact_title: { forceValue: nullValue },
                     media_contact_email: { forceValue: nullValue },
                     media_contact_phone_number: { forceValue: nullValue },
-                    glide_code: { forceValue: nullValue },
+                    glide_codes: { forceValue: [] },
                     national_society_integrity_contact_name: {},
                     national_society_integrity_contact_title: {},
                     national_society_integrity_contact_email: { validations: [emailCondition] },
@@ -811,7 +813,11 @@ const schema: OpsUpdateFormSchema = {
                                 ? [dateGreaterThanOrEqualCondition(val.reporting_start_date)]
                                 : undefined,
                         },
-                        glide_code: {},
+                        glide_codes: {
+                            validations: [
+                                eachLengthSmallerOrEqualToCondition(MAX_GLIDE_CODE_LENGTH),
+                            ],
+                        },
                         national_society_contact_name: {},
                         national_society_contact_title: {},
                         national_society_contact_email: { validations: [emailCondition] },

@@ -43,6 +43,7 @@ import {
     DREF_STATUS_FINALIZED,
     DREF_TYPE_IMMINENT,
 } from '#utils/constants';
+import { sanitizeGlideCodes } from '#utils/domain/dref';
 import {
     type GoApiResponse,
     useLazyRequest,
@@ -332,6 +333,7 @@ export function Component() {
             updateFinalReport({
                 ...result.value,
                 modified_at: modifiedAt ?? lastModifiedAtRef.current,
+                glide_codes: sanitizeGlideCodes(result.value.glide_codes),
             } as FinalReportRequestBody);
         },
         [validate, setError, updateFinalReport],
