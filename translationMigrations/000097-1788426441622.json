@@ -1,0 +1,275 @@
+{
+    "parent": "000096-1788426081670.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "immAddedByRegionalOfficeDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Added by Regional Office"
+        },
+        {
+            "action": "add",
+            "key": "immAddedByRegionalOfficeGroupDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Added by the regional office"
+        },
+        {
+            "action": "add",
+            "key": "immAppealCodeDesc",
+            "namespace": "drefImportTemplate",
+            "value": "Added by the regional PMER"
+        },
+        {
+            "action": "add",
+            "key": "immAppealCodeLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Appeal Code"
+        },
+        {
+            "action": "add",
+            "key": "immDateOfApprovalLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Date of Approval"
+        },
+        {
+            "action": "add",
+            "key": "immIfrcAppealManagerEmailLabel",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC Appeal Manager – Email"
+        },
+        {
+            "action": "add",
+            "key": "immIfrcAppealManagerNameLabel",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC Appeal Manager – Name"
+        },
+        {
+            "action": "add",
+            "key": "immIfrcAppealManagerPhoneNumberLabel",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC Appeal Manager – Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "immIfrcAppealManagerTitleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC Appeal Manager – Title"
+        },
+        {
+            "action": "add",
+            "key": "immIfrcEmergencyEmailLabel",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC Focal Point for the Operation – Email"
+        },
+        {
+            "action": "add",
+            "key": "immIfrcEmergencyNameLabel",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC Focal Point for the Operation – Name"
+        },
+        {
+            "action": "add",
+            "key": "immIfrcEmergencyPhoneNumberLabel",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC Focal Point for the Operation – Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "immIfrcEmergencyTitleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC Focal Point for the Operation – Title"
+        },
+        {
+            "action": "add",
+            "key": "immIfrcProjectManagerEmailLabel",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC Project Manager – Email"
+        },
+        {
+            "action": "add",
+            "key": "immIfrcProjectManagerNameLabel",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC Project Manager – Name"
+        },
+        {
+            "action": "add",
+            "key": "immIfrcProjectManagerPhoneNumberLabel",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC Project Manager – Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "immIfrcProjectManagerTitleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "IFRC Project Manager – Title"
+        },
+        {
+            "action": "add",
+            "key": "immMediaContactEmailLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Media Contact – Email"
+        },
+        {
+            "action": "add",
+            "key": "immMediaContactNameLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Media Contact – Name"
+        },
+        {
+            "action": "add",
+            "key": "immMediaContactPhoneNumberLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Media Contact – Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "immMediaContactTitleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Media Contact – Title"
+        },
+        {
+            "action": "add",
+            "key": "immNationalSocietyContactEmailLabel",
+            "namespace": "drefImportTemplate",
+            "value": "National Society Contact – Email"
+        },
+        {
+            "action": "add",
+            "key": "immNationalSocietyContactNameLabel",
+            "namespace": "drefImportTemplate",
+            "value": "National Society Contact – Name"
+        },
+        {
+            "action": "add",
+            "key": "immNationalSocietyContactPhoneNumberLabel",
+            "namespace": "drefImportTemplate",
+            "value": "National Society Contact – Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "immNationalSocietyContactTitleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "National Society Contact – Title"
+        },
+        {
+            "action": "add",
+            "key": "immNationalSocietyHotlinePhoneNumberLabel",
+            "namespace": "drefImportTemplate",
+            "value": "National Society Hotline – Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "immNationalSocietyIntegrityContactEmailLabel",
+            "namespace": "drefImportTemplate",
+            "value": "National Societies' Integrity Focal Point – Email"
+        },
+        {
+            "action": "add",
+            "key": "immNationalSocietyIntegrityContactNameLabel",
+            "namespace": "drefImportTemplate",
+            "value": "National Societies' Integrity Focal Point – Name"
+        },
+        {
+            "action": "add",
+            "key": "immNationalSocietyIntegrityContactPhoneNumberLabel",
+            "namespace": "drefImportTemplate",
+            "value": "National Societies' Integrity Focal Point – Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "immNationalSocietyIntegrityContactTitleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "National Societies' Integrity Focal Point – Title"
+        },
+        {
+            "action": "add",
+            "key": "immPublishingDateLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Date of Publishing"
+        },
+        {
+            "action": "add",
+            "key": "immRegionalFocalPointEmailLabel",
+            "namespace": "drefImportTemplate",
+            "value": "DREF Regional Focal Point – Email"
+        },
+        {
+            "action": "add",
+            "key": "immRegionalFocalPointNameLabel",
+            "namespace": "drefImportTemplate",
+            "value": "DREF Regional Focal Point – Name"
+        },
+        {
+            "action": "add",
+            "key": "immRegionalFocalPointPhoneNumberLabel",
+            "namespace": "drefImportTemplate",
+            "value": "DREF Regional Focal Point – Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "immRegionalFocalPointTitleLabel",
+            "namespace": "drefImportTemplate",
+            "value": "DREF Regional Focal Point – Title"
+        },
+        {
+            "action": "add",
+            "key": "immSubmissionToGenevaLabel",
+            "namespace": "drefImportTemplate",
+            "value": "Date of Submission to GVA"
+        },
+        {
+            "action": "add",
+            "key": "immTrackingDataAndContactsHeading",
+            "namespace": "drefImportTemplate",
+            "value": "Tracking Data and Contacts"
+        },
+        {
+            "action": "update",
+            "key": "coverStructurePlan",
+            "namespace": "drefImportTemplate",
+            "newValue": "{plan} – support services, proposed early actions and early response."
+        },
+        {
+            "action": "update",
+            "key": "immAddressedHumanitarianImpactsLabel",
+            "namespace": "drefImportTemplate",
+            "newValue": "Which of the expected severe humanitarian impacts of the hazard are your actions addressing? Why were these impacts chosen?"
+        },
+        {
+            "action": "update",
+            "key": "immCountryDesc",
+            "namespace": "drefImportTemplate",
+            "newValue": "NOTE: After importing the DREF Application template into the GO platform, you may specify the targeted region(s) or province(s) directly in the online form"
+        },
+        {
+            "action": "update",
+            "key": "immDescriptionOfTheHazardHeading",
+            "namespace": "drefImportTemplate",
+            "newValue": "Description of the Event"
+        },
+        {
+            "action": "update",
+            "key": "immDisasterTypeDesc",
+            "namespace": "drefImportTemplate",
+            "newValue": "Select the relevant type of hazard from the drop-down list."
+        },
+        {
+            "action": "update",
+            "key": "immDisasterTypeLabel",
+            "namespace": "drefImportTemplate",
+            "newValue": "Type of Hazard"
+        },
+        {
+            "action": "update",
+            "key": "immHazardDateLabel",
+            "namespace": "drefImportTemplate",
+            "newValue": "Forecasted day of event (or peak)"
+        },
+        {
+            "action": "update",
+            "key": "immNumAffectedLabel",
+            "namespace": "drefImportTemplate",
+            "newValue": "Total population at risk (if available)"
+        }
+    ]
+}

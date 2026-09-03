@@ -1215,29 +1215,8 @@ function useImportTemplateSchema() {
 
             // EVENT DETAIL
 
-            hazard_date: {
-                headingBefore: strings.immDescriptionOfTheHazardHeading,
-                type: 'input',
-                label: strings.immHazardDateLabel,
-                validation: 'date',
-                description: strings.immHazardDateDesc,
-            },
-
-            hazard_date_and_location: {
-                type: 'input',
-                label: strings.immHazardDateAndLocationLabel,
-                validation: 'textArea',
-                description: strings.immHazardDateAndLocationDesc,
-            },
-
-            hazard_vulnerabilities_and_risks: {
-                type: 'input',
-                label: strings.immHazardVulnerabilitiesAndRisksLabel,
-                validation: 'textArea',
-                description: strings.immHazardVulnerabilitiesAndRisksDesc,
-            },
-
             num_affected: {
+                headingBefore: strings.immDescriptionOfTheHazardHeading,
                 type: 'input',
                 validation: 'number',
                 label: strings.immNumAffectedLabel,
@@ -1268,6 +1247,27 @@ function useImportTemplateSchema() {
                 label: strings.immEstimatedNumberOfAffectedBoysUnder18Label,
             },
 
+            hazard_date: {
+                type: 'input',
+                label: strings.immHazardDateLabel,
+                validation: 'date',
+                description: strings.immHazardDateDesc,
+            },
+
+            hazard_date_and_location: {
+                type: 'input',
+                label: strings.immHazardDateAndLocationLabel,
+                validation: 'textArea',
+                description: strings.immHazardDateAndLocationDesc,
+            },
+
+            hazard_vulnerabilities_and_risks: {
+                type: 'input',
+                label: strings.immHazardVulnerabilitiesAndRisksLabel,
+                validation: 'textArea',
+                description: strings.immHazardVulnerabilitiesAndRisksDesc,
+            },
+
             source_information: {
                 type: 'list',
                 label: strings.immSourceInformationLabel,
@@ -1294,6 +1294,34 @@ function useImportTemplateSchema() {
             },
 
             // OPERATION
+            is_surge_personnel_deployed: {
+                headingBefore: strings.immAboutSupportServicesHeading,
+                type: 'select',
+                validation: 'boolean',
+                optionsKey: '__boolean',
+                label: strings.immIsSurgePersonnelDeployedLabel,
+                description: strings.immIsSurgePersonnelDeployedDesc,
+            },
+
+            surge_personnel_deployed: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immSurgePersonnelDeployedLabel,
+                description: joinLines(
+                    strings.immSurgePersonnelDeployedDesc1,
+                    strings.immSurgePersonnelDeployedDesc2,
+                    strings.immSurgePersonnelDeployedDesc3,
+                    strings.immSurgePersonnelDeployedDesc4,
+                ),
+            },
+
+            addressed_humanitarian_impacts: {
+                type: 'input',
+                validation: 'textArea',
+                label: strings.immAddressedHumanitarianImpactsLabel,
+                description: strings.immAddressedHumanitarianImpactsDesc,
+            },
+
             proposed_action: {
                 headingBefore: strings.immProposedActionsHeading,
                 type: 'list',
@@ -1332,34 +1360,6 @@ function useImportTemplateSchema() {
                 },
             },
 
-            is_surge_personnel_deployed: {
-                headingBefore: strings.immAboutSupportServicesHeading,
-                type: 'select',
-                validation: 'boolean',
-                optionsKey: '__boolean',
-                label: strings.immIsSurgePersonnelDeployedLabel,
-                description: strings.immIsSurgePersonnelDeployedDesc,
-            },
-
-            surge_personnel_deployed: {
-                type: 'input',
-                validation: 'string',
-                label: strings.immSurgePersonnelDeployedLabel,
-                description: joinLines(
-                    strings.immSurgePersonnelDeployedDesc1,
-                    strings.immSurgePersonnelDeployedDesc2,
-                    strings.immSurgePersonnelDeployedDesc3,
-                    strings.immSurgePersonnelDeployedDesc4,
-                ),
-            },
-
-            addressed_humanitarian_impacts: {
-                type: 'input',
-                validation: 'textArea',
-                label: strings.immAddressedHumanitarianImpactsLabel,
-                description: strings.immAddressedHumanitarianImpactsDesc,
-            },
-
             // TIMEFRAME AND CONTACTS
 
             ns_request_date: {
@@ -1369,12 +1369,223 @@ function useImportTemplateSchema() {
                 label: strings.immNsRequestDateLabel,
             },
 
+            submission_to_geneva: {
+                type: 'input',
+                validation: 'date',
+                label: strings.immSubmissionToGenevaLabel,
+                description: strings.immAddedByRegionalOfficeDesc,
+            },
+
+            date_of_approval: {
+                type: 'input',
+                validation: 'date',
+                label: strings.immDateOfApprovalLabel,
+                description: strings.immAddedByRegionalOfficeDesc,
+            },
+
             operation_timeframe_imminent: {
                 type: 'input',
                 validation: 'number',
                 label: strings.immOperationTimeframeImminentLabel,
                 defaultValue: OPERATION_TIMEFRAME_IMMINENT,
                 description: strings.immOperationTimeframeImminentDesc,
+            },
+
+            publishing_date: {
+                type: 'input',
+                validation: 'date',
+                label: strings.immPublishingDateLabel,
+                description: strings.immAddedByRegionalOfficeDesc,
+            },
+
+            appeal_code: {
+                headingBefore: strings.immTrackingDataAndContactsHeading,
+                type: 'input',
+                validation: 'string',
+                label: strings.immAppealCodeLabel,
+                description: strings.immAppealCodeDesc,
+            },
+
+            ifrc_appeal_manager_name: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immIfrcAppealManagerNameLabel,
+                description: strings.immAddedByRegionalOfficeGroupDesc,
+            },
+
+            ifrc_appeal_manager_title: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immIfrcAppealManagerTitleLabel,
+                description: strings.immAddedByRegionalOfficeGroupDesc,
+            },
+
+            ifrc_appeal_manager_email: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immIfrcAppealManagerEmailLabel,
+                description: strings.immAddedByRegionalOfficeGroupDesc,
+            },
+
+            ifrc_appeal_manager_phone_number: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immIfrcAppealManagerPhoneNumberLabel,
+                description: strings.immAddedByRegionalOfficeGroupDesc,
+            },
+
+            ifrc_project_manager_name: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immIfrcProjectManagerNameLabel,
+                description: strings.immAddedByRegionalOfficeGroupDesc,
+            },
+
+            ifrc_project_manager_title: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immIfrcProjectManagerTitleLabel,
+                description: strings.immAddedByRegionalOfficeGroupDesc,
+            },
+
+            ifrc_project_manager_email: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immIfrcProjectManagerEmailLabel,
+                description: strings.immAddedByRegionalOfficeGroupDesc,
+            },
+
+            ifrc_project_manager_phone_number: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immIfrcProjectManagerPhoneNumberLabel,
+                description: strings.immAddedByRegionalOfficeGroupDesc,
+            },
+
+            national_society_contact_name: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immNationalSocietyContactNameLabel,
+            },
+
+            national_society_contact_title: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immNationalSocietyContactTitleLabel,
+            },
+
+            national_society_contact_email: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immNationalSocietyContactEmailLabel,
+            },
+
+            national_society_contact_phone_number: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immNationalSocietyContactPhoneNumberLabel,
+            },
+
+            ifrc_emergency_name: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immIfrcEmergencyNameLabel,
+            },
+
+            ifrc_emergency_title: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immIfrcEmergencyTitleLabel,
+            },
+
+            ifrc_emergency_email: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immIfrcEmergencyEmailLabel,
+            },
+
+            ifrc_emergency_phone_number: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immIfrcEmergencyPhoneNumberLabel,
+            },
+
+            regional_focal_point_name: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immRegionalFocalPointNameLabel,
+            },
+
+            regional_focal_point_title: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immRegionalFocalPointTitleLabel,
+            },
+
+            regional_focal_point_email: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immRegionalFocalPointEmailLabel,
+            },
+
+            regional_focal_point_phone_number: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immRegionalFocalPointPhoneNumberLabel,
+            },
+
+            media_contact_name: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immMediaContactNameLabel,
+            },
+
+            media_contact_title: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immMediaContactTitleLabel,
+            },
+
+            media_contact_email: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immMediaContactEmailLabel,
+            },
+
+            media_contact_phone_number: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immMediaContactPhoneNumberLabel,
+            },
+
+            national_society_integrity_contact_name: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immNationalSocietyIntegrityContactNameLabel,
+            },
+
+            national_society_integrity_contact_title: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immNationalSocietyIntegrityContactTitleLabel,
+            },
+
+            national_society_integrity_contact_email: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immNationalSocietyIntegrityContactEmailLabel,
+            },
+
+            national_society_integrity_contact_phone_number: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immNationalSocietyIntegrityContactPhoneNumberLabel,
+            },
+
+            national_society_hotline_phone_number: {
+                type: 'input',
+                validation: 'string',
+                label: strings.immNationalSocietyHotlinePhoneNumberLabel,
             },
         },
     }), [strings, optionsMap.type_of_onset]);
