@@ -1,5 +1,28 @@
 # @ifrc-go/ui
 
+## 2.3.0
+
+### Minor Changes
+
+- a7eda50: Add word limits to TextArea and a new ConfirmModal
+
+  - Set `maxWords` on TextArea to limit how many words can be entered
+  - Show the current word count
+  - Add ConfirmModal, a confirmation dialog that can be shown without a button
+
+- 5c14fee: Add a `labelClassName` prop to `InputContainer`
+- 04f549a: Add a `baseline` option to the `contentAlignment` prop of `InlineLayout`, so a leading icon or marker can sit on the first text baseline instead of the vertical centre.
+- e1f1b42: Add `colorVariant` support in Heading, Breadcrumbs and Description components
+
+  - Add shared `ColorVariant` type in utils, re-used by ButtonLayout's `ButtonColorVariant`
+  - Heading: optional `colorVariant` prop; when set, it also takes precedence over the legacy print colors
+  - Description: optional `colorVariant` prop; `withLightText` now reduces the opacity of the current color using `color-mix` so it composes with any color variant
+  - Breadcrumbs: `colorVariant` prop (defaults to `text`); items and separators now use a uniform color and the current page is emphasized with a medium font weight instead of the previous gray/black hierarchy
+
+### Patch Changes
+
+- 7cd1e0b: Add an error slot to InputSection
+
 ## 2.3.0-beta.2
 
 ### Minor Changes
