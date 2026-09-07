@@ -14,6 +14,7 @@ import {
 
 import OperationListItem, { type Props as OperationListItemProps } from '#components/domain/OperationListItem';
 import TabPage from '#components/TabPage';
+import { environment } from '#config';
 import useFilterState from '#hooks/useFilterState';
 import {
     type GoApiResponse,
@@ -72,7 +73,9 @@ export function Component() {
 
     return (
         <TabPage>
-            <EmailPreferences />
+            {environment !== 'production' && (
+                <EmailPreferences />
+            )}
             <Container
                 className={styles.operationsFollowing}
                 heading={strings.operationFollowingHeading}
