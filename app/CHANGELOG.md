@@ -1,5 +1,97 @@
 # go-web-app
 
+## 7.27.0
+
+### Minor Changes
+
+- 7da14db: Add montandon landing page link to token pages
+- 37f4f0e: Revamp emergency pages
+
+  - Update emergency page to include more details according to the appeal type and current stage of the event
+  - Rename, restructure and add various new tabs like Emergency Overview, Operation Strategy (DREF), Actions Summary (Field Report), Background
+  - Add Operation Strategy tab for the DREF and it's various stages
+  - Add Actions Summary for the details from Field Report (only applicable in the Field Report only stage)
+  - Update key figures, emergency overview and add Operational Timeline
+  - Show AI-generated DREF summaries and lessons learned in different sections
+  - Add option to link a DREF application to an emergency
+
+- 3baa90a: Fix page breaks in the EAP Summary export and validate EAP file uploads (Staging only)
+
+  - Start each main section of the EAP Summary export on a new page
+  - Show an error for unsupported files and upload only the accepted ones
+  - Allow `.xlsx` files in EAP file uploads
+  - Disable removing a file while the file input is disabled
+
+- 7cd1e0b: Update Expected Time of Submission in EAP forms (Staging only)
+
+  - Choose the month and year from separate dropdowns
+  - Add a Not Sure option to clear the date in the Full EAP form
+
+- 5c14fee: Apply review feedback to EAP forms and exports (Staging only)
+
+  - Add prioritised risks and early actions to the sEAP Risk Analysis tab
+  - Require a final review checklist when an EAP moves to technically validated, and offer it for download from the EAP table
+  - Fall back to admin 1 areas for countries that have no admin 2 areas, so those EAPs can still record a location in the forms, maps and exports
+  - Derive early action activity timeframes from the lead time entered in the earlier sections
+  - Show the disaster sub-type input for every disaster type on EAP registration
+  - Enter the trigger model lead time as a number
+  - Require the source name and stop requiring the source link in full EAP source information
+  - Expand the quality criteria guidance, including population movement and MEAL considerations
+
+- bc073d8: Restructure translation strings for the DREF Import Template
+- 1a09ccb: Add DREF landing page
+
+  - Add a page for DREF process under Respond
+  - Add an anticipatory pillar with imminent DREF and Early Action Protocols tabs, and a response pillar
+  - Add the DREF decision tree, accessible from navigation bar and from each pillar
+  - Add option to create a new DREF application from the decision tree outcomes and the pillar entry points
+  - Add operations and EAP maps and tables, FAQ sections and key DREF resources
+
+- 330c87c: Update Imminent DREF import template
+
+  - Match field wording and order to the online application form
+  - Add the Tracking Data and Contacts section
+  - Fill in the operation end date on import
+  - Fit rows to their content so nothing needs resizing
+  - Allow editing only in the Value column
+
+- b8e7c9a: Add notification preferences for email alerts under account settings (Staging only)
+- 65527b8: Update EAP forms and exports
+
+  - Add summary, map, strategy and budget sections to the EAP summary export
+  - Add an activation checklist to prepositioning and early action activities
+  - Add a disaster sub-type to EAP registration
+  - Add word limits to long text fields
+  - Attach files with captions in form sections
+  - Ask for confirmation before discarding planned operation data
+  - Update contact sections, labels and descriptions
+  - Fix validation errors in the forms
+
+- 16f427e: Fix DREF Imminent Final Report exporting with the old (v1) layout when exported from the Completed DREF table
+- a1a4d90: Update DREF import template
+
+  - Extend import template for Imminent DREF
+  - Add support for translations in the import template
+  - Disable download and import until the reference data is available
+
+- 49d3924: Improve table column size for DREF final report pdf export (Implementation section)
+- bafb599: Update Active Operations map
+
+  - Add tooltip for crisis categorisation tab in active operation map
+  - Update legend labels
+
+- c32d3f9: Fix the link to stac browser
+
+### Patch Changes
+
+- de16eb8: Add Public Health Analyst role profile to Surge CoS, at /surge/catalogue/health
+- Updated dependencies [a7eda50]
+- Updated dependencies [5c14fee]
+- Updated dependencies [04f549a]
+- Updated dependencies [e1f1b42]
+- Updated dependencies [7cd1e0b]
+  - @ifrc-go/ui@2.3.0
+
 ## 7.27.0-beta.6
 
 ### Minor Changes
