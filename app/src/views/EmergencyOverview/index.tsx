@@ -208,6 +208,9 @@ export function Component() {
     // FIXME: variable name should be more generic
     const isEmergencyAppealStage = stage === STAGE_EMERGENCY_APPEAL
         || stage === STAGE_DREF_APPEAL_ONLY;
+    // an ERP-only DREF appeal shares the emergency-appeal branch of the
+    // timeline, so its document milestones must not read as an appeal's
+    const isErpOnlyDrefAppeal = stage === STAGE_DREF_APPEAL_ONLY;
     const isDrefStage = stage === STAGE_DREF_APPLICATION
         || stage === STAGE_OPERATIONAL_UPDATE
         || stage === STAGE_FINAL_REPORT;
@@ -569,7 +572,9 @@ export function Component() {
                         label: (
                             <>
                                 <Label strong>
-                                    {strings.timelineEmergencyAppealApplication}
+                                    {isErpOnlyDrefAppeal
+                                        ? strings.timelineDrefApplication
+                                        : strings.timelineEmergencyAppealApplication}
                                 </Label>
                                 <TimelineDocument
                                     label={strings.timelineDownloadFile}
@@ -599,7 +604,9 @@ export function Component() {
                         label: (
                             <>
                                 <Label strong>
-                                    {strings.timelineEmergencyAppealFinalReport}
+                                    {isErpOnlyDrefAppeal
+                                        ? strings.timelineDrefFinalReport
+                                        : strings.timelineEmergencyAppealFinalReport}
                                 </Label>
                                 <TimelineDocument
                                     label={strings.timelineDownloadFile}
@@ -844,6 +851,7 @@ export function Component() {
         [
             isFieldReportStage,
             isEmergencyAppealStage,
+            isErpOnlyDrefAppeal,
             isDrefStage,
             latestAppeal,
             emergencyResponse,
