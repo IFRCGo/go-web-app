@@ -1,6 +1,6 @@
 .event-timeline {
-    --event-height: 12rem;
-    --event-width: 12rem;
+    --event-height: 15rem;
+    --event-width: 13rem;
 
     position: relative;
     overflow-x: auto;
