@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="-24 -24 72 72" fill="currentColor">
+    <path fill-rule="evenodd" d="m15.063 10 .937.938-4 4-4-4L8.938 10 12 13.063 15.063 10Z" clip-rule="evenodd"/>
+    <mask id="table-sorting2-line_svg__a" width="8" height="5" x="8" y="10" maskUnits="userSpaceOnUse" style="mask-type:luminance">
+        <path fill-rule="evenodd" d="m15.063 10 .937.938-4 4-4-4L8.938 10 12 13.063 15.063 10Z" clip-rule="evenodd"/>
+    </mask>
+    <g mask="url(#table-sorting2-line_svg__a)">
+        <path d="M-24-24h72v72h-72z"/>
+    </g>
+</svg>

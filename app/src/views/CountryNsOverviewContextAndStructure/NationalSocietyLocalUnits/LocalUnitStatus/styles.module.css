@@ -3,7 +3,7 @@
     gap: var(--go-ui-spacing-xs);
 
     .icon {
-        font-size: var(--go-ui-height-icon-multiplier);
+        font-size: 1.33em;
     }
 
     &.validated {

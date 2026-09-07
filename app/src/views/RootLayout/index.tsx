@@ -11,7 +11,10 @@ import {
     Outlet,
     useNavigation,
 } from 'react-router-dom';
-import { AlertInformationLineIcon } from '@ifrc-go/icons';
+import {
+    AlertInformationLineIcon,
+    IconsProvider,
+} from '@ifrc-go/icons';
 import {
     AlertContainer,
     Button,
@@ -425,64 +428,66 @@ export function Component() {
     return (
         <DomainContext.Provider value={domainContextValue}>
             <div className={styles.root}>
-                {(isLoading || isLoadingDebounced) && (
-                    <div
-                        className={_cs(
-                            styles.navigationLoader,
-                            !isLoading && isLoadingDebounced && styles.disappear,
-                        )}
-                    />
-                )}
-                <Navbar className={styles.navbar} />
-                <div className={styles.pageContent}>
-                    <Outlet />
-                </div>
-                <GlobalFooter className={styles.footer} />
-                <AlertContainer />
-                {(isCookiesBannerVisible || environment !== 'production') && (
-                    <div className={styles.bannersContainer}>
-                        {isCookiesBannerVisible && (
-                            <PageContainer className={styles.cookiesBanner}>
-                                <Container
-                                    // FIXME: use translation and actual heading
-                                    heading="Cookie Policy"
-                                    headerIcons={(
-                                        <AlertInformationLineIcon
-                                            className={styles.alertInfoIcon}
-                                        />
-                                    )}
-                                    headerActions={(
-                                        <ListView>
-                                            <Link
-                                                to="cookiePolicy"
-                                                colorVariant="text-on-dark"
-                                                styleVariant="translucent"
-                                                withLinkIcon
-                                            >
-                                                {strings.cookiesBannerLearnMore}
-                                            </Link>
-                                            <Button
-                                                name={undefined}
-                                                styleVariant="filled"
-                                                onClick={handleClick}
-                                            >
-                                                {strings.cookiesBannerIAccept}
-                                            </Button>
-                                        </ListView>
-                                    )}
-                                >
-                                    {strings.cookiesBannerDescription}
-                                </Container>
-                            </PageContainer>
-                        )}
-                        {environment !== 'production' && (
-                            <div className={styles.environmentBanner}>
-                                {/* NOTE: We are not translating alpha server names */}
-                                {environmentTexts[environment] ?? environment}
-                            </div>
-                        )}
+                <IconsProvider className={styles.goIcons}>
+                    {(isLoading || isLoadingDebounced) && (
+                        <div
+                            className={_cs(
+                                styles.navigationLoader,
+                                !isLoading && isLoadingDebounced && styles.disappear,
+                            )}
+                        />
+                    )}
+                    <Navbar className={styles.navbar} />
+                    <div className={styles.pageContent}>
+                        <Outlet />
                     </div>
-                )}
+                    <GlobalFooter className={styles.footer} />
+                    <AlertContainer />
+                    {(isCookiesBannerVisible || environment !== 'production') && (
+                        <div className={styles.bannersContainer}>
+                            {isCookiesBannerVisible && (
+                                <PageContainer className={styles.cookiesBanner}>
+                                    <Container
+                                        // FIXME: use translation and actual heading
+                                        heading="Cookie Policy"
+                                        headerIcons={(
+                                            <AlertInformationLineIcon
+                                                className={styles.alertInfoIcon}
+                                            />
+                                        )}
+                                        headerActions={(
+                                            <ListView>
+                                                <Link
+                                                    to="cookiePolicy"
+                                                    colorVariant="text-on-dark"
+                                                    styleVariant="translucent"
+                                                    withLinkIcon
+                                                >
+                                                    {strings.cookiesBannerLearnMore}
+                                                </Link>
+                                                <Button
+                                                    name={undefined}
+                                                    styleVariant="filled"
+                                                    onClick={handleClick}
+                                                >
+                                                    {strings.cookiesBannerIAccept}
+                                                </Button>
+                                            </ListView>
+                                        )}
+                                    >
+                                        {strings.cookiesBannerDescription}
+                                    </Container>
+                                </PageContainer>
+                            )}
+                            {environment !== 'production' && (
+                                <div className={styles.environmentBanner}>
+                                    {/* NOTE: We are not translating alpha server names */}
+                                    {environmentTexts[environment] ?? environment}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </IconsProvider>
             </div>
         </DomainContext.Provider>
     );

@@ -1,5 +1,6 @@
 packages:
   - app
+  - packages/icons
   - packages/ui
   - packages/go-ui-storybook
 onlyBuiltDependencies:

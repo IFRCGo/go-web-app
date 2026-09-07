@@ -4,6 +4,14 @@
     flex-direction: column;
     min-height: 100vh;
 
+    .go-icons {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        line-height: 1;
+    }
+
     .banners-container {
         position: sticky;
         bottom: 0;

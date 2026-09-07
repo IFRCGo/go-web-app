@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="-24 -27 72 77" fill="currentColor">
+    <path fill-rule="evenodd" d="m15.063 12 .937.938-4 4-4-4L8.938 12 12 15.063 15.063 12Z" clip-rule="evenodd"/>
+    <mask id="table-sorting-line_svg__a" width="8" height="5" x="8" y="12" maskUnits="userSpaceOnUse" style="mask-type:luminance">
+        <path fill-rule="evenodd" d="m15.063 12 .937.938-4 4-4-4L8.938 12 12 15.063 15.063 12Z" clip-rule="evenodd"/>
+    </mask>
+    <g mask="url(#table-sorting-line_svg__a)">
+        <path d="M-24-22h72v72h-72z"/>
+    </g>
+    <path fill-rule="evenodd" d="M8.938 11 8 10.062l4-4 4 4-.938.938L12 7.937 8.937 11Z" clip-rule="evenodd"/>
+    <mask id="table-sorting-line_svg__b" width="8" height="5" x="8" y="6" maskUnits="userSpaceOnUse" style="mask-type:luminance">
+        <path fill-rule="evenodd" d="M8.938 11 8 10.062l4-4 4 4-.938.938L12 7.937 8.937 11Z" clip-rule="evenodd"/>
+    </mask>
+    <g mask="url(#table-sorting-line_svg__b)">
+        <path d="M48 45h-72v-72h72z"/>
+    </g>
+</svg>
