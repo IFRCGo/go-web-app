@@ -20,6 +20,7 @@ import TermText from '#components/domain/Faq/TermText';
 import FaqList from '#components/domain/FaqList';
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
+import { environment } from '#config';
 import { DREF_TYPE_IMMINENT } from '#utils/constants';
 import {
     DREF_AA_MANUAL_URL,
@@ -102,7 +103,7 @@ export function Component() {
                             withBackground
                             withShadow
                             withPadding
-                            footer={(
+                            footer={environment !== 'production' ? (
                                 <Link
                                     to="newEapDevelopmentRegistration"
                                     styleVariant="outline"
@@ -110,7 +111,7 @@ export function Component() {
                                 >
                                     {strings.eapCardButton}
                                 </Link>
-                            )}
+                            ) : undefined}
                         >
                             {strings.eapCardText}
                         </Container>
@@ -669,8 +670,8 @@ export function Component() {
                             </Faq>
                         </FaqList>
                         <DrefDecisionTreeCallout />
-                        <EapMap />
-                        <EapTable />
+                        {environment !== 'production' && <EapMap />}
+                        {environment !== 'production' && <EapTable />}
                         <DrefKeyResources variant="anticipatory" />
                     </ListView>
                 </TabPanel>

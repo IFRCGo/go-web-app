@@ -21,6 +21,7 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
+import { environment } from '#config';
 
 import {
     answer,
@@ -144,6 +145,15 @@ function DrefDecisionTreeModal(props: Props) {
         activeQuestion,
         outcome,
     } = state;
+
+    const outcomeActions = useMemo(
+        () => (outcome?.actions ?? []).filter(
+            (action) => !(action.type === 'navigate'
+                && action.hideInProduction
+                && environment === 'production'),
+        ),
+        [outcome],
+    );
 
     const handleNext = useCallback(
         () => {
@@ -349,7 +359,7 @@ function DrefDecisionTreeModal(props: Props) {
                                 >
                                     {strings.backButton}
                                 </Button>
-                                {outcome.actions.map((action) => (
+                                {outcomeActions.map((action) => (
                                     action.type === 'navigate' ? (
                                         <Link
                                             key={action.route}

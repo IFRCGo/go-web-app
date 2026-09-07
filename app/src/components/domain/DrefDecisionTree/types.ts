@@ -17,6 +17,8 @@ export type OutcomeAction =
         state?: unknown;
         // CTA label; falls back to the outcome's own label when omitted.
         labelKey?: ContentKey;
+        // Target sits behind an unreleased feature: index.tsx drops the CTA in production.
+        hideInProduction?: boolean;
     }
     | {
         // Guidance published outside GO (the DREF Guidelines wiki, shared folders).

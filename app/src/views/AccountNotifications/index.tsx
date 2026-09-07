@@ -25,6 +25,7 @@ import SubscriptionPreferences from './SubscriptionPreferences';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import { environment } from '#config';
 
 type OperationsResponse = GoApiResponse<'/api/v2/event/'>;
 
@@ -72,7 +73,9 @@ export function Component() {
 
     return (
         <TabPage>
-            <EmailPreferences />
+            {environment !== 'production' && (
+                <EmailPreferences />
+            )}
             <Container
                 className={styles.operationsFollowing}
                 heading={strings.operationFollowingHeading}
