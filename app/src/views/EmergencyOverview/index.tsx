@@ -54,6 +54,7 @@ import {
 import {
     getDrefAppealDocumentUrls,
     getDrefSummary,
+    getEmergencyAppealDocuments,
     getEmergencyDrefStrategy,
     getEmergencyOperationType,
     STAGE_DREF_APPEAL_ONLY,
@@ -102,6 +103,57 @@ function TimelineDocument(props: TimelineDocumentProps) {
         >
             {label}
         </Link>
+    );
+}
+
+interface TimelineDrefApplicationProps {
+    label: string;
+    popupHeading: React.ReactNode;
+    targetedPopulation: number | null | undefined;
+    fundingRequirements: number | null | undefined;
+}
+
+// mirrors the final-report entry: the milestone title opens a popup with the
+// application's own figures, and the published file hangs below it
+function TimelineDrefApplication(props: TimelineDrefApplicationProps) {
+    const {
+        label,
+        popupHeading,
+        targetedPopulation,
+        fundingRequirements,
+    } = props;
+
+    const strings = useTranslation(i18n);
+
+    return (
+        <DropdownMenu
+            labelColorVariant="text"
+            labelStyleVariant="translucent"
+            withoutDropdownIcon
+            labelWithoutAdditionalInlinePadding
+            withoutPopupPadding
+            label={label}
+            preferredPopupWidth={26}
+        >
+            <Container
+                heading={popupHeading}
+                withHeaderBorder
+                withPadding
+            >
+                <TextOutput
+                    label={strings.timelineTargetedPopulationLabel}
+                    value={targetedPopulation}
+                    valueType="number"
+                    strongValue
+                />
+                <TextOutput
+                    label={strings.timelineFundingRequirementsLabel}
+                    value={fundingRequirements}
+                    valueType="number"
+                    strongValue
+                />
+            </Container>
+        </DropdownMenu>
     );
 }
 
@@ -196,31 +248,37 @@ export function Component() {
     ].find(isTruthyString);
 
     // the emergency payload carries no appeal at DREF stages, so the published
-    // documents have to be reached through the MDR code
-    const { response: appealResponse } = useRequest({
-        skip: !isDrefStage || isNotDefined(mdrCode),
-        url: '/api/v2/appeal/',
-        query: { code: mdrCode },
-    });
-
-    // the appeal history serializes the appeal's own id, as a string
-    const appealId = appealResponse?.results?.[0]?.id;
-    const appealIdNumber = isDefined(appealId) ? Number(appealId) : undefined;
-
+    // documents are fetched for the whole event and narrowed to the operation's
+    // own MDR code below
     const { response: appealDocumentsResponse } = useRequest({
-        skip: isNotDefined(appealIdNumber),
+        skip: (!isDrefStage && !isEmergencyAppealStage)
+            || isNotDefined(mdrCode)
+            || isNotDefined(emergencyResponse?.id),
         url: '/api/v2/appeal_document/',
         query: {
-            appeal: isDefined(appealIdNumber) ? [appealIdNumber] : undefined,
+            event_id: emergencyResponse?.id,
             limit: 9999,
             ordering: 'created_at',
         },
     });
 
     const drefDocumentUrls = useMemo(
-        () => getDrefAppealDocumentUrls(appealDocumentsResponse?.results),
-        [appealDocumentsResponse],
+        () => getDrefAppealDocumentUrls(appealDocumentsResponse?.results, mdrCode),
+        [appealDocumentsResponse, mdrCode],
     );
+
+    const emergencyAppealDocuments = useMemo(
+        () => getEmergencyAppealDocuments(appealDocumentsResponse?.results, mdrCode),
+        [appealDocumentsResponse, mdrCode],
+    );
+
+    // an imminent DREF holds its budget in total_cost and its reach in
+    // people_targeted_with_early_actions, matching getEmergencyMeta
+    const drefApplicationTargetedPopulation = dref?.total_targeted_population
+        ?? dref?.people_targeted_with_early_actions;
+    const drefApplicationFundingRequirements = dref?.type_of_dref === DREF_TYPE_IMMINENT
+        ? dref?.total_cost
+        : dref?.amount_requested ?? dref?.total_cost;
 
     const drefStrategy = useMemo(
         () => getEmergencyDrefStrategy(emergencyResponse),
@@ -409,8 +467,23 @@ export function Component() {
                             <div className={styles.primaryLabel}>
                                 {strings.timelineImminentDrefStart}
                             </div>
+                            <TimelineDrefApplication
+                                label={strings.timelineImminentDrefApplication}
+                                popupHeading={resolveToComponent(
+                                    strings.timelineImminentDrefApplicationPopupHeading,
+                                    {
+                                        date: (
+                                            <DateOutput
+                                                value={dref.date_of_approval}
+                                            />
+                                        ),
+                                    },
+                                )}
+                                targetedPopulation={drefApplicationTargetedPopulation}
+                                fundingRequirements={drefApplicationFundingRequirements}
+                            />
                             <TimelineDocument
-                                label={strings.timelineDrefApplication}
+                                label={strings.timelineDrefApplicationDownload}
                                 url={drefDocumentUrls.application}
                             />
                         </>
@@ -477,7 +550,7 @@ export function Component() {
 
                 if (isDefined(latestAppeal?.start_date)) {
                     events.push({
-                        key: `ea-start-${latestAppeal.id}`,
+                        key: `ea-operation-start-${latestAppeal.id}`,
                         date: new Date(latestAppeal.start_date),
                         label: (
                             <div className={styles.primaryLabel}>
@@ -487,14 +560,52 @@ export function Component() {
                     });
                 }
 
+                // the appeal is published days after the operation starts, so
+                // it sits on the timeline at its own date
+                if (isDefined(emergencyAppealDocuments.appeal)) {
+                    events.push({
+                        key: 'ea-appeal-application',
+                        date: new Date(emergencyAppealDocuments.appeal.date),
+                        label: (
+                            <>
+                                <Label strong>
+                                    {strings.timelineEmergencyAppealApplication}
+                                </Label>
+                                <TimelineDocument
+                                    label={strings.timelineDownloadFile}
+                                    url={emergencyAppealDocuments.appeal.url}
+                                />
+                            </>
+                        ),
+                    });
+                }
+
                 if (isDefined(latestAppeal?.end_date)) {
                     events.push({
-                        key: `ea-end-${latestAppeal.id}`,
+                        key: `ea-operation-end-${latestAppeal.id}`,
                         date: new Date(latestAppeal.end_date),
                         label: (
                             <div className={styles.primaryLabel}>
                                 {strings.timelineOperationEnd}
                             </div>
+                        ),
+                    });
+                }
+
+                if (isDefined(emergencyAppealDocuments.finalReport)) {
+                    events.push({
+                        key: 'ea-appeal-final-report',
+                        date: new Date(emergencyAppealDocuments.finalReport.date),
+                        label: (
+                            <>
+                                <Label strong>
+                                    {strings.timelineEmergencyAppealFinalReport}
+                                </Label>
+                                <TimelineDocument
+                                    label={strings.timelineDownloadFile}
+                                    url={emergencyAppealDocuments.finalReport.url}
+                                />
+                            </>
                         ),
                     });
                 }
@@ -529,8 +640,23 @@ export function Component() {
                                 <div className={styles.primaryLabel}>
                                     {strings.timelineOperationStart}
                                 </div>
-                                <TimelineDocument
+                                <TimelineDrefApplication
                                     label={strings.timelineDrefApplication}
+                                    popupHeading={resolveToComponent(
+                                        strings.timelineDrefApplicationPopupHeading,
+                                        {
+                                            date: (
+                                                <DateOutput
+                                                    value={dref.date_of_approval}
+                                                />
+                                            ),
+                                        },
+                                    )}
+                                    targetedPopulation={drefApplicationTargetedPopulation}
+                                    fundingRequirements={drefApplicationFundingRequirements}
+                                />
+                                <TimelineDocument
+                                    label={strings.timelineDrefApplicationDownload}
                                     url={drefDocumentUrls.application}
                                 />
                             </>
@@ -725,6 +851,9 @@ export function Component() {
             drefOpsUpdate,
             drefFinalReport,
             drefDocumentUrls,
+            emergencyAppealDocuments,
+            drefApplicationTargetedPopulation,
+            drefApplicationFundingRequirements,
             strings,
         ],
     );
