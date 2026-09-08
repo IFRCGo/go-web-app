@@ -259,13 +259,9 @@ export function Component() {
 
     const groupedSituationReports = useMemo(() => (
         listToGroupList(
-            situationReportsResponse?.results?.filter(
-                (situationReport) => (
-                    isDefined(situationReport.type.type)
-                ),
-            ) ?? [],
-            (situationReport) => situationReport.type.type,
-        )), [situationReportsResponse?.results]);
+            situationReportsResponse?.results ?? [],
+            (situationReport) => situationReport.type?.type ?? strings.situationReportTypeOthers,
+        )), [situationReportsResponse?.results, strings.situationReportTypeOthers]);
 
     const situationReportsRendererParams = useCallback(
         (_: number, value: SituationReportType): LinkProps => ({

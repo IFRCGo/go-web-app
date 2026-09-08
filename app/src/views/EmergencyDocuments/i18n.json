@@ -15,6 +15,7 @@
         "appealDocumentCode": "Code",
         "appealDocumentDescription": "Description",
         "appealDocumentLink": "Name",
-        "emergencyReportAndDocumentImageAlt": "Image"
+        "emergencyReportAndDocumentImageAlt": "Image",
+        "situationReportTypeOthers": "Others"
     }
 }
