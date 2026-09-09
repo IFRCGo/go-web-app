@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.27.1
+
+### Patch Changes
+
+- Fix crashes on DREF Account page
+
 ## 7.27.0
 
 ### Minor Changes
