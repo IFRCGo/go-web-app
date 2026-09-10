@@ -1,0 +1,10 @@
+{
+    "namespace": "malawiRiskWatch",
+    "strings": {
+        "jbaForecastIssuedLabel": "Forecast issued",
+        "jbaRunStatusLabel": "Run status",
+        "jbaNoImpactMessage": "No flood impact forecasted for this day",
+        "jbaLoadFailedMessage": "Failed to load the flood forecast",
+        "jbaRunInfoTitle": "Forecast run"
+    }
+}

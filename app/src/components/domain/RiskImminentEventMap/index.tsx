@@ -116,6 +116,8 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     activeEventExposurePending: boolean;
     // Shows the exposed-area toggle in the storm layer options
     withExposureAreaControl?: boolean;
+    errored?: boolean;
+    errorMessage?: React.ReactNode;
     emptyMessage?: React.ReactNode;
     headerActions?: React.ReactNode;
     headerDescription?: React.ReactNode;
@@ -146,6 +148,8 @@ function RiskImminentEventMap<
         onActiveEventChange,
         activeEventExposurePending,
         withExposureAreaControl = false,
+        errored,
+        errorMessage,
         emptyMessage,
         headerActions,
         headerDescription,
@@ -497,6 +501,8 @@ function RiskImminentEventMap<
                 headerDescription={headerDescription}
                 headerActions={headerActions}
                 pending={pending}
+                errored={errored}
+                errorMessage={errorMessage}
                 empty={isNotDefined(events) || events.length === 0}
                 emptyMessage={emptyMessage ?? strings.emptyImminentEventMessage}
                 withPadding

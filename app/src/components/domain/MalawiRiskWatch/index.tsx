@@ -1,22 +1,14 @@
-import { useMemo } from 'react';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { isNotDefined } from '@togglecorp/fujs';
 import type { LngLatBoundsLike } from 'mapbox-gl';
-import {
-    cacheExchange,
-    createClient,
-    fetchExchange,
-    Provider as GraphqlProvider,
-} from 'urql';
 
 import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
-import { malawiRiskWatchGraphqlApi } from '#config';
 
+import Jba from './Jba';
 import { type MalawiRiskWatchSource } from './utils';
 
 import i18n from './i18n.json';
 
-// Placeholder until the JBA and ARC sources are added
+// Placeholder until the ARC source is added
 const noEvents: never[] = [];
 function keySelector(event: never): string {
     return event;
@@ -47,43 +39,32 @@ function MalawiRiskWatch(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const graphqlClient = useMemo(
-        () => {
-            if (isNotDefined(malawiRiskWatchGraphqlApi)) {
-                return undefined;
-            }
-            return createClient({
-                url: malawiRiskWatchGraphqlApi,
-                exchanges: [cacheExchange, fetchExchange],
-            });
-        },
-        [],
-    );
-
-    if (isNotDefined(graphqlClient)) {
-        return null;
+    if (source === 'jba') {
+        return (
+            <Jba
+                title={title}
+                bbox={bbox}
+            />
+        );
     }
 
     return (
-        <GraphqlProvider value={graphqlClient}>
-            <RiskImminentEventMap
-                key={source}
-                events={noEvents}
-                keySelector={keySelector}
-                hazardTypeSelector={hazardTypeSelector}
-                pointFeatureSelector={noFeatureSelector}
-                footprintSelector={noFeatureSelector}
-                activeEventExposure={undefined}
-                activeEventExposurePending={false}
-                listItemRenderer={EmptyRenderer}
-                detailRenderer={EmptyRenderer}
-                pending={false}
-                sidePanelHeading={title}
-                emptyMessage={strings.noDataMessage}
-                bbox={bbox}
-                onActiveEventChange={noop}
-            />
-        </GraphqlProvider>
+        <RiskImminentEventMap
+            events={noEvents}
+            keySelector={keySelector}
+            hazardTypeSelector={hazardTypeSelector}
+            pointFeatureSelector={noFeatureSelector}
+            footprintSelector={noFeatureSelector}
+            activeEventExposure={undefined}
+            activeEventExposurePending={false}
+            listItemRenderer={EmptyRenderer}
+            detailRenderer={EmptyRenderer}
+            pending={false}
+            sidePanelHeading={title}
+            emptyMessage={strings.noDataMessage}
+            bbox={bbox}
+            onActiveEventChange={noop}
+        />
     );
 }
 

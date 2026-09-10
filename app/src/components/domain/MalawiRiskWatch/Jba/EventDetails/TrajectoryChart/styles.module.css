@@ -1,0 +1,13 @@
+.chart-container {
+    height: 12rem;
+
+    .trajectory {
+        color: var(--go-ui-color-primary-red);
+
+        .line {
+            stroke: currentColor;
+            stroke-width: 2pt;
+            fill: none;
+        }
+    }
+}

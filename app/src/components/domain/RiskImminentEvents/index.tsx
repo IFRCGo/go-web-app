@@ -269,6 +269,7 @@ function RiskImminentEvents(props: Props) {
                     >
                         {riskHazards.map((hazard) => (
                             <LegendItem
+                                key={hazard.key}
                                 icon={hazard.icon}
                                 label={hazard.label}
                                 color={hazardTypeToColorMap[hazard.key]}
