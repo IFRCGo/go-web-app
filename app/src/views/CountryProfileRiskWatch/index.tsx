@@ -15,6 +15,7 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 
+import { isMalawiRiskWatchEnabled } from '#components/domain/MalawiRiskWatch/utils';
 import RiskImminentEvents, { type ImminentEventSource } from '#components/domain/RiskImminentEvents';
 import Link from '#components/Link';
 import TabPage from '#components/TabPage';
@@ -142,9 +143,9 @@ export function Component() {
             <Description withCenteredContent>
                 {strings.riskWatchDescription}
             </Description>
-            {hasImminentEvents
-                && isDefined(countryResponse)
+            {isDefined(countryResponse)
                 && isDefined(countryResponse.iso3)
+                && (hasImminentEvents || isMalawiRiskWatchEnabled(countryResponse.iso3))
                 && (
                     <RiskImminentEvents
                         variant="country"
