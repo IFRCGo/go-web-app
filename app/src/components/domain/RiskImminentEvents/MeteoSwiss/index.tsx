@@ -212,7 +212,6 @@ function MeteoSwiss(props: Props) {
 
     return (
         <RiskImminentEventMap
-            source="meteoSwiss"
             events={countryRiskResponse?.results}
             pointFeatureSelector={pointFeatureSelector}
             keySelector={numericIdSelector}

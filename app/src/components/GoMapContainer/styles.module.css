@@ -32,7 +32,7 @@
             font-size: var(--go-ui-font-size-sm);
         }
 
-        .presentation-mode-button {
+        .top-left-actions {
             position: absolute;
             top: var(--go-ui-spacing-sm);
             left: var(--go-ui-spacing-sm);
