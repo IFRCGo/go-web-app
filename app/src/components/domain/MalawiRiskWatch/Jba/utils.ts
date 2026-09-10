@@ -135,3 +135,59 @@ export function getDistrictEvents(
             (impactSelector(b.activeRow) ?? 0) - (impactSelector(a.activeRow) ?? 0)
         ));
 }
+
+export interface JbaImpactBin {
+    min: number;
+    max: number;
+    color: string;
+}
+
+// Classes span the whole run so colours stay comparable across forecast days
+export function getImpactBins(
+    districts: ReturnType<typeof groupRowsByDistrict>,
+    colors: string[],
+): JbaImpactBin[] {
+    const values = [...districts.values()]
+        .flatMap((district) => district.rows.map(impactSelector))
+        .filter((value): value is number => isDefined(value) && value > 0)
+        .sort((a, b) => a - b);
+
+    if (values.length === 0) {
+        return [];
+    }
+
+    const quantile = (fraction: number) => (
+        values[Math.min(Math.floor(values.length * fraction), values.length - 1)]
+    );
+    const breaks = [...new Set(
+        colors.map((_, index) => quantile((index + 1) / colors.length)).filter(isDefined),
+    )];
+    const lastColorIndex = colors.length - 1;
+    const lastBreakIndex = Math.max(breaks.length - 1, 1);
+
+    return breaks.map((max, index) => ({
+        min: index === 0 ? values[0]! : breaks[index - 1]!,
+        max,
+        color: colors[Math.round((index * lastColorIndex) / lastBreakIndex)]!,
+    }));
+}
+
+export function getImpactColorByPcode(
+    districts: ReturnType<typeof groupRowsByDistrict>,
+    leadTimeDays: number,
+    bins: JbaImpactBin[],
+) {
+    const colorByPcode: Record<string, string> = {};
+    districts.forEach((district) => {
+        const row = district.rows.find((item) => item.leadTimeDays === leadTimeDays);
+        const impact = row ? impactSelector(row) : undefined;
+        if (isNotDefined(impact) || impact <= 0) {
+            return;
+        }
+        const bin = bins.find((item) => impact <= item.max) ?? bins[bins.length - 1];
+        if (bin) {
+            colorByPcode[district.id] = bin.color;
+        }
+    });
+    return colorByPcode;
+}
