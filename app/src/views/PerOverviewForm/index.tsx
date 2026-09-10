@@ -588,6 +588,19 @@ export function Component() {
                                 disabled={disabled}
                             />
                         </InputSection>
+                        <InputSection
+                            title={strings.migrationConsiderationsInputLabel}
+                            description={strings.migrationConsiderationsInputDescription}
+                        >
+                            <BooleanInput
+                                name="assess_migration_aspect_of_country"
+                                value={value?.assess_migration_aspect_of_country}
+                                onChange={setFieldValue}
+                                error={error?.assess_migration_aspect_of_country}
+                                readOnly={partialReadOnly || readOnly}
+                                disabled={disabled}
+                            />
+                        </InputSection>
                     </ListView>
                 </Container>
                 <Container

@@ -73,6 +73,7 @@ export const overviewSchema: OverviewFormSchema = {
             'assess_preparedness_of_country',
             'assess_urban_aspect_of_country',
             'assess_climate_environment_of_country',
+            'assess_migration_aspect_of_country',
         ] as const;
         schema = addCondition(
             schema,
@@ -88,6 +89,7 @@ export const overviewSchema: OverviewFormSchema = {
                         assess_preparedness_of_country: { forceValue: undefinedValue },
                         assess_urban_aspect_of_country: { forceValue: undefinedValue },
                         assess_climate_environment_of_country: { forceValue: undefinedValue },
+                        assess_migration_aspect_of_country: { forceValue: undefinedValue },
                     };
                 }
                 return {
@@ -97,6 +99,7 @@ export const overviewSchema: OverviewFormSchema = {
                     assess_preparedness_of_country: {},
                     assess_urban_aspect_of_country: {},
                     assess_climate_environment_of_country: {},
+                    assess_migration_aspect_of_country: {},
                 };
             },
         );
