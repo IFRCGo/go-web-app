@@ -100,13 +100,7 @@ export interface RiskEventDetailProps<EVENT, EXPOSURE> {
 
 type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> | undefined;
 
-// FIXME: read this from common type
-type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
-
 interface Props<EVENT, EXPOSURE, KEY extends string | number> {
-    // FIXME: use props for configuration rather than
-    // passing source here
-    source: ImminentEventSource;
     events: EVENT[] | undefined;
     keySelector: (event: EVENT) => KEY;
     hazardTypeSelector: (event: EVENT) => CommonHazardType | '' | undefined;
@@ -120,6 +114,16 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     bbox: LngLatBoundsLike | undefined;
     onActiveEventChange: (eventId: KEY | undefined) => void;
     activeEventExposurePending: boolean;
+    // Shows the exposed-area toggle in the storm layer options
+    withExposureAreaControl?: boolean;
+    emptyMessage?: React.ReactNode;
+    headerActions?: React.ReactNode;
+    headerDescription?: React.ReactNode;
+    // Slots for source-specific map content
+    baseLayers?: React.ReactNode;
+    mapChildren?: React.ReactNode;
+    mapLegend?: React.ReactNode;
+    layerSelection?: React.ReactNode;
 }
 
 function RiskImminentEventMap<
@@ -141,7 +145,14 @@ function RiskImminentEventMap<
         bbox,
         onActiveEventChange,
         activeEventExposurePending,
-        source,
+        withExposureAreaControl = false,
+        emptyMessage,
+        headerActions,
+        headerDescription,
+        baseLayers,
+        mapChildren,
+        mapLegend,
+        layerSelection,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -288,8 +299,7 @@ function RiskImminentEventMap<
                     {hazardTypeSelector(event) === 'TC' && (
                         <LayerOptions
                             value={layerOptions}
-                            // NOTE: Currently the information is only visible in gdacs
-                            exposureAreaControlHidden={source !== 'gdacs'}
+                            exposureAreaControlHidden={!withExposureAreaControl}
                             onChange={setLayerOptions}
                         />
                     )}
@@ -305,7 +315,7 @@ function RiskImminentEventMap<
             DetailComponent,
             activeEventId,
             keySelector,
-            source,
+            withExposureAreaControl,
         ],
     );
 
@@ -355,11 +365,16 @@ function RiskImminentEventMap<
         <div className={styles.riskImminentEventMap}>
             <GlobalMap
                 mapOptions={{ bounds }}
+                baseLayers={baseLayers}
             >
                 <GoMapContainer
                     className={styles.mapContainer}
                     title={strings.riskImminentEventsMap}
-                />
+                    layerSelection={layerSelection}
+                >
+                    {mapLegend}
+                </GoMapContainer>
+                {mapChildren}
                 {hazardKeys.map((key) => {
                     const url = hazardKeyToIconMap[key];
 
@@ -479,9 +494,11 @@ function RiskImminentEventMap<
             <Container
                 className={styles.sidePanel}
                 heading={sidePanelHeading}
+                headerDescription={headerDescription}
+                headerActions={headerActions}
                 pending={pending}
                 empty={isNotDefined(events) || events.length === 0}
-                emptyMessage={strings.emptyImminentEventMessage}
+                emptyMessage={emptyMessage ?? strings.emptyImminentEventMessage}
                 withPadding
                 withBackground
                 withShadow
