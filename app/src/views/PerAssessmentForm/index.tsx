@@ -510,6 +510,8 @@ export function Component() {
                                                 ?.assess_urban_aspect_of_country}
                                             // eslint-disable-next-line max-len
                                             climate_environmental_considerations={perOverviewResponse?.assess_climate_environment_of_country}
+                                            // eslint-disable-next-line max-len
+                                            migration_considerations={perOverviewResponse?.assess_migration_aspect_of_country}
                                         />
                                     </ListView>
                                 </TabPanel>

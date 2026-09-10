@@ -48,6 +48,7 @@ interface Props {
     epi_considerations: boolean | null | undefined;
     urban_considerations: boolean | null | undefined;
     climate_environmental_considerations: boolean | null | undefined;
+    migration_considerations: boolean | null | undefined;
     readOnly?: boolean;
     disabled?: boolean;
 }
@@ -67,6 +68,7 @@ function AreaInput(props: Props) {
         urban_considerations,
         questionGroups,
         climate_environmental_considerations,
+        migration_considerations,
         readOnly,
         disabled = false,
     } = props;
@@ -143,6 +145,7 @@ function AreaInput(props: Props) {
                     epi_considerations={epi_considerations}
                     urban_considerations={urban_considerations}
                     climate_environmental_considerations={climate_environmental_considerations}
+                    migration_considerations={migration_considerations}
                     readOnly={readOnly}
                     disabled={disabled}
                 />
