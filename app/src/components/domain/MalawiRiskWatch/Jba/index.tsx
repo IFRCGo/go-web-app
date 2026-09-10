@@ -5,12 +5,17 @@ import {
 } from 'react';
 import {
     InfoPopup,
+    Legend,
     ListView,
     SelectInput,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { formatDate } from '@ifrc-go/ui/utils';
+import {
+    formatDate,
+    formatNumber,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -24,8 +29,10 @@ import { MAX_PAGE_LIMIT } from '#utils/constants';
 
 import {
     JBA_DEFAULT_LEAD_TIME_DAYS,
+    JBA_IMPACT_COLORS,
     JBA_IMPACT_THRESHOLD,
     JBA_RUNS_LIMIT,
+    MALAWI_ISO3,
 } from '../constants';
 import useMalawiAdminAreas from '../useMalawiAdminAreas';
 import {
@@ -35,6 +42,7 @@ import {
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 import ForecastDayInput from './ForecastDayInput';
+import ForecastLayer from './ForecastLayer';
 import {
     JBA_FORECAST_IMPACTS_QUERY,
     JBA_INGESTION_RUNS_QUERY,
@@ -42,8 +50,11 @@ import {
 import {
     getDistrictEvents,
     getForecastDays,
+    getImpactBins,
+    getImpactColorByPcode,
     groupRowsByDistrict,
     type JbaDistrictEvent,
+    type JbaImpactBin,
 } from './utils';
 
 import i18n from './i18n.json';
@@ -63,6 +74,12 @@ function runLabelSelector(run: IngestionRun) {
 }
 function eventKeySelector(event: JbaDistrictEvent) {
     return event.id;
+}
+function binKeySelector(bin: JbaImpactBin) {
+    return bin.max;
+}
+function binColorSelector(bin: JbaImpactBin) {
+    return bin.color;
 }
 function hazardTypeSelector() {
     return 'FL' as const;
@@ -120,6 +137,25 @@ function Jba(props: Props) {
     const events = useMemo(
         () => getDistrictEvents(districts, adminAreaByCode, leadTimeDays, JBA_IMPACT_THRESHOLD),
         [districts, adminAreaByCode, leadTimeDays],
+    );
+    const impactBins = useMemo(
+        () => getImpactBins(districts, JBA_IMPACT_COLORS),
+        [districts],
+    );
+    const impactColorByPcode = useMemo(
+        () => getImpactColorByPcode(districts, leadTimeDays, impactBins),
+        [districts, leadTimeDays, impactBins],
+    );
+
+    const binLabelSelector = useCallback(
+        (bin: JbaImpactBin) => resolveToString(
+            strings.jbaForecastLegendRange,
+            {
+                min: formatNumber(Math.round(bin.min), { compact: true, maximumFractionDigits: 1 }),
+                max: formatNumber(Math.round(bin.max), { compact: true, maximumFractionDigits: 1 }),
+            },
+        ),
+        [strings.jbaForecastLegendRange],
     );
     const activeEvent = events.find((event) => event.id === activeEventId);
 
@@ -230,6 +266,21 @@ function Jba(props: Props) {
             )}
             bbox={bbox}
             onActiveEventChange={setActiveEventId}
+            mapChildren={(
+                <ForecastLayer
+                    iso3={MALAWI_ISO3}
+                    colorByPcode={impactColorByPcode}
+                />
+            )}
+            mapLegend={impactBins.length > 0 && (
+                <Legend
+                    label={strings.jbaForecastLegendLabel}
+                    items={impactBins}
+                    keySelector={binKeySelector}
+                    colorSelector={binColorSelector}
+                    labelSelector={binLabelSelector}
+                />
+            )}
         />
     );
 }
