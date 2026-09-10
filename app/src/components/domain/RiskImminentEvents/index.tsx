@@ -21,6 +21,11 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
 import type { LngLatBoundsLike } from 'mapbox-gl';
 
+import MalawiRiskWatch from '#components/domain/MalawiRiskWatch';
+import {
+    isMalawiRiskWatchEnabled,
+    type MalawiRiskWatchSource,
+} from '#components/domain/MalawiRiskWatch/utils';
 import Link from '#components/Link';
 import WikiLink from '#components/WikiLink';
 import { environment } from '#config';
@@ -34,7 +39,7 @@ import WfpAdam from './WfpAdam';
 
 import i18n from './i18n.json';
 
-export type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
+export type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss' | MalawiRiskWatchSource;
 type HazardType = components<'read'>['schemas']['CommonHazardTypeEnumKey'];
 
 interface SourceOption {
@@ -64,10 +69,16 @@ type Props = BaseProps & ({
 function RiskImminentEvents(props: Props) {
     const {
         className,
-        defaultSource = 'gdacs',
+        defaultSource,
         ...otherProps
     } = props;
-    const [activeView, setActiveView] = useState<ImminentEventSource>(defaultSource);
+
+    const malawiRiskWatchEnabled = otherProps.variant === 'country'
+        && isMalawiRiskWatchEnabled(otherProps.iso3);
+
+    const [activeView, setActiveView] = useState<ImminentEventSource>(
+        defaultSource ?? (malawiRiskWatchEnabled ? 'jba' : 'gdacs'),
+    );
 
     const strings = useTranslation(i18n);
 
@@ -211,9 +222,26 @@ function RiskImminentEvents(props: Props) {
                 );
             }
 
+            if (malawiRiskWatchEnabled) {
+                options.push(
+                    {
+                        key: 'jba',
+                        label: strings.imminentEventsSourceJbaLabel,
+                        infoTitle: strings.jbaTitle,
+                        infoDescription: strings.jbaDescription,
+                    },
+                    {
+                        key: 'arc',
+                        label: strings.imminentEventsSourceArcLabel,
+                        infoTitle: strings.arcTitle,
+                        infoDescription: strings.arcDescription,
+                    },
+                );
+            }
+
             return options;
         },
-        [strings],
+        [strings, malawiRiskWatchEnabled],
     );
 
     return (
@@ -295,6 +323,13 @@ function RiskImminentEvents(props: Props) {
                 <MeteoSwiss
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...otherProps}
+                />
+            )}
+            {malawiRiskWatchEnabled && (activeView === 'jba' || activeView === 'arc') && (
+                <MalawiRiskWatch
+                    source={activeView}
+                    title={otherProps.title}
+                    bbox={otherProps.bbox}
                 />
             )}
         </Container>

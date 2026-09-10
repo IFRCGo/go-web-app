@@ -21,6 +21,10 @@ services:
       APP_MAPBOX_ACCESS_TOKEN: "${APP_MAPBOX_ACCESS_TOKEN:-dummy-token}"
       APP_TINY_API_KEY: "${APP_TINY_API_KEY:-dummy-api-key}"
       APP_RISK_API_ENDPOINT: "${APP_RISK_API_ENDPOINT:-https://go-risk-api-stage.ifrc.org/}"
+      # Full URL of the Malawi Risk Watch GraphQL endpoint. MUST end with a
+      # trailing slash (Django), e.g. https://mrw-api.example.org/graphql/.
+      # Empty disables the Malawi sources.
+      APP_MALAWI_RISK_WATCH_GRAPHQL_ENDPOINT: "${APP_MALAWI_RISK_WATCH_GRAPHQL_ENDPOINT:-}"
       APP_SDT_URL: "${APP_SDT_URL:-}"
       APP_POWER_BI_REPORT_ID_1: "${APP_POWER_BI_REPORT_ID_1:-}"
       APP_SENTRY_DSN: "${APP_SENTRY_DSN:-}"
