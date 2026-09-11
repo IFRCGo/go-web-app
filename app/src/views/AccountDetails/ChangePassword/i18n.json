@@ -9,6 +9,7 @@
         "changePasswordConfirmButtonLabel": "Confirm",
         "changePasswordSuccessMessage": "Successfully changed password!",
         "changePasswordFailureMessage": "Failed to change password!",
-        "changePasswordDoNotMatch": "Passwords do not match"
+        "changePasswordDoNotMatch": "Passwords do not match",
+        "forgotPasswordLink": "Forgot password?"
     }
 }
