@@ -1,0 +1,11 @@
+{
+    "parent": "000098-1788761082060.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "forgotPasswordLink",
+            "namespace": "accountDetails",
+            "value": "Forgot password?"
+        }
+    ]
+}
