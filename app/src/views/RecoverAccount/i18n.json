@@ -3,11 +3,7 @@
     "strings": {
         "pageTitle": "IFRC GO - Recover Account",
         "pageHeading": "Recover Account",
-        "pageDescription": "Enter the email/username you used during registration",
-        "emailInputLabel": "Email/Username",
-        "submitButtonLabel": "Submit recovery request",
-        "successfulMessageTitle": "Account recovery submitted!",
-        "successfulMessageDescription": "Please check you email for further action!",
-        "failureMessageTitle": "Could not recover account!"
+        "pageDescription": "Enter the email you used during registration",
+        "submitButtonLabel": "Submit recovery request"
     }
 }

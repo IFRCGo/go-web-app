@@ -2,6 +2,10 @@
     "namespace": "accountDetails",
     "strings": {
         "changePasswordModalHeading": "Change User Password",
+        "changeMethodLabel": "How do you want to change your password?",
+        "changeMethodOldPasswordLabel": "Using old password",
+        "changeMethodEmailLinkLabel": "Using email link",
+        "changeMethodEmailLinkDescription": "A link to set a new password will be emailed to you. Your current password keeps working until you use that link.",
         "oldPasswordInputLabel": "Old Password",
         "newPasswordInputLabel": "New Password",
         "confirmNewPasswordInputLabel": "Confirm New Password",
