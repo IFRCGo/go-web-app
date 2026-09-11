@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.28.0-beta.0
+
+### Minor Changes
+
+- 64d0d1b: Fix crash on the Active DREF table in My Forms when an operational update is not visible to the user
+
 ## 7.27.0
 
 ### Minor Changes

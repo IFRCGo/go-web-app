@@ -1,0 +1,12 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "go-web-app": "7.27.0",
+    "go-ui-storybook": "2.0.0",
+    "@ifrc-go/ui": "2.3.0"
+  },
+  "changesets": [
+    "busy-ways-go"
+  ]
+}
