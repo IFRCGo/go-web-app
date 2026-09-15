@@ -128,14 +128,21 @@ function Overview(props: Props) {
 
     const strings = useTranslation(i18n);
     const {
-        dref_dref_dref_type: typeOfDrefOptions,
+        dref_dref_dref_type,
         dref_dref_disaster_category: drefDisasterCategoryOptions,
         dref_dref_onset_type: drefOnsetTypeOptions,
     } = useGlobalEnums();
 
-    const typeOfDrefOptionsWithoutImminent = useMemo(() => (
-        typeOfDrefOptions?.filter((option) => option.key !== TYPE_IMMINENT)
-    ), [typeOfDrefOptions]);
+    const typeOfDrefOptions = useMemo(() => {
+        const drefOptions = dref_dref_dref_type?.filter(
+            (option) => option.key !== TYPE_LOAN,
+        );
+
+        if (!isPreviousImminent) {
+            return drefOptions?.filter((option) => option.key !== TYPE_IMMINENT);
+        }
+        return drefOptions;
+    }, [dref_dref_dref_type, isPreviousImminent]);
 
     const countryOptions = useCountry();
 
@@ -307,11 +314,7 @@ function Overview(props: Props) {
                         <SelectInput
                             name="type_of_dref"
                             label={strings.drefFormTypeOfDref}
-                            options={
-                                isPreviousImminent
-                                    ? typeOfDrefOptions
-                                    : typeOfDrefOptionsWithoutImminent
-                            }
+                            options={typeOfDrefOptions}
                             keySelector={typeOfDrefKeySelector}
                             labelSelector={stringValueSelector}
                             onChange={setFieldValue}
