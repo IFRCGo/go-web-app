@@ -83,6 +83,7 @@ const triggerModelTabFields: (keyof PartialEapFullFormType)[] = [
     'identification_of_the_intervention_area',
     'identification_of_the_intervention_area_files',
     'admin2',
+    'districts',
     'trigger_model_source_of_information',
     'trigger_model_relevant_files',
 ];
@@ -182,6 +183,7 @@ export const wordLimits = {
     forecast_selection: 750,
     definition_and_justification_impact_level: 750,
     identification_of_the_intervention_area: 500,
+    districts: 100,
     early_action_selection_process: 2000,
     evidence_base: 1200,
     usefulness_of_actions: 500,

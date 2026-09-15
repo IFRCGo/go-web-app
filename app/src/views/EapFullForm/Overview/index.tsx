@@ -142,6 +142,12 @@ function Overview(props: Props) {
                             <Description>
                                 {strings.sectionCriteriaComment2}
                             </Description>
+                            <Description>
+                                {strings.sectionCriteriaComment3}
+                            </Description>
+                            <Description>
+                                {strings.sectionCriteriaComment4}
+                            </Description>
                         </ListView>
                     )}
                 />

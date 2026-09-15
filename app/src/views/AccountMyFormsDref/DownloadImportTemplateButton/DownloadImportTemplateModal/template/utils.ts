@@ -53,6 +53,10 @@ import {
 } from '#views/DrefApplicationForm/common';
 
 import {
+    getRowHeight,
+    MIN_TEXTAREA_ROW_HEIGHT,
+} from './rowHeight';
+import {
     type OptionsMapping,
     type TemplateStrings,
 } from './useImportTemplateSchema';
@@ -66,6 +70,32 @@ interface ValidationStrings {
     errorTitle: string;
 }
 
+// The row-height heuristic has to agree with these, so they live in one place
+// rather than inline in the style and column definitions.
+const FONT_SIZE_DEFAULT = 11;
+const FONT_SIZE_DESCRIPTION = 10;
+const FONT_SIZE_HEADING_1 = 12;
+const COLUMN_WIDTH_FIELD = 50;
+const COLUMN_WIDTH_VALUE = 85;
+const COLUMN_WIDTH_DESCRIPTION = 80;
+const DEFAULT_ROW_HEIGHT = 30;
+
+// A heading row is merged across all three columns, so its text has the lot.
+const MERGED_HEADING_WIDTH = COLUMN_WIDTH_FIELD + COLUMN_WIDTH_VALUE + COLUMN_WIDTH_DESCRIPTION;
+
+// NOTE: exceljs writes these as *allow* flags -- `formatRows: true` emits
+// formatRows="0", meaning the action is not locked. Both are needed because every
+// row carries an outlineLevel, and Excel refuses to expand or collapse an outline
+// group on a protected sheet without them.
+const SHEET_PROTECTION: Partial<xlsx.WorksheetProtection> = {
+    formatRows: true,
+    formatColumns: true,
+};
+
+// No password: anything we passed would sit in the public JS bundle, so it would be
+// friction rather than a control. A user who means to can still unprotect the sheet.
+const SHEET_PROTECTION_PASSWORD = '';
+
 // FIXME: move to utils
 function hexToArgb(hexStr: string, alphaStr = 'ff') {
     const hexWithoutHash = hexStr.substring(1);
@@ -77,8 +107,7 @@ const h1Style: Partial<Style> = {
     font: {
         name: FONT_FAMILY_HEADER,
         color: { argb: hexToArgb(COLOR_WHITE, '10') },
-        // FIXME: use constant
-        size: 12,
+        size: FONT_SIZE_HEADING_1,
         bold: true,
     },
     alignment: {
@@ -132,9 +161,7 @@ const descriptionCellStyle: Partial<Style> = {
     font: {
         // FIXME: use constant
         name: 'Poppins',
-        // FIXME: use constant
-        size: 10,
-        // FIXME: use constant
+        size: FONT_SIZE_DESCRIPTION,
         color: { argb: hexToArgb('#3f3f3f', '10') },
     },
     alignment: {
@@ -188,7 +215,10 @@ function addRow(
             indent: outlineLevel * 2,
         },
     };
-    valueCell.style = style;
+    // Copy, don't share: cell.protection and friends mutate the style object in
+    // place, so handing every value cell the same module-level constant would let
+    // one cell's change leak into every other cell and every later workbook.
+    valueCell.style = { ...style };
     descriptionCell.style = {
         ...style,
         ...descriptionCellStyle,
@@ -324,6 +354,8 @@ function addInputRow(
         };
     }
 
+    // OOXML locks every cell by default, so protecting the sheet means unlocking the
+    // one cell per row the user is meant to fill, not locking the other two.
     if (dataValidation === 'number') {
         inputCell.dataValidation = {
             type: 'decimal',
@@ -611,6 +643,19 @@ async function generateOtherWorksheets(
                 );
                 worksheet.mergeCells(row, 1, row, 3);
                 lastHeadingIndex = i + 1;
+
+                if (isImminent) {
+                    // eslint-disable-next-line no-param-reassign
+                    worksheet.getRow(row).height = getRowHeight([
+                        {
+                            value: templateAction.label,
+                            columnWidth: MERGED_HEADING_WIDTH,
+                            fontSize: templateAction.outlineLevel === 0
+                                ? FONT_SIZE_HEADING_1
+                                : FONT_SIZE_DEFAULT,
+                        },
+                    ]);
+                }
             } else if (templateAction.type === 'input') {
                 const rowType = (i - lastHeadingIndex) % 2 === 0 ? 'alt' : 'normal';
                 if (templateAction.dataValidation === 'list') {
@@ -628,21 +673,25 @@ async function generateOtherWorksheets(
                         optionsWorksheet,
                     );
                 } else if (templateAction.dataValidation === 'textArea') {
-                    // NOTE: Adding 4 new-lines to add height while also
-                    // supporting expand
-                    const newLines = '\n\n';
                     let { label } = templateAction;
-                    if (typeof label === 'string' && isTruthyString(label)) {
-                        label = newLines + label + newLines;
-                    } else if (typeof label === 'object' && label.richText.length > 0) {
-                        label = {
-                            ...label,
-                            richText: [
-                                { text: newLines },
-                                ...label.richText,
-                                { text: newLines },
-                            ],
-                        };
+
+                    // Where no real row height is written, padding the label with
+                    // new-lines is the only way to buy space to type in. Imminent
+                    // rows get MIN_TEXTAREA_ROW_HEIGHT below instead.
+                    if (!isImminent) {
+                        const newLines = '\n\n';
+                        if (typeof label === 'string' && isTruthyString(label)) {
+                            label = newLines + label + newLines;
+                        } else if (typeof label === 'object' && label.richText.length > 0) {
+                            label = {
+                                ...label,
+                                richText: [
+                                    { text: newLines },
+                                    ...label.richText,
+                                    { text: newLines },
+                                ],
+                            };
+                        }
                     }
 
                     addInputRow(
@@ -673,6 +722,35 @@ async function generateOtherWorksheets(
                 if (isDefined(templateAction.defaultValue)) {
                     // eslint-disable-next-line no-param-reassign
                     worksheet.getCell(row, 2).value = templateAction.defaultValue;
+                }
+
+                if (isImminent) {
+                    // OOXML locks every cell by default, so protecting the sheet is
+                    // a matter of unlocking the one cell per row meant to be filled
+                    // in. This runs after addInputRow, which reassigns cell.style
+                    // wholesale on alternating rows and would otherwise drop it.
+                    // eslint-disable-next-line no-param-reassign
+                    worksheet.getRow(row).getCell(2).protection = { locked: false };
+
+                    // eslint-disable-next-line no-param-reassign
+                    worksheet.getRow(row).height = getRowHeight(
+                        [
+                            {
+                                value: templateAction.label,
+                                columnWidth: COLUMN_WIDTH_FIELD,
+                                fontSize: FONT_SIZE_DEFAULT,
+                                indent: templateAction.outlineLevel * 2,
+                            },
+                            {
+                                value: templateAction.description,
+                                columnWidth: COLUMN_WIDTH_DESCRIPTION,
+                                fontSize: FONT_SIZE_DESCRIPTION,
+                            },
+                        ],
+                        templateAction.dataValidation === 'textArea'
+                            ? MIN_TEXTAREA_ROW_HEIGHT
+                            : undefined,
+                    );
                 }
             }
         });
@@ -725,6 +803,8 @@ export async function generateTemplate(
 
     callback: () => void,
 ) {
+    const isImminent = typeOfDref === DREF_TYPE_IMMINENT;
+
     const workbook = new xlsx.Workbook();
     const now = new Date();
     workbook.created = now;
@@ -770,27 +850,26 @@ export async function generateTemplate(
                 return;
             }
             const worksheet = sheet;
-            worksheet.properties.defaultRowHeight = 30;
+            worksheet.properties.defaultRowHeight = DEFAULT_ROW_HEIGHT;
             worksheet.properties.showGridLines = false;
 
             worksheet.columns = [
                 {
                     key: 'field',
                     header: templateStrings.columnFieldHeader,
-                    protection: { locked: true },
-                    width: 50,
+                    width: COLUMN_WIDTH_FIELD,
                     style: { alignment: { wrapText: true } },
                 },
                 {
                     key: 'value',
                     header: templateStrings.columnValueHeader,
-                    width: 85,
+                    width: COLUMN_WIDTH_VALUE,
                     style: { alignment: { wrapText: true } },
                 },
                 {
                     key: 'description',
                     header: templateStrings.columnDescriptionHeader,
-                    width: 80,
+                    width: COLUMN_WIDTH_DESCRIPTION,
                 },
             ];
 
@@ -819,6 +898,16 @@ export async function generateTemplate(
             );
         },
     );
+
+    if (isImminent) {
+        await Promise.all(
+            [
+                coverWorksheet,
+                optionsWorksheet,
+                ...Object.values(sheetMap).filter(isDefined),
+            ].map((worksheet) => worksheet.protect(SHEET_PROTECTION_PASSWORD, SHEET_PROTECTION)),
+        );
+    }
 
     const typeOfDrefLabel = drefTypeLabelMap?.[typeOfDref ?? DREF_TYPE_RESPONSE] ?? '';
     const templateFileName = `DREF_Application_${typeOfDrefLabel}_import_template_${now.toLocaleString()}.xlsx`;

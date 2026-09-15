@@ -14,7 +14,10 @@ import {
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { stringValueSelector } from '@ifrc-go/ui/utils';
+import {
+    resolveToString,
+    stringValueSelector,
+} from '@ifrc-go/ui/utils';
 import { isDefined } from '@togglecorp/fujs';
 import {
     type ArrayError,
@@ -28,6 +31,9 @@ import {
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
+    TIMEFRAME_DAYS,
+    TIMEFRAME_HOURS,
+    TIMEFRAME_MONTHS,
     TIMEFRAME_YEAR,
     type TimeFrameEnumKey,
 } from '#utils/constants';
@@ -39,6 +45,9 @@ import {
 import TimeSpanCheck from './TimeSpanCheck';
 
 import i18n from './i18n.json';
+
+// NOTE: Simplified EAPs are limited to a two year timeframe
+const SIMPLIFIED_EAP_MAX_YEARS = 2;
 
 const defaultActivityValue: OperationActivityFormFields = {
     client_id: '-1',
@@ -69,6 +78,7 @@ interface Props {
     withActivationSelection?: boolean;
     withoutTimeframeSelection?: boolean;
     leadTimeframeUnit?: TimeFrameEnumKey;
+    isSimplifiedEap?: boolean;
 }
 
 function EapOperationActivityInput(props: Props) {
@@ -84,6 +94,7 @@ function EapOperationActivityInput(props: Props) {
         withActivationSelection,
         withoutTimeframeSelection,
         leadTimeframeUnit,
+        isSimplifiedEap,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -104,28 +115,64 @@ function EapOperationActivityInput(props: Props) {
     const isTimeframeFixedToLeadTime = name === 'early_action_activities'
         && isDefined(leadTimeframeUnit);
 
+    // NOTE: Full EAP pre-positioning is untimed and hides this select entirely
+    const fixedTimeframe = useMemo(() => {
+        if (name === 'readiness_activities'
+            || (name === 'prepositioning_activities' && isSimplifiedEap)) {
+            return TIMEFRAME_YEAR;
+        }
+        if (name === 'early_action_activities') {
+            return leadTimeframeUnit;
+        }
+        return undefined;
+    }, [name, isSimplifiedEap, leadTimeframeUnit]);
+
+    // Rows saved before the rule can hold another unit; those stay editable so they can be fixed
+    const isTimeframeDiverged = isDefined(fixedTimeframe)
+        && isDefined(value.timeframe)
+        && value.timeframe !== fixedTimeframe;
+
     const eapTimeframeOption = useMemo(() => {
+        if (isTimeframeDiverged) {
+            return eap_timeframe?.filter(
+                (item) => item.key === fixedTimeframe || item.key === value.timeframe,
+            );
+        }
+        if (isDefined(fixedTimeframe)) {
+            return eap_timeframe?.filter((item) => item.key === fixedTimeframe);
+        }
         if (name !== 'early_action_activities') {
             return eap_timeframe;
         }
-        if (isDefined(leadTimeframeUnit)) {
-            return eap_timeframe?.filter((item) => item.key === leadTimeframeUnit);
-        }
         return eap_timeframe?.filter((item) => item.key !== TIMEFRAME_YEAR);
-    }, [eap_timeframe, name, leadTimeframeUnit]);
+    }, [eap_timeframe, name, fixedTimeframe, isTimeframeDiverged, value.timeframe]);
 
-    const eapTimeFrameReadOnly = name === 'readiness_activities' || isTimeframeFixedToLeadTime;
+    const eapTimeFrameReadOnly = isDefined(fixedTimeframe)
+        && value.timeframe === fixedTimeframe;
+
+    const leadTimeHint = resolveToString(
+        strings.operationTimeFrameLeadTimeHint,
+        {
+            sectionName: isSimplifiedEap
+                ? strings.operationTimeFrameLeadTimeSectionEarlyAction
+                : strings.operationTimeFrameLeadTimeSectionTrigger,
+        },
+    );
 
     const getTimeValueOptions = useCallback(
         (timeframe?: number) => {
             switch (timeframe) {
-                case 10:
-                    return eap_years_timeframe_value ?? [];
-                case 20:
+                case TIMEFRAME_YEAR: {
+                    const yearOptions = eap_years_timeframe_value ?? [];
+                    return isSimplifiedEap
+                        ? yearOptions.filter(({ key }) => key <= SIMPLIFIED_EAP_MAX_YEARS)
+                        : yearOptions;
+                }
+                case TIMEFRAME_MONTHS:
                     return eap_months_timeframe_value ?? [];
-                case 30:
+                case TIMEFRAME_DAYS:
                     return eap_days_timeframe_value ?? [];
-                case 40:
+                case TIMEFRAME_HOURS:
                     return eap_hours_timeframe_value ?? [];
                 default:
                     return [];
@@ -136,6 +183,7 @@ function EapOperationActivityInput(props: Props) {
             eap_months_timeframe_value,
             eap_days_timeframe_value,
             eap_hours_timeframe_value,
+            isSimplifiedEap,
         ],
     );
 
@@ -225,7 +273,7 @@ function EapOperationActivityInput(props: Props) {
                                 error={error?.timeframe}
                                 readOnly={readOnly || eapTimeFrameReadOnly}
                                 hint={isTimeframeFixedToLeadTime
-                                    ? strings.operationTimeFrameLeadTimeHint
+                                    ? leadTimeHint
                                     : undefined}
                             />
                             {value?.timeframe && (
@@ -243,6 +291,9 @@ function EapOperationActivityInput(props: Props) {
                                     withoutOpticalSpacingCorrection
                                     error={getErrorString(error?.time_value)}
                                     readOnly={readOnly}
+                                    hint={isTimeframeFixedToLeadTime
+                                        ? strings.operationActivityTimeSpanHint
+                                        : undefined}
                                 />
                             ) }
                         </ListView>

@@ -31,6 +31,7 @@ import {
 
 import ifrcLogo from '#assets/icons/ifrc-square.png';
 import Link from '#components/printable/Link';
+import { joinStrings } from '#utils/common';
 import {
     DISASTER_CATEGORY_ORANGE,
     DISASTER_CATEGORY_RED,
@@ -392,7 +393,7 @@ export function Component() {
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.glideNumberLabel}
-                    value={drefResponse?.glide_code}
+                    value={joinStrings(drefResponse?.glide_codes ?? [])}
                     strongValue
                 />
                 <TextOutput

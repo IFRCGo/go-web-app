@@ -56,6 +56,8 @@ export type { Props as DropdownMenuProps } from './components/DropdownMenu';
 export { default as DropdownMenu } from './components/DropdownMenu';
 export type { Props as ExpandableContainerProps } from './components/ExpandableContainer';
 export { default as ExpandableContainer } from './components/ExpandableContainer';
+export type { Props as GridLayoutItemProps } from './components/GridLayoutItem';
+export { default as GridLayoutItem } from './components/GridLayoutItem';
 export type { Props as HeadingProps } from './components/Heading';
 export { default as Heading } from './components/Heading';
 export type { Props as HtmlOutputProps } from './components/HtmlOutput';

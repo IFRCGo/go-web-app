@@ -1,0 +1,9 @@
+{
+    "namespace": "glideCodesInput",
+    "strings": {
+        "glideCodeInputLabel": "GLIDE code",
+        "glideCodeHint": "Expected format: FL-2026-000123-MWI (maximum {maxLength} characters)",
+        "addGlideCodeButtonLabel": "Add GLIDE code",
+        "removeGlideCodeButtonTitle": "Remove GLIDE code"
+    }
+}

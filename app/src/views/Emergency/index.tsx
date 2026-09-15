@@ -13,15 +13,20 @@ import {
     Button,
     ButtonLayout,
     Container,
+    InlineLayout,
     KeyFigure,
     Label,
     ListView,
     Message,
     NavigationTabList,
+    NumberOutput,
     ProgressBar,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { resolveToString } from '@ifrc-go/ui/utils';
+import {
+    getPercentage,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -409,10 +414,22 @@ export function Component() {
                                     : strings.emergencyFundingLabel}
                             </Label>
                             {operationType === 'emergency-appeal' && (
-                                <ProgressBar
-                                    totalValue={meta?.amountRequested}
-                                    value={meta?.amountFunded}
-                                />
+                                <InlineLayout
+                                    after={(
+                                        <NumberOutput
+                                            value={getPercentage(
+                                                meta?.amountFunded,
+                                                meta?.amountRequested,
+                                            )}
+                                            suffix="%"
+                                        />
+                                    )}
+                                >
+                                    <ProgressBar
+                                        totalValue={meta?.amountRequested}
+                                        value={meta?.amountFunded}
+                                    />
+                                </InlineLayout>
                             )}
                             <ListView withCenteredContents>
                                 <KeyFigure
@@ -473,23 +490,19 @@ export function Component() {
                         {strings.emergencyTabOperationStrategy}
                     </NavigationTab>
                 )}
-                {isDefined(emergencyResponse) && emergencyResponse.stage !== STAGE_FIELD_REPORT && (
-                    <>
-                        <NavigationTab
-                            to="emergencyDocuments"
-                            urlParams={{ emergencyId }}
-                        >
-                            {strings.emergencyTabReports}
-                        </NavigationTab>
-                        {showSurgeTab && (
-                            <NavigationTab
-                                to="emergencySurge"
-                                urlParams={{ emergencyId }}
-                            >
-                                {strings.emergencyTabSurge}
-                            </NavigationTab>
-                        )}
-                    </>
+                <NavigationTab
+                    to="emergencyDocuments"
+                    urlParams={{ emergencyId }}
+                >
+                    {strings.emergencyTabReports}
+                </NavigationTab>
+                {showSurgeTab && emergencyResponse?.stage !== STAGE_FIELD_REPORT && (
+                    <NavigationTab
+                        to="emergencySurge"
+                        urlParams={{ emergencyId }}
+                    >
+                        {strings.emergencyTabSurge}
+                    </NavigationTab>
                 )}
                 {emergencyResponse?.stage === STAGE_EMERGENCY_APPEAL && hasResponseActivity && (
                     <NavigationTab

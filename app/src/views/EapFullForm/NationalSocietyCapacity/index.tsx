@@ -85,18 +85,37 @@ function NationalSocietyCapacity(props: Props) {
                 <SectionQualityCriteria
                     heading={strings.capacitySectionHeading}
                     content={(
-                        <ListView layout="block" withSpacingOpticalCorrection>
-                            <ListView spacing="xs" layout="block" withSpacingOpticalCorrection>
+                        <ListView
+                            layout="block"
+                            withSpacingOpticalCorrection
+                        >
+                            <ListView
+                                spacing="xs"
+                                layout="block"
+                                withSpacingOpticalCorrection
+                            >
                                 <Label strong>
                                     {strings.capacityCriteriaIntroduction11}
                                 </Label>
-                                <Label>
+                                <Description>
+                                    {strings.capacityCriteriaComment1}
+                                </Description>
+                                <Description>
+                                    {strings.capacityCriteriaComment2}
+                                </Description>
+                            </ListView>
+                            <ListView
+                                spacing="xs"
+                                layout="block"
+                                withSpacingOpticalCorrection
+                            >
+                                <Label strong>
                                     {strings.capacityCriteriaIntroduction12}
                                 </Label>
+                                <Description>
+                                    {strings.capacityCriteriaComment3}
+                                </Description>
                             </ListView>
-                            <Description>
-                                {strings.capacityCriteriaComment1}
-                            </Description>
                         </ListView>
                     )}
                 />

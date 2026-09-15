@@ -3,6 +3,6 @@
     "strings": {
         "heading": "Lessons learned from previous operations",
         "emptyMessage": "At this moment we do not have any available learnings for this country in our dataset. Please visit the {link} where you can still find relevant learnings for similar hazards or regions.",
-        "emptyMessageLinkLabel": "Operational Learning"
+        "emptyMessageLinkLabel": "Operational Learning page"
     }
 }

@@ -45,6 +45,7 @@ import useAuth from '#hooks/domain/useAuth';
 import useDisasterType from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import usePermissions from '#hooks/domain/usePermissions';
+import { joinStrings } from '#utils/common';
 import {
     DREF_TYPE_IMMINENT,
     FIELD_REPORT_STATUS_EARLY_WARNING,
@@ -53,6 +54,7 @@ import {
 import {
     getDrefAppealDocumentUrls,
     getDrefSummary,
+    getEmergencyAppealDocuments,
     getEmergencyDrefStrategy,
     getEmergencyOperationType,
     STAGE_DREF_APPEAL_ONLY,
@@ -101,6 +103,57 @@ function TimelineDocument(props: TimelineDocumentProps) {
         >
             {label}
         </Link>
+    );
+}
+
+interface TimelineDrefApplicationProps {
+    label: string;
+    popupHeading: React.ReactNode;
+    targetedPopulation: number | null | undefined;
+    fundingRequirements: number | null | undefined;
+}
+
+// mirrors the final-report entry: the milestone title opens a popup with the
+// application's own figures, and the published file hangs below it
+function TimelineDrefApplication(props: TimelineDrefApplicationProps) {
+    const {
+        label,
+        popupHeading,
+        targetedPopulation,
+        fundingRequirements,
+    } = props;
+
+    const strings = useTranslation(i18n);
+
+    return (
+        <DropdownMenu
+            labelColorVariant="text"
+            labelStyleVariant="translucent"
+            withoutDropdownIcon
+            labelWithoutAdditionalInlinePadding
+            withoutPopupPadding
+            label={label}
+            preferredPopupWidth={26}
+        >
+            <Container
+                heading={popupHeading}
+                withHeaderBorder
+                withPadding
+            >
+                <TextOutput
+                    label={strings.timelineTargetedPopulationLabel}
+                    value={targetedPopulation}
+                    valueType="number"
+                    strongValue
+                />
+                <TextOutput
+                    label={strings.timelineFundingRequirementsLabel}
+                    value={fundingRequirements}
+                    valueType="number"
+                    strongValue
+                />
+            </Container>
+        </DropdownMenu>
     );
 }
 
@@ -155,6 +208,9 @@ export function Component() {
     // FIXME: variable name should be more generic
     const isEmergencyAppealStage = stage === STAGE_EMERGENCY_APPEAL
         || stage === STAGE_DREF_APPEAL_ONLY;
+    // an ERP-only DREF appeal shares the emergency-appeal branch of the
+    // timeline, so its document milestones must not read as an appeal's
+    const isErpOnlyDrefAppeal = stage === STAGE_DREF_APPEAL_ONLY;
     const isDrefStage = stage === STAGE_DREF_APPLICATION
         || stage === STAGE_OPERATIONAL_UPDATE
         || stage === STAGE_FINAL_REPORT;
@@ -184,41 +240,48 @@ export function Component() {
         ].find(isTruthyString);
 
     // FIXME(frozenhelium): go-api, an operational update / final report
-    // glide_code is not synced to event.glide (nor dref.glide_code) on
+    // glide code is not synced to event.glide (nor dref.glide_codes) on
     // approval; until it is, read the latest non-empty revision glide here.
+    // event.glide only ever holds the primary code, so it ranks last
     const glideNumber = [
-        drefFinalReport?.glide_code,
-        drefOpsUpdate?.glide_code,
+        joinStrings(drefFinalReport?.glide_codes ?? []),
+        joinStrings(drefOpsUpdate?.glide_codes ?? []),
+        joinStrings(dref?.glide_codes ?? []),
         emergencyResponse?.glide,
-        dref?.glide_code,
     ].find(isTruthyString);
 
     // the emergency payload carries no appeal at DREF stages, so the published
-    // documents have to be reached through the MDR code
-    const { response: appealResponse } = useRequest({
-        skip: !isDrefStage || isNotDefined(mdrCode),
-        url: '/api/v2/appeal/',
-        query: { code: mdrCode },
-    });
-
-    // the appeal history serializes the appeal's own id, as a string
-    const appealId = appealResponse?.results?.[0]?.id;
-    const appealIdNumber = isDefined(appealId) ? Number(appealId) : undefined;
-
+    // documents are fetched for the whole event and narrowed to the operation's
+    // own MDR code below
     const { response: appealDocumentsResponse } = useRequest({
-        skip: isNotDefined(appealIdNumber),
+        skip: (!isDrefStage && !isEmergencyAppealStage)
+            || isNotDefined(mdrCode)
+            || isNotDefined(emergencyResponse?.id),
         url: '/api/v2/appeal_document/',
         query: {
-            appeal: isDefined(appealIdNumber) ? [appealIdNumber] : undefined,
+            event_id: emergencyResponse?.id,
             limit: 9999,
             ordering: 'created_at',
         },
     });
 
     const drefDocumentUrls = useMemo(
-        () => getDrefAppealDocumentUrls(appealDocumentsResponse?.results),
-        [appealDocumentsResponse],
+        () => getDrefAppealDocumentUrls(appealDocumentsResponse?.results, mdrCode),
+        [appealDocumentsResponse, mdrCode],
     );
+
+    const emergencyAppealDocuments = useMemo(
+        () => getEmergencyAppealDocuments(appealDocumentsResponse?.results, mdrCode),
+        [appealDocumentsResponse, mdrCode],
+    );
+
+    // an imminent DREF holds its budget in total_cost and its reach in
+    // people_targeted_with_early_actions, matching getEmergencyMeta
+    const drefApplicationTargetedPopulation = dref?.total_targeted_population
+        ?? dref?.people_targeted_with_early_actions;
+    const drefApplicationFundingRequirements = dref?.type_of_dref === DREF_TYPE_IMMINENT
+        ? dref?.total_cost
+        : dref?.amount_requested ?? dref?.total_cost;
 
     const drefStrategy = useMemo(
         () => getEmergencyDrefStrategy(emergencyResponse),
@@ -310,6 +373,24 @@ export function Component() {
     const showLearnings = stage === STAGE_FINAL_REPORT
         && (isTruthyString(drefSummary?.challenges_identified)
             || isTruthyString(drefSummary?.lessons_learned));
+
+    // Emergency admins can suppress field-report-sourced content when the
+    // reported numbers are unreliable or the emergency is sensitive.
+    const showFieldReportKeyFigures = !emergencyResponse?.hide_attached_field_reports;
+    const showEmergencyMap = !emergencyResponse?.hide_field_report_map;
+
+    const showEarlyWarningKeyFigures = showFieldReportKeyFigures
+        && isFieldReportStage
+        && latestFieldReport?.status === FIELD_REPORT_STATUS_EARLY_WARNING;
+
+    const showEventKeyFigures = showFieldReportKeyFigures
+        && ((isFieldReportStage && latestFieldReport?.status === FIELD_REPORT_STATUS_EVENT)
+            || isEmergencyAppealStage);
+
+    // The map is the only other occupant of this section, so without it an
+    // empty summary would leave a bare heading behind.
+    const showSituationalOverview = showEmergencyMap
+        || !isFalsyString(displayedSituationalOverview);
 
     // The new endpoint encodes the first field report's assistance flags on the
     // attached field_report via `first_fr_*` fields.
@@ -407,8 +488,23 @@ export function Component() {
                             <div className={styles.primaryLabel}>
                                 {strings.timelineImminentDrefStart}
                             </div>
+                            <TimelineDrefApplication
+                                label={strings.timelineImminentDrefApplication}
+                                popupHeading={resolveToComponent(
+                                    strings.timelineImminentDrefApplicationPopupHeading,
+                                    {
+                                        date: (
+                                            <DateOutput
+                                                value={dref.date_of_approval}
+                                            />
+                                        ),
+                                    },
+                                )}
+                                targetedPopulation={drefApplicationTargetedPopulation}
+                                fundingRequirements={drefApplicationFundingRequirements}
+                            />
                             <TimelineDocument
-                                label={strings.timelineDrefApplication}
+                                label={strings.timelineDrefApplicationDownload}
                                 url={drefDocumentUrls.application}
                             />
                         </>
@@ -465,13 +561,17 @@ export function Component() {
                     events.push({
                         key: `ea-start-${emergencyResponse.id}`,
                         date: new Date(emergencyResponse.disaster_start_date),
-                        label: strings.timelineDisasterStart,
+                        label: (
+                            <Label strong>
+                                {strings.timelineDisasterStart}
+                            </Label>
+                        ),
                     });
                 }
 
                 if (isDefined(latestAppeal?.start_date)) {
                     events.push({
-                        key: `ea-start-${latestAppeal.id}`,
+                        key: `ea-operation-start-${latestAppeal.id}`,
                         date: new Date(latestAppeal.start_date),
                         label: (
                             <div className={styles.primaryLabel}>
@@ -481,14 +581,56 @@ export function Component() {
                     });
                 }
 
+                // the appeal is published days after the operation starts, so
+                // it sits on the timeline at its own date
+                if (isDefined(emergencyAppealDocuments.appeal)) {
+                    events.push({
+                        key: 'ea-appeal-application',
+                        date: new Date(emergencyAppealDocuments.appeal.date),
+                        label: (
+                            <>
+                                <Label strong>
+                                    {isErpOnlyDrefAppeal
+                                        ? strings.timelineDrefApplication
+                                        : strings.timelineEmergencyAppealApplication}
+                                </Label>
+                                <TimelineDocument
+                                    label={strings.timelineDownloadFile}
+                                    url={emergencyAppealDocuments.appeal.url}
+                                />
+                            </>
+                        ),
+                    });
+                }
+
                 if (isDefined(latestAppeal?.end_date)) {
                     events.push({
-                        key: `ea-end-${latestAppeal.id}`,
+                        key: `ea-operation-end-${latestAppeal.id}`,
                         date: new Date(latestAppeal.end_date),
                         label: (
                             <div className={styles.primaryLabel}>
                                 {strings.timelineOperationEnd}
                             </div>
+                        ),
+                    });
+                }
+
+                if (isDefined(emergencyAppealDocuments.finalReport)) {
+                    events.push({
+                        key: 'ea-appeal-final-report',
+                        date: new Date(emergencyAppealDocuments.finalReport.date),
+                        label: (
+                            <>
+                                <Label strong>
+                                    {isErpOnlyDrefAppeal
+                                        ? strings.timelineDrefFinalReport
+                                        : strings.timelineEmergencyAppealFinalReport}
+                                </Label>
+                                <TimelineDocument
+                                    label={strings.timelineDownloadFile}
+                                    url={emergencyAppealDocuments.finalReport.url}
+                                />
+                            </>
                         ),
                     });
                 }
@@ -523,8 +665,23 @@ export function Component() {
                                 <div className={styles.primaryLabel}>
                                     {strings.timelineOperationStart}
                                 </div>
-                                <TimelineDocument
+                                <TimelineDrefApplication
                                     label={strings.timelineDrefApplication}
+                                    popupHeading={resolveToComponent(
+                                        strings.timelineDrefApplicationPopupHeading,
+                                        {
+                                            date: (
+                                                <DateOutput
+                                                    value={dref.date_of_approval}
+                                                />
+                                            ),
+                                        },
+                                    )}
+                                    targetedPopulation={drefApplicationTargetedPopulation}
+                                    fundingRequirements={drefApplicationFundingRequirements}
+                                />
+                                <TimelineDocument
+                                    label={strings.timelineDrefApplicationDownload}
                                     url={drefDocumentUrls.application}
                                 />
                             </>
@@ -712,6 +869,7 @@ export function Component() {
         [
             isFieldReportStage,
             isEmergencyAppealStage,
+            isErpOnlyDrefAppeal,
             isDrefStage,
             latestAppeal,
             emergencyResponse,
@@ -719,6 +877,9 @@ export function Component() {
             drefOpsUpdate,
             drefFinalReport,
             drefDocumentUrls,
+            emergencyAppealDocuments,
+            drefApplicationTargetedPopulation,
+            drefApplicationFundingRequirements,
             strings,
         ],
     );
@@ -793,8 +954,7 @@ export function Component() {
                     )}
                 />
             )}
-            {isFieldReportStage
-                && latestFieldReport?.status === FIELD_REPORT_STATUS_EARLY_WARNING && (
+            {showEarlyWarningKeyFigures && (
                 <Container
                     heading={strings.emergencyKeyFiguresTitle}
                     withHeaderBorder
@@ -819,8 +979,7 @@ export function Component() {
                     </ListView>
                 </Container>
             )}
-            {((isFieldReportStage && latestFieldReport?.status === FIELD_REPORT_STATUS_EVENT)
-                || isEmergencyAppealStage) && (
+            {showEventKeyFigures && (
                 <Container
                     heading={strings.emergencyKeyFiguresTitle}
                     withHeaderBorder
@@ -1076,59 +1235,64 @@ export function Component() {
                     <DrefSummaryDisclaimer multiple />
                 </Container>
             )}
-            <Container
-                heading={strings.situationalOverviewTitle}
-                withHeaderBorder
-            >
-                {/* FIXME(frozenhelium): handle condition where there is no summary */}
-                <ListView
-                    layout="grid"
-                    gridContentClassName={styles.situationalOverviewContent}
-                    numPreferredGridColumns={isFalsyString(displayedSituationalOverview) ? 1 : 2}
+            {showSituationalOverview && (
+                <Container
+                    heading={strings.situationalOverviewTitle}
+                    withHeaderBorder
                 >
-                    <ListView layout="block">
-                        <ClampedContent
-                            size="lg"
-                            resetKey={displayedSituationalOverview}
-                        >
-                            {isDrefStage && (
-                                // Description collapses the summaries'
-                                // blank-line paragraph breaks
-                                <DescriptionText>
-                                    {displayedSituationalOverview}
-                                </DescriptionText>
-                            )}
-                            {!isDrefStage && (
-                                <HtmlOutput
-                                    value={emergencyResponse.summary}
-                                />
-                            )}
-                        </ClampedContent>
-                        {showSituationalOverviewSummary && (
-                            <ListView
-                                layout="block"
-                                spacing="2xs"
+                    {/* FIXME(frozenhelium): handle condition where there is no summary */}
+                    <ListView
+                        layout="grid"
+                        gridContentClassName={styles.situationalOverviewContent}
+                        numPreferredGridColumns={isFalsyString(displayedSituationalOverview)
+                            || !showEmergencyMap ? 1 : 2}
+                    >
+                        <ListView layout="block">
+                            <ClampedContent
+                                size="lg"
+                                resetKey={displayedSituationalOverview}
                             >
-                                {isAnticipatoryPhase ? (
-                                    <Description
-                                        textSize="sm"
-                                        withLightText
-                                    >
-                                        {strings.situationalOverviewSourceImminent}
-                                    </Description>
-                                ) : (
-                                    <DrefSummarySourceLabel
-                                        source={drefSummary?.source}
-                                        section={strings.situationalOverviewSource}
+                                {isDrefStage && (
+                                    // Description collapses the summaries'
+                                    // blank-line paragraph breaks
+                                    <DescriptionText>
+                                        {displayedSituationalOverview}
+                                    </DescriptionText>
+                                )}
+                                {!isDrefStage && (
+                                    <HtmlOutput
+                                        value={emergencyResponse.summary}
                                     />
                                 )}
-                                <DrefSummaryDisclaimer />
-                            </ListView>
+                            </ClampedContent>
+                            {showSituationalOverviewSummary && (
+                                <ListView
+                                    layout="block"
+                                    spacing="2xs"
+                                >
+                                    {isAnticipatoryPhase ? (
+                                        <Description
+                                            textSize="sm"
+                                            withLightText
+                                        >
+                                            {strings.situationalOverviewSourceImminent}
+                                        </Description>
+                                    ) : (
+                                        <DrefSummarySourceLabel
+                                            source={drefSummary?.source}
+                                            section={strings.situationalOverviewSource}
+                                        />
+                                    )}
+                                    <DrefSummaryDisclaimer />
+                                </ListView>
+                            )}
+                        </ListView>
+                        {showEmergencyMap && (
+                            <EmergencyMap event={emergencyResponse} />
                         )}
                     </ListView>
-                    <EmergencyMap event={emergencyResponse} />
-                </ListView>
-            </Container>
+                </Container>
+            )}
             {isFieldReportStage
                 && isDefined(emergencyResponse)
                 && isDefined(emergencyResponse.dtype)

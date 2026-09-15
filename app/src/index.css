@@ -48,7 +48,7 @@ ul, ol {
 }
 
 li {
-    margin: var(--go-ui-spacing-2xs) 0;
+    margin: var(--go-ui-spacing-3xs) 0;
 
     &:first-child {
         margin-top: unset;
@@ -58,6 +58,11 @@ li {
         margin-bottom: unset;
     }
 }
+
+li ul {
+    margin-block-start: var(--go-ui-spacing-3xs);
+}
+
 
 @media print {
     @page {

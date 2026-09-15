@@ -1,0 +1,53 @@
+{
+    "parent": "000095-1788425332397.json",
+    "actions": [
+        {
+            "action": "update",
+            "key": "emptyMessageLinkLabel",
+            "namespace": "emergencyLessonsLearnedFromPreviousOperations",
+            "newValue": "Operational Learning page"
+        },
+        {
+            "action": "update",
+            "key": "timelineImminentDrefStart",
+            "namespace": "emergencyOverview",
+            "newValue": "Start of Imminent Ops"
+        },
+        {
+            "action": "update",
+            "key": "timelineOperationEnd",
+            "namespace": "emergencyOverview",
+            "newValue": "End of the Operation"
+        },
+        {
+            "action": "update",
+            "key": "timelineOperationStart",
+            "namespace": "emergencyOverview",
+            "newValue": "Start of the Operation"
+        },
+        {
+            "action": "add",
+            "key": "addGlideCodeButtonLabel",
+            "namespace": "glideCodesInput",
+            "value": "Add GLIDE code"
+        },
+        {
+            "action": "add",
+            "key": "glideCodeHint",
+            "namespace": "glideCodesInput",
+            "value": "Expected format: FL-2026-000123-MWI (maximum {maxLength} characters)"
+        },
+        {
+            "action": "add",
+            "key": "glideCodeInputLabel",
+            "namespace": "glideCodesInput",
+            "value": "GLIDE code"
+        },
+        {
+            "action": "add",
+            "key": "removeGlideCodeButtonTitle",
+            "namespace": "glideCodesInput",
+            "value": "Remove GLIDE code"
+        }
+    ]
+}

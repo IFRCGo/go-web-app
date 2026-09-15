@@ -1,0 +1,17 @@
+{
+    "parent": "000093-1788251499051.json",
+    "actions": [
+        {
+            "action": "update",
+            "key": "enablingSectionCriteriaComment12",
+            "namespace": "eapSimplifiedForm",
+            "newValue": "For slow onset or complex hazards (drought, population movement, etc.), the impact may be interpreted as a spike or expected peak of impact which overwhelms the targeted community to cope. Therefore, the early actions should be activated with enough lead time to reduce impact of the hazard. In the case of drought, consider greater flexibility as it is challenging to identify the specific spike/peak as each will be context specific."
+        },
+        {
+            "action": "update",
+            "key": "plannedSectionCriteriaComment12",
+            "namespace": "eapSimplifiedForm",
+            "newValue": "For slow onset or complex hazards (drought, population movement, etc.), the impact may be interpreted as a spike or expected peak of impact which overwhelms the targeted community to cope. Therefore, the early actions should be activated with enough lead time to reduce impact of the hazard. In the case of drought, consider greater flexibility as it is challenging to identify the specific spike/peak as each will be context specific."
+        }
+    ]
+}

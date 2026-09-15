@@ -24,6 +24,7 @@ import {
 
 import useCountry from '#hooks/domain/useCountry';
 import {
+    COLOR_BLACK,
     COLOR_DARK_GREY,
     COLOR_LIGHT_GREY,
     COLOR_PRIMARY_RED,
@@ -31,6 +32,7 @@ import {
 } from '#utils/constants';
 import { getGeoJsonBounds } from '#utils/geo';
 import {
+    getAdmin1CentroidTileset,
     getAdmin2CentroidTileset,
     getAdmin2Tileset,
     getBboxListBoundingBox,
@@ -99,20 +101,24 @@ function MapController(props: MapControllerProps) {
 interface Props {
     className?: string;
     countryId: number;
-    admin2Details: Admin2[] | undefined;
+    admin2Details?: Admin2[] | null;
+    admin1Ids?: number[] | null;
     onLoad?: () => void;
 }
 
-function Admin2Map(props: Props) {
+function AdminAreaMap(props: Props) {
     const {
         className,
         countryId,
         admin2Details,
+        admin1Ids,
         onLoad,
     } = props;
 
     const countryDetails = useCountry({ id: countryId });
     const iso3 = countryDetails?.iso3;
+
+    const showAdmin2 = (admin2Details?.length ?? 0) > 0;
 
     useEffect(() => {
         if (isNotDefined(onLoad)) {
@@ -126,7 +132,7 @@ function Admin2Map(props: Props) {
         };
     }, [onLoad]);
 
-    const isSelectedExpression = useMemo<Expression>(
+    const isSelectedAdminTwoExpression = useMemo<Expression>(
         () => [
             'in',
             ['get', 'code'],
@@ -135,10 +141,19 @@ function Admin2Map(props: Props) {
         [admin2Details],
     );
 
+    const isSelectedAdminOneExpression = useMemo<Expression>(
+        () => [
+            'in',
+            ['get', 'district_id'],
+            ['literal', admin1Ids ?? []],
+        ],
+        [admin1Ids],
+    );
+
     const bounds = useMemo(() => {
-        const selectedBounds = getBboxListBoundingBox(
-            admin2Details?.map(({ bbox }) => bbox),
-        );
+        const selectedBounds = showAdmin2
+            ? getBboxListBoundingBox(admin2Details?.map(({ bbox }) => bbox))
+            : undefined;
 
         if (isDefined(selectedBounds)) {
             return selectedBounds;
@@ -149,7 +164,7 @@ function Admin2Map(props: Props) {
         }
 
         return getGeoJsonBounds(countryDetails.bbox);
-    }, [admin2Details, countryDetails]);
+    }, [showAdmin2, admin2Details, countryDetails]);
 
     const adminOneLabelLayerOptions: Omit<SymbolLayer, 'id'> = useMemo(() => ({
         type: 'symbol',
@@ -171,6 +186,81 @@ function Admin2Map(props: Props) {
         },
     }), [countryId]);
 
+    const adminOneLayerOptions = useMemo(() => {
+        if (isNotDefined(iso3)) {
+            return undefined;
+        }
+
+        const countryFilter: Expression = ['==', ['get', 'country_iso3'], iso3.toUpperCase()];
+
+        const fill: Omit<FillLayer, 'id'> = {
+            type: 'fill',
+            filter: countryFilter,
+            paint: {
+                'fill-color': [
+                    'case',
+                    isSelectedAdminOneExpression,
+                    COLOR_PRIMARY_RED,
+                    COLOR_LIGHT_GREY,
+                ],
+                'fill-opacity': [
+                    'case',
+                    isSelectedAdminOneExpression,
+                    1,
+                    0.5,
+                ],
+            },
+            layout: {
+                visibility: 'visible',
+            },
+        };
+
+        const line: Omit<LineLayer, 'id'> = {
+            type: 'line',
+            filter: countryFilter,
+            paint: {
+                'line-color': [
+                    'case',
+                    isSelectedAdminOneExpression,
+                    COLOR_WHITE,
+                    COLOR_DARK_GREY,
+                ],
+                'line-width': 0.5,
+                'line-opacity': 1,
+            },
+            layout: {
+                visibility: 'visible',
+            },
+        };
+
+        return {
+            fill,
+            line,
+        };
+    }, [iso3, isSelectedAdminOneExpression]);
+
+    const adminOneSelectedLabelLayerOptions = useMemo<Omit<SymbolLayer, 'id'>>(
+        () => ({
+            type: 'symbol',
+            'source-layer': getAdmin1CentroidTileset().sourceLayer,
+            filter: isSelectedAdminOneExpression,
+            layout: {
+                'text-field': ['get', 'name'],
+                'text-font': ['Poppins Bold', 'Arial Unicode MS Regular'],
+                'text-anchor': 'center',
+                'text-size': 10,
+                'text-padding': 4,
+                'text-allow-overlap': true,
+            },
+            paint: {
+                'text-color': COLOR_WHITE,
+                'text-halo-color': COLOR_BLACK,
+                'text-halo-width': 0.4,
+            },
+        }),
+        [isSelectedAdminOneExpression],
+    );
+
     const adminTwoLayerOptions = useMemo(() => {
         if (isNotDefined(iso3)) {
             return undefined;
@@ -185,13 +275,13 @@ function Admin2Map(props: Props) {
             paint: {
                 'fill-color': [
                     'case',
-                    isSelectedExpression,
+                    isSelectedAdminTwoExpression,
                     COLOR_PRIMARY_RED,
                     COLOR_LIGHT_GREY,
                 ],
                 'fill-opacity': [
                     'case',
-                    isSelectedExpression,
+                    isSelectedAdminTwoExpression,
                     1,
                     0.5,
                 ],
@@ -207,7 +297,7 @@ function Admin2Map(props: Props) {
             paint: {
                 'line-color': [
                     'case',
-                    isSelectedExpression,
+                    isSelectedAdminTwoExpression,
                     COLOR_WHITE,
                     COLOR_DARK_GREY,
                 ],
@@ -222,7 +312,7 @@ function Admin2Map(props: Props) {
         const label: Omit<SymbolLayer, 'id'> = {
             type: 'symbol',
             'source-layer': centroidSourceLayer,
-            filter: isSelectedExpression,
+            filter: isSelectedAdminTwoExpression,
             layout: {
                 'text-field': ['get', 'name'],
                 'text-anchor': 'center',
@@ -236,30 +326,59 @@ function Admin2Map(props: Props) {
             line,
             label,
         };
-    }, [iso3, isSelectedExpression]);
+    }, [iso3, isSelectedAdminTwoExpression]);
 
     return (
         <BaseMap
             mapOptions={{
                 interactive: false,
-                minZoom: ADMIN_2_MIN_ZOOM,
+                // NOTE: The admin 2 tiles are only available from this zoom level
+                minZoom: showAdmin2 ? ADMIN_2_MIN_ZOOM : undefined,
                 fadeDuration: 0,
             }}
             navControlShown={false}
             scaleControlShown={false}
             baseLayers={(
-                <MapLayer
-                    layerKey="admin-1-label"
-                    layerOptions={adminOneLabelLayerOptions}
-                />
+                <>
+                    <MapLayer
+                        layerKey="admin-1-label"
+                        layerOptions={adminOneLabelLayerOptions}
+                    />
+                    {!showAdmin2 && isDefined(adminOneLayerOptions) && (
+                        <>
+                            <MapLayer
+                                layerKey="admin-1-highlight"
+                                layerOptions={adminOneLayerOptions.fill}
+                            />
+                            <MapLayer
+                                layerKey="admin-1-boundary"
+                                layerOptions={adminOneLayerOptions.line}
+                            />
+                        </>
+                    )}
+                </>
             )}
         >
-            <MapContainer className={_cs(styles.admin2Map, className)} />
+            <MapContainer className={_cs(styles.adminAreaMap, className)} />
             <MapController
                 bounds={bounds}
                 onLoad={onLoad}
             />
-            {isNotDefined(iso3) || isNotDefined(adminTwoLayerOptions) ? null : (
+            {!showAdmin2 && (
+                <MapSource
+                    sourceKey="country-admin-1-labels"
+                    sourceOptions={{
+                        type: 'vector',
+                        url: getAdmin1CentroidTileset().url,
+                    }}
+                >
+                    <MapLayer
+                        layerKey="admin-1-selected-label"
+                        layerOptions={adminOneSelectedLabelLayerOptions}
+                    />
+                </MapSource>
+            )}
+            {!showAdmin2 || isNotDefined(iso3) || isNotDefined(adminTwoLayerOptions) ? null : (
                 <>
                     <MapSource
                         sourceKey="country-admin-2"
@@ -295,4 +414,4 @@ function Admin2Map(props: Props) {
     );
 }
 
-export default Admin2Map;
+export default AdminAreaMap;

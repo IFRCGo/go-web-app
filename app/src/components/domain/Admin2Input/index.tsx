@@ -2,6 +2,7 @@ import {
     useCallback,
     useEffect,
     useMemo,
+    useRef,
     useState,
 } from 'react';
 import { CloseLineIcon } from '@ifrc-go/icons';
@@ -36,6 +37,7 @@ import {
 
 import GoMapContainer from '#components/GoMapContainer';
 import useCountry from '#hooks/domain/useCountry';
+import useCountryHasAdmin2 from '#hooks/domain/useCountryHasAdmin2';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import {
     COLOR_BLACK,
@@ -87,6 +89,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
     const iso3 = countryDetails?.iso3;
 
     const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
+    const hasUserInteractedRef = useRef(false);
 
     const selectedCodesDebounced = useDebouncedValue(selectedCodes, 300);
 
@@ -103,25 +106,11 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
     });
 
     // NOTE: To check if country has admin2 value or not
-    const {
-        response: admin2TestResponse,
-        pending: admin2TestPending,
-    } = useRequest({
-        skip: isNotDefined(iso3),
-        url: '/api/v2/admin2/',
-        query: {
-            admin1__country__iso3: iso3 ?? undefined,
-            // NOTE: we just need 1 value to check
-            limit: 1,
-        },
-    });
-
-    const hasAdmin2 = !admin2TestPending
-        && isDefined(admin2TestResponse)
-        && admin2TestResponse?.results.length > 0;
+    const { hasAdmin2 } = useCountryHasAdmin2(countryId);
 
     const { response: admin2Details } = useRequest({
         skip: isNotDefined(selectedCodesDebounced) || selectedCodesDebounced.length === 0,
+        preserveResponse: true,
         url: '/api/v2/admin2/',
         query: {
             code__in: selectedCodesDebounced ?? [],
@@ -136,14 +125,24 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
     });
 
     useEffect(() => {
-        // NOTE: Hydrate selected codes from provided value(IDs) on initialization
-        if (isDefined(value)
+        if (!hasUserInteractedRef.current
+            && isDefined(value)
             && value.length > 0
             && selectedCodes.length === 0
         ) {
             retrieveAdmin2Codes(null);
         }
     }, [retrieveAdmin2Codes, value, selectedCodes]);
+
+    useEffect(() => {
+        if (hasUserInteractedRef.current
+            && selectedCodesDebounced.length === 0
+            && isDefined(value)
+            && value.length > 0
+        ) {
+            onChange(undefined, name);
+        }
+    }, [selectedCodesDebounced, value, onChange, name]);
 
     const admin2NameMap = listToMap(
         admin2Details?.results,
@@ -288,6 +287,8 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
             return false;
         }
 
+        hasUserInteractedRef.current = true;
+
         setSelectedCodes((prevCodes) => {
             const codeIndex = prevCodes.findIndex((prevCode) => prevCode === properties.code);
 
@@ -310,12 +311,16 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
     ] = useBooleanState(false);
 
     const removeSelection = useCallback((admin2Id: number) => {
+        hasUserInteractedRef.current = true;
+        const removedCode = admin2CodeMap?.[admin2Id];
+        setSelectedCodes((prevCodes) => prevCodes.filter((prevCode) => prevCode !== removedCode));
+
         const index = value?.findIndex((selectedAdmin2Id) => selectedAdmin2Id === admin2Id) ?? -1;
 
         if (index !== -1) {
             onChange(value?.toSpliced(index, 1), name);
         }
-    }, [value, onChange, name]);
+    }, [value, onChange, name, admin2CodeMap]);
 
     return (
         <ListView layout="block">

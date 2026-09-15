@@ -19,6 +19,7 @@
         "reviseEapLabel": "Revise EAP",
         "reviseEapMessage": "Revising this EAP will create a new version. You can make any necessary changes in the new version.",
         "downloadValidatedBudgetLinkLabel": "Download Validated Budget",
+        "downloadFinalReviewChecklistLinkLabel": "Download Review Checklist",
         "additionalFilesButtonLabel": "Additional Attachments",
         "theoryOfChangeTableLinkLabel": "Theory of Change Table",
         "fullReviseSuccessAlert": "Full EAP revised successfully",

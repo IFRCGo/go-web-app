@@ -17,6 +17,7 @@ import {
 
 import EapIndicatorListInput from '#components/domain/EapIndicatorListInput';
 import EapOperationActivityListInput from '#components/domain/EapOperationActivityListInput';
+import { type TimeFrameEnumKey } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import { type PartialSimplifiedEapType } from '../../schema';
@@ -40,6 +41,7 @@ interface Props {
     approachTitle?: React.ReactNode;
     readOnly?: boolean;
     approachApCodeOption?: EapApproachApCodeOption;
+    leadTimeframeUnit?: TimeFrameEnumKey;
 }
 
 function OperationsBySectorInput(props: Props) {
@@ -53,6 +55,7 @@ function OperationsBySectorInput(props: Props) {
         approachTitle,
         readOnly,
         approachApCodeOption,
+        leadTimeframeUnit,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -122,6 +125,7 @@ function OperationsBySectorInput(props: Props) {
                         value={value.readiness_activities}
                         onChange={onFieldChange}
                         readOnly={readOnly}
+                        isSimplifiedEap
                         error={getErrorObject(error)?.readiness_activities}
                     />
                     <EapOperationActivityListInput
@@ -129,6 +133,7 @@ function OperationsBySectorInput(props: Props) {
                         value={value.prepositioning_activities}
                         onChange={onFieldChange}
                         readOnly={readOnly}
+                        isSimplifiedEap
                         error={getErrorObject(error)?.prepositioning_activities}
                     />
                     <EapOperationActivityListInput
@@ -136,6 +141,8 @@ function OperationsBySectorInput(props: Props) {
                         value={value.early_action_activities}
                         onChange={onFieldChange}
                         readOnly={readOnly}
+                        isSimplifiedEap
+                        leadTimeframeUnit={leadTimeframeUnit}
                         error={getErrorObject(error)?.early_action_activities}
                     />
                 </ListView>

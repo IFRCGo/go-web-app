@@ -1,9 +1,12 @@
 .event-timeline {
-    --event-height: 12rem;
-    --event-width: 12rem;
-
+    --event-height: 15rem;
+    --event-width: 13rem;
     position: relative;
-    overflow-x: auto;
+
+    .overflow-container {
+        width: 100%;
+        overflow-x: auto;
+    }
 
     .events-container {
         display: flex;
@@ -74,12 +77,14 @@
             }
 
             .content {
+                background-color: color-mix(in srgb, var(--go-ui-color-foreground) 80%, transparent);
                 width: 100%;
+
 
                 &:hover {
                     border-radius: var(--go-ui-border-radius-md);
                     box-shadow: var(--go-ui-box-shadow-sm);
-                    background-color: rgba(255, 255, 255, .9);
+                    background-color: color-mix(in srgb, var(--go-ui-color-foreground) 90%, transparent);
                 }
             }
 

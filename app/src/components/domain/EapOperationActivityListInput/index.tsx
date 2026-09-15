@@ -47,6 +47,7 @@ interface Props<NAME> {
     withActivationSelection?: boolean;
     withoutTimeframeSelection?: boolean;
     leadTimeframeUnit?: TimeFrameEnumKey;
+    isSimplifiedEap?: boolean;
 }
 
 function EapOperationActivityListInput<const NAME extends ActivityInputType>(props: Props<NAME>) {
@@ -61,6 +62,7 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
         withActivationSelection,
         withoutTimeframeSelection,
         leadTimeframeUnit,
+        isSimplifiedEap,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -76,7 +78,8 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
     const handleReadinessAddButtonClick = useCallback(
         () => {
             let timeframeValue: TimeFrameEnumKey | undefined;
-            if (name === 'readiness_activities') {
+            if (name === 'readiness_activities'
+                || (name === 'prepositioning_activities' && isSimplifiedEap)) {
                 timeframeValue = TIMEFRAME_YEAR;
             } else if (name === 'early_action_activities') {
                 timeframeValue = leadTimeframeUnit;
@@ -93,7 +96,7 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
                 name,
             );
         },
-        [onChange, name, leadTimeframeUnit],
+        [onChange, name, leadTimeframeUnit, isSimplifiedEap],
     );
     const [
         title,
@@ -187,6 +190,7 @@ function EapOperationActivityListInput<const NAME extends ActivityInputType>(pro
                         withActivationSelection={withActivationSelection}
                         withoutTimeframeSelection={withoutTimeframeSelection}
                         leadTimeframeUnit={leadTimeframeUnit}
+                        isSimplifiedEap={isSimplifiedEap}
                     />
                 ))}
             </ListView>

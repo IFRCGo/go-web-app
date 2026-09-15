@@ -11,7 +11,11 @@ import {
     RawFileInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { encodeDate } from '@ifrc-go/ui/utils';
+import {
+    addNumDaysToDate,
+    ceilToEndOfMonth,
+    encodeDate,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -107,8 +111,9 @@ function getNameAndValueFromRow(row: Row) {
     };
 }
 
-// A bulk setValue won't fire the form's onChange, so compute the read-only costs
-// + fixed timeframe here, and ensure both proposed-action blocks exist.
+// A bulk setValue won't fire the form's onChange, so compute the read-only costs,
+// fixed timeframe and derived end date here, and ensure both proposed-action
+// blocks exist.
 function finalizeImminentImport(values: PartialDref): PartialDref {
     type ProposedActionValue = NonNullable<PartialDref['proposed_action']>[number];
 
@@ -123,10 +128,16 @@ function finalizeImminentImport(values: PartialDref): PartialDref {
             ?? { client_id: randomString(), proposed_type: proposedType },
     );
 
+    // Mirrors handleDateOfApproval in the Submission tab.
+    const endDate = ceilToEndOfMonth(
+        addNumDaysToDate(values.date_of_approval, OPERATION_TIMEFRAME_IMMINENT),
+    );
+
     const withProposedAction: PartialDref = {
         ...values,
         proposed_action: proposedAction,
         operation_timeframe_imminent: OPERATION_TIMEFRAME_IMMINENT,
+        end_date: isDefined(endDate) ? encodeDate(endDate) : values.end_date,
     };
 
     return {

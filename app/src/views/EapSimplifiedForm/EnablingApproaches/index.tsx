@@ -138,6 +138,9 @@ function EnablingApproaches(props: Props) {
                                 <Description>
                                     {strings.enablingSectionCriteriaComment12}
                                 </Description>
+                                <Description>
+                                    {strings.enablingSectionCriteriaComment13}
+                                </Description>
                             </ListView>
                             <Label strong>
                                 {strings.enablingSectionCriteriaIntroduction2}
@@ -151,6 +154,9 @@ function EnablingApproaches(props: Props) {
                                 </Description>
                                 <Description>
                                     {strings.enablingSectionCriteriaComment23}
+                                </Description>
+                                <Description>
+                                    {strings.enablingSectionCriteriaComment24}
                                 </Description>
                             </ListView>
                             <Heading level={5}>
@@ -223,6 +229,7 @@ function EnablingApproaches(props: Props) {
                             disabled={disabled}
                             readOnly={readOnly}
                             approachApCodeOption={approachApCodeOption}
+                            leadTimeframeUnit={value?.seap_lead_timeframe_unit}
                         />
                     ))}
                 </ListView>

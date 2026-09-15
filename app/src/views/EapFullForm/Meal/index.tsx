@@ -96,10 +96,33 @@ function Meal(props: Props) {
                                         <li>{strings.mealCriteriaIntroduction13}</li>
                                     </ol>
                                 </Description>
+                                <Description>
+                                    {strings.mealCriteriaComment1}
+                                </Description>
+                                <Description>
+                                    {strings.mealCriteriaComment2}
+                                    <ul>
+                                        <li>{strings.mealCriteriaPdmTheme1}</li>
+                                        <li>{strings.mealCriteriaPdmTheme2}</li>
+                                        <li>{strings.mealCriteriaPdmTheme3}</li>
+                                        <li>{strings.mealCriteriaPdmTheme4}</li>
+                                        <ul>
+                                            <li>{strings.mealCriteriaPdmFollowing1}</li>
+                                            <li>{strings.mealCriteriaPdmFollowing2}</li>
+                                            <li>{strings.mealCriteriaPdmFollowing3}</li>
+                                        </ul>
+                                    </ul>
+                                </Description>
+                                <Description>
+                                    {strings.mealCriteriaComment3}
+                                </Description>
+                                <Description>
+                                    {strings.mealCriteriaComment4}
+                                </Description>
+                                <Description>
+                                    {strings.mealCriteriaComment5}
+                                </Description>
                             </ListView>
-                            <Description>
-                                {strings.mealCriteriaComment1}
-                            </Description>
                         </ListView>
                     )}
                 />

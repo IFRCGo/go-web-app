@@ -122,24 +122,21 @@ export function Component() {
         return [orderingAppealDocuments, defaultOrdering].join(',');
     }, [orderingAppealDocuments]);
 
+    // filtering by event means this no longer waits on the emergency response;
+    // the section below is still gated on the emergency's appeals, so an event
+    // without one never renders the result
     const {
         pending: appealDocumentsPending,
         response: appealDocumentsResponse,
     } = useRequest({
-        skip: isNotDefined(emergencyResponse?.appeals)
-           || ((isDefined(emergencyResponse)
-            && isDefined(emergencyResponse.appeals)
-            && emergencyResponse.appeals.length < 1)),
+        skip: isNotDefined(emergencyId),
         url: '/api/v2/appeal_document/',
-        query: isDefined(emergencyResponse) ? {
-            /* FIXME: instead of sending list of appeals the API should be able to filter
-             *  appeals document by emergency id
-             */
-            appeal: emergencyResponse.appeals.map((appeal) => appeal.id).filter(isDefined),
+        query: {
+            event_id: Number(emergencyId),
             limit: appealDocumentsLimit,
             offset: appealDocumentsOffset,
             ordering: orderingWithFallback,
-        } : undefined,
+        },
     });
 
     const regionsMap = useMemo(() => (

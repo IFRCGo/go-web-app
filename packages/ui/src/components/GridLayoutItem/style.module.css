@@ -1,0 +1,20 @@
+.grid-layout-item {
+    &.row-span {
+        grid-row: span var(--num-row-span, 1);
+    }
+
+    &.column-span {
+        grid-column: span var(--num-column-span, 1);
+    }
+
+    @media screen and (max-width: 40rem) {
+        grid-row: initial;
+        grid-column: initial;
+
+        &.row-span,
+        &.column-span {
+            grid-row: initial;
+            grid-column: initial;
+        }
+    }
+}

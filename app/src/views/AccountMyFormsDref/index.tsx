@@ -24,7 +24,10 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     return (
-        <div className={styles.accountDrefApplications}>
+        <ListView
+            layout="block"
+            className={styles.accountDrefApplications}
+        >
             <ListView
                 layout="block"
                 withCenteredContents
@@ -68,7 +71,7 @@ export function Component() {
                     )}
                 />
             )}
-        </div>
+        </ListView>
     );
 }
 

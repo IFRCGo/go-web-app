@@ -10,6 +10,8 @@
         "editSimplifiedEapFormLinkLabel": "Edit sEAP",
         "editFullEapFormLinkLabel": "Edit Full EAP",
         "reviewChecklistInputLabel": "Select review checklist file",
+        "finalReviewChecklistDescription": "Upload the final version of the Review Checklist to be kept for the record. Make sure to keep a proper labeling of the file to avoid duplications.",
+        "finalReviewChecklistInputLabel": "Select final review checklist file",
         "submitFormErrorMessage": "Please make sure you've filled in all the required details before proceeding!",
         "reviseFormErrorMessage": "Please make sure all comments in the review checklist are resolved before proceeding!",
         "noBudgetAlertTitle": "Please attach the validated budget file before proceeding!"

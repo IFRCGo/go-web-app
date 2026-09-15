@@ -99,6 +99,9 @@ export const DREF_TYPE_ASSESSMENT = 1 satisfies TypeOfDrefEnum;
 export const DREF_TYPE_RESPONSE = 2 satisfies TypeOfDrefEnum;
 export const DREF_TYPE_LOAN = 3 satisfies TypeOfDrefEnum;
 
+// NOTE: mirrors the per-code length of the server's glide_codes array field
+export const MAX_GLIDE_CODE_LENGTH = 18;
+
 type TypeOfOnsetEnum = components<'read'>['schemas']['DrefDrefOnsetTypeEnumKey'];
 export const ONSET_SLOW = 1 satisfies TypeOfOnsetEnum;
 export const ONSET_SUDDEN = 2 satisfies TypeOfOnsetEnum;

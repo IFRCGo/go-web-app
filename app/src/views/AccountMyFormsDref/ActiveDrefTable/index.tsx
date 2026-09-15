@@ -154,9 +154,11 @@ function ActiveDrefTable(props: Props) {
                 return final_report_details;
             }
 
-            if (has_ops_update) {
-                const opsUpdateList = operational_update_details;
-                return opsUpdateList[0]!;
+            // NOTE: server drops operational_update_details for users without
+            // region admin access, even when has_ops_update is true
+            const latestOpsUpdate = operational_update_details?.[0];
+            if (has_ops_update && isDefined(latestOpsUpdate)) {
+                return latestOpsUpdate;
             }
 
             return dref;
@@ -453,7 +455,7 @@ function ActiveDrefTable(props: Props) {
                 operational_update_details,
             } = originalDref;
 
-            const opsUpdateList = operational_update_details;
+            const opsUpdateList = operational_update_details ?? [];
 
             const subRows: LatestDref[] = [
                 final_report_details,

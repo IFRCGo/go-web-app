@@ -1,0 +1,12 @@
+.section-heading {
+    text-transform: uppercase;
+    /* FIXME: remove force override */
+    font-weight: var(--go-ui-font-weight-bold)!important;
+}
+
+.subsection-heading {
+    text-transform: uppercase;
+    text-decoration: underline dotted;
+    /* FIXME: remove force override */
+    font-weight: var(--go-ui-font-weight-medium)!important;
+}

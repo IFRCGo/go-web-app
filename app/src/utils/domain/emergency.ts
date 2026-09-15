@@ -2,6 +2,7 @@ import { sumSafe } from '@ifrc-go/ui/utils';
 import {
     compareDate,
     isDefined,
+    isFalsyString,
     isNotDefined,
     max,
 } from '@togglecorp/fujs';
@@ -233,12 +234,37 @@ const FINAL_REPORT_DOCUMENT_TYPES = new Set([
     'DREF/EAP Final Report',
 ]);
 
+// ERP publishes the emergency appeal launch document under two naming
+// generations too, and a preliminary appeal stands in until the full one lands
+const APPEAL_DOCUMENT_TYPES = new Set([
+    'Emergency Appeal',
+    'Appeal',
+]);
+const PRELIMINARY_APPEAL_DOCUMENT_TYPES = new Set([
+    'Preliminary Emergency Appeal',
+    'Preliminary Appeal',
+]);
+const APPEAL_FINAL_REPORT_DOCUMENT_TYPES = new Set([
+    'Final Report',
+]);
+const PRELIMINARY_APPEAL_FINAL_REPORT_DOCUMENT_TYPES = new Set([
+    'Preliminary Final Report',
+]);
+
 function getDocumentUrl(document: AppealDocument | undefined) {
     return document?.document ?? document?.document_url ?? undefined;
 }
 
-export function getDrefAppealDocumentUrls(documents: AppealDocument[] | undefined) {
-    const sortedDocuments = documents?.toSorted(
+// an event can carry more than one appeal (a second DREF operation on the same
+// emergency), and the timeline positions operational updates by index, so the
+// documents have to be narrowed to the operation's own appeal code first
+export function getDrefAppealDocumentUrls(
+    documents: AppealDocument[] | undefined,
+    appealCode: string | undefined,
+) {
+    const sortedDocuments = documents?.filter(
+        (document) => document.appeal.code === appealCode,
+    ).toSorted(
         (a, b) => compareDate(a.created_at, b.created_at),
     ) ?? [];
 
@@ -257,6 +283,59 @@ export function getDrefAppealDocumentUrls(documents: AppealDocument[] | undefine
             .filter((document) => OPERATIONAL_UPDATE_DOCUMENT_TYPES.has(document.type))
             .map(getDocumentUrl),
         finalReport: getDocumentUrl(finalReports[finalReports.length - 1]),
+    };
+}
+
+// The timeline renders an emergency appeal's published documents as their own
+// dated milestones, so the resolved document's date is returned alongside its
+// url. An entry without a usable file is dropped rather than rendered dead.
+function getTimelineDocument(document: AppealDocument | undefined) {
+    const url = getDocumentUrl(document);
+
+    if (isNotDefined(document) || isFalsyString(url)) {
+        return undefined;
+    }
+
+    return { url, date: document.created_at };
+}
+
+// An emergency appeal carries far more published documents than a DREF (dozens
+// of operations updates, often duplicated by ERP), so only the two milestones
+// the timeline shows are resolved here. The rest stay on the documents tab.
+export function getEmergencyAppealDocuments(
+    documents: AppealDocument[] | undefined,
+    appealCode: string | undefined,
+) {
+    const sortedDocuments = documents?.filter(
+        (document) => document.appeal.code === appealCode,
+    ).toSorted(
+        (a, b) => compareDate(a.created_at, b.created_at),
+    ) ?? [];
+
+    function findFirst(types: Set<string>) {
+        return sortedDocuments.find((document) => types.has(document.type));
+    }
+
+    function findLast(types: Set<string>) {
+        const matches = sortedDocuments.filter((document) => types.has(document.type));
+        return matches[matches.length - 1];
+    }
+
+    // the launch appeal is the earliest one; a revised appeal supersedes it but
+    // belongs to a later milestone the timeline does not render. An ERP-only
+    // DREF appeal reaches the same branch of the timeline while publishing
+    // DREF-named documents, so those rank last.
+    const appeal = findFirst(APPEAL_DOCUMENT_TYPES)
+        ?? findFirst(PRELIMINARY_APPEAL_DOCUMENT_TYPES)
+        ?? findFirst(APPLICATION_DOCUMENT_TYPES);
+
+    const finalReport = findLast(APPEAL_FINAL_REPORT_DOCUMENT_TYPES)
+        ?? findLast(PRELIMINARY_APPEAL_FINAL_REPORT_DOCUMENT_TYPES)
+        ?? findLast(FINAL_REPORT_DOCUMENT_TYPES);
+
+    return {
+        appeal: getTimelineDocument(appeal),
+        finalReport: getTimelineDocument(finalReport),
     };
 }
 

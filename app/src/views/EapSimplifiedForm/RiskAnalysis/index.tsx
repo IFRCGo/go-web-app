@@ -1,4 +1,7 @@
+import { useCallback } from 'react';
+import { AddLineIcon } from '@ifrc-go/icons';
 import {
+    Button,
     Container,
     Description,
     Heading,
@@ -10,22 +13,37 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
 import {
+    isNotDefined,
+    randomString,
+} from '@togglecorp/fujs';
+import {
     type EntriesAsList,
     type Error,
     getErrorObject,
+    useFormArray,
 } from '@togglecorp/toggle-form';
 
 import MultiFileObjectInput from '#components/domain/MultiFileObjectInput';
 import ExplanatoryNote from '#components/ExplanatoryNote';
 import Link from '#components/Link';
+import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { EAP_ACCEPTED_FILE_FORMATS } from '#utils/constants';
 
 import { wordLimits } from '../common';
 import GuidanceSeap from '../GuidanceSeap';
 import { type PartialSimplifiedEapType } from '../schema';
+import EarlyActionInput from './EarlyActionInput';
+import PotentialRiskInput from './PotentialRiskInput';
 
 import i18n from './i18n.json';
+
+type PotentialRiskFormFields = NonNullable<
+    PartialSimplifiedEapType['potential_risks']
+>[number];
+type EarlyActionFormFields = NonNullable<
+    PartialSimplifiedEapType['early_actions']
+>[number];
 
 interface Props {
     value: PartialSimplifiedEapType;
@@ -51,6 +69,50 @@ function RiskAnalysis(props: Props) {
     const error = getErrorObject(formError);
     const strings = useTranslation(i18n);
 
+    const {
+        setValue: onPotentialRiskChange,
+        removeValue: onPotentialRiskRemove,
+    } = useFormArray<'potential_risks', PotentialRiskFormFields>(
+        'potential_risks',
+        setFieldValue,
+    );
+
+    const {
+        setValue: onEarlyActionChange,
+        removeValue: onEarlyActionRemove,
+    } = useFormArray<'early_actions', EarlyActionFormFields>(
+        'early_actions',
+        setFieldValue,
+    );
+
+    const handlePotentialRiskAdd = useCallback(() => {
+        const newPotentialRiskItem: PotentialRiskFormFields = {
+            client_id: randomString(),
+        };
+
+        setFieldValue(
+            (oldValue: PotentialRiskFormFields[] | undefined) => [
+                ...(oldValue ?? []),
+                newPotentialRiskItem,
+            ],
+            'potential_risks' as const,
+        );
+    }, [setFieldValue]);
+
+    const handleEarlyActionAdd = useCallback(() => {
+        const newEarlyActionItem: EarlyActionFormFields = {
+            client_id: randomString(),
+        };
+
+        setFieldValue(
+            (oldValue: EarlyActionFormFields[] | undefined) => [
+                ...(oldValue ?? []),
+                newEarlyActionItem,
+            ],
+            'early_actions' as const,
+        );
+    }, [setFieldValue]);
+
     return (
         <TabPage
             spacingOffset={-2}
@@ -75,6 +137,12 @@ function RiskAnalysis(props: Props) {
                                 <Description>
                                     {strings.riskSectionCriteriaComment13}
                                 </Description>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment14}
+                                </Description>
+                                <Description>
+                                    {strings.riskSectionCriteriaComment15}
+                                </Description>
                             </ListView>
                             <Label strong>
                                 {strings.riskSectionCriteriaIntroduction2}
@@ -98,12 +166,44 @@ function RiskAnalysis(props: Props) {
                                 <Description>
                                     {strings.riskSectionCriteriaComment33}
                                 </Description>
+                                <Description>
+                                    {resolveToComponent(
+                                        strings.riskSectionCriteriaComment34,
+                                        {
+                                            guidanceAnnexLink: (
+                                                <Link
+                                                    external
+                                                    href="https://ifrcorg.sharepoint.com/:f:/s/IFRCSharing/IgB7J6fjDPlsQ6iwh7ej1SpUAa0DvvOAimzrIlOx2DqpprA?e=w4OELM"
+                                                    withLinkIcon
+                                                >
+                                                    {strings.guidanceAnnexLinkLabel}
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                </Description>
                             </ListView>
                             <Label strong>
                                 {strings.riskSectionCriteriaIntroduction4}
                             </Label>
                             <Description>
                                 {strings.riskSectionCriteriaComment4}
+                            </Description>
+                            <Description>
+                                {resolveToComponent(
+                                    strings.riskSectionCriteriaComment5,
+                                    {
+                                        migrationStrategyLink: (
+                                            <Link
+                                                external
+                                                href="https://www.ifrc.org/document/migration-strategy-international-red-cross-and-red-crescent-movement-2024-2030"
+                                                withLinkIcon
+                                            >
+                                                {strings.migrationStrategyLinkLabel}
+                                            </Link>
+                                        ),
+                                    },
+                                )}
                             </Description>
                         </ListView>
                     )}
@@ -232,6 +332,44 @@ function RiskAnalysis(props: Props) {
                         description={strings.riskProtocolDescription}
                         withAsteriskOnTitle
                     >
+                        <Container
+                            heading={strings.prioritisedRisksLabel}
+                            headingLevel={6}
+                            headerDescription={(
+                                <NonFieldError
+                                    error={getErrorObject(error?.potential_risks)}
+                                />
+                            )}
+                            empty={isNotDefined(value?.potential_risks)
+                                || value.potential_risks.length === 0}
+                            emptyMessage={strings.prioritisedRisksEmptyMessage}
+                            withPadding
+                            withBorder
+                            withCompactMessage
+                        >
+                            <ListView layout="block">
+                                {value?.potential_risks?.map((potentialRisk, index) => (
+                                    <PotentialRiskInput
+                                        key={potentialRisk.client_id}
+                                        index={index}
+                                        value={potentialRisk}
+                                        onChange={onPotentialRiskChange}
+                                        onRemove={onPotentialRiskRemove}
+                                        error={getErrorObject(error?.potential_risks)}
+                                        disabled={disabled}
+                                        readOnly={readOnly}
+                                    />
+                                ))}
+                            </ListView>
+                        </Container>
+                        <Button
+                            name={undefined}
+                            onClick={handlePotentialRiskAdd}
+                            disabled={disabled || readOnly}
+                            before={<AddLineIcon />}
+                        >
+                            {strings.addButtonLabel}
+                        </Button>
                         <TextArea
                             label={strings.riskDescriptionLabel}
                             name="risks_selected_protocols"
@@ -326,6 +464,44 @@ function RiskAnalysis(props: Props) {
                         )}
                         withAsteriskOnTitle
                     >
+                        <Container
+                            heading={strings.prioritisedEarlyActionsLabel}
+                            headingLevel={6}
+                            headerDescription={(
+                                <NonFieldError
+                                    error={getErrorObject(error?.early_actions)}
+                                />
+                            )}
+                            empty={isNotDefined(value?.early_actions)
+                                || value.early_actions.length === 0}
+                            emptyMessage={strings.prioritisedEarlyActionsEmptyMessage}
+                            withPadding
+                            withBorder
+                            withCompactMessage
+                        >
+                            <ListView layout="block">
+                                {value?.early_actions?.map((earlyAction, index) => (
+                                    <EarlyActionInput
+                                        key={earlyAction.client_id}
+                                        index={index}
+                                        value={earlyAction}
+                                        onChange={onEarlyActionChange}
+                                        onRemove={onEarlyActionRemove}
+                                        error={getErrorObject(error?.early_actions)}
+                                        disabled={disabled}
+                                        readOnly={readOnly}
+                                    />
+                                ))}
+                            </ListView>
+                        </Container>
+                        <Button
+                            name={undefined}
+                            onClick={handleEarlyActionAdd}
+                            disabled={disabled || readOnly}
+                            before={<AddLineIcon />}
+                        >
+                            {strings.addButtonLabel}
+                        </Button>
                         <TextArea
                             label={strings.riskDescriptionLabel}
                             name="selected_early_actions"

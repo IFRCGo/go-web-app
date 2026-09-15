@@ -294,6 +294,7 @@ export function Component() {
                 partner_contacts,
                 meal_source_of_information,
                 ns_capacity_source_of_information,
+                districts,
                 ...otherValues
             } = removeNull(response);
 
@@ -316,6 +317,7 @@ export function Component() {
                 trigger_statement_source_of_information:
                     trigger_statement_source_of_information?.map(injectClientId),
                 early_actions: early_actions?.map(injectClientId),
+                districts: districts?.map(injectClientId),
                 key_actors: key_actors?.map(injectClientId),
                 prioritized_impacts: prioritized_impacts?.map(injectClientId),
 

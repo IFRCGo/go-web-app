@@ -53,6 +53,7 @@ import {
     DREF_STATUS_FINALIZED,
     ONSET_SUDDEN,
 } from '#utils/constants';
+import { sanitizeGlideCodes } from '#utils/domain/dref';
 import {
     type GoApiResponse,
     useLazyRequest,
@@ -629,6 +630,7 @@ export function Component() {
                 updateDref({
                     ...result.value,
                     modified_at: modifiedAt ?? lastModifiedAtRef.current,
+                    glide_codes: sanitizeGlideCodes(result.value.glide_codes),
                     cover_image_file: isNotDefined(result.value.cover_image_file?.id)
                         ? null : result.value.cover_image_file,
                     event_map_file: isNotDefined(result.value.event_map_file?.id)
@@ -638,6 +640,7 @@ export function Component() {
                 createDref({
                     ...result.value,
                     modified_at: modifiedAt ?? lastModifiedAtRef.current,
+                    glide_codes: sanitizeGlideCodes(result.value.glide_codes),
                     cover_image_file: isNotDefined(result.value.cover_image_file?.id)
                         ? null : result.value.cover_image_file,
                     event_map_file: isNotDefined(result.value.event_map_file?.id)

@@ -48,8 +48,10 @@ type OverviewKeys = typeof overviewTabFields[number];
 const riskAnalysisTabFields = [
     'prioritized_hazard_and_impact',
     'hazard_impact_files',
+    'potential_risks',
     'risks_selected_protocols',
     'risk_selected_protocols_files',
+    'early_actions',
     'selected_early_actions',
     'selected_early_actions_files',
 ] as const satisfies Exclude<FormKeys, OverviewKeys>[];
@@ -60,6 +62,7 @@ const earlyActionTabFields = [
     'overall_objective_intervention',
     'potential_geographical_high_risk_areas',
     'admin2',
+    'districts',
     'total_people_targeted',
     'assisted_through_operation',
     'selection_criteria',
@@ -175,6 +178,7 @@ export const wordLimits = {
     selected_early_actions: 150,
     overall_objective_intervention: 150,
     potential_geographical_high_risk_areas: 100,
+    districts: 100,
     assisted_through_operation: 100,
     selection_criteria: 100,
     trigger_statement: 100,

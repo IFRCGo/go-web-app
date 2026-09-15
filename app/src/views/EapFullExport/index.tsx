@@ -27,6 +27,10 @@ import PrintableLabel from '#components/printable/PrintableLabel';
 import PrintablePage from '#components/printable/PrintablePage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useDebouncedValue from '#hooks/useDebouncedValue';
+import {
+    getEapAdmin1Areas,
+    getEapAdminAreaTitle,
+} from '#utils/domain/eapAdminArea';
 import { useRequest } from '#utils/restRequest';
 
 import PrintableContactOutput from './PrintableContactOutput';
@@ -119,6 +123,11 @@ export function Component() {
         eap_timeframe,
         ({ key }) => key,
         ({ value }) => value,
+    );
+
+    const admin1Areas = useMemo(
+        () => getEapAdmin1Areas(fullEapResponse?.districts),
+        [fullEapResponse],
     );
 
     const {
@@ -276,7 +285,7 @@ export function Component() {
 
     const eapTitle = [
         country_details?.name,
-        admin2_details?.map(({ name }) => name).join(', '),
+        getEapAdminAreaTitle(admin2_details, admin1Areas),
         disaster_type_details?.name,
     ]
         .filter(isTruthyString)
@@ -356,17 +365,17 @@ export function Component() {
         ? eapTimeframeTitleMap?.[lead_timeframe_unit]
         : undefined;
 
-    const leadTimeWithUnit = lead_time && leadTimeUnitLabel
-        ? `${lead_time} ${leadTimeUnitLabel}`
-        : lead_time;
+    const leadTimeWithUnit = isDefined(lead_time)
+        ? [String(lead_time), leadTimeUnitLabel].filter(isTruthyString).join(' ')
+        : undefined;
 
     const prevLeadTimeUnitLabel = prev_lead_timeframe_unit
         ? eapTimeframeTitleMap?.[prev_lead_timeframe_unit]
         : undefined;
 
-    const prevLeadTimeWithUnit = prev_lead_time && prevLeadTimeUnitLabel
-        ? `${prev_lead_time} ${prevLeadTimeUnitLabel}`
-        : prev_lead_time;
+    const prevLeadTimeWithUnit = isDefined(prev_lead_time)
+        ? [String(prev_lead_time), prevLeadTimeUnitLabel].filter(isTruthyString).join(' ')
+        : undefined;
 
     const previewReady = !eapRegistrationPending && !fullEapPending && !prevFullEapPending;
 

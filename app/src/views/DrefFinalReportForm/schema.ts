@@ -19,8 +19,12 @@ import {
     urlCondition,
 } from '@togglecorp/toggle-form';
 
-import { DREF_TYPE_IMMINENT } from '#utils/constants';
 import {
+    DREF_TYPE_IMMINENT,
+    MAX_GLIDE_CODE_LENGTH,
+} from '#utils/constants';
+import {
+    eachLengthSmallerOrEqualToCondition,
     positiveIntegerCondition,
     positiveNumberCondition,
 } from '#utils/form';
@@ -352,7 +356,9 @@ const schema: FinalReportFormSchema = {
             operation_end_date: {},
             date_of_publication: {},
             appeal_code: {},
-            glide_code: {},
+            glide_codes: {
+                validations: [eachLengthSmallerOrEqualToCondition(MAX_GLIDE_CODE_LENGTH)],
+            },
             ifrc_appeal_manager_name: {},
             ifrc_appeal_manager_email: { validations: [emailCondition] },
             ifrc_appeal_manager_phone_number: {},

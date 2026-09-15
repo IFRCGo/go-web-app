@@ -34,13 +34,24 @@
         "riskSectionCriteriaComment11": "The simplified EAP should provide sufficient justification of the prioritized hazard and explain the observed negative impacts that the hazard had on lives, livelihoods and wellbeing in the past.",
         "riskSectionCriteriaComment12": "The evidence provided should demonstrate that the impacts were above seasonal average  magnitude and have warranted humanitarian assistance.",
         "riskSectionCriteriaComment13": "For certain types of hazards (such as drought, food security, population movement crisis), there may be limited historical disaster data available. The simplified EAP may consider profiling proxy data/ reference data from other countries/ regions with a similar context to support this analysis.",
+        "riskSectionCriteriaComment14": "In the case of Population Movement, historical data should consider not only direct displacement events, but also secondary humanitarian impacts such as protection, shelter, WASH, etc. risks for people on the move, host communities, and environments in receiving areas. Secondary impacts should be evidenced (underpinned by risk, vulnerability and impact analysis) on the selected early actions.",
+        "riskSectionCriteriaComment15": "Comparable contexts or modeled scenarios may be explained to demonstrate likely humanitarian consequences.",
         "riskSectionCriteriaIntroduction2": "The risks being prioritized are relevant to the hazard’s main impacts.",
         "riskSectionCriteriaComment2": "There must be a clear connection between the hazard’s impacts →the prioritized risks → selected early action.",
         "riskSectionCriteriaIntroduction3": "Selected early actions seek to reduce the possible impacts of the risks prioritized by the National Society.",
         "riskSectionCriteriaComment31": "The early action activities aim to reduce the impact of the selected hazard.",
         "riskSectionCriteriaComment32": "In case evidence is available, there should be a description on the effectiveness of the action in reducing the targeted impact.",
         "riskSectionCriteriaComment33": "If evidence is not available, further information may be requested on how the National Society foresee that the action chosen will reduce the specific risk.",
+        "riskSectionCriteriaComment34": "In the case of Population Movement, early actions should be prioritized based on their potential to reduce secondary and evolving impacts and the points along the migration journey where they would take place, such as those identified in the {guidanceAnnexLink} (Origin, In Transit, and Longer term/ protracted Displacement Sites)",
+        "guidanceAnnexLinkLabel": "Guidance Annex",
         "riskSectionCriteriaIntroduction4": "Selected early action activities are planned in accordance with identified standards.",
-        "riskSectionCriteriaComment4": "If relevant for the type of intervention, actions should be in line with accepted international and/or national standards, regulations, laws for the relevant sector. E.g. SPHERE, LEGS, Minimum standards for protection, gender and inclusion in emergencies and the principles of Do No Harm."
+        "riskSectionCriteriaComment4": "If relevant for the type of intervention, actions should be in line with accepted international and/or national standards, regulations, laws for the relevant sector. E.g. SPHERE, LEGS, Minimum standards for protection, gender and inclusion in emergencies and the principles of Do No Harm.",
+        "riskSectionCriteriaComment5": "For population movement, National Societies should be guided by the {migrationStrategyLink}.",
+        "migrationStrategyLinkLabel": "IFRC Movement Migration Strategy",
+        "prioritisedRisksLabel": "Prioritised risks",
+        "prioritisedRisksEmptyMessage": "No risks yet!",
+        "prioritisedEarlyActionsLabel": "Prioritised early actions",
+        "prioritisedEarlyActionsEmptyMessage": "No early actions yet!",
+        "addButtonLabel": "Add"
     }
 }
