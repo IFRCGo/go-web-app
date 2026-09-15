@@ -41,13 +41,25 @@
     font-size: var(--go-ui-font-size-md);
 }
 
-.headerDescription {
-    margin-bottom: var(--go-ui-spacing-md);
-    background-color: var(--go-ui-color-background);
-    padding: var(--go-ui-spacing-xl);
-    width: auto;
-    text-align: center;
-    font-size: var(--go-ui-font-size-md);
+.aboutDashboard {
+    margin: 0 var(--go-ui-spacing-md) var(--go-ui-spacing-sm);
+    color: var(--go-ui-color-gray-60);
+    font-size: var(--go-ui-font-size-sm);
+}
+
+.aboutDashboard summary {
+    cursor: pointer;
+    font-weight: var(--go-ui-font-weight-medium);
+}
+
+.aboutDashboard p {
+    margin: var(--go-ui-spacing-xs) 0 0;
+    line-height: var(--go-ui-line-height-md);
+}
+
+.filterHint {
+    color: var(--go-ui-color-gray-60);
+    font-size: var(--go-ui-font-size-sm);
 }
 
 .content {

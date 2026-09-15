@@ -21,6 +21,7 @@ import {
     api,
     mbtoken,
 } from '#config';
+import useAlert from '#hooks/useAlert';
 import { defaultMapStyle } from '#utils/map';
 import { resolveUrl } from '#utils/resolveUrl';
 
@@ -50,6 +51,10 @@ import {
     getRecordsByRegion,
     getStackedBarDataByYearAndRegion,
 } from './dataHandler';
+import {
+    downloadDashboardWorkbook,
+    getDashboardWorkbookData,
+} from './export';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -104,12 +109,12 @@ function isRegionName(value: string | null): value is RegionName {
 
 function PERSummaryDashboard() {
     const strings = useTranslation(i18n);
+    const alert = useAlert();
     const [activeFilters, setActiveFilters] = useState<ActiveFilters>(() => ({ ...EMPTY_FILTERS }));
     const [activeTab, setActiveTab] = useState<number>(0);
     const [activePhase, setActivePhase] = useState<number | string | null>(null);
-    const mapDataUrl = STATIC_REVIEW_MODE
-        ? getSnapshotUrl('per-map-data.json')
-        : resolveUrl(api, 'api/v2/per-map-data');
+    const [exporting, setExporting] = useState(false);
+    const mapDataUrl = resolveUrl(api, 'api/v2/per-map-data');
     const lastUpdateUrl = STATIC_REVIEW_MODE
         ? getSnapshotUrl('snapshot.json')
         : LAST_UPDATE_DATA_URL;
@@ -132,6 +137,10 @@ function PERSummaryDashboard() {
     const lastUpdate = useMemo(() => normalizeLastUpdate(rawLastUpdate), [rawLastUpdate]);
     const kpiData = useMemo(() => getKPIData(filteredState), [filteredState]);
     const filteredMapData = useMemo(() => getFilteredMapData(filteredState), [filteredState]);
+    const workbookData = useMemo(
+        () => getDashboardWorkbookData(filteredState, activeFilters),
+        [activeFilters, filteredState],
+    );
     const regionData = useMemo(() => getRecordsByRegion(filteredState), [filteredState]);
     const assessmentTypeData = useMemo(
         () => getRecordsByAssessmentType(filteredState),
@@ -149,6 +158,7 @@ function PERSummaryDashboard() {
         () => getPERConsiderations(filteredState),
         [filteredState],
     );
+    const hasActiveFilters = Object.values(activeFilters).some((value) => value !== null);
 
     if (mapDataPending || (STATIC_REVIEW_MODE && lastUpdatePending)) {
         return (
@@ -272,6 +282,27 @@ function PERSummaryDashboard() {
         setActivePhase(activePhase === item.label ? null : item.label);
     };
 
+    const handleExport = async () => {
+        setExporting(true);
+        try {
+            await downloadDashboardWorkbook(workbookData);
+        } catch {
+            alert.show(strings.summaryExportFailure, { variant: 'danger' });
+        } finally {
+            setExporting(false);
+        }
+    };
+    const exportButton = (
+        <Button
+            name={undefined}
+            onClick={handleExport}
+            disabled={exporting || workbookData.nationalSocietyCount === 0}
+            aria-label={strings.summaryExportAriaLabel}
+        >
+            {strings.summaryExport}
+        </Button>
+    );
+
     return (
         <>
             <div className={styles.lastUpdate}>
@@ -279,10 +310,10 @@ function PERSummaryDashboard() {
                 {' '}
                 {formatLastUpdate(lastUpdate)}
             </div>
-            {/* <PERExportButton /> */}
-            <div className={styles.headerDescription}>
-                {strings.summaryHeaderDescription}
-            </div>
+            <details className={styles.aboutDashboard}>
+                <summary>{strings.summaryAboutDashboard}</summary>
+                <p>{strings.summaryHeaderDescription}</p>
+            </details>
             <div className={styles.content}>
                 <PERKPITabs
                     kpis={kpiData}
@@ -309,21 +340,26 @@ function PERSummaryDashboard() {
 
                 <Container
                     heading={strings.mapHeading}
-                    headerDescription={strings.mapDescription}
+                    headerDescription={(
+                        <span className={styles.filterHint}>{strings.mapDescription}</span>
+                    )}
                     className={styles.container}
                     withHeaderBorder
-                    headerActions={Object.values(activeFilters).some((value) => value !== null) ? (
-                        <Button
-                            name={undefined}
-                            onClick={() => {
-                                setActiveFilters({ ...EMPTY_FILTERS });
-                                setActiveTab(0);
-                                setActivePhase(null);
-                            }}
-                            aria-label={strings.summaryResetFilterAriaLabel}
-                        >
-                            {strings.summaryResetFilter}
-                        </Button>
+                    headerActions={hasActiveFilters ? (
+                        <>
+                            {exportButton}
+                            <Button
+                                name={undefined}
+                                onClick={() => {
+                                    setActiveFilters({ ...EMPTY_FILTERS });
+                                    setActiveTab(0);
+                                    setActivePhase(null);
+                                }}
+                                aria-label={strings.summaryResetFilterAriaLabel}
+                            >
+                                {strings.summaryResetFilter}
+                            </Button>
+                        </>
                     ) : null}
                 >
                     <div style={{ height: '470px' }}>
@@ -361,9 +397,11 @@ function PERSummaryDashboard() {
                 <div className={styles.charts}>
                     <Container
                         heading={strings.assessmentTypeHeading}
-                        headerDescription={
-                            strings.assessmentTypeDescription
-                        }
+                        headerDescription={(
+                            <span className={styles.filterHint}>
+                                {strings.assessmentTypeDescription}
+                            </span>
+                        )}
                         withHeaderBorder
                         headerActions={activeFilters?.assessmentType !== null && (
                             <Button
@@ -394,9 +432,11 @@ function PERSummaryDashboard() {
 
                     <Container
                         heading={strings.yearAndRegionHeading}
-                        headerDescription={
-                            strings.yearAndRegionDescription
-                        }
+                        headerDescription={(
+                            <span className={styles.filterHint}>
+                                {strings.yearAndRegionDescription}
+                            </span>
+                        )}
                         withHeaderBorder
                         headerActions={(
                             activeFilters?.region !== null
@@ -436,9 +476,11 @@ function PERSummaryDashboard() {
                         heading={
                             strings.highPriorityComponentsHeading
                         }
-                        headerDescription={
-                            strings.highPriorityComponentsDescription
-                        }
+                        headerDescription={(
+                            <span className={styles.filterHint}>
+                                {strings.highPriorityComponentsDescription}
+                            </span>
+                        )}
                         withHeaderBorder
                         headerActions={activeFilters?.highPriorityComponent !== null && (
                             <Button
@@ -460,19 +502,17 @@ function PERSummaryDashboard() {
 
                 <Container
                     heading={strings.perConsiderationsHeading}
-                    headerDescription={
-                        strings.perConsiderationsDescription
-                    }
+                    headerDescription={(
+                        <span className={styles.filterHint}>
+                            {strings.perConsiderationsDescription}
+                        </span>
+                    )}
                     withHeaderBorder
-                    headerActions={(
-                        activeFilters.consideration !== null
-                        || activeFilters.assessmentType !== null
-                    ) && (
+                    headerActions={activeFilters.consideration !== null && (
                         <Button
                             name={undefined}
                             onClick={() => {
                                 updateFilter('consideration', null);
-                                updateFilter('assessmentType', null);
                             }}
                             aria-label={strings.summaryResetFilterAriaLabel}
                         >

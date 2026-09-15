@@ -11,7 +11,9 @@ import {
     type PerformanceFilterState,
 } from './PERPerformanceDashboard/dataHandler';
 import {
+    getComponentSummaryForTreemap,
     getKPIData,
+    getPERConsiderations,
     getRecordsByAssessmentType,
     getRecordsByRegion,
     getStackedBarDataByYearAndRegion,
@@ -30,6 +32,7 @@ function process(overrides: Partial<ProcessRecord>): ProcessRecord {
         processId: 1,
         countryId: 1,
         countryName: 'Example',
+        nationalSocietyName: 'Example Red Cross',
         countryIso3: 'EXM',
         regionId: 1,
         regionName: 'Africa',
@@ -160,7 +163,7 @@ describe('PER dashboard country identity selector', () => {
         expect(yearOnly.countryIds.size).toBe(0);
     });
 
-    test('counts every filtered process record by assessment type', () => {
+    test('excludes Orientation processes from assessment type counts', () => {
         const typeCounts = [
             { name: 'Self assessment', count: 112 },
             { name: 'Simulation', count: 28 },
@@ -170,24 +173,106 @@ describe('PER dashboard country identity selector', () => {
         ] as const;
         let processId = 0;
         const history = typeCounts.flatMap(({ name, count }) => (
-            Array.from({ length: count }, () => {
+            Array.from({ length: count }, (_, index) => {
                 processId += 1;
                 return process({
                     processId,
                     countryId: ((processId - 1) % 114) + 1,
                     assessmentNumber: Math.floor((processId - 1) / 114) + 1,
                     typeOfAssessmentName: name,
+                    phase: name === 'Self assessment' && index >= 110 ? 1 : 2,
                 });
             })
         ));
         const state = selectFilteredDashboard(history);
 
         expect(getRecordsByAssessmentType(state)).toEqual([
-            { label: 'Self assessment', count: 112 },
+            { label: 'Self assessment', count: 110 },
             { label: 'Simulation', count: 28 },
             { label: 'Operational', count: 5 },
             { label: 'Post operational', count: 10 },
         ]);
+    });
+
+    test('uses only the latest process of each NS for high-priority components', () => {
+        const resourceMobilisation = {
+            componentId: 37,
+            componentTitle: 'Resource Mobilisation',
+            areaTitle: 'Operations support',
+            description: null,
+        };
+        const history = [
+            process({
+                processId: 1,
+                countryId: 1,
+                assessmentNumber: 1,
+                prioritizedComponents: [resourceMobilisation],
+            }),
+            process({ processId: 2, countryId: 1, assessmentNumber: 2 }),
+            process({
+                processId: 3,
+                countryId: 2,
+                assessmentNumber: 2,
+                prioritizedComponents: [resourceMobilisation],
+            }),
+        ];
+        const state = selectFilteredDashboard(history);
+        const resource = getComponentSummaryForTreemap(state).children
+            ?.flatMap((area) => area.children ?? [])
+            .find((component) => component.name === 'Resource Mobilisation');
+
+        expect(resource?.value).toBe(1);
+        expect(selectFilteredDashboard(history, {
+            countryId: null,
+            region: null,
+            year: null,
+            assessmentType: null,
+            phaseCohort: null,
+            minimumCycles: null,
+            consideration: null,
+            highPriorityComponent: 'Resource Mobilisation',
+        }).countryIds).toEqual(new Set([2]));
+    });
+
+    test('uses process percentages but NS counts and bars for considerations', () => {
+        const consideration = (
+            processId: number,
+            countryId: number,
+            date: string,
+            ready: boolean,
+        ) => process({
+            processId,
+            countryId,
+            dateOfAssessment: date,
+            phase: 2,
+            epiConsiderations: ready,
+            climateEnvironmentalConsiderations: ready,
+            urbanConsiderations: ready,
+            migrationConsiderations: ready,
+        });
+        const state = selectFilteredDashboard([
+            consideration(1, 1, '2017-01-01', true),
+            consideration(2, 1, '2018-01-01', true),
+            consideration(3, 1, '2021-01-01', true),
+            consideration(4, 2, '2023-01-01', false),
+            consideration(5, 1, '2024-01-01', true),
+            consideration(6, 3, '2017-01-01', true),
+        ]);
+        const result = getPERConsiderations(state);
+
+        expect(result.totals).toMatchObject({
+            totalEpiConsiderations: 2,
+            totalClimateConsiderations: 2,
+            totalUrbanConsiderations: 2,
+            totalMigrationConsiderations: 2,
+        });
+        expect(result.percentages).toEqual({
+            epiPercentage: 75,
+            climatePercentage: 66,
+            urbanPercentage: 66,
+            migrationPercentage: 50,
+        });
+        expect(result.data.map((chart) => chart[0]?.SelfAssessment)).toEqual([2, 2, 2, 2]);
     });
 
     test('counts every process record in the year and region chart', () => {
@@ -306,7 +391,7 @@ describe('PER dashboard country identity selector', () => {
                         components: [],
                     },
                     {
-                        assessmentId: 102,
+                        assessmentId: null,
                         assessmentNumber: 1,
                         countryId: 2,
                         countryName: 'No response',
@@ -334,9 +419,19 @@ describe('PER dashboard country identity selector', () => {
             cycle: null,
         };
 
-        expect(getPerformanceRatings(data, filters).overallRating.rating).toBe(3);
-        expect(getPerformanceCycles(data, filters).cycles[0]?.rating).toBe(3);
-        expect(getPerformanceSummary(data, filters).assessmentsWithComponentResponses).toBe(1);
+        expect(getPerformanceRatings(data, filters).overallRating).toMatchObject({
+            rating: 3,
+            status: 'Needs Improvement',
+        });
+        expect(getPerformanceCycles(data, filters)).toMatchObject({
+            total_cycles: 2,
+            cycles: [{
+                cycle: 'Cycle 1',
+                totalNS: 2,
+                rating: 2.33,
+            }],
+        });
+        expect(getPerformanceSummary(data, filters).totalAssessments).toBe(1);
     });
 
     test('normalizes apostrophes and non-ASCII country names without changing IDs', () => {
@@ -345,6 +440,7 @@ describe('PER dashboard country identity selector', () => {
                 id: 22,
                 country_id: 9,
                 country_name: 'Côte d’Ivoire',
+                national_society_name: 'Red Cross Society of Côte d’Ivoire',
                 country_iso3: 'CIV',
                 region_name: 'Africa',
                 assessment_number: 1,
@@ -357,6 +453,7 @@ describe('PER dashboard country identity selector', () => {
             processId: 22,
             countryId: 9,
             countryName: 'Côte d’Ivoire',
+            nationalSocietyName: 'Red Cross Society of Côte d’Ivoire',
         });
     });
 

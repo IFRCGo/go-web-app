@@ -1,4 +1,5 @@
 .preparedness-global-summary {
+    margin-top: calc(-1 * var(--go-ui-spacing-md));
     width: 100%;
     aspect-ratio: 2 / 3;
 
