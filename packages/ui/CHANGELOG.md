@@ -1,5 +1,11 @@
 # @ifrc-go/ui
 
+## 2.4.0-beta.0
+
+### Minor Changes
+
+- 43d6900: Add content max width option to Description
+
 ## 2.3.0
 
 ### Minor Changes
