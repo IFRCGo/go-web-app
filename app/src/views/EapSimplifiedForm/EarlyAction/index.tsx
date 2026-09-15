@@ -105,6 +105,26 @@ function EarlyAction(props: Props) {
                 ),
                 'planned_operations' as const,
             );
+
+            setFieldValue(
+                (oldValue: PartialSimplifiedEapType['enabling_approaches']) => (
+                    oldValue?.map((approach) => ({
+                        ...approach,
+                        early_action_activities: approach.early_action_activities?.map(
+                            (activity) => (
+                                activity.timeframe === newValue
+                                    ? activity
+                                    : {
+                                        ...activity,
+                                        timeframe: newValue,
+                                        time_value: undefined,
+                                    }
+                            ),
+                        ),
+                    }))
+                ),
+                'enabling_approaches' as const,
+            );
         },
         [setFieldValue],
     );

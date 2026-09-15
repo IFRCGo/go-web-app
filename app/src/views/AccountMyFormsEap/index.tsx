@@ -5,6 +5,7 @@ import {
 } from 'react';
 import {
     Container,
+    ListView,
     Pager,
     type RowOptions,
     Table,
@@ -350,41 +351,57 @@ export function Component() {
     );
 
     return (
-        <Container
-            heading={strings.eapApplicationsHeading}
-            withHeaderBorder
-            filters={(
-                <Filters
-                    value={rawFilter}
-                    onChange={setFilterField}
-                />
-            )}
-            headerActions={(
+        <>
+            <ListView
+                layout="block"
+                withCenteredContents
+            >
                 <Link
-                    to="newEapDevelopmentRegistration"
-                    styleVariant="outline"
-                    colorVariant="primary"
+                    href="https://forms.cloud.microsoft/e/kPwYzbCAwn"
+                    styleVariant="action"
+                    external
+                    withLinkIcon
+                    withUnderline
                 >
-                    {strings.eapRegistrationLink}
+                    {strings.eapFeedbackLinkLabel}
                 </Link>
-            )}
-            footerActions={(
-                <Pager
-                    activePage={page}
-                    itemsCount={eapListResponse?.count ?? 0}
-                    maxItemsPerPage={limit}
-                    onActivePageChange={setPage}
+            </ListView>
+            <Container
+                heading={strings.eapApplicationsHeading}
+                withHeaderBorder
+                filters={(
+                    <Filters
+                        value={rawFilter}
+                        onChange={setFilterField}
+                    />
+                )}
+                headerActions={(
+                    <Link
+                        to="newEapDevelopmentRegistration"
+                        styleVariant="outline"
+                        colorVariant="primary"
+                    >
+                        {strings.eapRegistrationLink}
+                    </Link>
+                )}
+                footerActions={(
+                    <Pager
+                        activePage={page}
+                        itemsCount={eapListResponse?.count ?? 0}
+                        maxItemsPerPage={limit}
+                        onActivePageChange={setPage}
+                    />
+                )}
+            >
+                <Table
+                    data={eapListResponse?.results}
+                    columns={aggregatedColumns}
+                    rowModifier={rowModifier}
+                    keySelector={numericIdSelector}
+                    pending={eapListPending}
+                    filtered={filtered}
                 />
-            )}
-        >
-            <Table
-                data={eapListResponse?.results}
-                columns={aggregatedColumns}
-                rowModifier={rowModifier}
-                keySelector={numericIdSelector}
-                pending={eapListPending}
-                filtered={filtered}
-            />
-        </Container>
+            </Container>
+        </>
     );
 }

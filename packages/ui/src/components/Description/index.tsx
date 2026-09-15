@@ -24,6 +24,7 @@ export interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'ref'> {
     textSize?: 'xs' | 'sm' | 'md' | 'lg';
     withLightText?: boolean;
     colorVariant?: ColorVariant;
+    withContentMaxWidth?: boolean;
 }
 
 function Description(props: Props) {
@@ -35,6 +36,7 @@ function Description(props: Props) {
         textSize = 'md',
         withLightText,
         colorVariant,
+        withContentMaxWidth,
         ...otherProps
     } = props;
 
@@ -52,6 +54,7 @@ function Description(props: Props) {
                 textSize === 'lg' && styles.textSizeLarge,
                 isDefined(colorVariant) && colorVariantToClassName[colorVariant],
                 withLightText && styles.withLightText,
+                withContentMaxWidth && styles.withContentMaxWidth,
                 className,
             )}
         >

@@ -12,6 +12,10 @@
         text-align: center;
     }
 
+    &.with-content-max-width {
+        max-width: var(--go-ui-width-content-max);
+    }
+
     &.text-size-extra-small {
         font-size: var(--go-ui-font-size-xs);
     }

@@ -1,4 +1,7 @@
-import { Button } from '@ifrc-go/ui';
+import {
+    Button,
+    type ButtonLayoutProps,
+} from '@ifrc-go/ui';
 import { isDefined } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
@@ -9,6 +12,8 @@ interface Props {
     name: string;
     label: React.ReactNode;
     url: string | undefined;
+    styleVariant?: ButtonLayoutProps['styleVariant'];
+    colorVariant?: ButtonLayoutProps['colorVariant'];
 }
 
 // A missing url degrades to a disabled button rather than an inert anchor.
@@ -18,6 +23,8 @@ function DrefDocumentLink(props: Props) {
         name,
         label,
         url,
+        styleVariant = 'outline',
+        colorVariant = 'primary',
     } = props;
 
     if (isDefined(url)) {
@@ -26,9 +33,10 @@ function DrefDocumentLink(props: Props) {
                 className={className}
                 external
                 href={url}
-                styleVariant="outline"
-                colorVariant="primary"
+                styleVariant={styleVariant}
+                colorVariant={colorVariant}
                 withLinkIcon
+                withUnderline={styleVariant === 'transparent'}
             >
                 {label}
             </Link>
@@ -40,8 +48,8 @@ function DrefDocumentLink(props: Props) {
             className={className}
             name={name}
             disabled
-            styleVariant="outline"
-            colorVariant="primary"
+            styleVariant={styleVariant}
+            colorVariant={colorVariant}
         >
             {label}
         </Button>
