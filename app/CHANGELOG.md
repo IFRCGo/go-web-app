@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.27.2
+
+### Patch Changes
+
+- Implement hide field report map and key figures options on the emergency page
+
 ## 7.27.1
 
 ### Patch Changes
