@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.28.0-beta.2
+
+### Minor Changes
+
+- 8cb7efc: Implement hide field report map and key figures options on the emergency page
+
 ## 7.28.0-beta.1
 
 ### Minor Changes
