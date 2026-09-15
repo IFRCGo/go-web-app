@@ -374,6 +374,24 @@ export function Component() {
         && (isTruthyString(drefSummary?.challenges_identified)
             || isTruthyString(drefSummary?.lessons_learned));
 
+    // Emergency admins can suppress field-report-sourced content when the
+    // reported numbers are unreliable or the emergency is sensitive.
+    const showFieldReportKeyFigures = !emergencyResponse?.hide_attached_field_reports;
+    const showEmergencyMap = !emergencyResponse?.hide_field_report_map;
+
+    const showEarlyWarningKeyFigures = showFieldReportKeyFigures
+        && isFieldReportStage
+        && latestFieldReport?.status === FIELD_REPORT_STATUS_EARLY_WARNING;
+
+    const showEventKeyFigures = showFieldReportKeyFigures
+        && ((isFieldReportStage && latestFieldReport?.status === FIELD_REPORT_STATUS_EVENT)
+            || isEmergencyAppealStage);
+
+    // The map is the only other occupant of this section, so without it an
+    // empty summary would leave a bare heading behind.
+    const showSituationalOverview = showEmergencyMap
+        || !isFalsyString(displayedSituationalOverview);
+
     // The new endpoint encodes the first field report's assistance flags on the
     // attached field_report via `first_fr_*` fields.
     // FIXME(frozenhelium): go-api, the dref payload does not expose whether
@@ -936,8 +954,7 @@ export function Component() {
                     )}
                 />
             )}
-            {isFieldReportStage
-                && latestFieldReport?.status === FIELD_REPORT_STATUS_EARLY_WARNING && (
+            {showEarlyWarningKeyFigures && (
                 <Container
                     heading={strings.emergencyKeyFiguresTitle}
                     withHeaderBorder
@@ -962,8 +979,7 @@ export function Component() {
                     </ListView>
                 </Container>
             )}
-            {((isFieldReportStage && latestFieldReport?.status === FIELD_REPORT_STATUS_EVENT)
-                || isEmergencyAppealStage) && (
+            {showEventKeyFigures && (
                 <Container
                     heading={strings.emergencyKeyFiguresTitle}
                     withHeaderBorder
@@ -1219,59 +1235,64 @@ export function Component() {
                     <DrefSummaryDisclaimer multiple />
                 </Container>
             )}
-            <Container
-                heading={strings.situationalOverviewTitle}
-                withHeaderBorder
-            >
-                {/* FIXME(frozenhelium): handle condition where there is no summary */}
-                <ListView
-                    layout="grid"
-                    gridContentClassName={styles.situationalOverviewContent}
-                    numPreferredGridColumns={isFalsyString(displayedSituationalOverview) ? 1 : 2}
+            {showSituationalOverview && (
+                <Container
+                    heading={strings.situationalOverviewTitle}
+                    withHeaderBorder
                 >
-                    <ListView layout="block">
-                        <ClampedContent
-                            size="lg"
-                            resetKey={displayedSituationalOverview}
-                        >
-                            {isDrefStage && (
-                                // Description collapses the summaries'
-                                // blank-line paragraph breaks
-                                <DescriptionText>
-                                    {displayedSituationalOverview}
-                                </DescriptionText>
-                            )}
-                            {!isDrefStage && (
-                                <HtmlOutput
-                                    value={emergencyResponse.summary}
-                                />
-                            )}
-                        </ClampedContent>
-                        {showSituationalOverviewSummary && (
-                            <ListView
-                                layout="block"
-                                spacing="2xs"
+                    {/* FIXME(frozenhelium): handle condition where there is no summary */}
+                    <ListView
+                        layout="grid"
+                        gridContentClassName={styles.situationalOverviewContent}
+                        numPreferredGridColumns={isFalsyString(displayedSituationalOverview)
+                            || !showEmergencyMap ? 1 : 2}
+                    >
+                        <ListView layout="block">
+                            <ClampedContent
+                                size="lg"
+                                resetKey={displayedSituationalOverview}
                             >
-                                {isAnticipatoryPhase ? (
-                                    <Description
-                                        textSize="sm"
-                                        withLightText
-                                    >
-                                        {strings.situationalOverviewSourceImminent}
-                                    </Description>
-                                ) : (
-                                    <DrefSummarySourceLabel
-                                        source={drefSummary?.source}
-                                        section={strings.situationalOverviewSource}
+                                {isDrefStage && (
+                                    // Description collapses the summaries'
+                                    // blank-line paragraph breaks
+                                    <DescriptionText>
+                                        {displayedSituationalOverview}
+                                    </DescriptionText>
+                                )}
+                                {!isDrefStage && (
+                                    <HtmlOutput
+                                        value={emergencyResponse.summary}
                                     />
                                 )}
-                                <DrefSummaryDisclaimer />
-                            </ListView>
+                            </ClampedContent>
+                            {showSituationalOverviewSummary && (
+                                <ListView
+                                    layout="block"
+                                    spacing="2xs"
+                                >
+                                    {isAnticipatoryPhase ? (
+                                        <Description
+                                            textSize="sm"
+                                            withLightText
+                                        >
+                                            {strings.situationalOverviewSourceImminent}
+                                        </Description>
+                                    ) : (
+                                        <DrefSummarySourceLabel
+                                            source={drefSummary?.source}
+                                            section={strings.situationalOverviewSource}
+                                        />
+                                    )}
+                                    <DrefSummaryDisclaimer />
+                                </ListView>
+                            )}
+                        </ListView>
+                        {showEmergencyMap && (
+                            <EmergencyMap event={emergencyResponse} />
                         )}
                     </ListView>
-                    <EmergencyMap event={emergencyResponse} />
-                </ListView>
-            </Container>
+                </Container>
+            )}
             {isFieldReportStage
                 && isDefined(emergencyResponse)
                 && isDefined(emergencyResponse.dtype)
