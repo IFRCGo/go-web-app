@@ -2,6 +2,7 @@ import {
     type ObjectSchema,
     type PartialForm,
     type PurgeNull,
+    requiredListCondition,
     requiredStringCondition,
     undefinedValue,
 } from '@togglecorp/toggle-form';
@@ -24,31 +25,42 @@ export type OperationActivityFormFields = PartialForm<OperationActivity> & {
 
 type OperationActivitySchema = ObjectSchema<OperationActivityFormFields>;
 
-const schema = (isSubmit: boolean, type: ActivityInputType): OperationActivitySchema => ({
-    fields: (): ReturnType<OperationActivitySchema['fields']> => ({
-        client_id: {},
-        id: { defaultValue: undefinedValue },
-        activity: {
-            // FIXME: add validation for character limit
-            required: isSubmit,
-            requiredValidation: requiredStringCondition,
-        },
-        time_value: {},
-        // Prepositioning activities are not tied to a timeframe
-        timeframe: {
-            required: isSubmit && type !== 'prepositioning_activities',
-        },
-        // Activations are only applicable to prepositioning and early actions
-        ...(type === 'readiness_activities'
-            ? {
-                activation_one: { forceValue: undefinedValue },
-                activation_two: { forceValue: undefinedValue },
-            }
-            : {
-                activation_one: { defaultValue: false },
-                activation_two: { defaultValue: false },
-            }),
-    }),
-});
+const schema = (
+    isSubmit: boolean,
+    type: ActivityInputType,
+    isSimplifiedEap?: boolean,
+): OperationActivitySchema => {
+    // Only full EAP prepositioning is untimed; every simplified EAP activity is timed
+    const withTimeframe = type !== 'prepositioning_activities' || !!isSimplifiedEap;
+
+    return {
+        fields: (): ReturnType<OperationActivitySchema['fields']> => ({
+            client_id: {},
+            id: { defaultValue: undefinedValue },
+            activity: {
+                // FIXME: add validation for character limit
+                required: isSubmit,
+                requiredValidation: requiredStringCondition,
+            },
+            time_value: {
+                required: isSubmit && withTimeframe,
+                requiredValidation: requiredListCondition,
+            },
+            timeframe: {
+                required: isSubmit && withTimeframe,
+            },
+            // Activations are only applicable to prepositioning and early actions
+            ...(type === 'readiness_activities'
+                ? {
+                    activation_one: { forceValue: undefinedValue },
+                    activation_two: { forceValue: undefinedValue },
+                }
+                : {
+                    activation_one: { defaultValue: false },
+                    activation_two: { defaultValue: false },
+                }),
+        }),
+    };
+};
 
 export default schema;
