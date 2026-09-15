@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.0246 0 48.0246 48" aria-hidden="true" fill="currentColor">
+    <g data-name="Layer 2">
+        <circle cx="43.5" cy="43.5" r="4.5" style="fill:#000"/>
+        <circle cx="43.5" cy="31.5" r="4.5" style="fill:#000"/>
+        <circle cx="43.5" cy="19.5" r="4.5" style="fill:#000"/>
+        <circle cx="31.5" cy="43.5" r="4.5" style="fill:#000"/>
+        <circle cx="31.5" cy="31.5" r="4.5" style="fill:#000"/>
+        <circle cx="19.5" cy="43.5" r="4.5" style="fill:#000"/>
+        <circle cx="7.5" cy="43.5" r="4.5" style="fill:#000"/>
+        <circle cx="19.5" cy="31.5" r="4.5" style="fill:#000"/>
+        <circle cx="31.5" cy="19.5" r="4.5" style="fill:#000"/>
+        <circle cx="43.5" cy="7.5" r="4.5" style="fill:#000"/>
+        <path d="M19 6.828V11a2 2 0 0 0 4 0V2a2 2 0 0 0-2-2h-9a2 2 0 0 0 0 4h4.172L.586 19.586a2 2 0 1 0 2.828 2.828z" style="fill:#000"/>
+    </g>
+</svg>

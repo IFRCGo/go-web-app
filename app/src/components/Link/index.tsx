@@ -121,10 +121,10 @@ function Link(props: Props) {
                 <>
                     {after}
                     {withLinkIcon && external && (
-                        <ArrowRightUpLineIcon className={styles.linkIcon} />
+                        <ArrowRightUpLineIcon />
                     )}
                     {withLinkIcon && !external && (
-                        <ChevronRightLineIcon className={styles.linkIcon} />
+                        <ChevronRightLineIcon />
                     )}
                 </>
             )}

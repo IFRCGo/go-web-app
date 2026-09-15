@@ -5,13 +5,6 @@
         display: inline-flex;
         align-items: center;
         gap: var(--go-ui-spacing-xs);
-
-        .icon {
-            display: inline-flex;
-            line-height: 1;
-            /* FIXME: use variables */
-            font-size: 1rem;
-        }
     }
 
 }
