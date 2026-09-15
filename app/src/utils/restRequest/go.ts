@@ -126,6 +126,7 @@ function getEndPoint(apiType: ApiType | undefined) {
     return api;
 }
 
+// FIXME: Misleading name: this is not specific to Go-API.
 export const processGoUrls: GoContextInterface['transformUrl'] = (url, _, additionalOptions) => {
     if (isFalsyString(url)) {
         return '';
@@ -168,6 +169,7 @@ function getFormData(jsonData: FormDataCompatibleObj) {
     return formData;
 }
 
+// FIXME: Misleading name: this is not specific to Go-API.
 export const processGoOptions: GoContextInterface['transformOptions'] = (
     _,
     requestOptions,
@@ -275,6 +277,7 @@ const isContentTypeJson = (res: Response): boolean => {
 
 const isLoginRedirect = (url: string): boolean => new URL(url).pathname.includes('login');
 
+// FIXME: Misleading name: this is not specific to Go-API.
 export const processGoResponse: GoContextInterface['transformResponse'] = async (
     res,
 ) => {
@@ -305,6 +308,7 @@ export const processGoResponse: GoContextInterface['transformResponse'] = async 
     };
 };
 
+// FIXME: Misleading name: this is not specific to Go-API.
 export const processGoError: GoContextInterface['transformError'] = (
     responseError,
     url,
