@@ -617,15 +617,15 @@ export const formSchema: FormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit, 'early_action_activities'),
+                            member: () => operationActivitySchema(isSubmit, 'early_action_activities', true),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit, 'readiness_activities'),
+                            member: () => operationActivitySchema(isSubmit, 'readiness_activities', true),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit, 'prepositioning_activities'),
+                            member: () => operationActivitySchema(isSubmit, 'prepositioning_activities', true),
                         },
                     }),
                 }),
@@ -664,15 +664,15 @@ export const formSchema: FormSchema = {
                         },
                         early_action_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit, 'early_action_activities'),
+                            member: () => operationActivitySchema(isSubmit, 'early_action_activities', true),
                         },
                         readiness_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit, 'readiness_activities'),
+                            member: () => operationActivitySchema(isSubmit, 'readiness_activities', true),
                         },
                         prepositioning_activities: {
                             keySelector: (item) => item.client_id,
-                            member: () => operationActivitySchema(isSubmit, 'prepositioning_activities'),
+                            member: () => operationActivitySchema(isSubmit, 'prepositioning_activities', true),
                         },
                     }),
                 }),

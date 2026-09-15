@@ -115,17 +115,40 @@ function EapOperationActivityInput(props: Props) {
     const isTimeframeFixedToLeadTime = name === 'early_action_activities'
         && isDefined(leadTimeframeUnit);
 
+    // NOTE: Full EAP pre-positioning is untimed and hides this select entirely
+    const fixedTimeframe = useMemo(() => {
+        if (name === 'readiness_activities'
+            || (name === 'prepositioning_activities' && isSimplifiedEap)) {
+            return TIMEFRAME_YEAR;
+        }
+        if (name === 'early_action_activities') {
+            return leadTimeframeUnit;
+        }
+        return undefined;
+    }, [name, isSimplifiedEap, leadTimeframeUnit]);
+
+    // Rows saved before the rule can hold another unit; those stay editable so they can be fixed
+    const isTimeframeDiverged = isDefined(fixedTimeframe)
+        && isDefined(value.timeframe)
+        && value.timeframe !== fixedTimeframe;
+
     const eapTimeframeOption = useMemo(() => {
+        if (isTimeframeDiverged) {
+            return eap_timeframe?.filter(
+                (item) => item.key === fixedTimeframe || item.key === value.timeframe,
+            );
+        }
+        if (isDefined(fixedTimeframe)) {
+            return eap_timeframe?.filter((item) => item.key === fixedTimeframe);
+        }
         if (name !== 'early_action_activities') {
             return eap_timeframe;
         }
-        if (isDefined(leadTimeframeUnit)) {
-            return eap_timeframe?.filter((item) => item.key === leadTimeframeUnit);
-        }
         return eap_timeframe?.filter((item) => item.key !== TIMEFRAME_YEAR);
-    }, [eap_timeframe, name, leadTimeframeUnit]);
+    }, [eap_timeframe, name, fixedTimeframe, isTimeframeDiverged, value.timeframe]);
 
-    const eapTimeFrameReadOnly = name === 'readiness_activities' || isTimeframeFixedToLeadTime;
+    const eapTimeFrameReadOnly = isDefined(fixedTimeframe)
+        && value.timeframe === fixedTimeframe;
 
     const leadTimeHint = resolveToString(
         strings.operationTimeFrameLeadTimeHint,
