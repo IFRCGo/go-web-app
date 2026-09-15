@@ -92,25 +92,23 @@ function countConsiderationByRegionAndType(
         | 'climateEnvironmentalConsiderations'
         | 'urbanConsiderations'
         | 'migrationConsiderations',
+    introducedYear: number,
 ): {
     chart: SummaryChartDataItem[];
     count: number;
+    processCount: number;
+    eligibleProcessCount: number;
 } {
     const chart = emptySummaryChartData();
     const chartByRegion = new Map(chart.map((item) => [item.name, item]));
-    const processByCountry = groupByCountry(processes);
-    let count = 0;
-
-    processByCountry.forEach((countryProcesses) => {
-        const eligibleProcesses = countryProcesses.filter(
-            (process) => (process.phase ?? 0) >= 2 && process[field] === true,
-        );
-        const process = latestProcess(eligibleProcesses);
+    const readyByCountry = groupByCountry(processes.filter(
+        (process) => (process.phase ?? 0) >= 2 && process[field] === true,
+    ));
+    readyByCountry.forEach((countryProcesses) => {
+        const process = latestProcess(countryProcesses);
         if (!process) {
             return;
         }
-
-        count += 1;
         const type = assessmentTypeKey(process.typeOfAssessmentName);
         const regionItem = process.regionName ? chartByRegion.get(process.regionName) : undefined;
         if (type && regionItem) {
@@ -118,7 +116,20 @@ function countConsiderationByRegionAndType(
         }
     });
 
-    return { chart, count };
+    const eligibleProcesses = processes.filter((process) => (
+        (process.phase ?? 0) >= 2
+        && (getProcessYear(process) ?? Number.NEGATIVE_INFINITY) >= introducedYear
+    ));
+    const readyProcessCount = eligibleProcesses.filter(
+        (process) => process[field] === true,
+    ).length;
+
+    return {
+        chart,
+        count: readyByCountry.size,
+        processCount: readyProcessCount,
+        eligibleProcessCount: eligibleProcesses.length,
+    };
 }
 
 export function getKPIData(state: FilteredDashboardState): SummaryKpi[] {
@@ -208,23 +219,25 @@ export function getRecordsByAssessmentType(
         'Post operational',
     ] as const;
     const counts = new Map(labels.map((label) => [label, 0]));
-    state.processes.forEach((process) => {
-        const type = assessmentTypeKey(process.typeOfAssessmentName);
-        let label: typeof labels[number] | null = null;
-        if (type === 'SelfAssessment') {
-            label = 'Self assessment';
-        } else if (type === 'Simulation') {
-            label = 'Simulation';
-        } else if (type === 'Operational') {
-            label = 'Operational';
-        } else if (type === 'PostOperational') {
-            label = 'Post operational';
-        }
-        if (label && counts.has(label as typeof labels[number])) {
-            const typedLabel = label as typeof labels[number];
-            counts.set(typedLabel, counts.get(typedLabel)! + 1);
-        }
-    });
+    state.processes
+        .filter((process) => (process.phase ?? 0) >= 2)
+        .forEach((process) => {
+            const type = assessmentTypeKey(process.typeOfAssessmentName);
+            let label: typeof labels[number] | null = null;
+            if (type === 'SelfAssessment') {
+                label = 'Self assessment';
+            } else if (type === 'Simulation') {
+                label = 'Simulation';
+            } else if (type === 'Operational') {
+                label = 'Operational';
+            } else if (type === 'PostOperational') {
+                label = 'Post operational';
+            }
+            if (label && counts.has(label as typeof labels[number])) {
+                const typedLabel = label as typeof labels[number];
+                counts.set(typedLabel, counts.get(typedLabel)! + 1);
+            }
+        });
     return labels.map((label) => ({
         label,
         count: counts.get(label) ?? 0,
@@ -264,24 +277,13 @@ export function getStackedBarDataByYearAndRegion(
 export function getComponentSummaryForTreemap(
     state: FilteredDashboardState,
 ): ComponentSummary {
-    const prioritizedByCountry = new Map<number, ProcessRecord>();
-    state.processes.forEach((process) => {
-        if (process.countryId === null || process.prioritizedComponents.length === 0) {
-            return;
-        }
-        const current = prioritizedByCountry.get(process.countryId);
-        if (!current || compareProcessRecency(process, current) > 0) {
-            prioritizedByCountry.set(process.countryId, process);
-        }
-    });
-
     const componentCounts = new Map<string, {
         areaName: string;
         componentName: string;
         count: number;
         color: string;
     }>();
-    prioritizedByCountry.forEach((process) => {
+    state.latestProcessByCountry.forEach((process) => {
         const seen = new Set<string>();
         process.prioritizedComponents.forEach((component) => {
             if (!component.componentTitle) {
@@ -348,35 +350,52 @@ export function getComponentSummaryForTreemap(
 export function getPERConsiderations(
     state: FilteredDashboardState,
 ): SummaryConsiderationData {
-    const epi = countConsiderationByRegionAndType(state.processes, 'epiConsiderations');
+    const epi = countConsiderationByRegionAndType(
+        state.processes,
+        'epiConsiderations',
+        2018,
+    );
     const climate = countConsiderationByRegionAndType(
         state.processes,
         'climateEnvironmentalConsiderations',
+        2021,
     );
-    const urban = countConsiderationByRegionAndType(state.processes, 'urbanConsiderations');
-    const migration = countConsiderationByRegionAndType(state.processes, 'migrationConsiderations');
-    const totalAssessments = Array.from(groupByCountry(state.processes).values())
-        .filter((processes) => processes.some((process) => (process.phase ?? 0) >= 2))
-        .length;
-
-    const percentage = (count: number) => (totalAssessments > 0
-        ? Math.floor((count / totalAssessments) * 100)
+    const urban = countConsiderationByRegionAndType(
+        state.processes,
+        'urbanConsiderations',
+        2021,
+    );
+    const migration = countConsiderationByRegionAndType(
+        state.processes,
+        'migrationConsiderations',
+        2023,
+    );
+    const percentage = (count: number, total: number) => (total > 0
+        ? Math.floor((count / total) * 100)
         : 0);
 
     return {
         data: [epi.chart, climate.chart, urban.chart, migration.chart],
         totals: {
-            totalAssessments,
+            totalAssessments: state.processes.filter(
+                (process) => (process.phase ?? 0) >= 2,
+            ).length,
             totalEpiConsiderations: epi.count,
             totalClimateConsiderations: climate.count,
             totalUrbanConsiderations: urban.count,
             totalMigrationConsiderations: migration.count,
         },
         percentages: {
-            epiPercentage: percentage(epi.count),
-            climatePercentage: percentage(climate.count),
-            urbanPercentage: percentage(urban.count),
-            migrationPercentage: percentage(migration.count),
+            epiPercentage: percentage(epi.processCount, epi.eligibleProcessCount),
+            climatePercentage: percentage(
+                climate.processCount,
+                climate.eligibleProcessCount,
+            ),
+            urbanPercentage: percentage(urban.processCount, urban.eligibleProcessCount),
+            migrationPercentage: percentage(
+                migration.processCount,
+                migration.eligibleProcessCount,
+            ),
         },
     };
 }

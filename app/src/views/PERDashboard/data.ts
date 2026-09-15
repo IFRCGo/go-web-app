@@ -101,6 +101,7 @@ export interface ProcessRecord {
     processId: number;
     countryId: number | null;
     countryName: string | null;
+    nationalSocietyName: string | null;
     countryIso3: string | null;
     regionId: number | null;
     regionName: string | null;
@@ -294,6 +295,7 @@ export function normalizeProcessRecord(value: unknown): ProcessRecord | undefine
         processId,
         countryId: asNumber(item.countryId ?? item.country_id),
         countryName: asString(item.countryName ?? item.country_name),
+        nationalSocietyName: asString(item.nationalSocietyName ?? item.national_society_name),
         countryIso3: asString(item.countryIso3 ?? item.country_iso3),
         regionId: asNumber(item.regionId ?? item.region_id),
         regionName: normalizeRegionName(item.regionName ?? item.region_name),
@@ -499,41 +501,39 @@ function matchesBaseFilters(process: ProcessRecord, filters: DashboardFilterStat
     return true;
 }
 
-function qualifiesCountry(
+function getMatchingCountryProcesses(
     processes: ProcessRecord[],
     filters: DashboardFilterState,
-): boolean {
+): ProcessRecord[] {
     const { consideration } = filters;
     if (filters.phaseCohort === 'orientation' && processes.some((process) => (process.phase ?? 0) >= 2)) {
-        return false;
-    }
-    if (filters.phaseCohort === 'assessment' && !processes.some((process) => (process.phase ?? 0) >= 2)) {
-        return false;
-    }
-    if (filters.phaseCohort === 'action' && !processes.some((process) => (process.phase ?? 0) >= 5)) {
-        return false;
+        return [];
     }
     if (
         filters.minimumCycles !== null
         && Math.max(...processes.map((process) => process.assessmentNumber)) < filters.minimumCycles
     ) {
-        return false;
+        return [];
     }
-    if (
-        consideration !== null
-        && !processes.some((process) => process[considerationField[consideration]] === true)
-    ) {
-        return false;
+
+    let matchingProcesses = filters.highPriorityComponent === null
+        ? processes
+        : Array.from(latestProcessMap(processes).values()).filter((process) => (
+            process.prioritizedComponents.some(
+                (component) => component.componentTitle === filters.highPriorityComponent,
+            )
+        ));
+    if (filters.phaseCohort === 'assessment') {
+        matchingProcesses = matchingProcesses.filter((process) => (process.phase ?? 0) >= 2);
+    } else if (filters.phaseCohort === 'action') {
+        matchingProcesses = matchingProcesses.filter((process) => (process.phase ?? 0) >= 5);
     }
-    if (
-        filters.highPriorityComponent !== null
-        && !processes.some((process) => process.prioritizedComponents.some(
-            (component) => component.componentTitle === filters.highPriorityComponent,
-        ))
-    ) {
-        return false;
+    if (consideration !== null) {
+        matchingProcesses = matchingProcesses.filter(
+            (process) => process[considerationField[consideration]] === true,
+        );
     }
-    return true;
+    return matchingProcesses;
 }
 
 function assertFilteredState(
@@ -576,15 +576,13 @@ export function selectFilteredDashboard(
         byCountry.set(process.countryId, countryProcesses);
     });
 
-    const hasSemanticFilter = filters.phaseCohort !== null
-        || filters.minimumCycles !== null
-        || filters.consideration !== null
-        || filters.highPriorityComponent !== null;
     const eligibleCountryIds = new Set<number>();
     byCountry.forEach((countryProcesses, countryId) => {
-        if (!hasSemanticFilter || qualifiesCountry(countryProcesses, filters)) {
-            eligibleCountryIds.add(countryId);
+        const matchingProcesses = getMatchingCountryProcesses(countryProcesses, filters);
+        if (matchingProcesses.length === 0) {
+            return;
         }
+        eligibleCountryIds.add(countryId);
     });
 
     const filteredProcesses = baseProcesses.filter(

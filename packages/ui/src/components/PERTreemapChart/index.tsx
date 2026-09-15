@@ -89,7 +89,7 @@ function createTooltipContent(
     if (node.depth === 2 && typeof node.data.value === 'number') {
         const value = document.createElement('div');
         value.className = styles.tooltipValue;
-        value.textContent = node.data.value.toString();
+        value.textContent = `${node.data.value} NS`;
         tooltipContent.appendChild(value);
     }
 
@@ -229,8 +229,8 @@ function PERTreemapChart({
                     if (node.depth === 2 && node.data?.name && node.data?.value !== undefined) {
                         const label = strings?.treemapComponentLabel
                             ?.replace('{name}', node.data.name)
-                            ?.replace('{value}', node.data.value.toString())
-                            ?? `${node.data.name} ${node.data.value}`;
+                            ?.replace('{value}', `${node.data.value} NS`)
+                            ?? `${node.data.name} ${node.data.value} NS`;
 
                         if (activeIndex && node.data.name === activeIndex) {
                             return strings?.treemapSelectedLabel?.replace('{name}', node.data.name)
@@ -635,7 +635,7 @@ function PERTreemapChart({
                                         `<div style="font-weight:300; line-height: 13px;">
                                           ${truncateText(node.data.name, CHILD_LABEL_MAX_LENGTH)}
                                         </div>
-                                        <div style="font-size: 16px">${node.data.value}</div>`,
+                                        <div style="font-size: 16px">${node.data.value} NS</div>`,
                                     );
                             }
                         }

@@ -71,6 +71,7 @@ function PERMap({
         hover: d3.Selection<SVGGElement, unknown, null, undefined>;
     } | null>(null);
     const [error, setError] = React.useState<string | null>(null);
+    const updatePositionsRef = React.useRef<() => void>(() => undefined);
 
     const hideTooltip = () => {
         if (tooltipRef.current) {
@@ -337,12 +338,12 @@ function PERMap({
                 tooltipTrigger,
                 handleTooltipTrigger,
             )
-                .on('mouseleave', function handleMouseLeave(this: SVGCircleElement, event: MouseEvent, d: PositionedAssessmentRecord) {
+            .on('mouseleave', function handleMouseLeave(this: SVGCircleElement, event: MouseEvent, d: PositionedAssessmentRecord) {
                 if (event && tooltipTrigger === 'hover') {
                     hideTooltip();
                 }
 
-                    const hoverCircle = bubbleContainer.current?.hover
+                const hoverCircle = bubbleContainer.current?.hover
                     .selectAll<SVGCircleElement, PositionedAssessmentRecord>('circle')
                     .filter((hd) => hd.processId === d.processId);
 
@@ -366,6 +367,7 @@ function PERMap({
         calculateRadius,
         calculateStrokeWidth,
     ]);
+    updatePositionsRef.current = updatePositions;
 
     React.useEffect(() => {
         if (!mapContainer.current || !accessToken) return;
@@ -407,13 +409,13 @@ function PERMap({
 
             map.current.on('load', () => {
                 initializeD3Overlay();
-                updatePositions();
+                updatePositionsRef.current();
                 if (onMapLoad) {
                     onMapLoad();
                 }
             });
 
-            map.current.on('move', updatePositions);
+            map.current.on('move', () => updatePositionsRef.current());
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to initialize map');
         }
