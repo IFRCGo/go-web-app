@@ -25,7 +25,8 @@ interface Props {
 // Entries are spread so they don't overlap. The Today marker must use the same
 // clamp (with a chronological index), else a past event can land right of it.
 function getClampedLeft(index: number, count: number, relativePosition: number) {
-    return `min(${100 - 40 * ((count - index) / count)}%, max(${40 * (index / count)}%, ${relativePosition}%))`;
+    const minWidth = 60;
+    return `min(${100 - minWidth * ((count - index) / count)}%, max(${minWidth * (index / count)}%, ${relativePosition}%))`;
 }
 
 function EventTimeline(props: Props) {
@@ -89,13 +90,36 @@ function EventTimeline(props: Props) {
 
     return (
         <div className={styles.eventTimeline}>
-            <div className={styles.eventsContainer}>
-                {timelineRenderEvents.map((event) => {
-                    if (event.data.isMarker) {
+            <div className={styles.overflowContainer}>
+                <div
+                    className={styles.eventsContainer}
+                    style={{ minWidth: `calc(${numEvents} * var(--event-width) / 5)` }}
+                >
+                    {timelineRenderEvents.map((event) => {
+                        if (event.data.isMarker) {
+                            return (
+                                <div
+                                    key={event.data.key}
+                                    className={styles.marker}
+                                    style={{
+                                        left: getClampedLeft(
+                                            event.clampIndex,
+                                            numEvents,
+                                            event.relativePosition,
+                                        ),
+                                    }}
+                                >
+                                    <div className={styles.label}>
+                                        {event.data.label}
+                                    </div>
+                                </div>
+                            );
+                        }
+
                         return (
                             <div
                                 key={event.data.key}
-                                className={styles.marker}
+                                className={styles.event}
                                 style={{
                                     left: getClampedLeft(
                                         event.clampIndex,
@@ -104,43 +128,25 @@ function EventTimeline(props: Props) {
                                     ),
                                 }}
                             >
-                                <div className={styles.label}>
-                                    {event.data.label}
+                                <div className={styles.border}>
+                                    <div className={styles.highlight} />
                                 </div>
+                                <ListView
+                                    className={styles.content}
+                                    layout="block"
+                                    spacing="xs"
+                                    withPadding
+                                >
+                                    <DateOutput
+                                        format="dd MMM yyyy"
+                                        value={event.data.date}
+                                    />
+                                    {event.data.label}
+                                </ListView>
                             </div>
                         );
-                    }
-
-                    return (
-                        <div
-                            key={event.data.key}
-                            className={styles.event}
-                            style={{
-                                left: getClampedLeft(
-                                    event.clampIndex,
-                                    numEvents,
-                                    event.relativePosition,
-                                ),
-                            }}
-                        >
-                            <div className={styles.border}>
-                                <div className={styles.highlight} />
-                            </div>
-                            <ListView
-                                className={styles.content}
-                                layout="block"
-                                spacing="xs"
-                                withPadding
-                            >
-                                <DateOutput
-                                    format="dd MMM yyyy"
-                                    value={event.data.date}
-                                />
-                                {event.data.label}
-                            </ListView>
-                        </div>
-                    );
-                })}
+                    })}
+                </div>
             </div>
             <div className={styles.eventLine} />
         </div>

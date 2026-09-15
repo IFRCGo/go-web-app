@@ -11,6 +11,7 @@
         "eapApplicationVersion": "EAP Application v{version}",
         "eapTechnicallyValidated": "Technically Validated",
         "eapApproved": "Approved",
-        "eapProjectAgreementSigned": "Project Agreement Signed"
+        "eapProjectAgreementSigned": "Project Agreement Signed",
+        "eapFeedbackLinkLabel": "Provide feedback on IFRC EAP"
     }
 }

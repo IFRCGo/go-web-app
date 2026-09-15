@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
     Container,
     Description,
-    GridLayoutItem,
     ListView,
     Tab,
     TabList,
@@ -46,14 +45,9 @@ export function Component() {
 
     return (
         <TabPage>
-            <ListView
-                layout="grid"
-                numPreferredGridColumns={3}
-                spacing="lg"
-                minGridColumnSize="16rem"
-            >
+            <ListView layout="block">
                 <ListView layout="block">
-                    <Description>
+                    <Description withContentMaxWidth>
                         <ListView
                             layout="block"
                             spacing="sm"
@@ -70,53 +64,53 @@ export function Component() {
                             name="fullAnticipatoryGuidance"
                             url={DREF_ANTICIPATORY_GUIDANCE_URL}
                             label={strings.fullAnticipatoryGuidanceLink}
+                            styleVariant="action"
+                            colorVariant="text"
                         />
                     </ListView>
                 </ListView>
-                <GridLayoutItem columnSpan={2}>
-                    <ListView
-                        layout="grid"
-                        minGridColumnSize="16rem"
+                <ListView
+                    layout="grid"
+                    minGridColumnSize="16rem"
+                >
+                    <Container
+                        heading={strings.imminentCardHeading}
+                        withHeaderBorder
+                        withBackground
+                        withShadow
+                        withPadding
+                        footer={(
+                            <Link
+                                to="newDrefApplicationForm"
+                                state={imminentDrefRouteState}
+                                styleVariant="outline"
+                                colorVariant="primary"
+                            >
+                                {strings.imminentCardButton}
+                            </Link>
+                        )}
                     >
-                        <Container
-                            heading={strings.imminentCardHeading}
-                            withHeaderBorder
-                            withBackground
-                            withShadow
-                            withPadding
-                            footer={(
-                                <Link
-                                    to="newDrefApplicationForm"
-                                    state={imminentDrefRouteState}
-                                    styleVariant="outline"
-                                    colorVariant="primary"
-                                >
-                                    {strings.imminentCardButton}
-                                </Link>
-                            )}
-                        >
-                            {strings.imminentCardText}
-                        </Container>
-                        <Container
-                            heading={strings.eapCardHeading}
-                            withHeaderBorder
-                            withBackground
-                            withShadow
-                            withPadding
-                            footer={environment !== 'production' ? (
-                                <Link
-                                    to="newEapDevelopmentRegistration"
-                                    styleVariant="outline"
-                                    colorVariant="primary"
-                                >
-                                    {strings.eapCardButton}
-                                </Link>
-                            ) : undefined}
-                        >
-                            {strings.eapCardText}
-                        </Container>
-                    </ListView>
-                </GridLayoutItem>
+                        {strings.imminentCardText}
+                    </Container>
+                    <Container
+                        heading={strings.eapCardHeading}
+                        withHeaderBorder
+                        withBackground
+                        withShadow
+                        withPadding
+                        footer={environment !== 'production' ? (
+                            <Link
+                                to="newEapDevelopmentRegistration"
+                                styleVariant="outline"
+                                colorVariant="primary"
+                            >
+                                {strings.eapCardButton}
+                            </Link>
+                        ) : undefined}
+                    >
+                        {strings.eapCardText}
+                    </Container>
+                </ListView>
             </ListView>
             <Tabs
                 value={activeSubTab}
