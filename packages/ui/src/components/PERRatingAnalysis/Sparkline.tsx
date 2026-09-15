@@ -14,11 +14,11 @@ interface Props {
 }
 
 function getRatingStatus(rating: number): RatingStatus {
-    if (rating >= 4) return 'High performing';
-    if (rating >= 3) return 'Good performing';
-    if (rating >= 2) return 'Needs improvement';
-    if (rating >= 1) return 'Partially exists';
-    return "Doesn't exist";
+    if (rating >= 5) return 'High Performance';
+    if (rating >= 4) return 'Exists, Could be Strengthened';
+    if (rating >= 3) return 'Needs Improvement';
+    if (rating >= 2) return 'Partially exists';
+    return 'Does not Exists';
 }
 
 function Sparkline({
@@ -55,7 +55,7 @@ function Sparkline({
                                 {cycle}
                             </div>
                             <div>
-                                {rating.toFixed(1)}
+                                {rating.toFixed(2)}
                                 {' / 5.0'}
                             </div>
                             <div>{getRatingStatus(rating)}</div>

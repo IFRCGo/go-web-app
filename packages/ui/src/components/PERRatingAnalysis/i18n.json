@@ -7,7 +7,7 @@
         "ratingChangeLabel": "Rating change of {value}",
         "ratingSortButtonLabel": "Sort {type} {direction}",
         "ratingSortButton": "Sort button",
-        "ratingSortByNumber": "by number",
+        "ratingSortByComponent": "Sort by component",
         "ratingSortByRating": "by rating",
         "ratingValueLabel": "Rating value: {value}",
         "ratingComponentPrefixLabel": "Component {number}",

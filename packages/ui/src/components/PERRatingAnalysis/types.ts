@@ -1,9 +1,9 @@
 export type RatingStatus =
-  | "Doesn't exist"
+  | 'Does not Exists'
   | 'Partially exists'
-  | 'Needs improvement'
-  | 'Good performing'
-  | 'High performing';
+  | 'Needs Improvement'
+  | 'Exists, Could be Strengthened'
+  | 'High Performance';
 
 export interface PERRatingData {
     name: string;

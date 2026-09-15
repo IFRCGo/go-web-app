@@ -26,7 +26,7 @@ function RatingChange({ value, direction, className }: Props) {
             ) : (
                 <CaretDownLineIcon className={styles.downIcon} />
             )}
-            <span>{Math.abs(value).toFixed(1)}</span>
+            <span>{Math.abs(value).toFixed(2)}</span>
         </div>
     );
 }

@@ -25,19 +25,19 @@ function RatingScale(props: Props) {
 
     // Memoize categories and colors
     const categories = useMemo(() => [
-        "Doesn't exist",
+        'Does not Exists',
         'Partially exists',
-        'Needs improvement',
-        'Good performing',
-        'High performing',
+        'Needs Improvement',
+        'Exists, Could be Strengthened',
+        'High Performance',
     ], []);
 
     const colors = useMemo(() => [
-        '#E0E3E7', // Doesn't exist
+        '#E0E3E7', // Does not Exists
         '#99A5B3', // Partially exists
-        '#7D8B9D', // Needs improvement
-        '#4D617A', // Good performing
-        '#011E41', // High performing
+        '#7D8B9D', // Needs Improvement
+        '#4D617A', // Exists, Could be Strengthened
+        '#011E41', // High Performance
     ], []);
 
     useEffect(() => {

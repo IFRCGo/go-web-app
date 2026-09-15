@@ -9,11 +9,11 @@ interface Props {
 }
 
 const STATUS_COLORS = {
-    "Doesn't exist": '#E0E3E7',
+    'Does not Exists': '#E0E3E7',
     'Partially exists': '#99A5B3',
-    'Needs improvement': '#7D8B9D',
-    'Good performing': '#4D617A',
-    'High performing': '#011E41',
+    'Needs Improvement': '#7D8B9D',
+    'Exists, Could be Strengthened': '#4D617A',
+    'High Performance': '#011E41',
 } as const;
 
 function RatingStatusBadge({ status, rating, className }: Props) {

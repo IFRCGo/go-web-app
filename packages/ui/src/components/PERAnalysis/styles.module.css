@@ -53,12 +53,6 @@
   font-size: var(--go-ui-font-size-sm);
 }
 
-.componentResponseNumber {
-  color: var(--go-ui-color-black);
-  font-size: var(--go-ui-font-size-md);
-  font-weight: var(--go-ui-font-weight-medium);
-}
-
 .totalNumber {
   display: inline;
   margin: 0;

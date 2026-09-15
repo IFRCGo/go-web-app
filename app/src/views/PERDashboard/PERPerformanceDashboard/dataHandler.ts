@@ -18,11 +18,11 @@ type RatingStatus = PERRatingAnalysisProps['overallRating']['status'];
 type RatingCycle = PERRatingAnalysisProps['overallRating']['cycleRatings'][number];
 
 const RATING_SCALE_COLORS: Record<RatingStatus, string> = {
-    "Doesn't exist": '#E0E3E7',
+    'Does not Exists': '#E0E3E7',
     'Partially exists': '#99A5B3',
-    'Needs improvement': '#7D8B9D',
-    'Good performing': '#4D617A',
-    'High performing': '#011E41',
+    'Needs Improvement': '#7D8B9D',
+    'Exists, Could be Strengthened': '#4D617A',
+    'High Performance': '#011E41',
 };
 
 interface FlattenedComponentAssessment extends ComponentAssessment {
@@ -158,11 +158,11 @@ function allCountryAssessments(data: PerformanceData): PerformanceCountryAssessm
 }
 
 function getRatingStatus(rating: number): RatingStatus {
-    if (rating >= 4) return 'High performing';
-    if (rating >= 3) return 'Good performing';
-    if (rating >= 2) return 'Needs improvement';
-    if (rating >= 1) return 'Partially exists';
-    return "Doesn't exist";
+    if (rating >= 5) return 'High Performance';
+    if (rating >= 4) return 'Exists, Could be Strengthened';
+    if (rating >= 3) return 'Needs Improvement';
+    if (rating >= 2) return 'Partially exists';
+    return 'Does not Exists';
 }
 
 function average(values: number[]): number {
@@ -347,9 +347,9 @@ export function getPerformanceSummary(
     filters: PerformanceFilterState,
 ): {
     averageRating: number;
-    assessmentsWithComponentResponses: number;
+    totalAssessments: number;
 } {
-    const assessmentsWithComponentResponses = new Set(
+    const totalAssessments = new Set(
         flattenComponentAssessments(data)
             .filter((assessment) => matchesFilter(assessment, filters, true))
             .map((assessment) => (
@@ -364,7 +364,7 @@ export function getPerformanceSummary(
     ).size;
     return {
         averageRating: getPerformanceRatings(data, filters).overallRating.rating,
-        assessmentsWithComponentResponses,
+        totalAssessments,
     };
 }
 
@@ -372,19 +372,28 @@ function getCycleRating(
     assessments: FlattenedComponentAssessment[],
     cycle: number,
 ): number {
-    const byComponent = new Map<number, FlattenedComponentAssessment[]>();
+    const byAssessment = new Map<string, number[]>();
     assessments.forEach((assessment) => {
-        if (assessment.assessmentNumber !== cycle) {
+        if (
+            assessment.assessmentNumber !== cycle
+            || assessment.ratingValue === null
+            || assessment.ratingValue <= 0
+        ) {
             return;
         }
-        const key = componentKey(assessment);
-        const values = byComponent.get(key) ?? [];
-        values.push(assessment);
-        byComponent.set(key, values);
+        const key = assessment.assessmentId === null
+            ? [
+                assessment.countryId,
+                assessment.assessmentNumber,
+                assessment.dateOfAssessment,
+            ].join(':')
+            : String(assessment.assessmentId);
+        const values = byAssessment.get(key) ?? [];
+        values.push(assessment.ratingValue);
+        byAssessment.set(key, values);
     });
     return average(
-        Array.from(byComponent.values())
-            .map((values) => average(values.map(ratingOrZero))),
+        Array.from(byAssessment.values()).map(average),
     );
 }
 
@@ -414,7 +423,7 @@ export function getPerformanceCycles(
         countries.add(entry.countryId);
         countriesByCycle.set(entry.assessmentNumber, countries);
     });
-    const componentAssessments = deduplicateComponentAssessments(flattenComponentAssessments(data))
+    const componentAssessments = flattenComponentAssessments(data)
         .filter((assessment) => matchesFilter(assessment, filters, false));
     const cycles = Array.from(new Set([
         ...countriesByCycle.keys(),

@@ -1,12 +1,13 @@
 {
     "namespace": "common",
     "strings": {
-        "analysisAssessmentCountLabel": "Number of PER assessments / process cycle iterations",
-        "analysisComponentResponseCountLabel": "Assessments with component responses",
+        "analysisAssessmentCountLabel": "Number of PER assessments",
+        "analysisProcessCycleIterationsLabel": "Process cycle iterations",
         "analysisContainerLabel": "PER analysis chart and summary",
         "analysisCycleCardLabel": "PER cycle {cycle} details",
         "analysisChartLabel": "PER analysis chart showing completed cycles and average ratings",
         "analysisTooltipLabel": "Cycle details for {cycle}",
+        "analysisNsCountTooltipLabel": "National Societies: {count}",
         "analysisAverageRatingLabel": "According to the latest assessment in each NS",
         "analysisRatingChangeLabel": "Rating change of {value} points",
         "analysisAxisNsCountLabel": "# OF NS",

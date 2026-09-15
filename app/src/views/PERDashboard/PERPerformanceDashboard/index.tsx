@@ -50,9 +50,7 @@ function PERPerformanceDashboard() {
         ...EMPTY_FILTERS,
         cycle: null,
     }));
-    const dashboardDataUrl = STATIC_REVIEW_MODE
-        ? getSnapshotUrl('per-dashboard-data.json')
-        : resolveUrl(api, 'api/v2/per-dashboard-data');
+    const dashboardDataUrl = resolveUrl(api, 'api/v2/per-dashboard-data');
     const lastUpdateUrl = STATIC_REVIEW_MODE
         ? getSnapshotUrl('snapshot.json')
         : LAST_UPDATE_DATA_URL;
@@ -135,9 +133,10 @@ function PERPerformanceDashboard() {
                 {' '}
                 {formatLastUpdate(lastUpdate)}
             </div>
-            <div className={styles.headerDescription}>
-                {strings.performanceHeaderDescription}
-            </div>
+            <details className={styles.aboutDashboard}>
+                <summary>{strings.performanceAboutDashboard}</summary>
+                <p>{strings.performanceHeaderDescription}</p>
+            </details>
             <div className={styles.content}>
                 <PERRegionToggle
                     activeRegion={activeFilters?.region}
@@ -148,9 +147,11 @@ function PERPerformanceDashboard() {
                 />
                 <Container
                     heading={strings.overviewHeading}
-                    headerDescription={
-                        strings.overviewDescription
-                    }
+                    headerDescription={(
+                        <span className={styles.filterHint}>
+                            {strings.overviewDescription}
+                        </span>
+                    )}
                     className={_cs(styles.container, styles.perAnalysis)}
                     withHeaderBorder
                     headerActions={activeFilters.region !== null || activeFilters.cycle !== null ? (

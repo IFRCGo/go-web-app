@@ -70,9 +70,9 @@ function PERRatingAnalysis({
                     <div className={styles.ratingValueContainer}>
                         <span
                             className={styles.ratingValue}
-                            aria-label={strings?.ratingValueLabel?.replace('{value}', Number(overallRating.rating).toFixed(1)) ?? `Rating value: ${Number(overallRating.rating).toFixed(1)}`}
+                            aria-label={strings?.ratingValueLabel?.replace('{value}', Number(overallRating.rating).toFixed(2)) ?? `Rating value: ${Number(overallRating.rating).toFixed(2)}`}
                         >
-                            {overallRating?.rating ? Number(overallRating.rating).toFixed(1) : '-'}
+                            {overallRating?.rating ? Number(overallRating.rating).toFixed(2) : '-'}
                         </span>
                         <RatingStatusBadge
                             status={overallRating.status}
@@ -124,9 +124,9 @@ function PERRatingAnalysis({
                                 <div className={styles.ratingValueContainer}>
                                     <span
                                         className={styles.ratingValue}
-                                        aria-label={strings?.ratingValueLabel?.replace('{value}', Number(area.rating).toFixed(1)) ?? `Rating value: ${Number(area.rating).toFixed(1)}`}
+                                        aria-label={strings?.ratingValueLabel?.replace('{value}', Number(area.rating).toFixed(2)) ?? `Rating value: ${Number(area.rating).toFixed(2)}`}
                                     >
-                                        {area?.rating ? Number(area.rating).toFixed(1) : '-'}
+                                        {area?.rating ? Number(area.rating).toFixed(2) : '-'}
                                     </span>
                                     <RatingStatusBadge
                                         status={area.status}
@@ -166,12 +166,9 @@ function PERRatingAnalysis({
                                 styles.compact,
                             )}
                             onClick={() => handleSortChange('number', sortDirection === 'asc' ? 'desc' : 'asc')}
-                            aria-label={'Sort button'
-                                ?.replace('{type}', strings?.ratingSortByNumber ?? 'by number')
-                                ?.replace('{direction}', sortDirection === 'asc' ? ('↑') : ('↓'))
-                                ?? `Sort by number ${sortDirection === 'asc' ? '↑' : '↓'}`}
+                            aria-label={`${strings?.ratingSortByComponent ?? 'Sort by component'} ${sortDirection === 'asc' ? '↑' : '↓'}`}
                         >
-                            Sort by number
+                            {strings?.ratingSortByComponent ?? 'Sort by component'}
                             {' '}
                             {sortDirection === 'asc' ? ('↑') : ('↓')}
                         </button>
@@ -222,9 +219,9 @@ function PERRatingAnalysis({
                                 <div className={styles.ratingValueContainer}>
                                     <span
                                         className={styles.ratingValue}
-                                        aria-label={strings?.ratingValueLabel?.replace('{value}', Number(component.rating).toFixed(1)) ?? `Rating value: ${Number(component.rating).toFixed(1)}`}
+                                        aria-label={strings?.ratingValueLabel?.replace('{value}', Number(component.rating).toFixed(2)) ?? `Rating value: ${Number(component.rating).toFixed(2)}`}
                                     >
-                                        {Number(component.rating).toFixed(1)}
+                                        {Number(component.rating).toFixed(2)}
                                     </span>
                                     <RatingStatusBadge
                                         status={component.status}
