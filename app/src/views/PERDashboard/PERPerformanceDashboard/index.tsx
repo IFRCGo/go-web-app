@@ -50,7 +50,9 @@ function PERPerformanceDashboard() {
         ...EMPTY_FILTERS,
         cycle: null,
     }));
-    const dashboardDataUrl = resolveUrl(api, 'api/v2/per-dashboard-data');
+    const dashboardDataUrl = STATIC_REVIEW_MODE
+        ? getSnapshotUrl('per-dashboard-data.json')
+        : resolveUrl(api, 'api/v2/per-dashboard-data');
     const lastUpdateUrl = STATIC_REVIEW_MODE
         ? getSnapshotUrl('snapshot.json')
         : LAST_UPDATE_DATA_URL;

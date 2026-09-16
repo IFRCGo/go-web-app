@@ -3,7 +3,7 @@ const {
     APP_ENVIRONMENT,
     APP_API_ENDPOINT,
     APP_ADMIN_URL,
-    APP_MAPBOX_ACCESS_TOKEN,
+    APP_PER_DASHBOARD_STATIC_MODE,
     APP_TINY_API_KEY,
     APP_RISK_API_ENDPOINT,
     APP_TRANSLATION_API_ENDPOINT,
@@ -19,6 +19,16 @@ const {
     APP_REPOSITORY_URL,
 } = import.meta.env;
 
+type StaticReviewRuntimeConfig = {
+    mapboxAccessToken?: string;
+};
+
+const staticReviewRuntimeConfig = (
+    globalThis as typeof globalThis & {
+        perDashboardReviewConfig?: StaticReviewRuntimeConfig;
+    }
+).perDashboardReviewConfig;
+
 export const environment = APP_ENVIRONMENT;
 
 export const appTitle = APP_TITLE;
@@ -29,7 +39,9 @@ export const appRepositoryUrl = APP_REPOSITORY_URL;
 
 export const api = APP_API_ENDPOINT;
 export const adminUrl = APP_ADMIN_URL ?? `${api}admin/`;
-export const mbtoken = APP_MAPBOX_ACCESS_TOKEN;
+export const mbtoken = APP_PER_DASHBOARD_STATIC_MODE === 'true'
+    ? staticReviewRuntimeConfig?.mapboxAccessToken ?? ''
+    : APP_MAPBOX_ACCESS_TOKEN_FOR_BUILD;
 export const riskApi = APP_RISK_API_ENDPOINT;
 export const translationApi = APP_TRANSLATION_API_ENDPOINT;
 export const sdtUrl = APP_SDT_URL;

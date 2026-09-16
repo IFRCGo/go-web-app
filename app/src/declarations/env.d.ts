@@ -10,8 +10,12 @@ interface ImportMetaEnv extends ImportMetaEnvAugmented {
     APP_VERSION: string;
     APP_PACKAGE_NAME: string;
     APP_REPOSITORY_URL: string;
+    APP_PER_DASHBOARD_STATIC_MODE?: string;
+    APP_BASE_PATH?: string;
 }
 
 interface ImportMeta {
     readonly env: ImportMetaEnv
 }
+
+declare const APP_MAPBOX_ACCESS_TOKEN_FOR_BUILD: string | undefined;

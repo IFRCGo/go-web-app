@@ -114,7 +114,9 @@ function PERSummaryDashboard() {
     const [activeTab, setActiveTab] = useState<number>(0);
     const [activePhase, setActivePhase] = useState<number | string | null>(null);
     const [exporting, setExporting] = useState(false);
-    const mapDataUrl = resolveUrl(api, 'api/v2/per-map-data');
+    const mapDataUrl = STATIC_REVIEW_MODE
+        ? getSnapshotUrl('per-map-data.json')
+        : resolveUrl(api, 'api/v2/per-map-data');
     const lastUpdateUrl = STATIC_REVIEW_MODE
         ? getSnapshotUrl('snapshot.json')
         : LAST_UPDATE_DATA_URL;

@@ -27,6 +27,7 @@ build-ssr
 
 .env*
 !.env.example
+!app/.env.static-review
 .eslintcache
 tsconfig.tsbuildinfo
 

@@ -43,6 +43,8 @@ export default defineConfig({
         APP_SDT_URL: Schema.string.optional({ format: 'url', protocol: true, tld: false }),
         APP_POWER_BI_REPORT_ID_1: Schema.string.optional(),
         APP_SENTRY_DSN: Schema.string.optional(),
+        APP_PER_DASHBOARD_STATIC_MODE: Schema.string.optional(),
+        APP_BASE_PATH: Schema.string.optional(),
         // NOTE: These Sentry sample rates are strings (not numbers) so they can be
         // web-app-serve runtime placeholders. Consumers coerce with Number(...).
         // overrideDefineForWebAppServe emits an unquoted token for non-string
