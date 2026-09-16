@@ -78,6 +78,7 @@ interface Props {
     epi_considerations: boolean | null | undefined;
     urban_considerations: boolean | null | undefined;
     climate_environmental_considerations: boolean | null | undefined;
+    migration_considerations: boolean | null | undefined;
     readOnly?: boolean;
 }
 
@@ -95,6 +96,7 @@ function ComponentInput(props: Props) {
         disabled = false,
         urban_considerations,
         climate_environmental_considerations,
+        migration_considerations,
         questionGroups,
         readOnly,
     } = props;
@@ -330,6 +332,25 @@ function ComponentInput(props: Props) {
                             name="climate_environmental_considerations"
                             value={value?.climate_environmental_considerations}
                             error={error?.climate_environmental_considerations}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                            rows={8}
+                        />
+                    </InputSection>
+                )}
+                {migration_considerations && (
+                    <InputSection
+                        withoutPadding
+                        title={strings.migrationConsiderationTitle}
+                        description={(
+                            <HtmlOutput value={component?.migration_considerations_guidance} />
+                        )}
+                    >
+                        <TextArea
+                            name="migration_considerations"
+                            value={value?.migration_considerations}
+                            error={error?.migration_considerations}
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={readOnly}
