@@ -103,11 +103,32 @@ describe('PER dashboard workbook export', () => {
         expect(data.nationalSocietyCount).toBe(1);
         expect(data.sheets.map((item) => item.name)).toEqual([
             'Filters and Summary',
+            'Map Data',
             'Assessment Types',
             'Year and Region',
             'High Priority Components',
             'PER Considerations',
         ]);
+        expect(sheet(data, 'Map Data')).toMatchObject({
+            columns: [
+                'National Society',
+                'Country',
+                'Region',
+                'ISO3',
+                'Current PER phase',
+                'Cycle year',
+                'Cycle iteration',
+            ],
+            rows: [[
+                'Example Red Cross',
+                'Example country',
+                'Africa',
+                'EXM',
+                'Assessment',
+                2019,
+                2,
+            ]],
+        });
         expect(sheet(data, 'High Priority Components').rows).toEqual([[
             'Example Red Cross',
             'Example country',
