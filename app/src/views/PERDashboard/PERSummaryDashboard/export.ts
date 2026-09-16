@@ -218,6 +218,32 @@ function filterSummaryRows(
     return rows;
 }
 
+function mapDataSheet(state: FilteredDashboardState): DashboardWorkbookSheet {
+    const rows = groupByCountry(state.processes).flatMap((group) => {
+        const process = latestProcess(group.processes);
+        if (!process) {
+            return [];
+        }
+        return [[
+            ...identityValues(group.processes),
+            process.phaseDisplay ?? '',
+            getProcessYear(process) ?? '',
+            process.assessmentNumber,
+        ]];
+    });
+
+    return {
+        name: 'Map Data',
+        columns: [
+            ...IDENTITY_COLUMNS,
+            'Current PER phase',
+            'Cycle year',
+            'Cycle iteration',
+        ],
+        rows,
+    };
+}
+
 function assessmentTypeSheet(
     groups: ProcessGroup[],
     filters: DashboardFilterState,
@@ -348,6 +374,7 @@ export function getDashboardWorkbookData(
                 columns: ['Filter', 'Value'],
                 rows: filterSummaryRows(groups, filters),
             },
+            mapDataSheet(state),
             assessmentTypeSheet(groups, filters),
             yearAndRegionSheet(groups),
             highPriorityComponentsSheet(groups),
