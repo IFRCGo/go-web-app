@@ -66,7 +66,7 @@ export default defineConfig(({ mode }) => {
             global: {},
         },
         plugins: [
-            isOptimizedBuild ? checker({
+            isProd ? checker({
                 // typescript: true,
                 eslint: {
                     useFlatConfig: true,
