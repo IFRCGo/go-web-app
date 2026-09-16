@@ -1,4 +1,7 @@
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useContext,
+} from 'react';
 import { useParams } from 'react-router-dom';
 import {
     Button,
@@ -18,6 +21,7 @@ import {
 
 import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
+import UserContext from '#contexts/user';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
@@ -85,6 +89,7 @@ export function Component() {
     const strings = useTranslation(i18n);
     const alert = useAlert();
     const { navigate } = useRouting();
+    const { removeUserAuth } = useContext(UserContext);
     const {
         value: formValue,
         error: formError,
@@ -101,6 +106,10 @@ export function Component() {
         url: '/change_recover_password',
         body: (body: ChangeRecoverPasswordRequestBody) => body,
         onSuccess: () => {
+            // NOTE: recovery can be started while logged in, and the old
+            // session survives the reset, so it is dropped here to keep the
+            // login route reachable
+            removeUserAuth();
             navigate('login');
             alert.show(
                 strings.successfulMessageTitle,

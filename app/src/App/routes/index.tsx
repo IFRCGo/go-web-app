@@ -82,7 +82,10 @@ const recoverAccountConfirm = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'Recover Account Confirm',
-        visibility: 'is-not-authenticated',
+        // NOTE: recovery can now be started from the account page, so the
+        // emailed link has to work for a logged in user as well; the view
+        // clears the stale session once the password has been changed
+        visibility: 'anything',
     },
 });
 
