@@ -635,7 +635,14 @@ function PERTreemapChart({
                                         `<div style="font-weight:300; line-height: 13px;">
                                           ${truncateText(node.data.name, CHILD_LABEL_MAX_LENGTH)}
                                         </div>
-                                        <div style="font-size: 16px">${node.data.value} NS</div>`,
+                                        <div style="font-size: 16px">
+                                          ${node.data.value}
+                                          <span
+                                            style="font-size: 10px; font-weight: 300; line-height: 13px;"
+                                          >
+                                            NS
+                                          </span>
+                                        </div>`,
                                     );
                             }
                         }
