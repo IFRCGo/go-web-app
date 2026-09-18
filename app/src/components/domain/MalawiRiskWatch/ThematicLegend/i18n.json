@@ -1,0 +1,10 @@
+{
+    "namespace": "malawiRiskWatch",
+    "strings": {
+        "thematicLegendSource": "HDX, updated {date}",
+        "thematicLegendUpTo": "≤ {value}",
+        "thematicLegendPercent": "{value}%",
+        "thematicLegendFailed": "Could not load this layer",
+        "thematicLegendLocalUnits": "Local units"
+    }
+}

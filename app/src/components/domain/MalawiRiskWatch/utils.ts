@@ -1,4 +1,8 @@
-import { isTruthyString } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isNotDefined,
+    isTruthyString,
+} from '@togglecorp/fujs';
 
 import { malawiRiskWatchGraphqlApi } from '#config';
 import { type GoApiResponse } from '#utils/restRequest';
@@ -27,4 +31,54 @@ export function getAdminAreaBbox(adminArea: AdminArea | undefined) {
         return undefined;
     }
     return bbox;
+}
+
+export function parseNumber(value: string | null | undefined) {
+    if (isNotDefined(value) || value === '') {
+        return undefined;
+    }
+    const numericValue = Number(value);
+    return Number.isNaN(numericValue) ? undefined : numericValue;
+}
+
+export interface ValueBin {
+    min: number;
+    max: number;
+    color: string;
+}
+
+// Quantile classes, one colour per class
+export function getValueBins(values: number[], colors: string[]): ValueBin[] {
+    const sortedValues = [...values].sort((a, b) => a - b);
+
+    if (sortedValues.length === 0) {
+        return [];
+    }
+
+    const quantile = (fraction: number) => (
+        sortedValues[Math.min(
+            Math.floor(sortedValues.length * fraction),
+            sortedValues.length - 1,
+        )]
+    );
+    const breaks = [...new Set(
+        colors.map((_, index) => quantile((index + 1) / colors.length)).filter(isDefined),
+    )];
+    const lastColorIndex = colors.length - 1;
+    const lastBreakIndex = Math.max(breaks.length - 1, 1);
+
+    return breaks.map((max, index) => ({
+        min: index === 0 ? sortedValues[0]! : breaks[index - 1]!,
+        max,
+        color: colors[Math.round((index * lastColorIndex) / lastBreakIndex)]!,
+    }));
+}
+
+export function getBinColor(value: number | undefined, bins: ValueBin[]) {
+    const firstBin = bins[0];
+    if (isNotDefined(value) || isNotDefined(firstBin) || value < firstBin.min) {
+        return undefined;
+    }
+    const bin = bins.find((item) => value <= item.max) ?? bins[bins.length - 1];
+    return bin?.color;
 }

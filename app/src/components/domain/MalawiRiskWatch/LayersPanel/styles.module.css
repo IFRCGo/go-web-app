@@ -1,0 +1,9 @@
+.layers-panel {
+    width: 26rem;
+}
+
+.color-option {
+    display: flex;
+    align-items: center;
+    gap: var(--go-ui-spacing-2xs);
+}
