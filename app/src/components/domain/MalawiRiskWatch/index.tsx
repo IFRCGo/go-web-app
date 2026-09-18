@@ -1,8 +1,19 @@
+import {
+    useMemo,
+    useState,
+} from 'react';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import type { LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
 
+import {
+    DEFAULT_BUBBLE_COLOR,
+    DEFAULT_SHADE_COLOR,
+    FORECAST_METRIC_KEY,
+    type LayerColor,
+} from './constants';
+import MalawiLayersContext, { type LayerSelection } from './context';
 import Jba from './Jba';
 import { type MalawiRiskWatchSource } from './utils';
 
@@ -39,12 +50,51 @@ function MalawiRiskWatch(props: Props) {
 
     const strings = useTranslation(i18n);
 
+    const [shadeEnabled, setShadeEnabled] = useState(true);
+    const [shadeLayer, setShadeLayer] = useState<LayerSelection | undefined>(
+        { key: FORECAST_METRIC_KEY, format: 'number' },
+    );
+    const [shadeColor, setShadeColor] = useState<LayerColor>(DEFAULT_SHADE_COLOR);
+    const [bubbleEnabled, setBubbleEnabled] = useState(true);
+    const [bubbleLayer, setBubbleLayer] = useState<LayerSelection | undefined>();
+    const [bubbleColor, setBubbleColor] = useState<LayerColor>(DEFAULT_BUBBLE_COLOR);
+    const [showLocalUnits, setShowLocalUnits] = useState(false);
+    const layersContextValue = useMemo(
+        () => ({
+            shadeEnabled,
+            setShadeEnabled,
+            shadeLayer,
+            setShadeLayer,
+            shadeColor,
+            setShadeColor,
+            bubbleEnabled,
+            setBubbleEnabled,
+            bubbleLayer,
+            setBubbleLayer,
+            bubbleColor,
+            setBubbleColor,
+            showLocalUnits,
+            setShowLocalUnits,
+        }),
+        [
+            shadeEnabled,
+            shadeLayer,
+            shadeColor,
+            bubbleEnabled,
+            bubbleLayer,
+            bubbleColor,
+            showLocalUnits,
+        ],
+    );
+
     if (source === 'jba') {
         return (
-            <Jba
-                title={title}
-                bbox={bbox}
-            />
+            <MalawiLayersContext.Provider value={layersContextValue}>
+                <Jba
+                    title={title}
+                    bbox={bbox}
+                />
+            </MalawiLayersContext.Provider>
         );
     }
 

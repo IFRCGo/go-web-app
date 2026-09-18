@@ -11,16 +11,16 @@ import type {
 import { COLOR_DARK_GREY } from '#utils/constants';
 import { getAdmin2Tileset } from '#utils/map';
 
+import { BASEMAP_ADMIN_1_BOUNDARY_LAYER } from '../constants';
+
 const TRANSPARENT = 'rgba(0, 0, 0, 0)';
-// Keeps the fill under the base map's boundaries and labels
-const BASEMAP_ADMIN_1_BOUNDARY_LAYER = 'admin-1-boundary';
 
 interface Props {
     iso3: string;
     colorByPcode: Record<string, string>;
 }
 
-function ForecastLayer(props: Props) {
+function DistrictChoroplethLayer(props: Props) {
     const {
         iso3,
         colorByPcode,
@@ -59,7 +59,7 @@ function ForecastLayer(props: Props) {
 
     return (
         <MapSource
-            sourceKey="jba-forecast"
+            sourceKey="malawi-districts"
             sourceOptions={{
                 type: 'vector',
                 url: tileset.url,
@@ -79,4 +79,4 @@ function ForecastLayer(props: Props) {
     );
 }
 
-export default ForecastLayer;
+export default DistrictChoroplethLayer;

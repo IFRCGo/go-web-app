@@ -33,6 +33,7 @@ import {
     impactSelector,
     type JbaDistrictEvent,
 } from '../utils';
+import BaselineExposure from './BaselineExposure';
 import TrajectoryChart from './TrajectoryChart';
 
 import i18n from './i18n.json';
@@ -137,6 +138,7 @@ function EventDetails(props: Props) {
                         />
                     </Container>
                 )}
+                <BaselineExposure pcode={data.id} />
                 {isAuthenticated && !isGuestUser && isDefined(reportRouteState) && (
                     <Link
                         to="fieldReportFormNew"

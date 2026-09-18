@@ -36,6 +36,8 @@
             position: absolute;
             top: var(--go-ui-spacing-sm);
             left: var(--go-ui-spacing-sm);
+            /* Layer panels must open over the legend */
+            z-index: 1;
         }
 
         .content {
