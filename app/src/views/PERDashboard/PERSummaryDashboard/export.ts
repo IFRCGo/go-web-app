@@ -101,7 +101,7 @@ function scopedProcessGroups(
 ): ProcessGroup[] {
     return groupByCountry(state.processes)
         .map((group) => {
-            let processes = group.processes;
+            let { processes } = group;
             if (filters.highPriorityComponent !== null) {
                 const latest = latestProcess(processes);
                 processes = latest?.prioritizedComponents.some(
@@ -144,18 +144,18 @@ function identityValues(processes: ProcessRecord[]): CellValue[] {
     ];
 }
 
-function cycleColumns(label: string, maxCycle: number): string[] {
+function cycleColumns(label: string, maximumCycle: number): string[] {
     const prefix = label ? `${label} ` : '';
     return [
         ...Array.from(
-            { length: maxCycle },
+            { length: maximumCycle },
             (_, index) => `${prefix}Cycle ${index + 1} year`,
         ),
         `${prefix}Process count`,
     ];
 }
 
-function cycleValues(processes: ProcessRecord[], maxCycle: number): CellValue[] {
+function cycleValues(processes: ProcessRecord[], maximumCycle: number): CellValue[] {
     const byCycle = new Map<number, ProcessRecord>();
     processes.forEach((process) => {
         const current = byCycle.get(process.assessmentNumber);
@@ -165,7 +165,7 @@ function cycleValues(processes: ProcessRecord[], maxCycle: number): CellValue[] 
     });
     return [
         ...Array.from(
-            { length: maxCycle },
+            { length: maximumCycle },
             (_, index) => {
                 const process = byCycle.get(index + 1);
                 return process ? getProcessYear(process) ?? '' : '';
@@ -178,8 +178,17 @@ function cycleValues(processes: ProcessRecord[], maxCycle: number): CellValue[] 
 function maxCycle(processGroups: ProcessRecord[][]): number {
     return Math.max(
         0,
-        ...processGroups.flatMap((processes) => processes.map((process) => process.assessmentNumber)),
+        ...processGroups.flatMap((processes) => (
+            processes.map((process) => process.assessmentNumber)
+        )),
     );
+}
+
+function phaseLabel(phase: DashboardFilterState['phaseCohort']): string | null {
+    if (phase === 'orientation') return 'Orientation';
+    if (phase === 'assessment') return 'Assessment or later';
+    if (phase === 'action') return 'Action & accountability';
+    return null;
 }
 
 function filterSummaryRows(
@@ -188,20 +197,15 @@ function filterSummaryRows(
 ): CellValue[][] {
     const country = groups.flatMap((group) => group.processes)
         .find((process) => process.countryId === filters.countryId);
-    const phase = filters.phaseCohort === 'orientation'
-        ? 'Orientation'
-        : filters.phaseCohort === 'assessment'
-            ? 'Assessment or later'
-            : filters.phaseCohort === 'action'
-                ? 'Action & accountability'
-                : null;
+    const phase = phaseLabel(filters.phaseCohort);
+    const countryValue = country?.countryName ?? String(filters.countryId);
     const consideration = CONSIDERATIONS.find((item) => item.key === filters.consideration);
     const rows: CellValue[][] = [
         ['Matching National Societies', groups.length],
         ['Matching processes', groups.reduce((total, group) => total + group.processes.length, 0)],
     ];
     const activeFilters: Array<[string, CellValue | null]> = [
-        ['Country', filters.countryId === null ? null : country?.countryName ?? String(filters.countryId)],
+        ['Country', filters.countryId === null ? null : countryValue],
         ['Region', filters.region],
         ['Year', filters.year],
         ['Assessment type', filters.assessmentType],
@@ -349,13 +353,14 @@ function considerationsSheet(
             });
             return values;
         });
+    const columns = considerations.flatMap((consideration, index) => (
+        cycleColumns(consideration.label, maxCycles[index] ?? 0)
+    ));
     return {
         name: 'PER Considerations',
         columns: [
             ...IDENTITY_COLUMNS,
-            ...considerations.flatMap((consideration, index) => (
-                cycleColumns(consideration.label, maxCycles[index] ?? 0)
-            )),
+            ...columns,
         ],
         rows,
     };
@@ -387,6 +392,8 @@ function safeCellValue(value: CellValue): CellValue {
     if (typeof value !== 'string') {
         return value;
     }
+    // Excel rejects ASCII control characters.
+    // eslint-disable-next-line no-control-regex
     const sanitized = value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
     return /^[=+\-@]/.test(sanitized) ? `'${sanitized}` : sanitized;
 }
