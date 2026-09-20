@@ -1,0 +1,15 @@
+{
+    "extends": "./tsconfig.json",
+    "include": [
+        "src/static-review",
+        "src/views/PERDashboard",
+        "src/views/Preparedness/i18n.json",
+        "src/config.ts",
+        "src/declarations/env.d.ts",
+        "env.ts"
+    ],
+    "exclude": [
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx"
+    ]
+}
