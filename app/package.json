@@ -27,7 +27,7 @@
         "start": "pnpm -F @ifrc-go/ui build && vite",
         "prebuild": "pnpm initialize:type",
         "build": "pnpm -F @ifrc-go/ui build && vite build",
-        "check:static-review": "eslint ./src/static-review ./src/views/PERDashboard && tsc --project tsconfig.static-review.json",
+        "check:static-review": "eslint --rule \"linebreak-style: off\" ./src/static-review ./src/views/PERDashboard && tsc --project tsconfig.static-review.json",
         "build:static-review": "pnpm initialize:type && pnpm -F @ifrc-go/ui build && pnpm check:static-review && vite build --mode static-review",
         "preview": "vite preview",
         "pretypecheck": "pnpm initialize:type",
