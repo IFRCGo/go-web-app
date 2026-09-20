@@ -340,9 +340,11 @@ function considerationsSheet(
     )));
     const maxCycles = cycleGroupsByConsideration.map(maxCycle);
     const rows = groups
-        .filter((group) => considerations.some((consideration) => group.processes.some((process) => (
-            (process.phase ?? 0) >= 2 && process[consideration.field] === true
-        ))))
+        .filter((group) => considerations.some((consideration) => (
+            group.processes.some((process) => (
+                (process.phase ?? 0) >= 2 && process[consideration.field] === true
+            ))
+        )))
         .map((group) => {
             const values: CellValue[] = [...identityValues(group.processes)];
             considerations.forEach((consideration, index) => {
