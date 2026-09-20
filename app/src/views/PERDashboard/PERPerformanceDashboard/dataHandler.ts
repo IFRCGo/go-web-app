@@ -116,6 +116,11 @@ function deduplicateComponentAssessments(
     return Array.from(deduplicated.values());
 }
 
+function getYear(value: string): number | null {
+    const timestamp = Date.parse(value);
+    return Number.isNaN(timestamp) ? null : new Date(timestamp).getUTCFullYear();
+}
+
 function matchesFilter(
     item: ComponentAssessment | PerformanceCountryAssessment,
     filters: PerformanceFilterState,
@@ -146,11 +151,6 @@ function matchesFilter(
         return false;
     }
     return true;
-}
-
-function getYear(value: string): number | null {
-    const timestamp = Date.parse(value);
-    return Number.isNaN(timestamp) ? null : new Date(timestamp).getUTCFullYear();
 }
 
 function allCountryAssessments(data: PerformanceData): PerformanceCountryAssessment[] {
