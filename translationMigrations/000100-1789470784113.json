@@ -1,0 +1,75 @@
+{
+    "parent": "000099-1789454528298.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "changeMethodEmailLinkDescription",
+            "namespace": "accountDetails",
+            "value": "A link to set a new password will be emailed to you. Your current password keeps working until you use that link."
+        },
+        {
+            "action": "add",
+            "key": "changeMethodEmailLinkLabel",
+            "namespace": "accountDetails",
+            "value": "Using email link"
+        },
+        {
+            "action": "add",
+            "key": "changeMethodLabel",
+            "namespace": "accountDetails",
+            "value": "How do you want to change your password?"
+        },
+        {
+            "action": "add",
+            "key": "changeMethodOldPasswordLabel",
+            "namespace": "accountDetails",
+            "value": "Using old password"
+        },
+        {
+            "action": "remove",
+            "key": "emailInputLabel",
+            "namespace": "recoverAccount"
+        },
+        {
+            "action": "remove",
+            "key": "successfulMessageDescription",
+            "namespace": "recoverAccount"
+        },
+        {
+            "action": "update",
+            "key": "failureMessageTitle",
+            "namespace": "recoverAccount",
+            "newNamespace": "recoverAccountForm"
+        },
+        {
+            "action": "update",
+            "key": "pageDescription",
+            "namespace": "recoverAccount",
+            "newValue": "Enter the email you used during registration"
+        },
+        {
+            "action": "update",
+            "key": "successfulMessageTitle",
+            "namespace": "recoverAccount",
+            "newNamespace": "recoverAccountForm"
+        },
+        {
+            "action": "add",
+            "key": "emailInputLabel",
+            "namespace": "recoverAccountForm",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "successfulMessageDescription",
+            "namespace": "recoverAccountForm",
+            "value": "Please check your email for further action!"
+        },
+        {
+            "action": "update",
+            "key": "pageDescription",
+            "namespace": "resendValidationEmail",
+            "newValue": "Enter the email you used during registration"
+        }
+    ]
+}

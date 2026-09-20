@@ -1,0 +1,9 @@
+{
+    "namespace": "recoverAccountForm",
+    "strings": {
+        "emailInputLabel": "Email",
+        "successfulMessageTitle": "Account recovery submitted!",
+        "successfulMessageDescription": "Please check your email for further action!",
+        "failureMessageTitle": "Could not recover account!"
+    }
+}
