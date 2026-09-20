@@ -1,11 +1,11 @@
 {
-    "parent": "000060-1764233906932.json",
+    "parent": "000101-1789526507867.json",
     "actions": [
         {
             "action": "add",
             "key": "analysisAssessmentCountLabel",
             "namespace": "common",
-            "value": "Number of PER assessments / process cycle iterations"
+            "value": "Number of PER assessments"
         },
         {
             "action": "add",
@@ -29,7 +29,7 @@
             "action": "add",
             "key": "analysisChartLabel",
             "namespace": "common",
-            "value": "PER analysis chart showing completed cycles and average ratings"
+            "value": "PER analysis chart showing National Societies with and without later PER assessments and average ratings"
         },
         {
             "action": "add",
@@ -45,6 +45,12 @@
         },
         {
             "action": "add",
+            "key": "analysisCycleExplanation",
+            "namespace": "common",
+            "value": "PER is a continuous process. Dark red shows National Societies also assessed in a later PER cycle; light red shows no later PER assessment for a National Society in a later PER cycle"
+        },
+        {
+            "action": "add",
             "key": "analysisLegendAverageLabel",
             "namespace": "common",
             "value": "Average PER rating"
@@ -53,13 +59,19 @@
             "action": "add",
             "key": "analysisLegendCompletedLabel",
             "namespace": "common",
-            "value": "Completed cycles"
+            "value": "Assessments in a later PER cycle"
         },
         {
             "action": "add",
             "key": "analysisLegendProgressLabel",
             "namespace": "common",
-            "value": "Yet to progress"
+            "value": "No later PER assessments"
+        },
+        {
+            "action": "add",
+            "key": "analysisNsCountTooltipLabel",
+            "namespace": "common",
+            "value": "National Societies: {count}"
         },
         {
             "action": "add",
@@ -75,15 +87,33 @@
         },
         {
             "action": "add",
+            "key": "analysisProcessCycleIterationsLabel",
+            "namespace": "common",
+            "value": "Process cycle iterations"
+        },
+        {
+            "action": "add",
             "key": "analysisRatingChangeLabel",
             "namespace": "common",
             "value": "Rating change of {value} points"
         },
         {
             "action": "add",
+            "key": "analysisTooltipCompletedLabel",
+            "namespace": "common",
+            "value": "Assessments in a later PER cycle: {count} NS"
+        },
+        {
+            "action": "add",
             "key": "analysisTooltipLabel",
             "namespace": "common",
             "value": "Cycle details for {cycle}"
+        },
+        {
+            "action": "add",
+            "key": "analysisTooltipProgressLabel",
+            "namespace": "common",
+            "value": "No later PER assessment: {count} NS"
         },
         {
             "action": "add",
@@ -156,6 +186,12 @@
             "key": "considerationSimulationLabel",
             "namespace": "common",
             "value": "Simulation"
+        },
+        {
+            "action": "add",
+            "key": "considerationSinceYear",
+            "namespace": "common",
+            "value": "Since {year}"
         },
         {
             "action": "add",
@@ -405,9 +441,9 @@
         },
         {
             "action": "add",
-            "key": "ratingSortByNumber",
+            "key": "ratingSortByComponent",
             "namespace": "common",
-            "value": "by number"
+            "value": "Sort by component"
         },
         {
             "action": "add",
@@ -555,15 +591,9 @@
         },
         {
             "action": "add",
-            "key": "globalRatingsDescription",
-            "namespace": "PERDashboard",
-            "value": "Overview of PER ratings and performance metrics"
-        },
-        {
-            "action": "add",
             "key": "globalRatingsHeading",
             "namespace": "PERDashboard",
-            "value": "Global Performance Ratings"
+            "value": "PER Global Performance"
         },
         {
             "action": "add",
@@ -576,6 +606,12 @@
             "key": "overviewHeading",
             "namespace": "PERDashboard",
             "value": "Performance Overview"
+        },
+        {
+            "action": "add",
+            "key": "performanceAboutDashboard",
+            "namespace": "PERDashboard",
+            "value": "About this dashboard"
         },
         {
             "action": "add",
@@ -663,9 +699,33 @@
         },
         {
             "action": "add",
+            "key": "summaryAboutDashboard",
+            "namespace": "PERSummaryDashboard",
+            "value": "About this dashboard"
+        },
+        {
+            "action": "add",
             "key": "summaryContainerAriaLabel",
             "namespace": "PERSummaryDashboard",
             "value": "PER Summary Dashboard"
+        },
+        {
+            "action": "add",
+            "key": "summaryExport",
+            "namespace": "PERSummaryDashboard",
+            "value": "Export"
+        },
+        {
+            "action": "add",
+            "key": "summaryExportAriaLabel",
+            "namespace": "PERSummaryDashboard",
+            "value": "Export filtered dashboard data as Excel"
+        },
+        {
+            "action": "add",
+            "key": "summaryExportFailure",
+            "namespace": "PERSummaryDashboard",
+            "value": "Unable to create dashboard export."
         },
         {
             "action": "add",
@@ -702,6 +762,17 @@
             "key": "yearAndRegionHeading",
             "namespace": "PERSummaryDashboard",
             "value": "PER Process by Year and Region"
+        },
+        {
+            "action": "remove",
+            "key": "perApproachDiagramAlt",
+            "namespace": "preparedness"
+        },
+        {
+            "action": "update",
+            "key": "approachDescription",
+            "namespace": "preparedness",
+            "newValue": "The National Society Preparedness for an Effective Response (PER) Approach provides a structured and standardized way of interacting with National Societies' systems and processes to contribute to and increase National Societies' preparedness, readiness, and response capacities in the immediate and long term. For more information on the PER Approach select {link}."
         },
         {
             "action": "remove",

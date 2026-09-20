@@ -5,7 +5,7 @@ import {
 
 export const STATIC_REVIEW_MODE = import.meta.env.APP_PER_DASHBOARD_STATIC_MODE === 'true';
 
-export type SnapshotFile =
+type SnapshotFile =
     | 'per-map-data.json'
     | 'per-dashboard-data.json'
     | 'snapshot.json';

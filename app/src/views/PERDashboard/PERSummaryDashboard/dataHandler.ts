@@ -9,14 +9,14 @@ import {
     REGION_ORDER,
 } from '../data';
 
-export interface SummaryKpi {
+interface SummaryKpi {
     key: string;
     value: number;
     color?: string;
     description: string;
 }
 
-export interface SummaryChartDataItem {
+interface SummaryChartDataItem {
     name: string;
     SelfAssessment: number;
     Simulation: number;
@@ -25,7 +25,7 @@ export interface SummaryChartDataItem {
     [key: string]: string | number;
 }
 
-export interface SummaryConsiderationData {
+interface SummaryConsiderationData {
     data: SummaryChartDataItem[][];
     totals: {
         totalAssessments: number;
@@ -42,7 +42,7 @@ export interface SummaryConsiderationData {
     };
 }
 
-export interface ComponentSummary {
+interface ComponentSummary {
     id: string;
     color: string;
     name: string;
@@ -50,7 +50,7 @@ export interface ComponentSummary {
     children?: ComponentSummary[];
 }
 
-export type MapProcessRecord = ProcessRecord & {
+type MapProcessRecord = ProcessRecord & {
     color: string;
 };
 

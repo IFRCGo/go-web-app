@@ -10,7 +10,7 @@ export const REGION_ORDER = [
 
 export type RegionName = typeof REGION_ORDER[number];
 
-export function normalizeRegionName(value: unknown): RegionName | null {
+function normalizeRegionName(value: unknown): RegionName | null {
     if (typeof value !== 'string') {
         return null;
     }
@@ -124,7 +124,7 @@ export interface ProcessRecord {
     components: ComponentResponse[];
 }
 
-export interface MapDataResponse {
+interface MapDataResponse {
     results: ProcessRecord[];
     processes: ProcessRecord[];
 }
@@ -277,7 +277,7 @@ function normalizePrioritizedComponent(value: unknown): PrioritizedComponent {
     };
 }
 
-export function normalizeProcessRecord(value: unknown): ProcessRecord | undefined {
+function normalizeProcessRecord(value: unknown): ProcessRecord | undefined {
     const item = rawRecord(value);
     const processId = asNumber(item.processId ?? item.id);
 

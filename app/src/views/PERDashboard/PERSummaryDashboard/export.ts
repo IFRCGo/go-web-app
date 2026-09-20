@@ -16,13 +16,13 @@ interface ProcessGroup {
     processes: ProcessRecord[];
 }
 
-export interface DashboardWorkbookSheet {
+interface DashboardWorkbookSheet {
     name: string;
     columns: string[];
     rows: CellValue[][];
 }
 
-export interface DashboardWorkbookData {
+interface DashboardWorkbookData {
     nationalSocietyCount: number;
     sheets: DashboardWorkbookSheet[];
 }
