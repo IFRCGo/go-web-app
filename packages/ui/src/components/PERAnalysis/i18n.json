@@ -16,7 +16,7 @@
         "analysisLegendProgressLabel": "No later PER assessments",
         "analysisTooltipCompletedLabel": "Assessments in a later PER cycle: {count} NS",
         "analysisTooltipProgressLabel": "No later PER assessment: {count} NS",
-        "analysisCycleExplanation": "PER is continuous. Dark red shows National Societies also assessed in a later PER cycle; light red shows no later PER assessment for a National Society in a later PER cycle",
+        "analysisCycleExplanation": "PER is a continuous process. Dark red shows National Societies also assessed in a later PER cycle; light red shows no later PER assessment for a National Society in a later PER cycle",
         "analysisLegendAverageLabel": "Average PER rating",
         "analysisPerRatingLabel": "PER Rating",
         "analysisNsUnitLabel": "NSs"
