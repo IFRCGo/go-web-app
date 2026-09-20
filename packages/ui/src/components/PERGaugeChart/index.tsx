@@ -66,6 +66,11 @@ export interface Props {
     title?: string;
 
     /**
+     * Supporting text to display below the title
+     */
+    subtitle?: string;
+
+    /**
      * Additional CSS class names
      */
     className?: string;
@@ -81,6 +86,7 @@ function PERGaugeChart({
     transitionSpeed = 1000,
     onClick = () => undefined,
     title = 'Chart title',
+    subtitle,
     className,
 }: Props) {
     const strings = useTranslation(i18n);
@@ -215,6 +221,11 @@ function PERGaugeChart({
             {title && (
                 <div className={styles.title}>
                     {title}
+                </div>
+            )}
+            {subtitle && (
+                <div className={styles.subtitle}>
+                    {subtitle}
                 </div>
             )}
             <div className={styles.svgContainer}>

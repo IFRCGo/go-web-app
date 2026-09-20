@@ -26,6 +26,12 @@
     font-weight: var(--go-ui-font-weight-medium);
 }
 
+.subtitle {
+    text-align: center;
+    color: var(--go-ui-color-gray-60);
+    font-size: var(--go-ui-font-size-sm);
+}
+
 .label {
     position: absolute;
     bottom: -29px;

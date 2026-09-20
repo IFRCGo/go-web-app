@@ -13,6 +13,7 @@ import {
 
 import useTranslation from '#hooks/useTranslation';
 
+import InfoPopup from '../InfoPopup';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -85,7 +86,10 @@ function CustomTooltip({ active, payload }: TooltipProps) {
                             style={{ backgroundColor: COLORS.primary }}
                         />
                         <span>
-                            {strings?.analysisLegendCompletedLabel?.replace('{count}', (cycleData?.completed ?? 0).toString()) ?? `Completed: ${cycleData?.completed ?? 0} NSs`}
+                            {strings?.analysisTooltipCompletedLabel?.replace(
+                                '{count}',
+                                (cycleData?.completed ?? 0).toString(),
+                            ) ?? `Assessments in a later PER cycle: ${cycleData?.completed ?? 0} NS`}
                         </span>
                     </div>
                 </div>
@@ -97,7 +101,10 @@ function CustomTooltip({ active, payload }: TooltipProps) {
                             style={{ backgroundColor: COLORS.primaryLight }}
                         />
                         <span>
-                            {strings?.analysisLegendProgressLabel?.replace('{count}', (cycleData?.inProgress ?? 0).toString()) ?? `Yet to Progress: ${cycleData?.inProgress ?? 0} NSs`}
+                            {strings?.analysisTooltipProgressLabel?.replace(
+                                '{count}',
+                                (cycleData?.inProgress ?? 0).toString(),
+                            ) ?? `No later PER assessment: ${cycleData?.inProgress ?? 0} NS`}
                         </span>
                     </div>
                 )}
@@ -163,6 +170,14 @@ function CustomLegend() {
                 />
                 <span>{strings?.analysisLegendAverageLabel ?? 'Average PER rating'}</span>
             </div>
+            <InfoPopup
+                description={strings?.analysisCycleExplanation
+                    ?? (
+                        'PER is continuous. Dark red shows National Societies also assessed in a later '
+                        + 'PER cycle; light red shows no later PER assessment for a National Society '
+                        + 'in a later PER cycle'
+                    )}
+            />
         </div>
     );
 }

@@ -10,6 +10,7 @@
         "considerationPostOperationalLabel": "Post-operational",
         "considerationByRegionTypeLabel": "By region & type",
         "considerationTitleTemplate": "PER {type} Considerations",
+        "considerationSinceYear": "Since {year}",
         "considerationEpiReady": "EPI-ready",
         "considerationClimateReady": "Climate-ready",
         "considerationUrbanReady": "Urban-ready",

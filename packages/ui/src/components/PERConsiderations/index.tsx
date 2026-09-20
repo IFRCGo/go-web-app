@@ -148,6 +148,8 @@ function PERConsiderations({
         strings?.considerationMigrationReady ?? 'Migration-ready',
     ];
 
+    const sinceYears = [2018, 2021, 2021, 2023];
+
     const key = [
         'epi_considerations',
         'climate_environmental_considerations',
@@ -176,6 +178,10 @@ function PERConsiderations({
                         >
                             <PERGaugeChart
                                 title={strings?.considerationTitleTemplate?.replace('{type}', labels[index]) ?? `PER ${labels[index]} Considerations`}
+                                subtitle={strings?.considerationSinceYear?.replace(
+                                    '{year}',
+                                    String(sinceYears[index]),
+                                ) ?? `Since ${sinceYears[index]}`}
                                 percentage={percentageArray[index]}
                                 count={countArray[index]}
                                 icon={icons[index]}
