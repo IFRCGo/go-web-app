@@ -6,15 +6,12 @@ import {
     ButtonLayout,
     Container,
     Description,
-    Image,
-    ListView,
     NavigationTabList,
     TabLayout,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
 
-import perApproach from '#assets/content/per_approach_notext.svg';
 import linkStyles from '#components/Link/styles.module.css';
 import navigationTabStyles from '#components/NavigationTab/styles.module.css';
 import Page from '#components/Page';
@@ -96,30 +93,18 @@ function StaticPreparednessPage() {
                     </ExternalButtonLink>
                 )}
             >
-                <ListView
-                    layout="grid"
-                    withSidebar
-                >
-                    <Description textSize="lg">
-                        {resolveToComponent(
-                            strings.approachDescription,
-                            {
-                                link: (
-                                    <ExternalButtonLink href="https://www.ifrc.org/our-work/disasters-climate-and-crises/disaster-preparedness">
-                                        {strings.approachDescriptionLinkLabel}
-                                    </ExternalButtonLink>
-                                ),
-                            },
-                        )}
-                    </Description>
-                    <Image
-                        src={perApproach}
-                        alt={strings.perApproachDiagramAlt}
-                        size="lg"
-                        withoutBackground
-                        withContainedFit
-                    />
-                </ListView>
+                <Description textSize="lg">
+                    {resolveToComponent(
+                        strings.approachDescription,
+                        {
+                            link: (
+                                <ExternalButtonLink href="https://www.ifrc.org/our-work/disasters-climate-and-crises/disaster-preparedness">
+                                    {strings.approachDescriptionLinkLabel}
+                                </ExternalButtonLink>
+                            ),
+                        },
+                    )}
+                </Description>
             </Container>
             <NavigationTabList>
                 <StaticNavigationTab to="/preparedness/global-summary">
