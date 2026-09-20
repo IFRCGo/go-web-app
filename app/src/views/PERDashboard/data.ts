@@ -331,23 +331,6 @@ export function normalizeProcessRecord(value: unknown): ProcessRecord | undefine
     };
 }
 
-function latestProcessMap(processes: ProcessRecord[]): Map<number, ProcessRecord> {
-    const latest = new Map<number, ProcessRecord>();
-
-    processes.forEach((process) => {
-        if (process.countryId === null) {
-            return;
-        }
-
-        const current = latest.get(process.countryId);
-        if (!current || compareProcessRecency(process, current) > 0) {
-            latest.set(process.countryId, process);
-        }
-    });
-
-    return latest;
-}
-
 export function normalizeMapData(value: unknown): MapDataResponse {
     const item = rawRecord(value);
     const rawProcesses = asArray(item.processes);
@@ -473,6 +456,23 @@ export function compareProcessRecency(left: ProcessRecord, right: ProcessRecord)
         || dateTimestamp(left.dateOfAssessment) - dateTimestamp(right.dateOfAssessment)
         || dateTimestamp(left.updatedAt) - dateTimestamp(right.updatedAt)
         || left.processId - right.processId;
+}
+
+function latestProcessMap(processes: ProcessRecord[]): Map<number, ProcessRecord> {
+    const latest = new Map<number, ProcessRecord>();
+
+    processes.forEach((process) => {
+        if (process.countryId === null) {
+            return;
+        }
+
+        const current = latest.get(process.countryId);
+        if (!current || compareProcessRecency(process, current) > 0) {
+            latest.set(process.countryId, process);
+        }
+    });
+
+    return latest;
 }
 
 const considerationField: Record<ConsiderationKey, keyof ProcessRecord> = {
