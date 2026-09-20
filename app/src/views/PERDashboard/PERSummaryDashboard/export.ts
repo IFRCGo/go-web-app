@@ -59,6 +59,10 @@ const CONSIDERATIONS: Array<{
     { key: 'migration', label: 'Migration', field: 'migrationConsiderations' },
 ];
 
+// Excel rejects these C0 control characters in cell values.
+// eslint-disable-next-line no-control-regex
+const INVALID_EXCEL_CONTROL_CHARACTERS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g;
+
 function latestProcess(processes: ProcessRecord[]): ProcessRecord | undefined {
     return processes.reduce<ProcessRecord | undefined>(
         (latest, process) => (
@@ -101,7 +105,7 @@ function scopedProcessGroups(
 ): ProcessGroup[] {
     return groupByCountry(state.processes)
         .map((group) => {
-            let processes = group.processes;
+            let { processes } = group;
             if (filters.highPriorityComponent !== null) {
                 const latest = latestProcess(processes);
                 processes = latest?.prioritizedComponents.some(
@@ -144,18 +148,18 @@ function identityValues(processes: ProcessRecord[]): CellValue[] {
     ];
 }
 
-function cycleColumns(label: string, maxCycle: number): string[] {
+function cycleColumns(label: string, cycleCount: number): string[] {
     const prefix = label ? `${label} ` : '';
     return [
         ...Array.from(
-            { length: maxCycle },
+            { length: cycleCount },
             (_, index) => `${prefix}Cycle ${index + 1} year`,
         ),
         `${prefix}Process count`,
     ];
 }
 
-function cycleValues(processes: ProcessRecord[], maxCycle: number): CellValue[] {
+function cycleValues(processes: ProcessRecord[], cycleCount: number): CellValue[] {
     const byCycle = new Map<number, ProcessRecord>();
     processes.forEach((process) => {
         const current = byCycle.get(process.assessmentNumber);
@@ -165,7 +169,7 @@ function cycleValues(processes: ProcessRecord[], maxCycle: number): CellValue[] 
     });
     return [
         ...Array.from(
-            { length: maxCycle },
+            { length: cycleCount },
             (_, index) => {
                 const process = byCycle.get(index + 1);
                 return process ? getProcessYear(process) ?? '' : '';
@@ -178,7 +182,9 @@ function cycleValues(processes: ProcessRecord[], maxCycle: number): CellValue[] 
 function maxCycle(processGroups: ProcessRecord[][]): number {
     return Math.max(
         0,
-        ...processGroups.flatMap((processes) => processes.map((process) => process.assessmentNumber)),
+        ...processGroups.flatMap(
+            (processes) => processes.map((process) => process.assessmentNumber),
+        ),
     );
 }
 
@@ -188,13 +194,14 @@ function filterSummaryRows(
 ): CellValue[][] {
     const country = groups.flatMap((group) => group.processes)
         .find((process) => process.countryId === filters.countryId);
-    const phase = filters.phaseCohort === 'orientation'
-        ? 'Orientation'
-        : filters.phaseCohort === 'assessment'
-            ? 'Assessment or later'
-            : filters.phaseCohort === 'action'
-                ? 'Action & accountability'
-                : null;
+    let phase: string | null = null;
+    if (filters.phaseCohort === 'orientation') {
+        phase = 'Orientation';
+    } else if (filters.phaseCohort === 'assessment') {
+        phase = 'Assessment or later';
+    } else if (filters.phaseCohort === 'action') {
+        phase = 'Action & accountability';
+    }
     const consideration = CONSIDERATIONS.find((item) => item.key === filters.consideration);
     const rows: CellValue[][] = [
         ['Matching National Societies', groups.length],
@@ -336,9 +343,11 @@ function considerationsSheet(
     )));
     const maxCycles = cycleGroupsByConsideration.map(maxCycle);
     const rows = groups
-        .filter((group) => considerations.some((consideration) => group.processes.some((process) => (
-            (process.phase ?? 0) >= 2 && process[consideration.field] === true
-        ))))
+        .filter((group) => considerations.some(
+            (consideration) => group.processes.some((process) => (
+                (process.phase ?? 0) >= 2 && process[consideration.field] === true
+            )),
+        ))
         .map((group) => {
             const values: CellValue[] = [...identityValues(group.processes)];
             considerations.forEach((consideration, index) => {
@@ -387,7 +396,7 @@ function safeCellValue(value: CellValue): CellValue {
     if (typeof value !== 'string') {
         return value;
     }
-    const sanitized = value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
+    const sanitized = value.replace(INVALID_EXCEL_CONTROL_CHARACTERS, '');
     return /^[=+\-@]/.test(sanitized) ? `'${sanitized}` : sanitized;
 }
 

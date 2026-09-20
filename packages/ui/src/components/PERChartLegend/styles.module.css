@@ -32,9 +32,9 @@
     background: transparent;
     cursor: pointer;
     padding: 4px 6.4px;
+    min-height: 23.3125px;
     color: var(--go-ui-color-text);
     font-size: 12.25px;
-    min-height: 23.3125px;
     font-weight: var(--go-ui-font-weight-light);
     gap: 6.4px;
 

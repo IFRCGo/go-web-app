@@ -14,6 +14,7 @@ import {
 import useTranslation from '#hooks/useTranslation';
 
 import InfoPopup from '../InfoPopup';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 

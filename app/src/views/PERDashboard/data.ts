@@ -331,6 +331,27 @@ export function normalizeProcessRecord(value: unknown): ProcessRecord | undefine
     };
 }
 
+function dateTimestamp(value: string | null): number {
+    if (value === null) {
+        return Number.NEGATIVE_INFINITY;
+    }
+
+    const timestamp = Date.parse(value);
+    return Number.isNaN(timestamp) ? Number.NEGATIVE_INFINITY : timestamp;
+}
+
+export function getProcessYear(process: ProcessRecord): number | null {
+    const timestamp = dateTimestamp(process.dateOfAssessment);
+    return Number.isFinite(timestamp) ? new Date(timestamp).getUTCFullYear() : null;
+}
+
+export function compareProcessRecency(left: ProcessRecord, right: ProcessRecord): number {
+    return left.assessmentNumber - right.assessmentNumber
+        || dateTimestamp(left.dateOfAssessment) - dateTimestamp(right.dateOfAssessment)
+        || dateTimestamp(left.updatedAt) - dateTimestamp(right.updatedAt)
+        || left.processId - right.processId;
+}
+
 function latestProcessMap(processes: ProcessRecord[]): Map<number, ProcessRecord> {
     const latest = new Map<number, ProcessRecord>();
 
@@ -452,27 +473,6 @@ export function normalizePerformanceData(value: unknown): PerformanceData {
 export function normalizeLastUpdate(value: unknown): string {
     const item = rawRecord(value);
     return asString(item.lastUpdate ?? item.last_update ?? item.exportedAt) ?? 'N/A';
-}
-
-function dateTimestamp(value: string | null): number {
-    if (value === null) {
-        return Number.NEGATIVE_INFINITY;
-    }
-
-    const timestamp = Date.parse(value);
-    return Number.isNaN(timestamp) ? Number.NEGATIVE_INFINITY : timestamp;
-}
-
-export function getProcessYear(process: ProcessRecord): number | null {
-    const timestamp = dateTimestamp(process.dateOfAssessment);
-    return Number.isFinite(timestamp) ? new Date(timestamp).getUTCFullYear() : null;
-}
-
-export function compareProcessRecency(left: ProcessRecord, right: ProcessRecord): number {
-    return left.assessmentNumber - right.assessmentNumber
-        || dateTimestamp(left.dateOfAssessment) - dateTimestamp(right.dateOfAssessment)
-        || dateTimestamp(left.updatedAt) - dateTimestamp(right.updatedAt)
-        || left.processId - right.processId;
 }
 
 const considerationField: Record<ConsiderationKey, keyof ProcessRecord> = {

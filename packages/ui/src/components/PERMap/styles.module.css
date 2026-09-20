@@ -108,10 +108,10 @@
     cursor: pointer;
     padding: 2px 12px;
     width: calc(100% - 24px);
+    min-height: 20px;
+    line-height: 1.2;
     color: #F5333F;
     font-size: 10px;
-    line-height: 1.2;
-    min-height: 20px;
     font-weight: 500;
 }
 

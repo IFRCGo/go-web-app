@@ -2,14 +2,14 @@ import { _cs } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
 
-import PERChartLegend from '../PERChartLegend';
-import PERGaugeChart from '../PERGaugeChart';
-import PERStackedHorizontalBarChart from '../PERStackedHorizontalBarChart';
 import {
     PER_ASSESSMENT_COLORS,
     PER_CONSIDERATION_GAUGE_COLOR,
     PER_INACTIVE_COLOR,
 } from '../PERAssessmentPalette';
+import PERChartLegend from '../PERChartLegend';
+import PERGaugeChart from '../PERGaugeChart';
+import PERStackedHorizontalBarChart from '../PERStackedHorizontalBarChart';
 import environmentIcon from './assets/environment.png';
 import epidemicIcon from './assets/epidemic.png';
 import migrationIcon from './assets/migration.png';

@@ -29,8 +29,8 @@
 .sparklineContainer {
   display: flex;
   align-items: flex-end;
-  justify-content: center;
   flex-shrink: 0;
+  justify-content: center;
   width: 72px;
   height: 20px;
   gap: 2px;
@@ -85,13 +85,13 @@
 
 .ratingName {
   display: block;
+  padding-right: var(--go-ui-spacing-sm);
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--go-ui-color-black);
   font-size: var(--go-ui-font-size-xs);
-  padding-right: var(--go-ui-spacing-sm);
 }
 
 .ratingPrefix {
@@ -154,25 +154,25 @@
 }
 
 .ratingChange {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   flex-shrink: 0;
+  justify-content: center;
   border-radius: var(--go-ui-border-radius-full);
   background-color: var(--go-ui-color-gray-10);
   padding: 0 var(--go-ui-spacing-2xs);
   width: 56px;
   height: 20px;
-  box-sizing: border-box;
   font-size: var(--go-ui-font-size-sm);
   gap: var(--go-ui-spacing-2xs);
 }
 
 .ratingChangePlaceholder {
-  width: 56px;
-  height: 20px;
   flex-shrink: 0;
   visibility: hidden;
+  width: 56px;
+  height: 20px;
 }
 
 .upIcon {
