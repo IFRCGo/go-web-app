@@ -12,6 +12,7 @@ dist
 dist-ssr
 build
 build-ssr
+build-per-dashboard-review
 *.local
 
 # Editor directories and files
