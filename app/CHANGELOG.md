@@ -1,5 +1,54 @@
 # go-web-app
 
+## 7.28.0
+
+### Minor Changes
+
+- 64d0d1b: Fix crash on the Active DREF table in My Forms when an operational update is not visible to the user
+- cb79a21: Allow password reset through email while logged in
+
+  - Let users pick between the old password and an emailed reset link when changing their password
+  - Keep the emailed recovery link usable while signed in, and end the session once the password has been changed
+  - Ask for the email instead of the email or username on the recover account and resend validation email pages
+
+- 15848c4: Release EAP in production
+
+  - Make forms, navigation and links related to EAP visible
+
+- 8cb7efc: Implement hide field report map and key figures options on the emergency page
+- fec4d09: Update layouts and fix issues in Emergency, EAP and DREF
+
+  - Emergency page
+    - Improve event timeline scrolling and increase min width occupied for event
+    - Show the funded percentage beside the emergency appeal progress bar
+  - Simplify the anticipatory pillar layout in DREF landing page
+  - Add an EAP feedback link to the EAP account page
+  - Propagate the lead timeframe unit to enabling approach early actions in the sEAP form
+
+### Patch Changes
+
+- b265c37: Add Migration considerations (yes/no) to PER Overview form
+- Updated dependencies [43d6900]
+  - @ifrc-go/ui@2.4.0
+
+## 7.28.0-beta.3
+
+### Minor Changes
+
+- cb79a21: Allow password reset through email while logged in
+
+  - Let users pick between the old password and an emailed reset link when changing their password
+  - Keep the emailed recovery link usable while signed in, and end the session once the password has been changed
+  - Ask for the email instead of the email or username on the recover account and resend validation email pages
+
+- 15848c4: Release EAP in production
+
+  - Make forms, navigation and links related to EAP visible
+
+### Patch Changes
+
+- b265c37: Add Migration considerations (yes/no) to PER Overview form
+
 ## 7.28.0-beta.2
 
 ### Minor Changes
