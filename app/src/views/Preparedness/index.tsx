@@ -2,14 +2,11 @@ import { Outlet } from 'react-router-dom';
 import {
     Container,
     Description,
-    Image,
-    ListView,
     NavigationTabList,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
 
-import perApproach from '#assets/content/per_approach_notext.svg';
 import Link from '#components/Link';
 import NavigationTab from '#components/NavigationTab';
 import Page from '#components/Page';
@@ -46,33 +43,21 @@ export function Component() {
                     </>
                 )}
             >
-                <ListView
-                    layout="grid"
-                    withSidebar
-                >
-                    <Description textSize="lg">
-                        {resolveToComponent(
-                            strings.approachDescription,
-                            {
-                                link: (
-                                    <Link
-                                        href="https://www.ifrc.org/our-work/disasters-climate-and-crises/disaster-preparedness"
-                                        external
-                                    >
-                                        {strings.approachDescriptionLinkLabel}
-                                    </Link>
-                                ),
-                            },
-                        )}
-                    </Description>
-                    <Image
-                        src={perApproach}
-                        alt={strings.perApproachDiagramAlt}
-                        size="lg"
-                        withoutBackground
-                        withContainedFit
-                    />
-                </ListView>
+                <Description textSize="lg">
+                    {resolveToComponent(
+                        strings.approachDescription,
+                        {
+                            link: (
+                                <Link
+                                    href="https://www.ifrc.org/our-work/disasters-climate-and-crises/disaster-preparedness"
+                                    external
+                                >
+                                    {strings.approachDescriptionLinkLabel}
+                                </Link>
+                            ),
+                        },
+                    )}
+                </Description>
             </Container>
             <NavigationTabList>
                 <NavigationTab

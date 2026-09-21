@@ -1,0 +1,63 @@
+.exportButtonWrapper {
+    display: inline-block;
+    position: absolute;
+}
+
+.exportButton {
+    transition: var(--go-ui-duration-transition-medium) background-color ease-in-out;
+    border: var(--go-ui-width-separator-md) solid var(--go-ui-color-red);
+    border-radius: var(--go-ui-border-radius-full);
+    background-color: var(--go-ui-color-white);
+    cursor: pointer;
+    padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+    color: var(--go-ui-color-red);
+    font-family: var(--go-ui-font-family-sans-serif);
+    font-size: var(--go-ui-font-size-xs);
+    font-weight: var(--go-ui-font-weight-medium);
+}
+
+.exportButton:hover {
+    background-color: var(--go-ui-color-red-hover);
+}
+
+.exportButton:disabled {
+    opacity: var(--go-ui-opacity-disabled-element);
+    cursor: not-allowed;
+}
+
+/* Caret Styling */
+.caret {
+    display: inline-block;
+    transition: var(--go-ui-duration-transition-medium) transform ease-in-out; 
+    margin-left: var(--go-ui-spacing-xs);
+    border-top: 5px solid var(--go-ui-color-red);
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    width: 0; 
+    height: 0;
+    vertical-align: middle;
+}
+
+.caret.open {
+    transform: rotate(180deg);
+}
+
+.export-button {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    border: 1px solid var(--go-ui-color-gray-30);
+    border-radius: var(--go-ui-border-radius-md);
+    background: none;
+    cursor: pointer;
+    padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-sm);
+    color: var(--go-ui-color-text);
+    font-size: var(--go-ui-font-size-sm);
+    gap: var(--go-ui-spacing-xs);
+}
+
+.export-button:hover {
+    border-color: var(--go-ui-color-primary-red);
+    background-color: var(--go-ui-color-background);
+    color: var(--go-ui-color-primary-red);
+}
