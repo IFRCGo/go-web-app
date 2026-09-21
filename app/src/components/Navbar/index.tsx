@@ -381,16 +381,14 @@ function Navbar(props: Props) {
                                 >
                                     {strings.myDrefApplications}
                                 </DropdownMenuItem>
-                                {environment !== 'production' && (
-                                    <DropdownMenuItem
-                                        type="link"
-                                        to="accountMyFormsEap"
-                                        styleVariant="action"
-                                        withoutFullWidth
-                                    >
-                                        {strings.earlyActionProtocols}
-                                    </DropdownMenuItem>
-                                )}
+                                <DropdownMenuItem
+                                    type="link"
+                                    to="accountMyFormsEap"
+                                    styleVariant="action"
+                                    withoutFullWidth
+                                >
+                                    {strings.earlyActionProtocols}
+                                </DropdownMenuItem>
                             </NavDropdownTabDetails>
                             <NavDropdownTabDetails
                                 name="surge"
