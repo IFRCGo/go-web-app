@@ -297,7 +297,6 @@ const drefDecisionTree: DecisionTree = {
                     type: 'navigate',
                     route: 'newEapDevelopmentRegistration',
                     labelKey: 'cta.eapDevelopmentRegistration',
-                    hideInProduction: true,
                 },
                 drefGuidelines(DREF_GUIDELINES_EAP_DEVELOPMENT_URL),
                 // Appended, not prepended: engine.test.ts asserts actions[0] is the form.

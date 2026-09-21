@@ -4,7 +4,6 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import NavigationTab from '#components/NavigationTab';
 import TabPage from '#components/TabPage';
-import { environment } from '#config';
 
 import i18n from './i18n.json';
 
@@ -35,13 +34,11 @@ export function Component() {
                 >
                     {strings.threeWTabTitle}
                 </NavigationTab>
-                {environment !== 'production' && (
-                    <NavigationTab
-                        to="accountMyFormsEap"
-                    >
-                        {strings.eapApplications}
-                    </NavigationTab>
-                )}
+                <NavigationTab
+                    to="accountMyFormsEap"
+                >
+                    {strings.eapApplications}
+                </NavigationTab>
             </NavigationTabList>
             <Outlet />
         </TabPage>
