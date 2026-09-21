@@ -1,0 +1,18 @@
+{
+    "namespace": "malawiRiskWatch",
+    "strings": {
+        "arcTriggerExceeded": "Trigger threshold exceeded",
+        "arcTriggerNotExceeded": "Trigger threshold not exceeded",
+        "arcTriggerReturnPeriod": "{years}-year return period",
+        "arcTriggerNoReturnPeriod": "No return period reported",
+        "arcTriggerInfoTitle": "National trigger",
+        "arcTriggerInfo": "The national return period is the highest district return period on this date. The trigger is exceeded above a {threshold}-year return period. The MRCS review refers to the trigger record raised by the model pipeline for this date.",
+        "arcTriggerReviewLabel": "MRCS review",
+        "arcTriggerReviewPending": "Pending review",
+        "arcTriggerReviewConfirmed": "Confirmed",
+        "arcTriggerReviewSent": "Confirmed, notifications sent",
+        "arcTriggerReviewSendFailed": "Confirmed, notification failed",
+        "arcTriggerReviewRejected": "Rejected",
+        "arcTriggerReviewNone": "No review recorded"
+    }
+}

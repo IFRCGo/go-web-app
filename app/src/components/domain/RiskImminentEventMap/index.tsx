@@ -180,6 +180,8 @@ function RiskImminentEventMap<
         },
         [activeEventId, keySelector, events],
     );
+    // Events can change under a selection; a stale id must not hide the others
+    const currentActiveEventId = isDefined(activeEvent) ? activeEventId : undefined;
 
     const eventVisibilityAttributes = useMemo(
         () => events?.map((event) => {
@@ -187,21 +189,21 @@ function RiskImminentEventMap<
 
             return {
                 id: key,
-                value: isNotDefined(activeEventId) || activeEventId === key,
+                value: isNotDefined(currentActiveEventId) || currentActiveEventId === key,
             };
         }),
-        [events, activeEventId, keySelector],
+        [events, currentActiveEventId, keySelector],
     );
 
     const activeEventFootprint = useMemo(
         () => {
-            if (isNotDefined(activeEventId) || activeEventExposurePending) {
+            if (isNotDefined(currentActiveEventId) || activeEventExposurePending) {
                 return undefined;
             }
 
             return footprintSelector(activeEventExposure);
         },
-        [activeEventId, activeEventExposure, activeEventExposurePending, footprintSelector],
+        [currentActiveEventId, activeEventExposure, activeEventExposurePending, footprintSelector],
     );
 
     const bounds = useMemo(
@@ -266,7 +268,7 @@ function RiskImminentEventMap<
         (eventId: string | number | undefined) => {
             const eventIdSafe = eventId as KEY | undefined;
 
-            if (activeEventId === eventIdSafe) {
+            if (currentActiveEventId === eventIdSafe) {
                 setActiveEventId(undefined);
                 onActiveEventChange(undefined);
             } else {
@@ -274,7 +276,7 @@ function RiskImminentEventMap<
                 onActiveEventChange(eventIdSafe);
             }
         },
-        [onActiveEventChange, activeEventId],
+        [onActiveEventChange, currentActiveEventId],
     );
 
     const handlePointClick = useCallback(
@@ -292,9 +294,9 @@ function RiskImminentEventMap<
         (_: string | number, event: EVENT): RiskEventListItemProps<EVENT> => ({
             data: event,
             onExpandClick: setActiveEventIdSafe,
-            expanded: activeEventId === keySelector(event),
+            expanded: currentActiveEventId === keySelector(event),
             className: styles.riskEventListItem,
-            children: activeEventId === keySelector(event) && (
+            children: currentActiveEventId === keySelector(event) && (
                 <DetailComponent
                     data={event}
                     exposure={activeEventExposure}
@@ -317,7 +319,7 @@ function RiskImminentEventMap<
             layerOptions,
             hazardTypeSelector,
             DetailComponent,
-            activeEventId,
+            currentActiveEventId,
             keySelector,
             withExposureAreaControl,
         ],

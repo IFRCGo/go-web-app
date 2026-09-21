@@ -21,3 +21,6 @@ export const FORECAST_METRIC_KEY = 'forecast';
 export const BUBBLE_MAX_RADIUS = 20;
 // Keeps thematic layers under the basemap labels and the hazard markers
 export const BASEMAP_ADMIN_1_BOUNDARY_LAYER = 'admin-1-boundary';
+
+// National trigger: exceeded when the return period is above this many years
+export const ARC_TRIGGER_RP_THRESHOLD = 5;

@@ -37,7 +37,7 @@ function EventListItem(props: Props) {
                     value={impactSelector(data.activeRow)}
                     valueType="number"
                     compact
-                    maximumFractionDigits={0}
+                    maximumFractionDigits={1}
                     textSize="sm"
                 />
             )}

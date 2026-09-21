@@ -1,4 +1,7 @@
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useMemo,
+} from 'react';
 import {
     Container,
     InfoPopup,
@@ -63,13 +66,21 @@ function ThematicLegend(props: Props) {
         [strings.thematicLegendPercent],
     );
 
-    // Upper bounds only, so the classes fit on one line
+    // Upper bounds only, so the classes fit on one line; more digits when rounding merges them
+    const binLabels = useMemo(
+        () => {
+            const toLabels = (digits: number) => shade.bins.map((bin) => resolveToString(
+                strings.thematicLegendUpTo,
+                { value: formatValue(bin.max, shade.format, digits) },
+            ));
+            const labels = toLabels(0);
+            return new Set(labels).size === labels.length ? labels : toLabels(1);
+        },
+        [shade.bins, shade.format, strings.thematicLegendUpTo, formatValue],
+    );
     const binLabelSelector = useCallback(
-        (bin: ValueBin) => resolveToString(
-            strings.thematicLegendUpTo,
-            { value: formatValue(bin.max, shade.format, 0) },
-        ),
-        [strings.thematicLegendUpTo, formatValue, shade.format],
+        (bin: ValueBin) => binLabels[shade.bins.indexOf(bin)],
+        [binLabels, shade.bins],
     );
 
     const renderHeader = (
