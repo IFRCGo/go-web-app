@@ -4,6 +4,8 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 
+import { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
+import { type RiskLayerProperties } from '#components/domain/RiskImminentEventMap/utils';
 import { malawiRiskWatchGraphqlApi } from '#config';
 import { type GoApiResponse } from '#utils/restRequest';
 
@@ -25,12 +27,51 @@ export function getAdminAreaCentroid(adminArea: AdminArea | undefined) {
     return centroid;
 }
 
-export function getAdminAreaBbox(adminArea: AdminArea | undefined) {
+function getAdminAreaBbox(adminArea: AdminArea | undefined) {
     const bbox = adminArea?.bbox as GeoJSON.Geometry | undefined;
     if (bbox?.type !== 'Polygon') {
         return undefined;
     }
     return bbox;
+}
+
+interface DistrictEvent {
+    id: string;
+    adminArea: AdminArea | undefined;
+}
+
+export function getDistrictPointFeature(event: DistrictEvent): EventPointFeature | undefined {
+    const centroid = getAdminAreaCentroid(event.adminArea);
+    if (isNotDefined(centroid)) {
+        return undefined;
+    }
+    return {
+        type: 'Feature',
+        geometry: centroid,
+        properties: {
+            id: event.id,
+            hazard_type: 'FL',
+        },
+    };
+}
+
+export function getDistrictFootprint(adminArea: AdminArea | undefined) {
+    const bbox = getAdminAreaBbox(adminArea);
+    if (isNotDefined(bbox)) {
+        return undefined;
+    }
+    const footprint: GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> = {
+        type: 'FeatureCollection',
+        features: [{
+            type: 'Feature',
+            geometry: bbox,
+            properties: {
+                type: 'exposure',
+                severity: 'unknown',
+            },
+        }],
+    };
+    return footprint;
 }
 
 export function parseNumber(value: string | null | undefined) {

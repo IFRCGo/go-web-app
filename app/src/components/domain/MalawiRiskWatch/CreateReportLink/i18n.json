@@ -1,6 +1,6 @@
 {
     "namespace": "malawiRiskWatch",
     "strings": {
-        "noDataMessage": "No data available yet"
+        "createReportLinkLabel": "Create early warning report"
     }
 }

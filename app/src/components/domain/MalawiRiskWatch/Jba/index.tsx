@@ -3,12 +3,7 @@ import {
     useMemo,
     useState,
 } from 'react';
-import {
-    InfoPopup,
-    ListView,
-    SelectInput,
-    TextOutput,
-} from '@ifrc-go/ui';
+import { TextOutput } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { formatDate } from '@ifrc-go/ui/utils';
 import {
@@ -18,8 +13,7 @@ import {
 import type { LngLatBoundsLike } from 'mapbox-gl';
 import { useQuery } from 'urql';
 
-import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
-import { type RiskLayerProperties } from '#components/domain/RiskImminentEventMap/utils';
+import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
 import { MAX_PAGE_LIMIT } from '#utils/constants';
 
 import {
@@ -28,13 +22,14 @@ import {
     JBA_RUNS_LIMIT,
 } from '../constants';
 import LayersPanel from '../LayersPanel';
+import RunSelectInput from '../RunSelectInput';
 import ThematicLayers from '../ThematicLayers';
 import ThematicLegend from '../ThematicLegend';
 import useMalawiAdminAreas from '../useMalawiAdminAreas';
 import { type SourceMetric } from '../useThematicLayers';
 import {
-    getAdminAreaBbox,
-    getAdminAreaCentroid,
+    getDistrictFootprint,
+    getDistrictPointFeature,
 } from '../utils';
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
@@ -52,7 +47,6 @@ import {
 } from './utils';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 interface IngestionRun {
     id: string;
@@ -135,43 +129,8 @@ function Jba(props: Props) {
     );
     const activeEvent = events.find((event) => event.id === activeEventId);
 
-    const pointFeatureSelector = useCallback(
-        (event: JbaDistrictEvent): EventPointFeature | undefined => {
-            const centroid = getAdminAreaCentroid(event.adminArea);
-            if (isNotDefined(centroid)) {
-                return undefined;
-            }
-            return {
-                type: 'Feature',
-                geometry: centroid,
-                properties: {
-                    id: event.id,
-                    hazard_type: 'FL',
-                },
-            };
-        },
-        [],
-    );
-
     const footprintSelector = useCallback(
-        () => {
-            const districtBbox = getAdminAreaBbox(activeEvent?.adminArea);
-            if (isNotDefined(districtBbox)) {
-                return undefined;
-            }
-            const footprint: GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> = {
-                type: 'FeatureCollection',
-                features: [{
-                    type: 'Feature',
-                    geometry: districtBbox,
-                    properties: {
-                        type: 'exposure',
-                        severity: 'unknown',
-                    },
-                }],
-            };
-            return footprint;
-        },
+        () => getDistrictFootprint(activeEvent?.adminArea),
         [activeEvent],
     );
 
@@ -185,7 +144,7 @@ function Jba(props: Props) {
             events={events}
             keySelector={eventKeySelector}
             hazardTypeSelector={hazardTypeSelector}
-            pointFeatureSelector={pointFeatureSelector}
+            pointFeatureSelector={getDistrictPointFeature}
             footprintSelector={footprintSelector}
             activeEventExposure={undefined}
             activeEventExposurePending={false}
@@ -197,38 +156,28 @@ function Jba(props: Props) {
             emptyMessage={strings.jbaNoImpactMessage}
             sidePanelHeading={title}
             headerActions={(
-                <SelectInput
-                    className={styles.runSelect}
-                    name={undefined}
+                <RunSelectInput
                     options={runs}
                     keySelector={runKeySelector}
                     labelSelector={runLabelSelector}
                     value={activeRun?.id}
                     onChange={setSelectedRunId}
                     disabled={runsResult.fetching}
-                    nonClearable
-                    actions={isDefined(activeRun) && (
-                        <InfoPopup
-                            title={strings.jbaRunInfoTitle}
-                            description={(
-                                <ListView
-                                    layout="block"
-                                    spacing="xs"
-                                >
-                                    <TextOutput
-                                        label={strings.jbaForecastIssuedLabel}
-                                        value={activeRun.runDate}
-                                        valueType="date"
-                                        strongValue
-                                    />
-                                    <TextOutput
-                                        label={strings.jbaRunStatusLabel}
-                                        value={activeRun.status}
-                                        strongValue
-                                    />
-                                </ListView>
-                            )}
-                        />
+                    infoTitle={strings.jbaRunInfoTitle}
+                    infoDetails={(
+                        <>
+                            <TextOutput
+                                label={strings.jbaForecastIssuedLabel}
+                                value={activeRun?.runDate}
+                                valueType="date"
+                                strongValue
+                            />
+                            <TextOutput
+                                label={strings.jbaRunStatusLabel}
+                                value={activeRun?.status}
+                                strongValue
+                            />
+                        </>
                     )}
                 />
             )}

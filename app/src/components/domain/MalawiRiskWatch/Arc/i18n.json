@@ -1,0 +1,12 @@
+{
+    "namespace": "malawiRiskWatch",
+    "strings": {
+        "arcMetricLabel": "Parametric model: population impacted",
+        "arcNoImpactMessage": "No modelled impact for this date",
+        "arcNoObservationsMessage": "No parametric model observations available yet",
+        "arcLoadFailedMessage": "Failed to load the parametric trigger model",
+        "arcObservationInfoTitle": "Observation",
+        "arcObservationDateLabel": "Observation date",
+        "arcTriggeredDistrictsLabel": "Districts triggered"
+    }
+}
