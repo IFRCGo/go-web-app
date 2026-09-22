@@ -17,8 +17,6 @@
     --go-ui-font-size-3xl: calc(var(--base-font-size) * 2.1428);
     --go-ui-font-size-4xl: calc(var(--base-font-size) * 2.7142);
 
-    --go-ui-height-icon-multiplier: 1.33em;
-
     --go-ui-height-brand-icon: 2.25rem;
     --go-ui-height-social-icon: 2.5rem;
     --go-ui-height-key-figure-icon: 3rem;

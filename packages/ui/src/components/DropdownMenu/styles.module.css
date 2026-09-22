@@ -6,8 +6,7 @@
     }
 
     .dropdown-icon {
-        margin-inline-start: -0.3em;
-        font-size: var(--go-ui-height-icon-multiplier);
+        font-size: 0.5em;
     }
 }
 

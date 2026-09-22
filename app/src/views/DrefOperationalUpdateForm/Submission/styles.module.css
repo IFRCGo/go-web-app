@@ -11,7 +11,7 @@
         color: var(--go-ui-color-warning);
 
         .icon {
-            font-size: var(--go-ui-height-icon-multiplier);
+            font-size: 1.33em;
         }
     }
 }

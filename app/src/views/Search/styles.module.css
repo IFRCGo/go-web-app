@@ -37,6 +37,6 @@
     .close-icon,
     .forward-icon,
     .back-icon {
-        font-size: var(--go-ui-height-icon-multiplier);
+        font-size: 1.33em;
     }
 }
