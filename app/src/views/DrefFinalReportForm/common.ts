@@ -100,11 +100,7 @@ const operationFields: (keyof PartialFinalReport)[] = [
     'planned_interventions',
     'risk_security',
     'risk_security_concern',
-    'sub_total_expenditure_cost',
-    'total_expenditure_cost',
-    'indirect_expenditure_cost',
     'surge_deployment_cost',
-    'surge_deployment_expenditure_cost',
     'lessons_learned_and_challenges',
     'mitigation_efforts_and_achievements',
 ] satisfies (keyof PartialFinalReport)[];
@@ -185,25 +181,3 @@ export function checkTabErrors(error: Error<PartialFinalReport> | undefined, tab
 
     return hasErrorOnAnyField;
 }
-
-export const calculateProposedActionsCost = (val: PartialFinalReport) => {
-    const expenditureSubTotal = sumSafe(
-        val?.proposed_action?.map((expenditure) => expenditure.total_expenditure),
-    );
-
-    const surgeDeploymentExpenditureCost = val.surge_deployment_cost
-        ? SURGE_DEPLOYMENT_COST : undefined;
-
-    const indirectExpenditureCost = val.indirect_cost;
-
-    const expenditureTotal = sumSafe(
-        [expenditureSubTotal, indirectExpenditureCost, surgeDeploymentExpenditureCost],
-    );
-
-    return {
-        sub_total_expenditure_cost: expenditureSubTotal,
-        indirect_expenditure_cost: indirectExpenditureCost,
-        total_expenditure_cost: expenditureTotal,
-        surge_deployment_expenditure_cost: surgeDeploymentExpenditureCost,
-    };
-};
