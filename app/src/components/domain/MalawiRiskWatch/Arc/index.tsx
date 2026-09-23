@@ -192,6 +192,7 @@ function Arc(props: Props) {
             )}
             bbox={bbox}
             onActiveEventChange={setActiveEventId}
+            withoutActiveEventFit
             mapChildren={(
                 <ThematicLayers
                     sourceMetric={sourceMetric}

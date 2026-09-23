@@ -73,6 +73,15 @@ To begin, ensure you have network access. Then, you'll need the following:
    pnpm start
    ```
 
+#### Malawi Risk Watch (optional)
+
+The Malawi sources on the country risk watch page use the [Malawi Risk Watch backend](https://github.com/toggle-corp/malawi-risk-watch-backend). They stay hidden unless `APP_MALAWI_RISK_WATCH_GRAPHQL_ENDPOINT` is set. To work on them:
+
+1. Initialize the `malawi-risk-watch-backend` submodule. Its `schema.graphql` drives the GraphQL type generation in `pnpm generate:type`. Without it a stub is used and the Malawi code fails typecheck.
+2. The backend does not send CORS headers, so local development goes through the Vite proxy: set `APP_MALAWI_RISK_WATCH_GRAPHQL_ENDPOINT=http://localhost:3000/malawi-graphql` and point `MALAWI_RISK_WATCH_BACKEND_DOMAIN` at the backend host, without a trailing slash.
+
+See the [feature notes](./app/src/components/domain/MalawiRiskWatch/README.md) for how the sources are put together.
+
 ## Contributing
 
 * Check out existing [Issues](https://github.com/IFRCGo/go-web-app/issues) and [Pull Requests](https://github.com/IFRCGo/go-web-app/pulls) to contribute.

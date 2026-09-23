@@ -191,6 +191,7 @@ function Jba(props: Props) {
             )}
             bbox={bbox}
             onActiveEventChange={setActiveEventId}
+            withoutActiveEventFit
             mapChildren={(
                 <ThematicLayers
                     sourceMetric={forecastMetric}
