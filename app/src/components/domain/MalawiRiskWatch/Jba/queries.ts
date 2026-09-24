@@ -42,3 +42,23 @@ export const JBA_FORECAST_IMPACTS_QUERY = graphql(/* GraphQL */ `
         }
     }
 `);
+
+// Only url and name: the file size resolver fails on the backend
+export const JBA_FORECAST_FILES_QUERY = graphql(/* GraphQL */ `
+    query JbaForecastFiles($issueDate: Date!, $limit: Int!) {
+        floodForecastFiles(
+            filters: { forecastIssueDate: { exact: $issueDate } },
+            pagination: { limit: $limit },
+        ) {
+            results {
+                id
+                forecastIssueDate
+                forecastTargetDate
+                tiff {
+                    url
+                    name
+                }
+            }
+        }
+    }
+`);

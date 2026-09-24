@@ -26,7 +26,10 @@ import RunSelectInput from '../RunSelectInput';
 import ThematicLayers from '../ThematicLayers';
 import ThematicLegend from '../ThematicLegend';
 import useMalawiAdminAreas from '../useMalawiAdminAreas';
-import { type SourceMetric } from '../useThematicLayers';
+import {
+    type SourceMetric,
+    type SourceRaster,
+} from '../useThematicLayers';
 import {
     getDistrictFootprint,
     getDistrictPointFeature,
@@ -35,6 +38,7 @@ import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 import ForecastDayInput from './ForecastDayInput';
 import {
+    JBA_FORECAST_FILES_QUERY,
     JBA_FORECAST_IMPACTS_QUERY,
     JBA_INGESTION_RUNS_QUERY,
 } from './queries';
@@ -42,6 +46,7 @@ import {
     getDistrictEvents,
     getForecastDays,
     getImpactValues,
+    getLeadTimeDays,
     groupRowsByDistrict,
     type JbaDistrictEvent,
 } from './utils';
@@ -103,6 +108,15 @@ function Jba(props: Props) {
         pause: isNotDefined(activeRun),
     });
 
+    const [filesResult] = useQuery({
+        query: JBA_FORECAST_FILES_QUERY,
+        variables: {
+            issueDate: activeRun?.runDate ?? '',
+            limit: MAX_PAGE_LIMIT,
+        },
+        pause: isNotDefined(activeRun),
+    });
+
     const {
         adminAreaByCode,
         pending: adminAreasPending,
@@ -126,6 +140,23 @@ function Jba(props: Props) {
             ...getImpactValues(districts, leadTimeDays),
         }),
         [districts, leadTimeDays, strings.jbaForecastMetricLabel],
+    );
+    // One raster per forecast day; the entry stays so the panel section does not flicker
+    const rasters = useMemo<SourceRaster[]>(
+        () => {
+            const file = filesResult.data?.floodForecastFiles.results.find(
+                (item) => getLeadTimeDays(
+                    item.forecastIssueDate,
+                    item.forecastTargetDate,
+                ) === leadTimeDays,
+            );
+            return [{
+                key: 'jba-forecast',
+                label: strings.jbaRasterLabel,
+                url: file?.tiff.url,
+            }];
+        },
+        [filesResult.data, leadTimeDays, strings.jbaRasterLabel],
     );
     const activeEvent = events.find((event) => event.id === activeEventId);
 
@@ -191,15 +222,25 @@ function Jba(props: Props) {
             )}
             bbox={bbox}
             onActiveEventChange={setActiveEventId}
-            withoutActiveEventFit
             mapChildren={(
                 <ThematicLayers
                     sourceMetric={forecastMetric}
                     adminAreaByCode={adminAreaByCode}
+                    rasters={rasters}
                 />
             )}
-            mapLegend={<ThematicLegend sourceMetric={forecastMetric} />}
-            layerSelection={<LayersPanel sourceMetricLabel={forecastMetric.label} />}
+            mapLegend={(
+                <ThematicLegend
+                    sourceMetric={forecastMetric}
+                    rasters={rasters}
+                />
+            )}
+            layerSelection={(
+                <LayersPanel
+                    sourceMetricLabel={forecastMetric.label}
+                    rasters={rasters}
+                />
+            )}
         />
     );
 }

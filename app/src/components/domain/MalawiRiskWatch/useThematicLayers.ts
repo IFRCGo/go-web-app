@@ -30,6 +30,13 @@ export interface SourceMetric {
     allValues: number[];
 }
 
+// Cloud Optimized GeoTIFF the active source exposes; no url when the day has none
+export interface SourceRaster {
+    key: string;
+    label: string;
+    url: string | undefined;
+}
+
 const EMPTY_VALUES: Record<string, number> = {};
 const EMPTY_LIST: number[] = [];
 
@@ -101,7 +108,10 @@ function useLayerMetric(
     };
 }
 
-function useThematicLayers(sourceMetric: SourceMetric | undefined) {
+function useThematicLayers(
+    sourceMetric: SourceMetric | undefined,
+    rasters?: SourceRaster[],
+) {
     const {
         shadeEnabled,
         shadeLayer,
@@ -109,6 +119,10 @@ function useThematicLayers(sourceMetric: SourceMetric | undefined) {
         bubbleEnabled,
         bubbleLayer,
         bubbleColor,
+        rasterEnabled,
+        rasterLayer,
+        rasterColor,
+        rasterOpacity,
         showLocalUnits,
     } = useContext(MalawiLayersContext);
 
@@ -138,7 +152,16 @@ function useThematicLayers(sourceMetric: SourceMetric | undefined) {
         [bubbleMetric.binValues],
     );
 
+    const rasterOption = rasterEnabled
+        ? rasters?.find((raster) => raster.key === rasterLayer)
+        : undefined;
+
     return {
+        raster: {
+            option: rasterOption,
+            colors: LAYER_COLOR_RAMPS[rasterColor],
+            opacity: rasterOpacity,
+        },
         shade: {
             selection: shadeMetric.selection,
             label: shadeMetric.label,

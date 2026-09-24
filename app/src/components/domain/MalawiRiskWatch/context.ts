@@ -2,6 +2,8 @@ import { createContext } from 'react';
 
 import {
     DEFAULT_BUBBLE_COLOR,
+    DEFAULT_RASTER_COLOR,
+    DEFAULT_RASTER_OPACITY,
     DEFAULT_SHADE_COLOR,
     type LayerColor,
 } from './constants';
@@ -27,6 +29,15 @@ interface MalawiLayersContextProps {
     setBubbleLayer: (value: LayerSelection | undefined) => void;
     bubbleColor: LayerColor;
     setBubbleColor: (value: LayerColor) => void;
+    rasterEnabled: boolean;
+    setRasterEnabled: (value: boolean) => void;
+    // Key of the source raster to show
+    rasterLayer: string | undefined;
+    setRasterLayer: (value: string | undefined) => void;
+    rasterColor: LayerColor;
+    setRasterColor: (value: LayerColor) => void;
+    rasterOpacity: number;
+    setRasterOpacity: (value: number) => void;
     showLocalUnits: boolean;
     setShowLocalUnits: (value: boolean) => void;
 }
@@ -44,6 +55,14 @@ const MalawiLayersContext = createContext<MalawiLayersContextProps>({
     setBubbleLayer: () => {},
     bubbleColor: DEFAULT_BUBBLE_COLOR,
     setBubbleColor: () => {},
+    rasterEnabled: false,
+    setRasterEnabled: () => {},
+    rasterLayer: undefined,
+    setRasterLayer: () => {},
+    rasterColor: DEFAULT_RASTER_COLOR,
+    setRasterColor: () => {},
+    rasterOpacity: DEFAULT_RASTER_OPACITY,
+    setRasterOpacity: () => {},
     showLocalUnits: false,
     setShowLocalUnits: () => {},
 });

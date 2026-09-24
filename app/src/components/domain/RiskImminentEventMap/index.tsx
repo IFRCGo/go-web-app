@@ -116,8 +116,6 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     activeEventExposurePending: boolean;
     // Shows the exposed-area toggle in the storm layer options
     withExposureAreaControl?: boolean;
-    // Keeps the initial view when an event is selected
-    withoutActiveEventFit?: boolean;
     errored?: boolean;
     errorMessage?: React.ReactNode;
     emptyMessage?: React.ReactNode;
@@ -150,7 +148,6 @@ function RiskImminentEventMap<
         onActiveEventChange,
         activeEventExposurePending,
         withExposureAreaControl = false,
-        withoutActiveEventFit = false,
         errored,
         errorMessage,
         emptyMessage,
@@ -211,7 +208,7 @@ function RiskImminentEventMap<
 
     const bounds = useMemo(
         () => {
-            if (withoutActiveEventFit || isNotDefined(activeEvent) || activeEventExposurePending) {
+            if (isNotDefined(activeEvent) || activeEventExposurePending) {
                 return bbox;
             }
 
@@ -238,14 +235,7 @@ function RiskImminentEventMap<
 
             return getGeoJsonBounds(bufferedPoint);
         },
-        [
-            withoutActiveEventFit,
-            activeEvent,
-            activeEventFootprint,
-            pointFeatureSelector,
-            bbox,
-            activeEventExposurePending,
-        ],
+        [activeEvent, activeEventFootprint, pointFeatureSelector, bbox, activeEventExposurePending],
     );
 
     // Avoid abrupt zooming

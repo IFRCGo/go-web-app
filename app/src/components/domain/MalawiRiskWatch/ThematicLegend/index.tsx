@@ -6,7 +6,6 @@ import {
     Container,
     InfoPopup,
     Legend,
-    LegendItem,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -15,13 +14,21 @@ import {
     formatNumber,
     resolveToString,
 } from '@ifrc-go/ui/utils';
-import { isDefined } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
 import { COLOR_PRIMARY_RED } from '#utils/constants';
 
 import { BUBBLE_MAX_RADIUS } from '../constants';
 import { type HdxMetricFormat } from '../hdxMetrics';
-import useThematicLayers, { type SourceMetric } from '../useThematicLayers';
+import useCogInfo from '../useCogInfo';
+import useLocalUnits, { type LocalUnitType } from '../useLocalUnits';
+import useThematicLayers, {
+    type SourceMetric,
+    type SourceRaster,
+} from '../useThematicLayers';
 import { type ValueBin } from '../utils';
 
 import i18n from './i18n.json';
@@ -38,20 +45,45 @@ function binColorSelector(bin: ValueBin) {
 function ratioKeySelector(ratio: number) {
     return ratio;
 }
+function formatRasterValue(value: number) {
+    return formatNumber(value, { compact: true, maximumFractionDigits: 1 });
+}
+function typeKeySelector(type: LocalUnitType) {
+    return type.code;
+}
+function typeLabelSelector(type: LocalUnitType) {
+    return type.name;
+}
+function typeColorSelector(type: LocalUnitType) {
+    return type.color ?? COLOR_PRIMARY_RED;
+}
+function typeIconSelector(type: LocalUnitType) {
+    return type.iconUrl;
+}
 
 interface Props {
     sourceMetric: SourceMetric | undefined;
+    rasters?: SourceRaster[];
 }
 
 function ThematicLegend(props: Props) {
-    const { sourceMetric } = props;
+    const {
+        sourceMetric,
+        rasters,
+    } = props;
 
     const strings = useTranslation(i18n);
     const {
         shade,
         bubble,
+        raster,
         showLocalUnits,
-    } = useThematicLayers(sourceMetric);
+    } = useThematicLayers(sourceMetric, rasters);
+    const {
+        cog,
+        errored: cogErrored,
+    } = useCogInfo(raster.option?.url);
+    const { types: localUnitTypes } = useLocalUnits(!showLocalUnits);
 
     const formatValue = useCallback(
         (value: number, format: HdxMetricFormat, maximumFractionDigits: number) => {
@@ -113,10 +145,21 @@ function ThematicLegend(props: Props) {
     // Nothing to legend while a layer is empty or still loading
     const shadeVisible = shade.errored || shade.bins.length > 0;
     const bubbleVisible = bubble.errored || bubble.maxValue > 0;
+    const rasterVisible = isDefined(raster.option);
 
-    if (!shadeVisible && !bubbleVisible && !showLocalUnits) {
+    if (!shadeVisible && !bubbleVisible && !rasterVisible && !showLocalUnits) {
         return null;
     }
+
+    const renderRasterStatus = () => {
+        if (isNotDefined(raster.option?.url)) {
+            return strings.thematicLegendRasterUnavailable;
+        }
+        if (cogErrored) {
+            return strings.thematicLegendFailed;
+        }
+        return null;
+    };
 
     return (
         <Container
@@ -175,12 +218,42 @@ function ThematicLegend(props: Props) {
                         )}
                     </>
                 )}
-                {showLocalUnits && (
-                    <LegendItem
-                        className={styles.legendItem}
-                        color={COLOR_PRIMARY_RED}
-                        label={strings.thematicLegendLocalUnits}
-                    />
+                {rasterVisible && (
+                    <>
+                        {renderHeader({ label: raster.option?.label, loadedAt: undefined })}
+                        {renderRasterStatus()}
+                        {isDefined(cog) && (
+                            <div className={styles.gradient}>
+                                {formatRasterValue(cog.domain[0])}
+                                <span
+                                    className={styles.bar}
+                                    style={{
+                                        background: `linear-gradient(to right, ${raster.colors.join(', ')})`,
+                                        opacity: raster.opacity,
+                                    }}
+                                />
+                                {formatRasterValue(cog.domain[1])}
+                            </div>
+                        )}
+                    </>
+                )}
+                {showLocalUnits && localUnitTypes.length > 0 && (
+                    <>
+                        {renderHeader({
+                            label: strings.thematicLegendLocalUnits,
+                            loadedAt: undefined,
+                        })}
+                        <Legend
+                            items={localUnitTypes}
+                            itemListContainerClassName={styles.legendItems}
+                            itemClassName={styles.legendItem}
+                            iconElementClassName={styles.legendIcon}
+                            keySelector={typeKeySelector}
+                            colorSelector={typeColorSelector}
+                            labelSelector={typeLabelSelector}
+                            iconSrcSelector={typeIconSelector}
+                        />
+                    </>
                 )}
             </ListView>
         </Container>

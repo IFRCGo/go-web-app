@@ -38,15 +38,16 @@ export interface JbaDistrictEvent {
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
-function toForecastRow(row: ImpactRow): JbaForecastRow {
-    const issueDate = new Date(row.forecastIssueDate);
-    const targetDate = new Date(row.forecastTargetDate);
+export function getLeadTimeDays(issueDate: string, targetDate: string) {
+    return Math.round((new Date(targetDate).getTime() - new Date(issueDate).getTime()) / DAY_IN_MS);
+}
 
+function toForecastRow(row: ImpactRow): JbaForecastRow {
     return {
         id: row.id,
         forecastIssueDate: row.forecastIssueDate,
         forecastTargetDate: row.forecastTargetDate,
-        leadTimeDays: Math.round((targetDate.getTime() - issueDate.getTime()) / DAY_IN_MS),
+        leadTimeDays: getLeadTimeDays(row.forecastIssueDate, row.forecastTargetDate),
         mean: parseNumber(row.band5Mean),
         median: parseNumber(row.band5Median),
         p75: parseNumber(row.band5P75),

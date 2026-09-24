@@ -5,6 +5,7 @@
         "thematicLegendUpTo": "≤ {value}",
         "thematicLegendPercent": "{value}%",
         "thematicLegendFailed": "Could not load this layer",
+        "thematicLegendRasterUnavailable": "Not available for this day",
         "thematicLegendLocalUnits": "Local units"
     }
 }

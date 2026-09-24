@@ -6,6 +6,7 @@
         "jbaNoImpactMessage": "No flood impact forecasted for this day",
         "jbaLoadFailedMessage": "Failed to load the flood forecast",
         "jbaRunInfoTitle": "Forecast run",
-        "jbaForecastMetricLabel": "Forecast: population impacted"
+        "jbaForecastMetricLabel": "Forecast: population impacted",
+        "jbaRasterLabel": "Forecast: flood extent (ensemble agreement)"
     }
 }

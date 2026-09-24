@@ -29,10 +29,13 @@ import {
 
 import {
     DEFAULT_BUBBLE_COLOR,
+    DEFAULT_RASTER_COLOR,
+    DEFAULT_RASTER_OPACITY,
     DEFAULT_SHADE_COLOR,
     FORECAST_METRIC_KEY,
     LAYER_COLOR_RAMPS,
     type LayerColor,
+    RASTER_OPACITY_OPTIONS,
 } from '../constants';
 import MalawiLayersContext, { type LayerSelection } from '../context';
 import {
@@ -41,7 +44,8 @@ import {
     type HdxMetricFormat,
 } from '../hdxMetrics';
 import useHdxDatasets from '../useHdxDatasets';
-import ColorRadio from './ColorRadio';
+import { type SourceRaster } from '../useThematicLayers';
+import ChipRadio from './ChipRadio';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -73,13 +77,41 @@ function colorLabelSelector(option: ColorOption) {
 function colorRendererParams(option: ColorOption) {
     return { title: option.title };
 }
+function rasterKeySelector(raster: SourceRaster) {
+    return raster.key;
+}
+function rasterLabelSelector(raster: SourceRaster) {
+    return raster.label;
+}
+function opacityKeySelector(option: OpacityOption) {
+    return option.key;
+}
+function opacityLabelSelector(option: OpacityOption) {
+    return option.label;
+}
+function emptyRendererParams() {
+    return {};
+}
+
+interface OpacityOption {
+    key: number;
+    label: string;
+}
+
+// RadioInput cannot infer its renderer props from a generic component
+const ColorChipRadio = ChipRadio<LayerColor>;
+const OpacityChipRadio = ChipRadio<number>;
 
 interface Props {
     sourceMetricLabel: string;
+    rasters?: SourceRaster[];
 }
 
 function LayersPanel(props: Props) {
-    const { sourceMetricLabel } = props;
+    const {
+        sourceMetricLabel,
+        rasters,
+    } = props;
 
     const strings = useTranslation(i18n);
     const [panelShown, {
@@ -99,6 +131,14 @@ function LayersPanel(props: Props) {
         setBubbleLayer,
         bubbleColor,
         setBubbleColor,
+        rasterEnabled,
+        setRasterEnabled,
+        rasterLayer,
+        setRasterLayer,
+        rasterColor,
+        setRasterColor,
+        rasterOpacity,
+        setRasterOpacity,
         showLocalUnits,
         setShowLocalUnits,
     } = useContext(MalawiLayersContext);
@@ -242,6 +282,26 @@ function LayersPanel(props: Props) {
         (key: string | undefined) => setBubbleLayer(toSelection(key)),
         [toSelection, setBubbleLayer],
     );
+    const opacityOptions = useMemo<OpacityOption[]>(
+        () => RASTER_OPACITY_OPTIONS.map((opacity) => ({
+            key: opacity,
+            label: resolveToString(
+                strings.layersPanelOpacityValue,
+                { value: Math.round(opacity * 100) },
+            ),
+        })),
+        [strings.layersPanelOpacityValue],
+    );
+    // Turning the section on should show something, so pick the first raster
+    const handleRasterEnabledChange = useCallback(
+        (value: boolean) => {
+            setRasterEnabled(value);
+            if (value && isNotDefined(rasterLayer)) {
+                setRasterLayer(rasters?.[0]?.key);
+            }
+        },
+        [rasters, rasterLayer, setRasterEnabled, setRasterLayer],
+    );
     const handleReset = useCallback(
         () => {
             setShadeEnabled(true);
@@ -250,6 +310,10 @@ function LayersPanel(props: Props) {
             setBubbleEnabled(false);
             setBubbleLayer(undefined);
             setBubbleColor(DEFAULT_BUBBLE_COLOR);
+            setRasterEnabled(false);
+            setRasterLayer(undefined);
+            setRasterColor(DEFAULT_RASTER_COLOR);
+            setRasterOpacity(DEFAULT_RASTER_OPACITY);
             setShowLocalUnits(false);
         },
         [
@@ -260,6 +324,10 @@ function LayersPanel(props: Props) {
             setBubbleEnabled,
             setBubbleLayer,
             setBubbleColor,
+            setRasterEnabled,
+            setRasterLayer,
+            setRasterColor,
+            setRasterOpacity,
             setShowLocalUnits,
         ],
     );
@@ -342,7 +410,7 @@ function LayersPanel(props: Props) {
                                     options={shadeColorOptions}
                                     keySelector={colorKeySelector}
                                     labelSelector={colorLabelSelector}
-                                    renderer={ColorRadio}
+                                    renderer={ColorChipRadio}
                                     rendererParams={colorRendererParams}
                                     value={shadeColor}
                                     onChange={setShadeColor}
@@ -380,7 +448,7 @@ function LayersPanel(props: Props) {
                                     options={bubbleColorOptions}
                                     keySelector={colorKeySelector}
                                     labelSelector={colorLabelSelector}
-                                    renderer={ColorRadio}
+                                    renderer={ColorChipRadio}
                                     rendererParams={colorRendererParams}
                                     value={bubbleColor}
                                     onChange={setBubbleColor}
@@ -389,6 +457,68 @@ function LayersPanel(props: Props) {
                                 />
                             </ListView>
                         </ListView>
+                        {isDefined(rasters) && rasters.length > 0 && (
+                            <ListView
+                                layout="block"
+                                spacing="xs"
+                            >
+                                <Switch
+                                    name="rasterEnabled"
+                                    label={strings.layersPanelRasterSection}
+                                    description={rasters.length === 1
+                                        ? rasters[0]?.label
+                                        : undefined}
+                                    value={rasterEnabled}
+                                    onChange={handleRasterEnabledChange}
+                                />
+                                {rasters.length > 1 && (
+                                    <SelectInput
+                                        name="raster"
+                                        placeholder={strings.layersPanelSelectRaster}
+                                        options={rasters}
+                                        keySelector={rasterKeySelector}
+                                        labelSelector={rasterLabelSelector}
+                                        value={rasterLayer}
+                                        onChange={setRasterLayer}
+                                        disabled={!rasterEnabled}
+                                    />
+                                )}
+                                <ListView spacing="sm">
+                                    <InputLabel disabled={!rasterEnabled}>
+                                        {strings.layersPanelColorLabel}
+                                    </InputLabel>
+                                    <RadioInput
+                                        name="rasterColor"
+                                        options={shadeColorOptions}
+                                        keySelector={colorKeySelector}
+                                        labelSelector={colorLabelSelector}
+                                        renderer={ColorChipRadio}
+                                        rendererParams={colorRendererParams}
+                                        value={rasterColor}
+                                        onChange={setRasterColor}
+                                        disabled={!rasterEnabled}
+                                        spacing="xs"
+                                    />
+                                </ListView>
+                                <ListView spacing="sm">
+                                    <InputLabel disabled={!rasterEnabled}>
+                                        {strings.layersPanelOpacityLabel}
+                                    </InputLabel>
+                                    <RadioInput
+                                        name="rasterOpacity"
+                                        options={opacityOptions}
+                                        keySelector={opacityKeySelector}
+                                        labelSelector={opacityLabelSelector}
+                                        renderer={OpacityChipRadio}
+                                        rendererParams={emptyRendererParams}
+                                        value={rasterOpacity}
+                                        onChange={setRasterOpacity}
+                                        disabled={!rasterEnabled}
+                                        spacing="xs"
+                                    />
+                                </ListView>
+                            </ListView>
+                        )}
                         <Switch
                             name="localUnits"
                             label={strings.layersPanelLocalUnits}

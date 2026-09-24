@@ -5,6 +5,8 @@ import {
 
 import {
     DEFAULT_BUBBLE_COLOR,
+    DEFAULT_RASTER_COLOR,
+    DEFAULT_RASTER_OPACITY,
     DEFAULT_SHADE_COLOR,
     FORECAST_METRIC_KEY,
     type LayerColor,
@@ -26,6 +28,10 @@ function LayersProvider(props: Props) {
     const [bubbleEnabled, setBubbleEnabled] = useState(false);
     const [bubbleLayer, setBubbleLayer] = useState<LayerSelection | undefined>();
     const [bubbleColor, setBubbleColor] = useState<LayerColor>(DEFAULT_BUBBLE_COLOR);
+    const [rasterEnabled, setRasterEnabled] = useState(false);
+    const [rasterLayer, setRasterLayer] = useState<string | undefined>();
+    const [rasterColor, setRasterColor] = useState<LayerColor>(DEFAULT_RASTER_COLOR);
+    const [rasterOpacity, setRasterOpacity] = useState(DEFAULT_RASTER_OPACITY);
     const [showLocalUnits, setShowLocalUnits] = useState(false);
 
     const contextValue = useMemo(
@@ -42,6 +48,14 @@ function LayersProvider(props: Props) {
             setBubbleLayer,
             bubbleColor,
             setBubbleColor,
+            rasterEnabled,
+            setRasterEnabled,
+            rasterLayer,
+            setRasterLayer,
+            rasterColor,
+            setRasterColor,
+            rasterOpacity,
+            setRasterOpacity,
             showLocalUnits,
             setShowLocalUnits,
         }),
@@ -52,6 +66,10 @@ function LayersProvider(props: Props) {
             bubbleEnabled,
             bubbleLayer,
             bubbleColor,
+            rasterEnabled,
+            rasterLayer,
+            rasterColor,
+            rasterOpacity,
             showLocalUnits,
         ],
     );
