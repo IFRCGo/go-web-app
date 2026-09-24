@@ -3,20 +3,18 @@ import {
     RawButton,
 } from '@ifrc-go/ui';
 
-import { type LayerColor } from '../constants';
-
-interface Props {
-    name: LayerColor;
-    onClick: (name: LayerColor) => void;
+interface Props<NAME extends string | number> {
+    name: NAME;
+    onClick: (name: NAME) => void;
     value: boolean;
-    title: string;
+    title?: string;
     children?: React.ReactNode;
     disabled?: boolean;
     readOnly?: boolean;
 }
 
-// Swatch-only radio: the colour itself is the label
-function ColorRadio(props: Props) {
+// Radio without the radio icon: the outline marks the selected chip
+function ChipRadio<NAME extends string | number>(props: Props<NAME>) {
     const {
         name,
         onClick,
@@ -48,4 +46,4 @@ function ColorRadio(props: Props) {
     );
 }
 
-export default ColorRadio;
+export default ChipRadio;

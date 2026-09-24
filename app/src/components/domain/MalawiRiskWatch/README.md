@@ -13,12 +13,20 @@ Both render through the shared `RiskImminentEventMap`, so they behave like the G
 | --- | --- |
 | `Jba/` | Run picker, forecast day bars, district list and details, trajectory chart, baseline exposure |
 | `Arc/` | Observation date picker, national trigger status, district list and details |
-| `LayersPanel/`, `ThematicLayers/`, `ThematicLegend/` | Shade and bubble layers over the source metric or an HDX metric, plus local units |
-| `DistrictChoroplethLayer/`, `BubbleLayer/`, `LocalUnitsLayer/` | Map layers |
+| `LayersPanel/`, `ThematicLayers/`, `ThematicLegend/` | Shade and bubble layers over the source metric or an HDX metric, raster overlays, plus local units |
+| `DistrictChoroplethLayer/`, `BubbleLayer/` | Map layers |
+| `LocalUnitsLayer/`, `useLocalUnits.ts` | GO local units by type, with GO's type icons and a details popup |
+| `CogRasterLayer/`, `cog.ts`, `useCogInfo.ts` | Cloud Optimized GeoTIFF overlay read by viewport window |
 | `CreateReportLink/`, `RunSelectInput/` | Pieces shared by both sources |
 | `hdxMetrics.ts` | Which HDX admin-2 CSV columns are offered as layers |
 
 Each source exposes its impact figure as a `SourceMetric` so the layer controls work the same for both.
+
+## Rasters
+
+A source can also expose Cloud Optimized GeoTIFFs as `SourceRaster` entries; the Layers panel lists them under "Raster overlay" with a colour ramp and opacity. JBA exposes the forecast file of the selected lead day (`floodForecastFiles` per issue date).
+
+`CogRasterLayer` never downloads a whole file. `cog.ts` reads the header and the smallest overview once (cached per url, also used by the legend for the value range), then on every map move reads only the viewport window from the overview whose resolution matches the zoom, colours it on a canvas and swaps it into a mapbox `image` source. Files must be in EPSG:3857 (what the backend's `gdal_translate -co TILING_SCHEME=GoogleMapsCompatible` produces) or EPSG:4326, and nodata comes from the file. The storage must allow CORS and byte-range requests.
 
 ## Data notes
 

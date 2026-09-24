@@ -14,6 +14,12 @@ export const LAYER_COLOR_RAMPS: Record<LayerColor, [string, string, string, stri
 };
 export const DEFAULT_SHADE_COLOR: LayerColor = 'blue';
 export const DEFAULT_BUBBLE_COLOR: LayerColor = 'grey';
+// Contrasts with the default shade so the raster reads on top of it
+export const DEFAULT_RASTER_COLOR: LayerColor = 'red';
+export const RASTER_OPACITY_OPTIONS = [0.25, 0.5, 0.75, 1];
+export const DEFAULT_RASTER_OPACITY = 0.75;
+// Upper bound on pixels read per viewport; a coarser overview is used beyond it
+export const RASTER_MAX_WINDOW_PIXELS = 1536 * 1536;
 
 export const HDX_ADM2_JOIN_COLUMN = 'ADM2_PCODE';
 // The active source's own metric, selectable next to the HDX metrics
