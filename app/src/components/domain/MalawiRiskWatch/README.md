@@ -31,7 +31,7 @@ Each source exposes its impact figure as a `SourceMetric` so the layer controls 
 
 ## Configuration
 
-`APP_MALAWI_RISK_WATCH_GRAPHQL_ENDPOINT` switches the sources on. It is the full GraphQL URL, ending with a trailing slash for the Django backend. An empty value counts as unset, because web-app-serve blanks unset variables. In development it points at the Vite proxy, `/malawi-graphql`, because the backend has no CORS headers; the dev-only `MALAWI_RISK_WATCH_BACKEND_DOMAIN` sets the proxy target as a bare host. Production needs CORS on the backend or the same proxy in front of it.
+`APP_MALAWI_RISK_WATCH_DOMAIN` switches the sources on. It is the backend's bare host; the code appends `/graphql/` for the API and `/admin/` for the review links. An empty value counts as unset, because web-app-serve blanks unset variables. The backend has no CORS headers, so the Vite dev server proxies the GraphQL API under `/malawi-backend` while links keep using the domain. Production needs CORS on the backend or a proxy in front of it.
 
 GraphQL types come from `schema.graphql` in the `malawi-risk-watch-backend` submodule via `pnpm generate:type:malawi-graphql`.
 

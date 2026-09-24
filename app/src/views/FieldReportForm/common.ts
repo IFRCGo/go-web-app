@@ -306,6 +306,9 @@ export const reportSchema: FormSchema = {
             dtype: { required: true },
             title: { required: true, requiredValidation: requiredStringCondition },
             start_date: { required: true },
+            // Set when the report is prefilled from an external system
+            external_source: {},
+            external_source_id: {},
             request_assistance: {},
             ns_request_assistance: {},
 

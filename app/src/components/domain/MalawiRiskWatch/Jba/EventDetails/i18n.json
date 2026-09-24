@@ -3,10 +3,13 @@
     "strings": {
         "jbaEventDetailsTargetDate": "Target date",
         "jbaEventDetailsPopulationImpacted": "Population impacted",
-        "jbaEventDetailsPopulationImpactedInfo": "Median of the forecast ensemble: half of the ensemble members project a higher impact than this value.",
         "jbaEventDetailsTrajectoryHeading": "Forecast trajectory",
         "jbaEventDetailsTrajectoryInfo": "Population impacted at each lead time of this forecast run. The highlighted point is the selected lead time.",
         "jbaEventDetailsReportTitle": "Flood forecast - {district}",
-        "jbaEventDetailsReportDescription": "Flood Foresight (JBA) forecast issued on {issueDate} projects {impact} people impacted in {district} at a lead time of {leadTime} days (target date {targetDate})."
+        "jbaEventDetailsReportDescription": "Flood Foresight (JBA) forecast issued on {issueDate} projects {impact} people impacted in {district} at a lead time of {leadTime} days (target date {targetDate}).",
+        "jbaActivationForecastIssued": "Forecast issued",
+        "jbaActivationThresholdExceeded": "Impact threshold exceeded",
+        "jbaActivationReportCreated": "Early warning report created",
+        "jbaEventDetailsCreateReport": "Create early warning report"
     }
 }

@@ -18,6 +18,8 @@ export interface ArcObservation {
     id: string;
     observationDate: string;
     pcode: string;
+    // Backend id, the key the trigger event's affected areas use
+    adminAreaId: number;
     name: string;
     impact: number | undefined;
     eventRp: number | undefined;
@@ -30,6 +32,13 @@ export interface ArcDistrictEvent {
     name: string;
     adminArea: AdminArea | undefined;
     observation: ArcObservation;
+    // Status of the national trigger event, only when it covers this district
+    triggerEventStatus: string | undefined;
+}
+
+interface ArcTriggerEvent {
+    status: string;
+    affectedAdminAreas: number[] | null | undefined;
 }
 
 export function toObservations(rows: ObservationRow[] | undefined): ArcObservation[] {
@@ -37,6 +46,7 @@ export function toObservations(rows: ObservationRow[] | undefined): ArcObservati
         id: row.id,
         observationDate: row.observationDate,
         pcode: row.adminArea.pcode,
+        adminAreaId: Number(row.adminArea.id),
         name: row.adminArea.name,
         impact: parseNumber(row.impact),
         eventRp: row.eventRp ?? undefined,
@@ -54,6 +64,7 @@ export function getDistrictEvents(
     observations: ArcObservation[],
     date: string | undefined,
     adminAreaByCode: Record<string, AdminArea | undefined>,
+    triggerEvent: ArcTriggerEvent | undefined,
 ): ArcDistrictEvent[] {
     return observations
         .filter((observation) => (
@@ -66,6 +77,9 @@ export function getDistrictEvents(
             name: observation.name,
             adminArea: adminAreaByCode[observation.pcode],
             observation,
+            triggerEventStatus: triggerEvent?.affectedAdminAreas?.includes(observation.adminAreaId)
+                ? triggerEvent.status
+                : undefined,
         }));
 }
 

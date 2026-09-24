@@ -38,7 +38,7 @@ const MalawiLayersContext = createContext<MalawiLayersContextProps>({
     setShadeLayer: () => {},
     shadeColor: DEFAULT_SHADE_COLOR,
     setShadeColor: () => {},
-    bubbleEnabled: true,
+    bubbleEnabled: false,
     setBubbleEnabled: () => {},
     bubbleLayer: undefined,
     setBubbleLayer: () => {},

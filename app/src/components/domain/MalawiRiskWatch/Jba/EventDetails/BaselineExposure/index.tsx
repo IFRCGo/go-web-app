@@ -41,6 +41,8 @@ function BaselineExposure(props: Props) {
         <Container
             heading={strings.jbaBaselineExposureHeading}
             headingLevel={5}
+            withBackground
+            withPadding
             headerActions={(
                 <InfoPopup
                     title={strings.jbaBaselineExposureHeading}

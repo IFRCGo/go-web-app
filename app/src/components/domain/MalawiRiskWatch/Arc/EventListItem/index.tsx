@@ -7,6 +7,8 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import ImminentEventListItem from '#components/domain/ImminentEventListItem';
 import { type RiskEventListItemProps } from '#components/domain/RiskImminentEventMap';
 
+import Tag from '../../Tag';
+import { roundImpact } from '../../utils';
 import { type ArcDistrictEvent } from '../utils';
 
 import i18n from './i18n.json';
@@ -30,28 +32,26 @@ function EventListItem(props: Props) {
             eventId={data.id}
             expanded={expanded}
             onExpandClick={onExpandClick}
-            heading={data.name}
-            description={!expanded && (
-                <ListView
-                    spacing="sm"
-                    withWrap
-                >
-                    <TextOutput
-                        label={strings.arcEventListPopulationImpacted}
-                        value={data.observation.impact}
-                        valueType="number"
-                        compact
-                        maximumFractionDigits={1}
-                        textSize="sm"
-                    />
-                    <TextOutput
-                        label={strings.arcEventListTrigger}
-                        value={data.observation.cellTrigger
-                            ? strings.arcEventListTriggered
-                            : strings.arcEventListNotTriggered}
-                        textSize="sm"
-                    />
+            heading={(
+                <ListView spacing="xs">
+                    {data.name}
+                    {data.observation.cellTrigger && (
+                        <Tag
+                            label={strings.arcEventListTriggered}
+                            colorVariant="primary"
+                        />
+                    )}
                 </ListView>
+            )}
+            description={!expanded && (
+                <TextOutput
+                    label={strings.arcEventListPopulationImpacted}
+                    value={roundImpact(data.observation.impact)}
+                    valueType="number"
+                    compact
+                    maximumFractionDigits={1}
+                    textSize="sm"
+                />
             )}
         >
             {children}

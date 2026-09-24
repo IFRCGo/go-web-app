@@ -23,7 +23,7 @@ function LayersProvider(props: Props) {
         { key: FORECAST_METRIC_KEY, format: 'number' },
     );
     const [shadeColor, setShadeColor] = useState<LayerColor>(DEFAULT_SHADE_COLOR);
-    const [bubbleEnabled, setBubbleEnabled] = useState(true);
+    const [bubbleEnabled, setBubbleEnabled] = useState(false);
     const [bubbleLayer, setBubbleLayer] = useState<LayerSelection | undefined>();
     const [bubbleColor, setBubbleColor] = useState<LayerColor>(DEFAULT_BUBBLE_COLOR);
     const [showLocalUnits, setShowLocalUnits] = useState(false);

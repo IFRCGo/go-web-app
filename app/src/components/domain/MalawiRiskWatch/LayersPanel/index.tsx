@@ -11,6 +11,7 @@ import {
     Button,
     ColorPreview,
     Container,
+    InputLabel,
     ListView,
     RadioInput,
     SelectInput,
@@ -81,7 +82,10 @@ function LayersPanel(props: Props) {
     const { sourceMetricLabel } = props;
 
     const strings = useTranslation(i18n);
-    const [panelShown, { toggle: togglePanel }] = useBooleanState(false);
+    const [panelShown, {
+        toggle: togglePanel,
+        setFalse: hidePanel,
+    }] = useBooleanState(false);
     const {
         shadeEnabled,
         setShadeEnabled,
@@ -243,7 +247,7 @@ function LayersPanel(props: Props) {
             setShadeEnabled(true);
             setShadeLayer(toSelection(FORECAST_METRIC_KEY));
             setShadeColor(DEFAULT_SHADE_COLOR);
-            setBubbleEnabled(true);
+            setBubbleEnabled(false);
             setBubbleLayer(undefined);
             setBubbleColor(DEFAULT_BUBBLE_COLOR);
             setShowLocalUnits(false);
@@ -279,55 +283,62 @@ function LayersPanel(props: Props) {
                     className={styles.layersPanel}
                     heading={strings.layersPanelHeading}
                     headingLevel={5}
-                    headerActions={(
-                        <Button
-                            name={undefined}
-                            styleVariant="transparent"
-                            onClick={handleReset}
-                        >
-                            {strings.layersPanelReset}
-                        </Button>
+                    footerActions={(
+                        <>
+                            <Button
+                                name={undefined}
+                                styleVariant="transparent"
+                                onClick={handleReset}
+                            >
+                                {strings.layersPanelReset}
+                            </Button>
+                            <Button
+                                name={undefined}
+                                styleVariant="filled"
+                                onClick={hidePanel}
+                            >
+                                {strings.layersPanelDone}
+                            </Button>
+                        </>
                     )}
                     spacing="sm"
                     withBackground
                     withPadding
                     withShadow
                     withHeaderBorder
+                    withFooterBorder
+                    withoutWrapInFooter
                 >
                     <ListView
                         layout="block"
                         spacing="md"
                     >
-                        <Container
-                            heading={strings.layersPanelShadeSection}
-                            headingLevel={6}
-                            headerIcons={(
-                                <Switch
-                                    name="shadeEnabled"
-                                    value={shadeEnabled}
-                                    onChange={setShadeEnabled}
-                                />
-                            )}
-                            spacing="sm"
+                        <ListView
+                            layout="block"
+                            spacing="xs"
                         >
-                            <ListView
-                                layout="block"
-                                spacing="sm"
-                            >
-                                <SelectInput
-                                    name="shade"
-                                    label={strings.layersPanelMetricLabel}
-                                    placeholder={strings.layersPanelNone}
-                                    options={options}
-                                    keySelector={optionKeySelector}
-                                    labelSelector={optionLabelSelector}
-                                    value={shadeLayer?.key}
-                                    onChange={handleShadeChange}
-                                    disabled={!shadeEnabled}
-                                />
+                            <Switch
+                                name="shadeEnabled"
+                                label={strings.layersPanelShadeSection}
+                                value={shadeEnabled}
+                                onChange={setShadeEnabled}
+                            />
+                            <SelectInput
+                                name="shade"
+                                placeholder={strings.layersPanelSelectMetric}
+                                options={options}
+                                keySelector={optionKeySelector}
+                                labelSelector={optionLabelSelector}
+                                value={shadeLayer?.key}
+                                onChange={handleShadeChange}
+                                disabled={!shadeEnabled}
+                            />
+                            <ListView spacing="sm">
+                                <InputLabel disabled={!shadeEnabled}>
+                                    {strings.layersPanelColorLabel}
+                                </InputLabel>
                                 <RadioInput
                                     name="shadeColor"
-                                    label={strings.layersPanelColorScaleLabel}
                                     options={shadeColorOptions}
                                     keySelector={colorKeySelector}
                                     labelSelector={colorLabelSelector}
@@ -336,39 +347,36 @@ function LayersPanel(props: Props) {
                                     value={shadeColor}
                                     onChange={setShadeColor}
                                     disabled={!shadeEnabled}
+                                    spacing="xs"
                                 />
                             </ListView>
-                        </Container>
-                        <Container
-                            heading={strings.layersPanelBubbleSection}
-                            headingLevel={6}
-                            headerIcons={(
-                                <Switch
-                                    name="bubbleEnabled"
-                                    value={bubbleEnabled}
-                                    onChange={setBubbleEnabled}
-                                />
-                            )}
-                            spacing="sm"
+                        </ListView>
+                        <ListView
+                            layout="block"
+                            spacing="xs"
                         >
-                            <ListView
-                                layout="block"
-                                spacing="sm"
-                            >
-                                <SelectInput
-                                    name="bubble"
-                                    label={strings.layersPanelSizeByLabel}
-                                    placeholder={strings.layersPanelNone}
-                                    options={bubbleOptions}
-                                    keySelector={optionKeySelector}
-                                    labelSelector={optionLabelSelector}
-                                    value={bubbleLayer?.key}
-                                    onChange={handleBubbleChange}
-                                    disabled={!bubbleEnabled}
-                                />
+                            <Switch
+                                name="bubbleEnabled"
+                                label={strings.layersPanelBubbleSection}
+                                value={bubbleEnabled}
+                                onChange={setBubbleEnabled}
+                            />
+                            <SelectInput
+                                name="bubble"
+                                placeholder={strings.layersPanelSelectMetric}
+                                options={bubbleOptions}
+                                keySelector={optionKeySelector}
+                                labelSelector={optionLabelSelector}
+                                value={bubbleLayer?.key}
+                                onChange={handleBubbleChange}
+                                disabled={!bubbleEnabled}
+                            />
+                            <ListView spacing="sm">
+                                <InputLabel disabled={!bubbleEnabled}>
+                                    {strings.layersPanelColorLabel}
+                                </InputLabel>
                                 <RadioInput
                                     name="bubbleColor"
-                                    label={strings.layersPanelBubbleColorLabel}
                                     options={bubbleColorOptions}
                                     keySelector={colorKeySelector}
                                     labelSelector={colorLabelSelector}
@@ -377,9 +385,10 @@ function LayersPanel(props: Props) {
                                     value={bubbleColor}
                                     onChange={setBubbleColor}
                                     disabled={!bubbleEnabled}
+                                    spacing="xs"
                                 />
                             </ListView>
-                        </Container>
+                        </ListView>
                         <Switch
                             name="localUnits"
                             label={strings.layersPanelLocalUnits}

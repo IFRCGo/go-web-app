@@ -4,6 +4,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import ImminentEventListItem from '#components/domain/ImminentEventListItem';
 import { type RiskEventListItemProps } from '#components/domain/RiskImminentEventMap';
 
+import { roundImpact } from '../../utils';
 import {
     impactSelector,
     type JbaDistrictEvent,
@@ -34,7 +35,7 @@ function EventListItem(props: Props) {
             description={!expanded && (
                 <TextOutput
                     label={strings.jbaEventListPopulationImpacted}
-                    value={impactSelector(data.activeRow)}
+                    value={roundImpact(impactSelector(data.activeRow))}
                     valueType="number"
                     compact
                     maximumFractionDigits={1}
