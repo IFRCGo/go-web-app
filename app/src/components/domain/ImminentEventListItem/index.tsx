@@ -75,7 +75,6 @@ function ImminentEventListItem(props: Props) {
             withDarkBackground
             withPadding
             withoutSpacingOpticalCorrection
-            withContentWell
         >
             {children}
         </Container>

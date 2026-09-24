@@ -23,6 +23,8 @@ import {
     sdtUrl,
 } from '#config';
 import useAuth from '#hooks/domain/useAuth';
+import { FIELD_REPORT_STATUS_EARLY_WARNING } from '#utils/constants';
+import { getNewFieldReportRouteState } from '#views/FieldReportForm/common';
 
 import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
 import CountryDropdown from './CountryDropdown';
@@ -32,6 +34,10 @@ import NavDropdownTabDetails from './NavDropdownTabDetails';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+const earlyWarningFieldReportRouteState = getNewFieldReportRouteState({
+    status: FIELD_REPORT_STATUS_EARLY_WARNING,
+});
 
 interface MenuItemWithDescriptionProps {
     description: React.ReactNode;
@@ -313,7 +319,7 @@ function Navbar(props: Props) {
                                             to="fieldReportFormNew"
                                             colorVariant="primary"
                                             styleVariant="action"
-                                            state={{ earlyWarning: true }}
+                                            state={earlyWarningFieldReportRouteState}
                                             withoutFullWidth
                                         >
                                             {strings.userMenuCreateEarlyActionFieldReport}

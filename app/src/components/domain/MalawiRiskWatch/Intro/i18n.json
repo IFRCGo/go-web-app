@@ -1,0 +1,17 @@
+{
+    "namespace": "malawiRiskWatch",
+    "strings": {
+        "malawiIntroHeading": "Malawi Risk Watch",
+        "malawiIntroTagline": "From hazard signals to Red Cross action",
+        "malawiIntroDescription": "Malawi Risk Watch combines forecast models, confirmed event information, contextual risk layers, and operational reporting to support anticipatory action, response coordination, and learning across MRCS and IFRC workflows.",
+        "malawiIntroHowItWorks": "How it works",
+        "malawiIntroMonitorTitle": "Monitor hazard signals",
+        "malawiIntroMonitorDescription": "Track forecasted and confirmed hazards from model outputs and partner sources. Forecasts support early readiness; confirmed events support response decisions.",
+        "malawiIntroInterpretTitle": "Interpret risk in context",
+        "malawiIntroInterpretDescription": "Overlay hazard signals with exposure, vulnerability, critical services and Red Cross presence to see where impacts may be highest.",
+        "malawiIntroDecideTitle": "Support operational decisions",
+        "malawiIntroDecideDescription": "Generate early warning and response reports that feed directly into Red Cross operations and partner coordination.",
+        "malawiIntroLearnTitle": "Record, compare, and learn",
+        "malawiIntroLearnDescription": "Link events, activations and reports over time to compare forecast with observed impacts and improve thresholds and models."
+    }
+}

@@ -1,0 +1,9 @@
+.layers-panel {
+    width: 26rem;
+}
+
+/* Swatches touch so a ramp reads as one bar */
+.color-option {
+    display: flex;
+    align-items: center;
+}

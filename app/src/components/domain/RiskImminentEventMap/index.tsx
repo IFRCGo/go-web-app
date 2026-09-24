@@ -100,13 +100,7 @@ export interface RiskEventDetailProps<EVENT, EXPOSURE> {
 
 type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> | undefined;
 
-// FIXME: read this from common type
-type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
-
 interface Props<EVENT, EXPOSURE, KEY extends string | number> {
-    // FIXME: use props for configuration rather than
-    // passing source here
-    source: ImminentEventSource;
     events: EVENT[] | undefined;
     keySelector: (event: EVENT) => KEY;
     hazardTypeSelector: (event: EVENT) => CommonHazardType | '' | undefined;
@@ -120,6 +114,18 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     bbox: LngLatBoundsLike | undefined;
     onActiveEventChange: (eventId: KEY | undefined) => void;
     activeEventExposurePending: boolean;
+    // Shows the exposed-area toggle in the storm layer options
+    withExposureAreaControl?: boolean;
+    errored?: boolean;
+    errorMessage?: React.ReactNode;
+    emptyMessage?: React.ReactNode;
+    headerActions?: React.ReactNode;
+    headerDescription?: React.ReactNode;
+    // Slots for source-specific map content
+    baseLayers?: React.ReactNode;
+    mapChildren?: React.ReactNode;
+    mapLegend?: React.ReactNode;
+    layerSelection?: React.ReactNode;
 }
 
 function RiskImminentEventMap<
@@ -141,7 +147,16 @@ function RiskImminentEventMap<
         bbox,
         onActiveEventChange,
         activeEventExposurePending,
-        source,
+        withExposureAreaControl = false,
+        errored,
+        errorMessage,
+        emptyMessage,
+        headerActions,
+        headerDescription,
+        baseLayers,
+        mapChildren,
+        mapLegend,
+        layerSelection,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -165,6 +180,8 @@ function RiskImminentEventMap<
         },
         [activeEventId, keySelector, events],
     );
+    // Events can change under a selection; a stale id must not hide the others
+    const currentActiveEventId = isDefined(activeEvent) ? activeEventId : undefined;
 
     const eventVisibilityAttributes = useMemo(
         () => events?.map((event) => {
@@ -172,21 +189,21 @@ function RiskImminentEventMap<
 
             return {
                 id: key,
-                value: isNotDefined(activeEventId) || activeEventId === key,
+                value: isNotDefined(currentActiveEventId) || currentActiveEventId === key,
             };
         }),
-        [events, activeEventId, keySelector],
+        [events, currentActiveEventId, keySelector],
     );
 
     const activeEventFootprint = useMemo(
         () => {
-            if (isNotDefined(activeEventId) || activeEventExposurePending) {
+            if (isNotDefined(currentActiveEventId) || activeEventExposurePending) {
                 return undefined;
             }
 
             return footprintSelector(activeEventExposure);
         },
-        [activeEventId, activeEventExposure, activeEventExposurePending, footprintSelector],
+        [currentActiveEventId, activeEventExposure, activeEventExposurePending, footprintSelector],
     );
 
     const bounds = useMemo(
@@ -251,7 +268,7 @@ function RiskImminentEventMap<
         (eventId: string | number | undefined) => {
             const eventIdSafe = eventId as KEY | undefined;
 
-            if (activeEventId === eventIdSafe) {
+            if (currentActiveEventId === eventIdSafe) {
                 setActiveEventId(undefined);
                 onActiveEventChange(undefined);
             } else {
@@ -259,7 +276,7 @@ function RiskImminentEventMap<
                 onActiveEventChange(eventIdSafe);
             }
         },
-        [onActiveEventChange, activeEventId],
+        [onActiveEventChange, currentActiveEventId],
     );
 
     const handlePointClick = useCallback(
@@ -277,9 +294,9 @@ function RiskImminentEventMap<
         (_: string | number, event: EVENT): RiskEventListItemProps<EVENT> => ({
             data: event,
             onExpandClick: setActiveEventIdSafe,
-            expanded: activeEventId === keySelector(event),
+            expanded: currentActiveEventId === keySelector(event),
             className: styles.riskEventListItem,
-            children: activeEventId === keySelector(event) && (
+            children: currentActiveEventId === keySelector(event) && (
                 <DetailComponent
                     data={event}
                     exposure={activeEventExposure}
@@ -288,8 +305,7 @@ function RiskImminentEventMap<
                     {hazardTypeSelector(event) === 'TC' && (
                         <LayerOptions
                             value={layerOptions}
-                            // NOTE: Currently the information is only visible in gdacs
-                            exposureAreaControlHidden={source !== 'gdacs'}
+                            exposureAreaControlHidden={!withExposureAreaControl}
                             onChange={setLayerOptions}
                         />
                     )}
@@ -303,9 +319,9 @@ function RiskImminentEventMap<
             layerOptions,
             hazardTypeSelector,
             DetailComponent,
-            activeEventId,
+            currentActiveEventId,
             keySelector,
-            source,
+            withExposureAreaControl,
         ],
     );
 
@@ -355,11 +371,16 @@ function RiskImminentEventMap<
         <div className={styles.riskImminentEventMap}>
             <GlobalMap
                 mapOptions={{ bounds }}
+                baseLayers={baseLayers}
             >
                 <GoMapContainer
                     className={styles.mapContainer}
                     title={strings.riskImminentEventsMap}
-                />
+                    layerSelection={layerSelection}
+                >
+                    {mapLegend}
+                </GoMapContainer>
+                {mapChildren}
                 {hazardKeys.map((key) => {
                     const url = hazardKeyToIconMap[key];
 
@@ -479,9 +500,13 @@ function RiskImminentEventMap<
             <Container
                 className={styles.sidePanel}
                 heading={sidePanelHeading}
+                headerDescription={headerDescription}
+                headerActions={headerActions}
                 pending={pending}
+                errored={errored}
+                errorMessage={errorMessage}
                 empty={isNotDefined(events) || events.length === 0}
-                emptyMessage={strings.emptyImminentEventMessage}
+                emptyMessage={emptyMessage ?? strings.emptyImminentEventMessage}
                 withPadding
                 withBackground
                 withShadow

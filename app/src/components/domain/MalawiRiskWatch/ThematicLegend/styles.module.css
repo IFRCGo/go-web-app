@@ -1,0 +1,63 @@
+.legend {
+    max-width: 16rem;
+    font-size: var(--go-ui-font-size-sm);
+
+    .header {
+        display: flex;
+        align-items: center;
+        gap: var(--go-ui-spacing-2xs);
+
+        .title {
+            /* Zero basis so the title only takes what the icon leaves */
+            flex: 1 1 0;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .info {
+            display: flex;
+            flex-shrink: 0;
+        }
+    }
+
+    .legend-items {
+        gap: var(--go-ui-spacing-xs);
+    }
+
+    .legend-item {
+        gap: var(--go-ui-spacing-2xs);
+        font-size: var(--go-ui-font-size-xs);
+    }
+
+    /* GO's local unit icons are black; the map paints them white on the type colour */
+    .legend-icon {
+        filter: invert(1);
+    }
+
+    .gradient {
+        display: flex;
+        align-items: center;
+        gap: var(--go-ui-spacing-2xs);
+        font-size: var(--go-ui-font-size-xs);
+
+        .bar {
+            flex-grow: 1;
+            height: var(--go-ui-spacing-sm);
+        }
+    }
+
+    .bubble {
+        display: flex;
+        align-items: center;
+        gap: var(--go-ui-spacing-2xs);
+        font-size: var(--go-ui-font-size-xs);
+
+        .circle {
+            flex-shrink: 0;
+            opacity: 0.6;
+            border-radius: 50%;
+        }
+    }
+}
