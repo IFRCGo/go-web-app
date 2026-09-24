@@ -1,7 +1,6 @@
 import {
     Container,
     InfoPopup,
-    KeyFigure,
     ListView,
     TextOutput,
 } from '@ifrc-go/ui';
@@ -11,9 +10,13 @@ import {
     formatNumber,
     resolveToString,
 } from '@ifrc-go/ui/utils';
+import { isDefined } from '@togglecorp/fujs';
 
 import { type RiskEventDetailProps } from '#components/domain/RiskImminentEventMap';
+import { FIELD_REPORT_STATUS_EARLY_WARNING } from '#utils/constants';
 
+import ActivationChecklist from '../../ActivationChecklist';
+import { JBA_IMPACT_THRESHOLD } from '../../constants';
 import CreateReportLink from '../../CreateReportLink';
 import {
     impactSelector,
@@ -41,7 +44,7 @@ function EventDetails(props: Props) {
         <Container>
             <ListView
                 layout="block"
-                spacing="sm"
+                spacing="xs"
             >
                 <TextOutput
                     label={strings.jbaEventDetailsTargetDate}
@@ -50,26 +53,20 @@ function EventDetails(props: Props) {
                     strongValue
                     withLightBackground
                 />
-                <Container
-                    heading={strings.jbaEventDetailsPopulationImpacted}
-                    headingLevel={5}
-                    headerActions={(
-                        <InfoPopup
-                            title={strings.jbaEventDetailsPopulationImpacted}
-                            description={strings.jbaEventDetailsPopulationImpactedInfo}
-                        />
-                    )}
-                >
-                    <KeyFigure
-                        value={impact}
-                        valueType="number"
-                        valueOptions={{ maximumFractionDigits: 0 }}
-                    />
-                </Container>
+                <TextOutput
+                    label={strings.jbaEventDetailsPopulationImpacted}
+                    value={impact}
+                    valueType="number"
+                    maximumFractionDigits={0}
+                    strongValue
+                    withLightBackground
+                />
                 {data.rows.length > 1 && (
                     <Container
                         heading={strings.jbaEventDetailsTrajectoryHeading}
                         headingLevel={5}
+                        withBackground
+                        withPadding
                         headerActions={(
                             <InfoPopup
                                 title={strings.jbaEventDetailsTrajectoryHeading}
@@ -84,7 +81,31 @@ function EventDetails(props: Props) {
                     </Container>
                 )}
                 <BaselineExposure pcode={data.id} />
+                <ActivationChecklist
+                    source="JBA"
+                    pcode={data.id}
+                    recordDate={activeRow.forecastIssueDate}
+                    steps={[
+                        {
+                            key: 'issued',
+                            label: strings.jbaActivationForecastIssued,
+                            completed: true,
+                        },
+                        {
+                            key: 'threshold',
+                            label: strings.jbaActivationThresholdExceeded,
+                            completed: isDefined(impact) && impact >= JBA_IMPACT_THRESHOLD,
+                        },
+                    ]}
+                    reportCreatedLabel={strings.jbaActivationReportCreated}
+                    withDrefStep
+                />
                 <CreateReportLink
+                    source="JBA"
+                    status={FIELD_REPORT_STATUS_EARLY_WARNING}
+                    label={strings.jbaEventDetailsCreateReport}
+                    pcode={data.id}
+                    recordDate={activeRow.forecastIssueDate}
                     adminArea={adminArea}
                     impact={impact}
                     startDate={activeRow.forecastTargetDate}

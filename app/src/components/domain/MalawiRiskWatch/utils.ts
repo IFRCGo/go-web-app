@@ -6,7 +6,8 @@ import {
 
 import { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import { type RiskLayerProperties } from '#components/domain/RiskImminentEventMap/utils';
-import { malawiRiskWatchGraphqlApi } from '#config';
+import { malawiRiskWatchDomain } from '#config';
+import { resolveUrl } from '#utils/resolveUrl';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import { MALAWI_ISO3 } from './constants';
@@ -16,7 +17,11 @@ export type MalawiRiskWatchSource = 'jba' | 'arc';
 export type AdminArea = NonNullable<GoApiResponse<'/api/v2/admin2/'>['results']>[number];
 
 export function isMalawiRiskWatchEnabled(iso3: string | undefined) {
-    return isTruthyString(malawiRiskWatchGraphqlApi) && iso3 === MALAWI_ISO3;
+    return isTruthyString(malawiRiskWatchDomain) && iso3 === MALAWI_ISO3;
+}
+
+export function getMalawiAdminUrl(path: string) {
+    return resolveUrl(malawiRiskWatchDomain ?? '', `admin/${path}`);
 }
 
 export function getAdminAreaCentroid(adminArea: AdminArea | undefined) {
@@ -72,6 +77,11 @@ export function getDistrictFootprint(adminArea: AdminArea | undefined) {
         }],
     };
     return footprint;
+}
+
+// Population figures are whole people
+export function roundImpact(value: number | undefined) {
+    return isDefined(value) ? Math.round(value) : undefined;
 }
 
 export function parseNumber(value: string | null | undefined) {

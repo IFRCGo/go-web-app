@@ -105,18 +105,24 @@ function Arc(props: Props) {
         ? selectedDate
         : dates[0];
 
+    const triggerEvent = triggerEventsResult.data?.arcTriggerEvents.results
+        .find((item) => item.triggerDate === activeDate);
     const events = useMemo(
-        () => getDistrictEvents(observations, activeDate, adminAreaByCode),
-        [observations, activeDate, adminAreaByCode],
+        () => getDistrictEvents(observations, activeDate, adminAreaByCode, triggerEvent),
+        [observations, activeDate, adminAreaByCode, triggerEvent],
     );
     const nationalReturnPeriod = useMemo(
         () => getNationalReturnPeriod(observations, activeDate),
         [observations, activeDate],
     );
-    const triggerEvent = triggerEventsResult.data?.arcTriggerEvents.results
-        .find((item) => item.triggerDate === activeDate);
     const triggeredCount = useMemo(
         () => getTriggeredDistrictCount(observations, activeDate),
+        [observations, activeDate],
+    );
+    const districtCount = useMemo(
+        () => observations
+            .filter((observation) => observation.observationDate === activeDate)
+            .length,
         [observations, activeDate],
     );
 
@@ -167,26 +173,20 @@ function Arc(props: Props) {
                     disabled={observationsResult.fetching}
                     infoTitle={strings.arcObservationInfoTitle}
                     infoDetails={(
-                        <>
-                            <TextOutput
-                                label={strings.arcObservationDateLabel}
-                                value={activeDate}
-                                valueType="date"
-                                strongValue
-                            />
-                            <TextOutput
-                                label={strings.arcTriggeredDistrictsLabel}
-                                value={triggeredCount}
-                                valueType="number"
-                                strongValue
-                            />
-                        </>
+                        <TextOutput
+                            label={strings.arcObservationDateLabel}
+                            value={activeDate}
+                            valueType="date"
+                            strongValue
+                        />
                     )}
                 />
             )}
             headerDescription={isDefined(activeDate) && (
                 <TriggerStatus
                     returnPeriod={nationalReturnPeriod}
+                    triggeredCount={triggeredCount}
+                    districtCount={districtCount}
                     triggerEvent={triggerEvent}
                 />
             )}

@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isNotDefined } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
@@ -8,16 +7,28 @@ import useCountry from '#hooks/domain/useCountry';
 import usePermissions from '#hooks/domain/usePermissions';
 import {
     DISASTER_TYPE_FLOOD,
-    FIELD_REPORT_STATUS_EARLY_WARNING,
+    type FIELD_REPORT_STATUS_EARLY_WARNING,
+    type FIELD_REPORT_STATUS_EVENT,
 } from '#utils/constants';
 import { getNewFieldReportRouteState } from '#views/FieldReportForm/common';
 
 import { MALAWI_ISO3 } from '../constants';
+import {
+    type ExternalSource,
+    getExternalSourceId,
+} from '../useGoFieldReport';
 import { type AdminArea } from '../utils';
 
-import i18n from './i18n.json';
+type ReportStatus = typeof FIELD_REPORT_STATUS_EARLY_WARNING | typeof FIELD_REPORT_STATUS_EVENT;
 
 interface Props {
+    source: ExternalSource;
+    // Early warning for forecasts, event for observed triggers
+    status: ReportStatus;
+    label: string;
+    pcode: string;
+    // Date of the record the report is created from
+    recordDate: string;
     adminArea: AdminArea | undefined;
     impact: number | undefined;
     startDate: string;
@@ -25,9 +36,14 @@ interface Props {
     description: string;
 }
 
-// Prefilled early warning report for a district flood signal
+// Prefilled field report for a district flood signal
 function CreateReportLink(props: Props) {
     const {
+        source,
+        status,
+        label,
+        pcode,
+        recordDate,
         adminArea,
         impact,
         startDate,
@@ -35,7 +51,6 @@ function CreateReportLink(props: Props) {
         description,
     } = props;
 
-    const strings = useTranslation(i18n);
     const { isAuthenticated } = useAuth();
     const { isGuestUser } = usePermissions();
     const malawi = useCountry({ iso3: MALAWI_ISO3 });
@@ -51,7 +66,7 @@ function CreateReportLink(props: Props) {
             };
             return getNewFieldReportRouteState(
                 {
-                    status: FIELD_REPORT_STATUS_EARLY_WARNING,
+                    status,
                     country: malawi.id,
                     districts: [district.id],
                     dtype: DISASTER_TYPE_FLOOD,
@@ -59,11 +74,25 @@ function CreateReportLink(props: Props) {
                     title,
                     description,
                     num_potentially_affected: Math.round(impact),
+                    // Lets the activation checklist find the report later
+                    external_source: source,
+                    external_source_id: getExternalSourceId(pcode, recordDate),
                 },
                 [district],
             );
         },
-        [malawi, adminArea, impact, startDate, title, description],
+        [
+            malawi,
+            adminArea,
+            impact,
+            status,
+            startDate,
+            title,
+            description,
+            source,
+            pcode,
+            recordDate,
+        ],
     );
 
     if (!isAuthenticated || isGuestUser || isNotDefined(routeState)) {
@@ -74,11 +103,11 @@ function CreateReportLink(props: Props) {
         <Link
             to="fieldReportFormNew"
             state={routeState}
-            styleVariant="outline"
+            styleVariant="filled"
             colorVariant="primary"
             withLinkIcon
         >
-            {strings.createReportLinkLabel}
+            {label}
         </Link>
     );
 }

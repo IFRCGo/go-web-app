@@ -1,0 +1,10 @@
+{
+    "namespace": "malawiRiskWatch",
+    "strings": {
+        "activationChecklistHeading": "Activation status",
+        "activationChecklistViewReport": "View report",
+        "activationChecklistEmergencyCreated": "Emergency created",
+        "activationChecklistViewEmergency": "View emergency",
+        "activationChecklistDrefLaunched": "Imminent DREF launched"
+    }
+}

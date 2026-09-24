@@ -2,8 +2,8 @@
     width: 26rem;
 }
 
+/* Swatches touch so a ramp reads as one bar */
 .color-option {
     display: flex;
     align-items: center;
-    gap: var(--go-ui-spacing-2xs);
 }

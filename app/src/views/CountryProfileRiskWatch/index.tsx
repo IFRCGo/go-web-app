@@ -15,6 +15,7 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 
+import MalawiRiskWatchIntro from '#components/domain/MalawiRiskWatch/Intro';
 import { isMalawiRiskWatchEnabled } from '#components/domain/MalawiRiskWatch/utils';
 import RiskImminentEvents, { type ImminentEventSource } from '#components/domain/RiskImminentEvents';
 import Link from '#components/Link';
@@ -140,6 +141,9 @@ export function Component() {
             pending={pendingImminentEventCounts}
             wikiLinkPathName="user_guide/Country_Pages#risk-watch"
         >
+            {isMalawiRiskWatchEnabled(countryResponse?.iso3 ?? undefined) && (
+                <MalawiRiskWatchIntro />
+            )}
             <Description withCenteredContent>
                 {strings.riskWatchDescription}
             </Description>

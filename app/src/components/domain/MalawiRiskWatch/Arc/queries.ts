@@ -33,6 +33,7 @@ export const ARC_TRIGGER_EVENTS_QUERY = graphql(/* GraphQL */ `
                 triggerDate
                 status
                 reviewNotes
+                affectedAdminAreas
             }
         }
     }

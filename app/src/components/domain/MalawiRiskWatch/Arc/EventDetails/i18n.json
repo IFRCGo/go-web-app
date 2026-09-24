@@ -1,13 +1,17 @@
 {
     "namespace": "malawiRiskWatch",
     "strings": {
-        "arcEventDetailsObservationDate": "Observation date",
-        "arcEventDetailsTrigger": "District trigger",
-        "arcEventDetailsTriggered": "Triggered",
-        "arcEventDetailsNotTriggered": "Not triggered",
+        "arcEventDetailsObservationDate": "Observed",
         "arcEventDetailsPopulationImpacted": "Population impacted",
-        "arcEventDetailsPopulationImpactedInfo": "Population impacted modelled by the parametric trigger model for this district on the observation date.",
         "arcEventDetailsReportTitle": "Parametric trigger - {district}",
-        "arcEventDetailsReportDescription": "The parametric trigger model observation of {date} estimates {impact} people impacted in {district}."
+        "arcEventDetailsReportDescription": "The parametric trigger model observation of {date} estimates {impact} people impacted in {district}.",
+        "arcActivationRainfallObserved": "Rainfall observed",
+        "arcActivationThresholdExceeded": "District trigger active",
+        "arcActivationMrcsConfirmed": "MRCS confirmed",
+        "arcActivationReportCreated": "Field report created",
+        "arcEventDetailsCreateReport": "Create field report",
+        "arcActivationReviewPending": "Pending review",
+        "arcActivationReviewConfirmed": "Confirmed",
+        "arcActivationReviewRejected": "Rejected"
     }
 }

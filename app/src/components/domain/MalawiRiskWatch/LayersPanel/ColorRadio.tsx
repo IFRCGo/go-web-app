@@ -35,9 +35,10 @@ function ColorRadio(props: Props) {
             disabled={disabled || readOnly}
         >
             <ButtonLayout
-                styleVariant={value ? 'translucent' : 'transparent'}
+                styleVariant={value ? 'outline' : 'transparent'}
                 colorVariant="primary"
                 textSize="sm"
+                spacing="xs"
                 disabled={disabled}
                 withoutAdditionalInlinePadding
             >

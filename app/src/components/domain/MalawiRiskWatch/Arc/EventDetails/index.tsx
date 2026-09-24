@@ -1,7 +1,5 @@
 import {
     Container,
-    InfoPopup,
-    KeyFigure,
     ListView,
     TextOutput,
 } from '@ifrc-go/ui';
@@ -11,9 +9,13 @@ import {
     formatNumber,
     resolveToString,
 } from '@ifrc-go/ui/utils';
+import { isDefined } from '@togglecorp/fujs';
 
 import { type RiskEventDetailProps } from '#components/domain/RiskImminentEventMap';
+import { FIELD_REPORT_STATUS_EVENT } from '#utils/constants';
 
+import ActivationChecklist from '../../ActivationChecklist';
+import { ARC_CONFIRMED_STATUSES } from '../../constants';
 import CreateReportLink from '../../CreateReportLink';
 import { type ArcDistrictEvent } from '../utils';
 
@@ -32,11 +34,23 @@ function EventDetails(props: Props) {
     const { observation, adminArea } = data;
     const { impact } = observation;
 
+    // The review belongs to the national event, shown here for the districts it covers
+    let reviewLabel: string | undefined;
+    if (isDefined(data.triggerEventStatus)) {
+        if (ARC_CONFIRMED_STATUSES.includes(data.triggerEventStatus)) {
+            reviewLabel = strings.arcActivationReviewConfirmed;
+        } else if (data.triggerEventStatus === 'rejected') {
+            reviewLabel = strings.arcActivationReviewRejected;
+        } else {
+            reviewLabel = strings.arcActivationReviewPending;
+        }
+    }
+
     return (
         <Container>
             <ListView
                 layout="block"
-                spacing="sm"
+                spacing="xs"
             >
                 <TextOutput
                     label={strings.arcEventDetailsObservationDate}
@@ -46,30 +60,45 @@ function EventDetails(props: Props) {
                     withLightBackground
                 />
                 <TextOutput
-                    label={strings.arcEventDetailsTrigger}
-                    value={observation.cellTrigger
-                        ? strings.arcEventDetailsTriggered
-                        : strings.arcEventDetailsNotTriggered}
+                    label={strings.arcEventDetailsPopulationImpacted}
+                    value={impact}
+                    valueType="number"
+                    maximumFractionDigits={0}
                     strongValue
                     withLightBackground
                 />
-                <Container
-                    heading={strings.arcEventDetailsPopulationImpacted}
-                    headingLevel={5}
-                    headerActions={(
-                        <InfoPopup
-                            title={strings.arcEventDetailsPopulationImpacted}
-                            description={strings.arcEventDetailsPopulationImpactedInfo}
-                        />
-                    )}
-                >
-                    <KeyFigure
-                        value={impact}
-                        valueType="number"
-                        valueOptions={{ maximumFractionDigits: 0 }}
-                    />
-                </Container>
+                <ActivationChecklist
+                    source="ARC"
+                    pcode={data.id}
+                    recordDate={observation.observationDate}
+                    steps={[
+                        {
+                            key: 'observed',
+                            label: strings.arcActivationRainfallObserved,
+                            completed: true,
+                        },
+                        {
+                            key: 'trigger',
+                            label: strings.arcActivationThresholdExceeded,
+                            completed: observation.cellTrigger,
+                        },
+                        {
+                            key: 'confirmed',
+                            label: strings.arcActivationMrcsConfirmed,
+                            completed: isDefined(data.triggerEventStatus)
+                                && ARC_CONFIRMED_STATUSES.includes(data.triggerEventStatus),
+                            description: reviewLabel,
+                        },
+                    ]}
+                    reportCreatedLabel={strings.arcActivationReportCreated}
+                    withEmergencyStep
+                />
                 <CreateReportLink
+                    source="ARC"
+                    status={FIELD_REPORT_STATUS_EVENT}
+                    label={strings.arcEventDetailsCreateReport}
+                    pcode={data.id}
+                    recordDate={observation.observationDate}
                     adminArea={adminArea}
                     impact={impact}
                     startDate={observation.observationDate}
