@@ -172,9 +172,19 @@ function Operation(props: Props) {
                         : val;
                 }
 
+                const subTotal = sumSafe(
+                    newProposedValue.map((action) => action.total_budget),
+                ) ?? 0;
+
                 return {
                     ...oldVal,
                     proposed_action: newProposedValue,
+                    sub_total_cost: subTotal,
+                    total_cost: sumSafe([
+                        subTotal,
+                        oldVal.surge_deployment_cost,
+                        oldVal.indirect_cost,
+                    ]),
                 };
             }, true);
         },
