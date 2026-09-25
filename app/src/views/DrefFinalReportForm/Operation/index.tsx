@@ -46,7 +46,6 @@ import { DREF_TYPE_IMMINENT } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import {
-    calculateProposedActionsCost,
     calculateTotalAssistedPopulation,
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
@@ -173,14 +172,19 @@ function Operation(props: Props) {
                         : val;
                 }
 
-                const newValue = {
-                    ...oldVal,
-                    proposed_action: newProposedValue,
-                };
+                const subTotal = sumSafe(
+                    newProposedValue.map((action) => action.total_budget),
+                ) ?? 0;
 
                 return {
-                    ...newValue,
-                    ...calculateProposedActionsCost(newValue),
+                    ...oldVal,
+                    proposed_action: newProposedValue,
+                    sub_total_cost: subTotal,
+                    total_cost: sumSafe([
+                        subTotal,
+                        oldVal.surge_deployment_cost,
+                        oldVal.indirect_cost,
+                    ]),
                 };
             }, true);
         },
@@ -742,96 +746,48 @@ function Operation(props: Props) {
                             </div>
                         )}
                     >
-                        <div className={styles.expenditure}>
-                            <NumberInput
-                                required
-                                name="sub_total_cost"
-                                readOnly
-                                onChange={setFieldValue}
-                                label={strings.drefFormProposedActionSubTotal}
-                                value={value.sub_total_cost}
-                                disabled={disabled}
-                                error={error?.sub_total_cost}
-                            />
-                            <NumberInput
-                                required
-                                name="sub_total_expenditure_cost"
-                                readOnly
-                                onChange={setFieldValue}
-                                label={strings.drefFinalReportSubTotalExpenditure}
-                                value={value.sub_total_expenditure_cost}
-                                disabled={disabled}
-                                error={error?.sub_total_expenditure_cost}
-                            />
-                        </div>
+                        <NumberInput
+                            required
+                            name="sub_total_cost"
+                            readOnly
+                            onChange={setFieldValue}
+                            label={strings.drefFormProposedActionSubTotal}
+                            value={value.sub_total_cost}
+                            disabled={disabled}
+                            error={error?.sub_total_cost}
+                        />
                         {value.surge_deployment_cost && (
-                            <div className={styles.expenditure}>
-                                <NumberInput
-                                    required
-                                    readOnly
-                                    name="surge_deployment_cost"
-                                    onChange={setFieldValue}
-                                    label={strings.drefFormProposedActionSurgeDeployment}
-                                    value={value.surge_deployment_cost}
-                                    error={error?.surge_deployment_cost}
-                                    disabled={disabled}
-                                />
-                                <NumberInput
-                                    required
-                                    readOnly
-                                    name="surge_deployment_expenditure_cost"
-                                    onChange={setFieldValue}
-                                    label={strings.drefFormProposedActionSurgeDeployment}
-                                    value={value.surge_deployment_cost}
-                                    error={error?.surge_deployment_cost}
-                                    disabled={disabled}
-                                />
-                            </div>
+                            <NumberInput
+                                required
+                                readOnly
+                                name="surge_deployment_cost"
+                                onChange={setFieldValue}
+                                label={strings.drefFormProposedActionSurgeDeployment}
+                                value={value.surge_deployment_cost}
+                                error={error?.surge_deployment_cost}
+                                disabled={disabled}
+                            />
                         )}
-                        <div className={styles.expenditure}>
-                            <NumberInput
-                                required
-                                readOnly
-                                name="indirect_cost"
-                                onChange={setFieldValue}
-                                label={strings.drefFormProposedActionIndirectCost}
-                                value={value.indirect_cost}
-                                error={error?.indirect_cost}
-                                disabled={disabled}
-                            />
-                            <NumberInput
-                                required
-                                readOnly
-                                name="indirect_expenditure_cost"
-                                onChange={setFieldValue}
-                                label={strings.drefFinalReportIndirectCostExpenditure}
-                                value={value.indirect_expenditure_cost}
-                                error={error?.indirect_expenditure_cost}
-                                disabled={disabled}
-                            />
-                        </div>
-                        <div className={styles.expenditure}>
-                            <NumberInput
-                                required
-                                readOnly
-                                name="total_cost"
-                                onChange={setFieldValue}
-                                label={strings.drefFormProposedActionTotal}
-                                value={value.total_cost}
-                                error={error?.total_cost}
-                                disabled={disabled}
-                            />
-                            <NumberInput
-                                required
-                                readOnly
-                                name="total_expenditure_cost"
-                                onChange={setFieldValue}
-                                label={strings.drefFinalReportTotalExpenditure}
-                                value={value.total_expenditure_cost}
-                                error={error?.total_expenditure_cost}
-                                disabled={disabled}
-                            />
-                        </div>
+                        <NumberInput
+                            required
+                            readOnly
+                            name="indirect_cost"
+                            onChange={setFieldValue}
+                            label={strings.drefFormProposedActionIndirectCost}
+                            value={value.indirect_cost}
+                            error={error?.indirect_cost}
+                            disabled={disabled}
+                        />
+                        <NumberInput
+                            required
+                            readOnly
+                            name="total_cost"
+                            onChange={setFieldValue}
+                            label={strings.drefFormProposedActionTotal}
+                            value={value.total_cost}
+                            error={error?.total_cost}
+                            disabled={disabled}
+                        />
                     </InputSection>
                 </Container>
             )}

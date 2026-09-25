@@ -1,0 +1,35 @@
+{
+    "parent": "000101-1789526507867.json",
+    "actions": [
+        {
+            "action": "remove",
+            "key": "expenditure",
+            "namespace": "drefFinalReportExport"
+        },
+        {
+            "action": "remove",
+            "key": "drefFinalReportIndirectCostExpenditure",
+            "namespace": "drefFinalReportForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFinalReportSubTotalExpenditure",
+            "namespace": "drefFinalReportForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFinalReportTotalExpenditure",
+            "namespace": "drefFinalReportForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormExpenditureLabel",
+            "namespace": "drefFinalReportForm"
+        },
+        {
+            "action": "remove",
+            "key": "proposedActionExpenditureLabel",
+            "namespace": "emergencyOperationStrategy"
+        }
+    ]
+}

@@ -189,16 +189,6 @@ function ProposedActionsInput(props: Props) {
                     readOnly={readOnly}
                     disabled={disabled}
                 />
-                <NumberInput
-                    required
-                    name="total_expenditure"
-                    value={value.total_expenditure}
-                    onChange={onProposedActionChange}
-                    error={error?.total_expenditure}
-                    label={strings.drefFormExpenditureLabel}
-                    readOnly={readOnly}
-                    disabled={disabled}
-                />
             </ListView>
             <InlineLayout
                 after={(
