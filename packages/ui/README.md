@@ -27,19 +27,19 @@ npm install @ifrc-go/ui
 import { Button } from '@ifrc-go/ui';
 
 function Example() {
-    const handleButtonClick = () => {
-        console.warn('button clicked');
-    };
+const handleButtonClick = () => {
+console.warn('button clicked');
+};
 
-    return (
-        <Button
-            name="button"
-            onClick={handleButtonClick}
-            styleVariant="action"
-        >
-            Button
-        </Button>
-    );
+return (
+<Button
+name="button"
+onClick={handleButtonClick}
+styleVariant="action"
+>
+Button
+</Button>
+);
 }
 ```
 
@@ -103,8 +103,8 @@ Subtle optical adjustments compensate for line‑height inconsistencies (e.g., i
 
 #### Conceptual behaviors by mode
 
-**Inline** – flows left→right; supports wrapping or truncation.  
-**Block** – stacks vertically; uses consistent rhythm and dividers.  
+**Inline** – flows left→right; supports wrapping or truncation.
+**Block** – stacks vertically; uses consistent rhythm and dividers.
 **Grid** – manages both **target column count** and **minimum card width**, reserving gutter space for balance.
 
 #### Spacing and semantics
@@ -130,21 +130,21 @@ Subtle optical adjustments compensate for line‑height inconsistencies (e.g., i
 ```
 Before → Content → After
 ```
-**Before:** leading visuals or icons.  
-**Content:** main label or text; expands to fill space.  
+**Before:** leading visuals or icons.
+**Content:** main label or text; expands to fill space.
 **After:** trailing actions or indicators.
 
 #### Key ideas
 
-- Single-line composition — **no wrapping**.  
-- Uses **spacing tokens** for consistent horizontal rhythm.  
-- Vertical alignment via **optical baseline**, not bounding box.  
+- Single-line composition — **no wrapping**.
+- Uses **spacing tokens** for consistent horizontal rhythm.
+- Vertical alignment via **optical baseline**, not bounding box.
 - Overflow handled by truncation in content.
 
 #### When to use
-- Buttons or navigation items.  
-- List rows with icons/actions.  
-- Inputs with prefix/suffix.  
+- Buttons or navigation items.
+- List rows with icons/actions.
+- Inputs with prefix/suffix.
 - Any case needing stable inline alignment.
 
 ### InlineView — Concept
@@ -155,29 +155,29 @@ Before → Content → After
 
 **Normal width:**
 ```
-[●]  Title of the item                                  [⋯]
+[●]Title of the item[⋯]
 ```
 **Constrained width:**
 ```
-                              [⋯]
-[●]  Long content title that wraps
+[⋯]
+[●]Long content title that wraps
 ```
 
 #### Principles
 
-- **Container-query driven:** adapts to container width, not viewport breakpoints.  
-- Maintains stable reading order and focus.  
-- Token-based spacing; no ad‑hoc margins.  
+- **Container-query driven:** adapts to container width, not viewport breakpoints.
+- Maintains stable reading order and focus.
+- Token-based spacing; no ad‑hoc margins.
 - Ensures optical alignment across lines.
 
 #### Use cases
 
-- List rows with actions that should stay visible.  
-- Settings lines with long labels.  
+- List rows with actions that should stay visible.
+- Settings lines with long labels.
 - Headings with metadata that move above gracefully.
 
 #### InlineLayout vs InlineView
-- **InlineLayout:** fixed single-line pattern.  
+- **InlineLayout:** fixed single-line pattern.
 - **InlineView:** adaptive variant that wraps gracefully under constraint.
 
 
@@ -197,15 +197,15 @@ Before → Content → After
 
 #### Principles
 
-- Encodes hierarchy through space, not borders.  
-- Uses **spacing tokens** to control vertical rhythm.  
-- Supports optional dividers (none / inset / full‑bleed).  
+- Encodes hierarchy through space, not borders.
+- Uses **spacing tokens** to control vertical rhythm.
+- Supports optional dividers (none / inset / full‑bleed).
 - Applies **optical compensation** for mixed typography.
 
 #### Composition
 
-- Header → `InlineLayout` for titles/actions.  
-- Content → nested BlockViews or lists.  
+- Header → `InlineLayout` for titles/actions.
+- Content → nested BlockViews or lists.
 - Footer → actions or summaries.
 
 #### Use cases
@@ -229,15 +229,15 @@ Container (Section)
 
 #### Principles
 
-- Acts as the boundary for each section or block.  
-- Supplies inner padding via **spacing tokens**; children don’t manage external margins.  
+- Acts as the boundary for each section or block.
+- Supplies inner padding via **spacing tokens**; children don’t manage external margins.
 - Optionally provides background, shadow, and padding based on the use case, along with overlay states (empty, loading, errored) while maintaining consistent rhythm.
 
 #### Use cases
 
-- Page sections and panels.  
-- Card bodies and dashboards.  
-- Sidebar link groups.  
+- Page sections and panels.
+- Card bodies and dashboards.
+- Sidebar link groups.
 - Nested sub‑sections inside larger compositions.
 
 ### Spacing System — Tokens & Scaling
@@ -246,10 +246,10 @@ The spacing system provides a **shared vocabulary** paddings and gaps across all
 
 #### Principles
 
-- Tokens (`5xs` → `5xl`) define a modular scale.  
-- The `useSpacingToken()` hook resolves tokens to values.  
-- Shared across ListView, BlockView, Inline*, and Container.  
-- Adjusts for **optical harmony** and **density presets** (Compact ↔ Comfortable).  
+- Tokens (`5xs` → `5xl`) define a modular scale.
+- The `useSpacingToken()` hook resolves tokens to values.
+- Shared across ListView, BlockView, Inline*, and Container.
+- Adjusts for **optical harmony** and **density presets** (Compact ↔ Comfortable).
 - Scales subtly with breakpoints for comfort and consistency.
 
 `useSpacingToken` resolves semantic spacing tokens into usable CSS values for gaps, padding, or margins.
@@ -258,11 +258,11 @@ The spacing system provides a **shared vocabulary** paddings and gaps across all
 
 Ensures the entire system speaks one **spacing language**, decoupling *meaning* from *measurement* for future‑proof, theme‑driven design.
 
-- Keeps all components aligned to the same rhythm.  
-- Maps tokens to theme-aware, relative units (e.g., rem).  
+- Keeps all components aligned to the same rhythm.
+- Maps tokens to theme-aware, relative units (e.g., rem).
 - Enables consistent density and scaling without hardcoded numbers.
-- Tokens stay meaningful while values stay flexible.  
-- Components never multiply pixels; spacing math lives inside the resolver.  
+- Tokens stay meaningful while values stay flexible.
+- Components never multiply pixels; spacing math lives inside the resolver.
 - Works across layout primitives to keep rhythm unified.
 
 
