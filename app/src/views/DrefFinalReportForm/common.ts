@@ -100,7 +100,11 @@ const operationFields: (keyof PartialFinalReport)[] = [
     'planned_interventions',
     'risk_security',
     'risk_security_concern',
+    'proposed_action',
+    'sub_total_cost',
+    'indirect_cost',
     'surge_deployment_cost',
+    'total_cost',
     'lessons_learned_and_challenges',
     'mitigation_efforts_and_achievements',
 ] satisfies (keyof PartialFinalReport)[];
