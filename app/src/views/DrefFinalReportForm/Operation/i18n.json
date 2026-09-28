@@ -93,9 +93,6 @@
         "drefFinalReportTotalTargeted": "Total assisted population is not equal to sum of other population fields",
         "drefFinalReportMitigationEfforts": "Mitigation efforts and achievements",
         "drefFinalReportMitigationEffortsDescription": "Detail the implementation of the actions, and the achievements in mitigating the potential impact of the event. In case the disaster materialized, indicate clearly which early actions were implemented before the impact of the disaster. In case no response is needed due to the success of the early actions, please explain. Please provide an update on any procurement done and its status.",
-        "drefFinalReportLessonsLearnt": "Lessons learnt and challenges",
-        "drefFinalReportTotalExpenditure": "Total Expenditure",
-        "drefFinalReportIndirectCostExpenditure": "Indirect Cost Expenditure",
-        "drefFinalReportSubTotalExpenditure": "Sub-total Expenditure"
+        "drefFinalReportLessonsLearnt": "Lessons learnt and challenges"
     }
 }

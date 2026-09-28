@@ -5,7 +5,6 @@
         "drefFormProposedEarlyResponseLabel": "Early Response",
         "drefFormProposedActionBudgetLabel": "Budget(CHF)",
         "drefFormAddProposedActionLabel": "Add proposed action",
-        "drefFormProposedActionSectorLabel": "Select the sector",
-        "drefFormExpenditureLabel": "Expenditure"
+        "drefFormProposedActionSectorLabel": "Select the sector"
     }
 }

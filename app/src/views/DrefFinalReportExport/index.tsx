@@ -683,9 +683,6 @@ export function Component() {
                     <div className={styles.actionTitleLabel}>
                         {strings.priorityActionsBudget}
                     </div>
-                    <div className={styles.actionTitleLabel}>
-                        {strings.expenditure}
-                    </div>
                     {groupedProposedActions.map((proposedAction) => (
                         <Fragment key={proposedAction.key}>
                             <div
@@ -729,17 +726,6 @@ export function Component() {
                                                     />
                                                 </div>
                                             )}
-                                            {index === 0 && (
-                                                <div
-                                                    className={styles.budget}
-                                                    style={{ gridRow: `span ${action.activities.length}` }}
-                                                >
-                                                    <NumberOutput
-                                                        value={action.total_expenditure}
-                                                        prefix={strings.chfPrefix}
-                                                    />
-                                                </div>
-                                            )}
                                         </Fragment>
                                     ))}
                                 </Fragment>
@@ -754,11 +740,6 @@ export function Component() {
                         value={drefResponse?.sub_total_cost}
                         prefix={strings.chfPrefix}
                     />
-                    <NumberOutput
-                        className={styles.costValue}
-                        value={drefResponse?.sub_total_expenditure_cost}
-                        prefix={strings.chfPrefix}
-                    />
                     {isDefined(drefResponse?.surge_deployment_cost) && (
                         <>
                             <div className={styles.costLabel}>
@@ -767,11 +748,6 @@ export function Component() {
                             <NumberOutput
                                 className={styles.costValue}
                                 value={drefResponse.surge_deployment_cost}
-                                prefix={strings.chfPrefix}
-                            />
-                            <NumberOutput
-                                className={styles.costValue}
-                                value={drefResponse.surge_deployment_expenditure_cost}
                                 prefix={strings.chfPrefix}
                             />
                         </>
@@ -784,22 +760,12 @@ export function Component() {
                         value={drefResponse?.indirect_cost}
                         prefix={strings.chfPrefix}
                     />
-                    <NumberOutput
-                        className={styles.costValue}
-                        value={drefResponse?.indirect_expenditure_cost}
-                        prefix={strings.chfPrefix}
-                    />
                     <div className={styles.costLabel}>
                         {strings.priorityActionsTotal}
                     </div>
                     <NumberOutput
                         className={styles.costValue}
                         value={drefResponse?.total_cost}
-                        prefix={strings.chfPrefix}
-                    />
-                    <NumberOutput
-                        className={styles.costValue}
-                        value={drefResponse?.total_expenditure_cost}
                         prefix={strings.chfPrefix}
                     />
                 </Container>

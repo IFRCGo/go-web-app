@@ -19,7 +19,6 @@ import {
 } from '@ifrc-go/ui/utils';
 import {
     _cs,
-    isDefined,
     isFalsyString,
     isTruthyString,
     listToMap,
@@ -376,14 +375,6 @@ export function Component() {
                                 valueType="number"
                                 strongValue
                             />
-                            {isDefined(action.total_expenditure) && (
-                                <TextOutput
-                                    label={strings.proposedActionExpenditureLabel}
-                                    value={action.total_expenditure}
-                                    valueType="number"
-                                    strongValue
-                                />
-                            )}
                         </ListView>
                     )}
                 >
