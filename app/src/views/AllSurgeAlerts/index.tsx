@@ -72,23 +72,10 @@ function getMolnixKeywords(molnixTags: SurgeListItem['molnix_tags']) {
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        page,
-        setPage,
-        limit,
-        offset,
-    } = useFilterState<object>({
-        filter: {},
-        pageSize: 15,
-    });
-
     const [countryFilter, setCountryFilter] = useUrlSearchState<number | undefined>(
         'country',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            if (potentialValue) {
-                setPage(0);
-            }
             return potentialValue;
         },
         (country) => country,
@@ -98,17 +85,10 @@ export function Component() {
         'event',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            if (potentialValue) {
-                setPage(0);
-            }
             return potentialValue;
         },
         (country) => country,
     );
-
-    const [eventOptions, setEventOptions] = useState<
-        EventItem[] | undefined | null
-    >([]);
 
     const [positionFilter, setPositionFilter] = useUrlSearchState<string | undefined>(
         'position',
@@ -119,7 +99,6 @@ export function Component() {
                 return undefined;
             }
 
-            setPage(0);
             return trimmedValue;
         },
         (position) => position ?? undefined,
@@ -134,11 +113,30 @@ export function Component() {
                 return undefined;
             }
 
-            setPage(0);
             return trimmedValue;
         },
         (keywords) => keywords ?? undefined,
     );
+
+    const {
+        page,
+        setPage,
+        limit,
+        offset,
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 15,
+        resetPageOn: [
+            countryFilter,
+            eventFilter,
+            positionFilter,
+            keywordsFilter,
+        ],
+    });
+
+    const [eventOptions, setEventOptions] = useState<
+        EventItem[] | undefined | null
+    >([]);
 
     useRequest({
         skip: isNotDefined(eventFilter)

@@ -52,25 +52,6 @@ const fieldReportKeySelector = (item: FieldReportListItem) => item.id;
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const {
-        sortState,
-        ordering,
-        page,
-        setPage,
-        limit,
-        offset,
-        rawFilter,
-        filter,
-        setFilterField,
-        filtered,
-    } = useFilterState<{
-        createdDateAfter?: string,
-        createdDateBefore?: string,
-    }>({
-        filter: {},
-        pageSize: 15,
-    });
-    const alert = useAlert();
     const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(
         'dtype',
         (searchValue) => {
@@ -104,6 +85,30 @@ export function Component() {
         (region) => region,
     );
 
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+        limit,
+        offset,
+        rawFilter,
+        filter,
+        setFilterField,
+        filtered,
+    } = useFilterState<{
+        createdDateAfter?: string,
+        createdDateBefore?: string,
+    }>({
+        filter: {},
+        pageSize: 15,
+        resetPageOn: [
+            filterDisasterType,
+            filterCountry,
+            filterRegion,
+        ],
+    });
+    const alert = useAlert();
     const columns = useMemo(
         () => ([
             createDateColumn<FieldReportListItem, number>(

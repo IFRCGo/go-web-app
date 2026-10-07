@@ -3,6 +3,7 @@ import {
     useCallback,
     useMemo,
     useReducer,
+    useState,
 } from 'react';
 import { hasSomeDefinedValue } from '@ifrc-go/ui/utils';
 import { isNotDefined } from '@togglecorp/fujs';
@@ -68,6 +69,7 @@ function useFilterState<FILTER extends object>(options: {
     page?: number,
     pageSize?: number,
     debounceTime?: number,
+    resetPageOn?: unknown[],
 }) {
     const {
         filter,
@@ -75,6 +77,7 @@ function useFilterState<FILTER extends object>(options: {
         page = 1,
         pageSize = 10,
         debounceTime = 200,
+        resetPageOn = [],
     } = options;
 
     const [state, dispatch] = useReducer<FilterState<FILTER>, [action: FilterActions<FILTER>]>(
@@ -118,6 +121,13 @@ function useFilterState<FILTER extends object>(options: {
             page,
         },
     );
+
+    const resetPageKey = JSON.stringify(resetPageOn);
+    const [prevResetPageKey, setPrevResetPageKey] = useState(resetPageKey);
+    if (resetPageKey !== prevResetPageKey) {
+        setPrevResetPageKey(resetPageKey);
+        dispatch({ type: 'set-page', value: 1 });
+    }
 
     const setFilter = useCallback(
         (value: SetStateAction<FILTER>) => {
