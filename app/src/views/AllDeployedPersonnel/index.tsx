@@ -53,6 +53,39 @@ function keySelector(personnel: PersonnelTableItem) {
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
+    const [nationalSocietyFilter, setNationalSocietyFilter] = useUrlSearchState<number | undefined>(
+        'country',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (country) => country,
+    );
+
+    const [countryToFilter, setCountryToFilter] = useUrlSearchState<number | undefined>(
+        'country2',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (country) => country,
+    );
+
+    const [eventFilter, setEventFilter] = useUrlSearchState<number | undefined>(
+        'event',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (country) => country,
+    );
+
+    const [positionFilter, setPositionFilter] = useUrlSearchState<string | undefined>(
+        'role',
+        (searchValue) => searchValue ?? '',
+        (value) => value,
+    );
+
     const {
         sortState,
         ordering,
@@ -71,6 +104,12 @@ export function Component() {
     }>({
         filter: {},
         pageSize: 10,
+        resetPageOn: [
+            nationalSocietyFilter,
+            countryToFilter,
+            eventFilter,
+            positionFilter,
+        ],
     });
     const alert = useAlert();
 
@@ -98,48 +137,6 @@ export function Component() {
         // Add default ordering as second ordering
         return [ordering, defaultOrdering].join(',');
     }, [ordering]);
-
-    const [nationalSocietyFilter, setNationalSocietyFilter] = useUrlSearchState<number | undefined>(
-        'country',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            if (potentialValue) {
-                setPage(0);
-            }
-            return potentialValue;
-        },
-        (country) => country,
-    );
-
-    const [countryToFilter, setCountryToFilter] = useUrlSearchState<number | undefined>(
-        'country2',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            if (potentialValue) {
-                setPage(0);
-            }
-            return potentialValue;
-        },
-        (country) => country,
-    );
-
-    const [eventFilter, setEventFilter] = useUrlSearchState<number | undefined>(
-        'event',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            if (potentialValue) {
-                setPage(0);
-            }
-            return potentialValue;
-        },
-        (country) => country,
-    );
-
-    const [positionFilter, setPositionFilter] = useUrlSearchState<string | undefined>(
-        'role',
-        (searchValue) => searchValue ?? '',
-        (value) => value,
-    );
 
     const [eventOptions, setEventOptions] = useState<
         EventItem[] | undefined | null

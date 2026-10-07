@@ -62,28 +62,6 @@ const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        sortState,
-        ordering,
-        page,
-        setPage,
-        limit,
-        offset,
-        rawFilter,
-        filter,
-        setFilterField,
-        filtered,
-    } = useFilterState<{
-        startDateAfter?: string,
-        startDateBefore?: string,
-    }>({
-        filter: {},
-        pageSize: 10,
-    });
-    const alert = useAlert();
-
-    const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
-
     const [filterAppealType, setFilterAppealType] = useUrlSearchState<AppealTypeOption['key'] | undefined>(
         'atype',
         (searchValue) => {
@@ -143,6 +121,35 @@ export function Component() {
             : undefined),
         (value) => (value ? String(value) : undefined),
     );
+
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+        limit,
+        offset,
+        rawFilter,
+        filter,
+        setFilterField,
+        filtered,
+    } = useFilterState<{
+        startDateAfter?: string,
+        startDateBefore?: string,
+    }>({
+        filter: {},
+        pageSize: 10,
+        resetPageOn: [
+            filterAppealType,
+            filterDisasterType,
+            filterRegion,
+            filterCountry,
+            filterHasEvent,
+        ],
+    });
+    const alert = useAlert();
+
+    const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
 
     const defaultOrdering = '-start_date';
     const orderingWithFallback = useMemo(() => {
