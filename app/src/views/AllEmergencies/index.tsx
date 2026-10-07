@@ -65,6 +65,43 @@ const eventKeySelector = (item: EventListItem) => item.id;
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
+    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(
+        'dtype',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (dtype) => dtype,
+    );
+
+    const [filterRegion, setFilterRegion] = useUrlSearchState<RegionListItem['name'] | undefined>(
+        'region',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            // FIXME: use region enum
+            if (potentialValue === 0
+                || potentialValue === 1
+                || potentialValue === 2
+                || potentialValue === 3
+                || potentialValue === 4
+            ) {
+                return potentialValue;
+            }
+
+            return undefined;
+        },
+        (regionId) => regionId,
+    );
+
+    const [filterCountry, setFilterCountry] = useUrlSearchState<number | undefined>(
+        'country',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (country) => country,
+    );
+
     const {
         sortState,
         ordering,
@@ -82,6 +119,11 @@ export function Component() {
     }>({
         filter: {},
         pageSize: 15,
+        resetPageOn: [
+            filterDisasterType,
+            filterRegion,
+            filterCountry,
+        ],
     });
     const alert = useAlert();
 
@@ -152,41 +194,6 @@ export function Component() {
             strings.allEmergenciesAffected,
             strings.allEmergenciesCountry,
         ],
-    );
-
-    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(
-        'dtype',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            return potentialValue;
-        },
-        (dtype) => dtype,
-    );
-    const [filterRegion, setFilterRegion] = useUrlSearchState<RegionListItem['name'] | undefined>(
-        'region',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            // FIXME: use region enum
-            if (potentialValue === 0
-                || potentialValue === 1
-                || potentialValue === 2
-                || potentialValue === 3
-                || potentialValue === 4
-            ) {
-                return potentialValue;
-            }
-
-            return undefined;
-        },
-        (regionId) => regionId,
-    );
-    const [filterCountry, setFilterCountry] = useUrlSearchState<number | undefined>(
-        'country',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            return potentialValue;
-        },
-        (country) => country,
     );
 
     const query = useMemo<EventQueryParams>(
