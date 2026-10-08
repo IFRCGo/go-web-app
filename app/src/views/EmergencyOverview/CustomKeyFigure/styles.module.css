@@ -1,0 +1,9 @@
+.value {
+    display: flex;
+    align-items: center;
+    gap: var(--go-ui-spacing-xs);
+
+    .info-popup {
+        margin-inline-start: auto;
+    }
+}
