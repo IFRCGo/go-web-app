@@ -22,7 +22,7 @@ function CustomKeyFigure(props: Props) {
     const strings = useTranslation(i18n);
 
     // NOTE: server sends number as free text (e.g. "1,200"), so strip
-    // non-numeric characters; unparseable values are shown as empty
+    // non-numeric characters; unparsable values are shown as empty
     const value = Number.parseFloat(keyFigure.number.replace(/[^\d.-]/g, ''));
 
     return (
