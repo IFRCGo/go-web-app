@@ -14,16 +14,24 @@ import { type GoApiResponse } from '#utils/restRequest';
 // TODO: update typing after removal of projects
 type SearchResponse = Omit<GoApiResponse<'/api/v1/search/'>, 'projects'>;
 type DistrictProvinceResult = NonNullable<SearchResponse['district_province_response']>[number];
+type UrlResult = NonNullable<SearchResponse['urls']>[number];
 
 type SearchResponseKey = keyof SearchResponse;
 // NOTE: We are extracting these enum keys because others are handled by ResultTable
-type ResultKey = Extract<SearchResponseKey, 'regions' | 'countries' | 'district_province_response'>;
+type ResultKey = Extract<SearchResponseKey, 'regions' | 'countries' | 'district_province_response' | 'urls'>;
 
 function isDistrictProvinceResult(
     result: NonNullable<SearchResponse[ResultKey]>[number],
     resultKey: ResultKey,
 ): result is DistrictProvinceResult {
     return isDefined(result) && resultKey === 'district_province_response';
+}
+
+function isUrlResult(
+    result: NonNullable<SearchResponse[ResultKey]>[number],
+    resultKey: ResultKey,
+): result is UrlResult {
+    return isDefined(result) && resultKey === 'urls';
 }
 
 interface Props {
@@ -76,6 +84,24 @@ function ResultList(props: Props) {
             >
                 {limitedData?.map(
                     (result) => {
+                        if (isUrlResult(result, resultKey)) {
+                            return (
+                                <ListView
+                                    key={result.url}
+                                    withCenteredContents
+                                    withDarkBackground
+                                >
+                                    <Link
+                                        external
+                                        href={result.url}
+                                        withLinkIcon
+                                    >
+                                        {result.name}
+                                    </Link>
+                                </ListView>
+                            );
+                        }
+
                         if (isDistrictProvinceResult(result, resultKey)
                             && isNotDefined(result.country_id)
                         ) {
