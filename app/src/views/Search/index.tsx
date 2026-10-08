@@ -53,8 +53,11 @@ type SearchResponseKeys = Exclude<keyof SearchResponse, 'projects'>;
 
 function isListTypeResult(
     resultKey: SearchResponseKeys,
-): resultKey is Extract<SearchResponseKeys, 'regions' | 'countries' | 'district_province_response'> {
-    return resultKey === 'regions' || resultKey === 'countries' || resultKey === 'district_province_response';
+): resultKey is Extract<SearchResponseKeys, 'regions' | 'countries' | 'district_province_response' | 'urls'> {
+    return resultKey === 'regions'
+        || resultKey === 'countries'
+        || resultKey === 'district_province_response'
+        || resultKey === 'urls';
 }
 
 const feedbackLink = 'https://forms.office.com/e/YEzYKfMwSB';
@@ -129,6 +132,7 @@ export function Component() {
             district_province_response: strings.searchProvincesTitle,
             regions: strings.searchRegionsTitle,
             countries: strings.searchCountriesTitle,
+            urls: strings.searchUrlsTitle,
         }),
         [
             strings.searchEmergenciesTitle,
@@ -139,6 +143,7 @@ export function Component() {
             strings.searchProvincesTitle,
             strings.searchRegionsTitle,
             strings.searchCountriesTitle,
+            strings.searchUrlsTitle,
         ],
     );
 
@@ -170,9 +175,10 @@ export function Component() {
             const searchResponseKeys = Object.keys(searchResponse ?? {}) as SearchResponseKeys[];
 
             function getAverageScore(
-                results: { score: number | null | undefined }[] | undefined | null,
+                results: unknown[] | undefined | null,
             ) {
-                const scoreList = results?.map((result) => result.score);
+                const scoreList = (results as { score?: number | null }[] | undefined)
+                    ?.map((result) => result.score);
                 if (isNotDefined(scoreList) || scoreList.length === 0) {
                     return 0;
                 }
