@@ -2,6 +2,7 @@ import {
     useCallback,
     useContext,
     useEffect,
+    useRef,
     useState,
 } from 'react';
 import {
@@ -31,9 +32,20 @@ function useAdminAreaHover(
     isEnabled: boolean,
     hoveredPlaceCode: PlaceCode | undefined,
     onHoverChange: PlaceCodeChangeHandler,
+    canDrillDown: (placeCode: PlaceCode) => boolean,
 ) {
     const { map } = useContext(NrwMapContext);
     const [hoveredAdminArea, setHoveredAdminArea] = useState<HoveredAdminArea>();
+
+    // canDrillDown changes identity every render. We don't want to re-register
+    // the mousemove listener.
+    const canDrillDownRef = useRef(canDrillDown);
+    useEffect(
+        () => {
+            canDrillDownRef.current = canDrillDown;
+        },
+        [canDrillDown],
+    );
 
     const clearHover = useCallback(
         () => {
@@ -59,7 +71,9 @@ function useAdminAreaHover(
                     return;
                 }
 
-                map.getCanvas().style.cursor = 'pointer';
+                // Show "clickable" pointer cursor only for admin areas that can
+                // be drilled into. Default to drag cursor.
+                map.getCanvas().style.cursor = canDrillDownRef.current(properties.placeCode) ? 'pointer' : '';
                 setHoveredAdminArea({
                     ...properties,
                     coordinates: new NrwLngLat(

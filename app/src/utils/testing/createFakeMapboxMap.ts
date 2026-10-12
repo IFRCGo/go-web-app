@@ -13,22 +13,34 @@ function getSourceId(layer: LayerSpecification) {
     return typeof layer.source === 'object' ? layer.id : layer.source;
 }
 
+type FakeEventHandler = (event: unknown) => void;
+
 // The subset of the Mapbox map that the NRW layer hooks use. It records every
 // call in order so a test can assert the layer lifecycle sequence. Mapbox reports
 // a wrong source order as an error event; the fake throws so the test fails.
 interface FakeMapboxMap {
     map: MapboxMap;
     calls: string[];
+    canvas: { style: { cursor: string } };
     getLayerSpecification: (id: string) => LayerSpecification | undefined;
     getVisibility: (id: string) => string | undefined;
+    setRenderedFeatures: (features: unknown[]) => void;
+    simulateEvent: (event: string, payload: unknown, layerId?: string) => void;
 }
 
 function createFakeMapboxMap(): FakeMapboxMap {
     const layers = new Map<string, LayerSpecification>();
     const visibilities = new Map<string, string>();
     const sources = new Set<string>();
+    const listeners = new Map<string, Set<FakeEventHandler>>();
+    const canvas = { style: { cursor: '' } };
     const calls: string[] = [];
+    let renderedFeatures: unknown[] = [];
     let style: object | undefined = {};
+
+    function listenerKey(event: string, layerId?: string) {
+        return isDefined(layerId) ? `${event} ${layerId}` : event;
+    }
 
     function assertStyle(method: string) {
         if (isNotDefined(style)) {
@@ -93,14 +105,52 @@ function createFakeMapboxMap(): FakeMapboxMap {
             calls.push('remove');
             style = undefined;
         },
+        on(event: string, layerIdOrHandler: string | FakeEventHandler, handler?: FakeEventHandler) {
+            const [layerId, resolvedHandler] = typeof layerIdOrHandler === 'string'
+                ? [layerIdOrHandler, handler] as const
+                : [undefined, layerIdOrHandler] as const;
+            if (isNotDefined(resolvedHandler)) {
+                throw new TypeError(`No handler passed to on("${event}")`);
+            }
+            const key = listenerKey(event, layerId);
+            const handlers = listeners.get(key) ?? new Set<FakeEventHandler>();
+            handlers.add(resolvedHandler);
+            listeners.set(key, handlers);
+        },
+        off(
+            event: string,
+            layerIdOrHandler: string | FakeEventHandler,
+            handler?: FakeEventHandler,
+        ) {
+            const [layerId, resolvedHandler] = typeof layerIdOrHandler === 'string'
+                ? [layerIdOrHandler, handler] as const
+                : [undefined, layerIdOrHandler] as const;
+            listeners.get(listenerKey(event, layerId))?.delete(resolvedHandler!);
+        },
+        queryRenderedFeatures() {
+            return renderedFeatures;
+        },
+        getCanvas() {
+            return canvas;
+        },
     };
 
     return {
         // Only the methods above are implemented.
         map: fakeMap as unknown as MapboxMap,
         calls,
+        canvas,
         getLayerSpecification: (id) => layers.get(id),
         getVisibility: (id) => visibilities.get(id),
+        // Tests set the features the next queryRenderedFeatures call reports.
+        setRenderedFeatures: (features) => {
+            renderedFeatures = features;
+        },
+        // Fires the listeners for an event; with a layerId only the
+        // layer-scoped listeners registered for that layer fire.
+        simulateEvent: (event, payload, layerId) => {
+            listeners.get(listenerKey(event, layerId))?.forEach((handler) => handler(payload));
+        },
     };
 }
 
