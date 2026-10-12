@@ -1,6 +1,9 @@
 .nrw-exposed-admin-area-row {
     border-top: var(--go-ui-width-separator-sm) solid var(--go-ui-color-gray-30);
 
+    --icon-width: 1.25em;
+    --icon-gap: var(--go-ui-spacing-3xs);
+
     td {
         padding: var(--go-ui-spacing-3xs) var(--go-ui-spacing-2xs);
         width: 50%;
@@ -11,14 +14,17 @@
     .exposed-population {
         display: flex;
         align-items: center;
-        gap: var(--go-ui-spacing-2xs);
+        gap: var(--icon-gap);
     }
 
     .color-dot {
+        --dot-size: var(--go-ui-spacing-xs);
+
         flex-shrink: 0;
+        margin: 0 calc((var(--icon-width) - var(--dot-size)) / 2);
         border-radius: var(--go-ui-border-radius-full);
-        width: var(--go-ui-spacing-xs);
-        height: var(--go-ui-spacing-xs);
+        width: var(--dot-size);
+        height: var(--dot-size);
     }
 
     .admin-area-name {
@@ -28,6 +34,7 @@
 
     .exposed-population {
         justify-content: space-between;
+        padding-left: calc(var(--icon-width) + var(--icon-gap));
     }
 
     .hover-icon {

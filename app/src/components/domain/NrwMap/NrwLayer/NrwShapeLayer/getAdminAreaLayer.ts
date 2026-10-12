@@ -6,29 +6,28 @@ import {
     getEqualIntervalBreaks,
     mapFillHoverOpacity,
     mapFillOpacity,
-    mapOutlineColor,
+    mapOutlineWidth,
 } from '#utils/nrw/colors';
 import {
     type NrwAdminAreaFeatureCollection,
     type NrwEvent,
 } from '#views/CountryProfileNationalRiskWatch/types';
 
-import type useNrwMapLayer from '../useNrwMapLayer';
-
-type MapLayer = NonNullable<Parameters<typeof useNrwMapLayer>[0]>;
+import { type MapLayer } from '../useNrwMapLayers';
 
 const isHovered: ExpressionSpecification = ['boolean', ['feature-state', 'hover'], false];
 
 const exposedPopulation: ExpressionSpecification = ['coalesce', ['get', 'exposedPopulation'], 0];
 
-// Build the choropleth fill layer of the admin areas, coloured by their
-// exposed population in the ramp of the given alert class.
-function getAdminAreaFillLayer(
+// Build the choropleth layer of the admin areas, coloured by their exposed population
+// in the ramp of the given alert class. A Mapbox fill layer only draws a translucent
+// hairline, so the opaque outline in the same colour is a second, line layer.
+function getAdminAreaLayer(
     id: string,
     adminAreas: NrwAdminAreaFeatureCollection,
     exposedPopulationByPlaceCode: Map<string, number>,
     alertClass: NrwEvent['alertClass'],
-): MapLayer {
+): MapLayer[] {
     // Add the exposed population to the features, so the paint expressions can read it.
     const features = adminAreas.features.map((feature) => ({
         ...feature,
@@ -60,24 +59,36 @@ function getAdminAreaFillLayer(
         ]
         : ramp[0];
 
-    return {
-        id,
-        type: 'fill',
-        source: {
-            type: 'geojson',
-            // The generated GeoJSON type is looser than the Mapbox one.
-            data: { ...adminAreas, features } as unknown as GeoJSON.FeatureCollection,
-            // Use properties.placeCode as the feature id, so the hover feature state
-            // can find the feature.
-            promoteId: 'placeCode',
+    return [
+        {
+            id,
+            type: 'fill',
+            source: {
+                type: 'geojson',
+                // The generated GeoJSON type is looser than the Mapbox one.
+                data: { ...adminAreas, features } as unknown as GeoJSON.FeatureCollection,
+                // Use properties.placeCode as the feature id, so the hover feature state
+                // can find the feature.
+                promoteId: 'placeCode',
+            },
+            paint: {
+                'fill-color': fillColor,
+                // The hovered admin area darkens.
+                'fill-opacity': ['case', isHovered, mapFillHoverOpacity, mapFillOpacity],
+            },
         },
-        paint: {
-            'fill-color': fillColor,
-            // The hovered admin area darkens and draws its outline in its own colour.
-            'fill-opacity': ['case', isHovered, mapFillHoverOpacity, mapFillOpacity],
-            'fill-outline-color': ['case', isHovered, fillColor, mapOutlineColor],
+        {
+            id: `${id}-outline`,
+            type: 'line',
+            // Mapbox registers the inline source above under the id of the fill layer.
+            source: id,
+            paint: {
+                // The outline keeps the default full opacity, where the fill is translucent.
+                'line-color': fillColor,
+                'line-width': mapOutlineWidth,
+            },
         },
-    };
+    ];
 }
 
-export default getAdminAreaFillLayer;
+export default getAdminAreaLayer;

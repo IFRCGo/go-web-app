@@ -12,7 +12,7 @@ import {
     type NrwLayer,
 } from '#views/CountryProfileNationalRiskWatch/types';
 
-import useNrwMapLayer from '../useNrwMapLayer';
+import useNrwMapLayers, { type MapLayer } from '../useNrwMapLayers';
 
 function NrwRasterLayer(props: {
     id: string;
@@ -48,7 +48,7 @@ function NrwRasterLayer(props: {
 
     const response = isAlertRaster ? alertRaster : staticRaster;
 
-    const mapLayer = useMemo<Parameters<typeof useNrwMapLayer>[0]>(
+    const mapLayers = useMemo<MapLayer[] | undefined>(
         () => {
             if (isNotDefined(response)) {
                 return undefined;
@@ -64,7 +64,7 @@ function NrwRasterLayer(props: {
                     ? `rasters/alert/${resourceId}/image`
                     : `rasters/static/${countryCodeIso3}/${name}/image`,
             );
-            return {
+            return [{
                 id,
                 type: 'raster',
                 source: {
@@ -80,12 +80,12 @@ function NrwRasterLayer(props: {
                 paint: {
                     'raster-resampling': 'nearest',
                 },
-            };
+            }];
         },
         [id, countryCodeIso3, name, resourceId, isAlertRaster, response],
     );
 
-    useNrwMapLayer(mapLayer, isVisible, layerAnchorId);
+    useNrwMapLayers(mapLayers, isVisible, layerAnchorId);
 
     return null;
 }

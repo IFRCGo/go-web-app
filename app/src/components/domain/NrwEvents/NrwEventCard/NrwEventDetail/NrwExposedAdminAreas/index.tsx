@@ -2,11 +2,11 @@ import {
     useContext,
     useMemo,
 } from 'react';
+import { faLocationDot } from '@fortawesome/pro-regular-svg-icons';
 import {
     faLocationCrosshairs,
-    faLocationDot,
-} from '@fortawesome/pro-regular-svg-icons';
-import { faPersonRays } from '@fortawesome/pro-solid-svg-icons';
+    faPersonRays,
+} from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NumberOutput } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -128,14 +128,12 @@ function NrwExposedAdminAreas(props: Props) {
                     </span>
                 </div>
             )}
-            <div
-                className={_cs(
-                    styles.exposedAdminAreaTotals,
-                    isDefined(parentAdminArea) && styles.indented,
-                )}
-            >
+            <div className={styles.exposedAdminAreaTotals}>
                 <div>
-                    {resolveToString(strings.nrwExposedAdminAreasTotalAreas, { adminAreaLabel })}
+                    {resolveToString(
+                        strings.nrwExposedAdminAreasTotalAreas,
+                        { adminAreaLabel: adminAreaLabel.toLowerCase() },
+                    )}
                     <NumberOutput
                         className={styles.exposedAdminAreaTotalValue}
                         value={rows.length}

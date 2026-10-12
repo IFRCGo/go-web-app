@@ -37,7 +37,7 @@ function useAdminAreaHover(
 
     const clearHover = useCallback(
         () => {
-            if (isDefined(map)) {
+            if (isDefined(map) && isDefined(map.style)) {
                 map.getCanvas().style.cursor = '';
             }
             setHoveredAdminArea(undefined);
@@ -94,7 +94,7 @@ function useAdminAreaHover(
             }
 
             return () => {
-                if (isDefined(map.getSource(layerId))) {
+                if (isDefined(map.style) && isDefined(map.getSource(layerId))) {
                     map.removeFeatureState({ source: layerId });
                 }
             };

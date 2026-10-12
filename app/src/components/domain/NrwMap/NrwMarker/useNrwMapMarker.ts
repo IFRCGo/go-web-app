@@ -4,7 +4,10 @@ import {
     useRef,
     useState,
 } from 'react';
-import { isNotDefined } from '@togglecorp/fujs';
+import {
+    _cs,
+    isNotDefined,
+} from '@togglecorp/fujs';
 import mapboxgl, {
     type Marker as MapboxMarker,
     type MarkerOptions,
@@ -13,6 +16,8 @@ import mapboxgl, {
 import type NrwLngLat from '#views/CountryProfileNationalRiskWatch/NrwLngLat';
 
 import NrwMapContext from '../NrwMapContext';
+
+import styles from './styles.module.css';
 
 export type NrwMarkerPlacement = Pick<MarkerOptions, 'anchor' | 'offset'>;
 
@@ -24,7 +29,11 @@ function useNrwMapMarker(
 
     const { lng, lat } = coordinates;
 
-    const [element] = useState(() => document.createElement('div'));
+    const [element] = useState(() => {
+        const markerElement = document.createElement('div');
+        markerElement.className = _cs(styles.marker);
+        return markerElement;
+    });
     const markerRef = useRef<MapboxMarker | undefined>(undefined);
 
     useEffect(() => {

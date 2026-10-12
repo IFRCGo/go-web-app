@@ -1,7 +1,5 @@
-import {
-    faChevronRight,
-    faLocationCrosshairs,
-} from '@fortawesome/pro-regular-svg-icons';
+import { faChevronRight } from '@fortawesome/pro-regular-svg-icons';
+import { faLocationCrosshairs } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     NumberOutput,

@@ -15,8 +15,7 @@ export const alertClassMapRamps: Record<NrwEvent['alertClass'], readonly [
 
 export const mapFillOpacity = 0.65;
 export const mapFillHoverOpacity = 0.8;
-// Mapbox only parses the legacy comma colour syntax.
-export const mapOutlineColor = 'rgba(50, 50, 50, 0.2)';
+export const mapOutlineWidth = 2;
 
 // Split 0..max into five equal bands, one per ramp tint, so the scale fits any
 // magnitude (hundreds or millions) with the same method for every hazard and country.

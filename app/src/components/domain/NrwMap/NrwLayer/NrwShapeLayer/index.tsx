@@ -19,8 +19,8 @@ import { getFeatureCollectionBounds } from '#views/CountryProfileNationalRiskWat
 import NrwMarker from '../../NrwMarker';
 import { type NrwMarkerPlacement } from '../../NrwMarker/useNrwMapMarker';
 import useNrwMapFitBounds from '../../useNrwMapFitBounds';
-import useNrwMapLayer from '../useNrwMapLayer';
-import getAdminAreaFillLayer from './getAdminAreaFillLayer';
+import useNrwMapLayers from '../useNrwMapLayers';
+import getAdminAreaLayer from './getAdminAreaLayer';
 import useAdminAreaClick from './useAdminAreaClick';
 import useAdminAreaHover from './useAdminAreaHover';
 
@@ -29,6 +29,10 @@ import styles from './styles.module.css';
 
 // Show the tooltip just above-right of the pointer, as in the prototype.
 const tooltipPlacement: NrwMarkerPlacement = { anchor: 'bottom-left', offset: [14, -10] };
+
+// Drilling back up on a click beside the admin areas is disabled for now.
+// Set this to true to enable it again; the Back button in the event card always drills up.
+const drillUpOnOutsideClick = false;
 
 function NrwShapeLayer(props: {
     id: string;
@@ -63,9 +67,9 @@ function NrwShapeLayer(props: {
         [selectedEvent],
     );
 
-    const mapLayer = useMemo(
+    const mapLayers = useMemo(
         () => (isDefined(adminAreas) && isDefined(selectedEvent)
-            ? getAdminAreaFillLayer(
+            ? getAdminAreaLayer(
                 id,
                 adminAreas,
                 exposedPopulationByPlaceCode,
@@ -74,9 +78,9 @@ function NrwShapeLayer(props: {
             : undefined),
         [id, adminAreas, exposedPopulationByPlaceCode, selectedEvent],
     );
-    useNrwMapLayer(mapLayer, isVisible, layerAnchorId);
+    useNrwMapLayers(mapLayers, isVisible, layerAnchorId);
 
-    const isInteractive = isDefined(mapLayer) && isVisible;
+    const isInteractive = isDefined(mapLayers) && isVisible;
     const { hoveredAdminArea, clearHover } = useAdminAreaHover(
         id,
         isInteractive,
@@ -84,11 +88,13 @@ function NrwShapeLayer(props: {
         onAdminAreaHoverChange,
     );
 
-    // Drill into the clicked admin area, or back up on a click beside them.
+    // Drill into the clicked admin area, or (when enabled) back up on a click beside them.
     const handleClick = useCallback(
         (adminArea: AdminAreaProperties | null) => {
             if (adminArea === null) {
-                drillUp();
+                if (drillUpOnOutsideClick) {
+                    drillUp();
+                }
                 return;
             }
 
@@ -116,7 +122,6 @@ function NrwShapeLayer(props: {
                 <div className={styles.exposedPopulation}>
                     {strings.nrwShapeLayerExposedPopulationLabel}
                     <NumberOutput
-                        className={styles.value}
                         value={exposedPopulationByPlaceCode.get(hoveredAdminArea.placeCode)}
                         invalidText="--"
                     />

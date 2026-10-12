@@ -1,11 +1,10 @@
 import { useContext } from 'react';
 import {
+    faBullhorn,
     faChevronLeft,
-    faCircleInfo,
     faClock,
     faDatabase,
     faMap,
-    faTriangleExclamation,
 } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from '@ifrc-go/ui';
@@ -81,10 +80,7 @@ function NrwEventDetail(props: Props) {
                     </span>
                 </div>
                 <div className={styles.fact}>
-                    <FontAwesomeIcon
-                        className={styles.icon}
-                        icon={event.trigger ? faTriangleExclamation : faCircleInfo}
-                    />
+                    <FontAwesomeIcon className={styles.icon} icon={faBullhorn} />
                     {strings.nrwEventDetailAdvisoryLabel}
                     <span className={styles.factValue}>
                         {event.trigger
@@ -101,7 +97,8 @@ function NrwEventDetail(props: Props) {
                                 className={styles.backButton}
                                 name={undefined}
                                 colorVariant="text"
-                                textSize="sm"
+                                textSize="md"
+                                spacingOffset={-2}
                                 before={<FontAwesomeIcon icon={faChevronLeft} />}
                                 onClick={drillUp}
                             >
