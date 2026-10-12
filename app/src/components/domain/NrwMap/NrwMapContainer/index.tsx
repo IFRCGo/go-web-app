@@ -25,6 +25,9 @@ import {
     layerDrawOrder,
 } from '#utils/nrw/layers';
 import {
+    type NrwScreenCaptureHandler,
+} from '#views/CountryProfileNationalRiskWatch/contexts/NrwScreenCaptureContext';
+import {
     type Latitude,
     type Longitude,
     type MapView,
@@ -32,6 +35,7 @@ import {
     type Zoom,
 } from '#views/CountryProfileNationalRiskWatch/types';
 
+import captureNrwMap from '../captureNrwMapScreenCapture';
 import NrwMapContext from '../NrwMapContext';
 
 import i18n from './i18n.json';
@@ -52,10 +56,18 @@ function NrwMapContainer(props: {
     breadcrumbs?: React.ReactNode;
     layerPanel?: React.ReactNode;
     legend?: React.ReactNode;
+    registerScreenCapture: (handler: NrwScreenCaptureHandler | undefined) => void;
     children?: React.ReactNode;
 }) {
     const {
-        mapView, preserveInitialView, onMapViewChange, breadcrumbs, layerPanel, legend, children,
+        mapView,
+        preserveInitialView,
+        onMapViewChange,
+        breadcrumbs,
+        layerPanel,
+        legend,
+        registerScreenCapture,
+        children,
     } = props;
 
     const { zoom, center, fitBounds } = mapView;
@@ -99,6 +111,7 @@ function NrwMapContainer(props: {
             logoPosition: 'bottom-right',
             center,
             zoom,
+            preserveDrawingBuffer: true,
         });
 
         map.dragRotate.disable();
@@ -163,6 +176,18 @@ function NrwMapContainer(props: {
         () => ({ map: mapLoadComplete ? mapboxMap : undefined, preserveInitialView }),
         [mapboxMap, mapLoadComplete, preserveInitialView],
     );
+
+    // Expose the map capture capability once the map is ready, so that
+    // consumers (e.g. the PDF export) don't need to know about Mapbox.
+    useEffect(() => {
+        if (!mapLoadComplete || isNotDefined(mapboxMap)) {
+            registerScreenCapture(undefined);
+            return undefined;
+        }
+
+        registerScreenCapture(captureNrwMap(mapboxMap));
+        return () => registerScreenCapture(undefined);
+    }, [mapboxMap, mapLoadComplete, registerScreenCapture]);
 
     return (
         <>

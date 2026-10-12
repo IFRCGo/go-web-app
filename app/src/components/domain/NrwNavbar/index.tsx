@@ -1,7 +1,4 @@
-import {
-    faBars,
-    faCircleUser,
-} from '@fortawesome/pro-solid-svg-icons';
+import { faBars } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     Heading,
@@ -15,11 +12,12 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Props {
-  className?: string;
+    className?: string;
+    actions?: React.ReactNode;
 }
 
 function NrwNavbar(props: Props) {
-    const { className } = props;
+    const { className, actions } = props;
 
     const strings = useTranslation(i18n);
 
@@ -36,7 +34,9 @@ function NrwNavbar(props: Props) {
                             {strings.nrwNavbarTitle}
                         </Heading>
                     </div>
-                    <FontAwesomeIcon icon={faCircleUser} className={styles.iconUser} />
+                    <div className={styles.userActions}>
+                        {actions}
+                    </div>
                 </ListView>
             </PageContainer>
         </nav>

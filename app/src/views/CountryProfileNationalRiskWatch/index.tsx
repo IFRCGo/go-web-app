@@ -1,4 +1,10 @@
 import {
+    useCallback,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
+import {
     Container,
     ListView,
 } from '@ifrc-go/ui';
@@ -8,10 +14,15 @@ import { isDefined } from '@togglecorp/fujs';
 import NrwEvents from '#components/domain/NrwEvents';
 import NrwMap from '#components/domain/NrwMap';
 import NrwNavbar from '#components/domain/NrwNavbar';
+import NrwPdfExport from '#components/domain/NrwPdfExport';
 import Page from '#components/Page';
 import { nrwStandalone } from '#config';
 
 import NrwEventsContext from './contexts/NrwEventsContext';
+import NrwScreenCaptureContext, {
+    type NrwScreenCaptureContextProps,
+    type NrwScreenCaptureHandler,
+} from './contexts/NrwScreenCaptureContext';
 import useNrwEvents from './hooks/useNrwEvents';
 import useNrwLayers from './hooks/useNrwLayers';
 import useNrwLegend from './hooks/useNrwLegend';
@@ -78,50 +89,73 @@ export function Component() {
         enabled: isDefined(selectedEvent),
     });
 
+    // The actual screen capture function is down in the component tree and
+    // specific to the mapping library. It will be available after the map has
+    // loaded.
+    // We pass down registerScreenCapture which registers the mapping library
+    // specific code with NrwScreenCaptureContext. That context is then used by
+    // the PDF export button.
+    const [takeScreenCapture, setTakeScreenCapture] = useState<NrwScreenCaptureHandler>();
+    // Wrap in a plain callback: a raw state setter would invoke the handler
+    // argument as a state updater function.
+    const registerScreenCapture = useCallback((handler: NrwScreenCaptureHandler | undefined) => {
+        setTakeScreenCapture(handler ? () => handler : undefined);
+    }, []);
+    const nrwScreenCaptureContext = useMemo<NrwScreenCaptureContextProps>(
+        () => ({ takeScreenCapture }),
+        [takeScreenCapture],
+    );
+    const eventsPanelRef = useRef<HTMLDivElement>(null);
+
+    const exportButton = countries.length > 0
+        ? <NrwPdfExport eventsPanelRef={eventsPanelRef} countries={countries} />
+        : undefined;
+
     const content = (
-        <NrwEventsContext.Provider value={nrwEventsContext}>
-            <NrwAdminAreasProvider event={selectedEvent}>
-                <Container
-                    heading={nrwStandalone ? '' : strings.nationalRiskWatchHeading}
+        <NrwAdminAreasProvider event={selectedEvent}>
+            <Container
+                heading={nrwStandalone ? '' : strings.nationalRiskWatchHeading}
+            >
+                <ListView
+                    layout="grid"
+                    withSidebar
+                    sidebarSize="lg"
+                    gridContentClassName={styles.eventsHeight}
                 >
-                    <ListView
-                        layout="grid"
-                        withSidebar
-                        sidebarSize="lg"
-                        gridContentClassName={styles.eventsHeight}
-                    >
-                        <NrwMap
-                            mapView={mapView}
-                            preserveInitialView={preserveInitialView}
-                            onMapViewChange={handleMapViewChange}
-                            availableLayers={availableLayers}
-                            visibleLayers={visibleLayers}
-                            onLayerToggle={handleLayerToggle}
-                            legendItems={legendItems}
-                        />
-                        <NrwEvents />
-                    </ListView>
-                </Container>
-            </NrwAdminAreasProvider>
-        </NrwEventsContext.Provider>
+                    <NrwMap
+                        mapView={mapView}
+                        preserveInitialView={preserveInitialView}
+                        onMapViewChange={handleMapViewChange}
+                        availableLayers={availableLayers}
+                        visibleLayers={visibleLayers}
+                        onLayerToggle={handleLayerToggle}
+                        registerScreenCapture={registerScreenCapture}
+                        legendItems={legendItems}
+                    />
+                    <NrwEvents elementRef={eventsPanelRef} />
+                </ListView>
+            </Container>
+        </NrwAdminAreasProvider>
     );
 
-    if (nrwStandalone) {
-        return (
-            <div className={styles.countryProfileNrwStandalone}>
-                <NrwNavbar />
-                <Page
-                    title={strings.nationalRiskWatchPageTitle}
-                    mainSectionContainerClassName={styles.mainSectionContainer}
-                    mainSectionClassName={styles.mainSection}
-                >
-                    {content}
-                </Page>
-            </div>
-        );
-    }
-
-    return content;
+    return (
+        <NrwEventsContext.Provider value={nrwEventsContext}>
+            <NrwScreenCaptureContext.Provider value={nrwScreenCaptureContext}>
+                {nrwStandalone ? (
+                    <div className={styles.countryProfileNrwStandalone}>
+                        <NrwNavbar actions={exportButton} />
+                        <Page
+                            title={strings.nationalRiskWatchPageTitle}
+                            mainSectionContainerClassName={styles.mainSectionContainer}
+                            mainSectionClassName={styles.mainSection}
+                        >
+                            {content}
+                        </Page>
+                    </div>
+                ) : content}
+            </NrwScreenCaptureContext.Provider>
+        </NrwEventsContext.Provider>
+    );
 }
 
 Component.displayName = 'CountryProfileNationalRiskWatch';

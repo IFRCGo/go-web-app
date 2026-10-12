@@ -1,0 +1,12 @@
+{
+    "namespace": "nrwPdfExport",
+    "strings": {
+        "nrwPdfExportButtonLabel": "Export view",
+        "nrwPdfExportExportingLabel": "Exporting…",
+        "nrwPdfExportFailedMessage": "Failed to export the National Risk Watch view",
+        "nrwPdfExportTitle": "National Risk Watch",
+        "nrwPdfExportGenerated": "Generated {date}",
+        "nrwPdfExportMapNote": "Map locked to polygon state at time of export — extent, pins and active layers unchanged",
+        "nrwPdfExportPageLabel": "Page {page} of {total}"
+    }
+}

@@ -1,4 +1,5 @@
 import {
+    type RefObject,
     useCallback,
     useContext,
     useMemo,
@@ -27,10 +28,11 @@ const eventKeySelector = (event: NrwEvent) => event.eventId;
 
 interface Props {
     className?: string;
+    elementRef?: RefObject<HTMLDivElement | null>;
 }
 
 function NrwEvents(props: Props) {
-    const { className } = props;
+    const { className, elementRef } = props;
 
     const {
         events,
@@ -96,6 +98,7 @@ function NrwEvents(props: Props) {
     return (
         <Container
             className={_cs(styles.nrwEvents, className)}
+            elementRef={elementRef}
             heading={heading}
             headingLevel={4}
             withPadding

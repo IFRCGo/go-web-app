@@ -19,6 +19,8 @@
         height: 100%;
         overflow: visible;
         filter: drop-shadow(0 2px 3px rgb(0 0 0 / 25%));
+        /* Set the color on the svg root so it can be exported to PDF*/
+        color: var(--color-alert);
     }
 
     .hazard-icon {
@@ -79,16 +81,6 @@
 
     &.alert-high {
         --color-alert: var(--nrw-color-alert-high);
-    }
-
-    & :global(.event-marker-body) {
-        fill: var(--color-alert);
-    }
-
-    & :global(.event-marker-outline) {
-        fill: none;
-        stroke: #a8a8a8;
-        stroke-width: 2;
     }
 }
 
