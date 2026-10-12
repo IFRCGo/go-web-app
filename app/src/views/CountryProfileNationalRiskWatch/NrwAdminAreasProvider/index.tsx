@@ -69,9 +69,9 @@ function NrwAdminAreasProvider(props: {
 
     // Only the exposed admin levels of the event can be drilled into, starting
     // at the level where the exposure splits into several areas.
-    const minAdminLevel = isDefined(event) ? getNrwInitialAdminLevel(event) : 1 as AdminLevel;
-    const adminLevel = (minAdminLevel + drill.shown.path.length) as AdminLevel;
-    const requestedAdminLevel = (minAdminLevel + drill.path.length) as AdminLevel;
+    const initialAdminLevel = isDefined(event) ? getNrwInitialAdminLevel(event) : 1 as AdminLevel;
+    const adminLevel = (initialAdminLevel + drill.shown.path.length) as AdminLevel;
+    const requestedAdminLevel = (initialAdminLevel + drill.path.length) as AdminLevel;
     const exposedPlaceCodes = isDefined(event)
         ? getNrwExposedPlaceCodes(event, requestedAdminLevel)
         : [];
@@ -117,11 +117,20 @@ function NrwAdminAreasProvider(props: {
                     && !childlessPlaceCodes.includes(placeCode);
             }
 
+            function drillUpTo(targetAdminLevel: AdminLevel) {
+                setDrill((previous) => ({
+                    ...previous,
+                    path: previous.shown.path.slice(0, targetAdminLevel - initialAdminLevel),
+                }));
+            }
+
             return {
+                initialAdminLevel,
                 adminLevel,
                 adminLevelLabels,
                 adminAreas: shown.adminAreas,
                 pending,
+                drillPath: shown.path,
                 parentAdminArea: shown.path.at(-1),
                 hoveredPlaceCode,
                 onAdminAreaHoverChange: setHoveredPlaceCode,
@@ -135,16 +144,22 @@ function NrwAdminAreasProvider(props: {
                     }
                 },
                 drillUp: () => {
-                    if (shown.path.length > 0) {
-                        setDrill((previous) => ({
-                            ...previous,
-                            path: previous.shown.path.slice(0, -1),
-                        }));
+                    if (adminLevel > initialAdminLevel) {
+                        drillUpTo((adminLevel - 1) as AdminLevel);
                     }
                 },
+                drillUpTo,
             };
         },
-        [event, drill, adminLevel, adminLevelLabels, pending, hoveredPlaceCode],
+        [
+            event,
+            drill,
+            initialAdminLevel,
+            adminLevel,
+            adminLevelLabels,
+            pending,
+            hoveredPlaceCode,
+        ],
     );
 
     return (

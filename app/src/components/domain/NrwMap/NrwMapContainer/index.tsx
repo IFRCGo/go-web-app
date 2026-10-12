@@ -49,12 +49,13 @@ function NrwMapContainer(props: {
     mapView: MapView;
     preserveInitialView: boolean;
     onMapViewChange: MapViewChangeHandler;
+    breadcrumbs?: React.ReactNode;
     layerPanel?: React.ReactNode;
     legend?: React.ReactNode;
     children?: React.ReactNode;
 }) {
     const {
-        mapView, preserveInitialView, onMapViewChange, layerPanel, legend, children,
+        mapView, preserveInitialView, onMapViewChange, breadcrumbs, layerPanel, legend, children,
     } = props;
 
     const { zoom, center, fitBounds } = mapView;
@@ -170,6 +171,11 @@ function NrwMapContainer(props: {
                     ref={containerRef}
                     className={styles.nrwMapContainer}
                 />
+                {isDefined(breadcrumbs) && (
+                    <div className={styles.mapBreadcrumbs}>
+                        {breadcrumbs}
+                    </div>
+                )}
                 <div className={styles.mapControls}>
                     <div className={styles.zoomControls}>
                         <button

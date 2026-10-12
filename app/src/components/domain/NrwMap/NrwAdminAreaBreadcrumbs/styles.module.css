@@ -1,0 +1,31 @@
+.nrw-admin-area-breadcrumbs {
+    gap: var(--go-ui-spacing-3xs);
+    border: 2px solid rgb(50 50 50 / 20%);
+    border-radius: var(--go-ui-border-radius-md);
+    box-shadow: 0 4px 7px rgb(0 0 0 / 10%);
+    background-clip: padding-box;
+    background-color: var(--go-ui-color-white);
+    padding: var(--go-ui-spacing-4xs) var(--go-ui-spacing-2xs);
+    overflow-wrap: anywhere;
+
+    .separator-icon {
+        font-size: var(--go-ui-font-size-xs);
+    }
+
+    .crumb-button {
+        text-align: start;
+
+        &:hover:not(:disabled) {
+            text-decoration: underline;
+            color: var(--go-ui-color-gray-90);
+        }
+
+        &:disabled {
+            cursor: default;
+        }
+    }
+
+    .current-crumb {
+        font-weight: var(--go-ui-font-weight-semibold);
+    }
+}
