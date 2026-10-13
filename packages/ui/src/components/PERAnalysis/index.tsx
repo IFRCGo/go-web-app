@@ -23,7 +23,7 @@ interface PERCycleData {
   cycleNumber: number;
   completed: number;
   inProgress: number;
-  rating: number;
+  rating: number | null;
   totalNS: number;
   ratingChange: number;
 }
@@ -117,7 +117,7 @@ function CustomTooltip({ active, payload }: TooltipProps) {
                             style={{ backgroundColor: COLORS.accent }}
                         />
                         <span>
-                            {`${strings?.analysisPerRatingLabel}: ${cycleData?.rating?.toFixed(2) ?? '0.00'}`}
+                            {`${strings?.analysisPerRatingLabel}: ${cycleData?.rating?.toFixed(2) ?? '-'}`}
                         </span>
                     </div>
                     {ratingChange !== 0 && (
@@ -391,7 +391,7 @@ function PERAnalysis({
                                 </span>
                                 <div className={styles.ratingGroup}>
                                     <span className={styles.ratingValue}>
-                                        {cycleData?.rating?.toFixed(2) ?? '0.00'}
+                                        {cycleData?.rating?.toFixed(2) ?? '-'}
                                     </span>
                                     {(cycleData?.ratingChange ?? 0) > 0 && index > 0 && (
                                         <span

@@ -2,7 +2,6 @@ import {
     useEffect,
     useRef,
 } from 'react';
-import { _cs } from '@togglecorp/fujs';
 import * as d3 from 'd3';
 
 import styles from './styles.module.css';
@@ -14,23 +13,6 @@ interface RatingBarProps {
   padding?: number;
   backgroundColor?: string;
 }
-
-interface RatingStatusBadgeProps {
-  status: string;
-}
-
-interface RatingChangeProps {
-  value: number;
-  direction: 'up' | 'down';
-}
-
-const STATUS_COLORS = {
-    'Does not Exists': '#E0E3E7',
-    'Partially exists': '#99A5B3',
-    'Needs Improvement': '#7D8B9D',
-    'Exists, Could be Strengthened': '#4D617A',
-    'High Performance': '#011E41',
-} as const;
 
 function RatingBar({
     value,
@@ -73,7 +55,8 @@ function RatingBar({
                 .attr('height', BAR_HEIGHT - (padding * 2))
                 .attr('rx', 8)
                 .attr('ry', 8)
-                .attr('fill', backgroundColor);
+                // NOTE: a style, not an attribute, so that `var(--go-ui-*)` colours resolve
+                .style('fill', backgroundColor);
 
             // Bar
             svg.selectAll('.bar')
@@ -85,7 +68,7 @@ function RatingBar({
                 .attr('height', BAR_HEIGHT - (padding * 2))
                 .attr('rx', 8)
                 .attr('ry', 8)
-                .attr('fill', color)
+                .style('fill', color)
                 .transition()
                 .duration(500)
                 .attr('width', xScale(value));
@@ -132,35 +115,5 @@ function RatingBar({
         </div>
     );
 }
-
-function RatingStatusBadge({ status }: RatingStatusBadgeProps) {
-    return (
-        <span
-            className={styles.ratingStatus}
-            style={{ backgroundColor: STATUS_COLORS[status as keyof typeof STATUS_COLORS] }}
-        >
-            {status}
-        </span>
-    );
-}
-
-function RatingChange({ value, direction }: RatingChangeProps) {
-    return (
-        <span className={_cs(styles.ratingChange, direction === 'up' ? styles.positive : styles.negative)}>
-            {direction === 'up' ? '↗' : '↘'}
-            {direction === 'up' ? '+' : ''}
-            {value.toFixed(2)}
-        </span>
-    );
-}
-
-export {
-    RatingBar,
-    type RatingBarProps,
-    RatingChange,
-    type RatingChangeProps,
-    RatingStatusBadge,
-    type RatingStatusBadgeProps,
-};
 
 export default RatingBar;

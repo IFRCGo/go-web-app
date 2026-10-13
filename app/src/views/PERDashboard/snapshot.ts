@@ -3,28 +3,13 @@ import {
     useState,
 } from 'react';
 
-export const STATIC_REVIEW_MODE = import.meta.env.APP_PER_DASHBOARD_STATIC_MODE === 'true';
-
-type SnapshotFile =
-    | 'per-map-data.json'
-    | 'per-dashboard-data.json'
-    | 'snapshot.json';
-
 interface JsonRequestState<T> {
     pending: boolean;
     response: T | undefined;
     error: boolean;
 }
 
-function getBaseUrl(): URL {
-    return new URL(import.meta.env.BASE_URL, window.location.origin);
-}
-
-export function getSnapshotUrl(fileName: SnapshotFile): string {
-    return new URL(`data/${fileName}`, getBaseUrl()).toString();
-}
-
-export function useJsonRequest<T>(url: string): JsonRequestState<T> {
+function useJsonRequest<T>(url: string): JsonRequestState<T> {
     const [state, setState] = useState<JsonRequestState<T>>({
         pending: true,
         response: undefined,
@@ -81,3 +66,5 @@ export function useJsonRequest<T>(url: string): JsonRequestState<T> {
 
     return state;
 }
+
+export default useJsonRequest;

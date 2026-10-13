@@ -3,8 +3,12 @@ import { _cs } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
 
-import { RatingBar as RatingBarComponent } from './RatingBar';
+import RatingBarComponent from './RatingBar';
 import RatingChange from './RatingChange';
+import {
+    getPERRatingLevel,
+    PER_RATING_LEVEL_COLORS,
+} from './ratingScale';
 import RatingStatusBadge from './RatingStatusBadge';
 import Sparkline from './Sparkline';
 import type { Props } from './types';
@@ -62,7 +66,9 @@ function PERRatingAnalysis({
                         <RatingBarComponent
                             value={Number(overallRating.rating)}
                             maxValue={5}
-                            color={overallRating.color}
+                            color={PER_RATING_LEVEL_COLORS[
+                                getPERRatingLevel(overallRating.rating)
+                            ]}
                             backgroundColor="var(--go-ui-color-gray-30)"
                             aria-label={strings?.ratingBarLabel?.replace('{value}', overallRating.rating.toString())?.replace('{maxValue}', '5') ?? `Rating bar showing ${overallRating.rating} out of 5`}
                         />
@@ -75,7 +81,6 @@ function PERRatingAnalysis({
                             {overallRating?.rating ? Number(overallRating.rating).toFixed(2) : '-'}
                         </span>
                         <RatingStatusBadge
-                            status={overallRating.status}
                             rating={Number(overallRating.rating)}
                         />
                         <Sparkline
@@ -129,7 +134,6 @@ function PERRatingAnalysis({
                                         {area?.rating ? Number(area.rating).toFixed(2) : '-'}
                                     </span>
                                     <RatingStatusBadge
-                                        status={area.status}
                                         rating={Number(area.rating)}
                                     />
                                     <Sparkline
@@ -224,7 +228,6 @@ function PERRatingAnalysis({
                                         {Number(component.rating).toFixed(2)}
                                     </span>
                                     <RatingStatusBadge
-                                        status={component.status}
                                         rating={Number(component.rating)}
                                     />
                                     <Sparkline

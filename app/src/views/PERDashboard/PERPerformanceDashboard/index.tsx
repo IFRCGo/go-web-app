@@ -11,7 +11,14 @@ import {
     PERRegionToggle,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { _cs } from '@togglecorp/fujs';
+import {
+    formatDate,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
 
 import { api } from '#config';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
@@ -20,15 +27,11 @@ import { resolveUrl } from '#utils/resolveUrl';
 
 import {
     EMPTY_FILTERS,
+    getLatestUpdate,
     getRegionLabel,
-    normalizeLastUpdate,
     normalizePerformanceData,
 } from '../data';
-import {
-    getSnapshotUrl,
-    STATIC_REVIEW_MODE,
-    useJsonRequest,
-} from '../snapshot';
+import useJsonRequest from '../snapshot';
 import {
     getPerformanceCycles,
     getPerformanceRatings,
@@ -40,13 +43,6 @@ import {
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const LAST_UPDATE_DATA_URL = 'https://raw.githubusercontent.com/IFRCGo/ifrc-per-data-fetcher/refs/heads/main/data/last-update.json';
-
-function formatLastUpdate(value: string): string {
-    const dateValue = new Date(value);
-    return Number.isNaN(dateValue.getTime()) ? value : dateValue.toLocaleString();
-}
-
 function PERPerformanceDashboard() {
     const strings = useTranslation(i18n);
     const { api_region_name: regionOptions } = useGlobalEnums();
@@ -56,24 +52,23 @@ function PERPerformanceDashboard() {
         cycle: null,
     }));
     const dashboardDataUrl = resolveUrl(api, 'api/v2/per-dashboard-data');
-    const lastUpdateUrl = STATIC_REVIEW_MODE
-        ? getSnapshotUrl('snapshot.json')
-        : LAST_UPDATE_DATA_URL;
     const {
         pending: dashboardDataPending,
         response: rawDashboardData,
         error: dashboardDataError,
     } = useJsonRequest<unknown>(dashboardDataUrl);
-    const {
-        pending: lastUpdatePending,
-        response: rawLastUpdate,
-        error: lastUpdateError,
-    } = useJsonRequest<unknown>(lastUpdateUrl);
     const dashboardData = useMemo(
         () => normalizePerformanceData(rawDashboardData),
         [rawDashboardData],
     );
-    const lastUpdate = useMemo(() => normalizeLastUpdate(rawLastUpdate), [rawLastUpdate]);
+    const lastUpdate = useMemo(
+        () => getLatestUpdate(
+            Object.values(dashboardData.countryAssessments)
+                .flat()
+                .map((entry) => entry.updatedAt),
+        ),
+        [dashboardData],
+    );
     const cycleData = useMemo(
         () => getPerformanceCycles(dashboardData, activeFilters),
         [activeFilters, dashboardData],
@@ -98,7 +93,7 @@ function PERPerformanceDashboard() {
         [activeFilters, dashboardData],
     );
 
-    if (dashboardDataPending || (STATIC_REVIEW_MODE && lastUpdatePending)) {
+    if (dashboardDataPending) {
         return (
             <Container
                 className={styles.perPerformanceDashboard}
@@ -109,7 +104,7 @@ function PERPerformanceDashboard() {
         );
     }
 
-    if (dashboardDataError || (STATIC_REVIEW_MODE && lastUpdateError)) {
+    if (dashboardDataError) {
         return (
             <Container
                 className={styles.perPerformanceDashboard}
@@ -140,11 +135,14 @@ function PERPerformanceDashboard() {
 
     return (
         <>
-            <div className={styles.lastUpdate}>
-                {strings.performanceLastUpdate}
-                {' '}
-                {formatLastUpdate(lastUpdate)}
-            </div>
+            {isDefined(lastUpdate) && (
+                <div className={styles.lastUpdate}>
+                    {resolveToString(
+                        strings.performanceLastUpdate,
+                        { date: formatDate(lastUpdate) },
+                    )}
+                </div>
+            )}
             <details className={styles.aboutDashboard}>
                 <summary>{strings.performanceAboutDashboard}</summary>
                 <p>{strings.performanceHeaderDescription}</p>

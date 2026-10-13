@@ -20,9 +20,12 @@ import {
 } from './PERSummaryDashboard/dataHandler';
 import {
     ASSESSMENT_TYPE_COLORS,
+    type ComponentAssessment,
     EMPTY_FILTERS,
+    getLatestUpdate,
     getRegionLabel,
     normalizeMapData,
+    type PerformanceCountryAssessment,
     type PerformanceData,
     type ProcessRecord,
     REGION_COLORS,
@@ -57,6 +60,64 @@ function process(overrides: Partial<ProcessRecord>): ProcessRecord {
         ...overrides,
     };
 }
+
+function componentAssessment(overrides: Partial<ComponentAssessment>): ComponentAssessment {
+    return {
+        assessmentId: 1,
+        assessmentNumber: 1,
+        countryId: 1,
+        countryName: 'Example',
+        countryIso3: 'EXM',
+        regionId: 1,
+        regionName: 'Africa',
+        typeOfAssessment: 1,
+        typeOfAssessmentName: 'Self assessment',
+        dateOfAssessment: '2024-01-01',
+        ratingValue: null,
+        ratingTitle: null,
+        ...overrides,
+    };
+}
+
+function countryAssessment(
+    overrides: Partial<PerformanceCountryAssessment>,
+): PerformanceCountryAssessment {
+    return {
+        assessmentId: 1,
+        assessmentNumber: 1,
+        dateOfAssessment: '2024-01-01',
+        countryId: 1,
+        countryName: 'Example',
+        countryIso3: 'EXM',
+        regionId: 1,
+        regionName: 'Africa',
+        typeOfAssessment: 1,
+        typeOfAssessmentName: 'Self assessment',
+        phase: 2,
+        phaseDisplay: 'Assessment',
+        updatedAt: null,
+        ...overrides,
+    };
+}
+
+function performanceData(
+    assessments: ComponentAssessment[],
+    countryAssessments: PerformanceCountryAssessment[] = [],
+): PerformanceData {
+    return {
+        assessments: [{
+            componentId: 1,
+            componentNum: 1,
+            componentName: 'Policy and standards',
+            areaId: 1,
+            areaName: 'Policy Strategy and Standards',
+            assessments,
+        }],
+        countryAssessments: { Example: countryAssessments },
+    };
+}
+
+const NO_PERFORMANCE_FILTERS: PerformanceFilterState = { ...EMPTY_FILTERS, cycle: null };
 
 describe('PER dashboard country identity selector', () => {
     test('uses the consultant palette consistently for assessment and region legends', () => {
@@ -434,6 +495,7 @@ describe('PER dashboard country identity selector', () => {
                         dateOfAssessment: '2024-01-01',
                         phase: 2,
                         phaseDisplay: 'Assessment',
+                        updatedAt: null,
                     },
                     {
                         assessmentId: null,
@@ -448,6 +510,7 @@ describe('PER dashboard country identity selector', () => {
                         dateOfAssessment: '2024-01-02',
                         phase: 2,
                         phaseDisplay: 'Assessment',
+                        updatedAt: null,
                     },
                 ],
             },
@@ -464,10 +527,7 @@ describe('PER dashboard country identity selector', () => {
             cycle: null,
         };
 
-        expect(getPerformanceRatings(data, filters).overallRating).toMatchObject({
-            rating: 3,
-            status: 'Needs Improvement',
-        });
+        expect(getPerformanceRatings(data, filters).overallRating.rating).toBe(3);
         expect(getPerformanceCycles(data, filters)).toMatchObject({
             total_cycles: 2,
             cycles: [{
@@ -610,5 +670,98 @@ describe('PER dashboard country identity selector', () => {
         expect(getRegionLabel('Africa', translatedOptions, 'es')).toBe('Translated Africa');
         // NOTE: falls back to the key while the enums are not loaded yet
         expect(getRegionLabel('MENA', undefined, 'es')).toBe('MENA');
+    });
+
+    test('returns the filtered NS even when its region is not known', () => {
+        const unknownRegion = process({
+            processId: 1,
+            countryId: 7,
+            regionId: null,
+            regionName: null,
+            phase: 2,
+        });
+
+        const state = selectFilteredDashboard([unknownRegion], { ...EMPTY_FILTERS, countryId: 7 });
+
+        expect(state.processes).toEqual([unknownRegion]);
+    });
+
+    test('leaves unrated components out of the ratings, using the latest assessment of each NS', () => {
+        const data = performanceData([
+            componentAssessment({
+                assessmentId: 11,
+                countryId: 1,
+                assessmentNumber: 1,
+                ratingValue: 3,
+            }),
+            componentAssessment({
+                assessmentId: 12,
+                countryId: 1,
+                assessmentNumber: 2,
+                ratingValue: 4,
+            }),
+            // NOTE: the latest assessment of this NS did not rate the component, so the
+            // NS is left out instead of falling back to its cycle 1 rating
+            componentAssessment({
+                assessmentId: 21,
+                countryId: 2,
+                assessmentNumber: 1,
+                ratingValue: 3,
+            }),
+            componentAssessment({
+                assessmentId: 22,
+                countryId: 2,
+                assessmentNumber: 2,
+                ratingValue: null,
+            }),
+            // NOTE: 0 is "Not reviewed"
+            componentAssessment({
+                assessmentId: 32,
+                countryId: 3,
+                assessmentNumber: 2,
+                ratingValue: 0,
+            }),
+        ]);
+
+        const ratings = getPerformanceRatings(data, NO_PERFORMANCE_FILTERS);
+
+        expect(ratings.overallRating).toMatchObject({
+            rating: 4,
+            change: 1,
+            cycleRatings: [
+                { cycle: '1', rating: 3 },
+                { cycle: '2', rating: 4 },
+            ],
+        });
+        expect(ratings.areaData.map((area) => area.rating)).toEqual([4]);
+        expect(ratings.componentData.map((component) => component.rating)).toEqual([4]);
+    });
+
+    test('has no rating for a cycle without rated assessments', () => {
+        const data = performanceData(
+            [
+                componentAssessment({ assessmentId: 11, assessmentNumber: 1, ratingValue: 3 }),
+                componentAssessment({ assessmentId: 12, assessmentNumber: 2, ratingValue: 0 }),
+            ],
+            [
+                countryAssessment({ assessmentId: 11, assessmentNumber: 1 }),
+                countryAssessment({ assessmentId: 12, assessmentNumber: 2 }),
+            ],
+        );
+
+        expect(getPerformanceCycles(data, NO_PERFORMANCE_FILTERS).cycles).toMatchObject([
+            { cycleNumber: 1, rating: 3, ratingChange: 0 },
+            { cycleNumber: 2, rating: null, ratingChange: 0 },
+        ]);
+    });
+
+    test('uses the newest updated_at of the payload as the latest update', () => {
+        expect(getLatestUpdate([
+            null,
+            '2026-03-01T10:00:00Z',
+            '2026-09-15T08:30:00Z',
+            '2025-12-31T00:00:00Z',
+        ])).toBe('2026-09-15T08:30:00Z');
+        expect(getLatestUpdate([null])).toBeUndefined();
     });
 });

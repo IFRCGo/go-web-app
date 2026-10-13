@@ -1,9 +1,11 @@
 import Tooltip from '#components/Tooltip';
 
-import type {
-    CycleRating,
-    RatingStatus,
-} from './types';
+import {
+    getPERRatingLevel,
+    PER_RATING_LEVEL_COLORS,
+} from './ratingScale';
+import type { CycleRating } from './types';
+import usePERRatingLevelLabels from './usePERRatingLevelLabels';
 
 import styles from './styles.module.css';
 
@@ -13,36 +15,26 @@ interface Props {
     ariaLabel: string;
 }
 
-function getRatingStatus(rating: number): RatingStatus {
-    if (rating >= 5) return 'High Performance';
-    if (rating >= 4) return 'Exists, Could be Strengthened';
-    if (rating >= 3) return 'Needs Improvement';
-    if (rating >= 2) return 'Partially exists';
-    return 'Does not Exists';
-}
-
 function Sparkline({
     name,
     cycleRatings,
     ariaLabel,
 }: Props) {
-    const bars = cycleRatings.map((cycleRating, index) => {
+    const ratingLevelLabels = usePERRatingLevelLabels();
+
+    const bars = cycleRatings.map((cycleRating) => {
         const {
-            color,
             cycle,
             rating,
         } = cycleRating;
-        let val = Math.floor(rating) + 1;
-        if (val > 5) val = 5;
-        // Create a unique key using the rating value and position
-        const uniqueKey = `sparkline-${cycle}-${rating.toString().replace('.', '')}-${color.replace('#', '')}-${index}`;
+        const level = getPERRatingLevel(rating);
         return (
             <div
-                key={uniqueKey}
+                key={cycle}
                 className={styles.sparklineBar}
                 style={{
                     height: `${(rating + 2) * 12}%`,
-                    backgroundColor: color,
+                    backgroundColor: PER_RATING_LEVEL_COLORS[level],
                 }}
             >
                 <Tooltip
@@ -58,7 +50,7 @@ function Sparkline({
                                 {rating.toFixed(2)}
                                 {' / 5.0'}
                             </div>
-                            <div>{getRatingStatus(rating)}</div>
+                            <div>{ratingLevelLabels[level]}</div>
                         </>
                     )}
                 />

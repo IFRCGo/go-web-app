@@ -1,14 +1,6 @@
-export type RatingStatus =
-  | 'Does not Exists'
-  | 'Partially exists'
-  | 'Needs Improvement'
-  | 'Exists, Could be Strengthened'
-  | 'High Performance';
-
 export interface PERRatingData {
     name: string;
     rating: number;
-    status: RatingStatus;
     change: number;
     changeDirection: 'up' | 'down';
     cycleRatings: CycleRating[];
@@ -28,7 +20,6 @@ export interface PERComponentData extends PERRatingData {
 export interface CycleRating {
     cycle: string;
     rating: number;
-    color: string;
 }
 
 export const COLORS = {
@@ -45,9 +36,7 @@ export interface Props {
         rating: number;
         change: number;
         changeDirection: 'up' | 'down';
-        status: RatingStatus;
         cycleRatings: CycleRating[];
-        color: string;
     };
     areaData: PERAreaData[];
     componentData: PERComponentData[];

@@ -14,6 +14,11 @@
         "ratingAverageLabel": "Average PER rating",
         "ratingTrendLabel": "Rating trend",
         "ratingTopRatedLabel": "Top rated components",
-        "ratingBottomRatedLabel": "Bottom rated components"
+        "ratingBottomRatedLabel": "Bottom rated components",
+        "ratingLevelDoesNotExist": "Does not exist",
+        "ratingLevelPartiallyExists": "Partially exists",
+        "ratingLevelNeedsImprovement": "Needs improvement",
+        "ratingLevelCouldBeStrengthened": "Exists, could be strengthened",
+        "ratingLevelHighPerformance": "High performance"
     }
 }

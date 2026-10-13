@@ -1,7 +1,7 @@
 {
     "namespace": "PERSummaryDashboard",
     "strings": {
-        "summaryLastUpdate": "Last updated:",
+        "summaryLastUpdate": "Latest PER update: {date}",
         "summaryResetFilter": "Clear Filter",
         "summaryResetFilterAriaLabel": "Reset all active filters",
         "summaryExport": "Export",

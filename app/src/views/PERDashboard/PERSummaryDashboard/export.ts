@@ -14,6 +14,8 @@ import {
     type DashboardFilterState,
     type FilteredDashboardState,
     getProcessYear,
+    groupByCountry,
+    latestProcess,
     type ProcessRecord,
 } from '../data';
 
@@ -72,27 +74,8 @@ const CONSIDERATIONS: Array<{
 // eslint-disable-next-line no-control-regex
 const INVALID_EXCEL_CONTROL_CHARACTERS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g;
 
-function latestProcess(processes: ProcessRecord[]): ProcessRecord | undefined {
-    return processes.reduce<ProcessRecord | undefined>(
-        (latest, process) => (
-            !latest || compareProcessRecency(process, latest) > 0 ? process : latest
-        ),
-        undefined,
-    );
-}
-
-function groupByCountry(processes: ProcessRecord[]): ProcessGroup[] {
-    const groups = new Map<number, ProcessRecord[]>();
-    processes.forEach((process) => {
-        if (process.countryId === null) {
-            return;
-        }
-        const countryProcesses = groups.get(process.countryId) ?? [];
-        countryProcesses.push(process);
-        groups.set(process.countryId, countryProcesses);
-    });
-
-    return Array.from(groups.entries())
+function getSortedProcessGroups(processes: ProcessRecord[]): ProcessGroup[] {
+    return Array.from(groupByCountry(processes).entries())
         .map(([countryId, countryProcesses]) => ({
             countryId,
             processes: countryProcesses,
@@ -112,7 +95,7 @@ function scopedProcessGroups(
     state: FilteredDashboardState,
     filters: DashboardFilterState,
 ): ProcessGroup[] {
-    return groupByCountry(state.processes)
+    return getSortedProcessGroups(state.processes)
         .map((group) => {
             let { processes } = group;
             if (filters.highPriorityComponent !== null) {
@@ -244,7 +227,7 @@ function filterSummaryRows(
 }
 
 function mapDataSheet(state: FilteredDashboardState): DashboardWorkbookSheet {
-    const rows = groupByCountry(state.processes).flatMap((group) => {
+    const rows = getSortedProcessGroups(state.processes).flatMap((group) => {
         const process = latestProcess(group.processes);
         if (!process) {
             return [];

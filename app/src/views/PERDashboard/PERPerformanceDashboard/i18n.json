@@ -1,7 +1,7 @@
 {
     "namespace": "PERDashboard",
     "strings": {
-        "performanceLastUpdate": "Last updated:",
+        "performanceLastUpdate": "Latest PER update: {date}",
         "performanceResetFilter": "Clear Filter",
         "performanceResetFilterAriaLabel": "Reset all active filters",
         "performanceContainerAriaLabel": "PER Performance Dashboard",

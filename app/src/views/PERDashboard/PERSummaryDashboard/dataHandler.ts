@@ -9,10 +9,11 @@ import {
     AREA_COLORS,
     type AssessmentTypeKey,
     assessmentTypeKey,
-    compareProcessRecency,
     type FilteredDashboardState,
     getPhaseColor,
     getProcessYear,
+    groupByCountry,
+    latestProcess,
     type ProcessRecord,
     REGION_ORDER,
     type RegionName,
@@ -62,28 +63,6 @@ interface ComponentSummary {
 type MapProcessRecord = ProcessRecord & {
     color: string;
 };
-
-function groupByCountry(processes: ProcessRecord[]): Map<number, ProcessRecord[]> {
-    const result = new Map<number, ProcessRecord[]>();
-    processes.forEach((process) => {
-        if (process.countryId === null) {
-            return;
-        }
-        const countryProcesses = result.get(process.countryId) ?? [];
-        countryProcesses.push(process);
-        result.set(process.countryId, countryProcesses);
-    });
-    return result;
-}
-
-function latestProcess(processes: ProcessRecord[]): ProcessRecord | undefined {
-    return processes.reduce<ProcessRecord | undefined>(
-        (latest, process) => (
-            !latest || compareProcessRecency(process, latest) > 0 ? process : latest
-        ),
-        undefined,
-    );
-}
 
 function emptySummaryChartData(): SummaryChartDataItem[] {
     return REGION_ORDER.map((region) => ({

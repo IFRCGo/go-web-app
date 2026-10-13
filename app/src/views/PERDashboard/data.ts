@@ -235,6 +235,7 @@ export interface PerformanceCountryAssessment {
     typeOfAssessmentName: string | null;
     phase: number | null;
     phaseDisplay: string | null;
+    updatedAt: string | null;
 }
 
 export interface PerformanceData {
@@ -357,7 +358,7 @@ function normalizeProcessRecord(value: unknown): ProcessRecord | undefined {
     };
 }
 
-function dateTimestamp(value: string | null): number {
+export function dateTimestamp(value: string | null): number {
     if (value === null) {
         return Number.NEGATIVE_INFINITY;
     }
@@ -376,6 +377,28 @@ export function compareProcessRecency(left: ProcessRecord, right: ProcessRecord)
         || dateTimestamp(left.dateOfAssessment) - dateTimestamp(right.dateOfAssessment)
         || dateTimestamp(left.updatedAt) - dateTimestamp(right.updatedAt)
         || left.processId - right.processId;
+}
+
+export function groupByCountry(processes: ProcessRecord[]): Map<number, ProcessRecord[]> {
+    const byCountry = new Map<number, ProcessRecord[]>();
+    processes.forEach((process) => {
+        if (process.countryId === null) {
+            return;
+        }
+        const countryProcesses = byCountry.get(process.countryId) ?? [];
+        countryProcesses.push(process);
+        byCountry.set(process.countryId, countryProcesses);
+    });
+    return byCountry;
+}
+
+export function latestProcess(processes: ProcessRecord[]): ProcessRecord | undefined {
+    return processes.reduce<ProcessRecord | undefined>(
+        (latest, process) => (
+            !latest || compareProcessRecency(process, latest) > 0 ? process : latest
+        ),
+        undefined,
+    );
 }
 
 function latestProcessMap(processes: ProcessRecord[]): Map<number, ProcessRecord> {
@@ -457,6 +480,7 @@ function normalizeCountryAssessment(value: unknown): PerformanceCountryAssessmen
         typeOfAssessmentName: asString(item.type_of_assessment_name),
         phase: asNumber(item.phase),
         phaseDisplay: asString(item.phase_display),
+        updatedAt: asString(item.updated_at),
     };
 }
 
@@ -479,9 +503,18 @@ export function normalizePerformanceData(value: unknown): PerformanceData {
     };
 }
 
-export function normalizeLastUpdate(value: unknown): string {
-    const item = rawRecord(value);
-    return asString(item.lastUpdate ?? item.last_update ?? item.exportedAt) ?? 'N/A';
+// NOTE: go-api has no "last updated" date for the PER data, the closest is the
+// `updated_at` of the PER Overviews, which moves when an Overview is saved (e.g. on a
+// phase change) but not when only an assessment is edited.
+export function getLatestUpdate(updatedAts: Array<string | null>): string | undefined {
+    return updatedAts.reduce<string | undefined>(
+        (latest, updatedAt) => (
+            updatedAt !== null && dateTimestamp(updatedAt) > dateTimestamp(latest ?? null)
+                ? updatedAt
+                : latest
+        ),
+        undefined,
+    );
 }
 
 const considerationField: Record<ConsiderationKey, keyof ProcessRecord> = {
@@ -563,48 +596,14 @@ function getMatchingCountryProcesses(
     return matchingProcesses;
 }
 
-function assertFilteredState(
-    state: FilteredDashboardState,
-    filters: DashboardFilterState,
-) {
-    if (!import.meta.env?.DEV || filters.countryId === null || state.processes.length === 0) {
-        return;
-    }
-
-    if (
-        state.countryIds.size > 1
-        || state.processes.some((process) => process.countryId !== filters.countryId)
-    ) {
-        throw new Error('PER dashboard filter returned mixed country IDs');
-    }
-
-    const regions = new Set(
-        state.processes
-            .map((process) => process.regionName)
-            .filter((region): region is RegionName => region !== null),
-    );
-    if (regions.size !== 1) {
-        throw new Error('PER dashboard filter returned mixed regions');
-    }
-}
-
 export function selectFilteredDashboard(
     processes: ProcessRecord[],
     filters: DashboardFilterState = EMPTY_FILTERS,
 ): FilteredDashboardState {
     const baseProcesses = processes.filter((process) => matchesBaseFilters(process, filters));
-    const byCountry = new Map<number, ProcessRecord[]>();
-    baseProcesses.forEach((process) => {
-        if (process.countryId === null) {
-            return;
-        }
-        const countryProcesses = byCountry.get(process.countryId) ?? [];
-        countryProcesses.push(process);
-        byCountry.set(process.countryId, countryProcesses);
-    });
 
     const eligibleCountryIds = new Set<number>();
-    byCountry.forEach((countryProcesses, countryId) => {
+    groupByCountry(baseProcesses).forEach((countryProcesses, countryId) => {
         const matchingProcesses = getMatchingCountryProcesses(countryProcesses, filters);
         if (matchingProcesses.length === 0) {
             return;
@@ -615,7 +614,7 @@ export function selectFilteredDashboard(
     const filteredProcesses = baseProcesses.filter(
         (process) => process.countryId !== null && eligibleCountryIds.has(process.countryId),
     );
-    const state: FilteredDashboardState = {
+    return {
         processes: filteredProcesses,
         countryIds: new Set(
             filteredProcesses
@@ -624,8 +623,6 @@ export function selectFilteredDashboard(
         ),
         latestProcessByCountry: latestProcessMap(filteredProcesses),
     };
-    assertFilteredState(state, filters);
-    return state;
 }
 
 export function getPhaseColor(phase: number | null): string {

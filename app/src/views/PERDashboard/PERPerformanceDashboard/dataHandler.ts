@@ -1,10 +1,15 @@
 import type { PERRatingAnalysisProps } from '@ifrc-go/ui';
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
 import {
     AREA_COLORS,
     assessmentTypeKey,
     type ComponentAssessment,
     type DashboardFilterState,
+    dateTimestamp,
     type PerformanceComponent,
     type PerformanceCountryAssessment,
     type PerformanceData,
@@ -16,16 +21,7 @@ export type PerformanceFilterState = DashboardFilterState & {
     cycle: number | null;
 };
 
-type RatingStatus = PERRatingAnalysisProps['overallRating']['status'];
 type RatingCycle = PERRatingAnalysisProps['overallRating']['cycleRatings'][number];
-
-const RATING_SCALE_COLORS: Record<RatingStatus, string> = {
-    'Does not Exists': '#E0E3E7',
-    'Partially exists': '#99A5B3',
-    'Needs Improvement': '#7D8B9D',
-    'Exists, Could be Strengthened': '#4D617A',
-    'High Performance': '#011E41',
-};
 
 interface FlattenedComponentAssessment extends ComponentAssessment {
     componentId: number | null;
@@ -43,14 +39,6 @@ interface ComponentRatingSummary {
     areaId: number | null;
     rating: number;
     cycleRatings: RatingCycle[];
-}
-
-function dateTimestamp(value: string | null): number {
-    if (value === null) {
-        return Number.NEGATIVE_INFINITY;
-    }
-    const timestamp = Date.parse(value);
-    return Number.isNaN(timestamp) ? Number.NEGATIVE_INFINITY : timestamp;
 }
 
 function compareAssessmentRecency(
@@ -72,8 +60,16 @@ function componentKey(component: {
     return component.componentNum ?? component.componentId ?? -1;
 }
 
-function ratingOrZero(assessment: Pick<ComponentAssessment, 'ratingValue'>): number {
-    return assessment.ratingValue ?? 0;
+// NOTE: A rating of 0 means "Not reviewed". Like a missing rating it is not a score,
+// so it is left out of every average.
+function isRated(rating: number | null): rating is number {
+    return isDefined(rating) && rating > 0;
+}
+
+function getRatedValues(assessments: Pick<ComponentAssessment, 'ratingValue'>[]): number[] {
+    return assessments
+        .map((assessment) => assessment.ratingValue)
+        .filter(isRated);
 }
 
 function flattenComponentAssessments(data: PerformanceData): FlattenedComponentAssessment[] {
@@ -159,18 +155,12 @@ function allCountryAssessments(data: PerformanceData): PerformanceCountryAssessm
     return Object.values(data.countryAssessments).flat();
 }
 
-function getRatingStatus(rating: number): RatingStatus {
-    if (rating >= 5) return 'High Performance';
-    if (rating >= 4) return 'Exists, Could be Strengthened';
-    if (rating >= 3) return 'Needs Improvement';
-    if (rating >= 2) return 'Partially exists';
-    return 'Does not Exists';
-}
-
-function average(values: number[]): number {
-    return values.length > 0
-        ? Number((values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(2))
-        : 0;
+// NOTE: Without values there is no rating, which is not the same as a rating of 0
+function average(values: number[]): number | undefined {
+    if (values.length === 0) {
+        return undefined;
+    }
+    return Number((values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(2));
 }
 
 function latestByCountry(
@@ -189,15 +179,17 @@ function latestByCountry(
     return latest;
 }
 
-function cycleRating(
-    assessments: FlattenedComponentAssessment[],
-    cycle: number,
-): number {
-    return average(
-        assessments
-            .filter((assessment) => assessment.assessmentNumber === cycle)
-            .map(ratingOrZero),
-    );
+function averageCycleRatings(cycleRatings: RatingCycle[]): RatingCycle[] {
+    const cycles = Array.from(new Set(cycleRatings.map((item) => item.cycle)))
+        .sort((left, right) => Number(left) - Number(right));
+    return cycles.flatMap((cycle) => {
+        const rating = average(
+            cycleRatings
+                .filter((item) => item.cycle === cycle)
+                .map((item) => item.rating),
+        );
+        return isDefined(rating) ? [{ cycle, rating }] : [];
+    });
 }
 
 function buildComponentRating(
@@ -210,28 +202,27 @@ function buildComponentRating(
         return undefined;
     }
 
-    const latest = latestByCountry(assessments);
-    const cycles = Array.from(new Set(
-        assessments.map((assessment) => assessment.assessmentNumber),
-    )).sort((left, right) => left - right);
+    // NOTE: An NS is represented by its latest assessment. When that assessment did not
+    // rate the component, the NS is left out instead of falling back to an older rating.
+    const rating = average(getRatedValues(Array.from(latestByCountry(assessments).values())));
+    if (isNotDefined(rating)) {
+        return undefined;
+    }
+
     return {
         key: String(componentKey(sample)),
         componentNum: sample.componentNum ?? sample.componentId ?? 0,
         componentName: sample.componentName,
         areaName: sample.areaName,
         areaId: sample.areaId,
-        rating: average(
-            Array.from(latest.values())
-                .map(ratingOrZero),
+        rating,
+        cycleRatings: averageCycleRatings(
+            assessments.flatMap(({ assessmentNumber, ratingValue }) => (
+                isRated(ratingValue)
+                    ? [{ cycle: String(assessmentNumber), rating: ratingValue }]
+                    : []
+            )),
         ),
-        cycleRatings: cycles.map((cycle) => {
-            const rating = cycleRating(assessments, cycle);
-            return {
-                cycle: String(cycle),
-                rating,
-                color: RATING_SCALE_COLORS[getRatingStatus(rating)],
-            };
-        }),
     };
 }
 
@@ -277,55 +268,28 @@ export function getPerformanceRatings(
         values.push(component);
         byArea.set(component.areaName, values);
     });
-    const areas = Array.from(byArea.entries()).map(([name, areaComponents]) => {
-        const cycles = Array.from(new Set(
-            areaComponents.flatMap((component) => (
-                component.cycleRatings.map((cycle) => cycle.cycle)
-            )),
-        )).sort((left, right) => Number(left) - Number(right));
-        const cycleRatings = cycles.map((cycle) => {
-            const values = areaComponents
-                .flatMap((component) => component.cycleRatings)
-                .filter((item) => item.cycle === cycle)
-                .map((item) => item.rating);
-            const rating = average(values);
-            return {
-                cycle,
-                rating,
-                color: RATING_SCALE_COLORS[getRatingStatus(rating)],
-            };
-        });
-        return withChange({
+    const areas = Array.from(byArea.entries()).flatMap(([name, areaComponents]) => {
+        const rating = average(areaComponents.map((component) => component.rating));
+        if (isNotDefined(rating)) {
+            return [];
+        }
+        return [withChange({
             type: 'area' as const,
             name,
-            rating: average(areaComponents.map((component) => component.rating)),
-            status: getRatingStatus(average(areaComponents.map((component) => component.rating))),
-            cycleRatings,
+            rating,
+            cycleRatings: averageCycleRatings(
+                areaComponents.flatMap((component) => component.cycleRatings),
+            ),
             areaColor: AREA_COLORS[name] ?? '#000000',
-        });
+        })];
     });
 
-    const overallCycles = Array.from(new Set(
-        components.flatMap((component) => component.cycleRatings.map((cycle) => cycle.cycle)),
-    )).sort((left, right) => Number(left) - Number(right));
-    const overallCycleRatings = overallCycles.map((cycle) => {
-        const values = components
-            .flatMap((component) => component.cycleRatings)
-            .filter((item) => item.cycle === cycle)
-            .map((item) => item.rating);
-        const rating = average(values);
-        return {
-            cycle,
-            rating,
-            color: RATING_SCALE_COLORS[getRatingStatus(rating)],
-        };
-    });
-    const overallRating = average(components.map((component) => component.rating));
     const overall = withChange({
-        rating: overallRating,
-        status: getRatingStatus(overallRating),
-        cycleRatings: overallCycleRatings,
-        color: RATING_SCALE_COLORS[getRatingStatus(overallRating)],
+        // NOTE: 0 when no component is rated, which PERRatingAnalysis shows as "-"
+        rating: average(components.map((component) => component.rating)) ?? 0,
+        cycleRatings: averageCycleRatings(
+            components.flatMap((component) => component.cycleRatings),
+        ),
     });
 
     return {
@@ -337,7 +301,6 @@ export function getPerformanceRatings(
             id: component.componentNum,
             name: component.componentName,
             rating: component.rating,
-            status: getRatingStatus(component.rating),
             cycleRatings: component.cycleRatings,
             areaColor: AREA_COLORS[component.areaName] ?? '#000000',
         })),
@@ -370,17 +333,14 @@ export function getPerformanceSummary(
     };
 }
 
+// NOTE: null when no assessment of the cycle is rated, so it is not drawn as a rating of 0
 function getCycleRating(
     assessments: FlattenedComponentAssessment[],
     cycle: number,
-): number {
+): number | null {
     const byAssessment = new Map<string, number[]>();
     assessments.forEach((assessment) => {
-        if (
-            assessment.assessmentNumber !== cycle
-            || assessment.ratingValue === null
-            || assessment.ratingValue <= 0
-        ) {
+        if (assessment.assessmentNumber !== cycle || !isRated(assessment.ratingValue)) {
             return;
         }
         const key = assessment.assessmentId === null
@@ -395,8 +355,8 @@ function getCycleRating(
         byAssessment.set(key, values);
     });
     return average(
-        Array.from(byAssessment.values()).map(average),
-    );
+        Array.from(byAssessment.values()).map(average).filter(isDefined),
+    ) ?? null;
 }
 
 export function getPerformanceCycles(
@@ -409,7 +369,7 @@ export function getPerformanceCycles(
         cycleNumber: number;
         completed: number;
         inProgress: number;
-        rating: number;
+        rating: number | null;
         totalNS: number;
         ratingChange: number;
     }>;
@@ -447,15 +407,17 @@ export function getPerformanceCycles(
             inProgress: countries.size - completed,
             rating: getCycleRating(componentAssessments, cycle),
             totalNS: countries.size,
-            ratingChange: 0,
         };
     });
-    const allCycleDataWithChanges = allCycleData.map((cycle, index) => ({
-        ...cycle,
-        ratingChange: index > 0
-            ? Number((cycle.rating - (allCycleData[index - 1]?.rating ?? 0)).toFixed(2))
-            : 0,
-    }));
+    const allCycleDataWithChanges = allCycleData.map((cycle, index) => {
+        const previousRating = allCycleData[index - 1]?.rating;
+        return {
+            ...cycle,
+            ratingChange: isDefined(previousRating) && isDefined(cycle.rating)
+                ? Number((cycle.rating - previousRating).toFixed(2))
+                : 0,
+        };
+    });
     const filteredCycles = filters.cycle === null
         ? allCycleDataWithChanges
         : allCycleDataWithChanges.filter((cycle) => cycle.cycleNumber === filters.cycle);

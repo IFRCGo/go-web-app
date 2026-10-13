@@ -19,6 +19,11 @@ import {
     usePERAssessmentTypeLabels,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
+import {
+    formatDate,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
+import { isDefined } from '@togglecorp/fujs';
 
 import {
     api,
@@ -38,10 +43,10 @@ import {
     ASSESSMENT_TYPE_COLORS,
     type DashboardFilterState,
     EMPTY_FILTERS,
+    getLatestUpdate,
     getPhaseLabel,
     getRegionLabel,
     isAssessmentTypeKey,
-    normalizeLastUpdate,
     normalizeMapData,
     PHASE_COLORS,
     REGION_COLORS,
@@ -49,11 +54,7 @@ import {
     type RegionName,
     selectFilteredDashboard,
 } from '../data';
-import {
-    getSnapshotUrl,
-    STATIC_REVIEW_MODE,
-    useJsonRequest,
-} from '../snapshot';
+import useJsonRequest from '../snapshot';
 import {
     getComponentSummaryForTreemap,
     getFilteredMapData,
@@ -71,14 +72,7 @@ import {
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const LAST_UPDATE_DATA_URL = 'https://raw.githubusercontent.com/IFRCGo/ifrc-per-data-fetcher/refs/heads/main/data/last-update.json';
-
 type ActiveFilters = DashboardFilterState;
-
-function formatLastUpdate(value: string): string {
-    const dateValue = new Date(value);
-    return Number.isNaN(dateValue.getTime()) ? value : dateValue.toLocaleString();
-}
 
 function considerationKeyFromChartKey(key: string): ActiveFilters['consideration'] {
     if (key === 'epi_considerations') return 'epi';
@@ -115,26 +109,21 @@ function PERSummaryDashboard() {
     const [activePhase, setActivePhase] = useState<number | string | null>(null);
     const [exporting, setExporting] = useState(false);
     const mapDataUrl = resolveUrl(api, 'api/v2/per-map-data');
-    const lastUpdateUrl = STATIC_REVIEW_MODE
-        ? getSnapshotUrl('snapshot.json')
-        : LAST_UPDATE_DATA_URL;
     const {
         pending: mapDataPending,
         response: rawMapData,
         error: mapDataError,
     } = useJsonRequest<unknown>(mapDataUrl);
-    const {
-        pending: lastUpdatePending,
-        response: rawLastUpdate,
-        error: lastUpdateError,
-    } = useJsonRequest<unknown>(lastUpdateUrl);
 
     const mapData = useMemo(() => normalizeMapData(rawMapData), [rawMapData]);
     const filteredState = useMemo(
         () => selectFilteredDashboard(mapData.processes, activeFilters),
         [activeFilters, mapData.processes],
     );
-    const lastUpdate = useMemo(() => normalizeLastUpdate(rawLastUpdate), [rawLastUpdate]);
+    const lastUpdate = useMemo(
+        () => getLatestUpdate(mapData.processes.map((process) => process.updatedAt)),
+        [mapData.processes],
+    );
     const kpiData = useMemo(() => getKPIData(filteredState), [filteredState]);
     const filteredMapData = useMemo(() => getFilteredMapData(filteredState), [filteredState]);
     const workbookData = useMemo(
@@ -218,7 +207,7 @@ function PERSummaryDashboard() {
         [considerationData, currentLanguage, regionOptions],
     );
 
-    if (mapDataPending || (STATIC_REVIEW_MODE && lastUpdatePending)) {
+    if (mapDataPending) {
         return (
             <Container
                 className={styles.perSummaryDashboard}
@@ -229,7 +218,7 @@ function PERSummaryDashboard() {
         );
     }
 
-    if (mapDataError || (STATIC_REVIEW_MODE && lastUpdateError)) {
+    if (mapDataError) {
         return (
             <Container
                 className={styles.perSummaryDashboard}
@@ -365,11 +354,14 @@ function PERSummaryDashboard() {
 
     return (
         <>
-            <div className={styles.lastUpdate}>
-                {strings.summaryLastUpdate}
-                {' '}
-                {formatLastUpdate(lastUpdate)}
-            </div>
+            {isDefined(lastUpdate) && (
+                <div className={styles.lastUpdate}>
+                    {resolveToString(
+                        strings.summaryLastUpdate,
+                        { date: formatDate(lastUpdate) },
+                    )}
+                </div>
+            )}
             <details className={styles.aboutDashboard}>
                 <summary>{strings.summaryAboutDashboard}</summary>
                 <p>{strings.summaryHeaderDescription}</p>
