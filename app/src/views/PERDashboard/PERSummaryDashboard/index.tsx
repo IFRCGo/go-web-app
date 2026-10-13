@@ -22,6 +22,10 @@ import {
     mbtoken,
 } from '#config';
 import useAlert from '#hooks/useAlert';
+import {
+    PER_PHASE_ACTION,
+    PER_PHASE_OVERVIEW,
+} from '#utils/domain/per';
 import { defaultMapStyle } from '#utils/map';
 import { resolveUrl } from '#utils/resolveUrl';
 
@@ -260,9 +264,9 @@ function PERSummaryDashboard() {
 
     const handlePhaseClick = (item: { label: string; color: string; phaseNumber: number }) => {
         let phaseCohort: 'orientation' | 'assessment' | 'action';
-        if (item.phaseNumber === 1) {
+        if (item.phaseNumber === PER_PHASE_OVERVIEW) {
             phaseCohort = 'orientation';
-        } else if (item.phaseNumber === 5) {
+        } else if (item.phaseNumber === PER_PHASE_ACTION) {
             phaseCohort = 'action';
         } else {
             phaseCohort = 'assessment';

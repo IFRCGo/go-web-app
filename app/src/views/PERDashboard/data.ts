@@ -1,5 +1,20 @@
 import { PER_ASSESSMENT_TYPE_COLORS } from '@ifrc-go/ui';
 
+import {
+    REGION_AFRICA,
+    REGION_AMERICAS,
+    REGION_ASIA,
+    REGION_EUROPE,
+    REGION_MENA,
+} from '#utils/constants';
+import {
+    PER_PHASE_ACTION,
+    PER_PHASE_ASSESSMENT,
+    PER_PHASE_OVERVIEW,
+    PER_PHASE_PRIORITIZATION,
+    PER_PHASE_WORKPLAN,
+} from '#utils/domain/per';
+
 export const REGION_ORDER = [
     'Africa',
     'Americas',
@@ -10,43 +25,47 @@ export const REGION_ORDER = [
 
 export type RegionName = typeof REGION_ORDER[number];
 
-function normalizeRegionName(value: unknown): RegionName | null {
-    if (typeof value !== 'string') {
+// NOTE: The server translates `region_name` to the language of the request, so a
+// region can only be identified reliably by its `region_id`.
+const REGION_NAME_BY_ID: Record<number, RegionName> = {
+    [REGION_AFRICA]: 'Africa',
+    [REGION_AMERICAS]: 'Americas',
+    [REGION_ASIA]: 'Asia Pacific',
+    [REGION_EUROPE]: 'Europe',
+    [REGION_MENA]: 'MENA',
+};
+
+function getRegionName(regionId: number | null): RegionName | null {
+    // NOTE: Africa has the id 0, so a truthiness check would drop it
+    if (regionId === null) {
         return null;
     }
-
-    const normalized = value.trim().toLowerCase().replace(/&/g, 'and').replace(/[^a-z]/g, '');
-    if (normalized === 'africa') return 'Africa';
-    if (normalized === 'americas') return 'Americas';
-    if (normalized === 'asiapacific') return 'Asia Pacific';
-    if (normalized === 'europe') return 'Europe';
-    if (normalized === 'mena' || normalized === 'middleeastandnorthafrica') return 'MENA';
-    return null;
+    return REGION_NAME_BY_ID[regionId] ?? null;
 }
 
 export const PHASE_COLORS = [
     {
-        phaseNumber: 1,
+        phaseNumber: PER_PHASE_OVERVIEW,
         label: 'Orientation',
         color: '#A4BEDE',
     },
     {
-        phaseNumber: 2,
+        phaseNumber: PER_PHASE_ASSESSMENT,
         label: 'Assessment',
         color: '#009CDD',
     },
     {
-        phaseNumber: 3,
+        phaseNumber: PER_PHASE_PRIORITIZATION,
         label: 'Prioritisation & analysis',
         color: '#418FDE',
     },
     {
-        phaseNumber: 4,
+        phaseNumber: PER_PHASE_WORKPLAN,
         label: 'Workplan',
         color: '#236192',
     },
     {
-        phaseNumber: 5,
+        phaseNumber: PER_PHASE_ACTION,
         label: 'Action & accountability',
         color: '#1B365D',
     },
@@ -80,23 +99,6 @@ export interface PrioritizedComponent {
     description: string | null;
 }
 
-export interface ComponentResponse {
-    responseId: number | null;
-    componentId: number | null;
-    componentName: string | null;
-    componentNum: number | null;
-    areaId: number | null;
-    areaName: string | null;
-    ratingId: number | null;
-    ratingValue: number | null;
-    ratingTitle: string | null;
-    urbanConsiderations: string | null;
-    epiConsiderations: string | null;
-    climateEnvironmentalConsiderations: string | null;
-    migrationConsiderations: string | null;
-    notes: string | null;
-}
-
 export interface ProcessRecord {
     processId: number;
     countryId: number | null;
@@ -121,11 +123,9 @@ export interface ProcessRecord {
     climateEnvironmentalConsiderations: boolean | null;
     urbanConsiderations: boolean | null;
     migrationConsiderations: boolean | null;
-    components: ComponentResponse[];
 }
 
 interface MapDataResponse {
-    results: ProcessRecord[];
     processes: ProcessRecord[];
 }
 
@@ -164,7 +164,6 @@ export interface PerformanceCountryAssessment {
     typeOfAssessmentName: string | null;
     phase: number | null;
     phaseDisplay: string | null;
-    components: ComponentResponse[];
 }
 
 export interface PerformanceData {
@@ -235,99 +234,55 @@ function rawRecord(value: unknown): RawRecord {
     return isRecord(value) ? value : {};
 }
 
-function normalizeComponentResponse(value: unknown): ComponentResponse | null {
-    const item = rawRecord(value);
-    const componentId = asNumber(item.componentId ?? item.component_id);
-    const componentNum = asNumber(item.componentNum ?? item.component_num);
-
-    if (componentId === null && componentNum === null) {
-        return null;
-    }
-
-    return {
-        responseId: asNumber(item.responseId ?? item.response_id),
-        componentId,
-        componentName: asString(item.componentName ?? item.component_name),
-        componentNum,
-        areaId: asNumber(item.areaId ?? item.area_id),
-        areaName: asString(item.areaName ?? item.area_name),
-        ratingId: asNumber(item.ratingId ?? item.rating_id),
-        ratingValue: asNumber(item.ratingValue ?? item.rating_value),
-        ratingTitle: asString(item.ratingTitle ?? item.rating_title),
-        urbanConsiderations: asString(item.urbanConsiderations ?? item.urban_considerations),
-        epiConsiderations: asString(item.epiConsiderations ?? item.epi_considerations),
-        climateEnvironmentalConsiderations: asString(
-            item.climateEnvironmentalConsiderations
-            ?? item.climate_environmental_considerations,
-        ),
-        migrationConsiderations: asString(
-            item.migrationConsiderations ?? item.migration_considerations,
-        ),
-        notes: asString(item.notes),
-    };
-}
-
+// NOTE: go-api sends snake_case keys (see `per/dashboard_data.py` in go-api). The only
+// exception is the items of `prioritized_components`, which are camelCase.
 function normalizePrioritizedComponent(value: unknown): PrioritizedComponent {
     const item = rawRecord(value);
     return {
-        componentId: asNumber(item.componentId ?? item.component_id),
-        componentTitle: asString(item.componentTitle ?? item.component_title),
-        areaTitle: asString(item.areaTitle ?? item.area_title),
+        componentId: asNumber(item.componentId),
+        componentTitle: asString(item.componentTitle),
+        areaTitle: asString(item.areaTitle),
         description: asString(item.description),
     };
 }
 
 function normalizeProcessRecord(value: unknown): ProcessRecord | undefined {
     const item = rawRecord(value);
-    const processId = asNumber(item.processId ?? item.id);
+    const processId = asNumber(item.id);
 
     if (processId === null) {
         return undefined;
     }
 
-    const latitude = asNumber(item.latitude ?? item.lat);
-    const longitude = asNumber(item.longitude ?? item.lon);
-    const components = asArray(item.components)
-        .map(normalizeComponentResponse)
-        .filter((component): component is ComponentResponse => component !== null);
+    const regionId = asNumber(item.region_id);
 
     return {
         processId,
-        countryId: asNumber(item.countryId ?? item.country_id),
-        countryName: asString(item.countryName ?? item.country_name),
-        nationalSocietyName: asString(item.nationalSocietyName ?? item.national_society_name),
-        countryIso3: asString(item.countryIso3 ?? item.country_iso3),
-        regionId: asNumber(item.regionId ?? item.region_id),
-        regionName: normalizeRegionName(item.regionName ?? item.region_name),
-        latitude,
-        longitude,
-        assessmentNumber: asNumber(item.assessmentNumber ?? item.assessment_number) ?? 0,
-        dateOfAssessment: asString(item.dateOfAssessment ?? item.date_of_assessment),
-        createdAt: asString(item.createdAt ?? item.created_at),
-        updatedAt: asString(item.updatedAt ?? item.updated_at),
+        countryId: asNumber(item.country_id),
+        countryName: asString(item.country_name),
+        nationalSocietyName: asString(item.national_society_name),
+        countryIso3: asString(item.country_iso3),
+        regionId,
+        regionName: getRegionName(regionId),
+        latitude: asNumber(item.latitude),
+        longitude: asNumber(item.longitude),
+        assessmentNumber: asNumber(item.assessment_number) ?? 0,
+        dateOfAssessment: asString(item.date_of_assessment),
+        createdAt: asString(item.created_at),
+        updatedAt: asString(item.updated_at),
         phase: asNumber(item.phase),
-        phaseDisplay: asString(item.phaseDisplay ?? item.phase_display),
-        typeOfAssessment: asNumber(item.typeOfAssessment ?? item.type_of_assessment),
-        typeOfAssessmentName: asString(
-            item.typeOfAssessmentName ?? item.type_of_assessment_name,
-        ),
-        assessmentMethod: asString(item.assessmentMethod ?? item.assessment_method),
-        prioritizedComponents: asArray(item.prioritizedComponents ?? item.prioritized_components)
+        phaseDisplay: asString(item.phase_display),
+        typeOfAssessment: asNumber(item.type_of_assessment),
+        typeOfAssessmentName: asString(item.type_of_assessment_name),
+        assessmentMethod: asString(item.assessment_method),
+        prioritizedComponents: asArray(item.prioritized_components)
             .map(normalizePrioritizedComponent),
-        epiConsiderations: asBooleanOrNull(
-            item.epiConsiderations ?? item.epi_considerations,
-        ),
+        epiConsiderations: asBooleanOrNull(item.epi_considerations),
         climateEnvironmentalConsiderations: asBooleanOrNull(
-            item.climateEnvironmentalConsiderations
-            ?? item.climate_environmental_considerations,
+            item.climate_environmental_considerations,
         ),
-        urbanConsiderations: asBooleanOrNull(
-            item.urbanConsiderations ?? item.urban_considerations,
-        ),
-        migrationConsiderations: asBooleanOrNull(
-            item.migrationConsiderations ?? item.migration_considerations,
-        ),
-        components,
+        urbanConsiderations: asBooleanOrNull(item.urban_considerations),
+        migrationConsiderations: asBooleanOrNull(item.migration_considerations),
     };
 }
 
@@ -371,44 +326,35 @@ function latestProcessMap(processes: ProcessRecord[]): Map<number, ProcessRecord
 
 export function normalizeMapData(value: unknown): MapDataResponse {
     const item = rawRecord(value);
-    const rawProcesses = asArray(item.processes);
-    const rawResults = asArray(item.results);
-    const processes = (rawProcesses.length > 0 ? rawProcesses : rawResults)
-        .map(normalizeProcessRecord)
-        .filter((process): process is ProcessRecord => process !== undefined);
-    const results = rawResults
-        .map(normalizeProcessRecord)
-        .filter((process): process is ProcessRecord => process !== undefined);
-
     return {
-        processes,
-        results: results.length > 0 ? results : Array.from(latestProcessMap(processes).values()),
+        processes: asArray(item.processes)
+            .map(normalizeProcessRecord)
+            .filter((process): process is ProcessRecord => process !== undefined),
     };
 }
 
 function normalizeComponentAssessment(value: unknown): ComponentAssessment {
     const item = rawRecord(value);
+    const regionId = asNumber(item.region_id);
     return {
-        assessmentId: asNumber(item.assessmentId ?? item.assessment_id),
-        assessmentNumber: asNumber(item.assessmentNumber ?? item.assessment_number) ?? 0,
-        countryId: asNumber(item.countryId ?? item.country_id),
-        countryName: asString(item.countryName ?? item.country_name),
-        countryIso3: asString(item.countryIso3 ?? item.country_iso3),
-        regionId: asNumber(item.regionId ?? item.region_id),
-        regionName: normalizeRegionName(item.regionName ?? item.region_name),
-        typeOfAssessmentName: asString(
-            item.typeOfAssessmentName ?? item.type_of_assessment_name,
-        ),
-        dateOfAssessment: asString(item.dateOfAssessment ?? item.date_of_assessment),
-        ratingValue: asNumber(item.ratingValue ?? item.rating_value),
-        ratingTitle: asString(item.ratingTitle ?? item.rating_title),
+        assessmentId: asNumber(item.assessment_id),
+        assessmentNumber: asNumber(item.assessment_number) ?? 0,
+        countryId: asNumber(item.country_id),
+        countryName: asString(item.country_name),
+        countryIso3: asString(item.country_iso3),
+        regionId,
+        regionName: getRegionName(regionId),
+        typeOfAssessmentName: asString(item.type_of_assessment_name),
+        dateOfAssessment: asString(item.date_of_assessment),
+        ratingValue: asNumber(item.rating_value),
+        ratingTitle: asString(item.rating_title),
     };
 }
 
 function normalizePerformanceComponent(value: unknown): PerformanceComponent | undefined {
     const item = rawRecord(value);
-    const componentId = asNumber(item.componentId ?? item.component_id);
-    const componentNum = asNumber(item.componentNum ?? item.component_num);
+    const componentId = asNumber(item.component_id);
+    const componentNum = asNumber(item.component_num);
     if (componentId === null && componentNum === null) {
         return undefined;
     }
@@ -416,49 +362,39 @@ function normalizePerformanceComponent(value: unknown): PerformanceComponent | u
     return {
         componentId,
         componentNum,
-        componentName: asString(item.componentName ?? item.component_name),
-        areaId: asNumber(item.areaId ?? item.area_id),
-        areaName: asString(item.areaName ?? item.area_name),
+        componentName: asString(item.component_name),
+        areaId: asNumber(item.area_id),
+        areaName: asString(item.area_name),
         assessments: asArray(item.assessments).map(normalizeComponentAssessment),
     };
 }
 
 function normalizeCountryAssessment(value: unknown): PerformanceCountryAssessment {
     const item = rawRecord(value);
+    const regionId = asNumber(item.region_id);
     return {
-        assessmentId: asNumber(item.assessmentId ?? item.assessment_id),
-        assessmentNumber: asNumber(item.assessmentNumber ?? item.assessment_number) ?? 0,
-        dateOfAssessment: asString(
-            item.dateOfAssessment ?? item.date_of_assessment ?? item.date,
-        ),
-        countryId: asNumber(item.countryId ?? item.country_id),
-        countryName: asString(item.countryName ?? item.country_name),
-        countryIso3: asString(item.countryIso3 ?? item.country_iso3),
-        regionId: asNumber(item.regionId ?? item.region_id),
-        regionName: normalizeRegionName(item.regionName ?? item.region_name),
-        typeOfAssessmentName: asString(
-            item.typeOfAssessmentName ?? item.type_of_assessment_name,
-        ),
+        assessmentId: asNumber(item.assessment_id),
+        assessmentNumber: asNumber(item.assessment_number) ?? 0,
+        dateOfAssessment: asString(item.date_of_assessment),
+        countryId: asNumber(item.country_id),
+        countryName: asString(item.country_name),
+        countryIso3: asString(item.country_iso3),
+        regionId,
+        regionName: getRegionName(regionId),
+        typeOfAssessmentName: asString(item.type_of_assessment_name),
         phase: asNumber(item.phase),
-        phaseDisplay: asString(item.phaseDisplay ?? item.phase_display),
-        components: asArray(item.components)
-            .map(normalizeComponentResponse)
-            .filter((component): component is ComponentResponse => component !== null),
+        phaseDisplay: asString(item.phase_display),
     };
 }
 
+// NOTE: `countryAssessments` is camelCase in the server response, unlike the other keys
 export function normalizePerformanceData(value: unknown): PerformanceData {
     const item = rawRecord(value);
-    const rawAssessments = item.assessments;
-    const componentValues = Array.isArray(rawAssessments)
-        ? rawAssessments
-        : Object.values(rawRecord(rawAssessments));
-    const assessments = componentValues
+    const assessments = asArray(item.assessments)
         .map(normalizePerformanceComponent)
         .filter((component): component is PerformanceComponent => component !== undefined);
-    const rawCountryAssessments = rawRecord(item.countryAssessments);
     const countryAssessments = Object.fromEntries(
-        Object.entries(rawCountryAssessments).map(([countryName, entries]) => [
+        Object.entries(rawRecord(item.countryAssessments)).map(([countryName, entries]) => [
             countryName,
             asArray(entries).map(normalizeCountryAssessment),
         ]),
@@ -501,17 +437,31 @@ function matchesBaseFilters(process: ProcessRecord, filters: DashboardFilterStat
     return true;
 }
 
+// NOTE: Orientation-only processes (phase 1) are numbered like any other process but
+// have no assessment, so they must not count as a completed PER cycle.
+function getCompletedCycleCount(processes: ProcessRecord[]): number {
+    return Math.max(
+        0,
+        ...processes
+            .filter((process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT)
+            .map((process) => process.assessmentNumber),
+    );
+}
+
 function getMatchingCountryProcesses(
     processes: ProcessRecord[],
     filters: DashboardFilterState,
 ): ProcessRecord[] {
     const { consideration } = filters;
-    if (filters.phaseCohort === 'orientation' && processes.some((process) => (process.phase ?? 0) >= 2)) {
+    if (
+        filters.phaseCohort === 'orientation'
+        && processes.some((process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT)
+    ) {
         return [];
     }
     if (
         filters.minimumCycles !== null
-        && Math.max(...processes.map((process) => process.assessmentNumber)) < filters.minimumCycles
+        && getCompletedCycleCount(processes) < filters.minimumCycles
     ) {
         return [];
     }
@@ -524,9 +474,13 @@ function getMatchingCountryProcesses(
             )
         ));
     if (filters.phaseCohort === 'assessment') {
-        matchingProcesses = matchingProcesses.filter((process) => (process.phase ?? 0) >= 2);
+        matchingProcesses = matchingProcesses.filter(
+            (process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT,
+        );
     } else if (filters.phaseCohort === 'action') {
-        matchingProcesses = matchingProcesses.filter((process) => (process.phase ?? 0) >= 5);
+        matchingProcesses = matchingProcesses.filter(
+            (process) => (process.phase ?? 0) >= PER_PHASE_ACTION,
+        );
     }
     if (consideration !== null) {
         matchingProcesses = matchingProcesses.filter(

@@ -20,6 +20,7 @@ import {
 } from './PERSummaryDashboard/dataHandler';
 import {
     ASSESSMENT_TYPE_COLORS,
+    EMPTY_FILTERS,
     normalizeMapData,
     type PerformanceData,
     type ProcessRecord,
@@ -52,7 +53,6 @@ function process(overrides: Partial<ProcessRecord>): ProcessRecord {
         climateEnvironmentalConsiderations: null,
         urbanConsiderations: null,
         migrationConsiderations: null,
-        components: [],
         ...overrides,
     };
 }
@@ -388,7 +388,6 @@ describe('PER dashboard country identity selector', () => {
                         dateOfAssessment: '2024-01-01',
                         phase: 2,
                         phaseDisplay: 'Assessment',
-                        components: [],
                     },
                     {
                         assessmentId: null,
@@ -402,7 +401,6 @@ describe('PER dashboard country identity selector', () => {
                         dateOfAssessment: '2024-01-02',
                         phase: 2,
                         phaseDisplay: 'Assessment',
-                        components: [],
                     },
                 ],
             },
@@ -436,20 +434,20 @@ describe('PER dashboard country identity selector', () => {
 
     test('normalizes apostrophes and non-ASCII country names without changing IDs', () => {
         const normalized = normalizeMapData({
-            results: [{
+            processes: [{
                 id: 22,
                 country_id: 9,
                 country_name: 'Côte d’Ivoire',
                 national_society_name: 'Red Cross Society of Côte d’Ivoire',
                 country_iso3: 'CIV',
-                region_name: 'Africa',
+                region_id: 0,
                 assessment_number: 1,
                 date_of_assessment: null,
                 phase: 2,
             }],
         });
 
-        expect(normalized.results[0]).toMatchObject({
+        expect(normalized.processes[0]).toMatchObject({
             processId: 22,
             countryId: 9,
             countryName: 'Côte d’Ivoire',
@@ -457,18 +455,95 @@ describe('PER dashboard country identity selector', () => {
         });
     });
 
-    test('normalizes backend MENA labels to the canonical region key', () => {
+    test('identifies the region by region_id, whatever language region_name is in', () => {
         const normalized = normalizeMapData({
-            results: [{
-                id: 23,
-                country_id: 16,
-                country_name: 'Algeria',
-                region_name: 'Middle East & North Africa',
-                assessment_number: 1,
-                phase: 2,
+            processes: [
+                // NOTE: Africa has the id 0, which must not be treated as missing
+                { id: 1, region_id: 0, region_name: 'África' },
+                { id: 2, region_id: 1, region_name: 'Amériques' },
+                { id: 3, region_id: 2, region_name: 'Asia-Pacífico' },
+                { id: 4, region_id: 3, region_name: 'Europa' },
+                { id: 5, region_id: 4, region_name: 'الشرق الأوسط وشمال أفريقيا' },
+            ],
+        });
+
+        expect(normalized.processes.map((item) => item.regionName)).toEqual([
+            'Africa',
+            'Americas',
+            'Asia Pacific',
+            'Europe',
+            'MENA',
+        ]);
+    });
+
+    test('does not guess a region without a known region_id', () => {
+        const normalized = normalizeMapData({
+            processes: [
+                { id: 1, region_name: 'Africa' },
+                { id: 2, region_id: 99, region_name: 'Africa' },
+                { id: 3, region_id: null, region_name: 'Africa' },
+            ],
+        });
+
+        expect(normalized.processes.map((item) => item.regionName)).toEqual([null, null, null]);
+    });
+
+    test('reads the snake_case process fields and the camelCase prioritized components', () => {
+        const normalized = normalizeMapData({
+            processes: [{
+                id: 7,
+                country_id: 3,
+                assessment_number: 2,
+                region_id: 4,
+                phase: 5,
+                epi_considerations: true,
+                climate_environmental_considerations: false,
+                urban_considerations: null,
+                prioritized_components: [{
+                    componentId: 11,
+                    componentTitle: 'Coordination',
+                    areaTitle: 'Coordination',
+                    description: 'Some description',
+                }],
             }],
         });
 
-        expect(normalized.results[0]?.regionName).toBe('MENA');
+        expect(normalized.processes[0]).toMatchObject({
+            processId: 7,
+            countryId: 3,
+            assessmentNumber: 2,
+            regionName: 'MENA',
+            phase: 5,
+            epiConsiderations: true,
+            climateEnvironmentalConsiderations: false,
+            urbanConsiderations: null,
+            prioritizedComponents: [{
+                componentId: 11,
+                componentTitle: 'Coordination',
+                areaTitle: 'Coordination',
+                description: 'Some description',
+            }],
+        });
+    });
+
+    test('does not count Orientation-only processes as completed cycles', () => {
+        function cycleProcess(countryId: number, assessmentNumber: number, phase: number) {
+            return process({
+                processId: (countryId * 10) + assessmentNumber,
+                countryId,
+                assessmentNumber,
+                phase,
+            });
+        }
+        // NOTE: cycle 2 is only an Orientation, so this NS completed 1 cycle, not 2
+        const orientationOnlySecondCycle = [cycleProcess(1, 1, 5), cycleProcess(1, 2, 1)];
+        const twoCompletedCycles = [cycleProcess(2, 1, 5), cycleProcess(2, 2, 2)];
+        const filters = { ...EMPTY_FILTERS, minimumCycles: 2 };
+
+        const orientationOnlyState = selectFilteredDashboard(orientationOnlySecondCycle, filters);
+        const completedState = selectFilteredDashboard(twoCompletedCycles, filters);
+
+        expect(orientationOnlyState.countryIds.size).toBe(0);
+        expect(Array.from(completedState.countryIds)).toEqual([2]);
     });
 });

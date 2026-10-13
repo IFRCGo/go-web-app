@@ -1,6 +1,11 @@
 import FileSaver from 'file-saver';
 
 import {
+    PER_PHASE_ACTION,
+    PER_PHASE_ASSESSMENT,
+} from '#utils/domain/per';
+
+import {
     compareProcessRecency,
     type ConsiderationKey,
     type DashboardFilterState,
@@ -113,11 +118,17 @@ function scopedProcessGroups(
                 ) ? [latest] : [];
             }
             if (filters.phaseCohort === 'orientation') {
-                processes = processes.filter((process) => (process.phase ?? 0) < 2);
+                processes = processes.filter(
+                    (process) => (process.phase ?? 0) < PER_PHASE_ASSESSMENT,
+                );
             } else if (filters.phaseCohort === 'assessment') {
-                processes = processes.filter((process) => (process.phase ?? 0) >= 2);
+                processes = processes.filter(
+                    (process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT,
+                );
             } else if (filters.phaseCohort === 'action') {
-                processes = processes.filter((process) => (process.phase ?? 0) >= 5);
+                processes = processes.filter(
+                    (process) => (process.phase ?? 0) >= PER_PHASE_ACTION,
+                );
             }
             if (filters.consideration !== null) {
                 const consideration = CONSIDERATIONS.find(
@@ -125,7 +136,7 @@ function scopedProcessGroups(
                 );
                 if (consideration) {
                     processes = processes.filter((process) => (
-                        (process.phase ?? 0) >= 2
+                        (process.phase ?? 0) >= PER_PHASE_ASSESSMENT
                         && process[consideration.field] === true
                     ));
                 }
@@ -260,19 +271,20 @@ function assessmentTypeSheet(
         : ASSESSMENT_TYPES.filter((type) => type === filters.assessmentType);
     const cycleGroupsByType = types.map((type) => groups.map((group) => (
         group.processes.filter((process) => (
-            (process.phase ?? 0) >= 2 && process.typeOfAssessmentName === type
+            (process.phase ?? 0) >= PER_PHASE_ASSESSMENT && process.typeOfAssessmentName === type
         ))
     )));
     const maxCycles = cycleGroupsByType.map(maxCycle);
     const rows = groups
         .filter((group) => types.some((type) => group.processes.some((process) => (
-            (process.phase ?? 0) >= 2 && process.typeOfAssessmentName === type
+            (process.phase ?? 0) >= PER_PHASE_ASSESSMENT && process.typeOfAssessmentName === type
         ))))
         .map((group) => {
             const values: CellValue[] = [...identityValues(group.processes)];
             types.forEach((type, index) => {
                 const processes = group.processes.filter((process) => (
-                    (process.phase ?? 0) >= 2 && process.typeOfAssessmentName === type
+                    (process.phase ?? 0) >= PER_PHASE_ASSESSMENT
+                    && process.typeOfAssessmentName === type
                 ));
                 values.push(...cycleValues(processes, maxCycles[index] ?? 0));
             });
@@ -338,21 +350,23 @@ function considerationsSheet(
         : CONSIDERATIONS.filter((item) => item.key === filters.consideration);
     const cycleGroupsByConsideration = considerations.map((consideration) => groups.map((group) => (
         group.processes.filter((process) => (
-            (process.phase ?? 0) >= 2 && process[consideration.field] === true
+            (process.phase ?? 0) >= PER_PHASE_ASSESSMENT && process[consideration.field] === true
         ))
     )));
     const maxCycles = cycleGroupsByConsideration.map(maxCycle);
     const rows = groups
         .filter((group) => considerations.some(
             (consideration) => group.processes.some((process) => (
-                (process.phase ?? 0) >= 2 && process[consideration.field] === true
+                (process.phase ?? 0) >= PER_PHASE_ASSESSMENT
+                && process[consideration.field] === true
             )),
         ))
         .map((group) => {
             const values: CellValue[] = [...identityValues(group.processes)];
             considerations.forEach((consideration, index) => {
                 const processes = group.processes.filter((process) => (
-                    (process.phase ?? 0) >= 2 && process[consideration.field] === true
+                    (process.phase ?? 0) >= PER_PHASE_ASSESSMENT
+                    && process[consideration.field] === true
                 ));
                 values.push(...cycleValues(processes, maxCycles[index] ?? 0));
             });

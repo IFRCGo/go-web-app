@@ -36,7 +36,6 @@ function process(overrides: Partial<ProcessRecord>): ProcessRecord {
         climateEnvironmentalConsiderations: null,
         urbanConsiderations: null,
         migrationConsiderations: null,
-        components: [],
         ...overrides,
     };
 }

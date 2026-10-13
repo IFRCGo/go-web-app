@@ -1,4 +1,9 @@
 import {
+    PER_PHASE_ACTION,
+    PER_PHASE_ASSESSMENT,
+} from '#utils/domain/per';
+
+import {
     AREA_COLORS,
     assessmentTypeKey,
     compareProcessRecency,
@@ -102,7 +107,7 @@ function countConsiderationByRegionAndType(
     const chart = emptySummaryChartData();
     const chartByRegion = new Map(chart.map((item) => [item.name, item]));
     const readyByCountry = groupByCountry(processes.filter(
-        (process) => (process.phase ?? 0) >= 2 && process[field] === true,
+        (process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT && process[field] === true,
     ));
     readyByCountry.forEach((countryProcesses) => {
         const process = latestProcess(countryProcesses);
@@ -117,7 +122,7 @@ function countConsiderationByRegionAndType(
     });
 
     const eligibleProcesses = processes.filter((process) => (
-        (process.phase ?? 0) >= 2
+        (process.phase ?? 0) >= PER_PHASE_ASSESSMENT
         && (getProcessYear(process) ?? Number.NEGATIVE_INFINITY) >= introducedYear
     ));
     const readyProcessCount = eligibleProcesses.filter(
@@ -140,12 +145,12 @@ export function getKPIData(state: FilteredDashboardState): SummaryKpi[] {
     let completed = 0;
 
     countryProcesses.forEach((processes) => {
-        if (!processes.some((process) => (process.phase ?? 0) >= 2)) {
+        if (!processes.some((process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT)) {
             orientation += 1;
         } else {
             assessment += 1;
         }
-        if (processes.some((process) => (process.phase ?? 0) >= 5)) {
+        if (processes.some((process) => (process.phase ?? 0) >= PER_PHASE_ACTION)) {
             action += 1;
         }
         if (Math.max(...processes.map((process) => process.assessmentNumber)) >= 2) {
@@ -220,7 +225,7 @@ export function getRecordsByAssessmentType(
     ] as const;
     const counts = new Map(labels.map((label) => [label, 0]));
     state.processes
-        .filter((process) => (process.phase ?? 0) >= 2)
+        .filter((process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT)
         .forEach((process) => {
             const type = assessmentTypeKey(process.typeOfAssessmentName);
             let label: typeof labels[number] | null = null;
@@ -378,7 +383,7 @@ export function getPERConsiderations(
         data: [epi.chart, climate.chart, urban.chart, migration.chart],
         totals: {
             totalAssessments: state.processes.filter(
-                (process) => (process.phase ?? 0) >= 2,
+                (process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT,
             ).length,
             totalEpiConsiderations: epi.count,
             totalClimateConsiderations: climate.count,
