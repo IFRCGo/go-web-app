@@ -429,6 +429,36 @@
         },
         {
             "action": "add",
+            "key": "ratingLevelCouldBeStrengthened",
+            "namespace": "common",
+            "value": "Exists, could be strengthened"
+        },
+        {
+            "action": "add",
+            "key": "ratingLevelDoesNotExist",
+            "namespace": "common",
+            "value": "Does not exist"
+        },
+        {
+            "action": "add",
+            "key": "ratingLevelHighPerformance",
+            "namespace": "common",
+            "value": "High performance"
+        },
+        {
+            "action": "add",
+            "key": "ratingLevelNeedsImprovement",
+            "namespace": "common",
+            "value": "Needs improvement"
+        },
+        {
+            "action": "add",
+            "key": "ratingLevelPartiallyExists",
+            "namespace": "common",
+            "value": "Partially exists"
+        },
+        {
+            "action": "add",
             "key": "ratingSortButton",
             "namespace": "common",
             "value": "Sort button"
@@ -635,7 +665,7 @@
             "action": "add",
             "key": "performanceLastUpdate",
             "namespace": "PERDashboard",
-            "value": "Last updated:"
+            "value": "Latest PER update: {date}"
         },
         {
             "action": "add",
@@ -737,7 +767,7 @@
             "action": "add",
             "key": "summaryLastUpdate",
             "namespace": "PERSummaryDashboard",
-            "value": "Last updated:"
+            "value": "Latest PER update: {date}"
         },
         {
             "action": "add",
