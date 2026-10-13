@@ -15,7 +15,11 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import useTranslation from '#hooks/useTranslation';
 
 import { getContrastColor } from '../../utils/common';
-import { PER_ASSESSMENT_COLORS } from '../PERAssessmentPalette';
+import {
+    PER_ASSESSMENT_TYPE_COLORS,
+    PER_ASSESSMENT_TYPE_KEYS,
+} from '../PERAssessmentPalette';
+import usePERAssessmentTypeLabels from '../PERConsiderations/usePERAssessmentTypeLabels';
 import type {
     DataItem,
     Props,
@@ -36,30 +40,6 @@ ChartJS.register(
     ChartDataLabels,
 );
 
-// Define datasets with label and fillColor
-const datasetsConfig = [
-    {
-        label: 'Self assessment',
-        fillColor: PER_ASSESSMENT_COLORS.selfAssessment,
-        key: 'SelfAssessment',
-    },
-    {
-        label: 'Simulation',
-        fillColor: PER_ASSESSMENT_COLORS.simulation,
-        key: 'Simulation',
-    },
-    {
-        label: 'Operational',
-        fillColor: PER_ASSESSMENT_COLORS.operational,
-        key: 'Operational',
-    },
-    {
-        label: 'Post-operational',
-        fillColor: PER_ASSESSMENT_COLORS.postOperational,
-        key: 'PostOperational',
-    },
-];
-
 function PERStackedHorizontalBarChart({
     data,
     transitionSpeed = 800,
@@ -69,12 +49,14 @@ function PERStackedHorizontalBarChart({
     const strings = useTranslation(i18n);
     const chartRef = useRef(null);
 
-    const labels = data.map((item: DataItem) => item.name);
+    const assessmentTypeLabels = usePERAssessmentTypeLabels();
 
-    const datasets = datasetsConfig.map((dataset) => ({
-        label: dataset.label,
-        data: data.map((item: DataItem) => item[dataset.key] || 0),
-        backgroundColor: dataset.fillColor,
+    const labels = data.map((item: DataItem) => item.displayName ?? item.name);
+
+    const datasets = PER_ASSESSMENT_TYPE_KEYS.map((assessmentType) => ({
+        label: assessmentTypeLabels[assessmentType],
+        data: data.map((item: DataItem) => item[assessmentType] || 0),
+        backgroundColor: PER_ASSESSMENT_TYPE_COLORS[assessmentType],
         barPercentage: 0.65,
         categoryPercentage: 0.65,
     }));

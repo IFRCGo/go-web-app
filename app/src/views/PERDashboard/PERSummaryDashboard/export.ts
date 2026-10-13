@@ -1,3 +1,4 @@
+import { PER_ASSESSMENT_TYPE_KEYS } from '@ifrc-go/ui';
 import FileSaver from 'file-saver';
 
 import {
@@ -6,6 +7,8 @@ import {
 } from '#utils/domain/per';
 
 import {
+    type AssessmentTypeKey,
+    assessmentTypeKey,
     compareProcessRecency,
     type ConsiderationKey,
     type DashboardFilterState,
@@ -39,12 +42,13 @@ const IDENTITY_COLUMNS = [
     'ISO3',
 ];
 
-const ASSESSMENT_TYPES = [
-    'Self assessment',
-    'Simulation',
-    'Operational',
-    'Post operational',
-] as const;
+// NOTE: The workbook is always in English
+const ASSESSMENT_TYPE_LABELS: Record<AssessmentTypeKey, string> = {
+    SelfAssessment: 'Self assessment',
+    Simulation: 'Simulation',
+    Operational: 'Operational',
+    PostOperational: 'Post operational',
+};
 
 const CONSIDERATIONS: Array<{
     key: ConsiderationKey;
@@ -222,7 +226,10 @@ function filterSummaryRows(
         ['Country', filters.countryId === null ? null : country?.countryName ?? String(filters.countryId)],
         ['Region', filters.region],
         ['Year', filters.year],
-        ['Assessment type', filters.assessmentType],
+        [
+            'Assessment type',
+            filters.assessmentType === null ? null : ASSESSMENT_TYPE_LABELS[filters.assessmentType],
+        ],
         ['Phase', phase],
         ['Minimum cycles', filters.minimumCycles === null ? null : `${filters.minimumCycles}+`],
         ['Consideration', consideration?.label ?? null],
@@ -262,30 +269,30 @@ function mapDataSheet(state: FilteredDashboardState): DashboardWorkbookSheet {
     };
 }
 
+function isAssessedAs(process: ProcessRecord, type: AssessmentTypeKey): boolean {
+    return (process.phase ?? 0) >= PER_PHASE_ASSESSMENT
+        && assessmentTypeKey(process.typeOfAssessment) === type;
+}
+
 function assessmentTypeSheet(
     groups: ProcessGroup[],
     filters: DashboardFilterState,
 ): DashboardWorkbookSheet {
     const types = filters.assessmentType === null
-        ? [...ASSESSMENT_TYPES]
-        : ASSESSMENT_TYPES.filter((type) => type === filters.assessmentType);
+        ? PER_ASSESSMENT_TYPE_KEYS
+        : PER_ASSESSMENT_TYPE_KEYS.filter((type) => type === filters.assessmentType);
     const cycleGroupsByType = types.map((type) => groups.map((group) => (
-        group.processes.filter((process) => (
-            (process.phase ?? 0) >= PER_PHASE_ASSESSMENT && process.typeOfAssessmentName === type
-        ))
+        group.processes.filter((process) => isAssessedAs(process, type))
     )));
     const maxCycles = cycleGroupsByType.map(maxCycle);
     const rows = groups
-        .filter((group) => types.some((type) => group.processes.some((process) => (
-            (process.phase ?? 0) >= PER_PHASE_ASSESSMENT && process.typeOfAssessmentName === type
-        ))))
+        .filter((group) => types.some((type) => (
+            group.processes.some((process) => isAssessedAs(process, type))
+        )))
         .map((group) => {
             const values: CellValue[] = [...identityValues(group.processes)];
             types.forEach((type, index) => {
-                const processes = group.processes.filter((process) => (
-                    (process.phase ?? 0) >= PER_PHASE_ASSESSMENT
-                    && process.typeOfAssessmentName === type
-                ));
+                const processes = group.processes.filter((process) => isAssessedAs(process, type));
                 values.push(...cycleValues(processes, maxCycles[index] ?? 0));
             });
             return values;
@@ -295,7 +302,10 @@ function assessmentTypeSheet(
         name: 'Assessment Types',
         columns: [
             ...IDENTITY_COLUMNS,
-            ...types.flatMap((type, index) => cycleColumns(type, maxCycles[index] ?? 0)),
+            ...types.flatMap((type, index) => cycleColumns(
+                ASSESSMENT_TYPE_LABELS[type],
+                maxCycles[index] ?? 0,
+            )),
         ],
         rows,
     };

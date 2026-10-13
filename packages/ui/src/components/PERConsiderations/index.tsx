@@ -3,9 +3,11 @@ import { _cs } from '@togglecorp/fujs';
 import useTranslation from '#hooks/useTranslation';
 
 import {
-    PER_ASSESSMENT_COLORS,
+    PER_ASSESSMENT_TYPE_COLORS,
+    PER_ASSESSMENT_TYPE_KEYS,
     PER_CONSIDERATION_GAUGE_COLOR,
     PER_INACTIVE_COLOR,
+    type PERAssessmentTypeKey,
 } from '../PERAssessmentPalette';
 import PERChartLegend from '../PERChartLegend';
 import PERGaugeChart from '../PERGaugeChart';
@@ -14,29 +16,10 @@ import environmentIcon from './assets/environment.png';
 import epidemicIcon from './assets/epidemic.png';
 import migrationIcon from './assets/migration.png';
 import urbanIcon from './assets/urban.png';
+import usePERAssessmentTypeLabels from './usePERAssessmentTypeLabels';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-// Assessment type options with labels and colors
-// const ASSESSMENT_TYPE_OPTIONS = [
-//     {
-//         label: strings.assessmentTypes.selfAssessment,
-//         color: ASSESSMENT_COLORS.selfAssessment,
-//     },
-//     {
-//         label: strings.assessmentTypes.simulation,
-//         color: ASSESSMENT_COLORS.simulation,
-//     },
-//     {
-//         label: strings.assessmentTypes.operational,
-//         color: ASSESSMENT_COLORS.operational,
-//     },
-//     {
-//         label: strings.assessmentTypes.postOperational,
-//         color: ASSESSMENT_COLORS.postOperational,
-//     },
-// ] as const;
 
 interface PercentageData {
     epiPercentage: number;
@@ -70,8 +53,9 @@ export interface Props {
         totals: TotalsData;
         data: ChartData[];
     };
-    activeIndex: string | number | null;
-    onClickAssessmentType: (item: { label: string; color: string }) => void;
+    /** Key of the active assessment type */
+    activeIndex: PERAssessmentTypeKey | null;
+    onClickAssessmentType: (assessmentType: PERAssessmentTypeKey) => void;
     onClickPER: (key: string) => void;
     activePERFilter?: string;
 }
@@ -85,25 +69,13 @@ function PERConsiderations({
 }: Props) {
     const strings = useTranslation(i18n);
 
-    // Assessment type options with labels and colors
-    const ASSESSMENT_TYPE_OPTIONS = [
-        {
-            label: strings?.considerationSelfAssessmentLabel ?? 'Self assessment',
-            color: PER_ASSESSMENT_COLORS.selfAssessment,
-        },
-        {
-            label: strings?.considerationSimulationLabel ?? 'Simulation',
-            color: PER_ASSESSMENT_COLORS.simulation,
-        },
-        {
-            label: strings?.considerationOperationalLabel ?? 'Operational',
-            color: PER_ASSESSMENT_COLORS.operational,
-        },
-        {
-            label: strings?.considerationPostOperationalLabel ?? 'Post operational',
-            color: PER_ASSESSMENT_COLORS.postOperational,
-        },
-    ];
+    const assessmentTypeLabels = usePERAssessmentTypeLabels();
+    // NOTE: `label` is the stable key that is used for filtering, `displayLabel` is translated
+    const assessmentTypeOptions = PER_ASSESSMENT_TYPE_KEYS.map((assessmentType) => ({
+        label: assessmentType,
+        displayLabel: assessmentTypeLabels[assessmentType],
+        color: PER_ASSESSMENT_TYPE_COLORS[assessmentType],
+    }));
 
     // Calculate global maxValue across all charts
     const calculateGlobalMaxValue = (allData: ChartData[]): number => Math.max(
@@ -213,9 +185,16 @@ function PERConsiderations({
                 })}
             </div>
             <PERChartLegend
-                data={ASSESSMENT_TYPE_OPTIONS}
+                data={assessmentTypeOptions}
                 activeIndex={activeIndex}
-                onClick={(item) => onClickAssessmentType(item)}
+                onClick={(item) => {
+                    const assessmentType = PER_ASSESSMENT_TYPE_KEYS.find(
+                        (typeKey) => typeKey === item.label,
+                    );
+                    if (assessmentType) {
+                        onClickAssessmentType(assessmentType);
+                    }
+                }}
                 layout="horizontal"
             />
         </div>

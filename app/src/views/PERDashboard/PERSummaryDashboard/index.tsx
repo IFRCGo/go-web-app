@@ -15,12 +15,17 @@ import {
     PERStackedBarChart,
     PERTreemapChart,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    usePERAssessmentTypeLabels,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 
 import {
     api,
     mbtoken,
 } from '#config';
+import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import {
     PER_PHASE_ACTION,
@@ -33,6 +38,9 @@ import {
     ASSESSMENT_TYPE_COLORS,
     type DashboardFilterState,
     EMPTY_FILTERS,
+    getPhaseLabel,
+    getRegionLabel,
+    isAssessmentTypeKey,
     normalizeLastUpdate,
     normalizeMapData,
     PHASE_COLORS,
@@ -67,24 +75,6 @@ const LAST_UPDATE_DATA_URL = 'https://raw.githubusercontent.com/IFRCGo/ifrc-per-
 
 type ActiveFilters = DashboardFilterState;
 
-const REGION_CATEGORIES = Object.entries(REGION_COLORS).map(([label, fillColor]) => ({
-    label,
-    fillColor,
-}));
-
-const REGION_LEGEND_CATEGORIES = Object.entries(REGION_COLORS).map(([label, color]) => ({
-    label,
-    color,
-}));
-
-const ASSESSMENT_TYPE_CATEGORIES = Object.entries(ASSESSMENT_TYPE_COLORS).map(([
-    label,
-    color,
-]) => ({
-    label,
-    color,
-}));
-
 function formatLastUpdate(value: string): string {
     const dateValue = new Date(value);
     return Number.isNaN(dateValue.getTime()) ? value : dateValue.toLocaleString();
@@ -114,6 +104,12 @@ function isRegionName(value: string | null): value is RegionName {
 function PERSummaryDashboard() {
     const strings = useTranslation(i18n);
     const alert = useAlert();
+    const {
+        api_region_name: regionOptions,
+        per_perphases: phaseOptions,
+    } = useGlobalEnums();
+    const assessmentTypeLabels = usePERAssessmentTypeLabels();
+    const currentLanguage = useCurrentLanguage();
     const [activeFilters, setActiveFilters] = useState<ActiveFilters>(() => ({ ...EMPTY_FILTERS }));
     const [activeTab, setActiveTab] = useState<number>(0);
     const [activePhase, setActivePhase] = useState<number | string | null>(null);
@@ -163,6 +159,64 @@ function PERSummaryDashboard() {
         [filteredState],
     );
     const hasActiveFilters = Object.values(activeFilters).some((value) => value !== null);
+
+    // NOTE: `label` / `name` identify an item and are used for filtering. Only
+    // `displayLabel` / `displayName` are shown, and they are translated.
+    const regionToggleData = useMemo(
+        () => regionData.map((item) => ({
+            ...item,
+            displayName: getRegionLabel(item.name, regionOptions, currentLanguage),
+        })),
+        [currentLanguage, regionData, regionOptions],
+    );
+    const regionCategories = useMemo(
+        () => Object.entries(REGION_COLORS).map(([label, fillColor]) => ({
+            label,
+            displayLabel: getRegionLabel(label as RegionName, regionOptions, currentLanguage),
+            fillColor,
+        })),
+        [currentLanguage, regionOptions],
+    );
+    const regionLegendData = useMemo(
+        () => Object.entries(REGION_COLORS).map(([label, color]) => ({
+            label,
+            displayLabel: getRegionLabel(label as RegionName, regionOptions, currentLanguage),
+            color,
+        })),
+        [currentLanguage, regionOptions],
+    );
+    const phaseLegendData = useMemo(
+        () => PHASE_COLORS.map((phase) => ({
+            ...phase,
+            displayLabel: getPhaseLabel(phase, phaseOptions),
+        })),
+        [phaseOptions],
+    );
+    const assessmentTypeChartData = useMemo(
+        () => assessmentTypeData.map((item) => ({
+            ...item,
+            displayLabel: assessmentTypeLabels[item.label],
+        })),
+        [assessmentTypeData, assessmentTypeLabels],
+    );
+    const assessmentTypeLegendData = useMemo(
+        () => assessmentTypeData.map((item) => ({
+            label: item.label,
+            displayLabel: assessmentTypeLabels[item.label],
+            color: ASSESSMENT_TYPE_COLORS[item.label],
+        })),
+        [assessmentTypeData, assessmentTypeLabels],
+    );
+    const considerationChartData = useMemo(
+        () => ({
+            ...considerationData,
+            data: considerationData.data.map((chart) => chart.map((row) => ({
+                ...row,
+                displayName: getRegionLabel(row.name, regionOptions, currentLanguage),
+            }))),
+        }),
+        [considerationData, currentLanguage, regionOptions],
+    );
 
     if (mapDataPending || (STATIC_REVIEW_MODE && lastUpdatePending)) {
         return (
@@ -250,7 +304,9 @@ function PERSummaryDashboard() {
     };
 
     const handleAssessmentTypeClick = (item: { label: string }) => {
-        updateFilter('assessmentType', item.label);
+        if (isAssessmentTypeKey(item.label)) {
+            updateFilter('assessmentType', item.label);
+        }
     };
 
     const handleHighPriorityComponentClick = (component: {
@@ -337,7 +393,7 @@ function PERSummaryDashboard() {
                             updateFilter('region', region);
                         }
                     }}
-                    regions={regionData}
+                    regions={regionToggleData}
                     precision={0}
                     showCount
                 />
@@ -384,7 +440,7 @@ function PERSummaryDashboard() {
                         />
                     </div>
                     <PERChartLegend
-                        data={[...PHASE_COLORS]}
+                        data={phaseLegendData}
                         onClick={(item) => {
                             const phaseItem = item as {
                                 label: string;
@@ -418,7 +474,7 @@ function PERSummaryDashboard() {
                         )}
                     >
                         <PERDonutChart
-                            data={assessmentTypeData}
+                            data={assessmentTypeChartData}
                             height={210}
                             width={400}
                             cutout="70%"
@@ -427,7 +483,7 @@ function PERSummaryDashboard() {
                             colors={Object.values(ASSESSMENT_TYPE_COLORS)}
                         />
                         <PERChartLegend
-                            data={ASSESSMENT_TYPE_CATEGORIES}
+                            data={assessmentTypeLegendData}
                             onClick={handleAssessmentTypeClick}
                             activeIndex={activeFilters?.assessmentType}
                             layout="horizontal"
@@ -461,13 +517,13 @@ function PERSummaryDashboard() {
                         <PERStackedBarChart
                             data={yearRegionData}
                             onClick={handleRegionStackedClick}
-                            categories={REGION_CATEGORIES}
+                            categories={regionCategories}
                             height={250}
                             tooltipEnabled
                             showDataLabels={false}
                         />
                         <PERChartLegend
-                            data={REGION_LEGEND_CATEGORIES}
+                            data={regionLegendData}
                             onClick={handleRegionStackedClick}
                             activeIndex={activeFilters?.region}
                             layout="horizontal"
@@ -525,8 +581,11 @@ function PERSummaryDashboard() {
                     )}
                 >
                     <PERConsiderations
-                        data={considerationData}
-                        onClickAssessmentType={handleAssessmentTypeClick}
+                        data={considerationChartData}
+                        onClickAssessmentType={(assessmentType) => updateFilter(
+                            'assessmentType',
+                            assessmentType,
+                        )}
                         onClickPER={(key) => updateFilter(
                             'consideration',
                             considerationKeyFromChartKey(key),

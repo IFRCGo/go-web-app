@@ -1,4 +1,9 @@
-import { PER_ASSESSMENT_TYPE_COLORS } from '@ifrc-go/ui';
+import {
+    PER_ASSESSMENT_TYPE_COLORS,
+    PER_ASSESSMENT_TYPE_KEYS,
+    type PERAssessmentTypeKey,
+} from '@ifrc-go/ui';
+import { type Language } from '@ifrc-go/ui/contexts';
 
 import {
     REGION_AFRICA,
@@ -8,6 +13,10 @@ import {
     REGION_MENA,
 } from '#utils/constants';
 import {
+    PER_ASSESSMENT_TYPE_OPERATIONAL,
+    PER_ASSESSMENT_TYPE_POST_OPERATIONAL,
+    PER_ASSESSMENT_TYPE_SELF_ASSESSMENT,
+    PER_ASSESSMENT_TYPE_SIMULATION,
     PER_PHASE_ACTION,
     PER_PHASE_ASSESSMENT,
     PER_PHASE_OVERVIEW,
@@ -71,7 +80,67 @@ export const PHASE_COLORS = [
     },
 ] as const;
 
+interface EnumOption {
+    key: number;
+    value: string;
+}
+
+const REGION_ID_BY_NAME: Record<RegionName, number> = {
+    Africa: REGION_AFRICA,
+    Americas: REGION_AMERICAS,
+    'Asia Pacific': REGION_ASIA,
+    Europe: REGION_EUROPE,
+    MENA: REGION_MENA,
+};
+
+// NOTE: `RegionName` is only an identifier. Use this to show the region to the user.
+// `options` is `api_region_name` of `useGlobalEnums()`.
+// English shows the short names of the dashboard (e.g. "MENA" instead of "Middle East &
+// North Africa"), the other languages show the translated names of the server.
+export function getRegionLabel(
+    region: RegionName,
+    options: readonly EnumOption[] | undefined,
+    language: Language,
+): string {
+    if (language === 'en') {
+        return region;
+    }
+    const regionId = REGION_ID_BY_NAME[region];
+    return options?.find((option) => option.key === regionId)?.value ?? region;
+}
+
+// NOTE: The label of `PHASE_COLORS` is only the fallback. Use this to show the phase
+// to the user. `options` is `per_perphases` of `useGlobalEnums()`
+export function getPhaseLabel(
+    phase: typeof PHASE_COLORS[number],
+    options: readonly EnumOption[] | undefined,
+): string {
+    return options?.find((option) => option.key === phase.phaseNumber)?.value ?? phase.label;
+}
+
+export type AssessmentTypeKey = PERAssessmentTypeKey;
+
 export const ASSESSMENT_TYPE_COLORS = PER_ASSESSMENT_TYPE_COLORS;
+
+const ASSESSMENT_TYPE_KEY_BY_ID: Record<number, AssessmentTypeKey> = {
+    [PER_ASSESSMENT_TYPE_SELF_ASSESSMENT]: 'SelfAssessment',
+    [PER_ASSESSMENT_TYPE_SIMULATION]: 'Simulation',
+    [PER_ASSESSMENT_TYPE_OPERATIONAL]: 'Operational',
+    [PER_ASSESSMENT_TYPE_POST_OPERATIONAL]: 'PostOperational',
+};
+
+// NOTE: The assessment type is identified by its id. Its name is translated by the server
+// (and cached by language), so it must never be used to tell the types apart.
+export function assessmentTypeKey(typeOfAssessment: number | null): AssessmentTypeKey | null {
+    if (typeOfAssessment === null) {
+        return null;
+    }
+    return ASSESSMENT_TYPE_KEY_BY_ID[typeOfAssessment] ?? null;
+}
+
+export function isAssessmentTypeKey(value: string): value is AssessmentTypeKey {
+    return PER_ASSESSMENT_TYPE_KEYS.some((key) => key === value);
+}
 
 export const REGION_COLORS = {
     Africa: '#A4BEDE',
@@ -106,7 +175,7 @@ export interface ProcessRecord {
     nationalSocietyName: string | null;
     countryIso3: string | null;
     regionId: number | null;
-    regionName: string | null;
+    regionName: RegionName | null;
     latitude: number | null;
     longitude: number | null;
     assessmentNumber: number;
@@ -136,7 +205,8 @@ export interface ComponentAssessment {
     countryName: string | null;
     countryIso3: string | null;
     regionId: number | null;
-    regionName: string | null;
+    regionName: RegionName | null;
+    typeOfAssessment: number | null;
     typeOfAssessmentName: string | null;
     dateOfAssessment: string | null;
     ratingValue: number | null;
@@ -160,7 +230,8 @@ export interface PerformanceCountryAssessment {
     countryName: string | null;
     countryIso3: string | null;
     regionId: number | null;
-    regionName: string | null;
+    regionName: RegionName | null;
+    typeOfAssessment: number | null;
     typeOfAssessmentName: string | null;
     phase: number | null;
     phaseDisplay: string | null;
@@ -175,7 +246,7 @@ export interface DashboardFilterState {
     countryId: number | null;
     region: RegionName | null;
     year: number | null;
-    assessmentType: string | null;
+    assessmentType: AssessmentTypeKey | null;
     phaseCohort: PhaseCohort | null;
     minimumCycles: number | null;
     consideration: ConsiderationKey | null;
@@ -344,6 +415,7 @@ function normalizeComponentAssessment(value: unknown): ComponentAssessment {
         countryIso3: asString(item.country_iso3),
         regionId,
         regionName: getRegionName(regionId),
+        typeOfAssessment: asNumber(item.type_of_assessment),
         typeOfAssessmentName: asString(item.type_of_assessment_name),
         dateOfAssessment: asString(item.date_of_assessment),
         ratingValue: asNumber(item.rating_value),
@@ -381,6 +453,7 @@ function normalizeCountryAssessment(value: unknown): PerformanceCountryAssessmen
         countryIso3: asString(item.country_iso3),
         regionId,
         regionName: getRegionName(regionId),
+        typeOfAssessment: asNumber(item.type_of_assessment),
         typeOfAssessmentName: asString(item.type_of_assessment_name),
         phase: asNumber(item.phase),
         phaseDisplay: asString(item.phase_display),
@@ -430,7 +503,7 @@ function matchesBaseFilters(process: ProcessRecord, filters: DashboardFilterStat
     }
     if (
         filters.assessmentType !== null
-        && process.typeOfAssessmentName !== filters.assessmentType
+        && assessmentTypeKey(process.typeOfAssessment) !== filters.assessmentType
     ) {
         return false;
     }
@@ -508,7 +581,7 @@ function assertFilteredState(
     const regions = new Set(
         state.processes
             .map((process) => process.regionName)
-            .filter((region): region is string => region !== null),
+            .filter((region): region is RegionName => region !== null),
     );
     if (regions.size !== 1) {
         throw new Error('PER dashboard filter returned mixed regions');
@@ -557,19 +630,4 @@ export function selectFilteredDashboard(
 
 export function getPhaseColor(phase: number | null): string {
     return PHASE_COLORS.find((item) => item.phaseNumber === phase)?.color ?? '#CCCCCC';
-}
-
-export function assessmentTypeKey(
-    value: string | null,
-): 'SelfAssessment' | 'Simulation' | 'Operational' | 'PostOperational' | null {
-    if (value === null) {
-        return null;
-    }
-
-    const normalized = value.toLowerCase().replace(/[^a-z]/g, '');
-    if (normalized === 'selfassessment') return 'SelfAssessment';
-    if (normalized === 'simulation') return 'Simulation';
-    if (normalized === 'operational') return 'Operational';
-    if (normalized === 'postoperational') return 'PostOperational';
-    return null;
 }

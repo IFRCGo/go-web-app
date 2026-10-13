@@ -1,4 +1,5 @@
 import {
+    PERAssessmentTypeKey,
     PERConsiderations as PurePERConsiderations,
     PERConsiderationsProps,
 } from '@ifrc-go/ui';
@@ -26,8 +27,8 @@ interface Props extends PERConsiderationsProps {
             Operational: number;
         }[][];
     };
-    activeIndex: string | number | null;
-    onClick: (index: string) => void;
+    activeIndex: PERAssessmentTypeKey | null;
+    onClickAssessmentType: (assessmentType: PERAssessmentTypeKey) => void;
     onClickPER: (key: string) => void;
 }
 

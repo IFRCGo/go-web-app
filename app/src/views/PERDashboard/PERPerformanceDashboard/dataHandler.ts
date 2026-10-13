@@ -2,12 +2,14 @@ import type { PERRatingAnalysisProps } from '@ifrc-go/ui';
 
 import {
     AREA_COLORS,
+    assessmentTypeKey,
     type ComponentAssessment,
     type DashboardFilterState,
     type PerformanceComponent,
     type PerformanceCountryAssessment,
     type PerformanceData,
     REGION_ORDER,
+    type RegionName,
 } from '../data';
 
 export type PerformanceFilterState = DashboardFilterState & {
@@ -143,7 +145,7 @@ function matchesFilter(
     }
     if (
         filters.assessmentType !== null
-        && item.typeOfAssessmentName !== filters.assessmentType
+        && assessmentTypeKey(item.typeOfAssessment) !== filters.assessmentType
     ) {
         return false;
     }
@@ -466,7 +468,7 @@ export function getPerformanceCycles(
 export function getPerformanceRegionData(
     data: PerformanceData,
     filters: PerformanceFilterState,
-): Array<{ name: string; count: number }> {
+): Array<{ name: RegionName; count: number }> {
     const filtersWithoutRegion = { ...filters, region: null, cycle: null };
     return REGION_ORDER.map((region) => ({
         name: region,

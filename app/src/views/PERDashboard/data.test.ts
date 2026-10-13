@@ -21,6 +21,7 @@ import {
 import {
     ASSESSMENT_TYPE_COLORS,
     EMPTY_FILTERS,
+    getRegionLabel,
     normalizeMapData,
     type PerformanceData,
     type ProcessRecord,
@@ -45,7 +46,7 @@ function process(overrides: Partial<ProcessRecord>): ProcessRecord {
         updatedAt: null,
         phase: 1,
         phaseDisplay: 'Orientation',
-        typeOfAssessment: 0,
+        typeOfAssessment: 1,
         typeOfAssessmentName: 'Self assessment',
         assessmentMethod: null,
         prioritizedComponents: [],
@@ -60,10 +61,10 @@ function process(overrides: Partial<ProcessRecord>): ProcessRecord {
 describe('PER dashboard country identity selector', () => {
     test('uses the consultant palette consistently for assessment and region legends', () => {
         expect(ASSESSMENT_TYPE_COLORS).toEqual({
-            'Self assessment': '#A4BEDE',
+            SelfAssessment: '#A4BEDE',
             Simulation: '#009CDD',
             Operational: '#418FDE',
-            'Post operational': '#236192',
+            PostOperational: '#236192',
         });
         expect(REGION_COLORS).toEqual({
             Africa: '#A4BEDE',
@@ -164,34 +165,74 @@ describe('PER dashboard country identity selector', () => {
     });
 
     test('excludes Orientation processes from assessment type counts', () => {
+        // NOTE: The names are Spanish on purpose, the type is identified by its id
         const typeCounts = [
-            { name: 'Self assessment', count: 112 },
-            { name: 'Simulation', count: 28 },
-            { name: 'Operational', count: 5 },
-            { name: 'Post operational', count: 10 },
-            { name: null, count: 17 },
+            { id: 1, name: 'Autoevaluación', count: 112 },
+            { id: 2, name: 'Simulación', count: 28 },
+            { id: 3, name: 'Operacional', count: 5 },
+            { id: 4, name: 'Postoperacional', count: 10 },
+            { id: null, name: null, count: 17 },
         ] as const;
         let processId = 0;
-        const history = typeCounts.flatMap(({ name, count }) => (
+        const history = typeCounts.flatMap(({ id, name, count }) => (
             Array.from({ length: count }, (_, index) => {
                 processId += 1;
                 return process({
                     processId,
                     countryId: ((processId - 1) % 114) + 1,
                     assessmentNumber: Math.floor((processId - 1) / 114) + 1,
+                    typeOfAssessment: id,
                     typeOfAssessmentName: name,
-                    phase: name === 'Self assessment' && index >= 110 ? 1 : 2,
+                    phase: id === 1 && index >= 110 ? 1 : 2,
                 });
             })
         ));
         const state = selectFilteredDashboard(history);
 
         expect(getRecordsByAssessmentType(state)).toEqual([
-            { label: 'Self assessment', count: 110 },
+            { label: 'SelfAssessment', count: 110 },
             { label: 'Simulation', count: 28 },
             { label: 'Operational', count: 5 },
-            { label: 'Post operational', count: 10 },
+            { label: 'PostOperational', count: 10 },
         ]);
+    });
+
+    test('filters by the assessment type id whatever language its name is in', () => {
+        const processes = [
+            process({
+                processId: 1,
+                countryId: 1,
+                typeOfAssessment: 1,
+                typeOfAssessmentName: 'Autoevaluación',
+                phase: 2,
+            }),
+            process({
+                processId: 2,
+                countryId: 2,
+                typeOfAssessment: 2,
+                typeOfAssessmentName: 'Simulación',
+                phase: 2,
+            }),
+            process({
+                processId: 3,
+                countryId: 3,
+                typeOfAssessment: 4,
+                typeOfAssessmentName: 'Postoperacional',
+                phase: 2,
+            }),
+        ];
+
+        const simulation = selectFilteredDashboard(
+            processes,
+            { ...EMPTY_FILTERS, assessmentType: 'Simulation' },
+        );
+        const postOperational = selectFilteredDashboard(
+            processes,
+            { ...EMPTY_FILTERS, assessmentType: 'PostOperational' },
+        );
+
+        expect(Array.from(simulation.countryIds)).toEqual([2]);
+        expect(Array.from(postOperational.countryIds)).toEqual([3]);
     });
 
     test('uses only the latest process of each NS for high-priority components', () => {
@@ -284,6 +325,7 @@ describe('PER dashboard country identity selector', () => {
             regionName: 'Americas',
             assessmentNumber: 2,
             dateOfAssessment: '2019-03-15',
+            typeOfAssessment: 2,
             typeOfAssessmentName: 'Simulation',
         });
         const hondurasSelfAssessment = process({
@@ -327,6 +369,7 @@ describe('PER dashboard country identity selector', () => {
                         countryIso3: 'EXM',
                         regionId: 1,
                         regionName: 'Africa',
+                        typeOfAssessment: 1,
                         typeOfAssessmentName: 'Self assessment',
                         dateOfAssessment: '2024-01-01',
                         ratingValue: 1,
@@ -347,6 +390,7 @@ describe('PER dashboard country identity selector', () => {
                         countryIso3: 'EXM',
                         regionId: 1,
                         regionName: 'Africa',
+                        typeOfAssessment: 1,
                         typeOfAssessmentName: 'Self assessment',
                         dateOfAssessment: '2024-01-01',
                         ratingValue: 4,
@@ -367,6 +411,7 @@ describe('PER dashboard country identity selector', () => {
                         countryIso3: 'EXM',
                         regionId: 1,
                         regionName: 'Africa',
+                        typeOfAssessment: 1,
                         typeOfAssessmentName: 'Self assessment',
                         dateOfAssessment: '2024-01-01',
                         ratingValue: 2,
@@ -384,6 +429,7 @@ describe('PER dashboard country identity selector', () => {
                         countryIso3: 'EXM',
                         regionId: 1,
                         regionName: 'Africa',
+                        typeOfAssessment: 1,
                         typeOfAssessmentName: 'Self assessment',
                         dateOfAssessment: '2024-01-01',
                         phase: 2,
@@ -397,6 +443,7 @@ describe('PER dashboard country identity selector', () => {
                         countryIso3: 'NRS',
                         regionId: 1,
                         regionName: 'Africa',
+                        typeOfAssessment: 1,
                         typeOfAssessmentName: 'Self assessment',
                         dateOfAssessment: '2024-01-02',
                         phase: 2,
@@ -545,5 +592,23 @@ describe('PER dashboard country identity selector', () => {
 
         expect(orientationOnlyState.countryIds.size).toBe(0);
         expect(Array.from(completedState.countryIds)).toEqual([2]);
+    });
+
+    test('shows MENA in English and the translated server names in the other languages', () => {
+        const spanishOptions = [
+            { key: 0, value: 'África' },
+            { key: 4, value: 'Medio Oriente y África del Norte' },
+        ];
+        const englishOptions = [
+            { key: 0, value: 'Africa' },
+            { key: 4, value: 'Middle East & North Africa' },
+        ];
+
+        expect(getRegionLabel('MENA', englishOptions, 'en')).toBe('MENA');
+        expect(getRegionLabel('Africa', englishOptions, 'en')).toBe('Africa');
+        expect(getRegionLabel('MENA', spanishOptions, 'es')).toBe('Medio Oriente y África del Norte');
+        expect(getRegionLabel('Africa', spanishOptions, 'es')).toBe('África');
+        // NOTE: falls back to the key while the enums are not loaded yet
+        expect(getRegionLabel('MENA', undefined, 'es')).toBe('MENA');
     });
 });

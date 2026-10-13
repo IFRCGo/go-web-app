@@ -14,10 +14,13 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import { _cs } from '@togglecorp/fujs';
 
 import { api } from '#config';
+import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { resolveUrl } from '#utils/resolveUrl';
 
 import {
     EMPTY_FILTERS,
+    getRegionLabel,
     normalizeLastUpdate,
     normalizePerformanceData,
 } from '../data';
@@ -46,6 +49,8 @@ function formatLastUpdate(value: string): string {
 
 function PERPerformanceDashboard() {
     const strings = useTranslation(i18n);
+    const { api_region_name: regionOptions } = useGlobalEnums();
+    const currentLanguage = useCurrentLanguage();
     const [activeFilters, setActiveFilters] = useState<PerformanceFilterState>(() => ({
         ...EMPTY_FILTERS,
         cycle: null,
@@ -80,6 +85,13 @@ function PERPerformanceDashboard() {
     const regionData = useMemo(
         () => getPerformanceRegionData(dashboardData, activeFilters),
         [activeFilters, dashboardData],
+    );
+    const regionToggleData = useMemo(
+        () => regionData.map((item) => ({
+            ...item,
+            displayName: getRegionLabel(item.name, regionOptions, currentLanguage),
+        })),
+        [currentLanguage, regionData, regionOptions],
     );
     const summary = useMemo(
         () => getPerformanceSummary(dashboardData, activeFilters),
@@ -141,7 +153,7 @@ function PERPerformanceDashboard() {
                 <PERRegionToggle
                     activeRegion={activeFilters?.region}
                     onRegionClick={handleRegionClick}
-                    regions={regionData}
+                    regions={regionToggleData}
                     precision={1}
                     showCount={false}
                 />

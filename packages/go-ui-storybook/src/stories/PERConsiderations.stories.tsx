@@ -101,9 +101,9 @@ export const Default: Story = {
             ],
         },
         activeIndex: null,
-        onClick: (index: string) => {
+        onClickAssessmentType: (assessmentType: string) => {
             // eslint-disable-next-line no-console
-            console.log('Clicked legend item:', index);
+            console.log('Clicked legend item:', assessmentType);
         },
         onClickPER: (key: string) => {
             // eslint-disable-next-line no-console

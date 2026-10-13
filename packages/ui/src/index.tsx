@@ -220,8 +220,10 @@ export { default as PERAnalysis } from './components/PERAnalysis';
 export {
     PER_ASSESSMENT_COLORS,
     PER_ASSESSMENT_TYPE_COLORS,
+    PER_ASSESSMENT_TYPE_KEYS,
     PER_CONSIDERATION_GAUGE_COLOR,
     PER_INACTIVE_COLOR,
+    type PERAssessmentTypeKey,
 } from './components/PERAssessmentPalette';
 export type { Props as PERChartLegendProps } from './components/PERChartLegend';
 export { default as PERChartLegend } from './components/PERChartLegend';

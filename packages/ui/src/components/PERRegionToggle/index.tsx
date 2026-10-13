@@ -10,7 +10,10 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Region {
+    /** Identifies the region. It is used for the active state and returned on click */
     name: string;
+    /** Text shown to the user. Falls back to `name` */
+    displayName?: string;
     count: number;
 }
 
@@ -86,13 +89,15 @@ function PERRegionToggle({
                             type="button"
                             aria-label={
                                 activeRegion === region.name
-                                    ? strings?.regionButtonActiveLabel?.replace('{region}', region.name)
-                                        ?? `${region.name} filter active`
-                                    : strings?.regionButtonInactiveLabel?.replace('{region}', region.name)
-                                        ?? `${region.name} filter inactive`
+                                    ? strings?.regionButtonActiveLabel?.replace('{region}', region.displayName ?? region.name)
+                                        ?? `${region.displayName ?? region.name} filter active`
+                                    : strings?.regionButtonInactiveLabel?.replace('{region}', region.displayName ?? region.name)
+                                        ?? `${region.displayName ?? region.name} filter inactive`
                             }
                         >
-                            <span className={styles.label}>{region.name}</span>
+                            <span className={styles.label}>
+                                {region.displayName ?? region.name}
+                            </span>
                             {showCount && (
                                 <span className={styles.count}>
                                     {region.count.toFixed(precision)}

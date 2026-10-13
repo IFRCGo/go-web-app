@@ -47,7 +47,10 @@ export interface Props {
     className?: string;
 
     categories: {
+        /** Key of the category in `values` of each data item */
         label: string;
+        /** Text shown to the user (tooltip). Falls back to `label` */
+        displayLabel?: string;
         fillColor: string;
         hoverFillColor?: string;
     }[];
@@ -89,7 +92,7 @@ function PERStackedBarChart({
     const chartData = {
         labels: data.map((item) => item.label),
         datasets: categories.map((category) => ({
-            label: category.label,
+            label: category.displayLabel ?? category.label,
             data: data.map((item) => item.values[category.label] ?? 0),
             backgroundColor: data.map((item) => (
                 item.year?.toString() === activeYear

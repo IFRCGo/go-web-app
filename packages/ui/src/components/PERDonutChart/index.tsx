@@ -18,7 +18,10 @@ import styles from './styles.module.css';
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 export interface ChartDataItem {
+    /** Identifies the item. It is returned on click */
     label: string;
+    /** Text shown to the user (tooltip). Falls back to `label` */
+    displayLabel?: string;
     count?: number;
     value?: number;
     fillColor?: string;
@@ -125,7 +128,7 @@ function PERDonutChart(props: Props) {
     }, [onHover]);
 
     const chartData = {
-        labels: data.map((item) => item.label),
+        labels: data.map((item) => item.displayLabel ?? item.label),
         datasets: [
             {
                 data: data.map((item) => item.count),

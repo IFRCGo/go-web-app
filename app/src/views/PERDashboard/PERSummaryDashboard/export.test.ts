@@ -95,7 +95,7 @@ describe('PER dashboard workbook export', () => {
             ...EMPTY_FILTERS,
             year: 2019,
             region: 'Africa' as const,
-            assessmentType: 'Self assessment',
+            assessmentType: 'SelfAssessment' as const,
         };
         const data = getDashboardWorkbookData(selectFilteredDashboard(history, filters), filters);
 

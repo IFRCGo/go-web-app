@@ -7,7 +7,10 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface LegendItem {
+    /** Identifies the item. It is used for the active state and returned on click */
     label: string;
+    /** Text shown to the user. Falls back to `label` */
+    displayLabel?: string;
     color: string;
 }
 
@@ -49,17 +52,18 @@ function PERChartLegend(props: Props) {
             {data.map((item, index) => {
                 const isActive = activeIndex === item.label;
                 const isDisabled = disabledIndices.includes(index);
+                const displayLabel = item.displayLabel ?? item.label;
                 const getAriaLabel = () => {
                     if (isDisabled) {
-                        return strings?.legendItemDisabledLabel?.replace('{label}', item.label)
-                            ?? `Legend item for ${item.label} (disabled)`;
+                        return strings?.legendItemDisabledLabel?.replace('{label}', displayLabel)
+                            ?? `Legend item for ${displayLabel} (disabled)`;
                     }
                     if (isActive) {
-                        return strings?.legendItemActiveLabel?.replace('{label}', item.label)
-                            ?? `Legend item for ${item.label} (active)`;
+                        return strings?.legendItemActiveLabel?.replace('{label}', displayLabel)
+                            ?? `Legend item for ${displayLabel} (active)`;
                     }
-                    return strings?.legendItemLabel?.replace('{label}', item.label)
-                        ?? `Legend item for ${item.label}`;
+                    return strings?.legendItemLabel?.replace('{label}', displayLabel)
+                        ?? `Legend item for ${displayLabel}`;
                 };
                 const ariaLabel = getAriaLabel();
 
@@ -79,10 +83,10 @@ function PERChartLegend(props: Props) {
                         <div
                             className={styles.color}
                             style={{ backgroundColor: item.color }}
-                            aria-label={strings?.legendColorIndicatorLabel?.replace('{label}', item.label) ?? `Color indicator for ${item.label}`}
+                            aria-label={strings?.legendColorIndicatorLabel?.replace('{label}', displayLabel) ?? `Color indicator for ${displayLabel}`}
                         />
                         <span className={styles.label}>
-                            {item.label}
+                            {displayLabel}
                         </span>
                     </button>
                 );

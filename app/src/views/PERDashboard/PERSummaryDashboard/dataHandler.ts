@@ -1,3 +1,5 @@
+import { PER_ASSESSMENT_TYPE_KEYS } from '@ifrc-go/ui';
+
 import {
     PER_PHASE_ACTION,
     PER_PHASE_ASSESSMENT,
@@ -5,6 +7,7 @@ import {
 
 import {
     AREA_COLORS,
+    type AssessmentTypeKey,
     assessmentTypeKey,
     compareProcessRecency,
     type FilteredDashboardState,
@@ -12,6 +15,7 @@ import {
     getProcessYear,
     type ProcessRecord,
     REGION_ORDER,
+    type RegionName,
 } from '../data';
 
 interface SummaryKpi {
@@ -22,7 +26,7 @@ interface SummaryKpi {
 }
 
 interface SummaryChartDataItem {
-    name: string;
+    name: RegionName;
     SelfAssessment: number;
     Simulation: number;
     PostOperational: number;
@@ -114,7 +118,7 @@ function countConsiderationByRegionAndType(
         if (!process) {
             return;
         }
-        const type = assessmentTypeKey(process.typeOfAssessmentName);
+        const type = assessmentTypeKey(process.typeOfAssessment);
         const regionItem = process.regionName ? chartByRegion.get(process.regionName) : undefined;
         if (type && regionItem) {
             regionItem[type] += 1;
@@ -200,7 +204,7 @@ export function getFilteredMapData(state: FilteredDashboardState): MapProcessRec
 
 export function getRecordsByRegion(
     state: FilteredDashboardState,
-): Array<{ name: string; count: number }> {
+): Array<{ name: RegionName; count: number }> {
     const counts = new Map(REGION_ORDER.map((region) => [region, 0]));
     state.latestProcessByCountry.forEach((process) => {
         if (process.regionName && counts.has(process.regionName as typeof REGION_ORDER[number])) {
@@ -214,36 +218,22 @@ export function getRecordsByRegion(
     }));
 }
 
+// NOTE: `label` is the stable assessment type key, translate it only when showing it
 export function getRecordsByAssessmentType(
     state: FilteredDashboardState,
-): Array<{ label: string; count: number }> {
-    const labels = [
-        'Self assessment',
-        'Simulation',
-        'Operational',
-        'Post operational',
-    ] as const;
-    const counts = new Map(labels.map((label) => [label, 0]));
+): Array<{ label: AssessmentTypeKey; count: number }> {
+    const counts = new Map<AssessmentTypeKey, number>(
+        PER_ASSESSMENT_TYPE_KEYS.map((key) => [key, 0]),
+    );
     state.processes
         .filter((process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT)
         .forEach((process) => {
-            const type = assessmentTypeKey(process.typeOfAssessmentName);
-            let label: typeof labels[number] | null = null;
-            if (type === 'SelfAssessment') {
-                label = 'Self assessment';
-            } else if (type === 'Simulation') {
-                label = 'Simulation';
-            } else if (type === 'Operational') {
-                label = 'Operational';
-            } else if (type === 'PostOperational') {
-                label = 'Post operational';
-            }
-            if (label && counts.has(label as typeof labels[number])) {
-                const typedLabel = label as typeof labels[number];
-                counts.set(typedLabel, counts.get(typedLabel)! + 1);
+            const type = assessmentTypeKey(process.typeOfAssessment);
+            if (type !== null) {
+                counts.set(type, (counts.get(type) ?? 0) + 1);
             }
         });
-    return labels.map((label) => ({
+    return PER_ASSESSMENT_TYPE_KEYS.map((label) => ({
         label,
         count: counts.get(label) ?? 0,
     }));

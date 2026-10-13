@@ -1,3 +1,4 @@
+export { default as usePERAssessmentTypeLabels } from '../components/PERConsiderations/usePERAssessmentTypeLabels';
 export { default as useSorting } from '../components/Table/useSorting';
 export { default as useBlurEffect } from './useBlurEffect';
 export { default as useBooleanState } from './useBooleanState';
