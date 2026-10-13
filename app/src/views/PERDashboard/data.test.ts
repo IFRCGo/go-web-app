@@ -165,12 +165,12 @@ describe('PER dashboard country identity selector', () => {
     });
 
     test('excludes Orientation processes from assessment type counts', () => {
-        // NOTE: The names are Spanish on purpose, the type is identified by its id
+        // NOTE: The names are not the English ones on purpose, the type is identified by its id
         const typeCounts = [
-            { id: 1, name: 'Autoevaluación', count: 112 },
-            { id: 2, name: 'Simulación', count: 28 },
-            { id: 3, name: 'Operacional', count: 5 },
-            { id: 4, name: 'Postoperacional', count: 10 },
+            { id: 1, name: 'Translated self assessment', count: 112 },
+            { id: 2, name: 'Translated simulation', count: 28 },
+            { id: 3, name: 'Translated operational', count: 5 },
+            { id: 4, name: 'Translated post operational', count: 10 },
             { id: null, name: null, count: 17 },
         ] as const;
         let processId = 0;
@@ -203,21 +203,21 @@ describe('PER dashboard country identity selector', () => {
                 processId: 1,
                 countryId: 1,
                 typeOfAssessment: 1,
-                typeOfAssessmentName: 'Autoevaluación',
+                typeOfAssessmentName: 'Translated self assessment',
                 phase: 2,
             }),
             process({
                 processId: 2,
                 countryId: 2,
                 typeOfAssessment: 2,
-                typeOfAssessmentName: 'Simulación',
+                typeOfAssessmentName: 'Translated simulation',
                 phase: 2,
             }),
             process({
                 processId: 3,
                 countryId: 3,
                 typeOfAssessment: 4,
-                typeOfAssessmentName: 'Postoperacional',
+                typeOfAssessmentName: 'Translated post operational',
                 phase: 2,
             }),
         ];
@@ -595,9 +595,9 @@ describe('PER dashboard country identity selector', () => {
     });
 
     test('shows MENA in English and the translated server names in the other languages', () => {
-        const spanishOptions = [
-            { key: 0, value: 'África' },
-            { key: 4, value: 'Medio Oriente y África del Norte' },
+        const translatedOptions = [
+            { key: 0, value: 'Translated Africa' },
+            { key: 4, value: 'Translated MENA' },
         ];
         const englishOptions = [
             { key: 0, value: 'Africa' },
@@ -606,8 +606,8 @@ describe('PER dashboard country identity selector', () => {
 
         expect(getRegionLabel('MENA', englishOptions, 'en')).toBe('MENA');
         expect(getRegionLabel('Africa', englishOptions, 'en')).toBe('Africa');
-        expect(getRegionLabel('MENA', spanishOptions, 'es')).toBe('Medio Oriente y África del Norte');
-        expect(getRegionLabel('Africa', spanishOptions, 'es')).toBe('África');
+        expect(getRegionLabel('MENA', translatedOptions, 'es')).toBe('Translated MENA');
+        expect(getRegionLabel('Africa', translatedOptions, 'es')).toBe('Translated Africa');
         // NOTE: falls back to the key while the enums are not loaded yet
         expect(getRegionLabel('MENA', undefined, 'es')).toBe('MENA');
     });
