@@ -42,7 +42,6 @@ export interface Props {
     zoom?: number;
     minRadius?: number;
     maxRadius?: number;
-    tooltipTrigger?: 'click' | 'hover';
     enableClickToFilter?: boolean;
     onClick?: (item: AssessmentRecord) => void;
     onMapLoad?: () => void;
@@ -58,7 +57,6 @@ function PERMap({
     zoom = 1,
     minRadius = 5,
     maxRadius = 25,
-    tooltipTrigger = 'click',
     enableClickToFilter = false,
     onClick,
     onMapLoad,
@@ -113,7 +111,7 @@ function PERMap({
 
         const tooltip = new mapboxgl.Popup({
             closeButton: false,
-            closeOnClick: tooltipTrigger === 'hover',
+            closeOnClick: false,
             offset: 15,
             className: styles.customTooltip,
         });
@@ -312,8 +310,9 @@ function PERMap({
             })
             .attr('r', (d: PositionedAssessmentRecord) => calculateRadius(Number(d[valueField]) || 0, minValue, maxValue) + 2);
 
-        // Handle click/hover events
-        const handleTooltipTrigger = function handleTooltipTrigger(
+        // NOTE: The tooltip opens on click only. A hover tooltip would close before its
+        // Filter button could be reached, and touch screens have no hover.
+        const handleBubbleClick = function handleBubbleClick(
             this: SVGCircleElement,
             event: MouseEvent,
             d: PositionedAssessmentRecord,
@@ -336,15 +335,8 @@ function PERMap({
 
         circles
             .merge(circlesEnter)
-            .on(
-                tooltipTrigger,
-                handleTooltipTrigger,
-            )
-            .on('mouseleave', function handleMouseLeave(this: SVGCircleElement, event: MouseEvent, d: PositionedAssessmentRecord) {
-                if (event && tooltipTrigger === 'hover') {
-                    hideTooltip();
-                }
-
+            .on('click', handleBubbleClick)
+            .on('mouseleave', function handleMouseLeave(this: SVGCircleElement, _: MouseEvent, d: PositionedAssessmentRecord) {
                 const hoverCircle = bubbleContainer.current?.hover
                     .selectAll<SVGCircleElement, PositionedAssessmentRecord>('circle')
                     .filter((hd) => hd.processId === d.processId);
@@ -363,7 +355,6 @@ function PERMap({
     }, [
         data,
         valueField,
-        tooltipTrigger,
         showTooltip,
         hideTooltip,
         calculateRadius,

@@ -582,16 +582,9 @@ function PERTreemapChart({
                                         .style('overflow', 'hidden')
                                         .style('pointer-events', 'none')
                                         .append('xhtml:div')
-                                        .style('width', '95%')
-                                        .style('height', '100%')
-                                        .style('display', 'flex')
-                                        .style('padding', '2px')
-                                        .style('line-height', '16px')
-                                        .style('box-sizing', 'border-box')
-                                        .style('color', '#fff')
-                                        .style('font-size', '12px')
-                                        .style('font-weight', '600')
-                                        .html(truncateText(
+                                        .attr('class', styles.parentLabel)
+                                        // NOTE: names are admin-managed, so they are set as text
+                                        .text(truncateText(
                                             node.data.name,
                                             PARENT_LABEL_MAX_LENGTH,
                                         ));
@@ -625,7 +618,7 @@ function PERTreemapChart({
                                 rectWidth >= MIN_WIDTH_FOR_LABEL
                                 && rectHeight >= MIN_HEIGHT_FOR_LABEL
                             ) {
-                                d3.select(rect)
+                                const label = d3.select(rect)
                                     .append('foreignObject')
                                     .attr('x', 0)
                                     .attr('y', 0)
@@ -633,31 +626,17 @@ function PERTreemapChart({
                                     .attr('height', rectHeight)
                                     .style('pointer-events', 'none')
                                     .append('xhtml:div')
-                                    .style('width', '95%')
-                                    .style('height', '100%')
-                                    .style('display', 'flex')
-                                    .style('flex-direction', 'column')
-                                    .style('justify-content', 'flex-end')
-                                    .style('padding', '0px')
-                                    .style('padding-left', '5px')
-                                    .style('box-sizing', 'border-box')
-                                    .style('color', '#fff')
-                                    .style('font-size', '10px')
-                                    .style('overflow', 'hidden')
-                                    .style('word-wrap', 'break-word')
-                                    .html(
-                                        `<div style="font-weight:300; line-height: 13px;">
-                                          ${truncateText(node.data.name, CHILD_LABEL_MAX_LENGTH)}
-                                        </div>
-                                        <div style="font-size: 16px">
-                                          ${node.data.value}
-                                          <span
-                                            style="font-size: 10px; font-weight: 300; line-height: 13px;"
-                                          >
-                                            NS
-                                          </span>
-                                        </div>`,
-                                    );
+                                    .attr('class', styles.childLabel);
+                                // NOTE: names are admin-managed, so they are set as text
+                                label.append('xhtml:div')
+                                    .attr('class', styles.childLabelName)
+                                    .text(truncateText(node.data.name, CHILD_LABEL_MAX_LENGTH));
+                                label.append('xhtml:div')
+                                    .attr('class', styles.childLabelValue)
+                                    .text(`${node.data.value} `)
+                                    .append('xhtml:span')
+                                    .attr('class', styles.childLabelUnit)
+                                    .text('NS');
                             }
                         }
                     },

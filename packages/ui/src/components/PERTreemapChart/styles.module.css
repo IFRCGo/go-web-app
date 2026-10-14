@@ -51,3 +51,44 @@
 .tooltipValue {
     opacity: 0.9;
 }
+
+.parent-label {
+    box-sizing: border-box;
+    display: flex;
+    padding: var(--go-ui-spacing-5xs);
+    width: 95%;
+    height: 100%;
+    line-height: var(--go-ui-line-height-sm);
+    color: var(--go-ui-color-white);
+    font-size: var(--go-ui-font-size-sm);
+    font-weight: var(--go-ui-font-weight-semibold);
+}
+
+.child-label {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-left: var(--go-ui-spacing-3xs);
+    width: 95%;
+    height: 100%;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    color: var(--go-ui-color-white);
+    font-size: var(--go-ui-font-size-xs);
+}
+
+.child-label-name {
+    line-height: var(--go-ui-line-height-sm);
+    font-weight: var(--go-ui-font-weight-light);
+}
+
+.child-label-value {
+    font-size: var(--go-ui-font-size-lg);
+}
+
+.child-label-unit {
+    line-height: var(--go-ui-line-height-sm);
+    font-size: var(--go-ui-font-size-xs);
+    font-weight: var(--go-ui-font-weight-light);
+}

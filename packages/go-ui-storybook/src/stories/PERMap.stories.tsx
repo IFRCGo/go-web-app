@@ -7,9 +7,6 @@ import { fn } from '@storybook/test';
 
 import PERMap from './PERMap';
 
-// Public token for demo purposes only
-const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
-
 const meta: Meta<typeof PERMap> = {
     title: 'Components/PERMap',
     component: PERMap,
@@ -34,10 +31,6 @@ const meta: Meta<typeof PERMap> = {
         zoom: { control: 'number' },
         minRadius: { control: 'number' },
         maxRadius: { control: 'number' },
-        tooltipTrigger: {
-            control: 'select',
-            options: ['hover', 'click'],
-        },
         enableClickToFilter: { control: 'boolean' },
     },
     decorators: [
@@ -103,14 +96,14 @@ const sampleData = [
 
 export const Default: Story = {
     args: {
-        accessToken: MAPBOX_ACCESS_TOKEN,
+        // NOTE: no token is stored in the code, enter a Mapbox access token in the controls
+        accessToken: '',
         mapboxStyle: 'mapbox://styles/go-ifrc/ckrfe16ru4c8718phmckdfjh0',
         data: sampleData as unknown as PERMapProps['data'],
         center: [0, 20],
         zoom: 2,
         minRadius: 5,
         maxRadius: 25,
-        tooltipTrigger: 'click',
         enableClickToFilter: true,
         onClick: fn(),
     },

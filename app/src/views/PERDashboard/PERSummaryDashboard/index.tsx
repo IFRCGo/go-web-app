@@ -418,7 +418,6 @@ function PERSummaryDashboard() {
                                 }
                             }}
                             valueField="assessmentNumber"
-                            tooltipTrigger="click"
                             enableClickToFilter
                             accessToken={mbtoken}
                             mapboxStyle={defaultMapStyle}
