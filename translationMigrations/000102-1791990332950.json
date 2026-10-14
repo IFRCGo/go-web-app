@@ -201,18 +201,6 @@
         },
         {
             "action": "add",
-            "key": "gaugeContainerLabel",
-            "namespace": "common",
-            "value": "Gauge chart showing {percentage}% for {label}"
-        },
-        {
-            "action": "add",
-            "key": "gaugeValueLabel",
-            "namespace": "common",
-            "value": "Gauge value: {percentage}%"
-        },
-        {
-            "action": "add",
             "key": "horizontalBarChartLabel",
             "namespace": "common",
             "value": "Horizontal stacked bar chart showing assessment types"
