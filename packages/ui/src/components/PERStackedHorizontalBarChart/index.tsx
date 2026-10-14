@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { Bar } from 'react-chartjs-2';
+import { getColorOnBgColor } from '@togglecorp/fujs';
 import {
     BarElement,
     CategoryScale,
@@ -15,7 +16,6 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
 
-import { getContrastColor } from '../../utils/common';
 import {
     PER_ASSESSMENT_TYPE_COLORS,
     PER_ASSESSMENT_TYPE_KEYS,
@@ -136,7 +136,7 @@ function PERStackedHorizontalBarChart({
                 color: (context) => {
                     const { datasetIndex } = context;
                     const { backgroundColor } = datasets[datasetIndex];
-                    return getContrastColor(backgroundColor);
+                    return getColorOnBgColor(backgroundColor, '#000000', '#FFFFFF');
                 },
                 font: {
                     size: 10,

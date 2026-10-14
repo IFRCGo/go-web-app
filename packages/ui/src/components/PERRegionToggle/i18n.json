@@ -1,8 +1,6 @@
 {
     "namespace": "common",
     "strings": {
-        "regionContainerLabel": "Region filter",
-        "regionButtonActiveLabel": "{region} filter active",
-        "regionButtonInactiveLabel": "{region} filter inactive"
+        "regionContainerLabel": "Region filter"
     }
 }

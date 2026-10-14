@@ -138,12 +138,11 @@
 
 .error {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: var(--go-ui-border-radius-md);
-    padding: var(--go-ui-spacing-md);
-    color: var(--go-ui-color-white);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--go-ui-color-foreground);
 }
 
 /* Make zoom controls smaller */

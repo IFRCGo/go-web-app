@@ -8,7 +8,6 @@ import {
 } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
-import { resolveToString } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -43,8 +42,6 @@ function PERRegionToggle({
         event: MouseEvent<HTMLButtonElement>,
         name: string,
     ) => {
-        event.stopPropagation();
-
         const button = event.currentTarget;
         const rect = button.getBoundingClientRect();
         const x = event.clientX - rect.left;
@@ -57,25 +54,10 @@ function PERRegionToggle({
         onRegionClick?.(newActiveRegion);
     }, [activeRegion, onRegionClick]);
 
-    const handleContainerClick = useCallback(() => {
-        if (activeRegion !== null) {
-            onRegionClick?.(null);
-        }
-    }, [activeRegion, onRegionClick]);
-
-    const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-            handleContainerClick();
-        }
-    }, [handleContainerClick]);
-
     return (
         <div
             className={_cs(styles.container, className)}
-            onClick={handleContainerClick}
-            onKeyDown={handleKeyDown}
-            role="button"
-            tabIndex={0}
+            role="group"
             aria-label={strings.regionContainerLabel}
         >
             <div className={styles.toggleGroup}>
@@ -90,12 +72,6 @@ function PERRegionToggle({
                             onClick={(event) => handleToggle(event, region.name)}
                             aria-pressed={activeRegion === region.name}
                             type="button"
-                            aria-label={resolveToString(
-                                activeRegion === region.name
-                                    ? strings.regionButtonActiveLabel
-                                    : strings.regionButtonInactiveLabel,
-                                { region: region.displayName ?? region.name },
-                            )}
                         >
                             <span className={styles.label}>
                                 {region.displayName ?? region.name}

@@ -15,6 +15,7 @@ import tippy, {
     Props as TippyProps,
 } from 'tippy.js';
 
+import useSizeTracking from '#hooks/useSizeTracking';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
 
@@ -110,6 +111,16 @@ function PERTreemapChart({
     const isAnimatingRef = useRef(false);
     const tooltipTimeoutRef = useRef<number | undefined>(undefined);
     const [data, setData] = useState<TreemapNode>();
+    const { width: svgWidth } = useSizeTracking(svgRef);
+
+    // NOTE: The parent passes new handlers on every render. Reading them from refs keeps
+    // the D3 drawing (and its transitions and tooltips) from being rebuilt each time.
+    const onClickRef = useRef(onClick);
+    const onHoverRef = useRef(onHover);
+    useEffect(() => {
+        onClickRef.current = onClick;
+        onHoverRef.current = onHover;
+    }, [onClick, onHover]);
 
     // Configuration constants
     const MIN_WIDTH_FOR_LABEL = 70;
@@ -190,7 +201,7 @@ function PERTreemapChart({
                                     if (currentNode.data?.name
                                         && currentNode.data?.value !== undefined
                                         && currentNode.data?.color) {
-                                        onHover?.({
+                                        onHoverRef.current?.({
                                             name: currentNode.data.name,
                                             value: currentNode.data.value,
                                             color: currentNode.data.color,
@@ -200,13 +211,13 @@ function PERTreemapChart({
                                 return true;
                             },
                             onHide: () => {
-                                onHover?.(undefined);
+                                onHoverRef.current?.(undefined);
                             },
                         } as unknown as TippyProps);
                     }
                 })
                 .on('click', (event: MouseEvent, node: d3.HierarchyNode<TreemapNode> & ExtendedHierarchyNode) => {
-                    if (!onClick || !event || !node.data) {
+                    if (!onClickRef.current || !event || !node.data) {
                         return;
                     }
 
@@ -215,12 +226,12 @@ function PERTreemapChart({
 
                     // If clicking on already selected component, deselect it
                     if (activeIndex && node.depth === 2 && node.data.name === activeIndex) {
-                        onClick({ area: '', component: null });
+                        onClickRef.current({ area: '', component: null });
                         return;
                     }
 
                     if (area) {
-                        onClick({ area, component });
+                        onClickRef.current({ area, component });
                     }
                 })
                 .attr('aria-label', (node: d3.HierarchyNode<TreemapNode> & ExtendedHierarchyNode) => {
@@ -245,7 +256,7 @@ function PERTreemapChart({
                 })
                 .on('mouseover', (node: d3.HierarchyNode<TreemapNode> & ExtendedHierarchyNode) => {
                     if (node.data) {
-                        onHover?.({
+                        onHoverRef.current?.({
                             name: node.data.name,
                             value: node.data.value,
                             color: node.data.color,
@@ -253,10 +264,10 @@ function PERTreemapChart({
                     }
                 })
                 .on('mouseout', () => {
-                    onHover?.(undefined);
+                    onHoverRef.current?.(undefined);
                 });
         },
-        [activeIndex, onClick, onHover, strings],
+        [activeIndex, strings],
     );
 
     const hideAllTooltips = useCallback(() => {
@@ -294,10 +305,10 @@ function PERTreemapChart({
     }, [d]);
 
     useEffect(() => {
-        if (!data || !svgRef.current) return;
+        if (!data || !svgRef.current || svgWidth === 0) return;
 
         const svgElement = d3.select(svgRef.current);
-        const width = (svgRef.current.clientWidth || 0) - PADDING * 2;
+        const width = svgWidth - PADDING * 2;
         const svgHeight = height - PADDING * 2;
 
         let svg = svgElement.select<SVGGElement>('g');
@@ -710,7 +721,7 @@ function PERTreemapChart({
         attachTooltipBehavior,
         endAll,
         height,
-        onHover,
+        svgWidth,
         enableTooltips,
         hideAllTooltips,
     ]);

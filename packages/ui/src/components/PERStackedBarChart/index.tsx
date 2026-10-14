@@ -4,7 +4,10 @@ import {
     useState,
 } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    getColorOnBgColor,
+} from '@togglecorp/fujs';
 import {
     BarElement,
     CategoryScale,
@@ -19,8 +22,6 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
-
-import { getContrastColor } from '../../utils/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -180,7 +181,7 @@ function PERStackedBarChart({
                     const color = Array.isArray(backgroundColor)
                         ? backgroundColor[context.dataIndex]
                         : backgroundColor as string;
-                    return getContrastColor(color);
+                    return getColorOnBgColor(color, '#000000', '#FFFFFF');
                 },
                 font: {
                     size: 11,

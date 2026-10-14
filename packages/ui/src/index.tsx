@@ -231,8 +231,6 @@ export type { Props as PERConsiderationsProps } from './components/PERConsiderat
 export { default as PERConsiderations } from './components/PERConsiderations';
 export type { Props as PERDonutChartProps } from './components/PERDonutChart';
 export { default as PERDonutChart } from './components/PERDonutChart';
-export type { Props as PERExportButtonProps } from './components/PERExportButton';
-export { default as PERExportButton } from './components/PERExportButton';
 export type { Props as PERGaugeChartProps } from './components/PERGaugeChart';
 export { default as PERGaugeChart } from './components/PERGaugeChart';
 export type { Props as PERKPITabsProps } from './components/PERKPITabs';

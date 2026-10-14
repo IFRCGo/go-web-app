@@ -6,6 +6,7 @@ import * as d3 from 'd3';
 import mapboxgl from 'mapbox-gl';
 
 import IconButton from '#components/IconButton';
+import Message from '#components/Message';
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
@@ -429,6 +430,8 @@ function PERMap({
                 map.current.remove();
                 map.current = null;
             }
+            // NOTE: the bubble layer was part of the removed map
+            bubbleContainer.current = null;
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accessToken, mapboxStyle, showLabels]);
@@ -444,20 +447,21 @@ function PERMap({
             aria-label={strings.perMapContainerLabel}
         >
             {error && (
-                <div className={styles.error}>
-                    <div className={styles.errorContent}>
-                        {error}
+                <Message
+                    className={styles.error}
+                    variant="error"
+                    title={error}
+                    actions={(
                         <IconButton
                             name={undefined}
-                            className={styles.closeButton}
                             onClick={() => setError(null)}
                             title={strings.perMapDismissErrorLabel}
                             ariaLabel={strings.perMapDismissErrorLabel}
                         >
                             <CloseLineIcon />
                         </IconButton>
-                    </div>
-                </div>
+                    )}
+                />
             )}
         </div>
     );
