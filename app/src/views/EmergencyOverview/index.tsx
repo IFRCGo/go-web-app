@@ -1296,11 +1296,8 @@ export function Component() {
                 </Container>
             )}
             {isFieldReportStage
-                && isDefined(emergencyResponse)
-                && isDefined(emergencyResponse.dtype)
                 && isDefined(country) && (
                 <EmergencyLessonsLearnedFromPreviousOperations
-                    disasterType={emergencyResponse.dtype}
                     country={country.id}
                 />
             )}

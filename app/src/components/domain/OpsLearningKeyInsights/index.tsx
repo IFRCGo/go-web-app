@@ -23,10 +23,15 @@ type OpsLearningSummaryResponse = GoApiResponse<'/api/v2/ops-learning/summary/'>
 
 interface Props {
     opsLearningSummaryResponse: OpsLearningSummaryResponse | undefined;
+    // NOTE: rendered between the insights and the disclaimer
+    beforeDisclaimer?: React.ReactNode;
 }
 
 function OpsLearningKeyInsights(props: Props) {
-    const { opsLearningSummaryResponse } = props;
+    const {
+        opsLearningSummaryResponse,
+        beforeDisclaimer,
+    } = props;
 
     const strings = useTranslation(i18n);
 
@@ -65,6 +70,7 @@ function OpsLearningKeyInsights(props: Props) {
                     </Container>
                 )}
             </ListView>
+            {beforeDisclaimer}
             <Description withLightText>
                 {resolveToComponent(strings.keyInsightsDisclaimer, {
                     numOfExtractsUsed: (
