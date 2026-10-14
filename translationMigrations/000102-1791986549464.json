@@ -579,6 +579,12 @@
         },
         {
             "action": "add",
+            "key": "performanceClearAllFilters",
+            "namespace": "perDashboard",
+            "value": "Clear all filters"
+        },
+        {
+            "action": "add",
             "key": "performanceContainerAriaLabel",
             "namespace": "perDashboard",
             "value": "PER Performance Dashboard"
@@ -609,21 +615,15 @@
         },
         {
             "action": "add",
-            "key": "performanceResetFilter",
-            "namespace": "perDashboard",
-            "value": "Clear Filter"
-        },
-        {
-            "action": "add",
-            "key": "performanceResetFilterAriaLabel",
-            "namespace": "perDashboard",
-            "value": "Reset all active filters"
-        },
-        {
-            "action": "add",
             "key": "summaryAboutDashboard",
             "namespace": "perDashboard",
             "value": "About this dashboard"
+        },
+        {
+            "action": "add",
+            "key": "summaryClearAllFilters",
+            "namespace": "perDashboard",
+            "value": "Clear all filters"
         },
         {
             "action": "add",
@@ -672,12 +672,6 @@
             "key": "summaryResetFilter",
             "namespace": "perDashboard",
             "value": "Clear Filter"
-        },
-        {
-            "action": "add",
-            "key": "summaryResetFilterAriaLabel",
-            "namespace": "perDashboard",
-            "value": "Reset all active filters"
         },
         {
             "action": "add",
