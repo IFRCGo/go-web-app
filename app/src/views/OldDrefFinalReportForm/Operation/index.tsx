@@ -40,6 +40,7 @@ import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { IFRC_INDICATOR_BANK_URL } from '#utils/domain/dref';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import {
@@ -693,7 +694,7 @@ function Operation(props: Props) {
                                         {
                                             indicatorDatabankLink: (
                                                 <Link
-                                                    href="https://github.com/user-attachments/files/18903662/Annex.III.Risk.Categories.1.pdf"
+                                                    href={IFRC_INDICATOR_BANK_URL}
                                                     withLinkIcon
                                                     external
                                                 >
