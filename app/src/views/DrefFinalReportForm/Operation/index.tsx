@@ -600,7 +600,7 @@ function Operation(props: Props) {
                                     && strings.drefFormRiskSecurityPotentialRiskAssessment}
                                 {strings.drefFormRiskSecurityPotentialRiskDescription}
                                 <Link
-                                    href="https://github.com/user-attachments/files/18903662/Annex.III.Risk.Categories.1.pdf"
+                                    href="https://indicatorbank.ifrc.org/"
                                     withLinkIcon
                                     external
                                 >
@@ -885,7 +885,7 @@ function Operation(props: Props) {
                                             {
                                                 indicatorDatabankLink: (
                                                     <Link
-                                                        href="https://github.com/user-attachments/files/18903662/Annex.III.Risk.Categories.1.pdf"
+                                                        href="https://indicatorbank.ifrc.org/"
                                                         withLinkIcon
                                                         external
                                                     >
