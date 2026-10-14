@@ -1,7 +1,4 @@
-import {
-    useEffect,
-    useState,
-} from 'react';
+import { useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
@@ -101,13 +98,6 @@ function PERKPITabs({
         // Always notify via onTabClick callback if provided
         onTabClick?.(kpis[index].key);
     };
-
-    // Sync internal state with external activeIndex if it becomes uncontrolled
-    useEffect(() => {
-        if (!isControlled) {
-            // Optionally, you can add logic here if you need to respond to external changes
-        }
-    }, [isControlled]);
 
     return (
         <div

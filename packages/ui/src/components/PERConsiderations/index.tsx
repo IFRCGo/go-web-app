@@ -135,7 +135,6 @@ function PERConsiderations({
             <div className={styles.perConsiderationsContainer}>
                 {data.data.map((chartData, index) => {
                     const currentKey = key[index];
-                    const isActive = activePERFilter === currentKey;
                     // Only set inactive if there's an active filter and it's not this one
                     const isInactive = activePERFilter ? currentKey !== activePERFilter : false;
 
@@ -143,7 +142,6 @@ function PERConsiderations({
                         <div
                             className={_cs(
                                 styles.column,
-                                isActive && styles.activeColumn,
                                 isInactive && styles.inactiveColumn,
                             )}
                             key={`per-consideration-${currentKey}`}

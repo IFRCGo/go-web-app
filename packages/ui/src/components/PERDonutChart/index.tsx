@@ -8,7 +8,6 @@ import {
     ChartOptions,
     Legend,
     Tooltip,
-    TooltipItem,
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
@@ -51,8 +50,6 @@ export interface Props {
     animation?: boolean;
     /** Whether to show tooltips */
     tooltipEnabled?: boolean;
-    /** Custom tooltip format function */
-    tooltipFormat?: (label: string, value: number) => string;
     /** Primary text to display in center of donut */
     centerText?: string | number;
     /** Secondary text to display in center of donut */
@@ -106,7 +103,6 @@ function PERDonutChart(props: Props) {
         hoverOffset = 4,
         animation = true,
         tooltipEnabled = true,
-        tooltipFormat = (value) => `${value}`,
         centerText,
         centerTextSecondary,
         maintainAspectRatio = false,
@@ -173,13 +169,6 @@ function PERDonutChart(props: Props) {
             },
             tooltip: {
                 enabled: tooltipEnabled,
-                callbacks: {
-                    label(tooltipItem: TooltipItem<'doughnut'>) {
-                        const label = tooltipItem.label || '';
-                        const value = tooltipItem.raw as number;
-                        return tooltipFormat(label, value);
-                    },
-                },
                 titleColor: '#111827',
                 bodyColor: '#111827',
                 backgroundColor: '#FFFFFF',

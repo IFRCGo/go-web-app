@@ -6,12 +6,10 @@ import {
 import { _cs } from '@togglecorp/fujs';
 import * as d3 from 'd3';
 
-import useTranslation from '#hooks/useTranslation';
-import { resolveToString } from '#utils/translation';
+import RawButton from '#components/RawButton';
 
 import { PER_CONSIDERATION_GAUGE_COLOR } from '../PERAssessmentPalette';
 
-import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props {
@@ -90,9 +88,8 @@ function PERGaugeChart({
     subtitle,
     className,
 }: Props) {
-    const strings = useTranslation(i18n);
     const svgRef = useRef<SVGSVGElement | null>(null);
-    const containerRef = useRef<HTMLDivElement | null>(null);
+    const containerRef = useRef<HTMLButtonElement | null>(null);
     const [containerWidth, setContainerWidth] = useState<number>(200);
     const prevPercentage = useRef(percentage);
 
@@ -206,18 +203,11 @@ function PERGaugeChart({
     }, [percentage, radius, transitionSpeed]);
 
     return (
-        <div
-            ref={containerRef}
+        <RawButton
+            name={undefined}
+            elementRef={containerRef}
             className={_cs(styles.container, className)}
-            role="button"
-            tabIndex={0}
-            onClick={onClick}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    onClick?.();
-                }
-            }}
-            aria-label={`${resolveToString(strings.gaugeContainerLabel, { percentage, label })}${count === undefined ? '' : `, ${count} NS`}`}
+            onClick={onClick ? () => onClick() : undefined}
         >
             {title && (
                 <div className={styles.title}>
@@ -236,7 +226,8 @@ function PERGaugeChart({
                     height={height}
                     viewBox={`0 0 ${containerWidth} ${height}`}
                     preserveAspectRatio="xMidYMid meet"
-                    aria-label={resolveToString(strings.gaugeValueLabel, { percentage })}
+                    // NOTE: the percentage is also shown as text below the gauge
+                    aria-hidden
                 />
             </div>
             {label && (
@@ -255,7 +246,7 @@ function PERGaugeChart({
                     NS
                 </div>
             )}
-        </div>
+        </RawButton>
     );
 }
 

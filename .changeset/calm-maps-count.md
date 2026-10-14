@@ -15,3 +15,4 @@ Update the PER dashboards to use the current PER API
 - Translate the cycle labels, KPI descriptions, rating headings and map errors of the PER dashboards
 - Keep the counts of the other regions visible when a region is selected on the Global Summary
 - Filter the Global Performance by cycle when a bar of the cycle chart is clicked
+- Show the number of processes in the assessment type donut tooltip
