@@ -261,9 +261,17 @@
 
     .proposed-actions {
         display: grid;
-        gap: var(--go-ui-width-separator-md);
+        column-gap: var(--go-ui-width-separator-md);
         grid-template-columns: 3fr 3fr 6fr 2fr;
-        break-inside: avoid;
+
+        /* NOTE: margin instead of row-gap so continued cells join the cell above */
+        > * {
+            margin-top: var(--go-ui-width-separator-md);
+        }
+
+        > .continued {
+            margin-top: 0;
+        }
 
         .action-title-label {
             background-color: var(--go-ui-color-element-background);
@@ -293,16 +301,11 @@
         .budget {
             background-color: var(--pdf-element-bg);
             padding: var(--go-ui-spacing-sm);
-            break-inside: avoid;
         }
 
         .activity {
             white-space: pre-wrap;
-        }
-
-        .budget {
-            display: flex;
-            align-items: center;
+            break-inside: avoid;
         }
 
         .cost-label {
