@@ -16,6 +16,7 @@ import {
     getPERConsiderations,
     getRecordsByAssessmentType,
     getRecordsByRegion,
+    getRegionToggleCounts,
     getStackedBarDataByYearAndRegion,
 } from './PERSummaryDashboard/dataHandler';
 import {
@@ -659,6 +660,22 @@ describe('PER dashboard country identity selector', () => {
         ]);
         expect(getKPIData(allProcessesState).find((item) => item.key === 'completed')?.value)
             .toBe(1);
+    });
+
+    test('keeps the counts of the other regions when a region is selected', () => {
+        const processes = [
+            process({ processId: 1, countryId: 1, regionName: 'Africa' }),
+            process({ processId: 2, countryId: 2, regionName: 'Africa' }),
+            process({ processId: 3, countryId: 3, regionName: 'Europe' }),
+        ];
+
+        expect(getRegionToggleCounts(processes, { ...EMPTY_FILTERS, region: 'Africa' })).toEqual([
+            { name: 'Africa', count: 2 },
+            { name: 'Americas', count: 0 },
+            { name: 'Asia Pacific', count: 0 },
+            { name: 'Europe', count: 1 },
+            { name: 'MENA', count: 0 },
+        ]);
     });
 
     test('does not count Orientation-only entries in the PER cycles', () => {

@@ -56,14 +56,14 @@ import {
     type RegionName,
     selectFilteredDashboard,
 } from '../data';
-import useJsonRequest from '../snapshot';
+import useJsonRequest from '../useJsonRequest';
 import {
     getComponentSummaryForTreemap,
     getFilteredMapData,
     getKPIData,
     getPERConsiderations,
     getRecordsByAssessmentType,
-    getRecordsByRegion,
+    getRegionToggleCounts,
     getStackedBarDataByYearAndRegion,
     type SummaryKpiKey,
 } from './dataHandler';
@@ -132,7 +132,10 @@ function PERSummaryDashboard() {
         () => getDashboardWorkbookData(filteredState, activeFilters),
         [activeFilters, filteredState],
     );
-    const regionData = useMemo(() => getRecordsByRegion(filteredState), [filteredState]);
+    const regionData = useMemo(
+        () => getRegionToggleCounts(mapData.processes, activeFilters),
+        [activeFilters, mapData.processes],
+    );
     const assessmentTypeData = useMemo(
         () => getRecordsByAssessmentType(filteredState),
         [filteredState],
@@ -401,9 +404,8 @@ function PERSummaryDashboard() {
                                         setActiveTab(0);
                                         setActivePhase(null);
                                     }}
-                                    aria-label={strings.summaryResetFilterAriaLabel}
                                 >
-                                    {strings.summaryResetFilter}
+                                    {strings.summaryClearAllFilters}
                                 </Button>
                             </>
                         ) : null}
@@ -451,7 +453,6 @@ function PERSummaryDashboard() {
                                 <Button
                                     name={undefined}
                                     onClick={() => updateFilter('assessmentType', null)}
-                                    aria-label={strings.summaryResetFilterAriaLabel}
                                 >
                                     {strings.summaryResetFilter}
                                 </Button>
@@ -488,7 +489,6 @@ function PERSummaryDashboard() {
                                         updateFilter('region', null);
                                         updateFilter('year', null);
                                     }}
-                                    aria-label={strings.summaryResetFilterAriaLabel}
                                 >
                                     {strings.summaryResetFilter}
                                 </Button>
@@ -521,7 +521,6 @@ function PERSummaryDashboard() {
                             <Button
                                 name={undefined}
                                 onClick={() => updateFilter('highPriorityComponent', null)}
-                                aria-label={strings.summaryResetFilterAriaLabel}
                             >
                                 {strings.summaryResetFilter}
                             </Button>
@@ -544,7 +543,6 @@ function PERSummaryDashboard() {
                                 onClick={() => {
                                     updateFilter('consideration', null);
                                 }}
-                                aria-label={strings.summaryResetFilterAriaLabel}
                             >
                                 {strings.summaryResetFilter}
                             </Button>

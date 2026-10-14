@@ -1,4 +1,3 @@
-import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import {
     Bar,
@@ -193,17 +192,6 @@ function PERAnalysis({
     activeCycle,
 }: Props) {
     const strings = useTranslation(i18n);
-    const handleCycleCardClick = (
-        event: React.MouseEvent<HTMLButtonElement>,
-        cycleNumber: number,
-    ) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        if (onCycleClick) {
-            onCycleClick(cycleNumber);
-        }
-    };
 
     return (
         <div
@@ -319,12 +307,10 @@ function PERAnalysis({
                                     stackId="a"
                                     fill={COLORS.primaryLight}
                                     radius={[0, 0, 0, 0]}
-                                    onClick={
-                                        (event) => handleCycleCardClick(
-                                            event,
-                                            event.payload.cycleNumber,
-                                        )
-                                    }
+                                    // NOTE: recharts passes the bar data first, not the event
+                                    onClick={(entry) => (
+                                        onCycleClick?.(entry.payload.cycleNumber)
+                                    )}
                                     className={styles.bar}
                                     cursor="pointer"
                                 />
@@ -334,12 +320,10 @@ function PERAnalysis({
                                     stackId="a"
                                     fill={COLORS.primary}
                                     radius={[4, 4, 0, 0]}
-                                    onClick={
-                                        (event) => handleCycleCardClick(
-                                            event,
-                                            event.payload.cycleNumber,
-                                        )
-                                    }
+                                    // NOTE: recharts passes the bar data first, not the event
+                                    onClick={(entry) => (
+                                        onCycleClick?.(entry.payload.cycleNumber)
+                                    )}
                                     className={styles.bar}
                                     cursor="pointer"
                                 />
@@ -368,7 +352,7 @@ function PERAnalysis({
                     <button
                         type="button"
                         key={`cycle-${cycleData.cycleNumber}`}
-                        onClick={(e) => handleCycleCardClick(e, cycleData.cycleNumber)}
+                        onClick={() => onCycleClick?.(cycleData.cycleNumber)}
                         className={_cs(
                             styles.summaryCard,
                             activeCycle === cycleData.cycleNumber && styles.active,

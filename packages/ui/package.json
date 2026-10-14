@@ -55,10 +55,8 @@
     },
     "dependencies": {
         "@ifrc-go/icons": "^2.0.1",
-        "@tippyjs/react": "^4.2.6",
         "@togglecorp/fujs": "^2.2.0",
         "jiti": "^2.6.1",
-        "@types/mapbox-gl": "^1.13.10",
         "chart.js": "^4.4.1",
         "chartjs-plugin-datalabels": "^2.2.0",
         "d3": "^7.8.5",
@@ -80,6 +78,7 @@
         "@eslint/json": "^1.0.0",
         "@types/node": "^20.19.37",
         "@types/d3": "^7.4.3",
+        "@types/mapbox-gl": "^1.13.10",
         "@types/react": "^19.0.0",
         "@types/react-dom": "^19.0.0",
         "@types/sanitize-html": "^2.16.1",

@@ -31,7 +31,7 @@ import {
     normalizePerformanceData,
     REGION_ORDER,
 } from '../data';
-import useJsonRequest from '../snapshot';
+import useJsonRequest from '../useJsonRequest';
 import {
     getPerformanceCycles,
     getPerformanceRatings,
@@ -148,9 +148,8 @@ function PERPerformanceDashboard() {
                             <Button
                                 name={undefined}
                                 onClick={() => setActiveFilters({ ...EMPTY_FILTERS, cycle: null })}
-                                aria-label={strings.performanceResetFilterAriaLabel}
                             >
-                                {strings.performanceResetFilter}
+                                {strings.performanceClearAllFilters}
                             </Button>
                         )}
                     >

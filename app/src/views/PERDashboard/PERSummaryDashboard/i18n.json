@@ -3,7 +3,6 @@
     "strings": {
         "summaryLastUpdate": "Latest PER update: {date}",
         "summaryResetFilter": "Clear Filter",
-        "summaryResetFilterAriaLabel": "Reset all active filters",
         "summaryExport": "Export",
         "summaryExportAriaLabel": "Export filtered dashboard data as Excel",
         "summaryExportFailure": "Unable to create dashboard export.",
@@ -25,6 +24,7 @@
         "kpiOrientationDescription": "Number of NS currently in initial Orientation phase",
         "kpiAssessmentDescription": "Number of NS who completed or are in assessment phase",
         "kpiActionDescription": "Number of NS at Action & Accountability phase",
-        "kpiCompletedDescription": "Number of NS completed 2+ cycles of PER process"
+        "kpiCompletedDescription": "Number of NS completed 2+ cycles of PER process",
+        "summaryClearAllFilters": "Clear all filters"
     }
 }

@@ -6,6 +6,7 @@ import {
     AREA_COLORS,
     type AssessmentTypeKey,
     assessmentTypeKey,
+    type DashboardFilterState,
     type FilteredDashboardState,
     getCompletedCycleCount,
     getPhaseColor,
@@ -16,6 +17,7 @@ import {
     type ProcessRecord,
     REGION_ORDER,
     type RegionName,
+    selectFilteredDashboard,
 } from '../data';
 
 export type SummaryKpiKey = 'total-engaged' | 'orientation' | 'assessment' | 'action' | 'completed';
@@ -190,6 +192,15 @@ export function getRecordsByRegion(
         name: region,
         count: counts.get(region) ?? 0,
     }));
+}
+
+// NOTE: The region filter is left out, so selecting a region keeps the counts of the
+// other regions visible
+export function getRegionToggleCounts(
+    processes: ProcessRecord[],
+    filters: DashboardFilterState,
+): Array<{ name: RegionName; count: number }> {
+    return getRecordsByRegion(selectFilteredDashboard(processes, { ...filters, region: null }));
 }
 
 // NOTE: `label` is the stable assessment type key, translate it only when showing it
