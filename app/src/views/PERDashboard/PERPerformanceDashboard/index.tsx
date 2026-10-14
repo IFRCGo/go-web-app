@@ -3,9 +3,11 @@ import {
     useState,
 } from 'react';
 import {
-    BlockLoading,
     Button,
     Container,
+    Description,
+    ExpandableContainer,
+    ListView,
     PERAnalysis,
     PERRatingAnalysis,
     PERRegionToggle,
@@ -15,10 +17,7 @@ import {
     formatDate,
     resolveToString,
 } from '@ifrc-go/ui/utils';
-import {
-    _cs,
-    isDefined,
-} from '@togglecorp/fujs';
+import { isDefined } from '@togglecorp/fujs';
 
 import { api } from '#config';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
@@ -30,18 +29,17 @@ import {
     getLatestUpdate,
     getRegionLabel,
     normalizePerformanceData,
+    REGION_ORDER,
 } from '../data';
 import useJsonRequest from '../snapshot';
 import {
     getPerformanceCycles,
     getPerformanceRatings,
-    getPerformanceRegionData,
-    getPerformanceSummary,
+    getTotalAssessments,
     type PerformanceFilterState,
 } from './dataHandler';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 function PERPerformanceDashboard() {
     const strings = useTranslation(i18n);
@@ -77,43 +75,25 @@ function PERPerformanceDashboard() {
         () => getPerformanceRatings(dashboardData, activeFilters),
         [activeFilters, dashboardData],
     );
-    const regionData = useMemo(
-        () => getPerformanceRegionData(dashboardData, activeFilters),
+    const totalAssessments = useMemo(
+        () => getTotalAssessments(dashboardData, activeFilters),
         [activeFilters, dashboardData],
     );
-    const regionToggleData = useMemo(
-        () => regionData.map((item) => ({
-            ...item,
-            displayName: getRegionLabel(item.name, regionOptions, currentLanguage),
+
+    const cycleChartData = {
+        ...cycleData,
+        cycles: cycleData.cycles.map((cycle) => ({
+            ...cycle,
+            cycle: resolveToString(
+                strings.performanceCycleLabel,
+                { cycleNumber: cycle.cycleNumber },
+            ),
         })),
-        [currentLanguage, regionData, regionOptions],
-    );
-    const summary = useMemo(
-        () => getPerformanceSummary(dashboardData, activeFilters),
-        [activeFilters, dashboardData],
-    );
-
-    if (dashboardDataPending) {
-        return (
-            <Container
-                className={styles.perPerformanceDashboard}
-                aria-label={strings.performanceContainerAriaLabel}
-            >
-                <BlockLoading />
-            </Container>
-        );
-    }
-
-    if (dashboardDataError) {
-        return (
-            <Container
-                className={styles.perPerformanceDashboard}
-                aria-label={strings.performanceContainerAriaLabel}
-            >
-                {strings.performanceFetchFailedError}
-            </Container>
-        );
-    }
+    };
+    const regionToggleData = REGION_ORDER.map((name) => ({
+        name,
+        displayName: getRegionLabel(name, regionOptions, currentLanguage),
+    }));
 
     const updateFilter = <KEY extends keyof PerformanceFilterState>(
         filterType: KEY,
@@ -134,68 +114,69 @@ function PERPerformanceDashboard() {
     };
 
     return (
-        <>
-            {isDefined(lastUpdate) && (
-                <div className={styles.lastUpdate}>
-                    {resolveToString(
-                        strings.performanceLastUpdate,
-                        { date: formatDate(lastUpdate) },
-                    )}
-                </div>
-            )}
-            <details className={styles.aboutDashboard}>
-                <summary>{strings.performanceAboutDashboard}</summary>
-                <p>{strings.performanceHeaderDescription}</p>
-            </details>
-            <div className={styles.content}>
-                <PERRegionToggle
-                    activeRegion={activeFilters?.region}
-                    onRegionClick={handleRegionClick}
-                    regions={regionToggleData}
-                    precision={1}
-                    showCount={false}
-                />
-                <Container
-                    heading={strings.overviewHeading}
-                    headerDescription={(
-                        <span className={styles.filterHint}>
-                            {strings.overviewDescription}
-                        </span>
-                    )}
-                    className={_cs(styles.container, styles.perAnalysis)}
-                    withHeaderBorder
-                    headerActions={activeFilters.region !== null || activeFilters.cycle !== null ? (
-                        <Button
-                            name={undefined}
-                            onClick={() => setActiveFilters({ ...EMPTY_FILTERS, cycle: null })}
-                            aria-label={
-                                strings.performanceResetFilterAriaLabel
-                            }
-                        >
-                            {strings.performanceResetFilter}
-                        </Button>
-                    ) : undefined}
+        <Container
+            aria-label={strings.performanceContainerAriaLabel}
+            headerDescription={isDefined(lastUpdate) ? resolveToString(
+                strings.performanceLastUpdate,
+                { date: formatDate(lastUpdate) },
+            ) : undefined}
+            pending={dashboardDataPending}
+            errored={isDefined(dashboardDataError)}
+            errorMessage={strings.performanceFetchFailedError}
+        >
+            <ListView layout="block">
+                <ExpandableContainer heading={strings.performanceAboutDashboard}>
+                    <Description>{strings.performanceHeaderDescription}</Description>
+                </ExpandableContainer>
+                <ListView
+                    layout="block"
+                    withBackground
+                    withPadding
                 >
-                    <PERAnalysis
-                        data={cycleData}
-                        summary={summary}
-                        onCycleClick={handleCycleClick}
-                        activeCycle={activeFilters.cycle ?? undefined}
+                    <PERRegionToggle
+                        activeRegion={activeFilters?.region}
+                        onRegionClick={handleRegionClick}
+                        regions={regionToggleData}
                     />
-                </Container>
-                <Container
-                    heading={strings.globalRatingsHeading}
-                    withHeaderBorder
-                    className={_cs(styles.container, styles.ratingAnalysis)}
-                >
-                    <PERRatingAnalysis
-                        overallRating={ratings.overallRating}
-                        areaData={ratings.areaData}
-                        componentData={ratings.componentData}
-                    />
-                </Container>
-            </div>
-        </>
+                    <Container
+                        heading={strings.overviewHeading}
+                        headerDescription={strings.overviewDescription}
+                        withHeaderBorder
+                        headerActions={(
+                            activeFilters.region !== null || activeFilters.cycle !== null
+                        ) && (
+                            <Button
+                                name={undefined}
+                                onClick={() => setActiveFilters({ ...EMPTY_FILTERS, cycle: null })}
+                                aria-label={strings.performanceResetFilterAriaLabel}
+                            >
+                                {strings.performanceResetFilter}
+                            </Button>
+                        )}
+                    >
+                        <PERAnalysis
+                            data={cycleChartData}
+                            summary={{
+                                averageRating: ratings.overallRating.rating,
+                                totalAssessments,
+                            }}
+                            onCycleClick={handleCycleClick}
+                            activeCycle={activeFilters.cycle ?? undefined}
+                        />
+                    </Container>
+                    <Container
+                        heading={strings.globalRatingsHeading}
+                        withHeaderBorder
+                    >
+                        <PERRatingAnalysis
+                            overallRating={ratings.overallRating}
+                            areaData={ratings.areaData}
+                            componentData={ratings.componentData}
+                        />
+                    </Container>
+                </ListView>
+            </ListView>
+        </Container>
     );
 }
 

@@ -544,12 +544,16 @@ function matchesBaseFilters(process: ProcessRecord, filters: DashboardFilterStat
 }
 
 // NOTE: Orientation-only processes (phase 1) are numbered like any other process but
-// have no assessment, so they must not count as a completed PER cycle.
-function getCompletedCycleCount(processes: ProcessRecord[]): number {
+// have no assessment, so they must not count as a PER cycle.
+export function hasReachedAssessment(process: { phase: number | null }): boolean {
+    return (process.phase ?? 0) >= PER_PHASE_ASSESSMENT;
+}
+
+export function getCompletedCycleCount(processes: ProcessRecord[]): number {
     return Math.max(
         0,
         ...processes
-            .filter((process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT)
+            .filter(hasReachedAssessment)
             .map((process) => process.assessmentNumber),
     );
 }
@@ -561,7 +565,7 @@ function getMatchingCountryProcesses(
     const { consideration } = filters;
     if (
         filters.phaseCohort === 'orientation'
-        && processes.some((process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT)
+        && processes.some(hasReachedAssessment)
     ) {
         return [];
     }
@@ -580,9 +584,7 @@ function getMatchingCountryProcesses(
             )
         ));
     if (filters.phaseCohort === 'assessment') {
-        matchingProcesses = matchingProcesses.filter(
-            (process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT,
-        );
+        matchingProcesses = matchingProcesses.filter(hasReachedAssessment);
     } else if (filters.phaseCohort === 'action') {
         matchingProcesses = matchingProcesses.filter(
             (process) => (process.phase ?? 0) >= PER_PHASE_ACTION,

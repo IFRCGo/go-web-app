@@ -5,6 +5,7 @@ import { CloseLineIcon } from '@ifrc-go/icons';
 import * as d3 from 'd3';
 import mapboxgl from 'mapbox-gl';
 
+import IconButton from '#components/IconButton';
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
@@ -417,7 +418,9 @@ function PERMap({
 
             map.current.on('move', () => updatePositionsRef.current());
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to initialize map');
+            // eslint-disable-next-line no-console
+            console.error(err);
+            setError(strings.perMapInitializationErrorLabel);
         }
 
         // eslint-disable-next-line consistent-return
@@ -445,13 +448,15 @@ function PERMap({
                 <div className={styles.error}>
                     <div className={styles.errorContent}>
                         {error}
-                        <button
-                            type="button"
+                        <IconButton
+                            name={undefined}
                             className={styles.closeButton}
                             onClick={() => setError(null)}
+                            title={strings.perMapDismissErrorLabel}
+                            ariaLabel={strings.perMapDismissErrorLabel}
                         >
                             <CloseLineIcon />
-                        </button>
+                        </IconButton>
                     </div>
                 </div>
             )}

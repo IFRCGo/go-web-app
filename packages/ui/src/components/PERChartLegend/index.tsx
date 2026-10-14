@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -47,7 +48,7 @@ function PERChartLegend(props: Props) {
                 layout === 'vertical' && styles.vertical,
                 className,
             )}
-            aria-label={strings?.legendContainerLabel ?? 'Chart legend'}
+            aria-label={strings.legendContainerLabel}
         >
             {data.map((item, index) => {
                 const isActive = activeIndex === item.label;
@@ -55,15 +56,18 @@ function PERChartLegend(props: Props) {
                 const displayLabel = item.displayLabel ?? item.label;
                 const getAriaLabel = () => {
                     if (isDisabled) {
-                        return strings?.legendItemDisabledLabel?.replace('{label}', displayLabel)
-                            ?? `Legend item for ${displayLabel} (disabled)`;
+                        return resolveToString(
+                            strings.legendItemDisabledLabel,
+                            { label: displayLabel },
+                        );
                     }
                     if (isActive) {
-                        return strings?.legendItemActiveLabel?.replace('{label}', displayLabel)
-                            ?? `Legend item for ${displayLabel} (active)`;
+                        return resolveToString(
+                            strings.legendItemActiveLabel,
+                            { label: displayLabel },
+                        );
                     }
-                    return strings?.legendItemLabel?.replace('{label}', displayLabel)
-                        ?? `Legend item for ${displayLabel}`;
+                    return resolveToString(strings.legendItemLabel, { label: displayLabel });
                 };
                 const ariaLabel = getAriaLabel();
 
@@ -83,7 +87,10 @@ function PERChartLegend(props: Props) {
                         <div
                             className={styles.color}
                             style={{ backgroundColor: item.color }}
-                            aria-label={strings?.legendColorIndicatorLabel?.replace('{label}', displayLabel) ?? `Color indicator for ${displayLabel}`}
+                            aria-label={resolveToString(
+                                strings.legendColorIndicatorLabel,
+                                { label: displayLabel },
+                            )}
                         />
                         <span className={styles.label}>
                             {displayLabel}

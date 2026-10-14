@@ -1,6 +1,7 @@
 import { _cs } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
 
 import {
     PER_ASSESSMENT_TYPE_COLORS,
@@ -114,10 +115,10 @@ function PERConsiderations({
     ];
 
     const labels = [
-        strings?.considerationEpiReady ?? 'EPI-ready',
-        strings?.considerationClimateReady ?? 'Climate-ready',
-        strings?.considerationUrbanReady ?? 'Urban-ready',
-        strings?.considerationMigrationReady ?? 'Migration-ready',
+        strings.considerationEpiReady,
+        strings.considerationClimateReady,
+        strings.considerationUrbanReady,
+        strings.considerationMigrationReady,
     ];
 
     const sinceYears = [2018, 2021, 2021, 2023];
@@ -146,14 +147,20 @@ function PERConsiderations({
                                 isInactive && styles.inactiveColumn,
                             )}
                             key={`per-consideration-${currentKey}`}
-                            aria-label={strings?.considerationColumnLabel?.replace('{type}', labels[index]) ?? `PER consideration column for ${labels[index]}`}
+                            aria-label={resolveToString(
+                                strings.considerationColumnLabel,
+                                { type: labels[index] },
+                            )}
                         >
                             <PERGaugeChart
-                                title={strings?.considerationTitleTemplate?.replace('{type}', labels[index]) ?? `PER ${labels[index]} Considerations`}
-                                subtitle={strings?.considerationSinceYear?.replace(
-                                    '{year}',
-                                    String(sinceYears[index]),
-                                ) ?? `Since ${sinceYears[index]}`}
+                                title={resolveToString(
+                                    strings.considerationTitleTemplate,
+                                    { type: labels[index] },
+                                )}
+                                subtitle={resolveToString(
+                                    strings.considerationSinceYear,
+                                    { year: sinceYears[index] },
+                                )}
                                 percentage={percentageArray[index]}
                                 count={countArray[index]}
                                 icon={icons[index]}
@@ -164,21 +171,19 @@ function PERConsiderations({
                                 backgroundColor="#F2F2F2"
                                 transitionSpeed={750}
                                 onClick={() => onClickPER(currentKey)}
-                                aria-label={strings?.considerationGaugeChartLabel?.replace('{type}', labels[index]) ?? `Gauge chart showing ${labels[index]} considerations`}
                             />
 
                             <div className={styles.spacer} />
 
                             {/* Conditionally render the title for the first column */}
                             <div className={styles.stackedBarTitle}>
-                                {index === 0 ? strings?.considerationByRegionTypeLabel ?? 'By region & type' : ''}
+                                {index === 0 ? strings.considerationByRegionTypeLabel : ''}
                             </div>
 
                             <PERStackedHorizontalBarChart
                                 data={chartData}
                                 maxValue={globalMaxValue}
                                 transitionSpeed={1000}
-                                aria-label={strings?.considerationStackedBarLabel?.replace('{type}', labels[index]) ?? `Stacked bar chart showing ${labels[index]} considerations by region`}
                             />
                         </div>
                     );

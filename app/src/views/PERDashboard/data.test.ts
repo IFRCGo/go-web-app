@@ -7,7 +7,7 @@ import {
 import {
     getPerformanceCycles,
     getPerformanceRatings,
-    getPerformanceSummary,
+    getTotalAssessments,
     type PerformanceFilterState,
 } from './PERPerformanceDashboard/dataHandler';
 import {
@@ -531,12 +531,12 @@ describe('PER dashboard country identity selector', () => {
         expect(getPerformanceCycles(data, filters)).toMatchObject({
             total_cycles: 2,
             cycles: [{
-                cycle: 'Cycle 1',
+                cycleNumber: 1,
                 totalNS: 2,
                 rating: 2.33,
             }],
         });
-        expect(getPerformanceSummary(data, filters).totalAssessments).toBe(1);
+        expect(getTotalAssessments(data, filters)).toBe(1);
     });
 
     test('normalizes apostrophes and non-ASCII country names without changing IDs', () => {
@@ -652,6 +652,47 @@ describe('PER dashboard country identity selector', () => {
 
         expect(orientationOnlyState.countryIds.size).toBe(0);
         expect(Array.from(completedState.countryIds)).toEqual([2]);
+
+        const allProcessesState = selectFilteredDashboard([
+            ...orientationOnlySecondCycle,
+            ...twoCompletedCycles,
+        ]);
+        expect(getKPIData(allProcessesState).find((item) => item.key === 'completed')?.value)
+            .toBe(1);
+    });
+
+    test('does not count Orientation-only entries in the PER cycles', () => {
+        // NOTE: NS 1 is in a later cycle only with an Orientation
+        const data = performanceData([], [
+            countryAssessment({
+                assessmentId: 11,
+                countryId: 1,
+                assessmentNumber: 1,
+                phase: 5,
+            }),
+            countryAssessment({
+                assessmentId: 12,
+                countryId: 1,
+                assessmentNumber: 2,
+                phase: 1,
+            }),
+            countryAssessment({
+                assessmentId: 21,
+                countryId: 2,
+                assessmentNumber: 1,
+                phase: 1,
+            }),
+        ]);
+
+        expect(getPerformanceCycles(data, NO_PERFORMANCE_FILTERS)).toMatchObject({
+            total_cycles: 1,
+            cycles: [{
+                cycleNumber: 1,
+                totalNS: 1,
+                completed: 0,
+                inProgress: 1,
+            }],
+        });
     });
 
     test('shows MENA in English and the translated server names in the other languages', () => {

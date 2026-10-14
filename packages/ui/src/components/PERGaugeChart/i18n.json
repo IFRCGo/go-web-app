@@ -2,8 +2,6 @@
     "namespace": "common",
     "strings": {
         "gaugeContainerLabel": "Gauge chart showing {percentage}% for {label}",
-        "gaugeValueLabel": "Gauge value: {percentage}%",
-        "gaugeIconLabel": "Icon for {label}",
-        "gaugeButtonLabel": "Click to view details for {label}"
+        "gaugeValueLabel": "Gauge value: {percentage}%"
     }
 }

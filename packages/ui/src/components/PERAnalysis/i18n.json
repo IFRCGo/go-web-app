@@ -4,7 +4,6 @@
         "analysisAssessmentCountLabel": "Number of PER assessments",
         "analysisProcessCycleIterationsLabel": "Process cycle iterations",
         "analysisContainerLabel": "PER analysis chart and summary",
-        "analysisCycleCardLabel": "PER cycle {cycle} details",
         "analysisChartLabel": "PER analysis chart showing National Societies with and without later PER assessments and average ratings",
         "analysisTooltipLabel": "Cycle details for {cycle}",
         "analysisNsCountTooltipLabel": "National Societies: {count}",
@@ -19,6 +18,7 @@
         "analysisCycleExplanation": "PER is a continuous process. Dark red shows National Societies also assessed in a later PER cycle; light red shows no later PER assessment for a National Society in a later PER cycle",
         "analysisLegendAverageLabel": "Average PER rating",
         "analysisPerRatingLabel": "PER Rating",
-        "analysisNsUnitLabel": "NSs"
+        "analysisNsUnitLabel": "NSs",
+        "analysisPointsLabel": "points"
     }
 }

@@ -115,7 +115,7 @@ function PERKPITabs({
                 styles.kpiTabsContainer,
                 className,
             )}
-            aria-label={strings?.kpiTabsContainerLabel ?? 'KPI tabs container'}
+            aria-label={strings.kpiTabsContainerLabel}
         >
             {kpis.map((kpi, index) => (
                 <button
@@ -128,18 +128,16 @@ function PERKPITabs({
                     onClick={() => handleTabClick(index)}
                     disabled={disableTabs}
                     type="button"
-                    aria-label={strings?.kpiTabLabel?.replace('{description}', kpi.description) ?? `KPI tab for ${kpi.description}`}
+                    aria-pressed={activeIndex === index}
                 >
                     <div
                         className={styles.kpiValue}
                         style={{ color: kpi.color }}
-                        aria-label={strings?.kpiValueLabel?.replace('{value}', kpi.value.toString()) ?? `KPI value: ${kpi.value}`}
                     >
                         {kpi.value}
                     </div>
                     <div
                         className={styles.kpiDescription}
-                        aria-label={strings?.kpiDescriptionLabel?.replace('{description}', kpi.description) ?? `KPI description: ${kpi.description}`}
                     >
                         {kpi.description}
                     </div>

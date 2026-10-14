@@ -7,6 +7,7 @@ import { _cs } from '@togglecorp/fujs';
 import * as d3 from 'd3';
 
 import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
 
 import { PER_CONSIDERATION_GAUGE_COLOR } from '../PERAssessmentPalette';
 
@@ -216,7 +217,7 @@ function PERGaugeChart({
                     onClick?.();
                 }
             }}
-            aria-label={`${strings?.gaugeContainerLabel?.replace('{percentage}', percentage.toString())?.replace('{label}', label) ?? `Gauge chart showing ${percentage}% for ${label}`}${count === undefined ? '' : `, ${count} NS`}`}
+            aria-label={`${resolveToString(strings.gaugeContainerLabel, { percentage, label })}${count === undefined ? '' : `, ${count} NS`}`}
         >
             {title && (
                 <div className={styles.title}>
@@ -235,7 +236,7 @@ function PERGaugeChart({
                     height={height}
                     viewBox={`0 0 ${containerWidth} ${height}`}
                     preserveAspectRatio="xMidYMid meet"
-                    aria-label={strings?.gaugeValueLabel?.replace('{percentage}', percentage.toString()) ?? `Gauge value: ${percentage}%`}
+                    aria-label={resolveToString(strings.gaugeValueLabel, { percentage })}
                 />
             </div>
             {label && (

@@ -10,4 +10,6 @@ Update the PER dashboards to use the current PER API
 - Add the PER dashboard charts, filters and Excel export to the app
 - Add PER dashboard components to the UI library
 - Show the PER rating labels translated and in the same colours as the other PER pages
-- Show the date of the latest PER update from the API
+- Show the date of the latest PER update from the API in the dashboard header
+- Leave National Societies that only did an Orientation out of the PER cycle counts
+- Translate the cycle labels, KPI descriptions, rating headings and map errors of the PER dashboards

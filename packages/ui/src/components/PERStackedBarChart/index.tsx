@@ -18,6 +18,7 @@ import {
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
 
 import { getContrastColor } from '../../utils/common';
 
@@ -130,10 +131,10 @@ function PERStackedBarChart({
                     label: (context) => {
                         const label = context.dataset.label ?? '';
                         const value = context.parsed.y;
-                        return strings?.stackedBarTooltipFormat
-                            ?.replace('{category}', label)
-                            ?.replace('{value}', value!.toString())
-                            ?? ` ${label}  ${value}`;
+                        return resolveToString(
+                            strings.stackedBarTooltipFormat,
+                            { category: label, value },
+                        );
                     },
                     labelTextColor: () => '#111827',
                     labelColor: (context) => ({
@@ -199,10 +200,6 @@ function PERStackedBarChart({
                         size: 12,
                     },
                 },
-                title: {
-                    display: true,
-                    text: strings?.stackedBarXAxisLabel ?? '',
-                },
             },
             y: {
                 stacked: true,
@@ -232,10 +229,6 @@ function PERStackedBarChart({
                         return numericValue;
                     },
                 },
-                title: {
-                    display: true,
-                    text: strings?.stackedBarYAxisLabel ?? '',
-                },
             },
         },
         onClick: onClick ? (_, elements) => {
@@ -263,11 +256,11 @@ function PERStackedBarChart({
             ref={containerRef}
             className={_cs(styles.responsiveContainer, className)}
             style={containerStyle}
-            aria-label={strings?.stackedBarContainerLabel ?? 'Stacked bar chart'}
+            aria-label={strings.stackedBarContainerLabel}
         >
             <div
                 className={styles.chartWrapper}
-                aria-label={strings?.stackedBarChartLabel ?? 'Stacked bar chart showing data over time'}
+                aria-label={strings.stackedBarChartLabel}
             >
                 <Bar
                     data={chartData}

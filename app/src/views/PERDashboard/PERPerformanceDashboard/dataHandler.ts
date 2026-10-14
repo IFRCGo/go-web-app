@@ -10,11 +10,10 @@ import {
     type ComponentAssessment,
     type DashboardFilterState,
     dateTimestamp,
+    hasReachedAssessment,
     type PerformanceComponent,
     type PerformanceCountryAssessment,
     type PerformanceData,
-    REGION_ORDER,
-    type RegionName,
 } from '../data';
 
 export type PerformanceFilterState = DashboardFilterState & {
@@ -307,14 +306,11 @@ export function getPerformanceRatings(
     };
 }
 
-export function getPerformanceSummary(
+export function getTotalAssessments(
     data: PerformanceData,
     filters: PerformanceFilterState,
-): {
-    averageRating: number;
-    totalAssessments: number;
-} {
-    const totalAssessments = new Set(
+): number {
+    return new Set(
         flattenComponentAssessments(data)
             .filter((assessment) => matchesFilter(assessment, filters, true))
             .map((assessment) => (
@@ -327,10 +323,6 @@ export function getPerformanceSummary(
                     : String(assessment.assessmentId)
             )),
     ).size;
-    return {
-        averageRating: getPerformanceRatings(data, filters).overallRating.rating,
-        totalAssessments,
-    };
 }
 
 // NOTE: null when no assessment of the cycle is rated, so it is not drawn as a rating of 0
@@ -365,7 +357,6 @@ export function getPerformanceCycles(
 ): {
     total_cycles: number;
     cycles: Array<{
-        cycle: string;
         cycleNumber: number;
         completed: number;
         inProgress: number;
@@ -375,7 +366,7 @@ export function getPerformanceCycles(
     }>;
 } {
     const entries = allCountryAssessments(data)
-        .filter((entry) => matchesFilter(entry, filters, false));
+        .filter((entry) => hasReachedAssessment(entry) && matchesFilter(entry, filters, false));
     const countriesByCycle = new Map<number, Set<number>>();
     entries.forEach((entry) => {
         if (entry.countryId === null) {
@@ -401,7 +392,6 @@ export function getPerformanceCycles(
             .filter((countryId) => laterCountries.has(countryId))
             .length;
         return {
-            cycle: `Cycle ${cycle}`,
             cycleNumber: cycle,
             completed,
             inProgress: countries.size - completed,
@@ -425,18 +415,4 @@ export function getPerformanceCycles(
         total_cycles: filteredCycles.reduce((sum, cycle) => sum + cycle.totalNS, 0),
         cycles: filteredCycles,
     };
-}
-
-export function getPerformanceRegionData(
-    data: PerformanceData,
-    filters: PerformanceFilterState,
-): Array<{ name: RegionName; count: number }> {
-    const filtersWithoutRegion = { ...filters, region: null, cycle: null };
-    return REGION_ORDER.map((region) => ({
-        name: region,
-        count: getPerformanceRatings(
-            data,
-            { ...filtersWithoutRegion, region },
-        ).overallRating.rating,
-    }));
 }

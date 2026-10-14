@@ -3,10 +3,6 @@
     "strings": {
         "stackedBarContainerLabel": "Stacked bar chart",
         "stackedBarChartLabel": "Stacked bar chart showing data over time",
-        "stackedBarItemLabel": "Bar for {category} with value {value}",
-        "stackedBarTooltipLabel": "Value for {category}: {value}",
-        "stackedBarTooltipFormat": "{category}: {value}",
-        "stackedBarXAxisLabel": "",
-        "stackedBarYAxisLabel": ""
+        "stackedBarTooltipFormat": "{category}: {value}"
     }
 }

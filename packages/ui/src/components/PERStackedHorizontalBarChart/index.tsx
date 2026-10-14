@@ -13,6 +13,7 @@ import {
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
 
 import { getContrastColor } from '../../utils/common';
 import {
@@ -89,10 +90,10 @@ function PERStackedHorizontalBarChart({
                     label: (context) => {
                         const label = context.dataset.label ?? '';
                         const value = context.parsed.x;
-                        return strings?.horizontalBarTooltipFormat
-                            ?.replace('{category}', label)
-                            ?.replace('{value}', value!.toString())
-                            ?? ` ${label}  ${value}`;
+                        return resolveToString(
+                            strings.horizontalBarTooltipFormat,
+                            { category: label, value },
+                        );
                     },
                     labelTextColor: () => '#111827',
                     labelColor: (context) => ({
@@ -209,13 +210,13 @@ function PERStackedHorizontalBarChart({
     return (
         <div
             className={styles.container}
-            aria-label={strings?.horizontalBarContainerLabel}
+            aria-label={strings.horizontalBarContainerLabel}
         >
             <Bar
                 ref={chartRef}
                 data={chartData}
                 options={options}
-                aria-label={strings?.horizontalBarChartLabel}
+                aria-label={strings.horizontalBarChartLabel}
             />
         </div>
     );

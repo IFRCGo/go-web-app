@@ -1,5 +1,5 @@
 {
-    "namespace": "PERSummaryDashboard",
+    "namespace": "perDashboard",
     "strings": {
         "summaryLastUpdate": "Latest PER update: {date}",
         "summaryResetFilter": "Clear Filter",
@@ -19,6 +19,12 @@
         "highPriorityComponentsHeading": "High Priority Components",
         "highPriorityComponentsDescription": "Click on a component to filter",
         "perConsiderationsHeading": "PER Considerations",
-        "perConsiderationsDescription": "Click on a PER consideration type to filter"
+        "perConsiderationsDescription": "Click on a PER consideration type to filter",
+        "summaryFetchFailedError": "Failed to load dashboard data",
+        "kpiTotalEngagedDescription": "Total number of NS engaged in PER process",
+        "kpiOrientationDescription": "Number of NS currently in initial Orientation phase",
+        "kpiAssessmentDescription": "Number of NS who completed or are in assessment phase",
+        "kpiActionDescription": "Number of NS at Action & Accountability phase",
+        "kpiCompletedDescription": "Number of NS completed 2+ cycles of PER process"
     }
 }

@@ -3,9 +3,11 @@ import {
     useState,
 } from 'react';
 import {
-    BlockLoading,
     Button,
     Container,
+    Description,
+    ExpandableContainer,
+    ListView,
     PERChartLegend,
     PERConsiderations,
     PERDonutChart,
@@ -63,6 +65,7 @@ import {
     getRecordsByAssessmentType,
     getRecordsByRegion,
     getStackedBarDataByYearAndRegion,
+    type SummaryKpiKey,
 } from './dataHandler';
 import {
     downloadDashboardWorkbook,
@@ -70,7 +73,6 @@ import {
 } from './export';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type ActiveFilters = DashboardFilterState;
 
@@ -149,6 +151,18 @@ function PERSummaryDashboard() {
     );
     const hasActiveFilters = Object.values(activeFilters).some((value) => value !== null);
 
+    const kpiDescriptions: Record<SummaryKpiKey, string> = {
+        'total-engaged': strings.kpiTotalEngagedDescription,
+        orientation: strings.kpiOrientationDescription,
+        assessment: strings.kpiAssessmentDescription,
+        action: strings.kpiActionDescription,
+        completed: strings.kpiCompletedDescription,
+    };
+    const kpiTabData = kpiData.map((kpi) => ({
+        ...kpi,
+        description: kpiDescriptions[kpi.key],
+    }));
+
     // NOTE: `label` / `name` identify an item and are used for filtering. Only
     // `displayLabel` / `displayName` are shown, and they are translated.
     const regionToggleData = useMemo(
@@ -206,28 +220,6 @@ function PERSummaryDashboard() {
         }),
         [considerationData, currentLanguage, regionOptions],
     );
-
-    if (mapDataPending) {
-        return (
-            <Container
-                className={styles.perSummaryDashboard}
-                aria-label={strings.summaryContainerAriaLabel}
-            >
-                <BlockLoading className={styles.blockLoading} />
-            </Container>
-        );
-    }
-
-    if (mapDataError) {
-        return (
-            <Container
-                className={styles.perSummaryDashboard}
-                aria-label={strings.summaryContainerAriaLabel}
-            >
-                Failed to load dashboard data
-            </Container>
-        );
-    }
 
     const updateFilter = <KEY extends keyof ActiveFilters>(
         key: KEY,
@@ -353,68 +345,69 @@ function PERSummaryDashboard() {
     );
 
     return (
-        <>
-            {isDefined(lastUpdate) && (
-                <div className={styles.lastUpdate}>
-                    {resolveToString(
-                        strings.summaryLastUpdate,
-                        { date: formatDate(lastUpdate) },
-                    )}
-                </div>
-            )}
-            <details className={styles.aboutDashboard}>
-                <summary>{strings.summaryAboutDashboard}</summary>
-                <p>{strings.summaryHeaderDescription}</p>
-            </details>
-            <div className={styles.content}>
-                <PERKPITabs
-                    kpis={kpiData}
-                    activeIndex={activeTab}
-                    onActiveIndexChange={(index) => {
-                        const keys = ['total-engaged', 'orientation', 'assessment', 'action', 'completed'];
-                        setActiveTab(index);
-                        handleTabClick(keys[index]!);
-                    }}
-                    disableTabs={false}
-                />
-
-                <PERRegionToggle
-                    activeRegion={activeFilters?.region}
-                    onRegionClick={(region) => {
-                        if (region === null || isRegionName(region)) {
-                            updateFilter('region', region);
-                        }
-                    }}
-                    regions={regionToggleData}
-                    precision={0}
-                    showCount
-                />
-
-                <Container
-                    heading={strings.mapHeading}
-                    headerDescription={(
-                        <span className={styles.filterHint}>{strings.mapDescription}</span>
-                    )}
-                    className={styles.container}
-                    withHeaderBorder
-                    headerActions={hasActiveFilters ? (
-                        <>
-                            {exportButton}
-                            <Button
-                                name={undefined}
-                                onClick={() => {
-                                    setActiveFilters({ ...EMPTY_FILTERS });
-                                    setActiveTab(0);
-                                    setActivePhase(null);
-                                }}
-                                aria-label={strings.summaryResetFilterAriaLabel}
-                            >
-                                {strings.summaryResetFilter}
-                            </Button>
-                        </>
-                    ) : null}
+        <Container
+            aria-label={strings.summaryContainerAriaLabel}
+            headerDescription={isDefined(lastUpdate) ? resolveToString(
+                strings.summaryLastUpdate,
+                { date: formatDate(lastUpdate) },
+            ) : undefined}
+            pending={mapDataPending}
+            errored={isDefined(mapDataError)}
+            errorMessage={strings.summaryFetchFailedError}
+        >
+            <ListView layout="block">
+                <ExpandableContainer heading={strings.summaryAboutDashboard}>
+                    <Description>{strings.summaryHeaderDescription}</Description>
+                </ExpandableContainer>
+                <ListView
+                    layout="block"
+                    withBackground
+                    withPadding
                 >
-                    <div style={{ height: '470px' }}>
+                    <PERKPITabs
+                        kpis={kpiTabData}
+                        activeIndex={activeTab}
+                        onActiveIndexChange={(index) => {
+                            const key = kpiTabData[index]?.key;
+                            setActiveTab(index);
+                            if (isDefined(key)) {
+                                handleTabClick(key);
+                            }
+                        }}
+                        disableTabs={false}
+                    />
+
+                    <PERRegionToggle
+                        activeRegion={activeFilters?.region}
+                        onRegionClick={(region) => {
+                            if (region === null || isRegionName(region)) {
+                                updateFilter('region', region);
+                            }
+                        }}
+                        regions={regionToggleData}
+                    />
+
+                    <Container
+                        heading={strings.mapHeading}
+                        headerDescription={strings.mapDescription}
+                        withHeaderBorder
+                        headerActions={hasActiveFilters ? (
+                            <>
+                                {exportButton}
+                                <Button
+                                    name={undefined}
+                                    onClick={() => {
+                                        setActiveFilters({ ...EMPTY_FILTERS });
+                                        setActiveTab(0);
+                                        setActivePhase(null);
+                                    }}
+                                    aria-label={strings.summaryResetFilterAriaLabel}
+                                >
+                                    {strings.summaryResetFilter}
+                                </Button>
+                            </>
+                        ) : null}
+                    >
                         <PERMap
                             data={filteredMapData}
                             onClick={(record) => {
@@ -430,109 +423,99 @@ function PERSummaryDashboard() {
                             minRadius={4}
                             maxRadius={7}
                         />
-                    </div>
-                    <PERChartLegend
-                        data={phaseLegendData}
-                        onClick={(item) => {
-                            const phaseItem = item as {
-                                label: string;
-                                color: string;
-                                phaseNumber: number;
-                            };
-                            handlePhaseClick(phaseItem);
-                        }}
-                        activeIndex={activePhase}
-                        layout="horizontal"
-                    />
-                </Container>
-
-                <div className={styles.charts}>
-                    <Container
-                        heading={strings.assessmentTypeHeading}
-                        headerDescription={(
-                            <span className={styles.filterHint}>
-                                {strings.assessmentTypeDescription}
-                            </span>
-                        )}
-                        withHeaderBorder
-                        headerActions={activeFilters?.assessmentType !== null && (
-                            <Button
-                                name={undefined}
-                                onClick={() => updateFilter('assessmentType', null)}
-                                aria-label={strings.summaryResetFilterAriaLabel}
-                            >
-                                {strings.summaryResetFilter}
-                            </Button>
-                        )}
-                    >
-                        <PERDonutChart
-                            data={assessmentTypeChartData}
-                            height={210}
-                            width={400}
-                            cutout="70%"
-                            tooltipEnabled
-                            onClick={handleAssessmentTypeClick}
-                            colors={Object.values(ASSESSMENT_TYPE_COLORS)}
-                        />
                         <PERChartLegend
-                            data={assessmentTypeLegendData}
-                            onClick={handleAssessmentTypeClick}
-                            activeIndex={activeFilters?.assessmentType}
+                            data={phaseLegendData}
+                            onClick={(item) => {
+                                const phaseItem = item as {
+                                    label: string;
+                                    color: string;
+                                    phaseNumber: number;
+                                };
+                                handlePhaseClick(phaseItem);
+                            }}
+                            activeIndex={activePhase}
                             layout="horizontal"
                         />
                     </Container>
 
-                    <Container
-                        heading={strings.yearAndRegionHeading}
-                        headerDescription={(
-                            <span className={styles.filterHint}>
-                                {strings.yearAndRegionDescription}
-                            </span>
-                        )}
-                        withHeaderBorder
-                        headerActions={(
-                            activeFilters?.region !== null
-                            || activeFilters?.year !== null
-                        ) && (
-                            <Button
-                                name={undefined}
-                                onClick={() => {
-                                    updateFilter('region', null);
-                                    updateFilter('year', null);
-                                }}
-                                aria-label={strings.summaryResetFilterAriaLabel}
-                            >
-                                {strings.summaryResetFilter}
-                            </Button>
-                        )}
+                    <ListView
+                        layout="grid"
+                        numPreferredGridColumns={2}
+                        minGridColumnSize="20rem"
                     >
-                        <PERStackedBarChart
-                            data={yearRegionData}
-                            onClick={handleRegionStackedClick}
-                            categories={regionCategories}
-                            height={250}
-                            tooltipEnabled
-                            showDataLabels={false}
-                        />
-                        <PERChartLegend
-                            data={regionLegendData}
-                            onClick={handleRegionStackedClick}
-                            activeIndex={activeFilters?.region}
-                            layout="horizontal"
-                        />
-                    </Container>
-                </div>
+                        <Container
+                            heading={strings.assessmentTypeHeading}
+                            headerDescription={strings.assessmentTypeDescription}
+                            withHeaderBorder
+                            headerActions={activeFilters?.assessmentType !== null && (
+                                <Button
+                                    name={undefined}
+                                    onClick={() => updateFilter('assessmentType', null)}
+                                    aria-label={strings.summaryResetFilterAriaLabel}
+                                >
+                                    {strings.summaryResetFilter}
+                                </Button>
+                            )}
+                        >
+                            <PERDonutChart
+                                data={assessmentTypeChartData}
+                                height={210}
+                                width={400}
+                                cutout="70%"
+                                tooltipEnabled
+                                onClick={handleAssessmentTypeClick}
+                                colors={Object.values(ASSESSMENT_TYPE_COLORS)}
+                            />
+                            <PERChartLegend
+                                data={assessmentTypeLegendData}
+                                onClick={handleAssessmentTypeClick}
+                                activeIndex={activeFilters?.assessmentType}
+                                layout="horizontal"
+                            />
+                        </Container>
 
-                <div className={styles.treemap}>
+                        <Container
+                            heading={strings.yearAndRegionHeading}
+                            headerDescription={strings.yearAndRegionDescription}
+                            withHeaderBorder
+                            headerActions={(
+                                activeFilters?.region !== null
+                                || activeFilters?.year !== null
+                            ) && (
+                                <Button
+                                    name={undefined}
+                                    onClick={() => {
+                                        updateFilter('region', null);
+                                        updateFilter('year', null);
+                                    }}
+                                    aria-label={strings.summaryResetFilterAriaLabel}
+                                >
+                                    {strings.summaryResetFilter}
+                                </Button>
+                            )}
+                        >
+                            <PERStackedBarChart
+                                data={yearRegionData}
+                                onClick={handleRegionStackedClick}
+                                categories={regionCategories}
+                                height={250}
+                                tooltipEnabled
+                                showDataLabels={false}
+                            />
+                            <PERChartLegend
+                                data={regionLegendData}
+                                onClick={handleRegionStackedClick}
+                                activeIndex={activeFilters?.region}
+                                layout="horizontal"
+                            />
+                        </Container>
+                    </ListView>
+
                     <Container
                         heading={
                             strings.highPriorityComponentsHeading
                         }
-                        headerDescription={(
-                            <span className={styles.filterHint}>
-                                {strings.highPriorityComponentsDescription}
-                            </span>
-                        )}
+                        headerDescription={strings.highPriorityComponentsDescription}
                         withHeaderBorder
                         headerActions={activeFilters?.highPriorityComponent !== null && (
                             <Button
@@ -550,44 +533,40 @@ function PERSummaryDashboard() {
                             onClick={handleHighPriorityComponentClick}
                         />
                     </Container>
-                </div>
 
-                <Container
-                    heading={strings.perConsiderationsHeading}
-                    headerDescription={(
-                        <span className={styles.filterHint}>
-                            {strings.perConsiderationsDescription}
-                        </span>
-                    )}
-                    withHeaderBorder
-                    headerActions={activeFilters.consideration !== null && (
-                        <Button
-                            name={undefined}
-                            onClick={() => {
-                                updateFilter('consideration', null);
-                            }}
-                            aria-label={strings.summaryResetFilterAriaLabel}
-                        >
-                            {strings.summaryResetFilter}
-                        </Button>
-                    )}
-                >
-                    <PERConsiderations
-                        data={considerationChartData}
-                        onClickAssessmentType={(assessmentType) => updateFilter(
-                            'assessmentType',
-                            assessmentType,
+                    <Container
+                        heading={strings.perConsiderationsHeading}
+                        headerDescription={strings.perConsiderationsDescription}
+                        withHeaderBorder
+                        headerActions={activeFilters.consideration !== null && (
+                            <Button
+                                name={undefined}
+                                onClick={() => {
+                                    updateFilter('consideration', null);
+                                }}
+                                aria-label={strings.summaryResetFilterAriaLabel}
+                            >
+                                {strings.summaryResetFilter}
+                            </Button>
                         )}
-                        onClickPER={(key) => updateFilter(
-                            'consideration',
-                            considerationKeyFromChartKey(key),
-                        )}
-                        activeIndex={activeFilters?.assessmentType}
-                        activePERFilter={considerationChartKey(activeFilters.consideration)}
-                    />
-                </Container>
-            </div>
-        </>
+                    >
+                        <PERConsiderations
+                            data={considerationChartData}
+                            onClickAssessmentType={(assessmentType) => updateFilter(
+                                'assessmentType',
+                                assessmentType,
+                            )}
+                            onClickPER={(key) => updateFilter(
+                                'consideration',
+                                considerationKeyFromChartKey(key),
+                            )}
+                            activeIndex={activeFilters?.assessmentType}
+                            activePERFilter={considerationChartKey(activeFilters.consideration)}
+                        />
+                    </Container>
+                </ListView>
+            </ListView>
+        </Container>
     );
 }
 

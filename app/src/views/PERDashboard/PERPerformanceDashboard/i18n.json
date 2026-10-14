@@ -1,5 +1,5 @@
 {
-    "namespace": "PERDashboard",
+    "namespace": "perDashboard",
     "strings": {
         "performanceLastUpdate": "Latest PER update: {date}",
         "performanceResetFilter": "Clear Filter",
@@ -10,6 +10,7 @@
         "overviewHeading": "Performance Overview",
         "overviewDescription": "Click on a PER assessment cycle to filter",
         "globalRatingsHeading": "PER Global Performance",
-        "performanceFetchFailedError": "Failed to load dashboard data"
+        "performanceFetchFailedError": "Failed to load dashboard data",
+        "performanceCycleLabel": "Cycle {cycleNumber}"
     }
 }

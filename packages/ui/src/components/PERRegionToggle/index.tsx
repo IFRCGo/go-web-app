@@ -2,9 +2,13 @@ import {
     type MouseEvent,
     useCallback,
 } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -14,7 +18,8 @@ interface Region {
     name: string;
     /** Text shown to the user. Falls back to `name` */
     displayName?: string;
-    count: number;
+    /** Shown next to the name when defined */
+    count?: number;
 }
 
 export interface Props {
@@ -23,7 +28,6 @@ export interface Props {
     onRegionClick?: (region: string | null) => void;
     activeRegion: string | null;
     precision?: number;
-    showCount?: boolean;
 }
 
 function PERRegionToggle({
@@ -32,7 +36,6 @@ function PERRegionToggle({
     onRegionClick,
     activeRegion,
     precision = 0,
-    showCount = true,
 }: Props) {
     const strings = useTranslation(i18n);
 
@@ -73,7 +76,7 @@ function PERRegionToggle({
             onKeyDown={handleKeyDown}
             role="button"
             tabIndex={0}
-            aria-label={strings?.regionContainerLabel ?? 'Region filter'}
+            aria-label={strings.regionContainerLabel}
         >
             <div className={styles.toggleGroup}>
                 <div className={styles.toggleBody}>
@@ -87,18 +90,17 @@ function PERRegionToggle({
                             onClick={(event) => handleToggle(event, region.name)}
                             aria-pressed={activeRegion === region.name}
                             type="button"
-                            aria-label={
+                            aria-label={resolveToString(
                                 activeRegion === region.name
-                                    ? strings?.regionButtonActiveLabel?.replace('{region}', region.displayName ?? region.name)
-                                        ?? `${region.displayName ?? region.name} filter active`
-                                    : strings?.regionButtonInactiveLabel?.replace('{region}', region.displayName ?? region.name)
-                                        ?? `${region.displayName ?? region.name} filter inactive`
-                            }
+                                    ? strings.regionButtonActiveLabel
+                                    : strings.regionButtonInactiveLabel,
+                                { region: region.displayName ?? region.name },
+                            )}
                         >
                             <span className={styles.label}>
                                 {region.displayName ?? region.name}
                             </span>
-                            {showCount && (
+                            {isDefined(region.count) && (
                                 <span className={styles.count}>
                                     {region.count.toFixed(precision)}
                                 </span>

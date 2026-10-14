@@ -1,29 +1,29 @@
 import { PER_ASSESSMENT_TYPE_KEYS } from '@ifrc-go/ui';
 
-import {
-    PER_PHASE_ACTION,
-    PER_PHASE_ASSESSMENT,
-} from '#utils/domain/per';
+import { PER_PHASE_ACTION } from '#utils/domain/per';
 
 import {
     AREA_COLORS,
     type AssessmentTypeKey,
     assessmentTypeKey,
     type FilteredDashboardState,
+    getCompletedCycleCount,
     getPhaseColor,
     getProcessYear,
     groupByCountry,
+    hasReachedAssessment,
     latestProcess,
     type ProcessRecord,
     REGION_ORDER,
     type RegionName,
 } from '../data';
 
+export type SummaryKpiKey = 'total-engaged' | 'orientation' | 'assessment' | 'action' | 'completed';
+
 interface SummaryKpi {
-    key: string;
+    key: SummaryKpiKey;
     value: number;
     color?: string;
-    description: string;
 }
 
 interface SummaryChartDataItem {
@@ -90,7 +90,7 @@ function countConsiderationByRegionAndType(
     const chart = emptySummaryChartData();
     const chartByRegion = new Map(chart.map((item) => [item.name, item]));
     const readyByCountry = groupByCountry(processes.filter(
-        (process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT && process[field] === true,
+        (process) => hasReachedAssessment(process) && process[field] === true,
     ));
     readyByCountry.forEach((countryProcesses) => {
         const process = latestProcess(countryProcesses);
@@ -105,7 +105,7 @@ function countConsiderationByRegionAndType(
     });
 
     const eligibleProcesses = processes.filter((process) => (
-        (process.phase ?? 0) >= PER_PHASE_ASSESSMENT
+        hasReachedAssessment(process)
         && (getProcessYear(process) ?? Number.NEGATIVE_INFINITY) >= introducedYear
     ));
     const readyProcessCount = eligibleProcesses.filter(
@@ -128,7 +128,7 @@ export function getKPIData(state: FilteredDashboardState): SummaryKpi[] {
     let completed = 0;
 
     countryProcesses.forEach((processes) => {
-        if (!processes.some((process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT)) {
+        if (!processes.some(hasReachedAssessment)) {
             orientation += 1;
         } else {
             assessment += 1;
@@ -136,7 +136,7 @@ export function getKPIData(state: FilteredDashboardState): SummaryKpi[] {
         if (processes.some((process) => (process.phase ?? 0) >= PER_PHASE_ACTION)) {
             action += 1;
         }
-        if (Math.max(...processes.map((process) => process.assessmentNumber)) >= 2) {
+        if (getCompletedCycleCount(processes) >= 2) {
             completed += 1;
         }
     });
@@ -145,31 +145,26 @@ export function getKPIData(state: FilteredDashboardState): SummaryKpi[] {
         {
             key: 'total-engaged',
             value: state.countryIds.size,
-            description: 'Total number of NS engaged in PER process',
         },
         {
             key: 'orientation',
             value: orientation,
             color: '#A4BEDE',
-            description: 'Number of NS currently in initial Orientation phase',
         },
         {
             key: 'assessment',
             value: assessment,
             color: '#009CDD',
-            description: 'Number of NS who completed or are in assessment phase',
         },
         {
             key: 'action',
             value: action,
             color: '#1B365D',
-            description: 'Number of NS at Action & Accountability phase',
         },
         {
             key: 'completed',
             value: completed,
             color: '#418FDE',
-            description: 'Number of NS completed 2+ cycles of PER process',
         },
     ];
 }
@@ -205,7 +200,7 @@ export function getRecordsByAssessmentType(
         PER_ASSESSMENT_TYPE_KEYS.map((key) => [key, 0]),
     );
     state.processes
-        .filter((process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT)
+        .filter(hasReachedAssessment)
         .forEach((process) => {
             const type = assessmentTypeKey(process.typeOfAssessment);
             if (type !== null) {
@@ -351,9 +346,7 @@ export function getPERConsiderations(
     return {
         data: [epi.chart, climate.chart, urban.chart, migration.chart],
         totals: {
-            totalAssessments: state.processes.filter(
-                (process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT,
-            ).length,
+            totalAssessments: state.processes.filter(hasReachedAssessment).length,
             totalEpiConsiderations: epi.count,
             totalClimateConsiderations: climate.count,
             totalUrbanConsiderations: urban.count,

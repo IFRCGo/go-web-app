@@ -16,6 +16,7 @@ import tippy, {
 } from 'tippy.js';
 
 import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -227,14 +228,16 @@ function PERTreemapChart({
                         return node.data.name;
                     }
                     if (node.depth === 2 && node.data?.name && node.data?.value !== undefined) {
-                        const label = strings?.treemapComponentLabel
-                            ?.replace('{name}', node.data.name)
-                            ?.replace('{value}', `${node.data.value} NS`)
-                            ?? `${node.data.name} ${node.data.value} NS`;
+                        const label = resolveToString(
+                            strings.treemapComponentLabel,
+                            { name: node.data.name, value: `${node.data.value} NS` },
+                        );
 
                         if (activeIndex && node.data.name === activeIndex) {
-                            return strings?.treemapSelectedLabel?.replace('{name}', node.data.name)
-                                ?? node.data.name;
+                            return resolveToString(
+                                strings.treemapSelectedLabel,
+                                { name: node.data.name },
+                            );
                         }
                         return label;
                     }
@@ -715,12 +718,12 @@ function PERTreemapChart({
     return (
         <div
             className={_cs(styles.container, className)}
-            aria-label={strings?.treemapContainerLabel ?? 'Treemap chart'}
+            aria-label={strings.treemapContainerLabel}
         >
             <svg
                 ref={svgRef}
                 className={styles.chart}
-                aria-label={strings?.treemapChartLabel ?? 'Interactive treemap chart showing hierarchical data'}
+                aria-label={strings.treemapChartLabel}
                 height={height}
             />
         </div>
