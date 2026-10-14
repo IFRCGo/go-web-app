@@ -75,10 +75,8 @@ export function Component() {
         >
             {emergencyResponse?.stage !== STAGE_FIELD_REPORT
                 && isDefined(emergencyResponse)
-                && isDefined(disasterTypeId)
                 && isDefined(country) && (
                 <EmergencyLessonsLearnedFromPreviousOperations
-                    disasterType={disasterTypeId}
                     country={country.id}
                 />
             )}

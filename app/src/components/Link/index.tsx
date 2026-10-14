@@ -101,6 +101,7 @@ function Link(props: Props) {
     );
 
     const disabled = disabledFromProps || disabledLink;
+    const opensInNewTab = external || linkProps.target === '_blank';
     const nonLink = isFalsyString(toLink);
 
     const content = (
@@ -120,10 +121,10 @@ function Link(props: Props) {
             after={(
                 <>
                     {after}
-                    {withLinkIcon && external && (
+                    {withLinkIcon && opensInNewTab && (
                         <ArrowRightUpLineIcon className={styles.linkIcon} />
                     )}
-                    {withLinkIcon && !external && (
+                    {withLinkIcon && !opensInNewTab && (
                         <ChevronRightLineIcon className={styles.linkIcon} />
                     )}
                 </>

@@ -26,15 +26,11 @@ import i18n from './i18n.json';
 type OpsLearningSummaryResponse = GoApiResponse<'/api/v2/ops-learning/summary/'>;
 
 interface Props {
-    disasterType: number;
     country: number;
 }
 
 function EmergencyLessonsLearnedFromPreviousOperations(props: Props) {
-    const {
-        disasterType,
-        country,
-    } = props;
+    const { country } = props;
 
     const strings = useTranslation(i18n);
 
@@ -49,7 +45,6 @@ function EmergencyLessonsLearnedFromPreviousOperations(props: Props) {
         url: '/api/v2/ops-learning/summary/',
         query: {
             appeal_code__country: country,
-            appeal_code__dtype: disasterType,
             type_validated: PER_LEARNING_LESSONS_LEARNED,
         },
         shouldPoll: (poll) => {
@@ -101,6 +96,26 @@ function EmergencyLessonsLearnedFromPreviousOperations(props: Props) {
         >
             <OpsLearningKeyInsights
                 opsLearningSummaryResponse={summaryResponse}
+                beforeDisclaimer={(
+                    <div>
+                        {resolveToComponent(
+                            strings.viewMoreMessage,
+                            {
+                                link: (
+                                    <Link
+                                        to="operationalLearning"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        withUnderline
+                                        withLinkIcon
+                                    >
+                                        {strings.emptyMessageLinkLabel}
+                                    </Link>
+                                ),
+                            },
+                        )}
+                    </div>
+                )}
             />
         </Container>
     );
