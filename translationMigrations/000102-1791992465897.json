@@ -117,18 +117,6 @@
         },
         {
             "action": "add",
-            "key": "buttonAriaLabel",
-            "namespace": "common",
-            "value": "Export PER data"
-        },
-        {
-            "action": "add",
-            "key": "buttonLabel",
-            "namespace": "common",
-            "value": "Export"
-        },
-        {
-            "action": "add",
             "key": "considerationByRegionTypeLabel",
             "namespace": "common",
             "value": "By region & type"
@@ -402,18 +390,6 @@
             "key": "ratingValueLabel",
             "namespace": "common",
             "value": "Rating value: {value}"
-        },
-        {
-            "action": "add",
-            "key": "regionButtonActiveLabel",
-            "namespace": "common",
-            "value": "{region} filter active"
-        },
-        {
-            "action": "add",
-            "key": "regionButtonInactiveLabel",
-            "namespace": "common",
-            "value": "{region} filter inactive"
         },
         {
             "action": "add",
