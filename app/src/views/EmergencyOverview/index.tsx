@@ -637,10 +637,8 @@ export function Component() {
             }
 
             if (isDrefStage && isDefined(dref)) {
-                // an event_date corrected in a revision is not synced back to the dref
-                const drefEventDate = drefFinalReport?.event_date
-                    ?? drefOpsUpdate?.event_date
-                    ?? dref.event_date;
+                // TODO: fall back to ops update event_date when the dref has none
+                const drefEventDate = dref.event_date;
 
                 if (dref?.type_of_dref !== DREF_TYPE_IMMINENT && isDefined(drefEventDate)) {
                     events.push({
@@ -886,6 +884,7 @@ export function Component() {
 
     const country = emergencyResponse?.countries?.[0];
 
+    // TODO: use dref.event_date first to match the timeline disaster start
     // disaster_start_date is copied from the dref once at approval and not
     // resynced, so prefer the latest revision's event date at DREF stages
     const startDate = isFieldReportStage
