@@ -231,7 +231,7 @@
     .proposed-actions {
         display: grid;
         gap: var(--go-ui-width-separator-md);
-        grid-template-columns: 4fr 4fr 11fr 3fr 3fr;
+        grid-template-columns: 4fr 4fr 11fr 3fr;
 
         .logo-header,
         .action-title-label {

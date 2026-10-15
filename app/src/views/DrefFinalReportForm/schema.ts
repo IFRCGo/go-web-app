@@ -235,7 +235,7 @@ const schema: FinalReportFormSchema = {
             has_national_society_conducted: {},
 
             // OPERATION
-            total_dref_allocation: {},
+            total_dref_allocation: { validations: [positiveIntegerCondition] },
             operation_objective: {},
             response_strategy: {},
             people_assisted: {},
@@ -550,10 +550,6 @@ const schema: FinalReportFormSchema = {
             'sub_total_cost',
             'total_cost',
             'indirect_cost',
-            'sub_total_expenditure_cost',
-            'total_expenditure_cost',
-            'indirect_expenditure_cost',
-            'surge_deployment_expenditure_cost',
             'surge_deployment_cost',
         ] as const;
         type OperationDrefTypeRelatedFields = Pick<
@@ -574,11 +570,7 @@ const schema: FinalReportFormSchema = {
                     people_targeted_with_early_actions: { forceValue: nullValue },
                     proposed_action: { forceValue: [] },
                     sub_total_cost: { forceValue: nullValue },
-                    surge_deployment_expenditure_cost: { forceValue: nullValue },
                     total_cost: { forceValue: nullValue },
-                    sub_total_expenditure_cost: { forceValue: nullValue },
-                    total_expenditure_cost: { forceValue: nullValue },
-                    indirect_expenditure_cost: { forceValue: nullValue },
                     indirect_cost: { forceValue: nullValue },
                     surge_deployment_cost: { forceValue: nullValue },
                 };
@@ -607,13 +599,6 @@ const schema: FinalReportFormSchema = {
                                         client_id: {},
                                         id: { defaultValue: undefinedValue },
                                         total_budget: {
-                                            required: true,
-                                            validations: [
-                                                positiveIntegerCondition,
-                                                lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                                            ],
-                                        },
-                                        total_expenditure: {
                                             required: true,
                                             validations: [
                                                 positiveIntegerCondition,
@@ -685,27 +670,11 @@ const schema: FinalReportFormSchema = {
                                 ),
                             ],
                         },
-                        total_expenditure_cost: {
-                            required: true,
-                            validations: [
-                                positiveIntegerCondition,
-                                lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                            ],
-                        },
                         total_cost: {
                             required: true,
                             validations: [
                                 positiveIntegerCondition,
                                 lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                            ],
-                        },
-                        sub_total_expenditure_cost: {
-                            required: true,
-                        },
-                        surge_deployment_expenditure_cost: {
-                            validations: [
-                                positiveIntegerCondition,
-                                lessThanOrEqualToCondition(SURGE_DEPLOYMENT_COST),
                             ],
                         },
                         surge_deployment_cost: {
@@ -715,12 +684,6 @@ const schema: FinalReportFormSchema = {
                             ],
                         },
                         indirect_cost: {
-                            required: true,
-                            validations: [
-                                positiveIntegerCondition,
-                            ],
-                        },
-                        indirect_expenditure_cost: {
                             required: true,
                             validations: [
                                 positiveIntegerCondition,

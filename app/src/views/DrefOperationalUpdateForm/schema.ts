@@ -170,9 +170,9 @@ const schema: OpsUpdateFormSchema = {
             // none
 
             // OPERATION
-            dref_allocated_so_far: {},
+            dref_allocated_so_far: { validations: [positiveIntegerCondition] },
             additional_allocation: { validations: [positiveIntegerCondition] },
-            total_dref_allocation: {},
+            total_dref_allocation: { validations: [positiveIntegerCondition] },
 
             // none
 
@@ -186,7 +186,7 @@ const schema: OpsUpdateFormSchema = {
             ifrc_project_manager_email: { validations: [emailCondition] },
             ifrc_project_manager_title: {},
             ifrc_project_manager_phone_number: {},
-            total_operation_timeframe: {},
+            total_operation_timeframe: { validations: [positiveIntegerCondition] },
             regional_focal_point_name: {},
             regional_focal_point_title: {},
             regional_focal_point_email: { validations: [emailCondition] },
