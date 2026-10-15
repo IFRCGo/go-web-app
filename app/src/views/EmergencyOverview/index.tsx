@@ -884,16 +884,10 @@ export function Component() {
 
     const country = emergencyResponse?.countries?.[0];
 
-    // TODO: use dref.event_date first to match the timeline disaster start
-    // disaster_start_date is copied from the dref once at approval and not
-    // resynced, so prefer the latest revision's event date at DREF stages
+    // use the dref application's event date to match the timeline disaster start
     const startDate = isFieldReportStage
         ? latestFieldReport?.start_date
-        : (isDrefStage && !isAnticipatoryPhase
-            ? drefFinalReport?.event_date
-                ?? drefOpsUpdate?.event_date
-                ?? dref?.event_date
-            : undefined)
+        : (isDrefStage && !isAnticipatoryPhase ? dref?.event_date : undefined)
             ?? emergencyResponse?.disaster_start_date;
 
     const drefEndDate = drefFinalReport?.operation_end_date
