@@ -17,6 +17,20 @@ import { extractInputContainerProps } from '#utils/inputs';
 type InheritedProps<NAME> = Omit<InputContainerProps, 'input'>
 & Omit<RawInputProps<NAME>, 'onChange' | 'value' | 'className' | 'elementRef'>;
 
+// NOTE: Firefox and Safari let you type letters into a number input. The browser
+// then reports the value as empty, so the stray text never reaches onChange and
+// cannot be stripped after the fact. Rejecting the insertion is the only fix.
+// Scientific notation is excluded deliberately, no field here needs it.
+const NON_NUMERIC_PATTERN = /[^\d.+-]/;
+
+function isNonNumericText(text: string | undefined | null) {
+    if (isNotDefined(text)) {
+        return false;
+    }
+
+    return NON_NUMERIC_PATTERN.test(text);
+}
+
 export interface Props<NAME> extends InheritedProps<NAME> {
     inputElementRef?: React.RefObject<HTMLInputElement | null>;
     inputClassName?: string;
@@ -38,6 +52,8 @@ function NumberInput<const T>(props: Props<T>) {
         value: valueFromProps,
         required,
         onChange,
+        onBeforeInput,
+        onPaste,
         withDiffView,
         value,
         prevValue,
@@ -72,6 +88,25 @@ function NumberInput<const T>(props: Props<T>) {
         }
     }, [onChange]);
 
+    // NOTE: React skips onBeforeInput for ctrl/alt/meta combos, so select all,
+    // undo and the browser shortcuts are left alone
+    const handleBeforeInput = useCallback((e: React.InputEvent<HTMLInputElement>) => {
+        onBeforeInput?.(e);
+
+        if (!e.defaultPrevented && isNonNumericText(e.data)) {
+            e.preventDefault();
+        }
+    }, [onBeforeInput]);
+
+    // NOTE: React does not route paste through onBeforeInput on Firefox
+    const handlePaste = useCallback((e: React.ClipboardEvent<HTMLInputElement>) => {
+        onPaste?.(e);
+
+        if (!e.defaultPrevented && isNonNumericText(e.clipboardData.getData('text'))) {
+            e.preventDefault();
+        }
+    }, [onPaste]);
+
     const highlightMode = useMemo(
         () => getHighlightMode(value, prevValue, withDiffView),
         [value, prevValue, withDiffView],
@@ -92,7 +127,9 @@ function NumberInput<const T>(props: Props<T>) {
                     {...rawInputProps}
                     className={inputClassName}
                     disabled={disabled}
+                    onBeforeInput={handleBeforeInput}
                     onChange={handleChange}
+                    onPaste={handlePaste}
                     readOnly={readOnly}
                     type="number"
                     value={tempValue}
