@@ -4,6 +4,7 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import { type GoApiResponse } from '#utils/restRequest';
 
@@ -15,31 +16,49 @@ interface Props {
     keyFigure: KeyFigureItem;
 }
 
+// NOTE: the server sends free text (e.g. "1.2M", "2,000-3,000"); only whole numbers are formatted
+function getWholeNumber(value: string) {
+    const valueWithoutSeparators = value.replace(/[,\s]/g, '');
+    return /^\d+$/.test(valueWithoutSeparators) ? Number(valueWithoutSeparators) : undefined;
+}
+
 function CustomKeyFigure(props: Props) {
     const { keyFigure } = props;
 
     const strings = useTranslation(i18n);
 
-    // NOTE: server sends number as free text (e.g. "1,200"), so strip
-    // non-numeric characters; unparsable values are shown as empty
-    const value = Number.parseFloat(keyFigure.number.replace(/[^\d.-]/g, ''));
+    const wholeNumber = getWholeNumber(keyFigure.number);
+
+    const sourceInfo = (
+        <InfoPopup
+            description={(
+                <TextOutput
+                    label={strings.customKeyFigureSourceLabel}
+                    value={keyFigure.source}
+                    textSize="sm"
+                />
+            )}
+        />
+    );
+
+    if (isNotDefined(wholeNumber)) {
+        return (
+            <KeyFigureView
+                label={keyFigure.deck}
+                value={keyFigure.number}
+                valueType="text"
+                info={sourceInfo}
+                withShadow
+            />
+        );
+    }
 
     return (
         <KeyFigureView
             label={keyFigure.deck}
-            value={Number.isNaN(value) ? undefined : value}
+            value={wholeNumber}
             valueType="number"
-            info={(
-                <InfoPopup
-                    description={(
-                        <TextOutput
-                            label={strings.customKeyFigureSourceLabel}
-                            value={keyFigure.source}
-                            textSize="sm"
-                        />
-                    )}
-                />
-            )}
+            info={sourceInfo}
             withShadow
         />
     );
