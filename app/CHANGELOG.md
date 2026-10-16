@@ -1,5 +1,14 @@
 # go-web-app
 
+## 7.28.2
+
+### Patch Changes
+
+- 09c7467: Update Imminent DREF Final Report export
+
+  - Allow page breaks within the Early Actions and Early Response Actions
+  - Avoid page break within the activity
+
 ## 7.28.1
 
 ### Patch Changes
