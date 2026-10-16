@@ -18,10 +18,7 @@ import {
     resolveToComponent,
     sumSafe,
 } from '@ifrc-go/ui/utils';
-import {
-    isDefined,
-    max,
-} from '@togglecorp/fujs';
+import { max } from '@togglecorp/fujs';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 
@@ -31,9 +28,9 @@ import ExportButton from '#components/domain/ExportButton';
 import RegionSelectInput from '#components/domain/RegionSelectInput';
 import Page from '#components/Page';
 import useAlert from '#hooks/useAlert';
-import useFilterState from '#hooks/useFilterState';
+import useFilterState, { type UrlParams } from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
-import useUrlSearchState from '#hooks/useUrlSearchState';
+import { regionKeyList } from '#utils/constants';
 import { getEventOrderingWithFallback } from '#utils/domain/emergency';
 import {
     createCountryListColumn,
@@ -44,6 +41,7 @@ import {
     type GoApiUrlQuery,
     useRequest,
 } from '#utils/restRequest';
+import urlParam from '#utils/urlParam';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -62,46 +60,23 @@ function getMostRecentAffectedValue(fieldReport: EventListItem['field_reports'])
 
 const eventKeySelector = (item: EventListItem) => item.id;
 
+interface EventFilter {
+    startDateAfter?: string;
+    startDateBefore?: string;
+    disasterType?: number;
+    region?: RegionListItem['name'];
+    country?: number;
+}
+
+const eventUrlParams: UrlParams<EventFilter> = {
+    disasterType: urlParam.number('dtype'),
+    region: urlParam.oneOf('region', regionKeyList),
+    country: urlParam.number('country'),
+};
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(
-        'dtype',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            return potentialValue;
-        },
-        (dtype) => dtype,
-    );
-
-    const [filterRegion, setFilterRegion] = useUrlSearchState<RegionListItem['name'] | undefined>(
-        'region',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            // FIXME: use region enum
-            if (potentialValue === 0
-                || potentialValue === 1
-                || potentialValue === 2
-                || potentialValue === 3
-                || potentialValue === 4
-            ) {
-                return potentialValue;
-            }
-
-            return undefined;
-        },
-        (regionId) => regionId,
-    );
-
-    const [filterCountry, setFilterCountry] = useUrlSearchState<number | undefined>(
-        'country',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            return potentialValue;
-        },
-        (country) => country,
-    );
-
     const {
         sortState,
         ordering,
@@ -113,17 +88,10 @@ export function Component() {
         filter,
         setFilterField,
         filtered,
-    } = useFilterState<{
-        startDateAfter?: string,
-        startDateBefore?: string,
-    }>({
+    } = useFilterState<EventFilter>({
         filter: {},
+        urlParams: eventUrlParams,
         pageSize: 15,
-        resetPageOn: [
-            filterDisasterType,
-            filterRegion,
-            filterCountry,
-        ],
     });
     const alert = useAlert();
 
@@ -201,11 +169,11 @@ export function Component() {
             limit,
             offset,
             ordering: getEventOrderingWithFallback(ordering),
-            dtype: filterDisasterType,
+            dtype: filter.disasterType,
             // FIXME: The server should actually accept array of number instead
             // of just number
-            regions__in: isDefined(filterRegion) ? filterRegion : undefined,
-            countries__in: filterCountry,
+            regions__in: filter.region,
+            countries__in: filter.country,
             disaster_start_date__gte: filter.startDateAfter,
             disaster_start_date__lte: filter.startDateBefore,
         }),
@@ -213,9 +181,6 @@ export function Component() {
             limit,
             offset,
             ordering,
-            filterDisasterType,
-            filterRegion,
-            filterCountry,
             filter,
         ],
     );
@@ -279,11 +244,6 @@ export function Component() {
         eventResponse?.count,
     ]);
 
-    const isFiltered = isDefined(filterDisasterType)
-        || isDefined(filterRegion)
-        || isDefined(filterCountry)
-        || filtered;
-
     return (
         <Page
             className={styles.allEmergencies}
@@ -308,23 +268,23 @@ export function Component() {
                         <DisasterTypeSelectInput
                             placeholder={strings.allEmergenciesFilterDisastersPlaceholder}
                             label={strings.allEmergenciesDisasterType}
-                            name={undefined}
-                            value={filterDisasterType}
-                            onChange={setFilterDisasterType}
+                            name="disasterType"
+                            value={rawFilter.disasterType}
+                            onChange={setFilterField}
                         />
                         <RegionSelectInput
                             placeholder={strings.allEmergenciesFilterRegionPlaceholder}
                             label={strings.allEmergenciesRegion}
-                            name={undefined}
-                            value={filterRegion}
-                            onChange={setFilterRegion}
+                            name="region"
+                            value={rawFilter.region}
+                            onChange={setFilterField}
                         />
                         <CountrySelectInput
                             placeholder={strings.allEmergenciesFilterCountryPlaceholder}
                             label={strings.allEmergenciesCountry}
-                            name={undefined}
-                            value={filterCountry}
-                            onChange={setFilterCountry}
+                            name="country"
+                            value={rawFilter.country}
+                            onChange={setFilterField}
                         />
                     </>
                 )}
@@ -352,7 +312,7 @@ export function Component() {
                         columns={columns}
                         keySelector={eventKeySelector}
                         data={eventResponse?.results}
-                        filtered={isFiltered}
+                        filtered={filtered}
                     />
                 </SortContext.Provider>
             </Container>

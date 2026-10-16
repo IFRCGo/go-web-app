@@ -26,14 +26,14 @@ import Papa from 'papaparse';
 import ExportButton from '#components/domain/ExportButton';
 import Page from '#components/Page';
 import useAlert from '#hooks/useAlert';
-import useFilterState from '#hooks/useFilterState';
+import useFilterState, { type UrlParams } from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
-import useUrlSearchState from '#hooks/useUrlSearchState';
 import { createLinkColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
+import urlParam from '#utils/urlParam';
 
 import ThreeWActivityTableActions, { type Props as ThreeWActivityTableActionsProps } from './AllThreeWProjectTableActions';
 
@@ -46,6 +46,14 @@ type ActivityListItem = NonNullable<ProjectListItem['activities']>[number];
 type DistrictListItem = NonNullable<ProjectListItem['districts_details']>[number];
 
 type TableKey = number;
+
+interface ThreeWActivityFilter {
+    country?: number;
+}
+
+const threeWActivityUrlParams: UrlParams<ThreeWActivityFilter> = {
+    country: urlParam.number('country'),
+};
 
 interface DistrictNameOutputProps {
     name: string;
@@ -124,34 +132,28 @@ function getPeopleReached(project: ProjectListItem) {
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const [filterCountry] = useUrlSearchState<number | undefined>(
-        'country',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            return potentialValue;
-        },
-        (country) => country,
-    );
-
     const alert = useAlert();
     const {
         page: projectActivePage,
         setPage: setProjectActivePage,
         limit,
         offset,
-    } = useFilterState<object>({
+        filter,
+        filtered,
+    } = useFilterState<ThreeWActivityFilter>({
         filter: {},
+        urlParams: threeWActivityUrlParams,
         pageSize: 15,
     });
 
     const query = useMemo(() => ({
         limit,
         offset,
-        country: isDefined(filterCountry) ? [filterCountry] : undefined,
+        country: isDefined(filter.country) ? [filter.country] : undefined,
     }), [
         limit,
         offset,
-        filterCountry,
+        filter,
     ]);
 
     const {
@@ -318,7 +320,7 @@ export function Component() {
             >
                 <Table
                     pending={projectResponsePending}
-                    filtered={false}
+                    filtered={filtered}
                     className={styles.projectTable}
                     data={projectResponse?.results}
                     columns={columns}
