@@ -17,10 +17,7 @@ import {
     getPercentage,
     resolveToComponent,
 } from '@ifrc-go/ui/utils';
-import {
-    isDefined,
-    isNotDefined,
-} from '@togglecorp/fujs';
+import { isDefined } from '@togglecorp/fujs';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 
@@ -33,6 +30,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import useFilterState, { type UrlParams } from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
+import { getOrderingWithFallback } from '#utils/common';
 import {
     appealTypeKeyList,
     type Region,
@@ -96,35 +94,18 @@ export function Component() {
     } = useFilterState<AppealFilter>({
         filter: {},
         urlParams: appealUrlParams,
+        ordering: { name: 'start_date', direction: 'dsc' },
         pageSize: 10,
     });
     const alert = useAlert();
 
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
 
-    const defaultOrdering = '-start_date';
-    const orderingWithFallback = useMemo(() => {
-        if (isNotDefined(ordering)) {
-            return defaultOrdering;
-        }
-
-        if (ordering === '-id') {
-            return '-start_date,-id';
-        }
-
-        if (ordering === 'start_date' || ordering === '-start_date') {
-            return ordering;
-        }
-
-        // Add default ordering as second ordering
-        return [ordering, defaultOrdering].join(',');
-    }, [ordering]);
-
     const query = useMemo<AppealQueryParams>(
         () => ({
             limit,
             offset,
-            ordering: orderingWithFallback,
+            ordering: getOrderingWithFallback(ordering, ['-start_date', '-id']),
             atype: filter.appealType,
             dtype: filter.disasterType,
             country: isDefined(filter.country) ? [filter.country] : undefined,
@@ -137,7 +118,7 @@ export function Component() {
         [
             limit,
             offset,
-            orderingWithFallback,
+            ordering,
             filter,
         ],
     );

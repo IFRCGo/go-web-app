@@ -34,6 +34,7 @@ import Page from '#components/Page';
 import useAlert from '#hooks/useAlert';
 import useFilterState, { type UrlParams } from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
+import { getOrderingWithFallback } from '#utils/common';
 import { COUNTRY_RECORD_TYPE_REGION } from '#utils/constants';
 import { countryIdToRegionIdMap } from '#utils/domain/country';
 import { createLinkColumn } from '#utils/domain/tableHelpers';
@@ -84,6 +85,7 @@ export function Component() {
     } = useFilterState<PersonnelFilter>({
         filter: {},
         urlParams: personnelUrlParams,
+        ordering: { name: 'start_date', direction: 'dsc' },
         pageSize: 10,
     });
     const alert = useAlert();
@@ -94,24 +96,6 @@ export function Component() {
         }
         return type.toUpperCase();
     }, [strings.rapidResponse]);
-
-    const defaultOrdering = '-start_date';
-    const orderingWithFallback = useMemo(() => {
-        if (isNotDefined(ordering)) {
-            return defaultOrdering;
-        }
-
-        if (ordering === '-id') {
-            return '-start_date,-id';
-        }
-
-        if (ordering === 'start_date' || ordering === '-start_date') {
-            return ordering;
-        }
-
-        // Add default ordering as second ordering
-        return [ordering, defaultOrdering].join(',');
-    }, [ordering]);
 
     const [eventOptions, setEventOptions] = useState<
         EventItem[] | undefined | null
@@ -160,7 +144,7 @@ export function Component() {
     const query = useMemo(() => ({
         limit,
         offset,
-        ordering: orderingWithFallback,
+        ordering: getOrderingWithFallback(ordering, ['-start_date']),
         // FIXME: The server does not support date string
         start_date__gte: toDateTimeString(filter.startDateAfter),
         start_date__lte: toDateTimeString(filter.startDateBefore),
@@ -173,7 +157,7 @@ export function Component() {
     }), [
         limit,
         offset,
-        orderingWithFallback,
+        ordering,
         filter,
     ]);
 
