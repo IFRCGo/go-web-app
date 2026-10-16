@@ -16,7 +16,6 @@ import {
     createStringColumn,
     resolveToComponent,
 } from '@ifrc-go/ui/utils';
-import { isDefined } from '@togglecorp/fujs';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 
@@ -27,9 +26,9 @@ import RegionSelectInput from '#components/domain/RegionSelectInput';
 import Page from '#components/Page';
 import { type components } from '#generated/types';
 import useAlert from '#hooks/useAlert';
-import useFilterState from '#hooks/useFilterState';
+import useFilterState, { type UrlParams } from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
-import useUrlSearchState from '#hooks/useUrlSearchState';
+import { regionKeyList } from '#utils/constants';
 import {
     createCountryListColumn,
     createLinkColumn,
@@ -38,6 +37,7 @@ import {
     type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
+import urlParam from '#utils/urlParam';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -48,6 +48,20 @@ type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
 type RegionOption = components<'read'>['schemas']['ApiRegionNameEnum'];
 
 const fieldReportKeySelector = (item: FieldReportListItem) => item.id;
+
+interface FieldReportFilter {
+    createdDateAfter?: string;
+    createdDateBefore?: string;
+    disasterType?: number;
+    country?: number;
+    region?: RegionOption['key'];
+}
+
+const fieldReportUrlParams: UrlParams<FieldReportFilter> = {
+    disasterType: urlParam.number('dtype'),
+    country: urlParam.number('country'),
+    region: urlParam.oneOf('region', regionKeyList),
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -63,46 +77,12 @@ export function Component() {
         filter,
         setFilterField,
         filtered,
-    } = useFilterState<{
-        createdDateAfter?: string,
-        createdDateBefore?: string,
-    }>({
+    } = useFilterState<FieldReportFilter>({
         filter: {},
+        urlParams: fieldReportUrlParams,
         pageSize: 15,
     });
     const alert = useAlert();
-    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(
-        'dtype',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            return potentialValue;
-        },
-        (dtype) => dtype,
-    );
-    const [filterCountry, setFilterCountry] = useUrlSearchState<number | undefined>(
-        'country',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            return potentialValue;
-        },
-        (country) => country,
-    );
-    const [filterRegion, setFilterRegion] = useUrlSearchState<RegionOption['key'] | undefined>(
-        'region',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            if (potentialValue === 0
-                || potentialValue === 1
-                || potentialValue === 2
-                || potentialValue === 3
-                || potentialValue === 4
-            ) {
-                return potentialValue;
-            }
-            return undefined;
-        },
-        (region) => region,
-    );
 
     const columns = useMemo(
         () => ([
@@ -162,18 +142,15 @@ export function Component() {
         limit,
         offset,
         ordering,
-        dtype: filterDisasterType,
-        countries__in: filterCountry,
-        regions__in: filterRegion,
+        dtype: filter.disasterType,
+        countries__in: filter.country,
+        regions__in: filter.region,
         created_at__gte: filter.createdDateAfter,
         created_at__lte: filter.createdDateBefore,
     }), [
         limit,
         offset,
         ordering,
-        filterDisasterType,
-        filterCountry,
-        filterRegion,
         filter,
     ]);
 
@@ -185,12 +162,6 @@ export function Component() {
         preserveResponse: true,
         query,
     });
-
-    const fieldReportFiltered = (
-        isDefined(filterDisasterType)
-        || isDefined(filterCountry)
-        || filtered
-    );
 
     const heading = useMemo(
         () => resolveToComponent(
@@ -266,23 +237,23 @@ export function Component() {
                         <DisasterTypeSelectInput
                             placeholder={strings.allFieldReportsFilterDisastersPlaceholder}
                             label={strings.allFieldReportsDisasterType}
-                            name={undefined}
-                            value={filterDisasterType}
-                            onChange={setFilterDisasterType}
+                            name="disasterType"
+                            value={rawFilter.disasterType}
+                            onChange={setFilterField}
                         />
                         <CountrySelectInput
                             placeholder={strings.allFieldReportsFilterCountryPlaceholder}
                             label={strings.allFieldReportsCountry}
-                            name={undefined}
-                            value={filterCountry}
-                            onChange={setFilterCountry}
+                            name="country"
+                            value={rawFilter.country}
+                            onChange={setFilterField}
                         />
                         <RegionSelectInput
                             placeholder={strings.allFieldReportsFilterRegionPlaceholder}
                             label={strings.allFieldReportsRegions}
-                            name={undefined}
-                            value={filterRegion}
-                            onChange={setFilterRegion}
+                            name="region"
+                            value={rawFilter.region}
+                            onChange={setFilterField}
                         />
                     </>
                 )}
@@ -306,7 +277,7 @@ export function Component() {
                 <SortContext.Provider value={sortState}>
                     <Table
                         pending={fieldReportPending}
-                        filtered={fieldReportFiltered}
+                        filtered={filtered}
                         className={styles.table}
                         columns={columns}
                         keySelector={fieldReportKeySelector}

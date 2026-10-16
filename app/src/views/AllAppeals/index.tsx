@@ -31,21 +31,23 @@ import RegionSelectInput from '#components/domain/RegionSelectInput';
 import Page from '#components/Page';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
-import useFilterState from '#hooks/useFilterState';
+import useFilterState, { type UrlParams } from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
-import useUrlSearchState from '#hooks/useUrlSearchState';
+import {
+    appealTypeKeyList,
+    type Region,
+    regionKeyList,
+} from '#utils/constants';
 import { createLinkColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
     type GoApiUrlQuery,
     useRequest,
 } from '#utils/restRequest';
+import urlParam from '#utils/urlParam';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type RegionResponse = GoApiResponse<'/api/v2/region/'>;
-type RegionListItem = NonNullable<RegionResponse['results']>[number];
 
 type AppealResponse = GoApiResponse<'/api/v2/appeal/'>;
 type AppealQueryParams = GoApiUrlQuery<'/api/v2/appeal/'>;
@@ -57,6 +59,24 @@ type AppealTypeOption = NonNullable<GlobalEnumsResponse['api_appeal_type']>[numb
 const appealKeySelector = (option: AppealListItem) => option.id;
 const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
 const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
+
+interface AppealFilter {
+    startDateAfter?: string;
+    startDateBefore?: string;
+    appealType?: AppealTypeOption['key'];
+    disasterType?: number;
+    region?: Region;
+    country?: number;
+    hasEvent?: boolean;
+}
+
+const appealUrlParams: UrlParams<AppealFilter> = {
+    appealType: urlParam.oneOf('atype', appealTypeKeyList),
+    disasterType: urlParam.number('dtype'),
+    region: urlParam.oneOf('region', regionKeyList),
+    country: urlParam.number('country'),
+    hasEvent: urlParam.flag('has_event'),
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -73,76 +93,14 @@ export function Component() {
         filter,
         setFilterField,
         filtered,
-    } = useFilterState<{
-        startDateAfter?: string,
-        startDateBefore?: string,
-    }>({
+    } = useFilterState<AppealFilter>({
         filter: {},
+        urlParams: appealUrlParams,
         pageSize: 10,
     });
     const alert = useAlert();
 
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
-
-    const [filterAppealType, setFilterAppealType] = useUrlSearchState<AppealTypeOption['key'] | undefined>(
-        'atype',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            // FIXME: use enums
-            if (potentialValue === 0
-                || potentialValue === 1
-                || potentialValue === 2
-                || potentialValue === 3
-            ) {
-                return potentialValue;
-            }
-
-            return undefined;
-        },
-        (atype) => atype,
-    );
-    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(
-        'dtype',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            return potentialValue;
-        },
-        (dtype) => dtype,
-    );
-
-    const [filterRegion, setFilterRegion] = useUrlSearchState<RegionListItem['name'] | undefined>(
-        'region',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            // FIXME: use enums
-            if (potentialValue === 0
-                || potentialValue === 1
-                || potentialValue === 2
-                || potentialValue === 3
-                || potentialValue === 4
-            ) {
-                return potentialValue;
-            }
-            return undefined;
-        },
-        (regionId) => regionId,
-    );
-    const [filterCountry, setFilterCountry] = useUrlSearchState<number | undefined>(
-        'country',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            return potentialValue;
-        },
-        (country) => country,
-    );
-
-    const [filterHasEvent] = useUrlSearchState<boolean | undefined>(
-        'has_event',
-        (value) => (value?.toLowerCase() === 'true'
-            ? true
-            : undefined),
-        (value) => (value ? String(value) : undefined),
-    );
 
     const defaultOrdering = '-start_date';
     const orderingWithFallback = useMemo(() => {
@@ -167,24 +125,19 @@ export function Component() {
             limit,
             offset,
             ordering: orderingWithFallback,
-            atype: filterAppealType,
-            dtype: filterDisasterType,
-            country: isDefined(filterCountry) ? [filterCountry] : undefined,
-            region: isDefined(filterRegion) ? [filterRegion] : undefined,
+            atype: filter.appealType,
+            dtype: filter.disasterType,
+            country: isDefined(filter.country) ? [filter.country] : undefined,
+            region: isDefined(filter.region) ? [filter.region] : undefined,
             start_date__gte: filter.startDateAfter,
             start_date__lte: filter.startDateBefore,
-            has_event: filterHasEvent,
-            needs_confirmation: filterHasEvent ? false : undefined,
+            has_event: filter.hasEvent,
+            needs_confirmation: filter.hasEvent ? false : undefined,
         }),
         [
-            filterHasEvent,
             limit,
             offset,
             orderingWithFallback,
-            filterAppealType,
-            filterDisasterType,
-            filterCountry,
-            filterRegion,
             filter,
         ],
     );
@@ -334,11 +287,6 @@ export function Component() {
         );
     };
 
-    const isFilterApplied = isDefined(filterDisasterType)
-        || isDefined(filterAppealType)
-        || isDefined(filterCountry)
-        || filtered;
-
     return (
         <Page
             className={styles.allAppeals}
@@ -363,9 +311,9 @@ export function Component() {
                         <SelectInput
                             placeholder={strings.allAppealsFilterAppealsPlaceholder}
                             label={strings.allAppealsType}
-                            name={undefined}
-                            value={filterAppealType}
-                            onChange={setFilterAppealType}
+                            name="appealType"
+                            value={rawFilter.appealType}
+                            onChange={setFilterField}
                             keySelector={appealTypeKeySelector}
                             labelSelector={appealTypeLabelSelector}
                             options={appealTypeOptions}
@@ -373,23 +321,23 @@ export function Component() {
                         <DisasterTypeSelectInput
                             placeholder={strings.allAppealsFilterDisastersPlaceholder}
                             label={strings.allAppealsDisasterType}
-                            name={undefined}
-                            value={filterDisasterType}
-                            onChange={setFilterDisasterType}
+                            name="disasterType"
+                            value={rawFilter.disasterType}
+                            onChange={setFilterField}
                         />
                         <RegionSelectInput
                             placeholder={strings.allAppealsFilterRegionPlaceholder}
                             label={strings.allAppealsRegion}
-                            name={undefined}
-                            value={filterRegion}
-                            onChange={setFilterRegion}
+                            name="region"
+                            value={rawFilter.region}
+                            onChange={setFilterField}
                         />
                         <CountrySelectInput
                             placeholder={strings.allAppealsFilterCountryPlaceholder}
                             label={strings.allAppealsCountry}
-                            name={undefined}
-                            value={filterCountry}
-                            onChange={setFilterCountry}
+                            name="country"
+                            value={rawFilter.country}
+                            onChange={setFilterField}
                         />
                     </>
                 )}
@@ -413,7 +361,7 @@ export function Component() {
                 <SortContext.Provider value={sortState}>
                     <Table
                         pending={appealsPending}
-                        filtered={isFilterApplied}
+                        filtered={filtered}
                         className={styles.table}
                         columns={columns}
                         keySelector={appealKeySelector}

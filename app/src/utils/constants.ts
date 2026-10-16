@@ -170,6 +170,26 @@ export const REGION_AMERICAS = 1 satisfies Region;
 export const REGION_ASIA = 2 satisfies Region;
 export const REGION_EUROPE = 3 satisfies Region;
 export const REGION_MENA = 4 satisfies Region;
+export const regionKeyList: Region[] = [
+    REGION_AFRICA,
+    REGION_AMERICAS,
+    REGION_ASIA,
+    REGION_EUROPE,
+    REGION_MENA,
+];
+
+// TODO: use these in ActiveOperationMap and AppealsOverYearsChart, which keep their own copies
+type AppealType = components<'read'>['schemas']['ApiAppealTypeEnumKey'];
+const APPEAL_TYPE_DREF = 0 satisfies AppealType;
+const APPEAL_TYPE_EMERGENCY = 1 satisfies AppealType;
+const APPEAL_TYPE_INTERNATIONAL = 2 satisfies AppealType;
+const APPEAL_TYPE_EAP = 3 satisfies AppealType;
+export const appealTypeKeyList: AppealType[] = [
+    APPEAL_TYPE_DREF,
+    APPEAL_TYPE_EMERGENCY,
+    APPEAL_TYPE_INTERNATIONAL,
+    APPEAL_TYPE_EAP,
+];
 
 export type CountryRecordTypeEnum = components<'read'>['schemas']['ApiCountryTypeEnumKey'];
 // const COUNTRY_RECORD_TYPE_COUNTRY = 1 satisfies CountryRecordTypeEnum;
