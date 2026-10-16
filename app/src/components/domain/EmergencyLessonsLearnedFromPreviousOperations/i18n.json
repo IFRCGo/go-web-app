@@ -3,6 +3,7 @@
     "strings": {
         "heading": "Lessons learned from previous operations",
         "emptyMessage": "At this moment we do not have any available learnings for this country in our dataset. Please visit the {link} where you can still find relevant learnings for similar hazards or regions.",
-        "emptyMessageLinkLabel": "Operational Learning page"
+        "emptyMessageLinkLabel": "Operational Learning page",
+        "viewMoreMessage": "The lessons learned shown here are from previous operations in this country. To apply more filters (such as hazard type or region) and view more specific lessons learned, visit the {link}."
     }
 }
