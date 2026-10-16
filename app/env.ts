@@ -40,6 +40,9 @@ export default defineConfig({
         APP_MAPBOX_ACCESS_TOKEN: Schema.string(),
         APP_TINY_API_KEY: Schema.string(),
         APP_RISK_API_ENDPOINT: Schema.string({ format: 'url', protocol: true }),
+        // Bare host of the Malawi Risk Watch backend; code appends /graphql/ and /admin/.
+        // Unset disables the Malawi Risk Watch sources
+        APP_MALAWI_RISK_WATCH_DOMAIN: Schema.string.optional({ format: 'url', protocol: true, tld: false }),
         APP_SDT_URL: Schema.string.optional({ format: 'url', protocol: true, tld: false }),
         APP_POWER_BI_REPORT_ID_1: Schema.string.optional(),
         APP_SENTRY_DSN: Schema.string.optional(),

@@ -1,0 +1,45 @@
+.forecast-day-input {
+    .impact {
+        color: var(--go-ui-color-text-light);
+        font-size: var(--go-ui-font-size-sm);
+    }
+
+    .bars {
+        display: flex;
+        align-items: flex-end;
+        gap: var(--go-ui-spacing-3xs);
+
+        .day {
+            display: flex;
+            align-items: center;
+            flex-basis: 0;
+            flex-direction: column;
+            flex-grow: 1;
+            border-bottom: var(--go-ui-width-separator-md) solid transparent;
+            padding-bottom: var(--go-ui-spacing-3xs);
+            line-height: var(--go-ui-line-height-sm);
+            color: var(--go-ui-color-text-light);
+            font-size: var(--go-ui-font-size-2xs);
+            gap: var(--go-ui-spacing-3xs);
+
+            .bar-track {
+                display: flex;
+                align-items: flex-end;
+                width: 100%;
+                height: 1.5rem;
+
+                .bar {
+                    border-radius: var(--go-ui-border-radius-sm) var(--go-ui-border-radius-sm) 0 0;
+                    background-color: var(--go-ui-color-gray-40);
+                    width: 100%;
+                }
+            }
+
+            &.active {
+                border-bottom-color: var(--go-ui-color-primary-red);
+                color: var(--go-ui-color-primary-red);
+                font-weight: var(--go-ui-font-weight-semibold);
+            }
+        }
+    }
+}

@@ -2,11 +2,12 @@
 
 ## Overview
 
-[IFRC GO](https://go.ifrc.org) is a React + Vite + TypeScript application managed as a [pnpm monorepo](https://pnpm.io/workspaces). The main application lives in `app/`, shared UI components in `packages/ui/`, and three git submodules provide OpenAPI schemas for TypeScript type generation (`pnpm generate:type`):
+[IFRC GO](https://go.ifrc.org) is a React + Vite + TypeScript application managed as a [pnpm monorepo](https://pnpm.io/workspaces). The main application lives in `app/`, shared UI components in `packages/ui/`, and four git submodules provide API schemas for TypeScript type generation (`pnpm generate:type`):
 
 - [go-api](../go-api/) — the main GO backend API. Its OpenAPI schema generates the core TypeScript types used throughout the app.
 - [go-risk-module-api](../go-risk-module-api/) — the GO risk module API. Its OpenAPI schema generates risk-specific TypeScript types.
 - [cacheppuccino](../cacheppuccino/) — a translation caching service that serves translated strings at runtime. Its OpenAPI schema generates translation TypeScript types, and its endpoint is configured via the `APP_TRANSLATION_API_ENDPOINT` environment variable.
+- [malawi-risk-watch-backend](../malawi-risk-watch-backend/) — the Malawi Risk Watch backend. Its GraphQL schema generates typed GraphQL documents with [graphql-codegen](https://the-guild.dev/graphql/codegen).
 
 For large bodies of work, a dedicated **project branch** acts as a shared integration point before anything reaches `develop`. Small, self-contained changes skip the project branch and go directly to `develop`.
 

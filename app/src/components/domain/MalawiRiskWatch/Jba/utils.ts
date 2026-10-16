@@ -1,0 +1,157 @@
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
+
+import { type DocumentType } from '#generated/gql';
+
+import {
+    type AdminArea,
+    parseNumber,
+} from '../utils';
+import { type JBA_FORECAST_IMPACTS_QUERY } from './queries';
+
+type ImpactsResult = DocumentType<typeof JBA_FORECAST_IMPACTS_QUERY>;
+type ImpactRow = ImpactsResult['floodForecastImpacts']['results'][number];
+
+export interface JbaForecastRow {
+    id: string;
+    forecastIssueDate: string;
+    forecastTargetDate: string;
+    leadTimeDays: number;
+    mean: number | undefined;
+    median: number | undefined;
+    p75: number | undefined;
+    p90: number | undefined;
+    max: number | undefined;
+    ensemblesNonzeroCount: number | undefined;
+}
+
+export interface JbaDistrictEvent {
+    // The pcode is the only key shared with GO admin areas and HDX data
+    id: string;
+    name: string;
+    adminArea: AdminArea | undefined;
+    rows: JbaForecastRow[];
+    activeRow: JbaForecastRow;
+}
+
+const DAY_IN_MS = 24 * 60 * 60 * 1000;
+
+export function getLeadTimeDays(issueDate: string, targetDate: string) {
+    return Math.round((new Date(targetDate).getTime() - new Date(issueDate).getTime()) / DAY_IN_MS);
+}
+
+function toForecastRow(row: ImpactRow): JbaForecastRow {
+    return {
+        id: row.id,
+        forecastIssueDate: row.forecastIssueDate,
+        forecastTargetDate: row.forecastTargetDate,
+        leadTimeDays: getLeadTimeDays(row.forecastIssueDate, row.forecastTargetDate),
+        mean: parseNumber(row.band5Mean),
+        median: parseNumber(row.band5Median),
+        p75: parseNumber(row.band5P75),
+        p90: parseNumber(row.band5P90),
+        max: parseNumber(row.band5Max),
+        ensemblesNonzeroCount: row.ensemblesNonzeroCount ?? undefined,
+    };
+}
+
+// The statistic shown to users; MRCS still has to pick between the ensemble percentiles
+export function impactSelector(row: JbaForecastRow) {
+    return row.median;
+}
+
+export function groupRowsByDistrict(rows: ImpactRow[] | undefined) {
+    const districts = new Map<string, Omit<JbaDistrictEvent, 'activeRow' | 'adminArea'>>();
+
+    rows?.forEach((row) => {
+        const { pcode } = row.adminArea;
+        const district = districts.get(pcode) ?? {
+            id: pcode,
+            name: row.adminArea.name,
+            rows: [],
+        };
+        district.rows.push(toForecastRow(row));
+        districts.set(pcode, district);
+    });
+
+    districts.forEach((district) => {
+        district.rows.sort((a, b) => a.leadTimeDays - b.leadTimeDays);
+    });
+
+    return districts;
+}
+
+export interface JbaForecastDay {
+    leadTimeDays: number;
+    targetDate: string;
+    populationImpacted: number;
+}
+
+export function getForecastDays(districts: ReturnType<typeof groupRowsByDistrict>) {
+    const days = new Map<number, JbaForecastDay>();
+
+    districts.forEach((district) => {
+        district.rows.forEach((row) => {
+            const day = days.get(row.leadTimeDays) ?? {
+                leadTimeDays: row.leadTimeDays,
+                targetDate: row.forecastTargetDate,
+                populationImpacted: 0,
+            };
+            day.populationImpacted += impactSelector(row) ?? 0;
+            days.set(row.leadTimeDays, day);
+        });
+    });
+
+    return [...days.values()].sort((a, b) => a.leadTimeDays - b.leadTimeDays);
+}
+
+export function getDistrictEvents(
+    districts: ReturnType<typeof groupRowsByDistrict>,
+    adminAreaByCode: Record<string, AdminArea | undefined>,
+    leadTimeDays: number,
+    threshold: number,
+): JbaDistrictEvent[] {
+    return [...districts.values()]
+        .map((district) => {
+            const activeRow = district.rows.find((row) => row.leadTimeDays === leadTimeDays);
+            const impact = activeRow ? impactSelector(activeRow) : undefined;
+            if (isNotDefined(activeRow) || isNotDefined(impact) || impact < threshold) {
+                return undefined;
+            }
+            return {
+                ...district,
+                activeRow,
+                adminArea: adminAreaByCode[district.id],
+            };
+        })
+        .filter(isDefined)
+        .sort((a, b) => (
+            (impactSelector(b.activeRow) ?? 0) - (impactSelector(a.activeRow) ?? 0)
+        ));
+}
+
+// The active day per district, plus every day so map classes stay stable
+export function getImpactValues(
+    districts: ReturnType<typeof groupRowsByDistrict>,
+    leadTimeDays: number,
+) {
+    const valueByPcode: Record<string, number> = {};
+    const allValues: number[] = [];
+
+    districts.forEach((district) => {
+        district.rows.forEach((row) => {
+            const impact = impactSelector(row);
+            if (isNotDefined(impact)) {
+                return;
+            }
+            allValues.push(impact);
+            if (row.leadTimeDays === leadTimeDays) {
+                valueByPcode[district.id] = impact;
+            }
+        });
+    });
+
+    return { valueByPcode, allValues };
+}

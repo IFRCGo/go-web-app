@@ -273,6 +273,8 @@ jobs:
     needs: [lint, lint-css, test, ui]
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - name: Install pnpm
         uses: pnpm/action-setup@v4
       - name: Install Node.js

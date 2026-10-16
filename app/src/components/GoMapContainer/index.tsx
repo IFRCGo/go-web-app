@@ -51,6 +51,8 @@ interface Props {
     onPresentationModeChange?: (newPresentationMode: boolean) => void;
     children?: React.ReactNode;
     withFullHeight?: boolean;
+    // Rendered at the top-left of the map, e.g. a layer toggle panel
+    layerSelection?: React.ReactNode;
 }
 
 function GoMapContainer(props: Props) {
@@ -65,6 +67,7 @@ function GoMapContainer(props: Props) {
         onPresentationModeChange,
         children,
         withFullHeight,
+        layerSelection,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -311,15 +314,20 @@ function GoMapContainer(props: Props) {
                             </ListView>
                         )}
                     />
-                    {withPresentationMode && !printMode && !presentationMode && (
-                        <Button
-                            className={styles.presentationModeButton}
-                            name={undefined}
-                            before={<ArtboardLineIcon />}
-                            onClick={enterPresentationMode}
-                        >
-                            {strings.presentationModeButtonLabel}
-                        </Button>
+                    {!printMode && !presentationMode
+                        && (withPresentationMode || isDefined(layerSelection)) && (
+                        <ListView className={styles.topLeftActions}>
+                            {withPresentationMode && (
+                                <Button
+                                    name={undefined}
+                                    before={<ArtboardLineIcon />}
+                                    onClick={enterPresentationMode}
+                                >
+                                    {strings.presentationModeButtonLabel}
+                                </Button>
+                            )}
+                            {layerSelection}
+                        </ListView>
                     )}
                     {!printMode && !presentationMode && !withoutDownloadButton && (
                         <RawButton

@@ -66,6 +66,7 @@ import {
     type FieldReportBody,
     type FieldReportPostBody,
     type FormValue,
+    type NewFieldReportRouteState,
     type PartialFormValue,
     reportSchema,
     type TabKeys,
@@ -129,14 +130,16 @@ export function Component() {
     const formContentRef = useRef<HTMLDivElement>(null);
     const currentLanguage = useCurrentLanguage();
     const { state } = useLocation();
+    const routeState = fieldReportId
+        ? undefined
+        : (state as NewFieldReportRouteState | null | undefined);
+    const initialValue = routeState?.initialValue;
 
     const [activeTab, setActiveTab] = useState<TabKeys>('context');
     const [eventOptions, setEventOptions] = useState<EventItem[] | null | undefined>([]);
-    const [districtOptions, setDistrictOptions] = useState<DistrictItem[] | null | undefined>([]);
-
-    const status = !fieldReportId && state?.earlyWarning
-        ? FIELD_REPORT_STATUS_EARLY_WARNING
-        : FIELD_REPORT_STATUS_EVENT;
+    const [districtOptions, setDistrictOptions] = useState<DistrictItem[] | null | undefined>(
+        routeState?.districtOptions ?? [],
+    );
 
     const {
         value,
@@ -149,10 +152,14 @@ export function Component() {
         reportSchema,
         {
             value: {
-                status,
+                status: FIELD_REPORT_STATUS_EVENT,
                 is_covid_report: false,
                 visibility: VISIBILITY_PUBLIC,
                 bulletin: BULLETIN_PUBLISHED_NO,
+                ...initialValue,
+                ...(initialValue && {
+                    situationalOverviewConsented: isTruthyString(initialValue.description),
+                }),
             },
         },
     );
