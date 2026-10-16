@@ -18,7 +18,7 @@ type SearchResponse = Omit<GoApiResponse<'/api/v1/search/'>, 'projects'>;
 
 type SearchResponseKey = keyof SearchResponse;
 // NOTE: We are excluding these enums as they will be handled by ResultList
-type ResultKey = Exclude<SearchResponseKey, 'regions' | 'countries' | 'district_province_response'>;
+type ResultKey = Exclude<SearchResponseKey, 'regions' | 'countries' | 'district_province_response' | 'urls'>;
 
 interface Props {
     searchResponse: SearchResponse;

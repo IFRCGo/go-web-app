@@ -25,6 +25,7 @@ export const defaultRanking: Record<SearchResponseKeys, number> = {
     surge_deployments: 7,
     reports: 8,
     rapid_response_deployments: 9,
+    urls: 10,
 };
 
 export function downloadFile(
