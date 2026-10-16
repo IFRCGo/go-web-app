@@ -3,7 +3,6 @@ import {
     useCallback,
     useMemo,
     useReducer,
-    useState,
 } from 'react';
 import { hasSomeDefinedValue } from '@ifrc-go/ui/utils';
 import { isNotDefined } from '@togglecorp/fujs';
@@ -40,6 +39,11 @@ interface SetPageAction {
     value: number;
 }
 
+interface ResetPageAction {
+    type: 'reset-page';
+    value: string;
+}
+
 interface SetOrderingAction {
     type: 'set-ordering'
     value: SetStateAction<SortParameter | undefined>;
@@ -50,12 +54,14 @@ type FilterActions<FILTER extends object> = (
     | SetFilterAction<FILTER>
     | SetPageAction
     | SetOrderingAction
+    | ResetPageAction
 );
 
 interface FilterState<FILTER> {
     filter: FILTER,
     ordering: SortParameter | undefined,
     page: number,
+    resetKey: string,
 }
 
 const defaultOrdering: SortParameter = {
@@ -80,6 +86,8 @@ function useFilterState<FILTER extends object>(options: {
         resetPageOn = [],
     } = options;
 
+    const resetPageKey = JSON.stringify(resetPageOn);
+
     const [state, dispatch] = useReducer<FilterState<FILTER>, [action: FilterActions<FILTER>]>(
         (prevState, action) => {
             if (action.type === 'reset-filter') {
@@ -87,6 +95,14 @@ function useFilterState<FILTER extends object>(options: {
                     filter,
                     ordering,
                     page,
+                    resetKey: prevState.resetKey,
+                };
+            }
+            if (action.type === 'reset-page') {
+                return {
+                    ...prevState,
+                    page: 1,
+                    resetKey: action.value,
                 };
             }
             if (action.type === 'set-filter') {
@@ -119,14 +135,12 @@ function useFilterState<FILTER extends object>(options: {
             filter,
             ordering,
             page,
+            resetKey: resetPageKey,
         },
     );
 
-    const resetPageKey = JSON.stringify(resetPageOn);
-    const [prevResetPageKey, setPrevResetPageKey] = useState(resetPageKey);
-    if (resetPageKey !== prevResetPageKey) {
-        setPrevResetPageKey(resetPageKey);
-        dispatch({ type: 'set-page', value: 1 });
+    if (resetPageKey !== state.resetKey) {
+        dispatch({ type: 'reset-page', value: resetPageKey });
     }
 
     const setFilter = useCallback(
@@ -180,6 +194,8 @@ function useFilterState<FILTER extends object>(options: {
     );
 
     const debouncedState = useDebouncedValue(state, debounceTime);
+    // NOTE: use first page until the debounced state catches up with the reset
+    const isResetPending = state.resetKey !== debouncedState.resetKey;
 
     const sortState = useMemo(
         () => ({
@@ -210,7 +226,7 @@ function useFilterState<FILTER extends object>(options: {
         resetFilter,
 
         page: state.page,
-        offset: pageSize * (debouncedState.page - 1),
+        offset: pageSize * ((isResetPending ? 1 : debouncedState.page) - 1),
         limit: pageSize,
         setPage,
 
