@@ -67,6 +67,7 @@ import {
 import { type EmergencyOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 
+import CustomKeyFigure from './CustomKeyFigure';
 import EmergencyMap from './EmergencyMap';
 
 import i18n from './i18n.json';
@@ -386,6 +387,13 @@ export function Component() {
     const showEventKeyFigures = showFieldReportKeyFigures
         && ((isFieldReportStage && latestFieldReport?.status === FIELD_REPORT_STATUS_EVENT)
             || isEmergencyAppealStage);
+
+    const customKeyFigures = emergencyResponse?.key_figures;
+    const showCustomKeyFigures = isDefined(customKeyFigures) && customKeyFigures.length > 0;
+
+    const showKeyFigures = showEarlyWarningKeyFigures
+        || showEventKeyFigures
+        || showCustomKeyFigures;
 
     // The map is the only other occupant of this section, so without it an
     // empty summary would leave a bare heading behind.
@@ -954,32 +962,7 @@ export function Component() {
                     )}
                 />
             )}
-            {showEarlyWarningKeyFigures && (
-                <Container
-                    heading={strings.emergencyKeyFiguresTitle}
-                    withHeaderBorder
-                >
-                    <ListView
-                        layout="grid"
-                        numPreferredGridColumns={2}
-                        spacing="sm"
-                    >
-                        <KeyFigureView
-                            label={strings.keyFigurePotentiallyAffectedLabel}
-                            value={numPotentiallyAffected}
-                            valueType="number"
-                            withShadow
-                        />
-                        <KeyFigureView
-                            label={strings.keyFigureHighestRiskLabel}
-                            value={numHighestRisk}
-                            valueType="number"
-                            withShadow
-                        />
-                    </ListView>
-                </Container>
-            )}
-            {showEventKeyFigures && (
+            {showKeyFigures && (
                 <Container
                     heading={strings.emergencyKeyFiguresTitle}
                     withHeaderBorder
@@ -989,36 +972,62 @@ export function Component() {
                         numPreferredGridColumns={5}
                         spacing="sm"
                     >
-                        <KeyFigureView
-                            label={strings.keyFigureInjuredLabel}
-                            value={numInjured}
-                            valueType="number"
-                            withShadow
-                        />
-                        <KeyFigureView
-                            label={strings.keyFigureDeadLabel}
-                            value={numDead}
-                            valueType="number"
-                            withShadow
-                        />
-                        <KeyFigureView
-                            label={strings.keyFigureMissingLabel}
-                            value={numMissing}
-                            valueType="number"
-                            withShadow
-                        />
-                        <KeyFigureView
-                            label={strings.keyFigureAffectedLabel}
-                            value={numAffected}
-                            valueType="number"
-                            withShadow
-                        />
-                        <KeyFigureView
-                            label={strings.keyFigureDisplacedLabel}
-                            value={numDisplaced}
-                            valueType="number"
-                            withShadow
-                        />
+                        {showEarlyWarningKeyFigures && (
+                            <>
+                                <KeyFigureView
+                                    label={strings.keyFigurePotentiallyAffectedLabel}
+                                    value={numPotentiallyAffected}
+                                    valueType="number"
+                                    withShadow
+                                />
+                                <KeyFigureView
+                                    label={strings.keyFigureHighestRiskLabel}
+                                    value={numHighestRisk}
+                                    valueType="number"
+                                    withShadow
+                                />
+                            </>
+                        )}
+                        {showEventKeyFigures && (
+                            <>
+                                <KeyFigureView
+                                    label={strings.keyFigureInjuredLabel}
+                                    value={numInjured}
+                                    valueType="number"
+                                    withShadow
+                                />
+                                <KeyFigureView
+                                    label={strings.keyFigureDeadLabel}
+                                    value={numDead}
+                                    valueType="number"
+                                    withShadow
+                                />
+                                <KeyFigureView
+                                    label={strings.keyFigureMissingLabel}
+                                    value={numMissing}
+                                    valueType="number"
+                                    withShadow
+                                />
+                                <KeyFigureView
+                                    label={strings.keyFigureAffectedLabel}
+                                    value={numAffected}
+                                    valueType="number"
+                                    withShadow
+                                />
+                                <KeyFigureView
+                                    label={strings.keyFigureDisplacedLabel}
+                                    value={numDisplaced}
+                                    valueType="number"
+                                    withShadow
+                                />
+                            </>
+                        )}
+                        {showCustomKeyFigures && customKeyFigures.map((keyFigure) => (
+                            <CustomKeyFigure
+                                key={keyFigure.id}
+                                keyFigure={keyFigure}
+                            />
+                        ))}
                     </ListView>
                 </Container>
             )}
