@@ -43,6 +43,10 @@ import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { DREF_TYPE_IMMINENT } from '#utils/constants';
+import {
+    DREF_ERF_URL,
+    IFRC_INDICATOR_BANK_URL,
+} from '#utils/domain/dref';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import {
@@ -70,8 +74,6 @@ type ProposedActionsFormFields = NonNullable<PartialFinalReport['proposed_action
 function plannedInterventionKeySelector(option: PlannedInterventionOption) {
     return option.key;
 }
-
-const peopleTargetedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
 
 interface Props {
     value: Value;
@@ -441,7 +443,7 @@ function Operation(props: Props) {
                                 {strings.drefFormPeopleAssisted}
                                 <Link
                                     title={strings.drefFormOperationClickEmergencyResponseFramework}
-                                    href={peopleTargetedLink}
+                                    href={DREF_ERF_URL}
                                     external
                                 >
                                     <WikiHelpSectionLineIcon />
@@ -885,7 +887,7 @@ function Operation(props: Props) {
                                             {
                                                 indicatorDatabankLink: (
                                                     <Link
-                                                        href="https://github.com/user-attachments/files/18903662/Annex.III.Risk.Categories.1.pdf"
+                                                        href={IFRC_INDICATOR_BANK_URL}
                                                         withLinkIcon
                                                         external
                                                     >
