@@ -31,7 +31,6 @@ import useAlert from '#hooks/useAlert';
 import useFilterState, { type UrlParams } from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { regionKeyList } from '#utils/constants';
-import { getEventOrderingWithFallback } from '#utils/domain/emergency';
 import {
     createCountryListColumn,
     createLinkColumn,
@@ -91,6 +90,7 @@ export function Component() {
     } = useFilterState<EventFilter>({
         filter: {},
         urlParams: eventUrlParams,
+        ordering: { name: 'disaster_start_date', direction: 'dsc' },
         pageSize: 15,
     });
     const alert = useAlert();
@@ -168,7 +168,7 @@ export function Component() {
         () => ({
             limit,
             offset,
-            ordering: getEventOrderingWithFallback(ordering),
+            ordering,
             dtype: filter.disasterType,
             // FIXME: The server should actually accept array of number instead
             // of just number

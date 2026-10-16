@@ -23,13 +23,13 @@ import {
 import {
     _cs,
     isDefined,
-    isNotDefined,
 } from '@togglecorp/fujs';
 
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useFilterState from '#hooks/useFilterState';
+import { getOrderingWithFallback } from '#utils/common';
 import {
     createAppealCodeColumn,
     createBudgetColumn,
@@ -112,6 +112,7 @@ function AppealsTable(props: Props) {
         startDateBefore?: string,
     }>({
         filter: {},
+        ordering: { name: 'start_date', direction: 'dsc' },
         pageSize: 5,
     });
 
@@ -210,30 +211,12 @@ function AppealsTable(props: Props) {
         ],
     );
 
-    const defaultOrdering = '-start_date';
-    const orderingWithFallback = useMemo(() => {
-        if (isNotDefined(ordering)) {
-            return defaultOrdering;
-        }
-
-        if (ordering === '-id') {
-            return '-start_date,-id';
-        }
-
-        if (ordering === 'start_date' || ordering === '-start_date') {
-            return ordering;
-        }
-
-        // Add default ordering as second ordering
-        return [ordering, defaultOrdering].join(',');
-    }, [ordering]);
-
     const query = useMemo<AppealQueryParams>(
         () => {
             const baseQuery: AppealQueryParams = {
                 limit,
                 offset,
-                ordering: orderingWithFallback,
+                ordering: getOrderingWithFallback(ordering, ['-start_date', '-id']),
                 atype: filter.appeal,
                 dtype: filter.displacement,
                 district: hasSomeDefinedValue(filter.district) ? filter.district : undefined,
@@ -257,7 +240,7 @@ function AppealsTable(props: Props) {
             variant,
             countryId,
             regionId,
-            orderingWithFallback,
+            ordering,
             filter,
             limit,
             offset,
