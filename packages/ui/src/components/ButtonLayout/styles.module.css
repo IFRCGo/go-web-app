@@ -119,6 +119,15 @@
         pointer-events: none;
     }
 
+    &.style-variant-outline,
+    &.style-variant-filled,
+    &.style-variant-translucent {
+        .visual-feedback {
+            --visual-feedback-offset: 0;
+            border-radius: inherit;
+        }
+    }
+
     &:not(.disabled):not(.readOnly) {
         cursor: pointer;
 
