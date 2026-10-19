@@ -21,6 +21,16 @@
     background: none !important;
 }
 
+.bubble:focus {
+    outline: none;
+}
+
+/* NOTE: the bubble colours are inline styles, so the focus ring has to override them */
+.bubble:focus-visible {
+    stroke: var(--go-ui-color-primary-red) !important;
+    stroke-opacity: 1 !important;
+}
+
 .customTooltip {
     padding: 0;
     width: fit-content;
@@ -145,8 +155,8 @@
     background-color: var(--go-ui-color-foreground);
 }
 
-/* Make zoom controls smaller */
-:global(.mapboxgl-ctrl-group) {
+/* NOTE: scoped to the PER map so other GO maps keep their full-size controls */
+.map-container :global(.mapboxgl-ctrl-group) {
     transform: scale(0.8);
     transform-origin: top right;
 }

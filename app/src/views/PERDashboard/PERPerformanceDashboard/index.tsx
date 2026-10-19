@@ -19,10 +19,9 @@ import {
 } from '@ifrc-go/ui/utils';
 import { isDefined } from '@togglecorp/fujs';
 
-import { api } from '#config';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import { resolveUrl } from '#utils/resolveUrl';
+import { useRequest } from '#utils/restRequest';
 
 import {
     EMPTY_FILTERS,
@@ -31,7 +30,7 @@ import {
     normalizePerformanceData,
     REGION_ORDER,
 } from '../data';
-import useJsonRequest from '../useJsonRequest';
+import retryTemporaryFailure from '../retryTemporaryFailure';
 import {
     getPerformanceCycles,
     getPerformanceRatings,
@@ -49,12 +48,14 @@ function PERPerformanceDashboard() {
         ...EMPTY_FILTERS,
         cycle: null,
     }));
-    const dashboardDataUrl = resolveUrl(api, 'api/v2/per-dashboard-data');
     const {
         pending: dashboardDataPending,
         response: rawDashboardData,
         error: dashboardDataError,
-    } = useJsonRequest<unknown>(dashboardDataUrl);
+    } = useRequest({
+        url: '/api/v2/per-dashboard-data',
+        shouldRetry: retryTemporaryFailure,
+    });
     const dashboardData = useMemo(
         () => normalizePerformanceData(rawDashboardData),
         [rawDashboardData],

@@ -27,10 +27,7 @@ import {
 } from '@ifrc-go/ui/utils';
 import { isDefined } from '@togglecorp/fujs';
 
-import {
-    api,
-    mbtoken,
-} from '#config';
+import { mbtoken } from '#config';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
@@ -39,7 +36,7 @@ import {
     PER_PHASE_OVERVIEW,
 } from '#utils/domain/per';
 import { defaultMapStyle } from '#utils/map';
-import { resolveUrl } from '#utils/resolveUrl';
+import { useRequest } from '#utils/restRequest';
 
 import {
     ASSESSMENT_TYPE_COLORS,
@@ -56,7 +53,7 @@ import {
     type RegionName,
     selectFilteredDashboard,
 } from '../data';
-import useJsonRequest from '../useJsonRequest';
+import retryTemporaryFailure from '../retryTemporaryFailure';
 import {
     getComponentSummaryForTreemap,
     getFilteredMapData,
@@ -110,12 +107,14 @@ function PERSummaryDashboard() {
     const [activeTab, setActiveTab] = useState<number>(0);
     const [activePhase, setActivePhase] = useState<number | string | null>(null);
     const [exporting, setExporting] = useState(false);
-    const mapDataUrl = resolveUrl(api, 'api/v2/per-map-data');
     const {
         pending: mapDataPending,
         response: rawMapData,
         error: mapDataError,
-    } = useJsonRequest<unknown>(mapDataUrl);
+    } = useRequest({
+        url: '/api/v2/per-map-data',
+        shouldRetry: retryTemporaryFailure,
+    });
 
     const mapData = useMemo(() => normalizeMapData(rawMapData), [rawMapData]);
     const filteredState = useMemo(
