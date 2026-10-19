@@ -15,6 +15,13 @@ export const PER_PHASE_PRIORITIZATION = 3 satisfies PerPhase;
 export const PER_PHASE_WORKPLAN = 4 satisfies PerPhase;
 export const PER_PHASE_ACTION = 5 satisfies PerPhase;
 
+// FIXME: The server has no enum for the assessment types. These are the ids of the
+// `AssessmentType` rows in go-api, which are the same in every language.
+export const PER_ASSESSMENT_TYPE_SELF_ASSESSMENT = 1;
+export const PER_ASSESSMENT_TYPE_SIMULATION = 2;
+export const PER_ASSESSMENT_TYPE_OPERATIONAL = 3;
+export const PER_ASSESSMENT_TYPE_POST_OPERATIONAL = 4;
+
 type PerProcessStatusResponse = GoApiResponse<'/api/v2/per-process-status/{id}/'>;
 
 export function getCurrentPerProcessStep(status: PerProcessStatusResponse | undefined) {
