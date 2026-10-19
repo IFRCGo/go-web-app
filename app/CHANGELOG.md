@@ -1,5 +1,22 @@
 # go-web-app
 
+## 7.29.0-beta.0
+
+### Minor Changes
+
+- a4fcbb3: Show custom key figures with their source on the emergency overview page
+- ab37f47: Update Imminent DREF Application and Final Report exports
+
+  - Allow page breaks within the Early Actions and Early Response Actions
+  - Avoid page break within the activity
+
+### Patch Changes
+
+- cee1838: Show the default sort column in appeal, emergency, document and deployed personnel tables, and keep rows with equal values in a stable order across pages
+- ac3f76f: Update the indicator bank and Emergency Response Framework links in the DREF forms
+- Updated dependencies [367a4aa]
+  - @ifrc-go/ui@2.5.0-beta.0
+
 ## 7.28.0
 
 ### Minor Changes

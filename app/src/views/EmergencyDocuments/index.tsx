@@ -35,6 +35,7 @@ import TabPage from '#components/TabPage';
 import { adminUrl } from '#config';
 import useRegion, { type Region } from '#hooks/domain/useRegion';
 import useFilterState from '#hooks/useFilterState';
+import { getOrderingWithFallback } from '#utils/common';
 import {
     createAppealCodeColumn,
     createCountryListColumn,
@@ -81,6 +82,7 @@ export function Component() {
         sortState: sortStateAppealDocuments,
     } = useFilterState<object>({
         filter: {},
+        ordering: { name: 'created_at', direction: 'dsc' },
         pageSize: PAGE_SIZE,
     });
 
@@ -105,23 +107,6 @@ export function Component() {
         } : undefined, // TODO: we need to add search filter in server
     });
 
-    const defaultOrdering = '-created_at';
-    const orderingWithFallback = useMemo(() => {
-        if (isNotDefined(orderingAppealDocuments)) {
-            return defaultOrdering;
-        }
-
-        if (orderingAppealDocuments === '-id') {
-            return '-created_at';
-        }
-
-        if (orderingAppealDocuments === 'created_at' || orderingAppealDocuments === '-created_at') {
-            return orderingAppealDocuments;
-        }
-
-        return [orderingAppealDocuments, defaultOrdering].join(',');
-    }, [orderingAppealDocuments]);
-
     // filtering by event means this no longer waits on the emergency response;
     // the section below is still gated on the emergency's appeals, so an event
     // without one never renders the result
@@ -135,7 +120,7 @@ export function Component() {
             event_id: Number(emergencyId),
             limit: appealDocumentsLimit,
             offset: appealDocumentsOffset,
-            ordering: orderingWithFallback,
+            ordering: getOrderingWithFallback(orderingAppealDocuments, ['-created_at']),
         },
     });
 

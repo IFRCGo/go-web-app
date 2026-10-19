@@ -1,5 +1,4 @@
 import {
-    useCallback,
     useMemo,
     useState,
 } from 'react';
@@ -21,9 +20,7 @@ import {
 } from '@ifrc-go/ui/utils';
 import {
     isDefined,
-    isFalsyString,
     isNotDefined,
-    isTruthyString,
 } from '@togglecorp/fujs';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
@@ -33,15 +30,15 @@ import EventSearchSelectInput, { type EventItem } from '#components/domain/Event
 import ExportButton from '#components/domain/ExportButton';
 import Page from '#components/Page';
 import useAlert from '#hooks/useAlert';
-import useFilterState from '#hooks/useFilterState';
+import useFilterState, { type UrlParams } from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
-import useUrlSearchState from '#hooks/useUrlSearchState';
 import { SURGE_ALERT_STATUS_CLOSED } from '#utils/constants';
 import { createLinkColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
+import urlParam from '#utils/urlParam';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -68,6 +65,20 @@ function getMolnixKeywords(molnixTags: SurgeListItem['molnix_tags']) {
         .join(', ');
 }
 
+interface SurgeAlertFilter {
+    country?: number;
+    event?: number;
+    position?: string;
+    keywords?: string;
+}
+
+const surgeAlertUrlParams: UrlParams<SurgeAlertFilter> = {
+    country: urlParam.number('country'),
+    event: urlParam.number('event'),
+    position: urlParam.text('position'),
+    keywords: urlParam.text('keywords'),
+};
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -77,75 +88,36 @@ export function Component() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>({
+        rawFilter,
+        filter,
+        setFilterField,
+        filtered,
+    } = useFilterState<SurgeAlertFilter>({
         filter: {},
+        urlParams: surgeAlertUrlParams,
         pageSize: 15,
     });
-
-    const [countryFilter, setCountryFilter] = useUrlSearchState<number | undefined>(
-        'country',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            if (potentialValue) {
-                setPage(0);
-            }
-            return potentialValue;
-        },
-        (country) => country,
-    );
-
-    const [eventFilter, setEventFilter] = useUrlSearchState<number | undefined>(
-        'event',
-        (searchValue) => {
-            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
-            if (potentialValue) {
-                setPage(0);
-            }
-            return potentialValue;
-        },
-        (country) => country,
-    );
 
     const [eventOptions, setEventOptions] = useState<
         EventItem[] | undefined | null
     >([]);
 
-    const [positionFilter, setPositionFilter] = useUrlSearchState<string | undefined>(
-        'position',
-        (value) => {
-            const trimmedValue = isTruthyString(value) ? value.trim() : undefined;
-
-            if (isFalsyString(trimmedValue)) {
-                return undefined;
-            }
-
-            setPage(0);
-            return trimmedValue;
-        },
-        (position) => position ?? undefined,
-    );
-
-    const [keywordsFilter, setKeywordsFilter] = useUrlSearchState<string | undefined>(
-        'keywords',
-        (value) => {
-            const trimmedValue = isTruthyString(value) ? value.trim() : undefined;
-
-            if (isFalsyString(trimmedValue)) {
-                return undefined;
-            }
-
-            setPage(0);
-            return trimmedValue;
-        },
-        (keywords) => keywords ?? undefined,
-    );
+    const surgeAlertQuery = {
+        event: filter.event,
+        country: filter.country,
+        // NOTE: the URL keeps the text as typed so that the input can show it
+        message__icontains: filter.position?.trim() || undefined,
+        molnix_tag_name: filter.keywords?.trim() || undefined,
+        // FIXME: this should come from useFilterState
+        ordering: 'molnix_status,-opens',
+    };
 
     useRequest({
-        skip: isNotDefined(eventFilter)
-            || (!!eventOptions?.find((event) => event.id === eventFilter)),
+        skip: isNotDefined(rawFilter.event)
+            || (!!eventOptions?.find((event) => event.id === rawFilter.event)),
         url: '/api/v2/event/{id}/',
-        pathVariables: isDefined(eventFilter) ? {
-            id: eventFilter,
+        pathVariables: isDefined(rawFilter.event) ? {
+            id: rawFilter.event,
         } : undefined,
         onSuccess: (response) => {
             if (isNotDefined(response)) {
@@ -189,12 +161,7 @@ export function Component() {
         query: {
             limit,
             offset,
-            event: eventFilter,
-            country: countryFilter,
-            message__icontains: positionFilter,
-            molnix_tag_name: keywordsFilter,
-            // FIXME: this should come from useFilterState
-            ordering: 'molnix_status,-opens',
+            ...surgeAlertQuery,
         },
     });
 
@@ -314,29 +281,16 @@ export function Component() {
         },
     });
 
-    const handleExportClick = useCallback(() => {
+    const handleExportClick = () => {
         if (!surgeResponse?.count) {
             return;
         }
         triggerExportStart(
             '/api/v2/surge_alert/',
-            surgeResponse?.count,
-            {
-                event: eventFilter,
-                country: countryFilter,
-                message__icontains: positionFilter,
-                molnix_tag_name: keywordsFilter,
-                ordering: 'molnix_status,-opens',
-            },
+            surgeResponse.count,
+            surgeAlertQuery,
         );
-    }, [
-        triggerExportStart,
-        surgeResponse?.count,
-        eventFilter,
-        countryFilter,
-        positionFilter,
-        keywordsFilter,
-    ]);
+    };
 
     const heading = resolveToComponent(
         strings.allSurgeAlertsHeading,
@@ -356,32 +310,32 @@ export function Component() {
                             name="country"
                             label={strings.countryFilterLabel}
                             placeholder={strings.defaultPlaceholder}
-                            value={countryFilter}
-                            onChange={setCountryFilter}
+                            value={rawFilter.country}
+                            onChange={setFilterField}
                         />
                         <EventSearchSelectInput
                             name="event"
                             label={strings.eventFilterLabel}
                             placeholder={strings.defaultPlaceholder}
-                            value={eventFilter}
-                            onChange={setEventFilter}
+                            value={rawFilter.event}
+                            onChange={setFilterField}
                             options={eventOptions}
                             onOptionsChange={setEventOptions}
-                            countryId={countryFilter}
+                            countryId={rawFilter.country}
                         />
                         <TextInput
                             name="position"
                             label={strings.positionFilterLabel}
                             placeholder={strings.defaultPlaceholder}
-                            value={positionFilter}
-                            onChange={setPositionFilter}
+                            value={rawFilter.position}
+                            onChange={setFilterField}
                         />
                         <TextInput
                             name="keywords"
                             label={strings.keywordsFilterLabel}
                             placeholder={strings.defaultPlaceholder}
-                            value={keywordsFilter}
-                            onChange={setKeywordsFilter}
+                            value={rawFilter.keywords}
+                            onChange={setFilterField}
                         />
                     </>
                 )}
@@ -404,7 +358,7 @@ export function Component() {
             >
                 <Table
                     pending={surgeResponsePending}
-                    filtered={false}
+                    filtered={filtered}
                     data={surgeResponse?.results}
                     columns={columns}
                     keySelector={numericIdSelector}

@@ -75,6 +75,24 @@ export function joinStrings(
     return values.filter(Boolean).join(separator);
 }
 
+function getOrderingField(ordering: string) {
+    return ordering.replace(/^-/, '');
+}
+
+// NOTE: an ordering param replaces the server's default ordering, so ties need a fallback
+export function getOrderingWithFallback(
+    ordering: string | undefined,
+    fallbackOrdering: string[],
+) {
+    const orderingList = isTruthyString(ordering) ? ordering.split(',') : [];
+    const orderedFields = new Set(orderingList.map(getOrderingField));
+
+    return [
+        ...orderingList,
+        ...fallbackOrdering.filter((item) => !orderedFields.has(getOrderingField(item))),
+    ].join(',');
+}
+
 const imageFileExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg', 'avif'];
 
 // NOTE: not using `new URL` here as it throws for the relative urls

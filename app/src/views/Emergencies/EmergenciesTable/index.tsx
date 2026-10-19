@@ -20,7 +20,6 @@ import {
 
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import useFilterState from '#hooks/useFilterState';
-import { getEventOrderingWithFallback } from '#utils/domain/emergency';
 import {
     createCountryListColumn,
     createLinkColumn,
@@ -71,6 +70,7 @@ function EventItemsTable() {
         filter: {
             startDateAfter: encodeDate(thirtyDaysAgo),
         },
+        ordering: { name: 'disaster_start_date', direction: 'dsc' },
         pageSize: 5,
     });
 
@@ -147,7 +147,7 @@ function EventItemsTable() {
         () => ({
             limit,
             offset,
-            ordering: getEventOrderingWithFallback(ordering),
+            ordering,
             disaster_start_date__gte: filter.startDateAfter,
             disaster_start_date__lte: filter.startDateBefore,
             dtype: filter.dType,

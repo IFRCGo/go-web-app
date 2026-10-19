@@ -22,6 +22,7 @@ import SourceInformationInput from '#components/domain/SourceInformationInput';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
+import { DREF_ERF_URL } from '#utils/domain/dref';
 
 import {
     ONSET_SUDDEN,
@@ -43,10 +44,6 @@ interface Props {
     readOnly: boolean;
     disabled?: boolean;
 }
-
-const totalPopulationRiskImminentLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
-const totalPeopleAffectedSlowSuddenLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
-const peopleInNeedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
 
 function EventDetail(props: Props) {
     const strings = useTranslation(i18n);
@@ -117,7 +114,7 @@ function EventDetail(props: Props) {
                                 {strings.drefFormRiskPeopleLabel}
                                 <Link
                                     title={strings.drefFormClickEmergencyResponseFramework}
-                                    href={totalPopulationRiskImminentLink}
+                                    href={DREF_ERF_URL}
                                     external
                                 >
                                     <WikiHelpSectionLineIcon />
@@ -128,7 +125,7 @@ function EventDetail(props: Props) {
                                 {strings.drefFormPeopleAffected}
                                 <Link
                                     title={strings.drefFormClickEmergencyResponseFramework}
-                                    href={totalPeopleAffectedSlowSuddenLink}
+                                    href={DREF_ERF_URL}
                                     external
                                 >
                                     <WikiHelpSectionLineIcon />
@@ -153,7 +150,7 @@ function EventDetail(props: Props) {
                                     {strings.drefFormPeopleInNeed}
                                     <Link
                                         title={strings.drefFormClickEmergencyResponseFramework}
-                                        href={peopleInNeedLink}
+                                        href={DREF_ERF_URL}
                                         external
                                     >
                                         <WikiHelpSectionLineIcon />

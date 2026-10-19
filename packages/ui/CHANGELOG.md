@@ -1,5 +1,11 @@
 # @ifrc-go/ui
 
+## 2.5.0-beta.0
+
+### Minor Changes
+
+- 367a4aa: Show `info` beside the value in KeyFigureView when there is no icon
+
 ## 2.4.0
 
 ### Minor Changes

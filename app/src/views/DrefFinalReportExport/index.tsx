@@ -17,10 +17,7 @@ import {
     TextOutput,
     type TextOutputProps,
 } from '@ifrc-go/ui/printable';
-import {
-    DEFAULT_PRINT_DATE_FORMAT,
-    sumSafe,
-} from '@ifrc-go/ui/utils';
+import { DEFAULT_PRINT_DATE_FORMAT } from '@ifrc-go/ui/utils';
 import {
     _cs,
     isDefined,
@@ -206,19 +203,12 @@ export function Component() {
 
         return mapToList(
             typeGroupedActions,
-            (list, key) => {
-                const numActivities = sumSafe(
-                    list.map(({ activities }) => activities.length),
-                );
-
-                return {
-                    key,
-                    title: list[0]?.proposed_type_display,
-                    numActivities,
-                    actions: list,
-                    icon: proposedActivityIconMap[key],
-                };
-            },
+            (list, key) => ({
+                key,
+                title: list[0]?.proposed_type_display,
+                actions: list,
+                icon: proposedActivityIconMap[key],
+            }),
         );
     }, [drefResponse]);
 
@@ -686,27 +676,33 @@ export function Component() {
                     <div className={styles.actionTitleLabel}>
                         {strings.expenditure}
                     </div>
+                    {/* NOTE: cells don't span rows as Chrome doesn't grow spanning */}
+                    {/* items when a row is pushed to the next page while printing */}
                     {groupedProposedActions.map((proposedAction) => (
                         <Fragment key={proposedAction.key}>
-                            <div
-                                className={styles.proposedAction}
-                                style={{
-                                    gridRow: `span ${proposedAction.numActivities}`,
-                                }}
-                            >
-                                <img
-                                    className={styles.icon}
-                                    src={proposedAction.icon}
-                                    alt={strings.imageIcon}
-                                />
-                                <div className={styles.title}>
-                                    {proposedAction.title}
-                                </div>
-                            </div>
-                            {proposedAction.actions.map((action) => (
+                            {proposedAction.actions.map((action, actionIndex) => (
                                 <Fragment key={action.id}>
                                     {action.activities.map((activity, index) => (
                                         <Fragment key={activity.id}>
+                                            {actionIndex === 0 && index === 0 ? (
+                                                <div className={styles.proposedAction}>
+                                                    <img
+                                                        className={styles.icon}
+                                                        src={proposedAction.icon}
+                                                        alt={strings.imageIcon}
+                                                    />
+                                                    <div className={styles.title}>
+                                                        {proposedAction.title}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div
+                                                    className={_cs(
+                                                        styles.proposedAction,
+                                                        styles.continued,
+                                                    )}
+                                                />
+                                            )}
                                             <SelectOutput
                                                 className={styles.sector}
                                                 options={primarySectorOptions}
@@ -718,27 +714,35 @@ export function Component() {
                                             <div className={styles.activity}>
                                                 {activity.activity}
                                             </div>
-                                            {index === 0 && (
-                                                <div
-                                                    className={styles.budget}
-                                                    style={{ gridRow: `span ${action.activities.length}` }}
-                                                >
+                                            {index === 0 ? (
+                                                <div className={styles.budget}>
                                                     <NumberOutput
                                                         value={action.total_budget}
                                                         prefix={strings.chfPrefix}
                                                     />
                                                 </div>
-                                            )}
-                                            {index === 0 && (
+                                            ) : (
                                                 <div
-                                                    className={styles.budget}
-                                                    style={{ gridRow: `span ${action.activities.length}` }}
-                                                >
+                                                    className={_cs(
+                                                        styles.budget,
+                                                        styles.continued,
+                                                    )}
+                                                />
+                                            )}
+                                            {index === 0 ? (
+                                                <div className={styles.budget}>
                                                     <NumberOutput
                                                         value={action.total_expenditure}
                                                         prefix={strings.chfPrefix}
                                                     />
                                                 </div>
+                                            ) : (
+                                                <div
+                                                    className={_cs(
+                                                        styles.budget,
+                                                        styles.continued,
+                                                    )}
+                                                />
                                             )}
                                         </Fragment>
                                     ))}

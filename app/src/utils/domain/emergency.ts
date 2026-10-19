@@ -22,27 +22,6 @@ export const STAGE_FINAL_REPORT = 4 satisfies EmergencyStage;
 export const STAGE_FIELD_REPORT = 5 satisfies EmergencyStage;
 export const STAGE_DREF_APPEAL_ONLY = 6 satisfies EmergencyStage;
 
-// NOTE: ordering on /api/v2/event/ replaces the server's default ordering
-// with just the requested column, which is mostly empty or duplicate values,
-// so we add a fallback ordering to keep the pages deterministic
-// FIXME(frozenhelium): go-api, add a deterministic ordering fallback
-// (e.g. -disaster_start_date, id) with nulls/empty-last handling for the
-// ordering on /api/v2/event/ and remove this client-side fallback
-const defaultEventOrdering = '-disaster_start_date';
-export function getEventOrderingWithFallback(ordering: string | undefined) {
-    // NOTE: '-id' is the initial ordering from useFilterState, which the
-    // server does not support and silently ignores
-    if (isNotDefined(ordering) || ordering === '-id') {
-        return undefined;
-    }
-
-    if (ordering === 'disaster_start_date' || ordering === '-disaster_start_date') {
-        return [ordering, '-created_at'].join(',');
-    }
-
-    return [ordering, defaultEventOrdering, '-created_at'].join(',');
-}
-
 export function getNumAffected(event: EventListItem) {
     const latestFieldReport = max(
         event.field_reports,

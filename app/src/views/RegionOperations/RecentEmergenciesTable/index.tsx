@@ -14,10 +14,7 @@ import {
     resolveToComponent,
     sumSafe,
 } from '@ifrc-go/ui/utils';
-import {
-    isNotDefined,
-    max,
-} from '@togglecorp/fujs';
+import { max } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
 import useFilterState from '#hooks/useFilterState';
@@ -65,6 +62,7 @@ function EventItemsTable(props: Props) {
         offset,
     } = useFilterState<object>({
         filter: {},
+        ordering: { name: 'created_at', direction: 'dsc' },
         pageSize: 5,
     });
 
@@ -127,24 +125,6 @@ function EventItemsTable(props: Props) {
         ],
     );
 
-    const defaultOrdering = '-created_at';
-    const orderingWithFallback = useMemo(() => {
-        if (isNotDefined(ordering)) {
-            return defaultOrdering;
-        }
-
-        if (ordering === '-id') {
-            return '-created_at,-id';
-        }
-
-        if (ordering === 'created_at' || ordering === '-created_at') {
-            return ordering;
-        }
-
-        // Add default ordering as second ordering
-        return [ordering, defaultOrdering].join(',');
-    }, [ordering]);
-
     const {
         pending: eventPending,
         response: eventResponse,
@@ -154,7 +134,7 @@ function EventItemsTable(props: Props) {
         query: {
             limit,
             offset,
-            ordering: orderingWithFallback,
+            ordering,
             disaster_start_date__gt: thirtyDaysAgo.toISOString(),
             regions__in: regionId,
         },

@@ -1,6 +1,7 @@
 import {
     _cs,
     isDefined,
+    isNotDefined,
 } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
@@ -39,6 +40,15 @@ function KeyFigureView(props: Props) {
         ...keyFigureProps
     } = props;
 
+    const showInfoBesideValue = isNotDefined(icon) && isDefined(info);
+
+    const keyFigure = (
+        <KeyFigure
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...keyFigureProps}
+        />
+    );
+
     return (
         <Container
             pending={false}
@@ -49,14 +59,14 @@ function KeyFigureView(props: Props) {
             withPadding
             withBackground
             withShadow={withShadow}
-            withoutSpacingOpticalCorrection={isDefined(icon) || isDefined(info)}
+            withoutSpacingOpticalCorrection={isDefined(icon)}
         >
             <ListView layout="block">
                 <ListView
                     layout="block"
                     spacing="none"
                 >
-                    {(isDefined(icon) || isDefined(info)) && (
+                    {isDefined(icon) && (
                         <InlineLayout
                             after={info}
                             childrenContainerClassName={styles.icon}
@@ -65,10 +75,14 @@ function KeyFigureView(props: Props) {
                             {icon}
                         </InlineLayout>
                     )}
-                    <KeyFigure
-                        // eslint-disable-next-line react/jsx-props-no-spreading
-                        {...keyFigureProps}
-                    />
+                    {showInfoBesideValue ? (
+                        <InlineLayout
+                            after={info}
+                            contentAlignment="start"
+                        >
+                            {keyFigure}
+                        </InlineLayout>
+                    ) : keyFigure}
                 </ListView>
                 {isDefined(progress) && (
                     <ProgressBar

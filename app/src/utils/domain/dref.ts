@@ -35,6 +35,7 @@ export const DREF_GUIDELINES_URL: string | undefined = 'https://www.ifrc.org/doc
 export const DREF_RBM_URL: string | undefined = 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/IQCmkADgBvdhTaBt6aJJznDnAbB1MoUG-R4PSkprVaYD_K0?e=lgCz1W';
 export const ANTICIPATION_HUB_URL: string | undefined = 'https://www.anticipation-hub.org/';
 export const DREF_ERF_URL: string | undefined = 'https://www.ifrc.org/sites/default/files/2026-04/IFRC%20Emergency%20Response%20Framework.pdf';
+export const IFRC_INDICATOR_BANK_URL = 'https://indicatorbank.ifrc.org/';
 
 // TODO: fill in once the form is published. Until then the Advance Payment Form button
 // is hidden entirely (LPC25), not rendered disabled.
