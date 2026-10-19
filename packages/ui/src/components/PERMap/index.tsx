@@ -72,6 +72,9 @@ function PERMap({
     } | null>(null);
     const [error, setError] = React.useState<string | null>(null);
     const updatePositionsRef = React.useRef<() => void>(() => undefined);
+    // NOTE: the bubbles are a single Tab stop and arrow keys move between them, so
+    // keyboard users do not have to tab through every National Society to leave the map
+    const focusableProcessIdRef = React.useRef<number | undefined>(undefined);
 
     const hideTooltip = () => {
         if (tooltipRef.current) {
@@ -96,7 +99,11 @@ function PERMap({
             .nice()(value);
     };
 
-    const showTooltip = (d: AssessmentRecord) => {
+    const showTooltip = (
+        d: AssessmentRecord,
+        opener?: SVGCircleElement,
+        moveFocusIntoTooltip = false,
+    ) => {
         if (!map.current) {
             // eslint-disable-next-line no-console
             console.warn(strings.perMapInitializationErrorLabel);
@@ -118,6 +125,19 @@ function PERMap({
 
         const root = document.createElement('div');
         root.className = styles.tooltip;
+        const closeTooltip = () => {
+            const focusWasInTooltip = root.contains(document.activeElement);
+            hideTooltip();
+            if (focusWasInTooltip) {
+                opener?.focus();
+            }
+        };
+        root.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                event.stopPropagation();
+                closeTooltip();
+            }
+        });
         const title = document.createElement('div');
         title.className = styles.tooltipTitle;
         title.textContent = d.countryName ?? strings.perMapUnknownCountryLabel;
@@ -126,7 +146,7 @@ function PERMap({
         closeButton.className = styles.closeButton;
         closeButton.setAttribute('aria-label', strings.perMapTooltipCloseLabel);
         closeButton.textContent = '×';
-        closeButton.addEventListener('click', hideTooltip);
+        closeButton.addEventListener('click', closeTooltip);
         title.append(closeButton);
         root.append(title);
 
@@ -161,10 +181,11 @@ function PERMap({
         addValue(strings.perMapCycleIterationLabel, String(d[valueField] ?? 0));
         root.append(grid);
 
+        let filterButton: HTMLButtonElement | undefined;
         if (enableClickToFilter) {
             const footer = document.createElement('div');
             footer.className = styles.tooltipFooter;
-            const filterButton = document.createElement('button');
+            filterButton = document.createElement('button');
             filterButton.type = 'button';
             filterButton.className = styles.filterButton;
             filterButton.setAttribute('aria-label', strings.perMapFilterButtonLabel);
@@ -179,6 +200,10 @@ function PERMap({
             .addTo(map.current);
 
         tooltipRef.current = tooltip;
+
+        if (moveFocusIntoTooltip) {
+            (filterButton ?? closeButton).focus();
+        }
     };
 
     const initializeD3Overlay = () => {
@@ -310,14 +335,7 @@ function PERMap({
             })
             .attr('r', (d: PositionedAssessmentRecord) => calculateRadius(Number(d[valueField]) || 0, minValue, maxValue) + 2);
 
-        // NOTE: The tooltip opens on click only. A hover tooltip would close before its
-        // Filter button could be reached, and touch screens have no hover.
-        const handleBubbleClick = function handleBubbleClick(
-            this: SVGCircleElement,
-            event: MouseEvent,
-            d: PositionedAssessmentRecord,
-        ) {
-            if (event) showTooltip(d);
+        const highlightBubble = (element: SVGCircleElement, d: PositionedAssessmentRecord) => {
             const hoverCircle = bubbleContainer.current?.hover
                 .selectAll<SVGCircleElement, PositionedAssessmentRecord>('circle')
                 .filter((hd) => hd.processId === d.processId);
@@ -326,17 +344,81 @@ function PERMap({
                 .duration(200)
                 .style('opacity', 1);
 
-            d3.select(this)
+            d3.select(element)
                 .transition()
                 .duration(200)
                 .style('fill-opacity', 1)
                 .style('stroke-opacity', 1);
         };
 
-        circles
-            .merge(circlesEnter)
+        // NOTE: The tooltip opens on click only. A hover tooltip would close before its
+        // Filter button could be reached, and touch screens have no hover.
+        const handleBubbleClick = function handleBubbleClick(
+            this: SVGCircleElement,
+            event: MouseEvent,
+            d: PositionedAssessmentRecord,
+        ) {
+            if (event) showTooltip(d, this);
+            highlightBubble(this, d);
+        };
+
+        const keyboardOrder = [...records].sort(
+            (left, right) => (left.countryName ?? '').localeCompare(right.countryName ?? ''),
+        );
+        if (!keyboardOrder.some((d) => d.processId === focusableProcessIdRef.current)) {
+            focusableProcessIdRef.current = keyboardOrder[0]?.processId;
+        }
+        const allBubbles = circles.merge(circlesEnter);
+        const setFocusableBubble = (processId: number) => {
+            focusableProcessIdRef.current = processId;
+            allBubbles.attr('tabindex', (d) => (d.processId === processId ? 0 : -1));
+        };
+
+        const handleBubbleKeyDown = function handleBubbleKeyDown(
+            this: SVGCircleElement,
+            event: KeyboardEvent,
+            d: PositionedAssessmentRecord,
+        ) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                event.stopPropagation();
+                showTooltip(d, this, true);
+                highlightBubble(this, d);
+                return;
+            }
+
+            const index = keyboardOrder.findIndex((item) => item.processId === d.processId);
+            const lastIndex = keyboardOrder.length - 1;
+            let nextIndex: number | undefined;
+            if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+                nextIndex = index === lastIndex ? 0 : index + 1;
+            } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+                nextIndex = index === 0 ? lastIndex : index - 1;
+            } else if (event.key === 'Home') {
+                nextIndex = 0;
+            } else if (event.key === 'End') {
+                nextIndex = lastIndex;
+            }
+            const next = nextIndex === undefined ? undefined : keyboardOrder[nextIndex];
+            if (!next) {
+                return;
+            }
+            // NOTE: stop the key from also panning the map
+            event.preventDefault();
+            event.stopPropagation();
+            setFocusableBubble(next.processId);
+            allBubbles.filter((item) => item.processId === next.processId).node()?.focus();
+        };
+
+        allBubbles
+            .attr('class', styles.bubble)
+            .attr('role', 'button')
+            .attr('aria-label', (d) => d.countryName ?? strings.perMapUnknownCountryLabel)
+            .attr('tabindex', (d) => (d.processId === focusableProcessIdRef.current ? 0 : -1))
             .on('click', handleBubbleClick)
-            .on('mouseleave', function handleMouseLeave(this: SVGCircleElement, _: MouseEvent, d: PositionedAssessmentRecord) {
+            .on('keydown', handleBubbleKeyDown)
+            .on('focus', (_: FocusEvent, d: PositionedAssessmentRecord) => setFocusableBubble(d.processId))
+            .on('mouseleave blur', function handleBubbleLeave(this: SVGCircleElement, _: Event, d: PositionedAssessmentRecord) {
                 const hoverCircle = bubbleContainer.current?.hover
                     .selectAll<SVGCircleElement, PositionedAssessmentRecord>('circle')
                     .filter((hd) => hd.processId === d.processId);

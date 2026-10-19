@@ -16,6 +16,11 @@
     outline: none !important;
 }
 
+.container svg rect:focus-visible {
+    stroke: var(--go-ui-color-primary-red);
+    stroke-width: var(--go-ui-width-separator-md);
+}
+
 :global(.tippy-box[data-theme~='light-border']) {
     border: 1px solid var(--go-ui-color-gray-20);
     border-radius: var(--go-ui-border-radius-md);

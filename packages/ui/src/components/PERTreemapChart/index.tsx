@@ -65,6 +65,12 @@ type D3TreemapSelection = d3.Selection<
     undefined
 >;
 
+function isSelectableNode(node: d3.HierarchyNode<TreemapNode>) {
+    return (node.depth === 1 || node.depth === 2)
+        && !!node.data?.name
+        && !node.data.name.includes('Root');
+}
+
 function createTooltipContent(
     node: d3.HierarchyNode<TreemapNode>,
 ): HTMLElement | null {
@@ -156,6 +162,25 @@ function PERTreemapChart({
 
     const attachTooltipBehavior = useCallback(
         (selection: D3TreemapSelection) => {
+            const selectNode = (node: d3.HierarchyNode<TreemapNode> & ExtendedHierarchyNode) => {
+                if (!onClickRef.current || !node.data) {
+                    return;
+                }
+
+                const area = node.depth === 2 ? node.parent?.data?.name : node.data.name;
+                const component = node.depth === 2 ? node.data.name : null;
+
+                // If clicking on already selected component, deselect it
+                if (activeIndex && node.depth === 2 && node.data.name === activeIndex) {
+                    onClickRef.current({ area: '', component: null });
+                    return;
+                }
+
+                if (area) {
+                    onClickRef.current({ area, component });
+                }
+            };
+
             selection
                 .style('fill', 'transparent')
                 .style('cursor', 'pointer')
@@ -216,22 +241,27 @@ function PERTreemapChart({
                         } as unknown as TippyProps);
                     }
                 })
+                .attr('tabindex', (node: d3.HierarchyNode<TreemapNode> & ExtendedHierarchyNode) => (
+                    isSelectableNode(node) ? 0 : null
+                ))
+                .attr('role', (node: d3.HierarchyNode<TreemapNode> & ExtendedHierarchyNode) => (
+                    isSelectableNode(node) ? 'button' : null
+                ))
+                .attr('aria-pressed', (node: d3.HierarchyNode<TreemapNode> & ExtendedHierarchyNode) => {
+                    if (node.depth !== 2) {
+                        return null;
+                    }
+                    return String(!!activeIndex && node.data.name === activeIndex);
+                })
                 .on('click', (event: MouseEvent, node: d3.HierarchyNode<TreemapNode> & ExtendedHierarchyNode) => {
-                    if (!onClickRef.current || !event || !node.data) {
-                        return;
+                    if (event) {
+                        selectNode(node);
                     }
-
-                    const area = node.depth === 2 ? node.parent?.data?.name : node.data.name;
-                    const component = node.depth === 2 ? node.data.name : null;
-
-                    // If clicking on already selected component, deselect it
-                    if (activeIndex && node.depth === 2 && node.data.name === activeIndex) {
-                        onClickRef.current({ area: '', component: null });
-                        return;
-                    }
-
-                    if (area) {
-                        onClickRef.current({ area, component });
+                })
+                .on('keydown', (event: KeyboardEvent, node: d3.HierarchyNode<TreemapNode> & ExtendedHierarchyNode) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        selectNode(node);
                     }
                 })
                 .attr('aria-label', (node: d3.HierarchyNode<TreemapNode> & ExtendedHierarchyNode) => {
