@@ -142,13 +142,14 @@ const formSchema: FormSchema = {
         fields = addCondition(
             fields,
             value,
-            ['email'],
+            ['email', 'organization_type'],
             ['justification'],
             (safeValue) => {
                 const justificationNeeded = (
                     isDefined(safeValue)
                     && isTruthyString(safeValue.email)
                     && isValidEmail(safeValue.email)
+                    && safeValue.organization_type !== 'OTHR'
                     && context.whitelistedDomains
                     && !isWhitelistedEmail(safeValue.email, context.whitelistedDomains)
                 );
@@ -260,6 +261,7 @@ export function Component() {
     const justificationNeeded = (
         isTruthyString(formValue.email)
         && isValidEmail(formValue.email)
+        && formValue.organization_type !== 'OTHR'
         && whitelistedDomains
         && !isWhitelistedEmail(formValue.email, whitelistedDomains)
     );
