@@ -31,10 +31,6 @@ import { mbtoken } from '#config';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
-import {
-    PER_PHASE_ACTION,
-    PER_PHASE_OVERVIEW,
-} from '#utils/domain/per';
 import { defaultMapStyle } from '#utils/map';
 import { useRequest } from '#utils/restRequest';
 
@@ -55,10 +51,13 @@ import {
 } from '../data';
 import retryTemporaryFailure from '../retryTemporaryFailure';
 import {
+    getActiveKpiKey,
+    getActivePhaseLabel,
     getComponentSummaryForTreemap,
     getFilteredMapData,
     getKPIData,
     getPERConsiderations,
+    getPhaseCohort,
     getRecordsByAssessmentType,
     getRegionToggleCounts,
     getStackedBarDataByYearAndRegion,
@@ -104,8 +103,6 @@ function PERSummaryDashboard() {
     const assessmentTypeLabels = usePERAssessmentTypeLabels();
     const currentLanguage = useCurrentLanguage();
     const [activeFilters, setActiveFilters] = useState<ActiveFilters>(() => ({ ...EMPTY_FILTERS }));
-    const [activeTab, setActiveTab] = useState<number>(0);
-    const [activePhase, setActivePhase] = useState<number | string | null>(null);
     const [exporting, setExporting] = useState(false);
     const {
         pending: mapDataPending,
@@ -164,6 +161,8 @@ function PERSummaryDashboard() {
         ...kpi,
         description: kpiDescriptions[kpi.key],
     }));
+    const activeKpiKey = getActiveKpiKey(activeFilters);
+    const activeKpiIndex = kpiTabData.findIndex((kpi) => kpi.key === activeKpiKey);
 
     // NOTE: `label` / `name` identify an item and are used for filtering. Only
     // `displayLabel` / `displayName` are shown, and they are translated.
@@ -277,13 +276,6 @@ function PERSummaryDashboard() {
                 minimumCycles: null,
             };
         });
-        let phaseLabel: string | null = null;
-        if (key === 'orientation') {
-            phaseLabel = 'Orientation';
-        } else if (key === 'action') {
-            phaseLabel = 'Action & accountability';
-        }
-        setActivePhase(phaseLabel);
     };
 
     const handleAssessmentTypeClick = (item: { label: string }) => {
@@ -302,27 +294,12 @@ function PERSummaryDashboard() {
     };
 
     const handlePhaseClick = (item: { label: string; color: string; phaseNumber: number }) => {
-        let phaseCohort: 'orientation' | 'assessment' | 'action';
-        if (item.phaseNumber === PER_PHASE_OVERVIEW) {
-            phaseCohort = 'orientation';
-        } else if (item.phaseNumber === PER_PHASE_ACTION) {
-            phaseCohort = 'action';
-        } else {
-            phaseCohort = 'assessment';
-        }
+        const phaseCohort = getPhaseCohort(item.phaseNumber);
         setActiveFilters((prev) => ({
             ...prev,
             phaseCohort: prev.phaseCohort === phaseCohort ? null : phaseCohort,
             minimumCycles: null,
         }));
-        if (phaseCohort === 'orientation') {
-            setActiveTab(1);
-        } else if (phaseCohort === 'assessment') {
-            setActiveTab(2);
-        } else {
-            setActiveTab(3);
-        }
-        setActivePhase(activePhase === item.label ? null : item.label);
     };
 
     const handleExport = async () => {
@@ -368,14 +345,8 @@ function PERSummaryDashboard() {
                 >
                     <PERKPITabs
                         kpis={kpiTabData}
-                        activeIndex={activeTab}
-                        onActiveIndexChange={(index) => {
-                            const key = kpiTabData[index]?.key;
-                            setActiveTab(index);
-                            if (isDefined(key)) {
-                                handleTabClick(key);
-                            }
-                        }}
+                        activeIndex={activeKpiIndex}
+                        onTabClick={handleTabClick}
                         disableTabs={false}
                     />
 
@@ -398,11 +369,7 @@ function PERSummaryDashboard() {
                                 {exportButton}
                                 <Button
                                     name={undefined}
-                                    onClick={() => {
-                                        setActiveFilters({ ...EMPTY_FILTERS });
-                                        setActiveTab(0);
-                                        setActivePhase(null);
-                                    }}
+                                    onClick={() => setActiveFilters({ ...EMPTY_FILTERS })}
                                 >
                                     {strings.summaryClearAllFilters}
                                 </Button>
@@ -433,7 +400,7 @@ function PERSummaryDashboard() {
                                 };
                                 handlePhaseClick(phaseItem);
                             }}
-                            activeIndex={activePhase}
+                            activeIndex={getActivePhaseLabel(activeFilters)}
                             layout="horizontal"
                         />
                     </Container>

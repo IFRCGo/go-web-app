@@ -1,6 +1,14 @@
 import { PER_ASSESSMENT_TYPE_KEYS } from '@ifrc-go/ui';
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
-import { PER_PHASE_ACTION } from '#utils/domain/per';
+import {
+    PER_PHASE_ACTION,
+    PER_PHASE_ASSESSMENT,
+    PER_PHASE_OVERVIEW,
+} from '#utils/domain/per';
 
 import {
     AREA_COLORS,
@@ -14,6 +22,8 @@ import {
     groupByCountry,
     hasReachedAssessment,
     latestProcess,
+    PHASE_COLORS,
+    type PhaseCohort,
     type ProcessRecord,
     REGION_ORDER,
     type RegionName,
@@ -21,6 +31,43 @@ import {
 } from '../data';
 
 export type SummaryKpiKey = 'total-engaged' | 'orientation' | 'assessment' | 'action' | 'completed';
+
+const PHASE_BY_COHORT: Record<PhaseCohort, number> = {
+    orientation: PER_PHASE_OVERVIEW,
+    assessment: PER_PHASE_ASSESSMENT,
+    action: PER_PHASE_ACTION,
+};
+
+// NOTE: Assessment, Prioritisation & analysis and Workplan share the assessment cohort
+export function getPhaseCohort(phase: number): PhaseCohort {
+    if (phase === PER_PHASE_OVERVIEW) {
+        return 'orientation';
+    }
+    if (phase === PER_PHASE_ACTION) {
+        return 'action';
+    }
+    return 'assessment';
+}
+
+// NOTE: The selected KPI tab and phase only show the active filter, so they are
+// derived from it instead of being stored next to it
+export function getActiveKpiKey(filters: DashboardFilterState): SummaryKpiKey {
+    if (isDefined(filters.phaseCohort)) {
+        return filters.phaseCohort;
+    }
+    if (isDefined(filters.minimumCycles)) {
+        return 'completed';
+    }
+    return 'total-engaged';
+}
+
+export function getActivePhaseLabel(filters: DashboardFilterState): string | null {
+    if (isNotDefined(filters.phaseCohort)) {
+        return null;
+    }
+    const phaseNumber = PHASE_BY_COHORT[filters.phaseCohort];
+    return PHASE_COLORS.find((phase) => phase.phaseNumber === phaseNumber)?.label ?? null;
+}
 
 interface SummaryKpi {
     key: SummaryKpiKey;

@@ -591,8 +591,11 @@ function getMatchingCountryProcesses(
         );
     }
     if (consideration !== null) {
+        // NOTE: A consideration ticked during Orientation is still an intention,
+        // so it only counts once the process reached Assessment (as in the gauges)
         matchingProcesses = matchingProcesses.filter(
-            (process) => process[considerationField[consideration]] === true,
+            (process) => hasReachedAssessment(process)
+                && process[considerationField[consideration]] === true,
         );
     }
     return matchingProcesses;

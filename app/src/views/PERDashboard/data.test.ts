@@ -11,9 +11,12 @@ import {
     type PerformanceFilterState,
 } from './PERPerformanceDashboard/dataHandler';
 import {
+    getActiveKpiKey,
+    getActivePhaseLabel,
     getComponentSummaryForTreemap,
     getKPIData,
     getPERConsiderations,
+    getPhaseCohort,
     getRecordsByAssessmentType,
     getRecordsByRegion,
     getRegionToggleCounts,
@@ -676,6 +679,46 @@ describe('PER dashboard country identity selector', () => {
             { name: 'Europe', count: 1 },
             { name: 'MENA', count: 0 },
         ]);
+    });
+
+    test('does not count a consideration ticked during Orientation in the consideration filter', () => {
+        const processes = [
+            process({
+                processId: 1,
+                countryId: 1,
+                phase: 1,
+                epiConsiderations: true,
+            }),
+            process({
+                processId: 2,
+                countryId: 2,
+                phase: 2,
+                epiConsiderations: true,
+            }),
+        ];
+        const state = selectFilteredDashboard(processes, { ...EMPTY_FILTERS, consideration: 'epi' });
+
+        expect(Array.from(state.countryIds)).toEqual([2]);
+        const { totals } = getPERConsiderations(selectFilteredDashboard(processes));
+        expect(totals.totalEpiConsiderations).toBe(1);
+    });
+
+    test('selects the KPI tab and phase of the active phase filter', () => {
+        expect([2, 3, 4].map(getPhaseCohort)).toEqual(['assessment', 'assessment', 'assessment']);
+        expect(getPhaseCohort(1)).toBe('orientation');
+        expect(getPhaseCohort(5)).toBe('action');
+
+        const assessmentFilters = { ...EMPTY_FILTERS, phaseCohort: 'assessment' as const };
+        expect(getActiveKpiKey(assessmentFilters)).toBe('assessment');
+        expect(getActivePhaseLabel(assessmentFilters)).toBe('Assessment');
+
+        const completedFilters = { ...EMPTY_FILTERS, minimumCycles: 2 };
+        expect(getActiveKpiKey(completedFilters)).toBe('completed');
+        expect(getActivePhaseLabel(completedFilters)).toBeNull();
+
+        // NOTE: a cleared phase filter selects the first tab and no phase
+        expect(getActiveKpiKey(EMPTY_FILTERS)).toBe('total-engaged');
+        expect(getActivePhaseLabel(EMPTY_FILTERS)).toBeNull();
     });
 
     test('does not count Orientation-only entries in the PER cycles', () => {

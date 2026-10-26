@@ -1,10 +1,7 @@
 import { PER_ASSESSMENT_TYPE_KEYS } from '@ifrc-go/ui';
 import FileSaver from 'file-saver';
 
-import {
-    PER_PHASE_ACTION,
-    PER_PHASE_ASSESSMENT,
-} from '#utils/domain/per';
+import { PER_PHASE_ASSESSMENT } from '#utils/domain/per';
 
 import {
     type AssessmentTypeKey,
@@ -89,51 +86,6 @@ function getSortedProcessGroups(processes: ProcessRecord[]): ProcessGroup[] {
                 ?? '';
             return leftName.localeCompare(rightName);
         });
-}
-
-function scopedProcessGroups(
-    state: FilteredDashboardState,
-    filters: DashboardFilterState,
-): ProcessGroup[] {
-    return getSortedProcessGroups(state.processes)
-        .map((group) => {
-            let { processes } = group;
-            if (filters.highPriorityComponent !== null) {
-                const latest = latestProcess(processes);
-                processes = latest?.prioritizedComponents.some(
-                    (component) => component.componentTitle === filters.highPriorityComponent,
-                ) ? [latest] : [];
-            }
-            if (filters.phaseCohort === 'orientation') {
-                processes = processes.filter(
-                    (process) => (process.phase ?? 0) < PER_PHASE_ASSESSMENT,
-                );
-            } else if (filters.phaseCohort === 'assessment') {
-                processes = processes.filter(
-                    (process) => (process.phase ?? 0) >= PER_PHASE_ASSESSMENT,
-                );
-            } else if (filters.phaseCohort === 'action') {
-                processes = processes.filter(
-                    (process) => (process.phase ?? 0) >= PER_PHASE_ACTION,
-                );
-            }
-            if (filters.consideration !== null) {
-                const consideration = CONSIDERATIONS.find(
-                    (item) => item.key === filters.consideration,
-                );
-                if (consideration) {
-                    processes = processes.filter((process) => (
-                        (process.phase ?? 0) >= PER_PHASE_ASSESSMENT
-                        && process[consideration.field] === true
-                    ));
-                }
-            }
-            return {
-                ...group,
-                processes,
-            };
-        })
-        .filter((group) => group.processes.length > 0);
 }
 
 function identityValues(processes: ProcessRecord[]): CellValue[] {
@@ -226,8 +178,8 @@ function filterSummaryRows(
     return rows;
 }
 
-function mapDataSheet(state: FilteredDashboardState): DashboardWorkbookSheet {
-    const rows = getSortedProcessGroups(state.processes).flatMap((group) => {
+function mapDataSheet(groups: ProcessGroup[]): DashboardWorkbookSheet {
+    const rows = groups.flatMap((group) => {
         const process = latestProcess(group.processes);
         if (!process) {
             return [];
@@ -381,7 +333,9 @@ export function getDashboardWorkbookData(
     state: FilteredDashboardState,
     filters: DashboardFilterState,
 ): DashboardWorkbookData {
-    const groups = scopedProcessGroups(state, filters);
+    // NOTE: The workbook holds exactly what the dashboard shows, so every sheet
+    // is built from the same filtered state as the charts
+    const groups = getSortedProcessGroups(state.processes);
     return {
         nationalSocietyCount: groups.length,
         sheets: [
@@ -390,7 +344,7 @@ export function getDashboardWorkbookData(
                 columns: ['Filter', 'Value'],
                 rows: filterSummaryRows(groups, filters),
             },
-            mapDataSheet(state),
+            mapDataSheet(groups),
             assessmentTypeSheet(groups, filters),
             yearAndRegionSheet(groups),
             highPriorityComponentsSheet(groups),

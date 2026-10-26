@@ -82,8 +82,8 @@ function PERKPITabs({
 
     // Handle tab click
     const handleTabClick = (index: number): void => {
-        if (disableTabs || index === activeIndex) {
-            // Do nothing if tabs are disabled or the clicked tab is already active
+        if (disableTabs) {
+            // Do nothing if tabs are disabled
             return;
         }
 

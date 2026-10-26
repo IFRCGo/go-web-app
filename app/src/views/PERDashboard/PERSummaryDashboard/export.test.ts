@@ -148,6 +148,45 @@ describe('PER dashboard workbook export', () => {
         ]]);
     });
 
+    test('exports the current cycle shown on the dashboard, not the latest cycle matching the phase filter', () => {
+        const logistics = {
+            componentId: 1,
+            componentTitle: 'Logistics',
+            areaTitle: 'Operations support',
+            description: null,
+        };
+        const history = [
+            process({
+                processId: 1,
+                assessmentNumber: 3,
+                dateOfAssessment: '2023-01-01',
+                phase: 5,
+                phaseDisplay: 'Action & accountability',
+                prioritizedComponents: [logistics],
+            }),
+            process({
+                processId: 2,
+                assessmentNumber: 4,
+                dateOfAssessment: '2025-01-01',
+                phase: 2,
+                phaseDisplay: 'Assessment',
+                prioritizedComponents: [logistics],
+            }),
+        ];
+        const filters = {
+            ...EMPTY_FILTERS,
+            phaseCohort: 'action' as const,
+        };
+        const data = getDashboardWorkbookData(selectFilteredDashboard(history, filters), filters);
+
+        expect(sheet(data, 'Filters and Summary').rows.slice(0, 2)).toEqual([
+            ['Matching National Societies', 1],
+            ['Matching processes', 2],
+        ]);
+        expect(sheet(data, 'Map Data').rows[0]?.slice(4)).toEqual(['Assessment', 2025, 4]);
+        expect(sheet(data, 'High Priority Components').rows[0]?.slice(4)).toEqual([4, 2025, 'Logistics']);
+    });
+
     test('keeps historical completed consideration evidence and excludes Orientation-only records', () => {
         const history = [
             process({

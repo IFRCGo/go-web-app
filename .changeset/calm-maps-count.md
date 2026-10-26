@@ -19,3 +19,6 @@ Update the PER dashboards to use the current PER API
 - Let keyboard users deselect a region, resize the High Priority Components treemap with the page and show map errors readably
 - Let keyboard users filter with the High Priority Components tiles and open a National Society on the PER map (Tab to reach, arrow keys to move between National Societies, Enter to open, Escape to close)
 - Retry loading the PER dashboard data when the connection drops or the server fails, without a time limit on slow connections
+- Keep the selected KPI tab and phase on the Global Summary in step with the phase filter, and let a selected KPI tab be clicked again to clear its filter
+- Export exactly what the Global Summary shows, with each National Society's current cycle
+- Count a PER consideration in the consideration filter only once the process reached Assessment, as the gauges do
