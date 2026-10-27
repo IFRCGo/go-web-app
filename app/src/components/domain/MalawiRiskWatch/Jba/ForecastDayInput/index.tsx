@@ -18,6 +18,11 @@ import { type JbaForecastDay } from '../utils';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+// Compact so the tick labels stay narrow next to the bars
+function formatAxisValue(value: number) {
+    return formatNumber(Math.round(value), { compact: true, maximumFractionDigits: 1 });
+}
+
 interface Props<NAME> {
     className?: string;
     name: NAME;
@@ -39,6 +44,8 @@ function ForecastDayInput<NAME>(props: Props<NAME>) {
 
     const activeDay = days.find((day) => day.leadTimeDays === value);
     const maxImpact = Math.max(...days.map((day) => day.populationImpacted));
+    // Top, middle and baseline ticks, scaled to the data's peak impact
+    const axisTicks = maxImpact > 0 ? [maxImpact, maxImpact / 2, 0] : [];
 
     return (
         <Container
@@ -63,35 +70,47 @@ function ForecastDayInput<NAME>(props: Props<NAME>) {
             withBorder
             withPadding
         >
-            <div className={styles.bars}>
-                {days.map((day) => {
-                    const ratio = maxImpact > 0 ? day.populationImpacted / maxImpact : 0;
-                    return (
-                        <RawButton
-                            key={day.leadTimeDays}
-                            className={_cs(
-                                styles.day,
-                                day.leadTimeDays === value && styles.active,
-                            )}
-                            name={day.leadTimeDays}
-                            onClick={(dayValue) => onChange(dayValue, name)}
-                            title={formatNumber(Math.round(day.populationImpacted))}
-                        >
-                            <div className={styles.barTrack}>
-                                <div
-                                    className={styles.bar}
-                                    style={{ height: `${Math.max(ratio * 100, 4)}%` }}
-                                />
-                            </div>
-                            <div>
-                                {resolveToString(
-                                    strings.jbaForecastDayLead,
-                                    { days: day.leadTimeDays },
+            <div className={styles.chart}>
+                {axisTicks.length > 0 && (
+                    <div
+                        className={styles.yAxis}
+                        aria-hidden="true"
+                    >
+                        {axisTicks.map((tick) => (
+                            <span key={tick}>{formatAxisValue(tick)}</span>
+                        ))}
+                    </div>
+                )}
+                <div className={styles.bars}>
+                    {days.map((day) => {
+                        const ratio = maxImpact > 0 ? day.populationImpacted / maxImpact : 0;
+                        return (
+                            <RawButton
+                                key={day.leadTimeDays}
+                                className={_cs(
+                                    styles.day,
+                                    day.leadTimeDays === value && styles.active,
                                 )}
-                            </div>
-                        </RawButton>
-                    );
-                })}
+                                name={day.leadTimeDays}
+                                onClick={(dayValue) => onChange(dayValue, name)}
+                                title={formatNumber(Math.round(day.populationImpacted))}
+                            >
+                                <div className={styles.barTrack}>
+                                    <div
+                                        className={styles.bar}
+                                        style={{ height: `${Math.max(ratio * 100, 4)}%` }}
+                                    />
+                                </div>
+                                <div>
+                                    {resolveToString(
+                                        strings.jbaForecastDayLead,
+                                        { days: day.leadTimeDays },
+                                    )}
+                                </div>
+                            </RawButton>
+                        );
+                    })}
+                </div>
             </div>
         </Container>
     );

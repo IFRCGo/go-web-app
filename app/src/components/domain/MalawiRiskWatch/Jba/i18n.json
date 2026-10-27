@@ -7,6 +7,8 @@
         "jbaLoadFailedMessage": "Failed to load the flood forecast",
         "jbaRunInfoTitle": "Forecast run",
         "jbaForecastMetricLabel": "Forecast: population impacted",
-        "jbaRasterLabel": "Forecast: flood extent (ensemble agreement)"
+        "jbaRasterLabel": "Forecast: flood extent (ensemble agreement)",
+        "jbaMapInfoLabel": "Basemap sources: ICRC, UN CODs",
+        "jbaMapSourcesLabel": "Basemap sources: ICRC, {uncodsLink}"
     }
 }

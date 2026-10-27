@@ -53,6 +53,10 @@ interface Props {
     withFullHeight?: boolean;
     // Rendered at the top-left of the map, e.g. a layer toggle panel
     layerSelection?: React.ReactNode;
+    // Overrides the default "Sources: …" attribution labels, e.g. to clarify the
+    // sources apply only to the basemap. mapSourcesLabel must keep {uncodsLink}.
+    infoLabel?: string;
+    mapSourcesLabel?: string;
 }
 
 function GoMapContainer(props: Props) {
@@ -68,12 +72,14 @@ function GoMapContainer(props: Props) {
         children,
         withFullHeight,
         layerSelection,
+        infoLabel,
+        mapSourcesLabel,
     } = props;
 
     const strings = useTranslation(i18n);
 
     const mapSources = resolveToComponent(
-        strings.mapSourcesLabel,
+        mapSourcesLabel ?? strings.mapSourcesLabel,
         {
             uncodsLink: (
                 <Link
@@ -252,7 +258,7 @@ function GoMapContainer(props: Props) {
                         className={styles.map}
                     />
                     <InfoPopup
-                        infoLabel={strings.infoLabel}
+                        infoLabel={infoLabel ?? strings.infoLabel}
                         className={styles.mapDisclaimer}
                         description={(
                             <ListView

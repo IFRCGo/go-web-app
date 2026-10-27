@@ -4,6 +4,7 @@ import BubbleLayer from '../BubbleLayer';
 import CogRasterLayer from '../CogRasterLayer';
 import { MALAWI_ISO3 } from '../constants';
 import DistrictChoroplethLayer from '../DistrictChoroplethLayer';
+import DistrictTriggerOutlineLayer from '../DistrictTriggerOutlineLayer';
 import LocalUnitsLayer from '../LocalUnitsLayer';
 import useCogInfo from '../useCogInfo';
 import useThematicLayers, {
@@ -16,6 +17,8 @@ interface Props {
     sourceMetric: SourceMetric | undefined;
     adminAreaByCode: Record<string, AdminArea | undefined>;
     rasters?: SourceRaster[];
+    // Districts to highlight with a red trigger outline (ARC only)
+    triggeredPcodes?: string[];
 }
 
 function ThematicLayers(props: Props) {
@@ -23,6 +26,7 @@ function ThematicLayers(props: Props) {
         sourceMetric,
         adminAreaByCode,
         rasters,
+        triggeredPcodes,
     } = props;
 
     const {
@@ -54,6 +58,13 @@ function ThematicLayers(props: Props) {
                 adminAreaByCode={adminAreaByCode}
             />
             {showLocalUnits && <LocalUnitsLayer />}
+            {/* Last, with no `beneath`, so the trigger outline sits above all layers */}
+            {isDefined(triggeredPcodes) && (
+                <DistrictTriggerOutlineLayer
+                    iso3={MALAWI_ISO3}
+                    triggeredPcodes={triggeredPcodes}
+                />
+            )}
         </>
     );
 }

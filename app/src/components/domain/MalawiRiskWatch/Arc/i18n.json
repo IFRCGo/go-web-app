@@ -6,6 +6,8 @@
         "arcNoObservationsMessage": "No parametric model observations available yet",
         "arcLoadFailedMessage": "Failed to load the parametric trigger model",
         "arcObservationInfoTitle": "Observation",
-        "arcObservationDateLabel": "Observation date"
+        "arcObservationDateLabel": "Observation date",
+        "arcMapInfoLabel": "Basemap sources: ICRC, UN CODs",
+        "arcMapSourcesLabel": "Basemap sources: ICRC, {uncodsLink}"
     }
 }

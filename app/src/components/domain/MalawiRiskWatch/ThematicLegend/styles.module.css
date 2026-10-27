@@ -8,12 +8,16 @@
         gap: var(--go-ui-spacing-2xs);
 
         .title {
+            /* Wrap long titles onto at most two lines instead of truncating */
+            display: -webkit-box;
             /* Zero basis so the title only takes what the icon leaves */
             flex: 1 1 0;
             min-width: 0;
             overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            overflow-wrap: anywhere;
         }
 
         .info {
