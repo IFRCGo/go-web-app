@@ -241,6 +241,8 @@ function Jba(props: Props) {
                     rasters={rasters}
                 />
             )}
+            mapInfoLabel={strings.jbaMapInfoLabel}
+            mapSourcesLabel={strings.jbaMapSourcesLabel}
         />
     );
 }

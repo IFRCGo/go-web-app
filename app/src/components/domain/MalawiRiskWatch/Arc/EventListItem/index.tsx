@@ -48,8 +48,7 @@ function EventListItem(props: Props) {
                     label={strings.arcEventListPopulationImpacted}
                     value={roundImpact(data.observation.impact)}
                     valueType="number"
-                    compact
-                    maximumFractionDigits={1}
+                    maximumFractionDigits={0}
                     textSize="sm"
                 />
             )}

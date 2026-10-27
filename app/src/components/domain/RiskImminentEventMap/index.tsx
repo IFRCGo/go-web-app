@@ -126,6 +126,9 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     mapChildren?: React.ReactNode;
     mapLegend?: React.ReactNode;
     layerSelection?: React.ReactNode;
+    // Overrides the default "Sources: …" map attribution labels
+    mapInfoLabel?: string;
+    mapSourcesLabel?: string;
 }
 
 function RiskImminentEventMap<
@@ -157,6 +160,8 @@ function RiskImminentEventMap<
         mapChildren,
         mapLegend,
         layerSelection,
+        mapInfoLabel,
+        mapSourcesLabel,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -377,6 +382,8 @@ function RiskImminentEventMap<
                     className={styles.mapContainer}
                     title={strings.riskImminentEventsMap}
                     layerSelection={layerSelection}
+                    infoLabel={mapInfoLabel}
+                    mapSourcesLabel={mapSourcesLabel}
                 >
                     {mapLegend}
                 </GoMapContainer>

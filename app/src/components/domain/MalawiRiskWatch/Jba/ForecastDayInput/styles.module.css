@@ -4,9 +4,30 @@
         font-size: var(--go-ui-font-size-sm);
     }
 
+    .chart {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--go-ui-spacing-2xs);
+    }
+
+    .y-axis {
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column;
+        justify-content: space-between;
+        border-right: var(--go-ui-width-separator-sm) solid var(--go-ui-color-gray-40);
+        padding-right: var(--go-ui-spacing-3xs);
+        /* Match the bar-track height so the baseline tick sits on the bar floor */
+        height: 3rem;
+        line-height: 1;
+        color: var(--go-ui-color-text-light);
+        font-size: var(--go-ui-font-size-2xs);
+    }
+
     .bars {
         display: flex;
         align-items: flex-end;
+        flex-grow: 1;
         gap: var(--go-ui-spacing-3xs);
 
         .day {
@@ -26,7 +47,7 @@
                 display: flex;
                 align-items: flex-end;
                 width: 100%;
-                height: 1.5rem;
+                height: 3rem;
 
                 .bar {
                     border-radius: var(--go-ui-border-radius-sm) var(--go-ui-border-radius-sm) 0 0;

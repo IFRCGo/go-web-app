@@ -125,6 +125,14 @@ function Arc(props: Props) {
             .length,
         [observations, activeDate],
     );
+    const triggeredPcodes = useMemo(
+        () => observations
+            .filter((observation) => (
+                observation.observationDate === activeDate && observation.cellTrigger
+            ))
+            .map((observation) => observation.pcode),
+        [observations, activeDate],
+    );
 
     const sourceMetric = useMemo<SourceMetric>(
         () => ({
@@ -196,10 +204,13 @@ function Arc(props: Props) {
                 <ThematicLayers
                     sourceMetric={sourceMetric}
                     adminAreaByCode={adminAreaByCode}
+                    triggeredPcodes={triggeredPcodes}
                 />
             )}
             mapLegend={<ThematicLegend sourceMetric={sourceMetric} />}
             layerSelection={<LayersPanel sourceMetricLabel={sourceMetric.label} />}
+            mapInfoLabel={strings.arcMapInfoLabel}
+            mapSourcesLabel={strings.arcMapSourcesLabel}
         />
     );
 }

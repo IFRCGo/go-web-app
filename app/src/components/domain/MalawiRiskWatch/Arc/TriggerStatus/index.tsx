@@ -45,7 +45,7 @@ function TriggerStatus(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const exceeded = isDefined(returnPeriod) && returnPeriod > ARC_TRIGGER_RP_THRESHOLD;
+    const exceeded = isDefined(returnPeriod) && returnPeriod >= ARC_TRIGGER_RP_THRESHOLD;
 
     let reviewLabel = strings.arcTriggerReviewNone;
     let reviewColor: 'primary' | 'success' | 'text' = 'text';

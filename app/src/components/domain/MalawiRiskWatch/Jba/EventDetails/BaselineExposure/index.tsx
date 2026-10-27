@@ -1,7 +1,7 @@
 import {
     Container,
-    InfoPopup,
     KeyFigure,
+    Label,
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -41,14 +41,15 @@ function BaselineExposure(props: Props) {
         <Container
             heading={strings.jbaBaselineExposureHeading}
             headingLevel={5}
+            headerDescription={(
+                <Label
+                    textSize="sm"
+                >
+                    {strings.jbaBaselineExposureInfo}
+                </Label>
+            )}
             withBackground
             withPadding
-            headerActions={(
-                <InfoPopup
-                    title={strings.jbaBaselineExposureHeading}
-                    description={strings.jbaBaselineExposureInfo}
-                />
-            )}
         >
             <ListView
                 withWrap

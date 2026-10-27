@@ -34,7 +34,7 @@ A source can also expose Cloud Optimized GeoTIFFs as `SourceRaster` entries; the
 - JBA lead time is derived from target date minus issue date, as the backend field is not always filled.
 - The JBA figure shown is the ensemble median. The percentile MRCS wants to use is still open.
 - `JBA_IMPACT_THRESHOLD` is a placeholder: any forecasted impact currently lists a district.
-- The ARC national trigger is the highest district return period on the date, exceeded above `ARC_TRIGGER_RP_THRESHOLD` years. The MRCS review comes from the trigger event the pipeline raises for that date.
+- The ARC national trigger is the highest district return period on the date, exceeded at or above `ARC_TRIGGER_RP_THRESHOLD` years. The MRCS review comes from the trigger event the pipeline raises for that date.
 - HDX layers are read from the CSVs the backend serves. Quantile classes are computed client-side.
 
 ## Configuration

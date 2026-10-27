@@ -37,8 +37,7 @@ function EventListItem(props: Props) {
                     label={strings.jbaEventListPopulationImpacted}
                     value={roundImpact(impactSelector(data.activeRow))}
                     valueType="number"
-                    compact
-                    maximumFractionDigits={1}
+                    maximumFractionDigits={0}
                     textSize="sm"
                 />
             )}

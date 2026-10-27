@@ -60,6 +60,17 @@ function EventDetails(props: Props) {
                     withLightBackground
                 />
                 <TextOutput
+                    label={strings.arcEventDetailsReturnPeriod}
+                    value={isDefined(observation.eventRp)
+                        ? resolveToString(
+                            strings.arcEventDetailsReturnPeriodValue,
+                            { years: observation.eventRp },
+                        )
+                        : undefined}
+                    strongValue
+                    withLightBackground
+                />
+                <TextOutput
                     label={strings.arcEventDetailsPopulationImpacted}
                     value={impact}
                     valueType="number"
