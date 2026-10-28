@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.29.0-beta.1
+
+### Patch Changes
+
+- 2e6035b: Users registering with the Other organization type no longer need to provide a justification.
+
 ## 7.29.0-beta.0
 
 ### Minor Changes
