@@ -194,7 +194,6 @@ function Overview(props: Props) {
                     <InputSection
                         title={strings.partnersInvolved}
                         description={strings.partnersInvolvedDescription}
-                        withAsteriskOnTitle
                     >
                         <ListView layout="block">
                             <NationalSocietyMultiSelectInput

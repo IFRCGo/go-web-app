@@ -17,7 +17,7 @@
         "submission": "Expected Time of Submission",
         "submissionDescription": "Include the proposed time of submission, accounting for the time it will take to deliver the application.",
         "partnersInvolved": "Partners Involved",
-        "partnersInvolvedDescription": "Select from the list the partners involved in this process. Add as many as needed or select not applicable if no partners involved.",
+        "partnersInvolvedDescription": "Select the partners involved in this process. Add as many as needed, or leave empty if no partners are involved.",
         "contacts": "Contacts",
         "nsContact": "National Society Contact",
         "nsContactDescription": "National Society contact responsible for the EAP process",

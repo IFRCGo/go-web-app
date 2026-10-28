@@ -302,7 +302,6 @@ export function Component() {
                         <InputSection
                             title={strings.partnersInvolved}
                             description={strings.partnersInvolvedDescription}
-                            withAsteriskOnTitle
                         >
                             <NationalSocietyMultiSelectInput
                                 name="partners"

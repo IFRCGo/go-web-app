@@ -39,9 +39,7 @@ export const formSchema: FormSchema = {
             },
             eap_type: {},
             expected_submission_time: {},
-            partners: {
-                required: true,
-            },
+            partners: {},
             national_society_contact_name: { required: true },
             national_society_contact_title: { required: true },
             national_society_contact_email: {

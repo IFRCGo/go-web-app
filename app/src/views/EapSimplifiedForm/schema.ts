@@ -400,9 +400,7 @@ export const formSchema: FormSchema = {
             seap_timeframe: {
                 required: isSubmit,
             },
-            partners: {
-                required: isSubmit,
-            },
+            partners: {},
             include_rcrc_climate_center: { defaultValue: false },
             partner_contacts: {
                 keySelector: (item) => item.client_id,
