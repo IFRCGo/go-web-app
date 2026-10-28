@@ -23,7 +23,6 @@ type OpsLearningSummaryResponse = GoApiResponse<'/api/v2/ops-learning/summary/'>
 
 interface Props {
     opsLearningSummaryResponse: OpsLearningSummaryResponse | undefined;
-    // NOTE: rendered between the insights and the disclaimer
     beforeDisclaimer?: React.ReactNode;
 }
 

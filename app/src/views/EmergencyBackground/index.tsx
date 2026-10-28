@@ -78,6 +78,7 @@ export function Component() {
                 && isDefined(country) && (
                 <EmergencyLessonsLearnedFromPreviousOperations
                     country={country.id}
+                    disasterType={disasterTypeId}
                 />
             )}
             <CountryPastEventsChart

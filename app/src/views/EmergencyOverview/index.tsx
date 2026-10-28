@@ -201,6 +201,8 @@ export function Component() {
     const dref = emergencyResponse?.dref;
     const drefOpsUpdate = dref?.operational_update_details;
     const drefFinalReport = dref?.final_report_details;
+    // TODO: fall back to ops update event_date when the dref has none
+    const drefDisasterStartDate = dref?.event_date;
 
     const stage = emergencyResponse?.stage;
     const isFieldReportStage = stage === STAGE_FIELD_REPORT;
@@ -645,13 +647,12 @@ export function Component() {
             }
 
             if (isDrefStage && isDefined(dref)) {
-                // TODO: fall back to ops update event_date when the dref has none
-                const drefEventDate = dref.event_date;
-
-                if (dref?.type_of_dref !== DREF_TYPE_IMMINENT && isDefined(drefEventDate)) {
+                if (dref?.type_of_dref !== DREF_TYPE_IMMINENT
+                    && isDefined(drefDisasterStartDate)
+                ) {
                     events.push({
                         key: `dref-event-start-${dref.id}`,
-                        date: new Date(drefEventDate),
+                        date: new Date(drefDisasterStartDate),
                         label: (
                             <Label strong>
                                 {strings.timelineDisasterStart}
@@ -882,6 +883,7 @@ export function Component() {
             dref,
             drefOpsUpdate,
             drefFinalReport,
+            drefDisasterStartDate,
             drefDocumentUrls,
             emergencyAppealDocuments,
             drefApplicationTargetedPopulation,
@@ -892,11 +894,14 @@ export function Component() {
 
     const country = emergencyResponse?.countries?.[0];
 
-    // use the dref application's event date to match the timeline disaster start
+    // NOTE: the event's disaster_start_date falls back to the dref's hazard_date,
+    // so a DREF response skips it to match the timeline disaster start
+    const eventStartDate = isDrefStage && !isAnticipatoryPhase
+        ? drefDisasterStartDate
+        : emergencyResponse?.disaster_start_date;
     const startDate = isFieldReportStage
         ? latestFieldReport?.start_date
-        : (isDrefStage && !isAnticipatoryPhase ? dref?.event_date : undefined)
-            ?? emergencyResponse?.disaster_start_date;
+        : eventStartDate;
 
     const drefEndDate = drefFinalReport?.operation_end_date
         ?? drefOpsUpdate?.new_operational_end_date
@@ -1299,6 +1304,7 @@ export function Component() {
                 && isDefined(country) && (
                 <EmergencyLessonsLearnedFromPreviousOperations
                     country={country.id}
+                    disasterType={emergencyResponse?.dtype}
                 />
             )}
             {isDefined(emergencyResponse?.links)

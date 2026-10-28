@@ -123,6 +123,9 @@ const defaultOrdering: SortParameter = {
 
 function useFilterState<FILTER extends object>(options: {
     filter: FILTER,
+    // NOTE: the filter the list starts from (e.g. from router state); resetFilter still
+    // returns to `filter`
+    initialFilter?: FILTER,
     // NOTE: declare it outside the component, or `filter` changes on every render
     urlParams?: UrlParams<FILTER>,
     ordering?: SortParameter | undefined,
@@ -132,6 +135,7 @@ function useFilterState<FILTER extends object>(options: {
 }) {
     const {
         filter,
+        initialFilter,
         urlParams,
         ordering = defaultOrdering,
         page = 1,
@@ -186,7 +190,7 @@ function useFilterState<FILTER extends object>(options: {
             return prevState;
         },
         {
-            filter,
+            filter: initialFilter ?? filter,
             ordering,
             page,
             pageUrlKey: urlKey,
