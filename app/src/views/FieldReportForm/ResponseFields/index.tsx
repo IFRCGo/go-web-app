@@ -26,6 +26,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useUserMe from '#hooks/domain/useUserMe';
 import {
     type ContactType,
+    ORGANIZATION_TYPE_OTHER,
     type ReportType,
     REQUEST_CHOICES_NO,
     VISIBILITY_IFRC_NS,
@@ -117,7 +118,7 @@ function ResponseFields(props: Props) {
                 );
             }
 
-            if (userOrgType === 'OTHR') {
+            if (userOrgType === ORGANIZATION_TYPE_OTHER) {
                 return api_visibility_choices?.filter(
                     (item) => (
                         item.key === VISIBILITY_PUBLIC

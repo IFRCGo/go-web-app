@@ -39,6 +39,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useNationalSociety, { type NationalSociety } from '#hooks/domain/useNationalSociety';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
+import { ORGANIZATION_TYPE_OTHER } from '#utils/constants';
 import {
     type GoApiBody,
     type GoApiResponse,
@@ -72,6 +73,19 @@ function getPasswordMatchCondition(referenceVal: string | undefined) {
 type FormFields = PartialForm<RegisterRequestBody & { confirm_password: string }>;
 
 const defaultFormValue: FormFields = {};
+
+function isJustificationNeeded(
+    value: Pick<FormFields, 'email' | 'organization_type'> | null | undefined,
+    whitelistedDomains: WhiteListResponse['results'] | undefined,
+) {
+    return (
+        isTruthyString(value?.email)
+        && isValidEmail(value.email)
+        && value.organization_type !== ORGANIZATION_TYPE_OTHER
+        && isDefined(whitelistedDomains)
+        && !isWhitelistedEmail(value.email, whitelistedDomains)
+    );
+}
 
 type FormSchema = ObjectSchema<FormFields, FormFields, { whitelistedDomains: WhiteListResponse['results'] | undefined }>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>
@@ -142,15 +156,12 @@ const formSchema: FormSchema = {
         fields = addCondition(
             fields,
             value,
-            ['email'],
+            ['email', 'organization_type'],
             ['justification'],
             (safeValue) => {
-                const justificationNeeded = (
-                    isDefined(safeValue)
-                    && isTruthyString(safeValue.email)
-                    && isValidEmail(safeValue.email)
-                    && context.whitelistedDomains
-                    && !isWhitelistedEmail(safeValue.email, context.whitelistedDomains)
+                const justificationNeeded = isJustificationNeeded(
+                    safeValue,
+                    context.whitelistedDomains,
                 );
 
                 return !justificationNeeded
@@ -257,12 +268,7 @@ export function Component() {
 
     const nationalSocietyOptions = useNationalSociety();
 
-    const justificationNeeded = (
-        isTruthyString(formValue.email)
-        && isValidEmail(formValue.email)
-        && whitelistedDomains
-        && !isWhitelistedEmail(formValue.email, whitelistedDomains)
-    );
+    const justificationNeeded = isJustificationNeeded(formValue, whitelistedDomains);
 
     const loginInfo = resolveToComponent(
         strings.registerAccountPresent,
