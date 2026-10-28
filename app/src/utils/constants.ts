@@ -153,6 +153,9 @@ export const VISIBILITY_IFRC_SECRETARIAT = 2 satisfies Visibility;
 export const VISIBILITY_PUBLIC = 3 satisfies Visibility;
 export const VISIBILITY_IFRC_NS = 4 satisfies Visibility;
 
+type ProfileOrganizationType = components<'read'>['schemas']['ApiProfileOrgTypesEnumKey'];
+export const ORGANIZATION_TYPE_OTHER = 'OTHR' satisfies ProfileOrganizationType;
+
 export type DisasterCategory = components<'read'>['schemas']['ApiAlertLevelEnumKey'];
 export const DISASTER_CATEGORY_YELLOW = 0 satisfies DisasterCategory;
 export const DISASTER_CATEGORY_ORANGE = 1 satisfies DisasterCategory;
