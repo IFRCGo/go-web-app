@@ -6,6 +6,7 @@ import {
 } from 'react';
 import {
     Button,
+    Checkbox,
     Container,
     InputSection,
     ListView,
@@ -124,7 +125,10 @@ export function Component() {
     }, [setFieldValue]);
 
     const handleRegisterFormValidation = useCallback((formValues: EapRegisterFormFields) => {
-        triggerEapRegistration(formValues as EapRegisterRequestBody);
+        triggerEapRegistration({
+            ...formValues,
+            partners: formValues.partners ?? [],
+        } as EapRegisterRequestBody);
     }, [triggerEapRegistration]);
 
     const handleFormError = useCallback(() => {
@@ -303,13 +307,23 @@ export function Component() {
                             title={strings.partnersInvolved}
                             description={strings.partnersInvolvedDescription}
                         >
-                            <NationalSocietyMultiSelectInput
-                                name="partners"
-                                value={value.partners}
-                                error={getErrorString(error?.partners)}
-                                onChange={setFieldValue}
-                                disabled={disabled}
-                            />
+                            <ListView layout="block">
+                                <NationalSocietyMultiSelectInput
+                                    name="partners"
+                                    value={value.partners}
+                                    error={getErrorString(error?.partners)}
+                                    onChange={setFieldValue}
+                                    disabled={disabled}
+                                />
+                                <Checkbox
+                                    name="include_rcrc_climate_center"
+                                    value={value.include_rcrc_climate_center}
+                                    onChange={setFieldValue}
+                                    error={error?.include_rcrc_climate_center}
+                                    disabled={disabled}
+                                    label={strings.rcrcClimateCenter}
+                                />
+                            </ListView>
                         </InputSection>
                     </ListView>
                 </Container>

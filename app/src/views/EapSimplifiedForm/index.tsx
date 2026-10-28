@@ -605,6 +605,7 @@ export function Component() {
         if (isNotDefined(latestSimplifiedEapId)) {
             triggerCreateSimplifiedEap({
                 ...validatedFormValue,
+                partners: validatedFormValue.partners ?? [],
                 cover_image_file: isNotDefined(validatedFormValue.cover_image_file?.id)
                     ? null : validatedFormValue.cover_image_file,
                 eap_registration: Number(eapId),
@@ -613,6 +614,7 @@ export function Component() {
         } else {
             triggerUpdateSimplifiedEap({
                 ...validatedFormValue,
+                partners: validatedFormValue.partners ?? [],
                 cover_image_file: isNotDefined(validatedFormValue.cover_image_file?.id)
                     ? null : validatedFormValue.cover_image_file,
                 id: latestSimplifiedEapId,
