@@ -11,6 +11,7 @@ import OpsLearningKeyInsights from '#components/domain/OpsLearningKeyInsights';
 import Link from '#components/Link';
 import { PER_LEARNING_LESSONS_LEARNED } from '#utils/constants';
 import {
+    getOpsLearningRouteState,
     SUMMARY_NO_EXTRACT_AVAILABLE,
     SUMMARY_STATUS_FAILED,
     SUMMARY_STATUS_PENDING,
@@ -26,14 +27,15 @@ import i18n from './i18n.json';
 type OpsLearningSummaryResponse = GoApiResponse<'/api/v2/ops-learning/summary/'>;
 
 interface Props {
-    disasterType: number;
     country: number;
+    // NOTE: only seeds the Operational Learning links, the lessons here are not filtered by it
+    disasterType: number | null | undefined;
 }
 
 function EmergencyLessonsLearnedFromPreviousOperations(props: Props) {
     const {
-        disasterType,
         country,
+        disasterType,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -49,7 +51,6 @@ function EmergencyLessonsLearnedFromPreviousOperations(props: Props) {
         url: '/api/v2/ops-learning/summary/',
         query: {
             appeal_code__country: country,
-            appeal_code__dtype: disasterType,
             type_validated: PER_LEARNING_LESSONS_LEARNED,
         },
         shouldPoll: (poll) => {
@@ -77,6 +78,8 @@ function EmergencyLessonsLearnedFromPreviousOperations(props: Props) {
                 link: (
                     <Link
                         to="operationalLearning"
+                        // NOTE: this country has no learnings, so only the hazard type is kept
+                        state={getOpsLearningRouteState({ disasterType })}
                         withUnderline
                     >
                         {strings.emptyMessageLinkLabel}
@@ -84,7 +87,7 @@ function EmergencyLessonsLearnedFromPreviousOperations(props: Props) {
                 ),
             },
         ),
-        [strings.emptyMessage, strings.emptyMessageLinkLabel],
+        [strings.emptyMessage, strings.emptyMessageLinkLabel, disasterType],
     );
 
     return (
@@ -101,6 +104,25 @@ function EmergencyLessonsLearnedFromPreviousOperations(props: Props) {
         >
             <OpsLearningKeyInsights
                 opsLearningSummaryResponse={summaryResponse}
+                beforeDisclaimer={(
+                    <div>
+                        {resolveToComponent(
+                            strings.viewMoreMessage,
+                            {
+                                link: (
+                                    <Link
+                                        to="operationalLearning"
+                                        state={getOpsLearningRouteState({ country, disasterType })}
+                                        withUnderline
+                                        withLinkIcon
+                                    >
+                                        {strings.emptyMessageLinkLabel}
+                                    </Link>
+                                ),
+                            },
+                        )}
+                    </div>
+                )}
             />
         </Container>
     );

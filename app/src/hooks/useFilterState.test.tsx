@@ -82,6 +82,16 @@ function LocalFilterProbe() {
     return null;
 }
 
+function InitialFilterProbe() {
+    const result = useFilterState<Filter>({
+        filter: {},
+        initialFilter: { disasterType: 2 },
+        debounceTime: 20,
+    });
+    useProbe(result);
+    return null;
+}
+
 const sleep = (ms: number) => new Promise((resolve) => { setTimeout(resolve, ms); });
 
 let cleanup: (() => void) | undefined;
@@ -262,4 +272,16 @@ test('without urlParams the URL is ignored and the setters keep their identity',
     expect(getLatest().page).toBe(1);
     expect(getLatest().filter).toEqual({ startDateAfter: '2026-01-01' });
     expect(router.state.location.search).toBe('?atype=4');
+});
+
+test('a list starts from initialFilter and resetFilter returns to filter', async () => {
+    render(InitialFilterProbe, '/');
+    await sleep(50);
+    expect(getLatest().filter).toEqual({ disasterType: 2 });
+    expect(getLatest().rawFiltered).toBe(true);
+
+    getLatest().resetFilter();
+    await sleep(80);
+    expect(getLatest().filter).toEqual({});
+    expect(getLatest().rawFiltered).toBe(false);
 });

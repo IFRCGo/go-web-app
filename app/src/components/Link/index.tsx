@@ -42,13 +42,14 @@ type CommonLinkProps = Pick<ButtonLayoutProps, PickedButtonLayoutProps> & {
     withUnderline?: boolean;
 };
 
-interface InternalLinkProps extends Omit<RouterLinkProps, 'to'> {
+interface InternalLinkProps extends Omit<RouterLinkProps, 'to' | 'target'> {
     external?: never;
     to: keyof WrappedRoutes | undefined | null;
     href?: never;
     urlParams?: UrlParams;
     urlSearch?: string;
     urlHash?: string;
+    withNewTab?: boolean;
 }
 
 interface ExternalLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
@@ -58,6 +59,7 @@ interface ExternalLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorEl
     urlParams?: never;
     urlSearch?: never;
     urlHash?: never;
+    withNewTab?: never;
 }
 
 export type Props = CommonLinkProps & (InternalLinkProps | ExternalLinkProps);
@@ -83,6 +85,7 @@ function Link(props: Props) {
         urlParams,
         urlSearch,
         urlHash,
+        withNewTab,
 
         withEllipsizedContent,
         withLinkIcon,
@@ -101,6 +104,7 @@ function Link(props: Props) {
     );
 
     const disabled = disabledFromProps || disabledLink;
+    const inNewTab = external || withNewTab;
     const nonLink = isFalsyString(toLink);
 
     const content = (
@@ -120,10 +124,10 @@ function Link(props: Props) {
             after={(
                 <>
                     {after}
-                    {withLinkIcon && external && (
+                    {withLinkIcon && inNewTab && (
                         <ArrowRightUpLineIcon className={styles.linkIcon} />
                     )}
-                    {withLinkIcon && !external && (
+                    {withLinkIcon && !inNewTab && (
                         <ChevronRightLineIcon className={styles.linkIcon} />
                     )}
                 </>
@@ -164,6 +168,8 @@ function Link(props: Props) {
                 search: urlSearch,
                 hash: urlHash,
             }}
+            target={withNewTab ? '_blank' : undefined}
+            rel={withNewTab ? 'noopener noreferrer' : undefined}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...linkProps}
         >

@@ -3,6 +3,7 @@ import {
     useMemo,
     useState,
 } from 'react';
+import { useLocation } from 'react-router-dom';
 import { SearchLineIcon } from '@ifrc-go/icons';
 import {
     Button,
@@ -55,6 +56,7 @@ import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import {
+    type OpsLearningRouteState,
     SUMMARY_NO_EXTRACT_AVAILABLE,
     SUMMARY_STATUS_FAILED,
     SUMMARY_STATUS_PENDING,
@@ -93,16 +95,50 @@ type QueryType = Pick<
     | 'sector_validated__in'
     | 'per_component_validated__in'
     | 'search_extracts'
+    | 'type_validated__in'
+    | 'organization_validated__in'
 >;
 const regionKeySelector = (region: RegionOption) => region.key;
 const disasterTypeLabelSelector = (type: DisasterType) => type.name ?? '?';
 const perLearningTypeKeySelector = (perLearningType: PerLearningType) => perLearningType.key;
 
+function getQuery(filter: FilterValue): QueryType {
+    return {
+        appeal_code__region: hasSomeDefinedValue(filter.region) ? filter.region : undefined,
+        appeal_code__country__in: hasSomeDefinedValue(filter.countries)
+            ? filter.countries : undefined,
+        appeal_code__dtype__in: hasSomeDefinedValue(filter.disasterTypes)
+            ? filter.disasterTypes : undefined,
+        appeal_code__start_date__gte: hasSomeDefinedValue(filter.appealStartDateAfter)
+            ? filter.appealStartDateAfter : undefined,
+        appeal_code__start_date__lte: hasSomeDefinedValue(filter.appealStartDateBefore)
+            ? filter.appealStartDateBefore : undefined,
+        sector_validated__in: hasSomeDefinedValue(filter.secondarySectors)
+            ? filter.secondarySectors : undefined,
+        per_component_validated__in: hasSomeDefinedValue(filter.perComponents)
+            ? filter.perComponents : undefined,
+        search_extracts: isTruthyString(filter.appealSearchText)
+            ? (filter.appealSearchText) : undefined,
+        type_validated__in: hasSomeDefinedValue(filter.perLearningTypes)
+            ? filter.perLearningTypes : undefined,
+        organization_validated__in: hasSomeDefinedValue(filter.organizationTypes)
+            ? filter.organizationTypes : undefined,
+    };
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const [activeTab, setActiveTab] = useState<'sector' | 'component'>('sector');
-    const [query, setQuery] = useState<QueryType>();
+
+    const { state } = useLocation();
+    const routeState = state as OpsLearningRouteState | null;
+    const initialFilter: FilterValue = {
+        countries: routeState?.countries,
+        disasterTypes: routeState?.disasterTypes,
+    };
+
+    const [query, setQuery] = useState<QueryType | undefined>(() => getQuery(initialFilter));
     const [filterPristine, setFilterPristine] = useState(true);
 
     const {
@@ -115,6 +151,7 @@ export function Component() {
     } = useFilterState<FilterValue>({
         debounceTime: 300,
         filter: {},
+        initialFilter,
     });
 
     const onFilterChange = useCallback((...args: EntriesAsList<FilterValue>) => {
@@ -292,29 +329,8 @@ export function Component() {
     ]);
 
     const handleApplyFilters = useCallback(() => {
-        const newQuery = {
-            appeal_code__region: hasSomeDefinedValue(filter.region) ? filter.region : undefined,
-            appeal_code__country__in: hasSomeDefinedValue(filter.countries)
-                ? filter.countries : undefined,
-            appeal_code__dtype__in: hasSomeDefinedValue(filter.disasterTypes)
-                ? filter.disasterTypes : undefined,
-            appeal_code__start_date__gte: hasSomeDefinedValue(filter.appealStartDateAfter)
-                ? filter.appealStartDateAfter : undefined,
-            appeal_code__start_date__lte: hasSomeDefinedValue(filter.appealStartDateBefore)
-                ? filter.appealStartDateBefore : undefined,
-            sector_validated__in: hasSomeDefinedValue(filter.secondarySectors)
-                ? filter.secondarySectors : undefined,
-            per_component_validated__in: hasSomeDefinedValue(filter.perComponents)
-                ? filter.perComponents : undefined,
-            search_extracts: isTruthyString(filter.appealSearchText)
-                ? (filter.appealSearchText) : undefined,
-            type_validated__in: hasSomeDefinedValue(filter.perLearningTypes)
-                ? filter.perLearningTypes : undefined,
-            organization_validated__in: hasSomeDefinedValue(filter.organizationTypes)
-                ? filter.organizationTypes : undefined,
-        };
         setFilterPristine(true);
-        setQuery(newQuery);
+        setQuery(getQuery(filter));
     }, [filter]);
 
     const handleResetFilters = useCallback(() => {
