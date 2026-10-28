@@ -245,7 +245,6 @@ function Pdc(props: Props) {
 
     return (
         <RiskImminentEventMap
-            source="pdc"
             events={countryRiskResponse?.results}
             pointFeatureSelector={pointFeatureSelector}
             keySelector={numericIdSelector}

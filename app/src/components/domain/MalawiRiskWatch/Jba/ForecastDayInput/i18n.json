@@ -1,0 +1,8 @@
+{
+    "namespace": "malawiRiskWatch",
+    "strings": {
+        "jbaForecastDayLead": "{days}d",
+        "jbaForecastDaySummary": "Day {day} ({date})",
+        "jbaForecastDayPeopleImpacted": "{count} people impacted"
+    }
+}

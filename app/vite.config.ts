@@ -70,6 +70,15 @@ export default defineConfig(({ mode }) => {
             port: 3000,
             allowedHosts: ["host.docker.internal"],
             strictPort: true,
+            // The Malawi backend sends no CORS headers, so the dev server proxies
+            // its GraphQL API; links such as the admin still use the domain directly
+            proxy: {
+                '/malawi-backend': {
+                    target: env.APP_MALAWI_RISK_WATCH_DOMAIN || 'http://localhost:8060',
+                    changeOrigin: true,
+                    rewrite: (path) => path.replace(/^\/malawi-backend/, ''),
+                },
+            },
         },
         build: {
             outDir: '../build',

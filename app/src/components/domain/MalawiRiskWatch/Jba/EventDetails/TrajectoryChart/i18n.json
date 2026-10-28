@@ -1,0 +1,10 @@
+{
+    "namespace": "malawiRiskWatch",
+    "strings": {
+        "jbaTrajectoryChartYAxisLabel": "Population impacted",
+        "jbaTrajectoryChartXAxisLabel": "Lead time (days)",
+        "jbaTrajectoryChartTooltipTitle": "Lead time: {leadTime} days",
+        "jbaTrajectoryChartTooltipTargetDate": "Target date",
+        "jbaTrajectoryChartTooltipPopulationImpacted": "Population impacted"
+    }
+}

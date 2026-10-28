@@ -270,7 +270,7 @@ function Gdacs(props: Props) {
 
     return (
         <RiskImminentEventMap
-            source="gdacs"
+            withExposureAreaControl
             events={countryRiskResponse?.results}
             pointFeatureSelector={pointFeatureSelector}
             keySelector={numericIdSelector}
