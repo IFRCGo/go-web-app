@@ -13,4 +13,5 @@ resources:
     memory: "100Mi"
 
 ingress:
+  ingressClassName: traefik
   host:

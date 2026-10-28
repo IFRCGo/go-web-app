@@ -6,7 +6,9 @@ metadata:
     app: {{ template "ifrcgo-ui-storybook.name" . }}
     release: {{ .Release.Name }}
 spec:
-  ingressClassName: nginx
+  {{- with .Values.ingress.ingressClassName }}
+  ingressClassName: {{ . }}
+  {{- end }}
   rules:
     - host: {{ required "ingress.host" .Values.ingress.host | quote }}
       http:
