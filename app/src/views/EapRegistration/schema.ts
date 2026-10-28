@@ -18,6 +18,7 @@ export type EapRegisterRequestBody = PurgeNull<GoApiBody<'/api/v2/eap-registrati
 export const defaultFormValue: EapRegisterFormFields = {
     eap_type: undefined,
     expected_submission_time: undefined,
+    include_rcrc_climate_center: false,
 };
 
 export type EapRegisterFormFields = PartialForm<EapRegisterRequestBody>;
@@ -39,9 +40,8 @@ export const formSchema: FormSchema = {
             },
             eap_type: {},
             expected_submission_time: {},
-            partners: {
-                required: true,
-            },
+            partners: { defaultValue: [] },
+            include_rcrc_climate_center: { defaultValue: false },
             national_society_contact_name: { required: true },
             national_society_contact_title: { required: true },
             national_society_contact_email: {

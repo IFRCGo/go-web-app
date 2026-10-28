@@ -447,10 +447,12 @@ export function Component() {
             dref_focal_point_email,
             dref_focal_point_phone_number,
             partners,
+            include_rcrc_climate_center,
         } = removeNull(eapRegistrationResponse);
 
         setValue((prevValue) => ({
             ...prevValue,
+            include_rcrc_climate_center,
             partners,
             national_society_contact_name,
             national_society_contact_title,
@@ -567,7 +569,7 @@ export function Component() {
         } : undefined,
         body: () => ({
             status: EAP_STATUS_UNDER_REVIEW,
-        // FIXME: fix typings in the server
+            // FIXME: fix typings in the server
         } as EapStatusBody),
         onSuccess: () => {
             alert.show(
@@ -680,7 +682,7 @@ export function Component() {
 
     const canShare = useMemo(
         () => isDefined(eapRegistrationResponse)
-        && isDefined(eapRegistrationResponse.latest_simplified_eap),
+            && isDefined(eapRegistrationResponse.latest_simplified_eap),
         [eapRegistrationResponse],
     );
 

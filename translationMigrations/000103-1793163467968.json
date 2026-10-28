@@ -1,0 +1,29 @@
+{
+    "parent": "000102-1791449609764.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "rcrcClimateCenter",
+            "namespace": "eapRegistration",
+            "value": "RCRC Climate Center"
+        },
+        {
+            "action": "update",
+            "key": "partnersInvolvedDescription",
+            "namespace": "eapRegistration",
+            "newValue": "Select the partners involved in this process. Add as many as needed, or leave empty if no partners are involved."
+        },
+        {
+            "action": "update",
+            "key": "partnersInvolvedDescription",
+            "namespace": "eapSimplifiedForm",
+            "newValue": "Select the partners involved in this process. Add as many as needed, or leave empty if no partners are involved."
+        },
+        {
+            "action": "update",
+            "key": "partnersInvolvedDescription",
+            "namespace": "form",
+            "newValue": "Select the partners involved in this process. Add as many as needed, or leave empty if no partners are involved."
+        }
+    ]
+}

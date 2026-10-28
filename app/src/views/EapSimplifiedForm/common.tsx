@@ -174,8 +174,8 @@ export function checkTabErrors(
 
 export const wordLimits = {
     prioritized_hazard_and_impact: 500,
-    risks_selected_protocols: 150,
-    selected_early_actions: 150,
+    risks_selected_protocols: 500,
+    selected_early_actions: 500,
     overall_objective_intervention: 150,
     potential_geographical_high_risk_areas: 100,
     districts: 100,

@@ -20,7 +20,7 @@
         "objectiveDescription": "Please provide an objective statement that describes the main goal of the intervention. Example: {exampleObjective}",
         "objectiveDescriptionExample": "This EAP aims to reduce/minimize the impact of river flooding in X region by providing early warning dissemination and cash distribution to at risk families.",
         "partnersInvolved": "Partners Involved",
-        "partnersInvolvedDescription": "Select from the list the partners involved in this process. Add as many as needed or select not applicable if no partners involved.",
+        "partnersInvolvedDescription": "Select the partners involved in this process. Add as many as needed, or leave empty if no partners are involved.",
         "formContacts": "Contacts",
         "stakeholderHeader": "Stakeholder",
         "nSContact": "National Society Contact",

@@ -691,6 +691,7 @@ export function Component() {
         const {
             expected_submission_time,
             partners,
+            include_rcrc_climate_center,
             national_society_contact_email,
             national_society_contact_name,
             national_society_contact_title,
@@ -703,6 +704,7 @@ export function Component() {
 
         setValue((prevValue) => ({
             ...prevValue,
+            include_rcrc_climate_center,
             expected_submission_time,
             national_society_contact_email,
             national_society_contact_name,
