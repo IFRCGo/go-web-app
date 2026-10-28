@@ -1,5 +1,15 @@
 # go-web-app
 
+## 7.29.0-beta.3
+
+### Minor Changes
+
+- 03d158f: Update the lessons learned and start date on the emergency pages
+
+  - Show lessons learned from previous operations in the country for any hazard type
+  - Open the Operational Learning page with the emergency's country and hazard type filters applied
+  - Use the DREF application's event date as the start date in the emergency overview and timeline
+
 ## 7.29.0-beta.2
 
 ### Minor Changes
