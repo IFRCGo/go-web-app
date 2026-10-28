@@ -641,7 +641,7 @@ export const formSchema: EapFullFormSchema = {
                     },
                 }),
             },
-            partners: {},
+            partners: { defaultValue: [] },
             include_rcrc_climate_center: { defaultValue: false },
             partner_contacts: {
                 keySelector: (item) => item.client_id,

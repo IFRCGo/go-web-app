@@ -125,10 +125,7 @@ export function Component() {
     }, [setFieldValue]);
 
     const handleRegisterFormValidation = useCallback((formValues: EapRegisterFormFields) => {
-        triggerEapRegistration({
-            ...formValues,
-            partners: formValues.partners ?? [],
-        } as EapRegisterRequestBody);
+        triggerEapRegistration(formValues as EapRegisterRequestBody);
     }, [triggerEapRegistration]);
 
     const handleFormError = useCallback(() => {

@@ -40,7 +40,7 @@ export const formSchema: FormSchema = {
             },
             eap_type: {},
             expected_submission_time: {},
-            partners: {},
+            partners: { defaultValue: [] },
             include_rcrc_climate_center: { defaultValue: false },
             national_society_contact_name: { required: true },
             national_society_contact_title: { required: true },
