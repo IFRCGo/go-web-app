@@ -1,0 +1,11 @@
+{
+    "parent": "000103-1793163467968.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "viewMoreMessage",
+            "namespace": "emergencyLessonsLearnedFromPreviousOperations",
+            "value": "The lessons learned shown here are from previous operations in this country. To apply more filters (such as hazard type or region) and view more specific lessons learned, visit the {link}."
+        }
+    ]
+}
