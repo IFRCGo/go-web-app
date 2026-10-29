@@ -1,5 +1,35 @@
 # go-web-app
 
+## 7.29.0
+
+### Minor Changes
+
+- a4fcbb3: Show custom key figures with their source on the emergency overview page
+- ab37f47: Update Imminent DREF Application and Final Report exports
+
+  - Allow page breaks within the Early Actions and Early Response Actions
+  - Avoid page break within the activity
+
+- d6858df: Update the EAP registration and forms
+
+  - Make partners involved optional
+  - Add the RCRC Climate Centre option to the EAP registration and carry it over to the simplified and full EAP forms
+  - Increase the word limit of the selected risks and early actions descriptions in the simplified EAP form from 150 to 500
+
+- 03d158f: Update the lessons learned and start date on the emergency pages
+
+  - Show lessons learned from previous operations in the country for any hazard type
+  - Open the Operational Learning page with the emergency's country and hazard type filters applied
+  - Use the DREF application's event date as the start date in the emergency overview and timeline
+
+### Patch Changes
+
+- cee1838: Show the default sort column in appeal, emergency, document and deployed personnel tables, and keep rows with equal values in a stable order across pages
+- 2e6035b: Users registering with the Other organization type no longer need to provide a justification.
+- ac3f76f: Update the indicator bank and Emergency Response Framework links in the DREF forms
+- Updated dependencies [367a4aa]
+  - @ifrc-go/ui@2.5.0
+
 ## 7.29.0-beta.3
 
 ### Minor Changes
