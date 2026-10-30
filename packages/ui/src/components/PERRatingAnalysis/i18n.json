@@ -1,0 +1,20 @@
+{
+    "namespace": "common",
+    "strings": {
+        "ratingContainerLabel": "PER rating analysis",
+        "ratingSparklineLabel": "Rating trend chart",
+        "ratingSortButtonLabel": "Sort {type} {direction}",
+        "ratingSortByComponent": "Sort by component",
+        "ratingSortByRating": "by rating",
+        "ratingValueLabel": "Rating value: {value}",
+        "ratingComponentPrefixLabel": "Component {number}",
+        "ratingAverageLabel": "Average PER rating",
+        "ratingLevelDoesNotExist": "Does not exist",
+        "ratingLevelPartiallyExists": "Partially exists",
+        "ratingLevelNeedsImprovement": "Needs improvement",
+        "ratingLevelCouldBeStrengthened": "Exists, could be strengthened",
+        "ratingLevelHighPerformance": "High performance",
+        "ratingAreasHeading": "Areas",
+        "ratingComponentsHeading": "Components"
+    }
+}

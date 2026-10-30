@@ -1,7 +1,7 @@
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const __filename = new URL(import.meta.url).pathname;
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const cssPaths = [
     path.resolve(__dirname, './src/index.css'),
