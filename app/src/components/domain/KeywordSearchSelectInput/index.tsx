@@ -3,6 +3,7 @@ import {
     useMemo,
     useState,
 } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SearchLineIcon } from '@ifrc-go/icons';
 import { SearchSelectInput } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -38,6 +39,8 @@ type SearchItem = {
     type: SearchResponseKeys;
     score: number;
     pk: string;
+    // NOTE: only set for 'urls' type, used for navigation instead of id/route
+    url?: string;
 }
 
 interface Route {
@@ -53,7 +56,8 @@ function labelSelector(d: SearchItem) {
     return d.name;
 }
 
-const searchTypeToRouteMap: Record<SearchResponseKeys, Route> = {
+// NOTE: 'urls' is excluded as it navigates via a raw path instead of a named route
+const searchTypeToRouteMap: Record<Exclude<SearchResponseKeys, 'urls'>, Route> = {
     regions: {
         route: 'regionsLayout',
         routeParams: 'regionId',
@@ -97,6 +101,7 @@ function KeywordSearchSelectInput() {
     const [searchText, setSearchText] = useState<string | undefined>(undefined);
     const debouncedSearchText = useDebouncedValue(searchText);
     const { navigate } = useRouting();
+    const navigateToPath = useNavigate();
     const strings = useTranslation(i18n);
 
     const searchTypeToLabelMap: Record<SearchResponseKeys, string> = useMemo(() => ({
@@ -109,6 +114,7 @@ function KeywordSearchSelectInput() {
         emergencies: strings.emergency,
         projects: strings.project,
         reports: strings.report,
+        urls: strings.page,
     }), [
         strings.country,
         strings.district,
@@ -119,6 +125,7 @@ function KeywordSearchSelectInput() {
         strings.emergency,
         strings.project,
         strings.report,
+        strings.page,
     ]);
 
     const descriptionSelector = useCallback((d: SearchItem) => (
@@ -146,9 +153,10 @@ function KeywordSearchSelectInput() {
             const searchResponseKeys = Object.keys(response ?? {}) as SearchResponseKeys[];
 
             function getAverageScore(
-                results: { score: number | null | undefined }[] | undefined | null,
+                results: unknown[] | undefined | null,
             ) {
-                const scoreList = results?.map((result) => result.score);
+                const scoreList = (results as { score?: number | null }[] | undefined)
+                    ?.map((result) => result.score);
                 if (isNotDefined(scoreList) || scoreList.length === 0) {
                     return 0;
                 }
@@ -206,6 +214,7 @@ function KeywordSearchSelectInput() {
                 surge_deployments,
                 rapid_response_deployments,
                 district_province_response,
+                urls,
                 ...others
             } = response;
 
@@ -254,10 +263,21 @@ function KeywordSearchSelectInput() {
                 ),
             )?.flat().filter(isDefined);
 
+            // NOTE: 'urls' items have no id/score, so they are mapped separately
+            const urlResults = urls?.map((val, index) => ({
+                id: index,
+                name: val.name,
+                type: 'urls' as const,
+                pk: `${val.url}-urls`,
+                score: 0,
+                url: val.url,
+            })).filter(isDefined);
+
             return [
                 ...(results ?? []),
                 ...(surgeResults ?? []),
                 ...(districtProvinceResults ?? []),
+                ...(urlResults ?? []),
             ].sort(sortByRankedKeys);
         },
         [response, sortByRankedKeys],
@@ -272,6 +292,13 @@ function KeywordSearchSelectInput() {
             return;
         }
 
+        if (option.type === 'urls') {
+            if (isDefined(option.url)) {
+                navigateToPath(option.url);
+            }
+            return;
+        }
+
         const route = searchTypeToRouteMap[option.type];
         navigate(
             route.route,
@@ -281,7 +308,7 @@ function KeywordSearchSelectInput() {
                 },
             },
         );
-    }, [navigate]);
+    }, [navigate, navigateToPath]);
 
     const handleSearchInputEnter = useCallback((text: string | undefined) => {
         // NOTE: We are not deliberately not using debouncedSearchText here
