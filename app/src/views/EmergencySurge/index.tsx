@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import {
     DeployedIcon,
     EmergencyResponseUnitIcon,
@@ -8,8 +8,10 @@ import {
     ListView,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import TabPage from '#components/TabPage';
+import { type EmergencyOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 
 import DeployedErusTable from './DeployedErusTable';
@@ -21,7 +23,8 @@ import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { emergencyId } = useParams<{ emergencyId: string }>();
+    const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
+    const emergencyId = emergencyResponse?.id;
     const strings = useTranslation(i18n);
 
     const {
@@ -29,9 +32,10 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/deployment/aggregated',
         preserveResponse: true,
+        skip: isNotDefined(emergencyId),
         // FIXME: fix typings in server (low priority)
         query: {
-            event: Number(emergencyId),
+            event: emergencyId,
         } as never,
     });
 

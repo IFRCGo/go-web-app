@@ -53,7 +53,7 @@ function getMolnixKeywords(molnixTags: SurgeListItem['molnix_tags']) {
 }
 
 interface Props {
-    emergencyId?: string;
+    emergencyId?: number;
 }
 
 export default function SurgeTable(props: Props) {
@@ -76,7 +76,7 @@ export default function SurgeTable(props: Props) {
         url: '/api/v2/surge_alert/',
         preserveResponse: true,
         query: {
-            event: Number(emergencyId),
+            event: emergencyId,
             limit,
             offset,
 
