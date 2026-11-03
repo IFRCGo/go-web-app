@@ -12,14 +12,12 @@ import {
 } from '@ifrc-go/ui/utils';
 import {
     isDefined,
-    isNotDefined,
     listToMap,
 } from '@togglecorp/fujs';
 
 import useAuth from '#hooks/domain/useAuth';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useFilterState from '#hooks/useFilterState';
-import { EAP_TYPE_FULL } from '#utils/constants';
 import {
     createBudgetColumn,
     createLinkColumn,
@@ -32,8 +30,8 @@ import {
 
 import i18n from './i18n.json';
 
-type EapResponse = GoApiResponse<'/api/v2/eap-registration/'>;
-type EapQueryParams = GoApiUrlQuery<'/api/v2/eap-registration/'>;
+type EapResponse = GoApiResponse<'/api/v2/active-eap/'>;
+type EapQueryParams = GoApiUrlQuery<'/api/v2/active-eap/'>;
 type EapListItem = NonNullable<EapResponse['results']>[number];
 type Key = EapListItem['id'];
 
@@ -75,7 +73,7 @@ function EapTable(props: Props) {
         response,
     } = useRequest({
         skip: !isAuthenticated,
-        url: '/api/v2/eap-registration/',
+        url: '/api/v2/active-eap/',
         preserveResponse: true,
         query,
     });
@@ -125,24 +123,9 @@ function EapTable(props: Props) {
                 (item) => item.disaster_type_details?.name,
             ),
             createBudgetColumn<EapListItem, Key>(
-                'total_budget',
+                'requirement_cost',
                 strings.eapTableRequirements,
-                (item) => {
-                    const fullBudget = item.full_eap_details?.find(
-                        (detail) => detail.id === item.latest_full_eap,
-                    )?.total_budget;
-                    const simplifiedBudget = item.simplified_eap_details?.find(
-                        (detail) => detail.id === item.latest_simplified_eap,
-                    )?.total_budget;
-
-                    if (isNotDefined(item.eap_type)) {
-                        return fullBudget ?? simplifiedBudget;
-                    }
-
-                    return item.eap_type === EAP_TYPE_FULL
-                        ? fullBudget
-                        : simplifiedBudget;
-                },
+                (item) => item.requirement_cost,
             ),
         ]),
         [

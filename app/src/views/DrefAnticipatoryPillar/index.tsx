@@ -46,7 +46,7 @@ export function Component() {
         <TabPage>
             <ListView layout="block">
                 <ListView layout="block">
-                    <Description withContentMaxWidth>
+                    <Description>
                         <ListView
                             layout="block"
                             spacing="sm"
