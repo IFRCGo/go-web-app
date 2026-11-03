@@ -42,20 +42,6 @@ const emergenciesLayout = customWrapRoute({
     },
 });
 
-const emergencySlug = customWrapRoute({
-    parent: rootLayout,
-    path: 'emergencies/slug/:slug',
-    component: {
-        render: () => import('#views/EmergencySlug'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Emergency',
-        visibility: 'anything',
-    },
-});
-
 const emergencyFollow = customWrapRoute({
     parent: rootLayout,
     path: 'emergencies/:emergencyId/follow',
@@ -308,7 +294,6 @@ const emergencyAdditionalInfo = customWrapRoute({
 
 export default {
     emergencies,
-    emergencySlug,
     emergencyFollow,
     emergenciesLayout,
     emergencyDetails,
