@@ -24,4 +24,5 @@ requests==2.32.3         # the fetchers' HTTP client (external_data/fetchers/)
 torch==2.6.0             # the model runtime docling and easyocr both sit on (CPU build)
 torchvision==0.21.0      # easyocr requires it; same CPU-only rule as torch
 docling==2.129.0         # converts PDFs/Word to per-page markdown before the model reads them
+rapidocr==3.9.2          # 3.10 dropped PP_OCRV6_LANGS, which docling 2.129 imports
 easyocr==1.7.2           # the OCR engine docling is told to use (it reads Arabic; the default does not)

@@ -2,6 +2,1530 @@
   "type": "FeatureCollection",
   "features": [
     {
+      "id": "pdc-event-ec873cf4-7ef6-4f4a-91c6-201bda2fcf89-567083-1794081649289",
+      "bbox": [
+        34.9090624233561,
+        31.82831328373463,
+        34.9090624233561,
+        31.82831328373463
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.9090624233561,
+          31.82831328373463
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Thunderstorm - Northern And Central Israel, Northern Negev And Mediterranean Sea, Israel",
+        "datetime": "2026-11-07T16:00:00Z",
+        "end_datetime": "2026-11-07T20:16:29Z",
+        "monty:corr_id": "20261107-LBN-1095475-MH0103-1-GCDB",
+        "start_datetime": "2026-11-07T16:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBN",
+          "JOR",
+          "PSE",
+          "ISR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-ec873cf4-7ef6-4f4a-91c6-201bda2fcf89-567083-1794081649289",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-bbf78618-da73-4cbd-9388-ad33dafdaef4-566970-1794067228899",
+      "bbox": [
+        34.9090624233561,
+        31.82831328373463,
+        34.9090624233561,
+        31.82831328373463
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.9090624233561,
+          31.82831328373463
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Thunderstorm - Northern And Central Israel, Northern Negev",
+        "datetime": "2026-11-07T12:00:00Z",
+        "end_datetime": "2026-11-07T16:15:37Z",
+        "monty:corr_id": "20261107-LBN-1095475-MH0103-1-GCDB",
+        "start_datetime": "2026-11-07T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBN",
+          "JOR",
+          "PSE",
+          "ISR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-bbf78618-da73-4cbd-9388-ad33dafdaef4-566970-1794067228899",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-783d8484-c4c9-4810-a488-450589ebc4a0-566776-1794052848440",
+      "bbox": [
+        34.9090624233561,
+        31.82831328373463,
+        34.9090624233561,
+        31.82831328373463
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.9090624233561,
+          31.82831328373463
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Thunderstorm - Northern And Central Israel, Mediterranean Coast And Northern Negev, Israel",
+        "datetime": "2026-11-07T08:00:00Z",
+        "end_datetime": "2026-11-07T12:15:58Z",
+        "monty:corr_id": "20261107-LBN-1095475-MH0103-1-GCDB",
+        "start_datetime": "2026-11-07T08:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBN",
+          "JOR",
+          "PSE",
+          "ISR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-783d8484-c4c9-4810-a488-450589ebc4a0-566776-1794052848440",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-792389ce-adf4-417d-b4c6-fc5375e32085-566667-1794038418158",
+      "bbox": [
+        34.9090624233561,
+        31.82831328373463,
+        34.9090624233561,
+        31.82831328373463
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.9090624233561,
+          31.82831328373463
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Thunderstorm - Northern And Central Israel, Northern Negev, Mediterranean Sea",
+        "datetime": "2026-11-07T04:00:00Z",
+        "end_datetime": "2026-11-07T08:15:26Z",
+        "monty:corr_id": "20261107-LBN-1095475-MH0103-1-GCDB",
+        "start_datetime": "2026-11-07T04:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBN",
+          "JOR",
+          "PSE",
+          "ISR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-792389ce-adf4-417d-b4c6-fc5375e32085-566667-1794038418158",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-417aabb6-2de1-43fd-bf5d-856546ae7562-566620-1794024015232",
+      "bbox": [
+        34.9090624233561,
+        31.82831328373463,
+        34.9090624233561,
+        31.82831328373463
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.9090624233561,
+          31.82831328373463
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Thunderstorm - Northern And Central Israel, Northern Negev",
+        "datetime": "2026-11-07T01:30:00Z",
+        "end_datetime": "2026-11-07T04:15:27Z",
+        "monty:corr_id": "20261107-LBN-1095475-MH0103-1-GCDB",
+        "start_datetime": "2026-11-07T01:30:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBN",
+          "JOR",
+          "PSE",
+          "ISR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-417aabb6-2de1-43fd-bf5d-856546ae7562-566620-1794024015232",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-9a83af1b-cb3e-40ea-91ba-8b75ce535d80-566476-1794009618633",
+      "bbox": [
+        34.9090624233561,
+        31.82831328373463,
+        34.9090624233561,
+        31.82831328373463
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.9090624233561,
+          31.82831328373463
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Thunderstorm - Northern And Central Israel, Mediterranean Coast And Northern Negev, Israel",
+        "datetime": "2026-11-06T20:00:00Z",
+        "end_datetime": "2026-11-07T00:15:33Z",
+        "monty:corr_id": "20261106-LBN-1095475-MH0103-1-GCDB",
+        "start_datetime": "2026-11-06T20:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBN",
+          "JOR",
+          "PSE",
+          "ISR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-9a83af1b-cb3e-40ea-91ba-8b75ce535d80-566476-1794009618633",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-78ade695-13c7-4f57-8c81-94e34477341d-564592-1793779219619",
+      "bbox": [
+        34.70296252776995,
+        31.05387603220219,
+        34.70296252776995,
+        31.05387603220219
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.70296252776995,
+          31.05387603220219
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Dense Fog - North Western And Western Negev, Israel",
+        "datetime": "2026-11-04T04:14:00Z",
+        "end_datetime": "2026-11-04T08:15:32Z",
+        "monty:corr_id": "20261104-PSE-1090074-MH0103-1-GCDB",
+        "start_datetime": "2026-11-04T04:14:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "PSE",
+          "ISR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-78ade695-13c7-4f57-8c81-94e34477341d-564592-1793779219619",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-51bbe1c7-dd52-4885-803e-f9944757a0b0-559813-1793131217848",
+      "bbox": [
+        35.04986618361702,
+        31.17161642971209,
+        35.04986618361702,
+        31.17161642971209
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.04986618361702,
+          31.17161642971209
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Thunderstorm - Northern, Central And Southern Israel",
+        "datetime": "2026-10-27T16:00:00Z",
+        "end_datetime": "2026-10-27T20:15:31Z",
+        "monty:corr_id": "20261027-LBN-1090076-MH0103-1-GCDB",
+        "start_datetime": "2026-10-27T16:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBN",
+          "ISR",
+          "PSE",
+          "JOR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-51bbe1c7-dd52-4885-803e-f9944757a0b0-559813-1793131217848",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-51bbe1c7-dd52-4885-803e-f9944757a0b0-559813-1793116723590",
+      "bbox": [
+        35.04986618361702,
+        31.17161642971209,
+        35.04986618361702,
+        31.17161642971209
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.04986618361702,
+          31.17161642971209
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Thunderstorm - Northern, Central And Southern Israel",
+        "datetime": "2026-10-27T16:00:00Z",
+        "end_datetime": "2026-10-27T20:15:31Z",
+        "monty:corr_id": "20261027-LBN-1090076-MH0103-1-GCDB",
+        "start_datetime": "2026-10-27T16:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBN",
+          "ISR",
+          "PSE",
+          "JOR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-51bbe1c7-dd52-4885-803e-f9944757a0b0-559813-1793116723590",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-51bbe1c7-dd52-4885-803e-f9944757a0b0-559813-1793116550587",
+      "bbox": [
+        35.04986618361702,
+        31.17161642971209,
+        35.04986618361702,
+        31.17161642971209
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.04986618361702,
+          31.17161642971209
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Thunderstorm - Northern, Central And Southern Israel",
+        "datetime": "2026-10-27T16:00:00Z",
+        "end_datetime": "2026-10-27T20:15:31Z",
+        "monty:corr_id": "20261027-LBN-1090076-MH0103-1-GCDB",
+        "start_datetime": "2026-10-27T16:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBN",
+          "ISR",
+          "PSE",
+          "JOR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-51bbe1c7-dd52-4885-803e-f9944757a0b0-559813-1793116550587",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-b2c07b08-c988-46b5-9174-2b61e4871568-559713-1793116859926",
+      "bbox": [
+        34.99870682149855,
+        31.26858092694399,
+        34.99870682149855,
+        31.26858092694399
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.99870682149855,
+          31.26858092694399
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Thunderstorm - Northern, Central And Southern Israel",
+        "datetime": "2026-10-27T12:00:00Z",
+        "end_datetime": "2026-10-27T16:16:05Z",
+        "monty:corr_id": "20261027-LBN-1091876-MH0103-1-GCDB",
+        "start_datetime": "2026-10-27T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBN",
+          "ISR",
+          "PSE",
+          "JOR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-b2c07b08-c988-46b5-9174-2b61e4871568-559713-1793116859926",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-733d6c04-a77f-4d97-9928-e9a5f59dac45-559477-1793131216534",
+      "bbox": [
+        35.04393879566474,
+        30.50211061590329,
+        35.04393879566474,
+        30.50211061590329
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.04393879566474,
+          30.50211061590329
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Flood - Judea Desert, Dead Sea, Negev And Eilat, Israel",
+        "datetime": "2026-10-27T10:00:00Z",
+        "end_datetime": "2026-10-27T20:15:30Z",
+        "monty:corr_id": "20261027-ISR-1084676-MH0600-1-GCDB",
+        "start_datetime": "2026-10-27T10:00:00Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "ISR",
+          "JOR",
+          "EGY",
+          "PSE"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-733d6c04-a77f-4d97-9928-e9a5f59dac45-559477-1793131216534",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-67b807ba-bb58-4bbc-abc2-b731ea1425a2-559593-1793102461560",
+      "bbox": [
+        34.97158382817833,
+        31.28779298552644,
+        34.97158382817833,
+        31.28779298552644
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.97158382817833,
+          31.28779298552644
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Thunderstorm - Northern, Central And Southern Israel",
+        "datetime": "2026-10-27T08:00:00Z",
+        "end_datetime": "2026-10-27T12:16:09Z",
+        "monty:corr_id": "20261027-LBN-1091876-MH0103-1-GCDB",
+        "start_datetime": "2026-10-27T08:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBN",
+          "ISR",
+          "PSE",
+          "JOR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-67b807ba-bb58-4bbc-abc2-b731ea1425a2-559593-1793102461560",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-67b807ba-bb58-4bbc-abc2-b731ea1425a2-559593-1793087188764",
+      "bbox": [
+        34.97158382817833,
+        31.28779298552644,
+        34.97158382817833,
+        31.28779298552644
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.97158382817833,
+          31.28779298552644
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Thunderstorm - Northern, Central And Southern Israel",
+        "datetime": "2026-10-27T08:00:00Z",
+        "end_datetime": "2026-10-27T12:16:09Z",
+        "monty:corr_id": "20261027-LBN-1091876-MH0103-1-GCDB",
+        "start_datetime": "2026-10-27T08:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBN",
+          "ISR",
+          "PSE",
+          "JOR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-67b807ba-bb58-4bbc-abc2-b731ea1425a2-559593-1793087188764",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-88080482-5be7-4bb7-80f3-b4bf78421862-559505-1793088061263",
+      "bbox": [
+        34.68900776640795,
+        31.53863882990156,
+        34.68900776640795,
+        31.53863882990156
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.68900776640795,
+          31.53863882990156
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Thunderstorm - Central And Southern Coastal Israel And Western Negev, Israel",
+        "datetime": "2026-10-27T05:00:00Z",
+        "end_datetime": "2026-10-27T08:16:14Z",
+        "monty:corr_id": "20261027-ISR-1093674-MH0103-1-GCDB",
+        "start_datetime": "2026-10-27T05:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "ISR",
+          "EGY",
+          "PSE"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-88080482-5be7-4bb7-80f3-b4bf78421862-559505-1793088061263",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-39efe561-3c09-4b72-a544-c6a0c6a8cbf5-558851-1793045126856",
+      "bbox": [
+        35.287082718399404,
+        23.860927063091584,
+        35.287082718399404,
+        23.860927063091584
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.287082718399404,
+          23.860927063091584
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Flood - Berenice, Al Bahr al Ahmar, Egypt",
+        "datetime": "2026-10-26T02:45:04Z",
+        "end_datetime": "2026-10-27T20:05:35Z",
+        "monty:corr_id": "20261026-EGY-1025277-MH0600-1-GCDB",
+        "start_datetime": "2026-10-26T02:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-39efe561-3c09-4b72-a544-c6a0c6a8cbf5-558851-1793045126856",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-32c34a0c-e29f-46a6-aaad-1e4dba836732-557708-1792811052661",
+      "bbox": [
+        35.43535843646954,
+        31.87533214280616,
+        35.43535843646954,
+        31.87533214280616
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.43535843646954,
+          31.87533214280616
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Heat - Bet Shean, Kinarot, Jordan Valley, Dead Sea, Northern Arava, Israel",
+        "datetime": "2026-10-24T09:00:00Z",
+        "end_datetime": "2026-10-24T18:16:27Z",
+        "monty:corr_id": "20261024-ISR-1097278-MH0501-1-GCDB",
+        "start_datetime": "2026-10-24T09:00:00Z",
+        "monty:hazard_codes": [
+          "MH0501",
+          "HT",
+          "nat-met-ext-hea"
+        ],
+        "monty:country_codes": [
+          "ISR",
+          "JOR",
+          "EGY",
+          "PSE"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-32c34a0c-e29f-46a6-aaad-1e4dba836732-557708-1792811052661",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-894536b2-848f-42a8-b06d-c7777537f481-558261-1792825265921",
+      "bbox": [
+        34.80157241801462,
+        31.01291116893077,
+        34.80157241801462,
+        31.01291116893077
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.80157241801462,
+          31.01291116893077
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Dense Fog - Negev, Israel",
+        "datetime": "2026-10-24T04:00:00Z",
+        "end_datetime": "2026-10-24T07:16:10Z",
+        "monty:corr_id": "20261024-ISR-1088275-MH0103-1-GCDB",
+        "start_datetime": "2026-10-24T04:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "ISR",
+          "EGY",
+          "PSE"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-894536b2-848f-42a8-b06d-c7777537f481-558261-1792825265921",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-c6b0a2d1-5338-47c9-88f1-90bd8b7022b4-558190-1792814485675",
+      "bbox": [
+        34.80157241801462,
+        31.01291116893077,
+        34.80157241801462,
+        31.01291116893077
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.80157241801462,
+          31.01291116893077
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Dense Fog - Negev, Israel",
+        "datetime": "2026-10-24T00:00:00Z",
+        "end_datetime": "2026-10-24T04:16:28Z",
+        "monty:corr_id": "20261024-ISR-1088275-MH0103-1-GCDB",
+        "start_datetime": "2026-10-24T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "ISR",
+          "EGY",
+          "PSE"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-c6b0a2d1-5338-47c9-88f1-90bd8b7022b4-558190-1792814485675",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-ea888814-7a7a-4a6a-b91a-77cff9a8a744-552714-1792080003740",
+      "bbox": [
+        34.91313054914003,
+        31.12926822862679,
+        34.91313054914003,
+        31.12926822862679
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.91313054914003,
+          31.12926822862679
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Dense Fog - Coast And Inland Regions Of Israel",
+        "datetime": "2026-10-15T12:00:00Z",
+        "end_datetime": "2026-10-15T16:15:32Z",
+        "monty:corr_id": "20261015-LBN-1090075-MH0103-1-GCDB",
+        "start_datetime": "2026-10-15T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBN",
+          "PSE",
+          "ISR",
+          "JOR",
+          "EGY"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-ea888814-7a7a-4a6a-b91a-77cff9a8a744-552714-1792080003740",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-e6c7abcc-a3d0-4b52-b6c2-9de5daae41ac-552555-1792062002379",
+      "bbox": [
+        34.89428326510609,
+        30.96492884560005,
+        34.89428326510609,
+        30.96492884560005
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.89428326510609,
+          30.96492884560005
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Dense Fog - Central And Southern Israel (Gush Dan, Southern Coast, Negev, Eilat)",
+        "datetime": "2026-10-15T07:00:00Z",
+        "end_datetime": "2026-10-15T11:15:11Z",
+        "monty:corr_id": "20261015-JOR-1088275-MH0103-1-GCDB",
+        "start_datetime": "2026-10-15T07:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "JOR",
+          "ISR",
+          "EGY",
+          "PSE"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-e6c7abcc-a3d0-4b52-b6c2-9de5daae41ac-552555-1792062002379",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-915299e3-88be-4213-80d0-3d65f236759a-551690-1791947648592",
+      "bbox": [
+        35.24390776870709,
+        31.22423874411839,
+        35.24390776870709,
+        31.22423874411839
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.24390776870709,
+          31.22423874411839
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Heat - Jordan Valley, Dead Sea, Bet Shean And Kinarot Valleys, Israel",
+        "datetime": "2026-10-14T10:00:00Z",
+        "end_datetime": "2026-10-14T18:00:00Z",
+        "monty:corr_id": "20261014-EGY-1090077-MH0501-1-GCDB",
+        "start_datetime": "2026-10-14T10:00:00Z",
+        "monty:hazard_codes": [
+          "MH0501",
+          "HT",
+          "nat-met-ext-hea"
+        ],
+        "monty:country_codes": [
+          "EGY",
+          "PSE",
+          "ISR",
+          "JOR"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-915299e3-88be-4213-80d0-3d65f236759a-551690-1791947648592",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
       "id": "pdc-event-c27048b3-80a2-45c8-a419-9cc22dc7b282-536724-1789391603873",
       "bbox": [
         35.0718029948905,

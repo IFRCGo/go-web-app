@@ -1,7 +1,7 @@
 {
   "source_url": "https://data.humdata.org/dataset/e6320d49-1944-4c80-ad9c-ab83e4239267/resource/a1dc9602-b522-4966-bb59-f4a44d238dd1/download/unhcr-situations.csv",
-  "fetched_at": "2026-09-28T08:13:31Z",
-  "sha1": "666143b610470db818ac95ed26de84c231f8ebd3",
+  "fetched_at": "2026-11-09T12:28:07Z",
+  "sha1": "7b63c780ca819cd203a9bc1e6f8f41dd4187ecbe",
   "rows": [
     {
       "Country": "Angola",
@@ -96,6 +96,16 @@
     {
       "Country": "Angola",
       "ISO3": "AGO",
+      "Country of Origin": "Chad",
+      "ISO3 of Origin": "TCD",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "968"
+    },
+    {
+      "Country": "Angola",
+      "ISO3": "AGO",
       "Country of Origin": "Côte d'Ivoire",
       "ISO3 of Origin": "CIV",
       "Population type": "Asylum-Seekers",
@@ -161,6 +171,16 @@
       "Population type": "Asylum-Seekers",
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
+      "Individuals": "6357"
+    },
+    {
+      "Country": "Angola",
+      "ISO3": "AGO",
+      "Country of Origin": "Côte d'Ivoire",
+      "ISO3 of Origin": "CIV",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "6357"
     },
     {
@@ -296,6 +316,16 @@
     {
       "Country": "Angola",
       "ISO3": "AGO",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "22326"
+    },
+    {
+      "Country": "Angola",
+      "ISO3": "AGO",
       "Country of Origin": "Eritrea",
       "ISO3 of Origin": "ERI",
       "Population type": "Asylum-Seekers",
@@ -386,6 +416,16 @@
     {
       "Country": "Angola",
       "ISO3": "AGO",
+      "Country of Origin": "Eritrea",
+      "ISO3 of Origin": "ERI",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "1874"
+    },
+    {
+      "Country": "Angola",
+      "ISO3": "AGO",
       "Country of Origin": "Guinea",
       "ISO3 of Origin": "GIN",
       "Population type": "Asylum-Seekers",
@@ -476,6 +516,16 @@
     {
       "Country": "Angola",
       "ISO3": "AGO",
+      "Country of Origin": "Guinea",
+      "ISO3 of Origin": "GIN",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "9272"
+    },
+    {
+      "Country": "Angola",
+      "ISO3": "AGO",
       "Country of Origin": "Liberia",
       "ISO3 of Origin": "LBR",
       "Population type": "Asylum-Seekers",
@@ -566,6 +616,16 @@
     {
       "Country": "Angola",
       "ISO3": "AGO",
+      "Country of Origin": "Liberia",
+      "ISO3 of Origin": "LBR",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "639"
+    },
+    {
+      "Country": "Angola",
+      "ISO3": "AGO",
       "Country of Origin": "Mauritania",
       "ISO3 of Origin": "MRT",
       "Population type": "Asylum-Seekers",
@@ -656,6 +716,16 @@
     {
       "Country": "Angola",
       "ISO3": "AGO",
+      "Country of Origin": "Mauritania",
+      "ISO3 of Origin": "MRT",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "5725"
+    },
+    {
+      "Country": "Angola",
+      "ISO3": "AGO",
       "Country of Origin": "Others",
       "ISO3 of Origin": "",
       "Population type": "Asylum-Seekers",
@@ -741,6 +811,16 @@
       "Population type": "Asylum-Seekers",
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
+      "Individuals": "1323"
+    },
+    {
+      "Country": "Angola",
+      "ISO3": "AGO",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "1323"
     },
     {
@@ -846,6 +926,16 @@
     {
       "Country": "Angola",
       "ISO3": "AGO",
+      "Country of Origin": "Rwanda",
+      "ISO3 of Origin": "RWA",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "626"
+    },
+    {
+      "Country": "Angola",
+      "ISO3": "AGO",
       "Country of Origin": "Sierra Leone",
       "ISO3 of Origin": "SLE",
       "Population type": "Asylum-Seekers",
@@ -936,6 +1026,16 @@
     {
       "Country": "Angola",
       "ISO3": "AGO",
+      "Country of Origin": "Sierra Leone",
+      "ISO3 of Origin": "SLE",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "1910"
+    },
+    {
+      "Country": "Angola",
+      "ISO3": "AGO",
       "Country of Origin": "Somalia",
       "ISO3 of Origin": "SOM",
       "Population type": "Asylum-Seekers",
@@ -1026,6 +1126,16 @@
     {
       "Country": "Angola",
       "ISO3": "AGO",
+      "Country of Origin": "Somalia",
+      "ISO3 of Origin": "SOM",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "2002"
+    },
+    {
+      "Country": "Angola",
+      "ISO3": "AGO",
       "Country of Origin": "Sudan",
       "ISO3 of Origin": "SDN",
       "Population type": "Asylum-Seekers",
@@ -1111,6 +1221,16 @@
       "Population type": "Asylum-Seekers",
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
+      "Individuals": "1949"
+    },
+    {
+      "Country": "Angola",
+      "ISO3": "AGO",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "1949"
     },
     {
@@ -1256,6 +1376,16 @@
     {
       "Country": "Burundi",
       "ISO3": "BDI",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "155998"
+    },
+    {
+      "Country": "Burundi",
+      "ISO3": "BDI",
       "Country of Origin": "Others",
       "ISO3 of Origin": "",
       "Population type": "Asylum-Seekers",
@@ -1382,6 +1512,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "4"
+    },
+    {
+      "Country": "Burundi",
+      "ISO3": "BDI",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "5"
     },
     {
       "Country": "Burundi",
@@ -1526,6 +1666,16 @@
     {
       "Country": "Burundi",
       "ISO3": "BDI",
+      "Country of Origin": "Rwanda",
+      "ISO3 of Origin": "RWA",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "1023"
+    },
+    {
+      "Country": "Burundi",
+      "ISO3": "BDI",
       "Country of Origin": "Uganda",
       "ISO3 of Origin": "UGA",
       "Population type": "Refugees",
@@ -1661,6 +1811,16 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
+      "Individuals": "19"
+    },
+    {
+      "Country": "Burundi",
+      "ISO3": "BDI",
+      "Country of Origin": "Uganda",
+      "ISO3 of Origin": "UGA",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "19"
     },
     {
@@ -1812,6 +1972,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "113"
+    },
+    {
+      "Country": "Burundi",
+      "ISO3": "BDI",
+      "Country of Origin": "Various",
+      "ISO3 of Origin": "",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "120"
     },
     {
       "Country": "Benin",
@@ -2206,6 +2376,26 @@
     {
       "Country": "Burkina Faso",
       "ISO3": "BFA",
+      "Country of Origin": "Burundi",
+      "ISO3 of Origin": "BDI",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "26"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Burundi",
+      "ISO3 of Origin": "BDI",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "26"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
       "Country of Origin": "Central African Rep.",
       "ISO3 of Origin": "CAF",
       "Population type": "Refugees",
@@ -2332,6 +2522,26 @@
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
       "Individuals": "143"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Central African Rep.",
+      "ISO3 of Origin": "CAF",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "142"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Central African Rep.",
+      "ISO3 of Origin": "CAF",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "141"
     },
     {
       "Country": "Burkina Faso",
@@ -2466,6 +2676,26 @@
     {
       "Country": "Burkina Faso",
       "ISO3": "BFA",
+      "Country of Origin": "Chad",
+      "ISO3 of Origin": "TCD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "58"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Chad",
+      "ISO3 of Origin": "TCD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "57"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
       "Country of Origin": "Congo",
       "ISO3 of Origin": "COG",
       "Population type": "Refugees",
@@ -2581,6 +2811,26 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
+      "Individuals": "22"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Congo",
+      "ISO3 of Origin": "COG",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "22"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Congo",
+      "ISO3 of Origin": "COG",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "22"
     },
     {
@@ -2711,6 +2961,26 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
+      "Individuals": "23"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "23"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "23"
     },
     {
@@ -2846,6 +3116,26 @@
     {
       "Country": "Burkina Faso",
       "ISO3": "BFA",
+      "Country of Origin": "Mali",
+      "ISO3 of Origin": "MLI",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "42824"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Mali",
+      "ISO3 of Origin": "MLI",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "42855"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
       "Country of Origin": "Niger",
       "ISO3 of Origin": "NER",
       "Population type": "Refugees",
@@ -2971,6 +3261,26 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
+      "Individuals": "1412"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Niger",
+      "ISO3 of Origin": "NER",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "1412"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Niger",
+      "ISO3 of Origin": "NER",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "1412"
     },
     {
@@ -3102,6 +3412,26 @@
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
       "Individuals": "299"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "299"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "300"
     },
     {
       "Country": "Burkina Faso",
@@ -3246,6 +3576,26 @@
     {
       "Country": "Burkina Faso",
       "ISO3": "BFA",
+      "Country of Origin": "Togo",
+      "ISO3 of Origin": "TGO",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "488"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
+      "Country of Origin": "Togo",
+      "ISO3 of Origin": "TGO",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "488"
+    },
+    {
+      "Country": "Burkina Faso",
+      "ISO3": "BFA",
       "Country of Origin": "Various",
       "ISO3 of Origin": "",
       "Population type": "Asylum-Seekers",
@@ -3326,6 +3676,16 @@
     {
       "Country": "Central African Republic",
       "ISO3": "CAF",
+      "Country of Origin": "Chad",
+      "ISO3 of Origin": "TCD",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "37253"
+    },
+    {
+      "Country": "Central African Republic",
+      "ISO3": "CAF",
       "Country of Origin": "Dem. Rep. of the Congo",
       "ISO3 of Origin": "COD",
       "Population type": "Refugees",
@@ -3392,6 +3752,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
       "Individuals": "6415"
+    },
+    {
+      "Country": "Central African Republic",
+      "ISO3": "CAF",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "6417"
     },
     {
       "Country": "Central African Republic",
@@ -3492,6 +3862,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
       "Individuals": "3381"
+    },
+    {
+      "Country": "Central African Republic",
+      "ISO3": "CAF",
+      "Country of Origin": "South Sudan",
+      "ISO3 of Origin": "SSD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "3394"
     },
     {
       "Country": "Central African Republic",
@@ -3676,6 +4056,26 @@
     {
       "Country": "Central African Republic",
       "ISO3": "CAF",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "38943"
+    },
+    {
+      "Country": "Central African Republic",
+      "ISO3": "CAF",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-05",
+      "Individuals": "38540"
+    },
+    {
+      "Country": "Central African Republic",
+      "ISO3": "CAF",
       "Country of Origin": "Various",
       "ISO3 of Origin": "",
       "Population type": "Asylum-Seekers",
@@ -3781,6 +4181,16 @@
       "Population type": "Asylum-Seekers",
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
+      "Individuals": "9240"
+    },
+    {
+      "Country": "Central African Republic",
+      "ISO3": "CAF",
+      "Country of Origin": "Various",
+      "ISO3 of Origin": "",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
       "Individuals": "9240"
     },
     {
@@ -4286,6 +4696,16 @@
     {
       "Country": "Cameroon",
       "ISO3": "CMR",
+      "Country of Origin": "Burundi",
+      "ISO3 of Origin": "BDI",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "53"
+    },
+    {
+      "Country": "Cameroon",
+      "ISO3": "CMR",
       "Country of Origin": "Central African Rep.",
       "ISO3 of Origin": "CAF",
       "Population type": "Refugees",
@@ -4452,6 +4872,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "283208"
+    },
+    {
+      "Country": "Cameroon",
+      "ISO3": "CMR",
+      "Country of Origin": "Central African Rep.",
+      "ISO3 of Origin": "CAF",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "283485"
     },
     {
       "Country": "Cameroon",
@@ -4636,6 +5066,16 @@
     {
       "Country": "Cameroon",
       "ISO3": "CMR",
+      "Country of Origin": "Chad",
+      "ISO3 of Origin": "TCD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "1863"
+    },
+    {
+      "Country": "Cameroon",
+      "ISO3": "CMR",
       "Country of Origin": "Congo",
       "ISO3 of Origin": "COG",
       "Population type": "Refugees",
@@ -4806,6 +5246,16 @@
     {
       "Country": "Cameroon",
       "ISO3": "CMR",
+      "Country of Origin": "Congo",
+      "ISO3 of Origin": "COG",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "48"
+    },
+    {
+      "Country": "Cameroon",
+      "ISO3": "CMR",
       "Country of Origin": "Côte d'Ivoire",
       "ISO3 of Origin": "CIV",
       "Population type": "Refugees",
@@ -4951,6 +5401,16 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
+      "Individuals": "35"
+    },
+    {
+      "Country": "Cameroon",
+      "ISO3": "CMR",
+      "Country of Origin": "Côte d'Ivoire",
+      "ISO3 of Origin": "CIV",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "35"
     },
     {
@@ -5156,6 +5616,16 @@
     {
       "Country": "Cameroon",
       "ISO3": "CMR",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "509"
+    },
+    {
+      "Country": "Cameroon",
+      "ISO3": "CMR",
       "Country of Origin": "Nigeria",
       "ISO3 of Origin": "NGA",
       "Population type": "Refugees",
@@ -5332,6 +5802,26 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "126320"
+    },
+    {
+      "Country": "Cameroon",
+      "ISO3": "CMR",
+      "Country of Origin": "Nigeria",
+      "ISO3 of Origin": "NGA",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "98105"
+    },
+    {
+      "Country": "Cameroon",
+      "ISO3": "CMR",
+      "Country of Origin": "Nigeria",
+      "ISO3 of Origin": "NGA",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "126308"
     },
     {
       "Country": "Cameroon",
@@ -5516,6 +6006,16 @@
     {
       "Country": "Cameroon",
       "ISO3": "CMR",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "5523"
+    },
+    {
+      "Country": "Cameroon",
+      "ISO3": "CMR",
       "Country of Origin": "Rwanda",
       "ISO3 of Origin": "RWA",
       "Population type": "Refugees",
@@ -5681,6 +6181,16 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
+      "Individuals": "280"
+    },
+    {
+      "Country": "Cameroon",
+      "ISO3": "CMR",
+      "Country of Origin": "Rwanda",
+      "ISO3 of Origin": "RWA",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "280"
     },
     {
@@ -5852,6 +6362,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "511"
+    },
+    {
+      "Country": "Cameroon",
+      "ISO3": "CMR",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "518"
     },
     {
       "Country": "Democratic Republic of the Congo",
@@ -6026,6 +6546,16 @@
     {
       "Country": "Democratic Republic of the Congo",
       "ISO3": "COD",
+      "Country of Origin": "Angola",
+      "ISO3 of Origin": "AGO",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "403"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
       "Country of Origin": "Burundi",
       "ISO3 of Origin": "BDI",
       "Population type": "Refugees",
@@ -6192,6 +6722,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "45847"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
+      "Country of Origin": "Burundi",
+      "ISO3 of Origin": "BDI",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "45004"
     },
     {
       "Country": "Democratic Republic of the Congo",
@@ -6396,6 +6936,16 @@
     {
       "Country": "Democratic Republic of the Congo",
       "ISO3": "COD",
+      "Country of Origin": "Central African Rep.",
+      "ISO3 of Origin": "CAF",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "264385"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
       "Country of Origin": "Chad",
       "ISO3 of Origin": "TCD",
       "Population type": "Refugees",
@@ -6561,6 +7111,16 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
+      "Individuals": "9"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
+      "Country of Origin": "Chad",
+      "ISO3 of Origin": "TCD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "9"
     },
     {
@@ -6736,6 +7296,16 @@
     {
       "Country": "Democratic Republic of the Congo",
       "ISO3": "COD",
+      "Country of Origin": "Congo",
+      "ISO3 of Origin": "COG",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "421"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
       "Country of Origin": "Côte d'Ivoire",
       "ISO3 of Origin": "CIV",
       "Population type": "Refugees",
@@ -6881,6 +7451,16 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
+      "Individuals": "9"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
+      "Country of Origin": "Côte d'Ivoire",
+      "ISO3 of Origin": "CIV",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "9"
     },
     {
@@ -7086,6 +7666,16 @@
     {
       "Country": "Democratic Republic of the Congo",
       "ISO3": "COD",
+      "Country of Origin": "Eritrea",
+      "ISO3 of Origin": "ERI",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "10"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
       "Country of Origin": "Ethiopia",
       "ISO3 of Origin": "ETH",
       "Population type": "Refugees",
@@ -7251,6 +7841,16 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
+      "Individuals": "5"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
+      "Country of Origin": "Ethiopia",
+      "ISO3 of Origin": "ETH",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "5"
     },
     {
@@ -7431,6 +8031,16 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
+      "Individuals": "5"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
+      "Country of Origin": "Liberia",
+      "ISO3 of Origin": "LBR",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "5"
     },
     {
@@ -7656,6 +8266,16 @@
     {
       "Country": "Democratic Republic of the Congo",
       "ISO3": "COD",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "132872"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
       "Country of Origin": "Rwanda",
       "ISO3 of Origin": "RWA",
       "Population type": "Refugees",
@@ -7822,6 +8442,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "194414"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
+      "Country of Origin": "Rwanda",
+      "ISO3 of Origin": "RWA",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "193798"
     },
     {
       "Country": "Democratic Republic of the Congo",
@@ -8006,6 +8636,16 @@
     {
       "Country": "Democratic Republic of the Congo",
       "ISO3": "COD",
+      "Country of Origin": "Sierra Leone",
+      "ISO3 of Origin": "SLE",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "1"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
       "Country of Origin": "Somalia",
       "ISO3 of Origin": "SOM",
       "Population type": "Refugees",
@@ -8172,6 +8812,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "51"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
+      "Country of Origin": "Somalia",
+      "ISO3 of Origin": "SOM",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "52"
     },
     {
       "Country": "Democratic Republic of the Congo",
@@ -8346,6 +8996,16 @@
     {
       "Country": "Democratic Republic of the Congo",
       "ISO3": "COD",
+      "Country of Origin": "South Sudan",
+      "ISO3 of Origin": "SSD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "59380"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
       "Country of Origin": "Sudan",
       "ISO3 of Origin": "SDN",
       "Population type": "Refugees",
@@ -8512,6 +9172,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "71"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "118"
     },
     {
       "Country": "Democratic Republic of the Congo",
@@ -8686,6 +9356,16 @@
     {
       "Country": "Democratic Republic of the Congo",
       "ISO3": "COD",
+      "Country of Origin": "Syrian Arab Rep.",
+      "ISO3 of Origin": "SYR",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "26"
+    },
+    {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
       "Country of Origin": "Uganda",
       "ISO3 of Origin": "UGA",
       "Population type": "Refugees",
@@ -8854,6 +9534,16 @@
       "Individuals": "27"
     },
     {
+      "Country": "Democratic Republic of the Congo",
+      "ISO3": "COD",
+      "Country of Origin": "Uganda",
+      "ISO3 of Origin": "UGA",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "27"
+    },
+    {
       "Country": "Djibouti",
       "ISO3": "DJI",
       "Country of Origin": "Eritrea",
@@ -8892,6 +9582,16 @@
       "Source": "Government, UNHCR",
       "Date": "2025-06-30",
       "Individuals": "1570"
+    },
+    {
+      "Country": "Djibouti",
+      "ISO3": "DJI",
+      "Country of Origin": "Eritrea",
+      "ISO3 of Origin": "ERI",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "1571"
     },
     {
       "Country": "Djibouti",
@@ -8946,6 +9646,16 @@
     {
       "Country": "Djibouti",
       "ISO3": "DJI",
+      "Country of Origin": "Ethiopia",
+      "ISO3 of Origin": "ETH",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "15523"
+    },
+    {
+      "Country": "Djibouti",
+      "ISO3": "DJI",
       "Country of Origin": "Others",
       "ISO3 of Origin": "",
       "Population type": "Asylum-Seekers",
@@ -8992,6 +9702,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-03-31",
       "Individuals": "1739"
+    },
+    {
+      "Country": "Djibouti",
+      "ISO3": "DJI",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "167"
     },
     {
       "Country": "Djibouti",
@@ -9046,6 +9766,16 @@
     {
       "Country": "Djibouti",
       "ISO3": "DJI",
+      "Country of Origin": "Somalia",
+      "ISO3 of Origin": "SOM",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "13905"
+    },
+    {
+      "Country": "Djibouti",
+      "ISO3": "DJI",
       "Country of Origin": "Yemen",
       "ISO3 of Origin": "YEM",
       "Population type": "Refugees",
@@ -9082,6 +9812,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-03-31",
       "Individuals": "3934"
+    },
+    {
+      "Country": "Djibouti",
+      "ISO3": "DJI",
+      "Country of Origin": "Yemen",
+      "ISO3 of Origin": "YEM",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "4002"
     },
     {
       "Country": "Ethiopia",
@@ -9266,6 +10006,16 @@
     {
       "Country": "Ethiopia",
       "ISO3": "ETH",
+      "Country of Origin": "Eritrea",
+      "ISO3 of Origin": "ERI",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "124650"
+    },
+    {
+      "Country": "Ethiopia",
+      "ISO3": "ETH",
       "Country of Origin": "Others",
       "ISO3 of Origin": "",
       "Population type": "Refugees",
@@ -9442,6 +10192,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "8120"
+    },
+    {
+      "Country": "Ethiopia",
+      "ISO3": "ETH",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "7477"
     },
     {
       "Country": "Ethiopia",
@@ -9626,6 +10386,16 @@
     {
       "Country": "Ethiopia",
       "ISO3": "ETH",
+      "Country of Origin": "Somalia",
+      "ISO3 of Origin": "SOM",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "362151"
+    },
+    {
+      "Country": "Ethiopia",
+      "ISO3": "ETH",
       "Country of Origin": "South Sudan",
       "ISO3 of Origin": "SSD",
       "Population type": "Refugees",
@@ -9802,6 +10572,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "483654"
+    },
+    {
+      "Country": "Ethiopia",
+      "ISO3": "ETH",
+      "Country of Origin": "South Sudan",
+      "ISO3 of Origin": "SSD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "469858"
     },
     {
       "Country": "Ethiopia",
@@ -10106,6 +10886,16 @@
     {
       "Country": "Ethiopia",
       "ISO3": "ETH",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "113520"
+    },
+    {
+      "Country": "Ethiopia",
+      "ISO3": "ETH",
       "Country of Origin": "Yemen",
       "ISO3 of Origin": "YEM",
       "Population type": "Refugees",
@@ -10282,6 +11072,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "2505"
+    },
+    {
+      "Country": "Ethiopia",
+      "ISO3": "ETH",
+      "Country of Origin": "Yemen",
+      "ISO3 of Origin": "YEM",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "1735"
     },
     {
       "Country": "Ghana",
@@ -12506,6 +13306,16 @@
     {
       "Country": "Kenya",
       "ISO3": "KEN",
+      "Country of Origin": "Burundi",
+      "ISO3 of Origin": "BDI",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "35240"
+    },
+    {
+      "Country": "Kenya",
+      "ISO3": "KEN",
       "Country of Origin": "Dem. Rep. of the Congo",
       "ISO3 of Origin": "COD",
       "Population type": "Asylum-Seekers",
@@ -12722,6 +13532,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "67143"
+    },
+    {
+      "Country": "Kenya",
+      "ISO3": "KEN",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "67477"
     },
     {
       "Country": "Kenya",
@@ -12946,6 +13766,16 @@
     {
       "Country": "Kenya",
       "ISO3": "KEN",
+      "Country of Origin": "Ethiopia",
+      "ISO3 of Origin": "ETH",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "43434"
+    },
+    {
+      "Country": "Kenya",
+      "ISO3": "KEN",
       "Country of Origin": "Others",
       "ISO3 of Origin": "",
       "Population type": "Asylum-Seekers",
@@ -13142,6 +13972,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "12697"
+    },
+    {
+      "Country": "Kenya",
+      "ISO3": "KEN",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "12710"
     },
     {
       "Country": "Kenya",
@@ -13376,6 +14216,16 @@
     {
       "Country": "Kenya",
       "ISO3": "KEN",
+      "Country of Origin": "Somalia",
+      "ISO3 of Origin": "SOM",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "487274"
+    },
+    {
+      "Country": "Kenya",
+      "ISO3": "KEN",
       "Country of Origin": "South Sudan",
       "ISO3 of Origin": "SSD",
       "Population type": "Asylum-Seekers",
@@ -13572,6 +14422,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "213245"
+    },
+    {
+      "Country": "Kenya",
+      "ISO3": "KEN",
+      "Country of Origin": "South Sudan",
+      "ISO3 of Origin": "SSD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "215043"
     },
     {
       "Country": "Kenya",
@@ -13776,6 +14636,16 @@
     {
       "Country": "Kenya",
       "ISO3": "KEN",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "13841"
+    },
+    {
+      "Country": "Kenya",
+      "ISO3": "KEN",
       "Country of Origin": "Uganda",
       "ISO3 of Origin": "UGA",
       "Population type": "Refugees",
@@ -13972,6 +14842,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "4420"
+    },
+    {
+      "Country": "Kenya",
+      "ISO3": "KEN",
+      "Country of Origin": "Uganda",
+      "ISO3 of Origin": "UGA",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "4433"
     },
     {
       "Country": "Liberia",
@@ -14256,6 +15136,16 @@
     {
       "Country": "Mali",
       "ISO3": "MLI",
+      "Country of Origin": "Burkina Faso",
+      "ISO3 of Origin": "BFA",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "133623"
+    },
+    {
+      "Country": "Mali",
+      "ISO3": "MLI",
       "Country of Origin": "Central African Rep.",
       "ISO3 of Origin": "CAF",
       "Population type": "Refugees",
@@ -14416,6 +15306,16 @@
     {
       "Country": "Mali",
       "ISO3": "MLI",
+      "Country of Origin": "Central African Rep.",
+      "ISO3 of Origin": "CAF",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "1437"
+    },
+    {
+      "Country": "Mali",
+      "ISO3": "MLI",
       "Country of Origin": "Congo",
       "ISO3 of Origin": "COG",
       "Population type": "Refugees",
@@ -14576,6 +15476,16 @@
     {
       "Country": "Mali",
       "ISO3": "MLI",
+      "Country of Origin": "Congo",
+      "ISO3 of Origin": "COG",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "54"
+    },
+    {
+      "Country": "Mali",
+      "ISO3": "MLI",
       "Country of Origin": "Côte d'Ivoire",
       "ISO3 of Origin": "CIV",
       "Population type": "Refugees",
@@ -14711,6 +15621,16 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
+      "Individuals": "0"
+    },
+    {
+      "Country": "Mali",
+      "ISO3": "MLI",
+      "Country of Origin": "Côte d'Ivoire",
+      "ISO3 of Origin": "CIV",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "0"
     },
     {
@@ -14906,6 +15826,16 @@
     {
       "Country": "Mali",
       "ISO3": "MLI",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "305"
+    },
+    {
+      "Country": "Mali",
+      "ISO3": "MLI",
       "Country of Origin": "Mauritania",
       "ISO3 of Origin": "MRT",
       "Population type": "Refugees",
@@ -15062,6 +15992,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
       "Individuals": "15069"
+    },
+    {
+      "Country": "Mali",
+      "ISO3": "MLI",
+      "Country of Origin": "Mauritania",
+      "ISO3 of Origin": "MRT",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "15072"
     },
     {
       "Country": "Mali",
@@ -15226,6 +16166,16 @@
     {
       "Country": "Mali",
       "ISO3": "MLI",
+      "Country of Origin": "Niger",
+      "ISO3 of Origin": "NER",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "44353"
+    },
+    {
+      "Country": "Mali",
+      "ISO3": "MLI",
       "Country of Origin": "Others",
       "ISO3 of Origin": "",
       "Population type": "Refugees",
@@ -15381,6 +16331,16 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
+      "Individuals": "176"
+    },
+    {
+      "Country": "Mali",
+      "ISO3": "MLI",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "176"
     },
     {
@@ -15554,6 +16514,16 @@
       "Individuals": "326"
     },
     {
+      "Country": "Mali",
+      "ISO3": "MLI",
+      "Country of Origin": "Various",
+      "ISO3 of Origin": "",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "341"
+    },
+    {
       "Country": "Mozambique",
       "ISO3": "MOZ",
       "Country of Origin": "Burundi",
@@ -15646,6 +16616,16 @@
     {
       "Country": "Mozambique",
       "ISO3": "MOZ",
+      "Country of Origin": "Burundi",
+      "ISO3 of Origin": "BDI",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "8479"
+    },
+    {
+      "Country": "Mozambique",
+      "ISO3": "MOZ",
       "Country of Origin": "Côte d'Ivoire",
       "ISO3 of Origin": "CIV",
       "Population type": "Asylum-Seekers",
@@ -15711,6 +16691,16 @@
       "Population type": "Asylum-Seekers",
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
+      "Individuals": "399"
+    },
+    {
+      "Country": "Mozambique",
+      "ISO3": "MOZ",
+      "Country of Origin": "Côte d'Ivoire",
+      "ISO3 of Origin": "CIV",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
       "Individuals": "399"
     },
     {
@@ -15826,6 +16816,16 @@
     {
       "Country": "Mozambique",
       "ISO3": "MOZ",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "9229"
+    },
+    {
+      "Country": "Mozambique",
+      "ISO3": "MOZ",
       "Country of Origin": "Others",
       "ISO3 of Origin": "",
       "Population type": "Asylum-Seekers",
@@ -15902,6 +16902,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
       "Individuals": "170"
+    },
+    {
+      "Country": "Mozambique",
+      "ISO3": "MOZ",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "171"
     },
     {
       "Country": "Mozambique",
@@ -15996,6 +17006,16 @@
     {
       "Country": "Mozambique",
       "ISO3": "MOZ",
+      "Country of Origin": "Rwanda",
+      "ISO3 of Origin": "RWA",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "3587"
+    },
+    {
+      "Country": "Mozambique",
+      "ISO3": "MOZ",
       "Country of Origin": "Somalia",
       "ISO3 of Origin": "SOM",
       "Population type": "Asylum-Seekers",
@@ -16082,6 +17102,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-07-31",
       "Individuals": "2356"
+    },
+    {
+      "Country": "Mozambique",
+      "ISO3": "MOZ",
+      "Country of Origin": "Somalia",
+      "ISO3 of Origin": "SOM",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-08-31",
+      "Individuals": "2455"
     },
     {
       "Country": "Malawi",
@@ -16466,6 +17496,16 @@
     {
       "Country": "Niger",
       "ISO3": "NER",
+      "Country of Origin": "Mali",
+      "ISO3 of Origin": "MLI",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "125574"
+    },
+    {
+      "Country": "Niger",
+      "ISO3": "NER",
       "Country of Origin": "Nigeria",
       "ISO3 of Origin": "NGA",
       "Population type": "Refugees",
@@ -16642,6 +17682,26 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "324262"
+    },
+    {
+      "Country": "Niger",
+      "ISO3": "NER",
+      "Country of Origin": "Nigeria",
+      "ISO3 of Origin": "NGA",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "324262"
+    },
+    {
+      "Country": "Niger",
+      "ISO3": "NER",
+      "Country of Origin": "Nigeria",
+      "ISO3 of Origin": "NGA",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "327544"
     },
     {
       "Country": "Niger",
@@ -16834,6 +17894,16 @@
       "Individuals": "83013"
     },
     {
+      "Country": "Niger",
+      "ISO3": "NER",
+      "Country of Origin": "Various",
+      "ISO3 of Origin": "",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "49418"
+    },
+    {
       "Country": "Nigeria",
       "ISO3": "NGA",
       "Country of Origin": "Cameroon",
@@ -17002,6 +18072,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-09-01",
       "Individuals": "107919"
+    },
+    {
+      "Country": "Nigeria",
+      "ISO3": "NGA",
+      "Country of Origin": "Cameroon",
+      "ISO3 of Origin": "CMR",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-01",
+      "Individuals": "107929"
     },
     {
       "Country": "Nigeria",
@@ -17176,6 +18256,16 @@
     {
       "Country": "Nigeria",
       "ISO3": "NGA",
+      "Country of Origin": "Central African Rep.",
+      "ISO3 of Origin": "CAF",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-01",
+      "Individuals": "1007"
+    },
+    {
+      "Country": "Nigeria",
+      "ISO3": "NGA",
       "Country of Origin": "Chad",
       "ISO3 of Origin": "TCD",
       "Population type": "Refugees",
@@ -17336,6 +18426,16 @@
     {
       "Country": "Nigeria",
       "ISO3": "NGA",
+      "Country of Origin": "Chad",
+      "ISO3 of Origin": "TCD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-01",
+      "Individuals": "71"
+    },
+    {
+      "Country": "Nigeria",
+      "ISO3": "NGA",
       "Country of Origin": "Côte d'Ivoire",
       "ISO3 of Origin": "CIV",
       "Population type": "Refugees",
@@ -17471,6 +18571,16 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-09-01",
+      "Individuals": "21"
+    },
+    {
+      "Country": "Nigeria",
+      "ISO3": "NGA",
+      "Country of Origin": "Côte d'Ivoire",
+      "ISO3 of Origin": "CIV",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-01",
       "Individuals": "21"
     },
     {
@@ -17666,6 +18776,16 @@
     {
       "Country": "Nigeria",
       "ISO3": "NGA",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-01",
+      "Individuals": "534"
+    },
+    {
+      "Country": "Nigeria",
+      "ISO3": "NGA",
       "Country of Origin": "Mali",
       "ISO3 of Origin": "MLI",
       "Population type": "Refugees",
@@ -17821,6 +18941,16 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-09-01",
+      "Individuals": "84"
+    },
+    {
+      "Country": "Nigeria",
+      "ISO3": "NGA",
+      "Country of Origin": "Mali",
+      "ISO3 of Origin": "MLI",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-01",
       "Individuals": "84"
     },
     {
@@ -17982,6 +19112,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-09-01",
       "Individuals": "12253"
+    },
+    {
+      "Country": "Nigeria",
+      "ISO3": "NGA",
+      "Country of Origin": "Niger",
+      "ISO3 of Origin": "NER",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-01",
+      "Individuals": "12254"
     },
     {
       "Country": "Nigeria",
@@ -18166,6 +19306,16 @@
     {
       "Country": "Nigeria",
       "ISO3": "NGA",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-01",
+      "Individuals": "2824"
+    },
+    {
+      "Country": "Nigeria",
+      "ISO3": "NGA",
       "Country of Origin": "Sudan",
       "ISO3 of Origin": "SDN",
       "Population type": "Refugees",
@@ -18332,6 +19482,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-09-01",
       "Individuals": "666"
+    },
+    {
+      "Country": "Nigeria",
+      "ISO3": "NGA",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-01",
+      "Individuals": "871"
     },
     {
       "Country": "Nigeria",
@@ -18506,6 +19666,16 @@
     {
       "Country": "Nigeria",
       "ISO3": "NGA",
+      "Country of Origin": "Syrian Arab Rep.",
+      "ISO3 of Origin": "SYR",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-01",
+      "Individuals": "1203"
+    },
+    {
+      "Country": "Nigeria",
+      "ISO3": "NGA",
       "Country of Origin": "Turkey",
       "ISO3 of Origin": "TUR",
       "Population type": "Refugees",
@@ -18661,6 +19831,16 @@
       "Population type": "Refugees",
       "Source": "Government, UNHCR",
       "Date": "2026-09-01",
+      "Individuals": "466"
+    },
+    {
+      "Country": "Nigeria",
+      "ISO3": "NGA",
+      "Country of Origin": "Türkiye",
+      "ISO3 of Origin": "TUR",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-01",
       "Individuals": "466"
     },
     {
@@ -18854,6 +20034,16 @@
       "Individuals": "13811"
     },
     {
+      "Country": "Nigeria",
+      "ISO3": "NGA",
+      "Country of Origin": "Various",
+      "ISO3 of Origin": "",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-01",
+      "Individuals": "14424"
+    },
+    {
       "Country": "Rwanda",
       "ISO3": "RWA",
       "Country of Origin": "Burundi",
@@ -19016,6 +20206,16 @@
     {
       "Country": "Rwanda",
       "ISO3": "RWA",
+      "Country of Origin": "Burundi",
+      "ISO3 of Origin": "BDI",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, MINEMA, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "51587"
+    },
+    {
+      "Country": "Rwanda",
+      "ISO3": "RWA",
       "Country of Origin": "Dem. Rep. of the Congo",
       "ISO3 of Origin": "COD",
       "Population type": "Asylum-Seekers",
@@ -19172,6 +20372,16 @@
       "Source": "Government, MINEMA, UNHCR",
       "Date": "2026-07-31",
       "Individuals": "80838"
+    },
+    {
+      "Country": "Rwanda",
+      "ISO3": "RWA",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, MINEMA, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "81604"
     },
     {
       "Country": "Rwanda",
@@ -19346,6 +20556,16 @@
     {
       "Country": "Rwanda",
       "ISO3": "RWA",
+      "Country of Origin": "Eritrea",
+      "ISO3 of Origin": "ERI",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, MINEMA, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "243"
+    },
+    {
+      "Country": "Rwanda",
+      "ISO3": "RWA",
       "Country of Origin": "Others",
       "ISO3 of Origin": "",
       "Population type": "Refugees",
@@ -19502,6 +20722,16 @@
       "Source": "Government, MINEMA, UNHCR",
       "Date": "2026-07-31",
       "Individuals": "1221"
+    },
+    {
+      "Country": "Rwanda",
+      "ISO3": "RWA",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, MINEMA, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "1347"
     },
     {
       "Country": "Sudan",
@@ -19682,6 +20912,16 @@
       "Source": "COR, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "685744"
+    },
+    {
+      "Country": "Sudan",
+      "ISO3": "SDN",
+      "Country of Origin": "South Sudan",
+      "ISO3 of Origin": "SSD",
+      "Population type": "Refugees",
+      "Source": "COR, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "689397"
     },
     {
       "Country": "Sudan",
@@ -20062,6 +21302,36 @@
       "Source": "COR, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "547258"
+    },
+    {
+      "Country": "Sudan",
+      "ISO3": "SDN",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "COR, UNHCR",
+      "Date": "2026-09-14",
+      "Individuals": "547516"
+    },
+    {
+      "Country": "Sudan",
+      "ISO3": "SDN",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "COR, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "547553"
+    },
+    {
+      "Country": "Sudan",
+      "ISO3": "SDN",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "COR, UNHCR",
+      "Date": "2026-10-19",
+      "Individuals": "547590"
     },
     {
       "Country": "Senegal",
@@ -20956,6 +22226,16 @@
     {
       "Country": "South Sudan",
       "ISO3": "SSD",
+      "Country of Origin": "Burundi",
+      "ISO3 of Origin": "BDI",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "1188"
+    },
+    {
+      "Country": "South Sudan",
+      "ISO3": "SSD",
       "Country of Origin": "Central African Rep.",
       "ISO3 of Origin": "CAF",
       "Population type": "Refugees",
@@ -21126,6 +22406,16 @@
     {
       "Country": "South Sudan",
       "ISO3": "SSD",
+      "Country of Origin": "Central African Rep.",
+      "ISO3 of Origin": "CAF",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "5700"
+    },
+    {
+      "Country": "South Sudan",
+      "ISO3": "SSD",
       "Country of Origin": "Dem. Rep. of the Congo",
       "ISO3 of Origin": "COD",
       "Population type": "Refugees",
@@ -21292,6 +22582,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "14991"
+    },
+    {
+      "Country": "South Sudan",
+      "ISO3": "SSD",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "15008"
     },
     {
       "Country": "South Sudan",
@@ -21476,6 +22776,16 @@
     {
       "Country": "South Sudan",
       "ISO3": "SSD",
+      "Country of Origin": "Eritrea",
+      "ISO3 of Origin": "ERI",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "6414"
+    },
+    {
+      "Country": "South Sudan",
+      "ISO3": "SSD",
       "Country of Origin": "Ethiopia",
       "ISO3 of Origin": "ETH",
       "Population type": "Asylum-Seekers",
@@ -21642,6 +22952,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "7093"
+    },
+    {
+      "Country": "South Sudan",
+      "ISO3": "SSD",
+      "Country of Origin": "Ethiopia",
+      "ISO3 of Origin": "ETH",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "7101"
     },
     {
       "Country": "South Sudan",
@@ -21816,6 +23136,16 @@
     {
       "Country": "South Sudan",
       "ISO3": "SSD",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "318"
+    },
+    {
+      "Country": "South Sudan",
+      "ISO3": "SSD",
       "Country of Origin": "Somalia",
       "ISO3 of Origin": "SOM",
       "Population type": "Refugees",
@@ -21981,6 +23311,16 @@
       "Population type": "Asylum-Seekers",
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
+      "Individuals": "44"
+    },
+    {
+      "Country": "South Sudan",
+      "ISO3": "SSD",
+      "Country of Origin": "Somalia",
+      "ISO3 of Origin": "SOM",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
       "Individuals": "44"
     },
     {
@@ -22606,6 +23946,46 @@
     {
       "Country": "South Sudan",
       "ISO3": "SSD",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-21",
+      "Individuals": "1120500"
+    },
+    {
+      "Country": "South Sudan",
+      "ISO3": "SSD",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "1122583"
+    },
+    {
+      "Country": "South Sudan",
+      "ISO3": "SSD",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-05",
+      "Individuals": "1124672"
+    },
+    {
+      "Country": "South Sudan",
+      "ISO3": "SSD",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-11-02",
+      "Individuals": "1129037"
+    },
+    {
+      "Country": "South Sudan",
+      "ISO3": "SSD",
       "Country of Origin": "Uganda",
       "ISO3 of Origin": "UGA",
       "Population type": "Refugees",
@@ -22772,6 +24152,16 @@
       "Source": "Government, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "4050"
+    },
+    {
+      "Country": "South Sudan",
+      "ISO3": "SSD",
+      "Country of Origin": "Various",
+      "ISO3 of Origin": "",
+      "Population type": "Asylum-Seekers",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "4329"
     },
     {
       "Country": "Chad",
@@ -23966,6 +25356,36 @@
     {
       "Country": "Chad",
       "ISO3": "TCD",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-09-21",
+      "Individuals": "1401753"
+    },
+    {
+      "Country": "Chad",
+      "ISO3": "TCD",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-10-05",
+      "Individuals": "1411904"
+    },
+    {
+      "Country": "Chad",
+      "ISO3": "TCD",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, UNHCR",
+      "Date": "2026-11-02",
+      "Individuals": "1425743"
+    },
+    {
+      "Country": "Chad",
+      "ISO3": "TCD",
       "Country of Origin": "Various",
       "ISO3 of Origin": "",
       "Population type": "Asylum-Seekers",
@@ -25146,6 +26566,26 @@
     {
       "Country": "Uganda",
       "ISO3": "UGA",
+      "Country of Origin": "Burundi",
+      "ISO3 of Origin": "BDI",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "46923"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Burundi",
+      "ISO3 of Origin": "BDI",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-10-31",
+      "Individuals": "46985"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
       "Country of Origin": "Dem. Rep. of the Congo",
       "ISO3 of Origin": "COD",
       "Population type": "Asylum-Seekers",
@@ -25332,6 +26772,26 @@
       "Source": "Government, Office of the Prime Minister, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "670240"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "672232"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Dem. Rep. of the Congo",
+      "ISO3 of Origin": "COD",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-10-31",
+      "Individuals": "673662"
     },
     {
       "Country": "Uganda",
@@ -25526,6 +26986,26 @@
     {
       "Country": "Uganda",
       "ISO3": "UGA",
+      "Country of Origin": "Eritrea",
+      "ISO3 of Origin": "ERI",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "74043"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Eritrea",
+      "ISO3 of Origin": "ERI",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-10-31",
+      "Individuals": "75544"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
       "Country of Origin": "Ethiopia",
       "ISO3 of Origin": "ETH",
       "Population type": "Asylum-Seekers",
@@ -25712,6 +27192,26 @@
       "Source": "Government, Office of the Prime Minister, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "16340"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Ethiopia",
+      "ISO3 of Origin": "ETH",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "16535"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Ethiopia",
+      "ISO3 of Origin": "ETH",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-10-31",
+      "Individuals": "16654"
     },
     {
       "Country": "Uganda",
@@ -25906,6 +27406,26 @@
     {
       "Country": "Uganda",
       "ISO3": "UGA",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "2788"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Others",
+      "ISO3 of Origin": "",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-10-31",
+      "Individuals": "2814"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
       "Country of Origin": "Rwanda",
       "ISO3 of Origin": "RWA",
       "Population type": "Asylum-Seekers",
@@ -26092,6 +27612,26 @@
       "Source": "Government, Office of the Prime Minister, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "25753"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Rwanda",
+      "ISO3 of Origin": "RWA",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "25874"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Rwanda",
+      "ISO3 of Origin": "RWA",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-10-31",
+      "Individuals": "25944"
     },
     {
       "Country": "Uganda",
@@ -26286,6 +27826,26 @@
     {
       "Country": "Uganda",
       "ISO3": "UGA",
+      "Country of Origin": "Somalia",
+      "ISO3 of Origin": "SOM",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "52346"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Somalia",
+      "ISO3 of Origin": "SOM",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-10-31",
+      "Individuals": "55048"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
       "Country of Origin": "South Sudan",
       "ISO3 of Origin": "SSD",
       "Population type": "Asylum-Seekers",
@@ -26472,6 +28032,26 @@
       "Source": "Government, Office of the Prime Minister, UNHCR",
       "Date": "2026-08-31",
       "Individuals": "1059650"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "South Sudan",
+      "ISO3 of Origin": "SSD",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "1063113"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "South Sudan",
+      "ISO3 of Origin": "SSD",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-10-31",
+      "Individuals": "1066679"
     },
     {
       "Country": "Uganda",
@@ -27122,6 +28702,56 @@
       "Source": "Government, Office of the Prime Minister, UNHCR",
       "Date": "2026-09-07",
       "Individuals": "189098"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-09-21",
+      "Individuals": "189173"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-09-30",
+      "Individuals": "189465"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-10-05",
+      "Individuals": "189437"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-10-31",
+      "Individuals": "190147"
+    },
+    {
+      "Country": "Uganda",
+      "ISO3": "UGA",
+      "Country of Origin": "Sudan",
+      "ISO3 of Origin": "SDN",
+      "Population type": "Refugees",
+      "Source": "Government, Office of the Prime Minister, UNHCR",
+      "Date": "2026-11-02",
+      "Individuals": "190500"
     },
     {
       "Country": "Zambia",

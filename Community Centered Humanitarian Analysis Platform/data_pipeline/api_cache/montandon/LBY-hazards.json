@@ -2,6 +2,1020 @@
   "type": "FeatureCollection",
   "features": [
     {
+      "id": "pdc-hazard-ca8d853d-2672-4d41-a70a-91745064b044-566959-1794058055041",
+      "bbox": [
+        18.07033263766013,
+        17.49759969898906,
+        18.07033263766013,
+        17.49759969898906
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.07033263766013,
+          17.49759969898906
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Blowing Dust - Tibesti, Borkou, Ennedi And Kanem, Chad",
+        "datetime": "2026-11-07T15:00:00Z",
+        "end_datetime": "2026-11-08T09:00:00Z",
+        "monty:corr_id": "20261107-NER-967591-MH0301-1-GCDB",
+        "start_datetime": "2026-11-07T15:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301"
+        ],
+        "monty:country_codes": [
+          "NER",
+          "LBY",
+          "TCD"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "ADVISORY",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-ca8d853d-2672-4d41-a70a-91745064b044-566959-1794058055041",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-hazard-ca8d853d-2672-4d41-a70a-91745064b044-566959-1794057051204",
+      "bbox": [
+        18.07033263766013,
+        17.49759969898906,
+        18.07033263766013,
+        17.49759969898906
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.07033263766013,
+          17.49759969898906
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Blowing Dust - Tibesti, Borkou, Ennedi And Kanem, Chad",
+        "datetime": "2026-11-07T15:00:00Z",
+        "end_datetime": "2026-11-08T09:00:00Z",
+        "monty:corr_id": "20261107-NER-967591-MH0301-1-GCDB",
+        "start_datetime": "2026-11-07T15:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301"
+        ],
+        "monty:country_codes": [
+          "NER",
+          "LBY",
+          "TCD"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "ADVISORY",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-ca8d853d-2672-4d41-a70a-91745064b044-566959-1794057051204",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-hazard-3fcbc73d-3480-4c91-9e6e-5b0aebbed151-566235-1793968691573",
+      "bbox": [
+        20.32283155660781,
+        18.09982929881316,
+        20.32283155660781,
+        18.09982929881316
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.32283155660781,
+          18.09982929881316
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Blowing Dust - Borkou And Ennedi Regions, Chad",
+        "datetime": "2026-11-06T09:00:00Z",
+        "end_datetime": "2026-11-07T14:00:00Z",
+        "monty:corr_id": "20261106-NER-973002-MH0301-1-GCDB",
+        "start_datetime": "2026-11-06T09:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301"
+        ],
+        "monty:country_codes": [
+          "NER",
+          "SDN",
+          "LBY",
+          "TCD"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "ADVISORY",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-3fcbc73d-3480-4c91-9e6e-5b0aebbed151-566235-1793968691573",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-hazard-175d83d0-8a43-407b-b250-d081274efd24-562536-1793458679979",
+      "bbox": [
+        18.4950115366234,
+        15.06943774023709,
+        18.4950115366234,
+        15.06943774023709
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.4950115366234,
+          15.06943774023709
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Dry Haze - Borkou, Kanem, Lac And NDjamena, Chad",
+        "datetime": "2026-10-31T14:54:00Z",
+        "end_datetime": "2026-11-01T14:00:00Z",
+        "monty:corr_id": "20261031-NER-945993-MH0103-1-GCDB",
+        "start_datetime": "2026-10-31T14:54:00Z",
+        "monty:hazard_codes": [
+          "MH0103"
+        ],
+        "monty:country_codes": [
+          "NER",
+          "LBY",
+          "TCD",
+          "SDN",
+          "NGA",
+          "CMR"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "INFORMATION",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-175d83d0-8a43-407b-b250-d081274efd24-562536-1793458679979",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-hazard-d217c895-82f6-4118-b58f-88739d565092-561554-1793347220633",
+      "bbox": [
+        20.04908402137545,
+        18.15318838381241,
+        20.04908402137545,
+        18.15318838381241
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.04908402137545,
+          18.15318838381241
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Blowing Dust - Borkou And Ennedi Regions, Chad",
+        "datetime": "2026-10-29T15:00:00Z",
+        "end_datetime": "2026-10-30T08:15:41Z",
+        "monty:corr_id": "20261029-LBY-973001-MH0301-1-GCDB",
+        "start_datetime": "2026-10-29T15:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301"
+        ],
+        "monty:country_codes": [
+          "LBY",
+          "TCD",
+          "SDN",
+          "NER"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "INFORMATION",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-d217c895-82f6-4118-b58f-88739d565092-561554-1793347220633",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-hazard-8c27c920-4094-4625-b57b-3e0d2d9564ed-559387-1793056367576",
+      "bbox": [
+        19.17866488933527,
+        16.08685127843283,
+        19.17866488933527,
+        16.08685127843283
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.17866488933527,
+          16.08685127843283
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Blowing Dust - Barh el Ghazel, Batha, Borkou, Ennedi Est, Ennedi Ouest, Guéra, Hadjer-Lamis, Chad",
+        "datetime": "2026-10-26T21:36:00Z",
+        "end_datetime": "2026-10-27T14:00:00Z",
+        "monty:corr_id": "20261026-TCD-954997-MH0301-1-GCDB",
+        "start_datetime": "2026-10-26T21:36:00Z",
+        "monty:hazard_codes": [
+          "MH0301"
+        ],
+        "monty:country_codes": [
+          "TCD",
+          "NER",
+          "LBY",
+          "SDN",
+          "NGA"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "WARNING",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-8c27c920-4094-4625-b57b-3e0d2d9564ed-559387-1793056367576",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-hazard-1104231-1",
+      "bbox": [
+        13.0657,
+        32.6253,
+        13.5981,
+        32.8828
+      ],
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                13.1453,
+                32.8828
+              ],
+              [
+                13.146,
+                32.8827
+              ],
+              [
+                13.1461,
+                32.8828
+              ],
+              [
+                13.1453,
+                32.8828
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1388,
+                32.882
+              ],
+              [
+                13.1392,
+                32.882
+              ],
+              [
+                13.1388,
+                32.8821
+              ],
+              [
+                13.1388,
+                32.882
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1335,
+                32.8818
+              ],
+              [
+                13.1335,
+                32.8817
+              ],
+              [
+                13.1336,
+                32.8818
+              ],
+              [
+                13.1335,
+                32.8818
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1338,
+                32.8817
+              ],
+              [
+                13.1342,
+                32.8816
+              ],
+              [
+                13.1342,
+                32.8817
+              ],
+              [
+                13.1338,
+                32.8817
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1324,
+                32.8812
+              ],
+              [
+                13.133,
+                32.8812
+              ],
+              [
+                13.1325,
+                32.8815
+              ],
+              [
+                13.1324,
+                32.8812
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1301,
+                32.8807
+              ],
+              [
+                13.1302,
+                32.8807
+              ],
+              [
+                13.1303,
+                32.8807
+              ],
+              [
+                13.1303,
+                32.8807
+              ],
+              [
+                13.1303,
+                32.8807
+              ],
+              [
+                13.1302,
+                32.8807
+              ],
+              [
+                13.1301,
+                32.8807
+              ],
+              [
+                13.13,
+                32.8807
+              ],
+              [
+                13.1299,
+                32.8807
+              ],
+              [
+                13.1299,
+                32.8807
+              ],
+              [
+                13.1299,
+                32.8807
+              ],
+              [
+                13.1299,
+                32.8807
+              ],
+              [
+                13.1299,
+                32.8807
+              ],
+              [
+                13.13,
+                32.8807
+              ],
+              [
+                13.1301,
+                32.8807
+              ],
+              [
+                13.1301,
+                32.8807
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1318,
+                32.8806
+              ],
+              [
+                13.1322,
+                32.8808
+              ],
+              [
+                13.1318,
+                32.8808
+              ],
+              [
+                13.1318,
+                32.8806
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1284,
+                32.8804
+              ],
+              [
+                13.1286,
+                32.8805
+              ],
+              [
+                13.1284,
+                32.8805
+              ],
+              [
+                13.1284,
+                32.8804
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1292,
+                32.8804
+              ],
+              [
+                13.1293,
+                32.8805
+              ],
+              [
+                13.1292,
+                32.8805
+              ],
+              [
+                13.1292,
+                32.8804
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1285,
+                32.8803
+              ],
+              [
+                13.1286,
+                32.8803
+              ],
+              [
+                13.1286,
+                32.8803
+              ],
+              [
+                13.1286,
+                32.8804
+              ],
+              [
+                13.1285,
+                32.8803
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1276,
+                32.8788
+              ],
+              [
+                13.1276,
+                32.8787
+              ],
+              [
+                13.1277,
+                32.8787
+              ],
+              [
+                13.1276,
+                32.8788
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1276,
+                32.8784
+              ],
+              [
+                13.1278,
+                32.8785
+              ],
+              [
+                13.1276,
+                32.8785
+              ],
+              [
+                13.1276,
+                32.8784
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1267,
+                32.878
+              ],
+              [
+                13.127,
+                32.8781
+              ],
+              [
+                13.1267,
+                32.8782
+              ],
+              [
+                13.1267,
+                32.878
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1267,
+                32.8774
+              ],
+              [
+                13.1267,
+                32.8775
+              ],
+              [
+                13.1267,
+                32.8775
+              ],
+              [
+                13.1267,
+                32.8775
+              ],
+              [
+                13.1266,
+                32.8775
+              ],
+              [
+                13.1267,
+                32.8774
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1259,
+                32.8772
+              ],
+              [
+                13.1262,
+                32.8773
+              ],
+              [
+                13.1262,
+                32.8774
+              ],
+              [
+                13.1259,
+                32.8772
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.1194,
+                32.8774
+              ],
+              [
+                13.1203,
+                32.8782
+              ],
+              [
+                13.1167,
+                32.8781
+              ],
+              [
+                13.1168,
+                32.8777
+              ],
+              [
+                13.1169,
+                32.8777
+              ],
+              [
+                13.1173,
+                32.8777
+              ],
+              [
+                13.1175,
+                32.8776
+              ],
+              [
+                13.1178,
+                32.8776
+              ],
+              [
+                13.1183,
+                32.8776
+              ],
+              [
+                13.1187,
+                32.8774
+              ],
+              [
+                13.1194,
+                32.8774
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                13.3944,
+                32.6253
+              ],
+              [
+                13.5981,
+                32.7927
+              ],
+              [
+                13.0657,
+                32.8568
+              ],
+              [
+                13.1459,
+                32.7123
+              ],
+              [
+                13.3944,
+                32.6253
+              ]
+            ]
+          ]
+        ]
+      },
+      "collection": "gdacs-hazards",
+      "properties": {
+        "title": "Flood in Libya",
+        "datetime": "2026-10-13T01:00:00Z",
+        "end_datetime": "2026-10-15T01:00:00Z",
+        "monty:corr_id": "20261013-LBY-1106167-MH0600-1-GCDB",
+        "start_datetime": "2026-10-13T01:00:00Z",
+        "monty:hazard_codes": [
+          "MH0600"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "GDACS Severity Score",
+          "severity_label": "Green",
+          "severity_value": 0.5
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-hazards/items/gdacs-hazard-1104231-1",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-hazard-82b6969c-3238-432b-af33-91058d755b91-560023-1793141584007",
+      "bbox": [
+        19.06098359872216,
+        16.20285949135736,
+        19.06098359872216,
+        16.20285949135736
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.06098359872216,
+          16.20285949135736
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Ennedi, Barh El Ghazal, Kanem, Wadi Fira, Ouaddaï, Lac, Chad",
+        "datetime": "2026-10-11T09:00:00Z",
+        "end_datetime": "2026-10-28T14:00:00Z",
+        "monty:corr_id": "20261011-TCD-954996-MH0301-1-GCDB",
+        "start_datetime": "2026-10-11T09:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301"
+        ],
+        "monty:country_codes": [
+          "TCD",
+          "NER",
+          "LBY",
+          "SDN",
+          "NGA",
+          "CMR"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "ADVISORY",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-82b6969c-3238-432b-af33-91058d755b91-560023-1793141584007",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
       "id": "pdc-hazard-6728601a-8d64-44f3-88d7-e9adacc2c4b2-412804-1774854013045",
       "bbox": [
         14.774767406554432,

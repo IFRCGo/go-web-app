@@ -29,6 +29,7 @@ Community_Centered_Humanitarian_Analysis_Documentation.docx
 /docs/superpowers/
 
 # Agent instructions for this working copy, kept local like .gitignore above.
+.claude
 /CLAUDE.md
 /AGENTS.md
 
