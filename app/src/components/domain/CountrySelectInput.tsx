@@ -22,6 +22,9 @@ type Props<NAME> = SelectInputProps<
     onChange: (newValue: number | undefined, name: NAME, option: Country | undefined) => void;
     value: number | undefined | null;
     regionId?: number;
+    // NOTE: When true, also includes the 5 IFRC region entries (e.g. "Africa Region")
+    // as selectable options, in addition to actual countries
+    includeRegions?: boolean;
 }
 
 function CountrySelectInput<const NAME>(props: Props<NAME>) {
@@ -31,10 +34,11 @@ function CountrySelectInput<const NAME>(props: Props<NAME>) {
         onChange,
         value,
         regionId,
+        includeRegions,
         ...otherProps
     } = props;
 
-    const countries = useCountry({ region: regionId });
+    const countries = useCountry({ region: regionId, includeRegions });
 
     return (
         <SelectInput

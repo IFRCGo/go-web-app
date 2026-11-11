@@ -16,6 +16,7 @@ import {
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import NonFieldError from '#components/NonFieldError';
+import { isCountryIdRegion } from '#utils/domain/country';
 
 import { type PartialCountryDistrict } from '../../schema';
 
@@ -52,6 +53,9 @@ function CountryProvinceInput(props: Props) {
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
 
+    // NOTE: Regions (e.g. "Africa Region") have no sub-national districts/provinces
+    const isRegionSelected = isCountryIdRegion(value.country);
+
     const handleCountryChange = useCallback((newValue: number | undefined) => {
         onChange({
             ...value,
@@ -87,19 +91,22 @@ function CountryProvinceInput(props: Props) {
                 onChange={handleCountryChange}
                 value={value.country}
                 disabled={disabled}
+                includeRegions
                 withAsterisk
             />
-            <DistrictSearchMultiSelectInput
-                error={getErrorString(error?.district)}
-                label={strings.flashUpdateFormContextProvinceLabel}
-                name="district"
-                countryId={value?.country}
-                onChange={handleDistrictChange}
-                options={districtOptions}
-                onOptionsChange={setDistrictOptions}
-                value={value.district}
-                disabled={disabled}
-            />
+            {!isRegionSelected && (
+                <DistrictSearchMultiSelectInput
+                    error={getErrorString(error?.district)}
+                    label={strings.flashUpdateFormContextProvinceLabel}
+                    name="district"
+                    countryId={value?.country}
+                    onChange={handleDistrictChange}
+                    options={districtOptions}
+                    onOptionsChange={setDistrictOptions}
+                    value={value.district}
+                    disabled={disabled}
+                />
+            )}
             <IconButton
                 className={styles.removeButton}
                 name={index}

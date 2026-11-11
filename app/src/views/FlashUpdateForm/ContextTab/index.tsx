@@ -114,7 +114,7 @@ function ContextTab(props: Props) {
         );
     }, [onValueChange]);
 
-    const countryOptions = useCountry();
+    const countryOptions = useCountry({ includeRegions: true });
     const countryTitleMapById = useMemo(() => (
         listToMap(
             countryOptions,
