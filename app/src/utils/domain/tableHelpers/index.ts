@@ -83,7 +83,11 @@ export function createLinkColumn<D, K>(
 
 type CountryResponse = GoApiResponse<'/api/v2/country/'>;
 type CountryListItem = NonNullable<CountryResponse['results']>[number];
-type PartialCountry = Pick<CountryListItem, 'id' | 'name'>;
+type PartialCountry = Pick<CountryListItem, 'id' | 'name'> & {
+    // NOTE: Optional since not every country list consumer (e.g. search results) has
+    // this field; it is only used to detect the 5 IFRC region entries (e.g. "Africa Region")
+    record_type?: CountryListItem['record_type'];
+};
 
 type RegionListResponse = GoApiResponse<'/api/v2/region/'>;
 type RegionListItem = NonNullable<RegionListResponse['results']>[number];
@@ -92,6 +96,7 @@ type PartialRegion = Pick<RegionListItem, 'id' | 'region_name'>;
 const countryLinkRendererParams = (country: PartialCountry) => ({
     id: country.id,
     name: country.name ?? '?',
+    recordType: country.record_type,
 });
 
 const regionLinkRendererParams = (region: PartialRegion) => ({
