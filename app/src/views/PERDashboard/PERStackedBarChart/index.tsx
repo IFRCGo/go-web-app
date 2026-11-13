@@ -4,12 +4,18 @@ import {
     useState,
 } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { _cs } from '@togglecorp/fujs';
+import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToString } from '@ifrc-go/ui/utils';
+import {
+    _cs,
+    getColorOnBgColor,
+    isDefined,
+} from '@togglecorp/fujs';
 import {
     BarElement,
     CategoryScale,
     Chart as ChartJS,
-    ChartOptions,
+    type ChartOptions,
     Legend,
     LinearScale,
     Title,
@@ -17,20 +23,20 @@ import {
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-import useTranslation from '#hooks/useTranslation';
-
-import { getContrastColor } from '../../utils/common';
-
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export interface StackedBarDataItem {
+// NOTE: Hex alpha (30%) for the bars of the other years while a year is selected; the colours
+// are `#RRGGBB` because Chart.js draws on a canvas and cannot read CSS variables
+const UNSELECTED_YEAR_ALPHA = '4D';
+
+interface StackedBarDataItem {
     year: number | string | null;
     values: { [key: string]: number };
     label: string;
 }
 
-export interface Props {
+interface Props {
 
     data: StackedBarDataItem[];
 
@@ -47,7 +53,10 @@ export interface Props {
     className?: string;
 
     categories: {
+        /** Key of the category in `values` of each data item */
         label: string;
+        /** Text shown to the user (tooltip). Falls back to `label` */
+        displayLabel?: string;
         fillColor: string;
         hoverFillColor?: string;
     }[];
@@ -89,11 +98,11 @@ function PERStackedBarChart({
     const chartData = {
         labels: data.map((item) => item.label),
         datasets: categories.map((category) => ({
-            label: category.label,
+            label: category.displayLabel ?? category.label,
             data: data.map((item) => item.values[category.label] ?? 0),
             backgroundColor: data.map((item) => (
-                item.year?.toString() === activeYear
-                    ? category.hoverFillColor ?? category.fillColor
+                isDefined(activeYear) && item.year?.toString() !== activeYear
+                    ? `${category.fillColor}${UNSELECTED_YEAR_ALPHA}`
                     : category.fillColor
             )),
             hoverBackgroundColor: category.hoverFillColor ?? category.fillColor,
@@ -127,15 +136,15 @@ function PERStackedBarChart({
                     label: (context) => {
                         const label = context.dataset.label ?? '';
                         const value = context.parsed.y;
-                        return strings?.stackedBarTooltipFormat
-                            ?.replace('{category}', label)
-                            ?.replace('{value}', value!.toString())
-                            ?? ` ${label}  ${value}`;
+                        return resolveToString(
+                            strings.stackedBarTooltipFormat,
+                            { category: label, value },
+                        );
                     },
                     labelTextColor: () => '#111827',
                     labelColor: (context) => ({
                         borderColor: 'transparent',
-                        backgroundColor: categories[context.datasetIndex].fillColor,
+                        backgroundColor: categories[context.datasetIndex]?.fillColor ?? 'transparent',
                     }),
                 },
                 titleColor: '#111827',
@@ -175,8 +184,10 @@ function PERStackedBarChart({
                     // Handle case where backgroundColor is an array
                     const color = Array.isArray(backgroundColor)
                         ? backgroundColor[context.dataIndex]
-                        : backgroundColor as string;
-                    return getContrastColor(color);
+                        : backgroundColor;
+                    return typeof color === 'string'
+                        ? getColorOnBgColor(color, '#000000', '#FFFFFF')
+                        : '#000000';
                 },
                 font: {
                     size: 11,
@@ -195,10 +206,6 @@ function PERStackedBarChart({
                         family: 'Poppins',
                         size: 12,
                     },
-                },
-                title: {
-                    display: true,
-                    text: strings?.stackedBarXAxisLabel ?? '',
                 },
             },
             y: {
@@ -229,24 +236,18 @@ function PERStackedBarChart({
                         return numericValue;
                     },
                 },
-                title: {
-                    display: true,
-                    text: strings?.stackedBarYAxisLabel ?? '',
-                },
             },
         },
         onClick: onClick ? (_, elements) => {
-            if (elements.length > 0) {
-                const dataIndex = elements[0].index;
-                onClick(data[dataIndex]);
+            const clickedIndex = elements[0]?.index;
+            const clickedItem = isDefined(clickedIndex) ? data[clickedIndex] : undefined;
+            if (isDefined(clickedItem)) {
+                onClick(clickedItem);
             }
         } : undefined,
         onHover: onHover ? (_, elements) => {
-            if (elements.length > 0) {
-                onHover(data[elements[0].index]);
-            } else {
-                onHover(null);
-            }
+            const hoveredIndex = elements[0]?.index;
+            onHover((isDefined(hoveredIndex) ? data[hoveredIndex] : undefined) ?? null);
         } : undefined,
     }), [tooltipEnabled,
         showDataLabels, yAxisMin, yAxisMax, onClick, onHover, data, strings, categories]);
@@ -260,11 +261,11 @@ function PERStackedBarChart({
             ref={containerRef}
             className={_cs(styles.responsiveContainer, className)}
             style={containerStyle}
-            aria-label={strings?.stackedBarContainerLabel ?? 'Stacked bar chart'}
+            aria-label={strings.stackedBarContainerLabel}
         >
             <div
                 className={styles.chartWrapper}
-                aria-label={strings?.stackedBarChartLabel ?? 'Stacked bar chart showing data over time'}
+                aria-label={strings.stackedBarChartLabel}
             >
                 <Bar
                     data={chartData}

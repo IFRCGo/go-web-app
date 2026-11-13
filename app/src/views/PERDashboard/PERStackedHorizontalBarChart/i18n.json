@@ -1,9 +1,8 @@
 {
-    "namespace": "common",
+    "namespace": "perDashboard",
     "strings": {
         "horizontalBarContainerLabel": "Horizontal stacked bar chart",
         "horizontalBarChartLabel": "Horizontal stacked bar chart showing assessment types",
-        "horizontalBarItemLabel": "Bar for {category} with value {value}",
         "horizontalBarTooltipFormat": "{category}: {value}"
     }
 }

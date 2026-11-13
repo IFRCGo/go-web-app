@@ -1,3 +1,4 @@
+/* FIXME: moved with the PER components from @ifrc-go/ui; replace the layout rules with Container, ListView and InlineLayout and keep only the chart styles */
 .chartWrapper {
     display: flex;
     align-items: center;

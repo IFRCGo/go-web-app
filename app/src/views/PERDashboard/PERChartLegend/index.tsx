@@ -1,17 +1,20 @@
 import { useCallback } from 'react';
+import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToString } from '@ifrc-go/ui/utils';
 import { _cs } from '@togglecorp/fujs';
-
-import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface LegendItem {
+    /** Identifies the item. It is used for the active state and returned on click */
     label: string;
+    /** Text shown to the user. Falls back to `label` */
+    displayLabel?: string;
     color: string;
 }
 
-export interface Props {
+interface Props {
     className?: string;
     data: LegendItem[];
     onClick?: (item: LegendItem) => void;
@@ -44,22 +47,26 @@ function PERChartLegend(props: Props) {
                 layout === 'vertical' && styles.vertical,
                 className,
             )}
-            aria-label={strings?.legendContainerLabel ?? 'Chart legend'}
+            aria-label={strings.legendContainerLabel}
         >
             {data.map((item, index) => {
                 const isActive = activeIndex === item.label;
                 const isDisabled = disabledIndices.includes(index);
+                const displayLabel = item.displayLabel ?? item.label;
                 const getAriaLabel = () => {
                     if (isDisabled) {
-                        return strings?.legendItemDisabledLabel?.replace('{label}', item.label)
-                            ?? `Legend item for ${item.label} (disabled)`;
+                        return resolveToString(
+                            strings.legendItemDisabledLabel,
+                            { label: displayLabel },
+                        );
                     }
                     if (isActive) {
-                        return strings?.legendItemActiveLabel?.replace('{label}', item.label)
-                            ?? `Legend item for ${item.label} (active)`;
+                        return resolveToString(
+                            strings.legendItemActiveLabel,
+                            { label: displayLabel },
+                        );
                     }
-                    return strings?.legendItemLabel?.replace('{label}', item.label)
-                        ?? `Legend item for ${item.label}`;
+                    return resolveToString(strings.legendItemLabel, { label: displayLabel });
                 };
                 const ariaLabel = getAriaLabel();
 
@@ -79,10 +86,13 @@ function PERChartLegend(props: Props) {
                         <div
                             className={styles.color}
                             style={{ backgroundColor: item.color }}
-                            aria-label={strings?.legendColorIndicatorLabel?.replace('{label}', item.label) ?? `Color indicator for ${item.label}`}
+                            aria-label={resolveToString(
+                                strings.legendColorIndicatorLabel,
+                                { label: displayLabel },
+                            )}
                         />
                         <span className={styles.label}>
-                            {item.label}
+                            {displayLabel}
                         </span>
                     </button>
                 );

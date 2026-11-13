@@ -1,5 +1,8 @@
 export interface DataItem {
+    /** Identifies the row */
     name: string;
+    /** Text shown to the user. Falls back to `name` */
+    displayName?: string;
     SelfAssessment?: number;
     Simulation?: number;
     Operational?: number;

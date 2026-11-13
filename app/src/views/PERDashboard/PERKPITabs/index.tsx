@@ -1,15 +1,14 @@
+import { useState } from 'react';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
-    useEffect,
-    useState,
-} from 'react';
-import { _cs } from '@togglecorp/fujs';
-
-import useTranslation from '#hooks/useTranslation';
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export interface KPI {
+interface KPI {
     /**
      * Unique identifier for the KPI
      */
@@ -31,7 +30,7 @@ export interface KPI {
     color?: string;
 }
 
-export interface Props {
+interface Props {
     /**
      * Array of KPI items to display
      */
@@ -85,8 +84,8 @@ function PERKPITabs({
 
     // Handle tab click
     const handleTabClick = (index: number): void => {
-        if (disableTabs || index === activeIndex) {
-            // Do nothing if tabs are disabled or the clicked tab is already active
+        if (disableTabs) {
+            // Do nothing if tabs are disabled
             return;
         }
 
@@ -99,15 +98,11 @@ function PERKPITabs({
         }
 
         // Always notify via onTabClick callback if provided
-        onTabClick?.(kpis[index].key);
-    };
-
-    // Sync internal state with external activeIndex if it becomes uncontrolled
-    useEffect(() => {
-        if (!isControlled) {
-            // Optionally, you can add logic here if you need to respond to external changes
+        const clickedKey = kpis[index]?.key;
+        if (isDefined(clickedKey)) {
+            onTabClick?.(clickedKey);
         }
-    }, [isControlled]);
+    };
 
     return (
         <div
@@ -115,7 +110,7 @@ function PERKPITabs({
                 styles.kpiTabsContainer,
                 className,
             )}
-            aria-label={strings?.kpiTabsContainerLabel ?? 'KPI tabs container'}
+            aria-label={strings.kpiTabsContainerLabel}
         >
             {kpis.map((kpi, index) => (
                 <button
@@ -128,18 +123,16 @@ function PERKPITabs({
                     onClick={() => handleTabClick(index)}
                     disabled={disableTabs}
                     type="button"
-                    aria-label={strings?.kpiTabLabel?.replace('{description}', kpi.description) ?? `KPI tab for ${kpi.description}`}
+                    aria-pressed={activeIndex === index}
                 >
                     <div
                         className={styles.kpiValue}
                         style={{ color: kpi.color }}
-                        aria-label={strings?.kpiValueLabel?.replace('{value}', kpi.value.toString()) ?? `KPI value: ${kpi.value}`}
                     >
                         {kpi.value}
                     </div>
                     <div
                         className={styles.kpiDescription}
-                        aria-label={strings?.kpiDescriptionLabel?.replace('{description}', kpi.description) ?? `KPI description: ${kpi.description}`}
                     >
                         {kpi.description}
                     </div>
