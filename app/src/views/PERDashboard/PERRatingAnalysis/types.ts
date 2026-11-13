@@ -1,52 +1,36 @@
-export type RatingStatus =
-  | "Doesn't exist"
-  | 'Partially exists'
-  | 'Needs improvement'
-  | 'Good performing'
-  | 'High performing';
-
-export interface PERRatingData {
+interface PERRatingData {
     name: string;
-    rating: RatingStatus;
-    status: RatingStatus;
+    rating: number;
     change: number;
     changeDirection: 'up' | 'down';
     cycleRatings: CycleRating[];
     areaColor?: string;
 }
 
-export interface PERAreaData extends PERRatingData {
+interface PERAreaData extends PERRatingData {
     type: 'area';
 }
 
-export interface PERComponentData extends PERRatingData {
+interface PERComponentData extends PERRatingData {
     type: 'component';
+    /** The component number */
     id: number;
+    /** The letter of a sub-component, e.g. "A" for 14 A */
+    letter: string | null;
+    key: string;
 }
 
 export interface CycleRating {
     cycle: string;
-    rating: RatingStatus;
-    color: string;
+    rating: number;
 }
-
-export const COLORS = {
-    primary: '#2264D1',
-    policy: '#3B82F6',
-    analysis: '#10B981',
-    operational: '#F59E0B',
-    support: '#8B5CF6',
-    coordination: '#EC4899',
-} as const;
 
 export interface Props {
     overallRating: {
-        rating: RatingStatus;
+        rating: number;
         change: number;
         changeDirection: 'up' | 'down';
-        status: RatingStatus;
         cycleRatings: CycleRating[];
-        color: string;
     };
     areaData: PERAreaData[];
     componentData: PERComponentData[];

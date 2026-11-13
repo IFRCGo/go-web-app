@@ -1,30 +1,67 @@
+import { Tooltip } from '@ifrc-go/ui';
+
+import { getPerRatingColor } from '#utils/domain/per';
+
+import { getPERRatingLevel } from './ratingScale';
+import type { CycleRating } from './types';
+import usePERRatingLevelLabels from './usePERRatingLevelLabels';
+
 import styles from './styles.module.css';
 
 interface Props {
-  ratings: number[];
-  colors: string[];
+    name: string;
+    cycleRatings: CycleRating[];
+    ariaLabel: string;
 }
 
-function Sparkline({ ratings, colors }: Props) {
-    const bars = ratings.map((rating, index) => {
-        let val = Math.floor(rating) + 1;
-        if (val > 5) val = 5;
-        // Create a unique key using the rating value and position
-        const uniqueKey = `sparkline-${rating.toString().replace('.', '')}-${colors[index].replace('#', '')}-${index}`;
+function Sparkline({
+    name,
+    cycleRatings,
+    ariaLabel,
+}: Props) {
+    const ratingLevelLabels = usePERRatingLevelLabels();
+
+    const bars = cycleRatings.map((cycleRating) => {
+        const {
+            cycle,
+            rating,
+        } = cycleRating;
+        const level = getPERRatingLevel(rating);
         return (
             <div
-                key={uniqueKey}
+                key={cycle}
                 className={styles.sparklineBar}
                 style={{
                     height: `${(rating + 2) * 12}%`,
-                    backgroundColor: colors[index],
+                    backgroundColor: getPerRatingColor(level),
                 }}
-            />
+            >
+                <Tooltip
+                    title={name}
+                    description={(
+                        <>
+                            <div>
+                                Cycle
+                                {' '}
+                                {cycle}
+                            </div>
+                            <div>
+                                {rating.toFixed(2)}
+                                {' / 5.0'}
+                            </div>
+                            <div>{ratingLevelLabels[level]}</div>
+                        </>
+                    )}
+                />
+            </div>
         );
     });
 
     return (
-        <div className={styles.sparklineContainer}>
+        <div
+            className={styles.sparklineContainer}
+            aria-label={ariaLabel}
+        >
             {bars}
         </div>
     );

@@ -3,20 +3,28 @@ import {
     useRef,
     useState,
 } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { RawButton } from '@ifrc-go/ui';
+import {
+    _cs,
+    isNotDefined,
+} from '@togglecorp/fujs';
 import * as d3 from 'd3';
 
-import useTranslation from '#hooks/useTranslation';
+import { PER_CONSIDERATION_GAUGE_COLOR } from '../assessmentPalette';
 
-import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export interface Props {
+interface Props {
     /**
      * Percentage value to display in the gauge (0-100)
      * @default 33
      */
     percentage?: number;
+
+    /**
+     * Number of National Societies represented by the percentage
+     */
+    count?: number;
 
     /**
      * URL of the icon to display in the center
@@ -31,7 +39,7 @@ export interface Props {
 
     /**
      * Color of the gauge fill
-     * @default '#236192'
+     * @default PER_CONSIDERATION_GAUGE_COLOR
      */
     gaugeColor?: string;
 
@@ -53,10 +61,21 @@ export interface Props {
     onClick?: () => void;
 
     /**
+     * Whether the gauge is the selected filter
+     * @default false
+     */
+    active?: boolean;
+
+    /**
      * Title text to display above the gauge
      * @default 'Chart title'
      */
     title?: string;
+
+    /**
+     * Supporting text to display below the title
+     */
+    subtitle?: string;
 
     /**
      * Additional CSS class names
@@ -66,18 +85,20 @@ export interface Props {
 
 function PERGaugeChart({
     percentage = 33,
+    count,
     icon,
     label = 'EPI-ready',
-    gaugeColor = '#236192',
+    gaugeColor = PER_CONSIDERATION_GAUGE_COLOR,
     backgroundColor = '#F2F2F2',
     transitionSpeed = 1000,
     onClick = () => undefined,
+    active = false,
     title = 'Chart title',
+    subtitle,
     className,
 }: Props) {
-    const strings = useTranslation(i18n);
     const svgRef = useRef<SVGSVGElement | null>(null);
-    const containerRef = useRef<HTMLDivElement | null>(null);
+    const containerRef = useRef<HTMLButtonElement | null>(null);
     const [containerWidth, setContainerWidth] = useState<number>(200);
     const prevPercentage = useRef(percentage);
 
@@ -86,7 +107,10 @@ function PERGaugeChart({
         if (!container) return;
 
         const resizeObserver = new ResizeObserver((entries) => {
-            const { width } = entries[0].contentRect;
+            const width = entries[0]?.contentRect.width;
+            if (isNotDefined(width)) {
+                return;
+            }
             // Subtract padding from the width
             const padding = 32; // --go-ui-spacing-md (16px) * 2
             setContainerWidth(Math.max(width - padding, 0));
@@ -191,22 +215,21 @@ function PERGaugeChart({
     }, [percentage, radius, transitionSpeed]);
 
     return (
-        <div
-            ref={containerRef}
+        <RawButton
+            name={undefined}
+            elementRef={containerRef}
             className={_cs(styles.container, className)}
-            role="button"
-            tabIndex={0}
-            onClick={onClick}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    onClick?.();
-                }
-            }}
-            aria-label={strings?.gaugeContainerLabel?.replace('{percentage}', percentage.toString())?.replace('{label}', label) ?? `Gauge chart showing ${percentage}% for ${label}`}
+            onClick={onClick ? () => onClick() : undefined}
+            aria-pressed={active}
         >
             {title && (
                 <div className={styles.title}>
                     {title}
+                </div>
+            )}
+            {subtitle && (
+                <div className={styles.subtitle}>
+                    {subtitle}
                 </div>
             )}
             <div className={styles.svgContainer}>
@@ -216,7 +239,8 @@ function PERGaugeChart({
                     height={height}
                     viewBox={`0 0 ${containerWidth} ${height}`}
                     preserveAspectRatio="xMidYMid meet"
-                    aria-label={strings?.gaugeValueLabel?.replace('{percentage}', percentage.toString()) ?? `Gauge value: ${percentage}%`}
+                    // NOTE: the percentage is also shown as text below the gauge
+                    aria-hidden
                 />
             </div>
             {label && (
@@ -228,7 +252,14 @@ function PERGaugeChart({
                 {percentage}
                 %
             </div>
-        </div>
+            {count !== undefined && (
+                <div className={styles.count}>
+                    {count}
+                    {' '}
+                    NS
+                </div>
+            )}
+        </RawButton>
     );
 }
 

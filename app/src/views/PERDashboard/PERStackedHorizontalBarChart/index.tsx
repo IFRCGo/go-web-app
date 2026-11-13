@@ -1,10 +1,16 @@
 import { useRef } from 'react';
 import { Bar } from 'react-chartjs-2';
+import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToString } from '@ifrc-go/ui/utils';
+import {
+    getColorOnBgColor,
+    isDefined,
+} from '@togglecorp/fujs';
 import {
     BarElement,
     CategoryScale,
     Chart as ChartJS,
-    ChartOptions,
+    type ChartOptions,
     Legend,
     LinearScale,
     Title,
@@ -12,9 +18,11 @@ import {
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-import useTranslation from '#hooks/useTranslation';
-
-import { getContrastColor } from '../../utils/common';
+import {
+    PER_ASSESSMENT_TYPE_COLORS,
+    PER_ASSESSMENT_TYPE_KEYS,
+} from '../assessmentPalette';
+import usePERAssessmentTypeLabels from '../PERConsiderations/usePERAssessmentTypeLabels';
 import type {
     DataItem,
     Props,
@@ -22,8 +30,6 @@ import type {
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-export type { Props } from './types';
 
 ChartJS.register(
     CategoryScale,
@@ -35,30 +41,6 @@ ChartJS.register(
     ChartDataLabels,
 );
 
-// Define datasets with label and fillColor
-const datasetsConfig = [
-    {
-        label: 'Self-assessment',
-        fillColor: '#236192',
-        key: 'SelfAssessment',
-    },
-    {
-        label: 'Simulation',
-        fillColor: '#418FDE',
-        key: 'Simulation',
-    },
-    {
-        label: 'Operational',
-        fillColor: '#009CDD',
-        key: 'Operational',
-    },
-    {
-        label: 'Post-operational',
-        fillColor: '#C6C6C6',
-        key: 'PostOperational',
-    },
-];
-
 function PERStackedHorizontalBarChart({
     data,
     transitionSpeed = 800,
@@ -68,12 +50,14 @@ function PERStackedHorizontalBarChart({
     const strings = useTranslation(i18n);
     const chartRef = useRef(null);
 
-    const labels = data.map((item: DataItem) => item.name);
+    const assessmentTypeLabels = usePERAssessmentTypeLabels();
 
-    const datasets = datasetsConfig.map((dataset) => ({
-        label: dataset.label,
-        data: data.map((item: DataItem) => item[dataset.key] || 0),
-        backgroundColor: dataset.fillColor,
+    const labels = data.map((item: DataItem) => item.displayName ?? item.name);
+
+    const datasets = PER_ASSESSMENT_TYPE_KEYS.map((assessmentType) => ({
+        label: assessmentTypeLabels[assessmentType],
+        data: data.map((item: DataItem) => item[assessmentType] || 0),
+        backgroundColor: PER_ASSESSMENT_TYPE_COLORS[assessmentType],
         barPercentage: 0.65,
         categoryPercentage: 0.65,
     }));
@@ -106,10 +90,10 @@ function PERStackedHorizontalBarChart({
                     label: (context) => {
                         const label = context.dataset.label ?? '';
                         const value = context.parsed.x;
-                        return strings?.horizontalBarTooltipFormat
-                            ?.replace('{category}', label)
-                            ?.replace('{value}', value!.toString())
-                            ?? ` ${label}  ${value}`;
+                        return resolveToString(
+                            strings.horizontalBarTooltipFormat,
+                            { category: label, value },
+                        );
                     },
                     labelTextColor: () => '#111827',
                     labelColor: (context) => ({
@@ -150,9 +134,10 @@ function PERStackedHorizontalBarChart({
             datalabels: {
                 anchor: 'center',
                 color: (context) => {
-                    const { datasetIndex } = context;
-                    const { backgroundColor } = datasets[datasetIndex];
-                    return getContrastColor(backgroundColor);
+                    const backgroundColor = datasets[context.datasetIndex]?.backgroundColor;
+                    return isDefined(backgroundColor)
+                        ? getColorOnBgColor(backgroundColor, '#000000', '#FFFFFF')
+                        : '#000000';
                 },
                 font: {
                     size: 10,
@@ -226,13 +211,13 @@ function PERStackedHorizontalBarChart({
     return (
         <div
             className={styles.container}
-            aria-label={strings?.horizontalBarContainerLabel}
+            aria-label={strings.horizontalBarContainerLabel}
         >
             <Bar
                 ref={chartRef}
                 data={chartData}
                 options={options}
-                aria-label={strings?.horizontalBarChartLabel}
+                aria-label={strings.horizontalBarChartLabel}
             />
         </div>
     );

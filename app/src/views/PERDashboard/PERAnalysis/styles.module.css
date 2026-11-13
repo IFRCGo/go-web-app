@@ -1,3 +1,4 @@
+/* FIXME: moved with the PER components from @ifrc-go/ui; replace the layout rules with Container, ListView and InlineLayout and keep only the chart styles */
 .perAnalysis {
   margin: 0 auto;
   padding: var(--go-ui-spacing-xl);
@@ -7,6 +8,8 @@
 
 .container {
   margin: 0 auto;
+  width: 100%;
+  min-width: 0;
 }
 
 .card {

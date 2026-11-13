@@ -1,9 +1,6 @@
 {
-    "namespace": "common",
+    "namespace": "perDashboard",
     "strings": {
-        "regionContainerLabel": "Region filter",
-        "regionButtonLabel": "Toggle {region} filter",
-        "regionButtonActiveLabel": "{region} filter active",
-        "regionButtonInactiveLabel": "{region} filter inactive"
+        "regionContainerLabel": "Region filter"
     }
 }

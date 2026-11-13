@@ -1,14 +1,16 @@
 import { useCallback } from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
 import {
     ArcElement,
     Chart as ChartJS,
-    ChartEvent,
-    ChartOptions,
+    type ChartEvent,
+    type ChartOptions,
     Legend,
     Tooltip,
-    TooltipItem,
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
@@ -17,14 +19,17 @@ import styles from './styles.module.css';
 // Register required ChartJS components
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-export interface ChartDataItem {
+interface ChartDataItem {
+    /** Identifies the item. It is returned on click */
     label: string;
+    /** Text shown to the user (tooltip). Falls back to `label` */
+    displayLabel?: string;
     count?: number;
     value?: number;
     fillColor?: string;
 }
 
-export interface Props {
+interface Props {
     className?: string;
     /** Array of data items to display in the chart */
     data: ChartDataItem[];
@@ -48,8 +53,6 @@ export interface Props {
     animation?: boolean;
     /** Whether to show tooltips */
     tooltipEnabled?: boolean;
-    /** Custom tooltip format function */
-    tooltipFormat?: (label: string, value: number) => string;
     /** Primary text to display in center of donut */
     centerText?: string | number;
     /** Secondary text to display in center of donut */
@@ -103,7 +106,6 @@ function PERDonutChart(props: Props) {
         hoverOffset = 4,
         animation = true,
         tooltipEnabled = true,
-        tooltipFormat = (value) => `${value}`,
         centerText,
         centerTextSecondary,
         maintainAspectRatio = false,
@@ -119,24 +121,24 @@ function PERDonutChart(props: Props) {
         if (onHover) {
             onHover(
                 event.native as MouseEvent,
-                elements.length > 0 ? elements[0].index : null,
+                elements[0]?.index ?? null,
             );
         }
     }, [onHover]);
 
+    // NOTE: The colours start again from the first when there are more segments than colours
+    const segmentColors = data
+        .map((_, index) => colors[index % colors.length])
+        .filter(isDefined);
+
     const chartData = {
-        labels: data.map((item) => item.label),
+        labels: data.map((item) => item.displayLabel ?? item.label),
         datasets: [
             {
                 data: data.map((item) => item.count),
-                backgroundColor: data.map(
-                    (_, index) => colors[index % colors.length],
-                ),
-                hoverBackgroundColor: data.map(
-                    (_, index) => adjustColor(
-                        colors[index % colors.length],
-                        hoverDarkenPercent,
-                    ),
+                backgroundColor: segmentColors,
+                hoverBackgroundColor: segmentColors.map(
+                    (color) => adjustColor(color, hoverDarkenPercent),
                 ),
                 borderWidth: 0,
                 hoverOffset,
@@ -170,13 +172,6 @@ function PERDonutChart(props: Props) {
             },
             tooltip: {
                 enabled: tooltipEnabled,
-                callbacks: {
-                    label(tooltipItem: TooltipItem<'doughnut'>) {
-                        const label = tooltipItem.label || '';
-                        const value = tooltipItem.raw as number;
-                        return tooltipFormat(label, value);
-                    },
-                },
                 titleColor: '#111827',
                 bodyColor: '#111827',
                 backgroundColor: '#FFFFFF',
@@ -214,9 +209,10 @@ function PERDonutChart(props: Props) {
         },
         onHover: handleHover,
         onClick: (event: ChartEvent, elements: { index: number }[]) => {
-            if (onClick && event && elements.length > 0) {
-                const { index } = elements[0];
-                onClick(data[index]);
+            const clickedIndex = elements[0]?.index;
+            const clickedItem = isDefined(clickedIndex) ? data[clickedIndex] : undefined;
+            if (onClick && event && isDefined(clickedItem)) {
+                onClick(clickedItem);
             }
         },
     };

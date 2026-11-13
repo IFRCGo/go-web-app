@@ -1,4 +1,6 @@
+/* FIXME: moved with the PER components from @ifrc-go/ui; replace the layout rules with Container, ListView and InlineLayout and keep only the chart styles */
 .container {
+    display: block;
     position: relative;
     margin: 0;
     outline: none;
@@ -6,6 +8,7 @@
     background: none;
     cursor: pointer;
     padding: 0;
+    width: 100%;
     font-family: var(--go-ui-font-family-sans-serif);
 }
 
@@ -26,6 +29,12 @@
     font-weight: var(--go-ui-font-weight-medium);
 }
 
+.subtitle {
+    text-align: center;
+    color: var(--go-ui-color-gray-60);
+    font-size: var(--go-ui-font-size-sm);
+}
+
 .label {
     position: absolute;
     bottom: -29px;
@@ -43,4 +52,13 @@
     transform: translate(-50%, 0);
     font-size: var(--go-ui-font-size-lg);
     font-weight: var(--go-ui-font-weight-bold);
+}
+
+.count {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color: var(--go-ui-color-text-light);
+    font-size: var(--go-ui-font-size-sm);
 }

@@ -1,13 +1,9 @@
 {
-    "namespace": "common",
+    "namespace": "perDashboard",
     "strings": {
         "treemapContainerLabel": "Treemap chart",
         "treemapChartLabel": "Interactive treemap chart showing hierarchical data",
-        "treemapSectionLabel": "{name}",
         "treemapComponentLabel": "{name} {value}",
-        "treemapSelectedLabel": "{name}",
-        "treemapTooltipTitleLabel": "{name}",
-        "treemapTooltipTagLabel": "{name}",
-        "treemapTooltipValueLabel": "{value}"
+        "treemapSelectedLabel": "{name}"
     }
 }

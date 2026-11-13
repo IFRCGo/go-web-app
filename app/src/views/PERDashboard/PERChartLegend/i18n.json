@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "perDashboard",
     "strings": {
         "legendContainerLabel": "Chart legend",
         "legendItemLabel": "Legend item for {label}",

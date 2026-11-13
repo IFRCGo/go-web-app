@@ -2,25 +2,30 @@ import {
     type MouseEvent,
     useCallback,
 } from 'react';
-import { _cs } from '@togglecorp/fujs';
-
-import useTranslation from '#hooks/useTranslation';
+import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Region {
+    /** Identifies the region. It is used for the active state and returned on click */
     name: string;
-    count: number;
+    /** Text shown to the user. Falls back to `name` */
+    displayName?: string;
+    /** Shown next to the name when defined */
+    count?: number;
 }
 
-export interface Props {
+interface Props {
     className?: string;
     regions: Region[];
     onRegionClick?: (region: string | null) => void;
     activeRegion: string | null;
     precision?: number;
-    showCount?: boolean;
 }
 
 function PERRegionToggle({
@@ -29,7 +34,6 @@ function PERRegionToggle({
     onRegionClick,
     activeRegion,
     precision = 0,
-    showCount = true,
 }: Props) {
     const strings = useTranslation(i18n);
 
@@ -37,8 +41,6 @@ function PERRegionToggle({
         event: MouseEvent<HTMLButtonElement>,
         name: string,
     ) => {
-        event.stopPropagation();
-
         const button = event.currentTarget;
         const rect = button.getBoundingClientRect();
         const x = event.clientX - rect.left;
@@ -51,26 +53,11 @@ function PERRegionToggle({
         onRegionClick?.(newActiveRegion);
     }, [activeRegion, onRegionClick]);
 
-    const handleContainerClick = useCallback(() => {
-        if (activeRegion !== null) {
-            onRegionClick?.(null);
-        }
-    }, [activeRegion, onRegionClick]);
-
-    const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-            handleContainerClick();
-        }
-    }, [handleContainerClick]);
-
     return (
         <div
             className={_cs(styles.container, className)}
-            onClick={handleContainerClick}
-            onKeyDown={handleKeyDown}
-            role="button"
-            tabIndex={0}
-            aria-label={strings?.regionContainerLabel ?? 'Region filter'}
+            role="group"
+            aria-label={strings.regionContainerLabel}
         >
             <div className={styles.toggleGroup}>
                 <div className={styles.toggleBody}>
@@ -84,16 +71,11 @@ function PERRegionToggle({
                             onClick={(event) => handleToggle(event, region.name)}
                             aria-pressed={activeRegion === region.name}
                             type="button"
-                            aria-label={
-                                activeRegion === region.name
-                                    ? strings?.regionButtonActiveLabel?.replace('{region}', region.name)
-                                        ?? `${region.name} filter active`
-                                    : strings?.regionButtonInactiveLabel?.replace('{region}', region.name)
-                                        ?? `${region.name} filter inactive`
-                            }
                         >
-                            <span className={styles.label}>{region.name}</span>
-                            {showCount && (
+                            <span className={styles.label}>
+                                {region.displayName ?? region.name}
+                            </span>
+                            {isDefined(region.count) && (
                                 <span className={styles.count}>
                                     {region.count.toFixed(precision)}
                                 </span>

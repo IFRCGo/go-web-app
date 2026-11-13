@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "perDashboard",
     "strings": {
         "perMapContainerLabel": "PER Map",
         "perMapTooltipCloseLabel": "Close tooltip",
