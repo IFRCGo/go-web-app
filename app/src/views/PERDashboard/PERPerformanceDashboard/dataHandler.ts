@@ -1,695 +1,424 @@
-import type {
-    AreaSummary,
-    Assessment,
-    ComponentRating,
-    ComponentRatingsResult,
-    Filters,
-    RegionData,
-} from './types';
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
-const AREA_COLORS: Record<string, string> = {
-    'Policy Strategy and Standards': '#8748b3',
-    'Analysis and planning': '#ff8655',
-    'Operations support': '#da283d',
-    'Operational capacity': '#3478ec',
-    Coordination: '#00B2A2',
-} as const;
+import { getPerAreaColor } from '#utils/domain/per';
 
-// Rating scale colors
-const RATING_SCALE_COLORS = {
-    "Doesn't exist": '#E0E3E7',
-    'Partially exists': '#99A5B3',
-    'Needs improvement': '#7D8B9D',
-    'Good performing': '#4D617A',
-    'High performing': '#011E41',
-} as const;
+import {
+    assessmentTypeKey,
+    type ComponentAssessment,
+    type DashboardFilterState,
+    dateTimestamp,
+    hasReachedAssessment,
+    type PerformanceComponent,
+    type PerformanceCountryAssessment,
+    type PerformanceData,
+} from '../data';
+import type { Props as PERRatingAnalysisProps } from '../PERRatingAnalysis';
 
-// Define interfaces for API response data
-interface APIAssessmentData {
-    assessment_id: number;
-    assessment_number: number;
-    country_id: number;
-    country_name: string;
-    region_id: number;
-    region_name: string;
-    date_of_assessment: string;
-    rating_value: number;
-    rating_title: string;
+export type PerformanceFilterState = DashboardFilterState & {
+    cycle: number | null;
+};
+
+type RatingCycle = PERRatingAnalysisProps['overallRating']['cycleRatings'][number];
+
+interface FlattenedComponentAssessment extends ComponentAssessment {
+    componentId: number;
+    componentNum: number;
+    componentLetter: string | null;
+    componentName: string | null;
+    areaNum: number | null;
+    areaName: string | null;
 }
 
-interface APIComponentData {
-    component_num: number;
-    component_name: string;
-    area_id: number;
-    area_name: string;
-    assessments: APIAssessmentData[];
+interface ComponentRatingSummary {
+    componentId: number;
+    componentNum: number;
+    componentLetter: string | null;
+    componentName: string;
+    areaName: string;
+    areaNum: number | null;
+    rating: number;
+    cycleRatings: RatingCycle[];
 }
 
-interface APIResponse {
-    assessments: Record<string, APIComponentData>;
+function compareAssessmentRecency(
+    left: ComponentAssessment,
+    right: ComponentAssessment,
+): number {
+    return left.assessmentNumber - right.assessmentNumber
+        || dateTimestamp(left.dateOfAssessment) - dateTimestamp(right.dateOfAssessment)
+        || (left.assessmentId ?? -1) - (right.assessmentId ?? -1);
 }
 
-interface UpdateData {
-    last_update: string;
+// NOTE: Sub-components share their component number (14 A to 14 N are all 14), so they
+// are ordered by their letter
+function compareComponentNumbers(
+    left: Pick<ComponentRatingSummary, 'componentNum' | 'componentLetter'>,
+    right: Pick<ComponentRatingSummary, 'componentNum' | 'componentLetter'>,
+): number {
+    return left.componentNum - right.componentNum
+        || (left.componentLetter ?? '').localeCompare(right.componentLetter ?? '');
 }
 
-let perDashboardData: Assessment[] = [];
-let lastUpdateData: UpdateData | null = null;
+// NOTE: A rating of 0 means "Not reviewed". Like a missing rating it is not a score,
+// so it is left out of every average.
+function isRated(rating: number | null): rating is number {
+    return isDefined(rating) && rating > 0;
+}
 
-function initializeData(data: APIResponse, updateData: UpdateData) {
-    // Transform the data from the API format to our internal format
-    const assessments: Assessment[] = [];
-    Object.entries(data.assessments).forEach(([, component]: [string, APIComponentData]) => {
-        component.assessments.forEach((assessment: APIAssessmentData) => {
-            assessments.push({
+function getRatedValues(assessments: Pick<ComponentAssessment, 'ratingValue'>[]): number[] {
+    return assessments
+        .map((assessment) => assessment.ratingValue)
+        .filter(isRated);
+}
+
+// NOTE: The parent of component 14 is only rated through its sub-components (14 A to
+// 14 N). Each sub-component is a component of its own and counts equally in the averages.
+function flattenComponentAssessments(data: PerformanceData): FlattenedComponentAssessment[] {
+    return data.assessments
+        .filter((component) => !component.isParent)
+        .flatMap((component: PerformanceComponent) => (
+            component.assessments.map((assessment) => ({
                 ...assessment,
-                component_num: component.component_num,
-                component_name: component.component_name,
-                area_id: component.area_id,
-                area_name: component.area_name,
-            });
-        });
-    });
-
-    perDashboardData = assessments;
-    lastUpdateData = updateData;
+                componentId: component.componentId,
+                componentNum: component.componentNum,
+                componentLetter: component.componentLetter,
+                componentName: component.componentName,
+                areaNum: component.areaNum,
+                areaName: component.areaName,
+            }))
+        ));
 }
 
-// Helper function to check if an assessment is newer
-function isNewerAssessment(current: Assessment, existing: Assessment): boolean {
-    return current.assessment_number > existing.assessment_number
-    || (current.assessment_number === existing.assessment_number
-      && new Date(current.date_of_assessment) > new Date(existing.date_of_assessment));
-}
-
-// Helper function to filter duplicate assessments
-const filterDuplicateAssessments = (assessments: Assessment[]): Assessment[] => {
-    const groups = new Map<string, Assessment[]>();
-
+function deduplicateComponentAssessments(
+    assessments: FlattenedComponentAssessment[],
+): FlattenedComponentAssessment[] {
+    const deduplicated = new Map<string, FlattenedComponentAssessment>();
     assessments.forEach((assessment) => {
-        const key = [
-            assessment.assessment_id,
-            assessment.assessment_number,
-            assessment.component_num,
-        ].join('_');
-        if (!groups.has(key)) {
-            groups.set(key, []);
+        const assessmentKey = assessment.assessmentId === null
+            ? [
+                assessment.countryId,
+                assessment.assessmentNumber,
+                assessment.dateOfAssessment,
+            ].join(':')
+            : String(assessment.assessmentId);
+        const key = `${assessment.componentId}:${assessmentKey}`;
+        const current = deduplicated.get(key);
+        if (
+            !current
+            || (current.ratingValue === null && assessment.ratingValue !== null)
+            || (
+                current.ratingValue !== null
+                && assessment.ratingValue !== null
+                && assessment.ratingValue > current.ratingValue
+            )
+        ) {
+            deduplicated.set(key, assessment);
         }
-        groups.get(key)?.push(assessment);
     });
+    return Array.from(deduplicated.values());
+}
 
-    const filteredAssessments: Assessment[] = [];
-    groups.forEach((group) => {
-        const sorted = group.sort((a, b) => b.rating_value - a.rating_value);
-        if (sorted[0]!.rating_value > 0 || group.length === 1) {
-            filteredAssessments.push(sorted[0]!);
-        }
-    });
+function getYear(value: string): number | null {
+    const timestamp = Date.parse(value);
+    return Number.isNaN(timestamp) ? null : new Date(timestamp).getUTCFullYear();
+}
 
-    return filteredAssessments;
-};
-
-// Helper function to apply filters
-const applyFilters = (filters: Filters | null = null): Assessment[] => {
-    const assessments = filterDuplicateAssessments(perDashboardData);
-
-    // Apply filtering logic if filters are provided
-    if (filters) {
-        let filteredAssessments = assessments;
-
-        if (filters.region) {
-            filteredAssessments = filteredAssessments.filter(
-                (assessment) => assessment.region_name === filters.region,
-            );
-        }
-
-        if (filters.year) {
-            const targetYear = filters.year;
-            filteredAssessments = filteredAssessments.filter((assessment) => {
-                const assessmentYear = new Date(assessment.date_of_assessment).getFullYear();
-                return assessmentYear === targetYear;
-            });
-        }
-
-        if (filters.cycle) {
-            filteredAssessments = filteredAssessments.filter(
-                (assessment) => assessment.assessment_number === filters.cycle,
-            );
-        }
-
-        return filteredAssessments;
+function matchesFilter(
+    item: ComponentAssessment | PerformanceCountryAssessment,
+    filters: PerformanceFilterState,
+    includeCycle: boolean,
+): boolean {
+    if (filters.countryId !== null && item.countryId !== filters.countryId) {
+        return false;
     }
-
-    return assessments;
-};
-
-// Helper function to get rating status
-function getRatingStatus(rating: number): keyof typeof RATING_SCALE_COLORS {
-    if (rating >= 4) return 'High performing';
-    if (rating >= 3) return 'Good performing';
-    if (rating >= 2) return 'Needs improvement';
-    if (rating >= 1) return 'Partially exists';
-    return "Doesn't exist";
-}
-
-// Helper function to get rounded rating
-function getRoundedRating(rating: number): number {
-    return Math.round(rating * 10) / 10;
-}
-
-function groupDataByRegion(): RegionData[] {
-    const assessments = applyFilters();
-    const regionComponentAverages: Record<
-        string,
-        Map<number, { total: number; count: number }>
-    > = {};
-
-    // First pass: identify latest assessments for each country-component combination
-    const latestAssessments = new Map<string, Assessment>();
-
-    assessments.forEach((assessment) => {
-        const key = `${assessment.country_id}_${assessment.component_num}`;
-        const existing = latestAssessments.get(key);
-
-        if (!existing || isNewerAssessment(assessment, existing)) {
-            latestAssessments.set(key, assessment);
-        }
-    });
-
-    // Second pass: calculate component averages by region
-    latestAssessments.forEach((assessment) => {
-        const region = assessment.region_name;
-        if (!regionComponentAverages[region]) {
-            regionComponentAverages[region] = new Map();
-        }
-
-        const componentNum = assessment.component_num;
-        const componentData = regionComponentAverages[region].get(componentNum)
-      ?? { total: 0, count: 0 };
-
-        componentData.total += assessment.rating_value;
-        componentData.count += 1;
-        regionComponentAverages[region].set(componentNum, componentData);
-    });
-
-    // Calculate final regional averages
-    return Object.entries(regionComponentAverages).map(([region, components]) => {
-        let totalComponentRating = 0;
-        let componentCount = 0;
-
-        components.forEach((comp) => {
-            if (comp.count > 0) {
-                totalComponentRating += comp.total / comp.count;
-                componentCount += 1;
-            }
-        });
-
-        return {
-            name: region,
-            count: componentCount > 0
-                ? getRoundedRating(totalComponentRating / componentCount)
-                : 0,
-            totalComponents: componentCount,
-        };
-    });
-}
-
-function getComponentRatings(
-    filters: Filters | null = null,
-): ComponentRatingsResult {
-    const assessments = applyFilters(filters);
-    const componentGroups = new Map<number, Assessment[]>();
-    assessments.forEach((assessment) => {
-        if (!componentGroups.has(assessment.component_num)) {
-            componentGroups.set(assessment.component_num, []);
-        }
-        componentGroups.get(assessment.component_num)?.push(assessment);
-    });
-
-    const componentMap = new Map<number, ComponentRating>();
-
-    componentGroups.forEach((componentAssessments, componentId) => {
-    // Filter out duplicate zero ratings when better ratings exist
-        const filteredComponentAssessments = filterDuplicateAssessments(componentAssessments);
-        const sample = filteredComponentAssessments[0]!;
-
-        // Skip if no sample or if component name is missing
-        if (!sample || !sample.component_name || !sample.area_name) {
-            return;
-        }
-
-        // Current Rating Calculation (latest assessment per country)
-        const latestAssessmentsByCountry = new Map<number, Assessment>();
-        filteredComponentAssessments.forEach((a) => {
-            const existing = latestAssessmentsByCountry.get(a.country_id);
-
-            if (
-                !existing
-        || a.assessment_number > existing.assessment_number
-        || (
-            a.assessment_number === existing.assessment_number
-          && new Date(a.date_of_assessment) > new Date(existing.date_of_assessment)
+    if (filters.region !== null && item.regionName !== filters.region) {
+        return false;
+    }
+    if (
+        filters.year !== null
+        && (
+            item.dateOfAssessment === null
+            || getYear(item.dateOfAssessment) !== filters.year
         )
-            ) {
-                latestAssessmentsByCountry.set(a.country_id, a);
-            }
-        });
+    ) {
+        return false;
+    }
+    if (
+        filters.assessmentType !== null
+        && assessmentTypeKey(item.typeOfAssessment) !== filters.assessmentType
+    ) {
+        return false;
+    }
+    if (includeCycle && filters.cycle !== null && item.assessmentNumber !== filters.cycle) {
+        return false;
+    }
+    return true;
+}
 
-        const latestAssessments = Array.from(latestAssessmentsByCountry.values());
-        const sum = latestAssessments.reduce((s, a) => s + a.rating_value, 0);
-        const average = sum / latestAssessments.length;
-        const currentRating = latestAssessments.length > 0
-            ? parseFloat(average.toFixed(2))
-            : 0;
+function allCountryAssessments(data: PerformanceData): PerformanceCountryAssessment[] {
+    return Object.values(data.countryAssessments).flat();
+}
 
-        // Cycle Ratings Calculation
-        const cycles = [...new Set(
-            filteredComponentAssessments.map((a) => a.assessment_number),
-        )].sort((a, b) => a - b);
+// NOTE: Without values there is no rating, which is not the same as a rating of 0
+function average(values: number[]): number | undefined {
+    if (values.length === 0) {
+        return undefined;
+    }
+    return Number((values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(2));
+}
 
-        const cycleRatings = cycles.map((cycle) => {
-            const cycleAssessments = filteredComponentAssessments
-                .filter((a) => a.assessment_number === cycle);
-            const averageRating = cycleAssessments.length > 0
-                ? parseFloat(
-                    (
-                        cycleAssessments.reduce(
-                            (sm, a) => sm + a.rating_value,
-                            0,
-                        ) / cycleAssessments.length
-                    ).toFixed(2),
-                )
-                : 0;
-            const roundedRating = getRoundedRating(averageRating);
-            const status = getRatingStatus(roundedRating);
-
-            return {
-                cycle,
-                rating: averageRating,
-                rating_display: roundedRating.toString(),
-                rating_color: RATING_SCALE_COLORS[status] || '#000000',
-            };
-        });
-
-        componentMap.set(componentId, {
-            component_num: componentId,
-            component_name: sample.component_name,
-            area_id: sample.area_id,
-            area_name: sample.area_name,
-            cycleRatings,
-            total: currentRating,
-            count: latestAssessments.length,
-        });
-    });
-
-    // Calculate area ratings by aggregating component data
-    const areaMap = new Map<string, AreaSummary>();
-
-    componentGroups.forEach((_, componentId) => {
-        const component = componentMap.get(componentId);
-        // Skip if component is missing or has no area name
-        if (!component || !component.area_name) {
+function latestByCountry(
+    assessments: FlattenedComponentAssessment[],
+): Map<number, FlattenedComponentAssessment> {
+    const latest = new Map<number, FlattenedComponentAssessment>();
+    assessments.forEach((assessment) => {
+        if (assessment.countryId === null) {
             return;
         }
-        if (!areaMap.has(component.area_name)) {
-            areaMap.set(component.area_name, {
-                name: component.area_name,
-                rating: 0,
-                status: '',
-                change: 0,
-                changeDirection: '',
-                cycleRatings: [],
-                components: [component],
-                areaColor: AREA_COLORS[component.area_name] || '#000000',
-            });
-        } else {
-            const area = areaMap.get(component.area_name);
-            if (area) {
-                area.components.push(component);
-            }
+        const current = latest.get(assessment.countryId);
+        if (!current || compareAssessmentRecency(assessment, current) > 0) {
+            latest.set(assessment.countryId, assessment);
         }
     });
-
-    const areas = Array.from(areaMap.values())
-        .filter((area) => area.name && area.components.length > 0)
-        .map((area) => {
-        // Current area rating
-            const componentSum = area.components.reduce((sum, c) => sum + c.total, 0);
-
-            const currentRating = area.components.length > 0
-                ? parseFloat((componentSum / area.components.length).toFixed(2))
-                : 0;
-
-            // Cycle ratings for area
-            const allCycles = [...new Set(
-                area.components.flatMap((c) => c.cycleRatings.map((r) => r.cycle)),
-            )].sort((a, b) => a - b);
-            const areaCycleRatings = allCycles.map((cycle) => {
-                let cycleTotal = 0;
-                let validCount = 0;
-                area.components.forEach((comp) => {
-                    const cycleRating = comp.cycleRatings.find((r) => r.cycle === cycle);
-                    if (cycleRating) {
-                        cycleTotal += cycleRating.rating;
-                        validCount += 1;
-                    }
-                });
-                const cycleAverage = validCount > 0
-                    ? parseFloat((cycleTotal / validCount).toFixed(2))
-                    : 0;
-                const roundedRating = getRoundedRating(cycleAverage);
-                const status = getRatingStatus(roundedRating);
-                return {
-                    cycle,
-                    rating: cycleAverage,
-                    rating_display: roundedRating.toString(),
-                    rating_color: RATING_SCALE_COLORS[status] || '#000000',
-                };
-            });
-
-            return {
-                ...area,
-                rating: currentRating,
-                status: getRatingStatus(currentRating),
-                cycleRatings: areaCycleRatings,
-            };
-        });
-
-    // Overall ratings
-    const componentValues = Array.from(componentMap.values());
-    const componentTotal = componentValues.reduce((sum, c) => sum + c.total, 0);
-    const currentOverallRating = componentValues.length > 0
-        ? parseFloat((componentTotal / componentValues.length).toFixed(2))
-        : 0;
-
-    const allComponentCycles = [...new Set(
-        componentValues.flatMap((c) => c.cycleRatings.map((r) => r.cycle)),
-    )].sort((a, b) => a - b);
-
-    const overallCycleRatings = allComponentCycles.map((cycle) => {
-        let cycleTotal = 0;
-        let validCount = 0;
-        componentValues.forEach((comp) => {
-            const cycleRating = comp.cycleRatings.find((r) => r.cycle === cycle);
-            if (cycleRating) {
-                cycleTotal += cycleRating.rating;
-                validCount += 1;
-            }
-        });
-        const cycleAverage = validCount > 0
-            ? parseFloat((cycleTotal / validCount).toFixed(2))
-            : 0;
-        const roundedRating = getRoundedRating(cycleAverage);
-        const status = getRatingStatus(roundedRating);
-        return {
-            cycle,
-            rating: cycleAverage,
-            rating_display: roundedRating.toString(),
-            rating_color: RATING_SCALE_COLORS[status] || '#000000',
-        };
-    });
-
-    // Calculate last two cycles change
-    const lastTwoOverallCycles = overallCycleRatings.slice(-2);
-    const overallChange = lastTwoOverallCycles.length > 1
-        ? parseFloat((lastTwoOverallCycles[1]!.rating - lastTwoOverallCycles[0]!.rating).toFixed(2))
-        : 0;
-
-    return {
-        overallRating: {
-            rating: currentOverallRating,
-            status: getRatingStatus(currentOverallRating),
-            change: overallChange,
-            changeDirection: overallChange >= 0 ? 'up' : 'down',
-            cycleRatings: overallCycleRatings.map((cycle) => ({
-                ...cycle,
-                color: RATING_SCALE_COLORS[getRatingStatus(cycle.rating)] || '#000000',
-            })),
-            color: RATING_SCALE_COLORS[getRatingStatus(currentOverallRating)] || '#000000',
-        } as unknown as ComponentRatingsResult['overallRating'],
-        areaData: areas.map((area) => {
-            const lastTwoCycles = area.cycleRatings.slice(-2);
-            const change = lastTwoCycles.length > 1
-                ? parseFloat((lastTwoCycles[1]!.rating - lastTwoCycles[0]!.rating).toFixed(2))
-                : 0;
-            return {
-                ...area,
-                change,
-                changeDirection: change >= 0 ? 'up' : 'down',
-                cycleRatings: area.cycleRatings.map((cycle) => ({
-                    ...cycle,
-                    color: RATING_SCALE_COLORS[getRatingStatus(cycle.rating)] || '#000000',
-                })),
-            };
-        }) as unknown as ComponentRatingsResult['areaData'],
-        componentData: Array.from(componentMap.values()).map((comp) => {
-            const lastTwoCycles = comp.cycleRatings.slice(-2);
-            const change = lastTwoCycles.length > 1
-                ? parseFloat((lastTwoCycles[1]!.rating - lastTwoCycles[0]!.rating).toFixed(2))
-                : 0;
-            return {
-                id: comp.component_num,
-                name: comp.component_name,
-                rating: comp.total,
-                status: getRatingStatus(comp.total),
-                change,
-                changeDirection: change >= 0 ? 'up' : 'down',
-                cycleRatings: comp.cycleRatings.map((cycle) => ({
-                    ...cycle,
-                    color: RATING_SCALE_COLORS[getRatingStatus(cycle.rating)] || '#000000',
-                })),
-                areaColor: AREA_COLORS[comp.area_name] || '#000000',
-                type: 'component' as const,
-            };
-        }) as unknown as ComponentRatingsResult['componentData'],
-    };
+    return latest;
 }
 
-function summarizeData(filters: Filters | null = null, includeLatest: boolean = false) {
-    let assessments = applyFilters(filters);
+// NOTE: An NS is represented by its latest assessment. When that assessment did not
+// rate the component, the NS is left out instead of falling back to an older rating.
+function getComponentRating(assessments: FlattenedComponentAssessment[]): number | undefined {
+    return average(getRatedValues(Array.from(latestByCountry(assessments).values())));
+}
 
-    if (includeLatest) {
-        const latestAssessmentsMap = new Map<string, Assessment>();
-        assessments.forEach((assessment) => {
-            const key = `${assessment.component_num}_${assessment.country_id}`;
-            const existing = latestAssessmentsMap.get(key);
+function groupByComponent(
+    assessments: FlattenedComponentAssessment[],
+): FlattenedComponentAssessment[][] {
+    const byComponent = new Map<number, FlattenedComponentAssessment[]>();
+    assessments.forEach((assessment) => {
+        const values = byComponent.get(assessment.componentId) ?? [];
+        values.push(assessment);
+        byComponent.set(assessment.componentId, values);
+    });
+    return Array.from(byComponent.values());
+}
 
-            if (!existing || assessment.assessment_number > existing.assessment_number) {
-                latestAssessmentsMap.set(key, assessment);
-            }
-        });
-        assessments = Array.from(latestAssessmentsMap.values());
+// NOTE: Every component counts equally, as in the "Average PER rating" of the header, so a
+// cycle card and the header show the same rating when that cycle is selected
+function getOverallRating(assessments: FlattenedComponentAssessment[]): number | undefined {
+    return average(groupByComponent(assessments).map(getComponentRating).filter(isDefined));
+}
+
+function averageCycleRatings(cycleRatings: RatingCycle[]): RatingCycle[] {
+    const cycles = Array.from(new Set(cycleRatings.map((item) => item.cycle)))
+        .sort((left, right) => Number(left) - Number(right));
+    return cycles.flatMap((cycle) => {
+        const rating = average(
+            cycleRatings
+                .filter((item) => item.cycle === cycle)
+                .map((item) => item.rating),
+        );
+        return isDefined(rating) ? [{ cycle, rating }] : [];
+    });
+}
+
+function buildComponentRating(
+    assessments: FlattenedComponentAssessment[],
+): ComponentRatingSummary | undefined {
+    const sample = assessments.find(
+        (assessment) => assessment.componentName !== null && assessment.areaName !== null,
+    );
+    if (!sample || sample.componentName === null || sample.areaName === null) {
+        return undefined;
     }
 
-    // Calculate component averages
-    const componentAverages = new Map<number, { total: number; count: number }>();
-    assessments.forEach((assessment) => {
-        if (!componentAverages.has(assessment.component_num)) {
-            componentAverages.set(assessment.component_num, {
-                total: 0,
-                count: 0,
-            });
-        }
-        const comp = componentAverages.get(assessment.component_num)!;
-        comp.total += assessment.rating_value;
-        comp.count += 1;
-    });
-
-    // Calculate total average
-    let totalComponentAverage = 0;
-    let componentCount = 0;
-    componentAverages.forEach((comp) => {
-        if (comp.count > 0) {
-            totalComponentAverage += (comp.total / comp.count);
-            componentCount += 1;
-        }
-    });
-
-    const averageRating = componentCount > 0
-        ? parseFloat((totalComponentAverage / componentCount).toFixed(2))
-        : 0;
-
-    type AreaRatingStats = {
-        total: number;
-        count: number;
-        components?: Set<number>;
-    };
-
-    // Calculate area averages
-    const areaRatings: Record<string, AreaRatingStats> = {};
-    assessments.forEach((assessment) => {
-        const area = assessment.area_name;
-        if (!areaRatings[area]) {
-            areaRatings[area] = { total: 0, count: 0, components: new Set() };
-        }
-
-        const compAvg = componentAverages.get(assessment.component_num)!;
-        if (!areaRatings[area].components!.has(assessment.component_num)) {
-            areaRatings[area].total += (compAvg.total / compAvg.count);
-            areaRatings[area].count += 1;
-      areaRatings[area].components!.add(assessment.component_num);
-        }
-    });
-
-    const averageRatingByArea: { [area: string]: number } = {};
-    Object.keys(areaRatings).forEach((area) => {
-        averageRatingByArea[area] = areaRatings[area]!.count > 0
-            ? parseFloat((areaRatings[area]!.total / areaRatings[area]!.count).toFixed(2))
-            : 0;
-    });
+    const rating = getComponentRating(assessments);
+    if (isNotDefined(rating)) {
+        return undefined;
+    }
 
     return {
-        totalComponents: componentCount,
-        averageRating,
-        averageRatingByArea,
+        componentId: sample.componentId,
+        componentNum: sample.componentNum,
+        componentLetter: sample.componentLetter,
+        componentName: sample.componentName,
+        areaName: sample.areaName,
+        areaNum: sample.areaNum,
+        rating,
+        cycleRatings: averageCycleRatings(
+            assessments.flatMap(({ assessmentNumber, ratingValue }) => (
+                isRated(ratingValue)
+                    ? [{ cycle: String(assessmentNumber), rating: ratingValue }]
+                    : []
+            )),
+        ),
     };
 }
 
-function getCycles(filters: Filters | null = null) {
-    // Get all assessments without cycle filter first
-    const allAssessments = applyFilters({
-        ...filters,
-        cycle: null, // Remove cycle filter temporarily
-    });
+function changeFor(cycles: RatingCycle[]): number {
+    if (cycles.length < 2) {
+        return 0;
+    }
+    const previous = cycles[cycles.length - 2]?.rating ?? 0;
+    const current = cycles[cycles.length - 1]?.rating ?? 0;
+    return Number((current - previous).toFixed(2));
+}
 
-    // Then get filtered assessments for rating calculations
-    const filteredAssessments = applyFilters(filters);
-
-    // Group assessments by cycle first
-    const cycleData: {
-    [cycle: number]: {
-      completed: number;
-      in_progress: number;
-      componentRatings: { [componentId: number]: { total: number; count: number } };
-      countries: Set<number>;
+function withChange<T extends { cycleRatings: RatingCycle[] }>(value: T) {
+    const change = changeFor(value.cycleRatings);
+    return {
+        ...value,
+        change,
+        changeDirection: change >= 0 ? 'up' as const : 'down' as const,
     };
-  } = {};
+}
 
-    // First pass: organize data using ALL assessments (unfiltered)
-    allAssessments.forEach((assessment) => {
-        const cycle = assessment.assessment_number;
-        if (!cycleData[cycle]) {
-            cycleData[cycle] = {
-                completed: 0,
-                in_progress: 0,
-                componentRatings: {},
-                countries: new Set(),
-            };
+export function getPerformanceRatings(
+    data: PerformanceData,
+    filters: PerformanceFilterState,
+): PERRatingAnalysisProps {
+    const filtered = deduplicateComponentAssessments(flattenComponentAssessments(data))
+        .filter((assessment) => matchesFilter(assessment, filters, true));
+    const components = groupByComponent(filtered)
+        .map(buildComponentRating)
+        .filter((component): component is ComponentRatingSummary => component !== undefined)
+        .sort(compareComponentNumbers);
+
+    const byArea = new Map<string, ComponentRatingSummary[]>();
+    components.forEach((component) => {
+        const values = byArea.get(component.areaName) ?? [];
+        values.push(component);
+        byArea.set(component.areaName, values);
+    });
+    const areas = Array.from(byArea.entries()).flatMap(([name, areaComponents]) => {
+        const rating = average(areaComponents.map((component) => component.rating));
+        if (isNotDefined(rating)) {
+            return [];
         }
-        cycleData[cycle].countries.add(assessment.country_id);
+        return [withChange({
+            type: 'area' as const,
+            name,
+            rating,
+            cycleRatings: averageCycleRatings(
+                areaComponents.flatMap((component) => component.cycleRatings),
+            ),
+            areaColor: getPerAreaColor(areaComponents[0]?.areaNum ?? undefined),
+        })];
     });
 
-    // Second pass: determine completed vs in-progress using ALL assessments
-    Object.keys(cycleData).forEach((cycle) => {
-        const currentCycle = parseInt(cycle, 10);
-        const countriesInLaterCycles = new Set<number>();
+    const overall = withChange({
+        // NOTE: 0 when no component is rated, which PERRatingAnalysis shows as "-"
+        rating: average(components.map((component) => component.rating)) ?? 0,
+        cycleRatings: averageCycleRatings(
+            components.flatMap((component) => component.cycleRatings),
+        ),
+    });
 
-        // Check if countries appear in later cycles
-        Object.keys(cycleData).forEach((laterCycle) => {
-            if (parseInt(laterCycle, 10) > currentCycle) {
-                cycleData[parseInt(laterCycle, 10)]!.countries.forEach((countryId) => {
-                    countriesInLaterCycles.add(countryId);
-                });
-            }
+    return {
+        overallRating: overall,
+        areaData: areas,
+        componentData: components.map((component) => withChange({
+            type: 'component' as const,
+            key: String(component.componentId),
+            id: component.componentNum,
+            letter: component.componentLetter,
+            name: component.componentName,
+            rating: component.rating,
+            cycleRatings: component.cycleRatings,
+            areaColor: getPerAreaColor(component.areaNum ?? undefined),
+        })),
+    };
+}
+
+export function getTotalAssessments(
+    data: PerformanceData,
+    filters: PerformanceFilterState,
+): number {
+    return new Set(
+        flattenComponentAssessments(data)
+            .filter((assessment) => matchesFilter(assessment, filters, true))
+            .map((assessment) => (
+                assessment.assessmentId === null
+                    ? [
+                        assessment.countryId,
+                        assessment.assessmentNumber,
+                        assessment.dateOfAssessment,
+                    ].join(':')
+                    : String(assessment.assessmentId)
+            )),
+    ).size;
+}
+
+export function getPerformanceCycles(
+    data: PerformanceData,
+    filters: PerformanceFilterState,
+): {
+    total_cycles: number;
+    cycles: Array<{
+        cycleNumber: number;
+        completed: number;
+        inProgress: number;
+        rating: number | null;
+        totalNS: number;
+        ratingChange: number;
+    }>;
+} {
+    const entries = allCountryAssessments(data)
+        .filter((entry) => hasReachedAssessment(entry) && matchesFilter(entry, filters, false));
+    const countriesByCycle = new Map<number, Set<number>>();
+    entries.forEach((entry) => {
+        if (entry.countryId === null) {
+            return;
+        }
+        const countries = countriesByCycle.get(entry.assessmentNumber) ?? new Set<number>();
+        countries.add(entry.countryId);
+        countriesByCycle.set(entry.assessmentNumber, countries);
+    });
+    const componentAssessmentsByCycle = new Map<number, FlattenedComponentAssessment[]>();
+    deduplicateComponentAssessments(flattenComponentAssessments(data))
+        .filter((assessment) => matchesFilter(assessment, filters, false))
+        .forEach((assessment) => {
+            const values = componentAssessmentsByCycle.get(assessment.assessmentNumber) ?? [];
+            values.push(assessment);
+            componentAssessmentsByCycle.set(assessment.assessmentNumber, values);
         });
-
-        // Count completed (countries that appear in later cycles)
-        cycleData[currentCycle]!.completed = Array.from(cycleData[currentCycle]!.countries)
-            .filter((countryId) => countriesInLaterCycles.has(countryId)).length;
-
-        // Count in progress (countries that don't appear in later cycles)
-        cycleData[currentCycle]!.in_progress = cycleData[currentCycle]!.countries.size
-      - cycleData[currentCycle]!.completed;
-    });
-
-    // Third pass: calculate ratings using filtered assessments
-    filteredAssessments.forEach((assessment) => {
-        const cycle = assessment.assessment_number;
-        if (cycleData[cycle]) {
-            if (!cycleData[cycle].componentRatings[assessment.component_num]) {
-                cycleData[cycle].componentRatings[assessment.component_num] = {
-                    total: 0,
-                    count: 0,
-                };
-            }
-            const currentComponent = cycleData[cycle].componentRatings[assessment.component_num];
-            currentComponent!.total += assessment.rating_value;
-            currentComponent!.count += 1;
-        }
-    });
-
-    // Calculate cycle statistics using component averages
-    const cycles = Object.entries(cycleData).map(([cycleNum, data]) => {
-        const cycle = parseInt(cycleNum, 10);
-
-        // Calculate average rating from component averages
-        let totalComponentRating = 0;
-        let componentCount = 0;
-
-        Object.values(data.componentRatings).forEach((comp) => {
-            if (comp.count > 0) {
-                totalComponentRating += (comp.total / comp.count);
-                componentCount += 1;
-            }
+    const cycles = Array.from(new Set([
+        ...countriesByCycle.keys(),
+        ...componentAssessmentsByCycle.keys(),
+    ])).sort((left, right) => left - right);
+    const allCycleData = cycles.map((cycle, index) => {
+        const countries = countriesByCycle.get(cycle) ?? new Set<number>();
+        const laterCountries = new Set<number>();
+        cycles.slice(index + 1).forEach((laterCycle) => {
+            countriesByCycle.get(laterCycle)?.forEach((countryId) => laterCountries.add(countryId));
         });
-
-        const averageRating = componentCount > 0
-            ? parseFloat((totalComponentRating / componentCount).toFixed(2))
-            : 0;
-
-        // Calculate previous cycle rating
-        const previousCycle = cycleData[cycle - 1];
-        let previousRating = 0;
-
-        if (previousCycle) {
-            let prevTotalRating = 0;
-            let prevComponentCount = 0;
-
-            Object.values(previousCycle.componentRatings).forEach((comp) => {
-                if (comp.count > 0) {
-                    prevTotalRating += (comp.total / comp.count);
-                    prevComponentCount += 1;
-                }
-            });
-
-            previousRating = prevComponentCount > 0
-                ? prevTotalRating / prevComponentCount
-                : 0;
-        }
-
+        const completed = Array.from(countries)
+            .filter((countryId) => laterCountries.has(countryId))
+            .length;
         return {
-            cycle: `Cycle ${cycle}`,
             cycleNumber: cycle,
-            completed: data.completed,
-            inProgress: data.in_progress,
-            rating: averageRating,
-            totalNS: data.countries.size,
-            ratingChange: parseFloat((averageRating - previousRating).toFixed(2)),
+            completed,
+            inProgress: countries.size - completed,
+            // NOTE: null when no assessment of the cycle is rated, so it is not drawn as 0
+            rating: getOverallRating(componentAssessmentsByCycle.get(cycle) ?? []) ?? null,
+            totalNS: countries.size,
         };
-    })
-        .sort((a, b) => parseInt(a.cycle.split(' ')[1]!, 10) - parseInt(b.cycle.split(' ')[1]!, 10));
-
-    // Filter cycles at the end based on original filters
-    let filteredCycles = cycles;
-    if (filters?.cycle) {
-        filteredCycles = cycles.filter((cycle) => cycle.cycleNumber === filters.cycle);
-    }
-
+    });
+    const allCycleDataWithChanges = allCycleData.map((cycle, index) => {
+        const previousRating = allCycleData[index - 1]?.rating;
+        return {
+            ...cycle,
+            ratingChange: isDefined(previousRating) && isDefined(cycle.rating)
+                ? Number((cycle.rating - previousRating).toFixed(2))
+                : 0,
+        };
+    });
+    const filteredCycles = filters.cycle === null
+        ? allCycleDataWithChanges
+        : allCycleDataWithChanges.filter((cycle) => cycle.cycleNumber === filters.cycle);
     return {
         total_cycles: filteredCycles.reduce((sum, cycle) => sum + cycle.totalNS, 0),
         cycles: filteredCycles,
     };
 }
-
-function getLastUpdateDate(): string {
-    return lastUpdateData?.last_update ?? 'N/A';
-}
-
-export {
-    getComponentRatings,
-    getCycles,
-    getLastUpdateDate,
-    groupDataByRegion,
-    initializeData,
-    summarizeData,
-};
