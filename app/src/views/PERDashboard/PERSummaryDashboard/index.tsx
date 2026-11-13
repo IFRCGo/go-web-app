@@ -1,233 +1,302 @@
 import {
-    useEffect,
+    useMemo,
     useState,
 } from 'react';
 import {
-    BlockLoading,
     Button,
     Container,
-    PERChartLegend,
-    PERConsiderations,
-    PERDonutChart,
-    PERKPITabs,
-    PERMap,
-    PERRegionToggle,
-    PERStackedBarChart,
-    PERTreemapChart,
+    Description,
+    ExpandableContainer,
+    ListView,
+    SelectInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    formatDate,
+    numericKeySelector,
+    resolveToString,
+    stringLabelSelector,
+} from '@ifrc-go/ui/utils';
+import { isDefined } from '@togglecorp/fujs';
 
 import { mbtoken } from '#config';
+import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useAlert from '#hooks/useAlert';
 import { defaultMapStyle } from '#utils/map';
+import { useRequest } from '#utils/restRequest';
 
 import {
+    ASSESSMENT_TYPE_COLORS,
+    type DashboardFilterState,
+    EMPTY_FILTERS,
+    getLatestUpdate,
+    getPhaseLabel,
+    getRegionLabel,
+    isAssessmentTypeKey,
+    normalizeMapData,
+    PHASE_COLORS,
+    REGION_COLORS,
+    REGION_ORDER,
+    type RegionName,
+    selectFilteredDashboard,
+} from '../data';
+import PERChartLegend from '../PERChartLegend';
+import PERConsiderations from '../PERConsiderations';
+import usePERAssessmentTypeLabels from '../PERConsiderations/usePERAssessmentTypeLabels';
+import PERDonutChart from '../PERDonutChart';
+import PERKPITabs from '../PERKPITabs';
+import PERMap from '../PERMap';
+import PERRegionToggle from '../PERRegionToggle';
+import PERStackedBarChart from '../PERStackedBarChart';
+import PERTreemapChart from '../PERTreemapChart';
+import retryTemporaryFailure from '../retryTemporaryFailure';
+import {
+    getActiveKpiKey,
+    getActivePhaseLabel,
     getComponentSummaryForTreemap,
     getFilteredMapData,
     getKPIData,
-    getLastUpdateDate,
     getPERConsiderations,
+    getPhaseCohort,
     getRecordsByAssessmentType,
-    getRecordsByRegion,
-    getStackedBarDataByYearAndRegion,
-    initializeData,
+    getRegionToggleCounts,
+    getYearOptions,
+    getYearRegionChartData,
+    type SummaryKpiKey,
 } from './dataHandler';
-import type {
-    AssessmentRecord,
-    MapAssessmentRecord,
-} from './types';
+import {
+    downloadDashboardWorkbook,
+    getDashboardWorkbookData,
+} from './export';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
-const MAP_DATA_URL = 'https://raw.githubusercontent.com/IFRCGo/ifrc-per-data-fetcher/refs/heads/main/data/map-data.json';
-const LAST_UPDATE_DATA_URL = 'https://raw.githubusercontent.com/IFRCGo/ifrc-per-data-fetcher/refs/heads/main/data/last-update.json';
+type ActiveFilters = DashboardFilterState;
 
-const PHASE_COLORS = [
-    {
-        phase: 'Orientation',
-        label: 'Orientation',
-        phaseNumber: 1,
-        color: '#00B2A2',
-    },
-    {
-        phase: 'Assessment',
-        label: 'Assessment',
-        phaseNumber: 2,
-        color: '#DA283D',
-    },
-    {
-        phase: 'Prioritisation',
-        label: 'Prioritisation & analysis',
-        phaseNumber: 3,
-        color: '#3377EB',
-    },
-    {
-        phase: 'Workplan',
-        label: 'Workplan',
-        phaseNumber: 4,
-        color: '#8648B3',
-    },
-    {
-        phase: 'Action & accountability',
-        label: 'Action & accountability',
-        phaseNumber: 5,
-        color: '#FF8654',
-    },
-];
+function considerationKeyFromChartKey(key: string): ActiveFilters['consideration'] {
+    if (key === 'epi_considerations') return 'epi';
+    if (key === 'climate_environmental_considerations') return 'climate';
+    if (key === 'urban_considerations') return 'urban';
+    return 'migration';
+}
 
-interface ActiveFilters {
-    id: number | null;
-    region: string | null;
-    assessmentType: string | null;
-    year: number | null;
-    phase: number | null;
-    highPriorityComponent: string | null;
-    perConsiderations: string | null;
-    numberOfCycles: number | null;
-    completedAssessment: boolean | null;
-    highPriorityArea: string | null;
+function considerationChartKey(
+    consideration: ActiveFilters['consideration'],
+): string | undefined {
+    if (consideration === 'epi') return 'epi_considerations';
+    if (consideration === 'climate') return 'climate_environmental_considerations';
+    if (consideration === 'urban') return 'urban_considerations';
+    if (consideration === 'migration') return 'migration_considerations';
+    return undefined;
+}
+
+function isRegionName(value: string | null): value is RegionName {
+    return value !== null && REGION_ORDER.includes(value as RegionName);
 }
 
 function PERSummaryDashboard() {
     const strings = useTranslation(i18n);
-    const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
-        id: null,
-        region: null,
-        assessmentType: null,
-        year: null,
-        phase: null,
-        highPriorityComponent: null,
-        perConsiderations: null,
-        numberOfCycles: null,
-        completedAssessment: null,
-        highPriorityArea: null,
+    const alert = useAlert();
+    const {
+        api_region_name: regionOptions,
+        per_perphases: phaseOptions,
+    } = useGlobalEnums();
+    const assessmentTypeLabels = usePERAssessmentTypeLabels();
+    const currentLanguage = useCurrentLanguage();
+    const [activeFilters, setActiveFilters] = useState<ActiveFilters>(() => ({ ...EMPTY_FILTERS }));
+    const [exporting, setExporting] = useState(false);
+    const {
+        pending: mapDataPending,
+        response: rawMapData,
+        error: mapDataError,
+    } = useRequest({
+        url: '/api/v2/per-map-data',
+        shouldRetry: retryTemporaryFailure,
     });
-    const [activeTab, setActiveTab] = useState<number>(0);
-    const [activePhase, setActivePhase] = useState<number | string | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [mapData, setMapData] = useState<AssessmentRecord[] | null>(null);
-    interface LastUpdateData {
-        lastUpdate: string;
-    }
-    const [lastUpdateData, setLastUpdateData] = useState<LastUpdateData | null>(null);
 
-    useEffect(() => {
-        async function fetchData() {
-            setIsLoading(true);
-            setError(null);
-            try {
-                const [mapResponse, lastUpdateResponse] = await Promise.all([
-                    fetch(MAP_DATA_URL, {
-                        headers: {
-                            Accept: 'application/vnd.github.v3.raw',
-                        },
-                    }),
-                    fetch(LAST_UPDATE_DATA_URL, {
-                        headers: {
-                            Accept: 'application/vnd.github.v3.raw',
-                        },
-                    }),
-                ]);
+    const mapData = useMemo(() => normalizeMapData(rawMapData), [rawMapData]);
+    const filteredState = useMemo(
+        () => selectFilteredDashboard(mapData.processes, activeFilters),
+        [activeFilters, mapData.processes],
+    );
+    const lastUpdate = useMemo(
+        () => getLatestUpdate(mapData.processes.map((process) => process.updatedAt)),
+        [mapData.processes],
+    );
+    const kpiData = useMemo(() => getKPIData(filteredState), [filteredState]);
+    const filteredMapData = useMemo(
+        () => getFilteredMapData(filteredState, phaseOptions),
+        [filteredState, phaseOptions],
+    );
+    const workbookData = useMemo(
+        () => getDashboardWorkbookData(filteredState, activeFilters),
+        [activeFilters, filteredState],
+    );
+    const regionData = useMemo(
+        () => getRegionToggleCounts(mapData.processes, activeFilters),
+        [activeFilters, mapData.processes],
+    );
+    const assessmentTypeData = useMemo(
+        () => getRecordsByAssessmentType(filteredState),
+        [filteredState],
+    );
+    const yearRegionData = useMemo(
+        () => getYearRegionChartData(mapData.processes, activeFilters),
+        [activeFilters, mapData.processes],
+    );
+    const yearOptions = getYearOptions(mapData.processes);
+    const componentSummary = useMemo(
+        () => getComponentSummaryForTreemap(filteredState),
+        [filteredState],
+    );
+    const considerationData = useMemo(
+        () => getPERConsiderations(filteredState),
+        [filteredState],
+    );
+    const hasActiveFilters = Object.values(activeFilters).some((value) => value !== null);
 
-                if (!mapResponse.ok || !lastUpdateResponse.ok) {
-                    throw new Error('Failed to fetch data');
-                }
+    const kpiDescriptions: Record<SummaryKpiKey, string> = {
+        'total-engaged': strings.kpiTotalEngagedDescription,
+        orientation: strings.kpiOrientationDescription,
+        assessment: strings.kpiAssessmentDescription,
+        action: strings.kpiActionDescription,
+        completed: strings.kpiCompletedDescription,
+    };
+    const kpiTabData = kpiData.map((kpi) => ({
+        ...kpi,
+        description: kpiDescriptions[kpi.key],
+    }));
+    const activeKpiKey = getActiveKpiKey(activeFilters);
+    const activeKpiIndex = kpiTabData.findIndex((kpi) => kpi.key === activeKpiKey);
 
-                const [mapDataResponse, lastUpdateDataResponse] = await Promise.all([
-                    mapResponse.json(),
-                    lastUpdateResponse.json(),
-                ]);
+    // NOTE: `label` / `name` identify an item and are used for filtering. Only
+    // `displayLabel` / `displayName` are shown, and they are translated.
+    const regionToggleData = useMemo(
+        () => regionData.map((item) => ({
+            ...item,
+            displayName: getRegionLabel(item.name, regionOptions, currentLanguage),
+        })),
+        [currentLanguage, regionData, regionOptions],
+    );
+    const regionCategories = useMemo(
+        () => Object.entries(REGION_COLORS).map(([label, fillColor]) => ({
+            label,
+            displayLabel: getRegionLabel(label as RegionName, regionOptions, currentLanguage),
+            fillColor,
+        })),
+        [currentLanguage, regionOptions],
+    );
+    const regionLegendData = useMemo(
+        () => Object.entries(REGION_COLORS).map(([label, color]) => ({
+            label,
+            displayLabel: getRegionLabel(label as RegionName, regionOptions, currentLanguage),
+            color,
+        })),
+        [currentLanguage, regionOptions],
+    );
+    const phaseLegendData = useMemo(
+        () => PHASE_COLORS.map((phase) => ({
+            ...phase,
+            displayLabel: getPhaseLabel(phase, phaseOptions),
+        })),
+        [phaseOptions],
+    );
+    const assessmentTypeChartData = useMemo(
+        () => assessmentTypeData.map((item) => ({
+            ...item,
+            displayLabel: assessmentTypeLabels[item.label],
+        })),
+        [assessmentTypeData, assessmentTypeLabels],
+    );
+    const assessmentTypeLegendData = useMemo(
+        () => assessmentTypeData.map((item) => ({
+            label: item.label,
+            displayLabel: assessmentTypeLabels[item.label],
+            color: ASSESSMENT_TYPE_COLORS[item.label],
+        })),
+        [assessmentTypeData, assessmentTypeLabels],
+    );
+    const considerationChartData = useMemo(
+        () => ({
+            ...considerationData,
+            data: considerationData.data.map((chart) => chart.map((row) => ({
+                ...row,
+                displayName: getRegionLabel(row.name, regionOptions, currentLanguage),
+            }))),
+        }),
+        [considerationData, currentLanguage, regionOptions],
+    );
 
-                setMapData(mapDataResponse);
-                setLastUpdateData(lastUpdateDataResponse);
-                initializeData(mapDataResponse, lastUpdateDataResponse);
-            } catch {
-                setError('Failed to load dashboard data');
-            } finally {
-                setIsLoading(false);
-            }
-        }
-
-        fetchData();
-    }, []);
-
-    if (isLoading) {
-        return (
-            <Container
-                className={styles.perSummaryDashboard}
-                aria-label={strings.summaryContainerAriaLabel}
-            >
-                <BlockLoading className={styles.blockLoading} />
-            </Container>
-        );
-    }
-
-    if (error) {
-        return (
-            <Container
-                className={styles.perSummaryDashboard}
-                aria-label={strings.summaryContainerAriaLabel}
-            >
-                {error}
-            </Container>
-        );
-    }
-
-    if (!mapData || !lastUpdateData) {
-        return null;
-    }
-
-    const updateFilter = (key: keyof ActiveFilters, value: ActiveFilters[keyof ActiveFilters]) => {
+    const updateFilter = <KEY extends keyof ActiveFilters>(
+        key: KEY,
+        value: ActiveFilters[KEY],
+    ) => {
         setActiveFilters((prev) => ({
             ...prev,
             [key]: prev[key] === value ? null : value,
         }));
     };
 
+    // NOTE: The year bars are drawn on a canvas and cannot be reached with the keyboard,
+    // so the dropdown sets the same year filter
+    const handleYearChange = (year: number | undefined) => {
+        setActiveFilters((prev) => ({
+            ...prev,
+            year: year ?? null,
+        }));
+    };
+
     const handleRegionStackedClick = (item: { label: string; year?: string | number | null }) => {
         if (item.year !== undefined && item.year !== null) {
             updateFilter('year', Number(item.year));
-        } else if (item.label) {
+        } else if (isRegionName(item.label)) {
             updateFilter('region', item.label);
         }
     };
 
     const handleTabClick = (key: string): void => {
-        if (key === 'total-engaged') {
-            updateFilter('phase', null);
-            updateFilter('numberOfCycles', null);
-            updateFilter('completedAssessment', null);
-            setActivePhase(null);
-        }
-        if (key === 'orientation') {
-            updateFilter('phase', 1);
-            updateFilter('numberOfCycles', null);
-            updateFilter('completedAssessment', null);
-            setActivePhase('Orientation');
-        }
-        if (key === 'assessment') {
-            updateFilter('phase', null);
-            updateFilter('numberOfCycles', null);
-            updateFilter('completedAssessment', true);
-            setActivePhase(null);
-        }
-        if (key === 'action') {
-            setActivePhase('Action & accountability');
-            updateFilter('completedAssessment', null);
-            updateFilter('phase', 5);
-            updateFilter('numberOfCycles', null);
-        }
-        if (key === 'completed') {
-            updateFilter('completedAssessment', null);
-            updateFilter('phase', null);
-            updateFilter('numberOfCycles', 2);
-            setActivePhase(null);
-        }
+        setActiveFilters((prev) => {
+            if (key === 'orientation') {
+                return {
+                    ...prev,
+                    phaseCohort: prev.phaseCohort === 'orientation' ? null : 'orientation',
+                    minimumCycles: null,
+                };
+            }
+            if (key === 'assessment') {
+                return {
+                    ...prev,
+                    phaseCohort: prev.phaseCohort === 'assessment' ? null : 'assessment',
+                    minimumCycles: null,
+                };
+            }
+            if (key === 'action') {
+                return {
+                    ...prev,
+                    phaseCohort: prev.phaseCohort === 'action' ? null : 'action',
+                    minimumCycles: null,
+                };
+            }
+            if (key === 'completed') {
+                return {
+                    ...prev,
+                    phaseCohort: null,
+                    minimumCycles: prev.minimumCycles === 2 ? null : 2,
+                };
+            }
+            return {
+                ...prev,
+                phaseCohort: null,
+                minimumCycles: null,
+            };
+        });
     };
 
     const handleAssessmentTypeClick = (item: { label: string }) => {
-        updateFilter('assessmentType', item.label);
+        if (isAssessmentTypeKey(item.label)) {
+            updateFilter('assessmentType', item.label);
+        }
     };
 
     const handleHighPriorityComponentClick = (component: {
@@ -235,288 +304,260 @@ function PERSummaryDashboard() {
         component: string | null;
     }) => {
         if (component) {
-            updateFilter('highPriorityArea', component.area);
             updateFilter('highPriorityComponent', component.component);
         }
     };
 
     const handlePhaseClick = (item: { label: string; color: string; phaseNumber: number }) => {
-        if (activeTab !== 4) {
-            updateFilter('numberOfCycles', null);
-            updateFilter('completedAssessment', null);
-            setActiveTab(0);
-            setActivePhase(null);
-        }
-
-        if (item.label === 'assessment') {
-            updateFilter('numberOfCycles', null);
-            updateFilter('completedAssessment', null);
-            setActiveTab(1);
-        }
-
-        if (item.label === 'Action & accountability') {
-            updateFilter('numberOfCycles', null);
-            updateFilter('completedAssessment', null);
-        }
-
-        updateFilter('phase', item.phaseNumber);
-
-        if (!activeFilters.phase) {
-            setActivePhase(item.label);
-        } else {
-            setActivePhase(null);
-        }
+        const phaseCohort = getPhaseCohort(item.phaseNumber);
+        setActiveFilters((prev) => ({
+            ...prev,
+            phaseCohort: prev.phaseCohort === phaseCohort ? null : phaseCohort,
+            minimumCycles: null,
+        }));
     };
 
-    const regionColors = {
-        Africa: '#1B365D',
-        Americas: '#236192',
-        'Asia Pacific': '#418FDE',
-        Europe: '#009CDD',
-        MENA: '#C6C6C6',
+    const handleExport = async () => {
+        setExporting(true);
+        try {
+            await downloadDashboardWorkbook(workbookData);
+        } catch {
+            alert.show(strings.summaryExportFailure, { variant: 'danger' });
+        } finally {
+            setExporting(false);
+        }
     };
-
-    const regionCategories = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'].map((region) => ({
-        label: region,
-        fillColor: regionColors[region as keyof typeof regionColors],
-    }));
-
-    const regionLegendCategories = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'].map(
-        (region) => ({
-            label: region,
-            color: regionColors[region as keyof typeof regionColors],
-        }),
+    const exportButton = (
+        <Button
+            name={undefined}
+            onClick={handleExport}
+            disabled={exporting || workbookData.nationalSocietyCount === 0}
+            aria-label={strings.summaryExportAriaLabel}
+        >
+            {strings.summaryExport}
+        </Button>
     );
 
     return (
-        <>
-            <div className={styles.lastUpdate}>
-                {strings.summaryLastUpdate}
-                {' '}
-                {new Date(getLastUpdateDate()).toLocaleString()}
-            </div>
-            {/* <PERExportButton /> */}
-            <div className={styles.headerDescription}>
-                {strings.summaryHeaderDescription}
-            </div>
-            <div className={styles.content}>
-                <PERKPITabs
-                    kpis={getKPIData(activeFilters)}
-                    activeIndex={activeTab}
-                    onActiveIndexChange={(index) => {
-                        const keys = ['total-engaged', 'orientation', 'assessment', 'action', 'completed'];
-                        setActiveTab(index);
-                        handleTabClick(keys[index]!);
-                    }}
-                    disableTabs={false}
-                />
+        <Container
+            aria-label={strings.summaryContainerAriaLabel}
+            headerDescription={isDefined(lastUpdate) ? resolveToString(
+                strings.summaryLastUpdate,
+                { date: formatDate(lastUpdate) },
+            ) : undefined}
+            pending={mapDataPending}
+            errored={isDefined(mapDataError)}
+            errorMessage={strings.summaryFetchFailedError}
+        >
+            <ListView layout="block">
+                <ExpandableContainer heading={strings.summaryAboutDashboard}>
+                    <Description>{strings.summaryHeaderDescription}</Description>
+                </ExpandableContainer>
+                <ListView
+                    layout="block"
+                    withBackground
+                    withPadding
+                >
+                    <PERKPITabs
+                        kpis={kpiTabData}
+                        activeIndex={activeKpiIndex}
+                        onTabClick={handleTabClick}
+                        disableTabs={false}
+                    />
 
-                <PERRegionToggle
-                    activeRegion={activeFilters?.region}
-                    onRegionClick={(region) => updateFilter('region', region)}
-                    regions={getRecordsByRegion(activeFilters)}
-                    precision={0}
-                    showCount
-                />
+                    <PERRegionToggle
+                        activeRegion={activeFilters?.region}
+                        onRegionClick={(region) => {
+                            if (region === null || isRegionName(region)) {
+                                updateFilter('region', region);
+                            }
+                        }}
+                        regions={regionToggleData}
+                    />
 
-                <Container
-                    heading={strings.mapHeading}
-                    headerDescription={strings.mapDescription}
-                    className={styles.container}
-                    withHeaderBorder
-                    headerActions={(
-                        activeFilters?.phase !== null
-                || activeFilters?.id !== null
-                || activeFilters?.region !== null
-                || activeFilters?.numberOfCycles !== null
-                || activeFilters?.completedAssessment !== null
-                            ? (
+                    <Container
+                        heading={strings.mapHeading}
+                        headerDescription={strings.mapDescription}
+                        withHeaderBorder
+                        headerActions={hasActiveFilters ? (
+                            <>
+                                {exportButton}
                                 <Button
                                     name={undefined}
-                                    onClick={() => {
-                                        updateFilter('phase', null);
-                                        updateFilter('id', null);
-                                        updateFilter('region', null);
-                                        updateFilter('completedAssessment', null);
-                                        updateFilter('numberOfCycles', null);
-                                        setActiveTab(0);
-                                        setActivePhase(null);
-                                    }}
-                                    aria-label={strings.summaryResetFilterAriaLabel}
+                                    onClick={() => setActiveFilters({ ...EMPTY_FILTERS })}
                                 >
-                                    {strings.summaryResetFilter}
+                                    {strings.summaryClearAllFilters}
                                 </Button>
-                            ) : null
-                    )}
-                >
-                    <div style={{ height: '470px' }}>
+                            </>
+                        ) : null}
+                    >
                         <PERMap
-                            data={getFilteredMapData(activeFilters) as MapAssessmentRecord[]}
-                            onClick={(record) => updateFilter('id', record.id)}
-                            valueField="assessment_number"
-                            tooltipTrigger="click"
+                            data={filteredMapData}
+                            onClick={(record) => {
+                                if (record.countryId !== null) {
+                                    updateFilter('countryId', record.countryId);
+                                }
+                            }}
+                            valueField="assessmentNumber"
                             enableClickToFilter
                             accessToken={mbtoken}
                             mapboxStyle={defaultMapStyle}
                             minRadius={4}
                             maxRadius={7}
                         />
-                    </div>
-                    <PERChartLegend
-                        data={[...PHASE_COLORS]}
-                        onClick={(item) => {
-                            const phaseItem = item as {
-                                label: string;
-                                color: string;
-                                phaseNumber: number;
-                            };
-                            handlePhaseClick(phaseItem);
-                        }}
-                        activeIndex={activePhase}
-                        layout="horizontal"
-                    />
-                </Container>
-
-                <div className={styles.charts}>
-                    <Container
-                        heading={strings.assessmentTypeHeading}
-                        headerDescription={
-                            strings.assessmentTypeDescription
-                        }
-                        withHeaderBorder
-                        headerActions={activeFilters?.assessmentType !== null && (
-                            <Button
-                                name={undefined}
-                                onClick={() => updateFilter('assessmentType', null)}
-                                aria-label={strings.summaryResetFilterAriaLabel}
-                            >
-                                {strings.summaryResetFilter}
-                            </Button>
-                        )}
-                    >
-                        <PERDonutChart
-                            data={getRecordsByAssessmentType(activeFilters)}
-                            height={210}
-                            width={400}
-                            cutout="70%"
-                            tooltipEnabled
-                            onClick={handleAssessmentTypeClick}
-                            colors={['#236192', '#418FDE', '#009CDD', '#C6C6C6']}
-                        />
                         <PERChartLegend
-                            data={[
-                                { label: 'Self assessment', color: '#236192' },
-                                { label: 'Simulation', color: '#418FDE' },
-                                { label: 'Operational', color: '#009CDD' },
-                                { label: 'Post operational', color: '#C6C6C6' },
-                            ]}
-                            onClick={handleAssessmentTypeClick}
-                            activeIndex={activeFilters?.assessmentType}
+                            data={phaseLegendData}
+                            onClick={(item) => {
+                                const phaseItem = item as {
+                                    label: string;
+                                    color: string;
+                                    phaseNumber: number;
+                                };
+                                handlePhaseClick(phaseItem);
+                            }}
+                            activeIndex={getActivePhaseLabel(activeFilters)}
                             layout="horizontal"
                         />
                     </Container>
 
-                    <Container
-                        heading={strings.yearAndRegionHeading}
-                        headerDescription={
-                            strings.yearAndRegionDescription
-                        }
-                        withHeaderBorder
-                        headerActions={(
-                            activeFilters?.region !== null
-                            || activeFilters?.year !== null
-                        ) && (
-                            <Button
-                                name={undefined}
-                                onClick={() => {
-                                    updateFilter('region', null);
-                                    updateFilter('year', null);
-                                }}
-                                aria-label={strings.summaryResetFilterAriaLabel}
-                            >
-                                {strings.summaryResetFilter}
-                            </Button>
-                        )}
+                    <ListView
+                        layout="grid"
+                        numPreferredGridColumns={2}
+                        minGridColumnSize="20rem"
                     >
-                        <PERStackedBarChart
-                            data={getStackedBarDataByYearAndRegion(activeFilters)}
-                            onClick={handleRegionStackedClick}
-                            categories={regionCategories}
-                            height={250}
-                            tooltipEnabled
-                            showDataLabels={false}
-                        />
-                        <PERChartLegend
-                            data={regionLegendCategories}
-                            onClick={handleRegionStackedClick}
-                            activeIndex={activeFilters?.region}
-                            layout="horizontal"
-                        />
-                    </Container>
-                </div>
+                        <Container
+                            heading={strings.assessmentTypeHeading}
+                            headerDescription={strings.assessmentTypeDescription}
+                            withHeaderBorder
+                            headerActions={activeFilters?.assessmentType !== null && (
+                                <Button
+                                    name={undefined}
+                                    onClick={() => updateFilter('assessmentType', null)}
+                                >
+                                    {strings.summaryResetFilter}
+                                </Button>
+                            )}
+                        >
+                            <PERDonutChart
+                                data={assessmentTypeChartData}
+                                height={210}
+                                width={400}
+                                cutout="70%"
+                                tooltipEnabled
+                                onClick={handleAssessmentTypeClick}
+                                colors={Object.values(ASSESSMENT_TYPE_COLORS)}
+                            />
+                            <PERChartLegend
+                                data={assessmentTypeLegendData}
+                                onClick={handleAssessmentTypeClick}
+                                activeIndex={activeFilters?.assessmentType}
+                                layout="horizontal"
+                            />
+                        </Container>
 
-                <div className={styles.treemap}>
+                        <Container
+                            heading={strings.yearAndRegionHeading}
+                            headerDescription={strings.yearAndRegionDescription}
+                            withHeaderBorder
+                            headerActions={(
+                                activeFilters?.region !== null
+                                || activeFilters?.year !== null
+                            ) && (
+                                <Button
+                                    name={undefined}
+                                    onClick={() => {
+                                        updateFilter('region', null);
+                                        updateFilter('year', null);
+                                    }}
+                                >
+                                    {strings.summaryResetFilter}
+                                </Button>
+                            )}
+                            filters={(
+                                <SelectInput
+                                    name="year"
+                                    label={strings.summaryYearFilterLabel}
+                                    placeholder={strings.summaryYearFilterPlaceholder}
+                                    options={yearOptions}
+                                    keySelector={numericKeySelector}
+                                    labelSelector={stringLabelSelector}
+                                    value={activeFilters.year}
+                                    onChange={handleYearChange}
+                                />
+                            )}
+                        >
+                            <PERStackedBarChart
+                                data={yearRegionData}
+                                onClick={handleRegionStackedClick}
+                                categories={regionCategories}
+                                height={250}
+                                tooltipEnabled
+                                showDataLabels={false}
+                                activeYear={activeFilters.year?.toString()}
+                            />
+                            <PERChartLegend
+                                data={regionLegendData}
+                                onClick={handleRegionStackedClick}
+                                activeIndex={activeFilters?.region}
+                                layout="horizontal"
+                            />
+                        </Container>
+                    </ListView>
+
                     <Container
                         heading={
                             strings.highPriorityComponentsHeading
                         }
-                        headerDescription={
-                            strings.highPriorityComponentsDescription
-                        }
+                        headerDescription={strings.highPriorityComponentsDescription}
                         withHeaderBorder
                         headerActions={activeFilters?.highPriorityComponent !== null && (
                             <Button
                                 name={undefined}
-                                onClick={() => {
-                                    updateFilter('highPriorityComponent', null);
-                                    updateFilter('highPriorityArea', null);
-                                }}
-                                aria-label={strings.summaryResetFilterAriaLabel}
+                                onClick={() => updateFilter('highPriorityComponent', null)}
                             >
                                 {strings.summaryResetFilter}
                             </Button>
                         )}
                     >
                         <PERTreemapChart
-                            d={getComponentSummaryForTreemap(activeFilters)}
+                            d={componentSummary}
                             activeIndex={activeFilters?.highPriorityComponent}
                             onClick={handleHighPriorityComponentClick}
                         />
                     </Container>
-                </div>
 
-                <Container
-                    heading={strings.perConsiderationsHeading}
-                    headerDescription={
-                        strings.perConsiderationsDescription
-                    }
-                    withHeaderBorder
-                    headerActions={(
-                        activeFilters?.perConsiderations !== null
-                        || activeFilters?.assessmentType !== null
-                    ) && (
-                        <Button
-                            name={undefined}
-                            onClick={() => {
-                                updateFilter('perConsiderations', null);
-                                updateFilter('assessmentType', null);
-                            }}
-                            aria-label={strings.summaryResetFilterAriaLabel}
-                        >
-                            {strings.summaryResetFilter}
-                        </Button>
-                    )}
-                >
-                    <PERConsiderations
-                        data={getPERConsiderations(activeFilters)}
-                        onClickAssessmentType={handleAssessmentTypeClick}
-                        onClickPER={(index) => updateFilter('perConsiderations', index)}
-                        activeIndex={activeFilters?.assessmentType}
-                        activePERFilter={activeFilters?.perConsiderations ?? undefined}
-                    />
-                </Container>
-            </div>
-        </>
+                    <Container
+                        heading={strings.perConsiderationsHeading}
+                        headerDescription={strings.perConsiderationsDescription}
+                        withHeaderBorder
+                        headerActions={activeFilters.consideration !== null && (
+                            <Button
+                                name={undefined}
+                                onClick={() => {
+                                    updateFilter('consideration', null);
+                                }}
+                            >
+                                {strings.summaryResetFilter}
+                            </Button>
+                        )}
+                    >
+                        <PERConsiderations
+                            data={considerationChartData}
+                            onClickAssessmentType={(assessmentType) => updateFilter(
+                                'assessmentType',
+                                assessmentType,
+                            )}
+                            onClickPER={(key) => updateFilter(
+                                'consideration',
+                                considerationKeyFromChartKey(key),
+                            )}
+                            activeIndex={activeFilters?.assessmentType}
+                            activePERFilter={considerationChartKey(activeFilters.consideration)}
+                        />
+                    </Container>
+                </ListView>
+            </ListView>
+        </Container>
     );
 }
 
