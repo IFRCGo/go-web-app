@@ -1,15 +1,8 @@
-.map {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    min-height: 400px;
-}
-
+/* FIXME: moved with the PER components from @ifrc-go/ui; replace the layout rules with Container, ListView and InlineLayout and keep only the chart styles */
 .map-container {
     position: relative;
     width: 100%;
-    height: 100%;
-    min-height: 400px;
+    height: var(--go-ui-height-map-md);
     overflow: hidden;
 }
 
@@ -27,6 +20,16 @@
 
 .map-container :global(.ol-viewport canvas) {
     background: none !important;
+}
+
+.bubble:focus {
+    outline: none;
+}
+
+/* NOTE: the bubble colours are inline styles, so the focus ring has to override them */
+.bubble:focus-visible {
+    stroke: var(--go-ui-color-primary-red) !important;
+    stroke-opacity: 1 !important;
 }
 
 .customTooltip {
@@ -108,6 +111,8 @@
     cursor: pointer;
     padding: 2px 12px;
     width: calc(100% - 24px);
+    min-height: 20px;
+    line-height: 1.2;
     color: #F5333F;
     font-size: 10px;
     font-weight: 500;
@@ -144,16 +149,15 @@
 
 .error {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: var(--go-ui-border-radius-md);
-    padding: var(--go-ui-spacing-md);
-    color: var(--go-ui-color-white);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--go-ui-color-foreground);
 }
 
-/* Make zoom controls smaller */
-:global(.mapboxgl-ctrl-group) {
+/* NOTE: scoped to the PER map so other GO maps keep their full-size controls */
+.map-container :global(.mapboxgl-ctrl-group) {
     transform: scale(0.8);
     transform-origin: top right;
 }
