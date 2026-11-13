@@ -1,0 +1,6 @@
+{
+    "namespace": "perDashboard",
+    "strings": {
+        "regionContainerLabel": "Region filter"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "namespace": "perDashboard",
+    "strings": {
+        "stackedBarContainerLabel": "Stacked bar chart",
+        "stackedBarChartLabel": "Stacked bar chart showing data over time",
+        "stackedBarTooltipFormat": "{category}: {value}"
+    }
+}
