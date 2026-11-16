@@ -48,9 +48,10 @@ const ANCHORS = {
    Sudan first because it is the origin of the whole crisis, then its
    neighbours alphabetically. Every name here must match the "name" property
    in data/boundaries/admin0.geojson, because that file is what supplies the
-   map bounds we zoom to. */
-const COUNTRIES = ["Sudan", "Central African Republic", "Chad", "Egypt",
-                   "Ethiopia", "Libya", "South Sudan", "Uganda"];
+   map bounds we zoom to.
+   The list comes from the server (dashboard/views.py DASHBOARD_COUNTRIES minus
+   any country switched off in Admin), so a hidden country is never offered. */
+const COUNTRIES = JSON.parse(document.getElementById("shown-countries").textContent);
 
 /* The seasonal calendar and the food-security files are keyed by ISO3, because
    that is how the database stores them. This turns the dropdown's country name
