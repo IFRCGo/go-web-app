@@ -1,0 +1,37 @@
+
+=== s06_mcp_layers ===
+== external layers, from the database
+  crossings.json                1.4 KB
+  idp_localities.json         204.7 KB
+    185 localities (0 without a polygon)
+  returnee_localities.json    105.5 KB
+    79 localities (0 without a centroid), 18 origin states
+  unhcr_asylum.json            12.8 KB
+    11 asylum countries, 2,917,737 people at latest
+  refugee_camps.json           14.5 KB
+    15 host countries, 196 figures
+  ipc_fs/CAF.geojson         1086.3 KB
+  ipc_fs/ETH.geojson         3582.3 KB
+  ipc_fs/SDN.geojson         1571.2 KB
+  ipc_areas_fs.geojson       1571.2 KB
+  ipc_fs/SSD.geojson          371.1 KB
+  ipc_fs/TCD.geojson          578.4 KB
+    5 countries with mappable areas: CAF, ETH, SDN, SSD, TCD
+  seasonal.json                68.0 KB
+    CAF 23 (acaps), EGY 20 (acaps), ETH 21 (acaps), LBY 5 (acaps), SDN 16 (acaps), SSD 35 (acaps), TCD 10 (acaps), UGA 43 (acaps)
+  aoi_ipc.geojson              28.9 KB
+    14 AOIs, 12 with an IPC phase (computed by spatial join, not from a cache)
+  hsps.geojson                  9.9 KB
+    23 districts offering services, reported 2026-09-08
+  hazards.json                  6.5 KB
+  hazard_events.json         5447.6 KB
+  boundaries/areas.geojson   2238.8 KB
+    905 theme areas keyed by p-code
+
+=== s07_xlsx ===
+== Excel-sourced layers, from the database
+  idp_states.json                     7.0 KB
+    18 states, 8 time points: ['2026-01-31', '2026-03-31', '2026-04-30', '2026-05-31', '2026-06-30', '2026-07-31', '2026-08-31', '2026-10-31']
+
+Pipeline finished in 6s. Open the dashboard to see the result.
+rebuilt s06,s07

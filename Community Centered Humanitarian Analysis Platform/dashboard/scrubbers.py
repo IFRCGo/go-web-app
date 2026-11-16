@@ -170,6 +170,7 @@ REGISTRY = [
     ("refugee_camps.json", _rows("countries", "camps")),
     ("unhcr_asylum.json", _rows("countries")),
     ("crossings.json", _rows("points")),
+    ("data_dates.json", _rows("countries")),
     ("flows.json", _flows),
     ("documents.json", _documents),
     ("tags.json", _tags),
