@@ -58,6 +58,9 @@ LLM_API_KEY = os.environ.get("LLM_API_KEY") or ""
 # These are fetched by an analyst in Claude Code, NOT by this app; the
 # pipeline only re-reads whatever sits in the folder. See data_pipeline/README.md.
 API_CACHE_DIR = env_path("API_CACHE_DIR", BASE_DIR / "data_pipeline" / "api_cache")
+# `manage.py test` swaps API_CACHE_DIR for a temporary folder, so no test can
+# rewrite or delete the real cache files. See config/test_runner.py.
+TEST_RUNNER = "config.test_runner.IsolatedCacheRunner"
 
 # Reading documents for the insights wizard (spec 2026-09-21 §11). Docling
 # converts a PDF or Word file to per-page markdown before the model sees it;

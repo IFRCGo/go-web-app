@@ -11,6 +11,7 @@ rejected insight, and there should never be one.
 from django.db.models import Q
 from django.http import JsonResponse
 
+from dashboard.visibility import hidden_countries
 from insights.models import Insight
 
 MAX_LIMIT = 2000
@@ -29,7 +30,10 @@ def insights(request):
     """
     rows = (Insight.objects.filter(status="published")
             .select_related("document")
-            .prefetch_related("codings", "figures", "movements"))
+            .prefetch_related("codings", "figures", "movements")
+            # A statement located in a hidden country is not sent. One located in
+            # a shown country is sent as it is, movement legs included.
+            .exclude(iso3__in=hidden_countries().iso3))
 
     for field in ("voice_type", "iso3", "admin_pcode"):
         if value := request.GET.get(field):

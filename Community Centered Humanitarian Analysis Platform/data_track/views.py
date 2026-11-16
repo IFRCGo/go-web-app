@@ -23,6 +23,9 @@ from collections import defaultdict
 from django.db.models import Count, F, Max, Min
 from django.http import JsonResponse
 
+from dashboard.scrubbers import corridor_countries, country_at
+from dashboard.visibility import hidden_countries
+
 from .models import Document, Event, MovementFlow, NarrativeTag, PopulationFigure
 
 
@@ -67,7 +70,7 @@ def meta(request):
 
 def documents(request):
     """The catalogue of source PDFs. Optional filters: ?family=... &country=..."""
-    rows = Document.objects.all()
+    rows = Document.objects.exclude(country_focus__in=hidden_countries().labels)
     if family := request.GET.get("family"):
         rows = rows.filter(family=family)
     if country := request.GET.get("country"):
@@ -90,6 +93,7 @@ def documents(request):
 
 def events(request):
     """The timeline. Optional filters: ?category=conflict &source=curated"""
+    hidden = hidden_countries()
     rows = Event.objects.exclude(event_date=None)
     if category := request.GET.get("category"):
         rows = rows.filter(category=category)
@@ -108,6 +112,7 @@ def events(request):
             "source": e.source,
         }
         for e in rows.order_by("event_date", "id")
+        if not (hidden and hidden.hides(country_at(e.lon, e.lat)))
     ]
     return JsonResponse(data, safe=False)
 
@@ -115,7 +120,10 @@ def events(request):
 def flows(request):
     """Movement corridors with their raw (unsmoothed) cumulative series."""
     out = {}
+    hidden = hidden_countries()
     for row in MovementFlow.objects.order_by("corridor", "report_date", "id"):
+        if hidden and any(hidden.hides(c) for c in corridor_countries(row.corridor or "")):
+            continue
         entry = out.setdefault(
             row.corridor,
             {
@@ -149,7 +157,7 @@ def figures(request):
     Filters: ?metric=idps &country=Chad &method=narrative_regex &limit=200
     The limit is capped at 5000 so one request can never dump the whole table.
     """
-    rows = PopulationFigure.objects.all()
+    rows = PopulationFigure.objects.exclude(country__in=hidden_countries().labels)
     for field in ("metric", "country", "method", "confidence"):
         if value := request.GET.get(field):
             rows = rows.filter(**{field: value})
@@ -182,7 +190,8 @@ def tags(request):
     Filter with ?dimension=hazard (hazard / vulnerability / coping / need /
     movement_pattern) to get just one group of toggles.
     """
-    rows = NarrativeTag.objects.exclude(report_date=None)
+    rows = (NarrativeTag.objects.exclude(report_date=None)
+            .exclude(country__in=hidden_countries().labels))
     if dimension := request.GET.get("dimension"):
         rows = rows.filter(dimension=dimension)
 

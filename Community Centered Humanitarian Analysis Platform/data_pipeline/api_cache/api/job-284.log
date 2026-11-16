@@ -1,0 +1,195 @@
+--- ch/food_security TCD
+already up to date - nothing new published
+--- dtm/displacement_snapshot SDN
+already up to date - nothing new published
+--- fewsnet/food_security ETH fewsnet-phases
+GET https://fdw.fews.net/api/ipcphase/
+  saved /app/data_pipeline/api_cache/fewsnet_phases/ETH.json
+  loaded 18578 rows
+wrote 18578 rows
+--- fewsnet/seasonal_calendar CAF
+GET https://fdw.fews.net/api/season/
+  saved /app/data_pipeline/api_cache/fewsnet_seasons/CAF.json
+  loaded 1 rows
+wrote 1 rows
+--- fewsnet/seasonal_calendar EGY
+GET https://fdw.fews.net/api/season/
+  saved /app/data_pipeline/api_cache/fewsnet_seasons/EGY.json
+  loaded 5 rows
+wrote 5 rows
+--- fewsnet/seasonal_calendar ETH
+GET https://fdw.fews.net/api/season/
+  saved /app/data_pipeline/api_cache/fewsnet_seasons/ETH.json
+  loaded 11 rows
+wrote 11 rows
+--- fewsnet/seasonal_calendar LBY
+GET https://fdw.fews.net/api/season/
+  saved /app/data_pipeline/api_cache/fewsnet_seasons/LBY.json
+  loaded 1 rows
+wrote 1 rows
+--- fewsnet/seasonal_calendar SDN
+GET https://fdw.fews.net/api/season/
+  saved /app/data_pipeline/api_cache/fewsnet_seasons/SDN.json
+  loaded 9 rows
+wrote 9 rows
+--- fewsnet/seasonal_calendar SSD
+GET https://fdw.fews.net/api/season/
+  saved /app/data_pipeline/api_cache/fewsnet_seasons/SSD.json
+  loaded 6 rows
+wrote 6 rows
+--- fewsnet/seasonal_calendar TCD
+GET https://fdw.fews.net/api/season/
+  saved /app/data_pipeline/api_cache/fewsnet_seasons/TCD.json
+  loaded 6 rows
+wrote 6 rows
+--- fewsnet/seasonal_calendar UGA
+GET https://fdw.fews.net/api/season/
+  saved /app/data_pipeline/api_cache/fewsnet_seasons/UGA.json
+  loaded 8 rows
+wrote 8 rows
+--- hdx/idps SDN admin2-overview
+GET https://hapi.humdata.org/api/v1/affected-people/idps
+  saved /app/data_pipeline/api_cache/hdx_idps/SDN-admin2-overview.json
+  loaded 549 rows
+wrote 549 rows
+--- ipc/food_security CAF
+already up to date - nothing new published
+--- ipc/food_security EGY
+already up to date - nothing new published
+--- ipc/food_security ETH
+already up to date - nothing new published
+--- ipc/food_security LBY
+already up to date - nothing new published
+--- ipc/food_security SDN
+already up to date - nothing new published
+--- ipc/food_security SSD
+already up to date - nothing new published
+--- montandon/hazard_events CAF
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/CAF-events.json
+  loaded 794 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/CAF-hazards.json
+  loaded 2861 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/CAF-impacts.json
+  loaded 4673 rows
+wrote 8328 rows
+--- montandon/hazard_events EGY
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/EGY-events.json
+  loaded 93 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/EGY-hazards.json
+  loaded 91 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/EGY-impacts.json
+  loaded 1686 rows
+wrote 1870 rows
+--- montandon/hazard_events ETH
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/ETH-events.json
+  loaded 310 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/ETH-hazards.json
+  loaded 323 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/ETH-impacts.json
+  loaded 2480 rows
+wrote 3113 rows
+--- montandon/hazard_events LBY
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/LBY-events.json
+  loaded 30 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/LBY-hazards.json
+  loaded 24 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/LBY-impacts.json
+  loaded 285 rows
+wrote 339 rows
+--- montandon/hazard_events SDN
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/SDN-events.json
+  loaded 1306 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/SDN-hazards.json
+  loaded 4056 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/SDN-impacts.json
+  loaded 6126 rows
+wrote 11488 rows
+--- montandon/hazard_events SSD
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/SSD-events.json
+  loaded 1427 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/SSD-hazards.json
+  loaded 1347 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/SSD-impacts.json
+  loaded 14330 rows
+wrote 17104 rows
+--- montandon/hazard_events TCD
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/TCD-events.json
+  loaded 503 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/TCD-hazards.json
+  loaded 649 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/TCD-impacts.json
+  loaded 5275 rows
+wrote 6427 rows
+--- montandon/hazard_events UGA
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/UGA-events.json
+  loaded 303 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/UGA-hazards.json
+  loaded 100 rows
+GET https://montandon-eoapi-stage.ifrc.org/stac/search
+  saved /app/data_pipeline/api_cache/montandon/UGA-impacts.json
+  loaded 1124 rows
+wrote 1527 rows
+--- unhcr/refugees CAF
+GET https://hapi.humdata.org/api/v1/affected-people/refugees
+  saved /app/data_pipeline/api_cache/hdx_refugees/CAF.json
+  loaded 1 rows
+wrote 1 rows
+--- unhcr/refugees EGY
+GET https://hapi.humdata.org/api/v1/affected-people/refugees
+  saved /app/data_pipeline/api_cache/hdx_refugees/EGY.json
+  loaded 1 rows
+wrote 1 rows
+--- unhcr/refugees ETH
+GET https://hapi.humdata.org/api/v1/affected-people/refugees
+  saved /app/data_pipeline/api_cache/hdx_refugees/ETH.json
+  loaded 1 rows
+wrote 1 rows
+--- unhcr/refugees LBY
+GET https://hapi.humdata.org/api/v1/affected-people/refugees
+  saved /app/data_pipeline/api_cache/hdx_refugees/LBY.json
+  loaded 1 rows
+wrote 1 rows
+--- unhcr/refugees SSD
+GET https://hapi.humdata.org/api/v1/affected-people/refugees
+  saved /app/data_pipeline/api_cache/hdx_refugees/SSD.json
+  loaded 1 rows
+wrote 1 rows
+--- unhcr/refugees TCD
+GET https://hapi.humdata.org/api/v1/affected-people/refugees
+  saved /app/data_pipeline/api_cache/hdx_refugees/TCD.json
+  loaded 1 rows
+wrote 1 rows
+--- unhcr/refugees UGA
+GET https://hapi.humdata.org/api/v1/affected-people/refugees
+  saved /app/data_pipeline/api_cache/hdx_refugees/UGA.json
+  loaded 1 rows
+wrote 1 rows
+--- unhcr-odp/situations global
+GET https://data.humdata.org/dataset/e6320d49-1944-4c80-ad9c-ab83e4239267/resource/a1dc9602-b522-4966-bb59-f4a44d238dd1/download/unhcr-situations.csv
+  saved /app/data_pipeline/api_cache/unhcr_situations/sudan-situation.json
+  loaded 314 rows
+wrote 314 rows
+34 pulled

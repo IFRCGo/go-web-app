@@ -2,6 +2,606 @@
   "type": "FeatureCollection",
   "features": [
     {
+      "id": "pdc-hazard-9b29331a-8ff5-40de-ade9-2773eb8027fc-572425-1794780403505",
+      "bbox": [
+        35.38043731656247,
+        12.18259406502516,
+        35.38043731656247,
+        12.18259406502516
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.38043731656247,
+          12.18259406502516
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Potential Wildfire - Amhara and Sennar border region, Ethiopia and Sudan",
+        "datetime": "2026-11-15T13:41:42Z",
+        "end_datetime": "2026-11-16T22:06:50Z",
+        "monty:corr_id": "20261115-SDN-919078-EN0205-1-GCDB",
+        "start_datetime": "2026-11-15T13:41:42Z",
+        "monty:hazard_codes": [
+          "EN0205"
+        ],
+        "monty:country_codes": [
+          "SDN",
+          "ETH"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "ADVISORY",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-9b29331a-8ff5-40de-ade9-2773eb8027fc-572425-1794780403505",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-hazard-9b29331a-8ff5-40de-ade9-2773eb8027fc-572425-1794757716500",
+      "bbox": [
+        35.38043731656247,
+        12.18259406502516,
+        35.38043731656247,
+        12.18259406502516
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.38043731656247,
+          12.18259406502516
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Potential Wildfire - Amhara and Sennar border region, Ethiopia and Sudan",
+        "datetime": "2026-11-15T13:41:42Z",
+        "end_datetime": "2026-11-16T22:06:50Z",
+        "monty:corr_id": "20261115-SDN-919078-EN0205-1-GCDB",
+        "start_datetime": "2026-11-15T13:41:42Z",
+        "monty:hazard_codes": [
+          "EN0205"
+        ],
+        "monty:country_codes": [
+          "SDN",
+          "ETH"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "ADVISORY",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-9b29331a-8ff5-40de-ade9-2773eb8027fc-572425-1794757716500",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-hazard-e333fde3-7d8c-4d2a-a0fe-c0e9958eccb7-570464-1794493402305",
+      "bbox": [
+        41.183631896972656,
+        12.663117408752441,
+        41.183631896972656,
+        12.663117408752441
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.183631896972656,
+          12.663117408752441
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Landslide - Afar Triangle, Afar Zone 1, Afar, Ethiopia",
+        "datetime": "2026-11-12T14:15:30Z",
+        "end_datetime": "2026-11-13T02:53:34Z",
+        "monty:corr_id": "20261112-ERI-924507-GH0300-1-GCDB",
+        "start_datetime": "2026-11-12T14:15:30Z",
+        "monty:hazard_codes": [
+          "GH0300"
+        ],
+        "monty:country_codes": [
+          "ERI",
+          "ETH"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "WARNING",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-e333fde3-7d8c-4d2a-a0fe-c0e9958eccb7-570464-1794493402305",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-hazard-6f008d58-a13e-4360-84ba-0e7c8256e864-571130-1794602203970",
+      "bbox": [
+        35.60050180105368,
+        12.38916378124679,
+        35.60050180105368,
+        12.38916378124679
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.60050180105368,
+          12.38916378124679
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Potential Wildfire - Semen Gondar, Amhara, Ethiopia",
+        "datetime": "2026-11-12T13:31:42Z",
+        "end_datetime": "2026-11-14T02:36:49Z",
+        "monty:corr_id": "20261112-ETH-920879-EN0205-1-GCDB",
+        "start_datetime": "2026-11-12T13:31:42Z",
+        "monty:hazard_codes": [
+          "EN0205"
+        ],
+        "monty:country_codes": [
+          "ETH"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "ADVISORY",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-6f008d58-a13e-4360-84ba-0e7c8256e864-571130-1794602203970",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-hazard-6028c9e2-66c1-4a41-8c55-6de022b024e6-569171-1794354636530",
+      "bbox": [
+        34.56845354091153,
+        8.22209224194556,
+        34.56845354091153,
+        8.22209224194556
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.56845354091153,
+          8.22209224194556
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Potential Wildfire - Agnuak, Gambela Peoples, Ethiopia",
+        "datetime": "2026-11-10T15:04:56Z",
+        "end_datetime": "2026-11-11T23:50:43Z",
+        "monty:corr_id": "20261110-ETH-883074-EN0205-1-GCDB",
+        "start_datetime": "2026-11-10T15:04:56Z",
+        "monty:hazard_codes": [
+          "EN0205"
+        ],
+        "monty:country_codes": [
+          "ETH"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "WARNING",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-6028c9e2-66c1-4a41-8c55-6de022b024e6-569171-1794354636530",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-hazard-1033702-1",
+      "bbox": [
+        35.3028,
+        11.8032,
+        35.4596,
+        11.9164
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              35.3657,
+              11.8032
+            ],
+            [
+              35.3806,
+              11.887
+            ],
+            [
+              35.4448,
+              11.8861
+            ],
+            [
+              35.4596,
+              11.9049
+            ],
+            [
+              35.4086,
+              11.9164
+            ],
+            [
+              35.3089,
+              11.8553
+            ],
+            [
+              35.3028,
+              11.8295
+            ],
+            [
+              35.3657,
+              11.8032
+            ]
+          ],
+          [
+            [
+              35.3402,
+              11.8392
+            ],
+            [
+              35.3376,
+              11.8303
+            ],
+            [
+              35.3373,
+              11.8379
+            ],
+            [
+              35.3402,
+              11.8392
+            ]
+          ],
+          [
+            [
+              35.3212,
+              11.8397
+            ],
+            [
+              35.3171,
+              11.839
+            ],
+            [
+              35.3186,
+              11.8418
+            ],
+            [
+              35.3212,
+              11.8397
+            ]
+          ],
+          [
+            [
+              35.3265,
+              11.84
+            ],
+            [
+              35.3255,
+              11.8404
+            ],
+            [
+              35.3263,
+              11.8409
+            ],
+            [
+              35.3265,
+              11.84
+            ]
+          ],
+          [
+            [
+              35.3559,
+              11.8517
+            ],
+            [
+              35.355,
+              11.8555
+            ],
+            [
+              35.357,
+              11.8557
+            ],
+            [
+              35.3559,
+              11.8517
+            ]
+          ],
+          [
+            [
+              35.377,
+              11.8744
+            ],
+            [
+              35.3775,
+              11.8765
+            ],
+            [
+              35.3782,
+              11.8752
+            ],
+            [
+              35.377,
+              11.8744
+            ]
+          ],
+          [
+            [
+              35.451,
+              11.9013
+            ],
+            [
+              35.45,
+              11.9021
+            ],
+            [
+              35.4512,
+              11.9024
+            ],
+            [
+              35.451,
+              11.9013
+            ]
+          ],
+          [
+            [
+              35.4079,
+              11.9052
+            ],
+            [
+              35.4074,
+              11.9053
+            ],
+            [
+              35.4083,
+              11.9055
+            ],
+            [
+              35.4079,
+              11.9052
+            ]
+          ],
+          [
+            [
+              35.4085,
+              11.9056
+            ],
+            [
+              35.4092,
+              11.906
+            ],
+            [
+              35.4094,
+              11.9057
+            ],
+            [
+              35.4085,
+              11.9056
+            ]
+          ]
+        ]
+      },
+      "collection": "gdacs-hazards",
+      "properties": {
+        "title": "Forest fires in Ethiopia, Sudan",
+        "datetime": "2026-11-08T00:00:00Z",
+        "end_datetime": "2026-11-10T00:00:00Z",
+        "monty:corr_id": "20261108-SDN-917278-EN0205-1-GCDB",
+        "start_datetime": "2026-11-08T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205"
+        ],
+        "monty:country_codes": [
+          "SDN",
+          "ETH"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "GDACS Severity Score",
+          "severity_label": "Green",
+          "severity_value": 0.5
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-hazards/items/gdacs-hazard-1033702-1",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
       "id": "pdc-hazard-556fc68b-9d1d-4d6a-8b06-b57a36a7a8e0-565532-1793912393646",
       "bbox": [
         35.77062473737432,
@@ -9425,28 +10025,29 @@
       },
       "collection": "gdacs-hazards",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-9-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-9-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ],
         "monty:hazard_detail": {
           "estimate_type": "primary",
@@ -9777,28 +10378,29 @@
       },
       "collection": "gdacs-hazards",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-8-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-8-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ],
         "monty:hazard_detail": {
           "estimate_type": "primary",
@@ -10129,28 +10731,29 @@
       },
       "collection": "gdacs-hazards",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-7-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-7-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ],
         "monty:hazard_detail": {
           "estimate_type": "primary",
@@ -10513,28 +11116,29 @@
       },
       "collection": "gdacs-hazards",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-6-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-6-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ],
         "monty:hazard_detail": {
           "estimate_type": "primary",
@@ -10775,28 +11379,29 @@
       },
       "collection": "gdacs-hazards",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-5-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-5-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ],
         "monty:hazard_detail": {
           "estimate_type": "primary",
@@ -10979,28 +11584,29 @@
       },
       "collection": "gdacs-hazards",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-4-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-4-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ],
         "monty:hazard_detail": {
           "estimate_type": "primary",
@@ -11183,28 +11789,29 @@
       },
       "collection": "gdacs-hazards",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-3-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-3-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ],
         "monty:hazard_detail": {
           "estimate_type": "primary",
@@ -11387,28 +11994,29 @@
       },
       "collection": "gdacs-hazards",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-2-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-2-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ],
         "monty:hazard_detail": {
           "estimate_type": "primary",
@@ -11453,10 +12061,10 @@
       ]
     },
     {
-      "id": "gdacs-hazard-1027450-12",
+      "id": "gdacs-hazard-1027450-13",
       "bbox": [
         12.0,
-        1.0,
+        -4.0,
         43.0,
         15.0
       ],
@@ -11466,9 +12074,53 @@
           [
             [
               [
-                13,
-                14
+                43,
+                7
               ],
+              [
+                43,
+                8
+              ],
+              [
+                42,
+                8
+              ],
+              [
+                42,
+                7
+              ],
+              [
+                43,
+                7
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                40,
+                6
+              ],
+              [
+                40,
+                7
+              ],
+              [
+                39,
+                7
+              ],
+              [
+                39,
+                6
+              ],
+              [
+                40,
+                6
+              ]
+            ]
+          ],
+          [
+            [
               [
                 12,
                 14
@@ -11484,37 +12136,181 @@
               [
                 13,
                 14
+              ],
+              [
+                12,
+                14
               ]
             ]
           ],
           [
             [
               [
-                21,
-                15
+                17,
+                8
+              ],
+              [
+                16,
+                8
+              ],
+              [
+                16,
+                7
+              ],
+              [
+                17,
+                7
+              ],
+              [
+                17,
+                8
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                19,
+                9
+              ],
+              [
+                18,
+                9
+              ],
+              [
+                18,
+                8
+              ],
+              [
+                19,
+                8
+              ],
+              [
+                19,
+                9
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                20,
+                8
+              ],
+              [
+                19,
+                8
+              ],
+              [
+                19,
+                7
               ],
               [
                 20,
-                15
+                7
               ],
               [
                 20,
+                8
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                20,
+                10
+              ],
+              [
+                19,
+                10
+              ],
+              [
+                19,
+                9
+              ],
+              [
+                20,
+                9
+              ],
+              [
+                20,
+                10
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                18,
                 14
               ],
               [
-                21,
+                17,
                 14
+              ],
+              [
+                17,
+                13
+              ],
+              [
+                18,
+                13
+              ],
+              [
+                18,
+                14
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                19,
+                13
+              ],
+              [
+                18,
+                13
+              ],
+              [
+                18,
+                11
+              ],
+              [
+                19,
+                11
+              ],
+              [
+                19,
+                13
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                23,
+                14
+              ],
+              [
+                23,
+                15
               ],
               [
                 21,
                 15
-              ]
-            ]
-          ],
-          [
-            [
+              ],
               [
-                23,
+                21,
+                14
+              ],
+              [
+                19,
+                14
+              ],
+              [
+                19,
                 13
               ],
               [
@@ -11526,35 +12322,239 @@
                 14
               ],
               [
-                21,
+                23,
                 14
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                27,
+                8
               ],
               [
-                21,
+                26,
+                8
+              ],
+              [
+                26,
+                7
+              ],
+              [
+                27,
+                7
+              ],
+              [
+                27,
+                8
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                31,
+                5
+              ],
+              [
+                30,
+                5
+              ],
+              [
+                30,
+                4
+              ],
+              [
+                31,
+                4
+              ],
+              [
+                31,
+                5
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                32,
+                -3
+              ],
+              [
+                33,
+                -3
+              ],
+              [
+                33,
+                -2
+              ],
+              [
+                32,
+                -2
+              ],
+              [
+                32,
+                -3
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                34,
+                13
+              ],
+              [
+                33,
+                13
+              ],
+              [
+                33,
                 12
               ],
               [
-                22,
+                34,
                 12
               ],
               [
-                22,
-                11
-              ],
-              [
-                23,
-                11
-              ],
-              [
-                23,
+                34,
                 13
               ]
             ]
           ],
           [
             [
+              [
+                35,
+                12
+              ],
+              [
+                34,
+                12
+              ],
+              [
+                34,
+                11
+              ],
+              [
+                35,
+                11
+              ],
+              [
+                35,
+                12
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                38,
+                7
+              ],
               [
                 36,
+                7
+              ],
+              [
+                36,
+                6
+              ],
+              [
+                38,
+                6
+              ],
+              [
+                38,
+                7
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                37,
+                14
+              ],
+              [
+                34,
+                14
+              ],
+              [
+                34,
+                13
+              ],
+              [
+                37,
+                13
+              ],
+              [
+                37,
+                14
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                38,
+                13
+              ],
+              [
+                37,
+                13
+              ],
+              [
+                37,
+                12
+              ],
+              [
+                38,
+                12
+              ],
+              [
+                38,
+                13
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                40,
+                14
+              ],
+              [
+                38,
+                14
+              ],
+              [
+                38,
+                13
+              ],
+              [
+                39,
+                13
+              ],
+              [
+                39,
+                12
+              ],
+              [
+                38,
+                12
+              ],
+              [
+                38,
+                11
+              ],
+              [
+                35,
+                11
+              ],
+              [
+                35,
                 9
               ],
               [
@@ -11566,27 +12566,27 @@
                 10
               ],
               [
-                33,
+                30,
                 10
               ],
               [
-                33,
+                30,
                 11
               ],
               [
-                32,
+                31,
                 11
+              ],
+              [
+                31,
+                12
               ],
               [
                 32,
                 12
               ],
               [
-                30,
-                12
-              ],
-              [
-                30,
+                32,
                 13
               ],
               [
@@ -11598,200 +12598,184 @@
                 12
               ],
               [
-                28,
+                24,
                 12
               ],
               [
-                28,
+                24,
                 11
+              ],
+              [
+                25,
+                11
+              ],
+              [
+                25,
+                9
               ],
               [
                 27,
-                11
+                9
               ],
               [
                 27,
-                10
-              ],
-              [
-                26,
-                10
-              ],
-              [
-                26,
-                11
-              ],
-              [
-                25,
-                11
-              ],
-              [
-                25,
-                10
-              ],
-              [
-                24,
-                10
-              ],
-              [
-                24,
-                11
-              ],
-              [
-                23,
-                11
-              ],
-              [
-                23,
-                9
-              ],
-              [
-                20,
-                9
-              ],
-              [
-                20,
-                10
-              ],
-              [
-                19,
-                10
-              ],
-              [
-                19,
-                13
-              ],
-              [
-                20,
-                13
-              ],
-              [
-                20,
-                14
-              ],
-              [
-                18,
-                14
-              ],
-              [
-                18,
-                15
-              ],
-              [
-                17,
-                15
-              ],
-              [
-                17,
-                11
-              ],
-              [
-                15,
-                11
-              ],
-              [
-                15,
-                10
-              ],
-              [
-                16,
-                10
-              ],
-              [
-                16,
-                9
-              ],
-              [
-                15,
-                9
-              ],
-              [
-                15,
-                6
-              ],
-              [
-                18,
-                6
-              ],
-              [
-                18,
-                7
-              ],
-              [
-                20,
-                7
-              ],
-              [
-                20,
-                4
-              ],
-              [
-                21,
-                4
-              ],
-              [
-                21,
-                3
-              ],
-              [
-                22,
-                3
-              ],
-              [
-                22,
-                1
-              ],
-              [
-                24,
-                1
-              ],
-              [
-                24,
-                2
-              ],
-              [
-                25,
-                2
-              ],
-              [
-                25,
-                4
-              ],
-              [
-                26,
-                4
-              ],
-              [
-                26,
-                6
-              ],
-              [
-                28,
-                6
-              ],
-              [
-                28,
-                5
-              ],
-              [
-                30,
-                5
-              ],
-              [
-                30,
-                6
-              ],
-              [
-                32,
-                6
-              ],
-              [
-                32,
                 8
+              ],
+              [
+                28,
+                8
+              ],
+              [
+                28,
+                7
+              ],
+              [
+                27,
+                7
+              ],
+              [
+                27,
+                5
+              ],
+              [
+                28,
+                5
+              ],
+              [
+                28,
+                4
+              ],
+              [
+                29,
+                4
+              ],
+              [
+                29,
+                5
+              ],
+              [
+                30,
+                5
+              ],
+              [
+                30,
+                6
+              ],
+              [
+                31,
+                6
+              ],
+              [
+                31,
+                5
+              ],
+              [
+                32,
+                5
+              ],
+              [
+                32,
+                4
               ],
               [
                 34,
-                8
+                4
+              ],
+              [
+                34,
+                3
+              ],
+              [
+                33,
+                3
+              ],
+              [
+                33,
+                2
+              ],
+              [
+                31,
+                2
+              ],
+              [
+                31,
+                1
+              ],
+              [
+                30,
+                1
+              ],
+              [
+                30,
+                -3
+              ],
+              [
+                29,
+                -3
+              ],
+              [
+                29,
+                -4
+              ],
+              [
+                31,
+                -4
+              ],
+              [
+                31,
+                -2
+              ],
+              [
+                32,
+                -2
+              ],
+              [
+                32,
+                1
+              ],
+              [
+                34,
+                1
+              ],
+              [
+                34,
+                0
+              ],
+              [
+                36,
+                0
+              ],
+              [
+                36,
+                1
+              ],
+              [
+                37,
+                1
+              ],
+              [
+                37,
+                2
+              ],
+              [
+                36,
+                2
+              ],
+              [
+                36,
+                3
+              ],
+              [
+                35,
+                3
+              ],
+              [
+                35,
+                6
+              ],
+              [
+                34,
+                6
               ],
               [
                 34,
@@ -11806,24 +12790,68 @@
                 8
               ],
               [
-                36,
+                37,
                 8
+              ],
+              [
+                37,
+                9
+              ],
+              [
+                38,
+                9
+              ],
+              [
+                38,
+                8
+              ],
+              [
+                39,
+                8
+              ],
+              [
+                39,
+                10
+              ],
+              [
+                40,
+                10
+              ],
+              [
+                40,
+                14
+              ]
+            ],
+            [
+              [
+                34,
+                7
+              ],
+              [
+                33,
+                7
+              ],
+              [
+                33,
+                8
+              ],
+              [
+                34,
+                8
+              ],
+              [
+                34,
+                7
+              ]
+            ],
+            [
+              [
+                37,
+                9
               ],
               [
                 36,
                 9
-              ]
-            ]
-          ],
-          [
-            [
-              [
-                38,
-                12
-              ],
-              [
-                36,
-                12
               ],
               [
                 36,
@@ -11836,86 +12864,6 @@
               [
                 37,
                 9
-              ],
-              [
-                38,
-                9
-              ],
-              [
-                38,
-                12
-              ]
-            ]
-          ],
-          [
-            [
-              [
-                39,
-                9
-              ],
-              [
-                38,
-                9
-              ],
-              [
-                38,
-                8
-              ],
-              [
-                39,
-                8
-              ],
-              [
-                39,
-                9
-              ]
-            ]
-          ],
-          [
-            [
-              [
-                40,
-                7
-              ],
-              [
-                39,
-                7
-              ],
-              [
-                39,
-                6
-              ],
-              [
-                40,
-                6
-              ],
-              [
-                40,
-                7
-              ]
-            ]
-          ],
-          [
-            [
-              [
-                43,
-                8
-              ],
-              [
-                41,
-                8
-              ],
-              [
-                41,
-                7
-              ],
-              [
-                43,
-                7
-              ],
-              [
-                43,
-                8
               ]
             ]
           ],
@@ -11947,25 +12895,1002 @@
       },
       "collection": "gdacs-hazards",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Eritrea, Ethiopia, Niger, Nigeria, Sudan, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-26T00:00:00Z",
-        "monty:corr_id": "20260621-ETH-884827-MH0401-12-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-13-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401"
         ],
         "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
           "ETH",
           "NGA",
           "COD",
-          "TCD",
-          "ERI",
-          "SDN",
-          "SSD",
+          "BDI",
           "CAF",
+          "SSD",
+          "TCD"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "GDACS Severity Score",
+          "severity_label": "Orange",
+          "severity_value": 1.5
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-hazards/items/gdacs-hazard-1027450-13",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-hazard-1027450-12",
+      "bbox": [
+        12.0,
+        -6.0,
+        43.0,
+        14.666
+      ],
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                13,
+                14
+              ],
+              [
+                12,
+                14
+              ],
+              [
+                12,
+                13
+              ],
+              [
+                13,
+                13
+              ],
+              [
+                13,
+                14
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                40,
+                7
+              ],
+              [
+                39,
+                7
+              ],
+              [
+                39,
+                6
+              ],
+              [
+                40,
+                6
+              ],
+              [
+                40,
+                7
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                43,
+                8
+              ],
+              [
+                41,
+                8
+              ],
+              [
+                41,
+                7
+              ],
+              [
+                43,
+                7
+              ],
+              [
+                43,
+                8
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                15,
+                9
+              ],
+              [
+                14,
+                9
+              ],
+              [
+                14,
+                8
+              ],
+              [
+                15,
+                8
+              ],
+              [
+                15,
+                9
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                17,
+                8
+              ],
+              [
+                16,
+                8
+              ],
+              [
+                16,
+                7
+              ],
+              [
+                17,
+                7
+              ],
+              [
+                17,
+                8
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                18,
+                14
+              ],
+              [
+                17,
+                14
+              ],
+              [
+                17,
+                13
+              ],
+              [
+                18,
+                13
+              ],
+              [
+                18,
+                14
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                19,
+                13
+              ],
+              [
+                18,
+                13
+              ],
+              [
+                18,
+                12
+              ],
+              [
+                17,
+                12
+              ],
+              [
+                17,
+                11
+              ],
+              [
+                16,
+                11
+              ],
+              [
+                16,
+                9
+              ],
+              [
+                17,
+                9
+              ],
+              [
+                17,
+                8
+              ],
+              [
+                19,
+                8
+              ],
+              [
+                19,
+                7
+              ],
+              [
+                20,
+                7
+              ],
+              [
+                20,
+                10
+              ],
+              [
+                19,
+                10
+              ],
+              [
+                19,
+                13
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                20,
+                14
+              ],
+              [
+                19,
+                14
+              ],
+              [
+                19,
+                13
+              ],
+              [
+                20,
+                13
+              ],
+              [
+                20,
+                14
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                25,
+                -3
+              ],
+              [
+                26,
+                -3
+              ],
+              [
+                26,
+                -2
+              ],
+              [
+                25,
+                -2
+              ],
+              [
+                25,
+                -3
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                25,
+                -5
+              ],
+              [
+                26,
+                -5
+              ],
+              [
+                26,
+                -4
+              ],
+              [
+                24,
+                -4
+              ],
+              [
+                24,
+                -5
+              ],
+              [
+                23,
+                -5
+              ],
+              [
+                23,
+                -6
+              ],
+              [
+                25,
+                -6
+              ],
+              [
+                25,
+                -5
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                27,
+                1
+              ],
+              [
+                26,
+                1
+              ],
+              [
+                26,
+                0
+              ],
+              [
+                27,
+                0
+              ],
+              [
+                27,
+                1
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                26,
+                -4
+              ],
+              [
+                27,
+                -4
+              ],
+              [
+                27,
+                -3
+              ],
+              [
+                26,
+                -3
+              ],
+              [
+                26,
+                -4
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                27,
+                -2
+              ],
+              [
+                28,
+                -2
+              ],
+              [
+                28,
+                -1
+              ],
+              [
+                27,
+                -1
+              ],
+              [
+                27,
+                -2
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                27,
+                8
+              ],
+              [
+                26,
+                8
+              ],
+              [
+                26,
+                7
+              ],
+              [
+                27,
+                7
+              ],
+              [
+                27,
+                8
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                27,
+                -5
+              ],
+              [
+                28,
+                -5
+              ],
+              [
+                28,
+                -4
+              ],
+              [
+                27,
+                -4
+              ],
+              [
+                27,
+                -5
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                32,
+                -3
+              ],
+              [
+                33,
+                -3
+              ],
+              [
+                33,
+                -2
+              ],
+              [
+                32,
+                -2
+              ],
+              [
+                32,
+                -3
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                34,
+                13
+              ],
+              [
+                33,
+                13
+              ],
+              [
+                33,
+                12
+              ],
+              [
+                34,
+                12
+              ],
+              [
+                34,
+                13
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                35,
+                12
+              ],
+              [
+                34,
+                12
+              ],
+              [
+                34,
+                11
+              ],
+              [
+                35,
+                11
+              ],
+              [
+                35,
+                12
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                37,
+                2
+              ],
+              [
+                36,
+                2
+              ],
+              [
+                36,
+                3
+              ],
+              [
+                35,
+                3
+              ],
+              [
+                35,
+                1
+              ],
+              [
+                34,
+                1
+              ],
+              [
+                34,
+                0
+              ],
+              [
+                36,
+                0
+              ],
+              [
+                36,
+                1
+              ],
+              [
+                37,
+                1
+              ],
+              [
+                37,
+                2
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                37,
+                14
+              ],
+              [
+                34,
+                14
+              ],
+              [
+                34,
+                13
+              ],
+              [
+                37,
+                13
+              ],
+              [
+                37,
+                14
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                38,
+                12
+              ],
+              [
+                36,
+                12
+              ],
+              [
+                36,
+                11
+              ],
+              [
+                35,
+                11
+              ],
+              [
+                35,
+                9
+              ],
+              [
+                34,
+                9
+              ],
+              [
+                34,
+                10
+              ],
+              [
+                30,
+                10
+              ],
+              [
+                30,
+                11
+              ],
+              [
+                31,
+                11
+              ],
+              [
+                31,
+                12
+              ],
+              [
+                32,
+                12
+              ],
+              [
+                32,
+                13
+              ],
+              [
+                29,
+                13
+              ],
+              [
+                29,
+                12
+              ],
+              [
+                28,
+                12
+              ],
+              [
+                28,
+                11
+              ],
+              [
+                27,
+                11
+              ],
+              [
+                27,
+                10
+              ],
+              [
+                26,
+                10
+              ],
+              [
+                26,
+                11
+              ],
+              [
+                25,
+                11
+              ],
+              [
+                25,
+                10
+              ],
+              [
+                23,
+                10
+              ],
+              [
+                23,
+                8
+              ],
+              [
+                24,
+                8
+              ],
+              [
+                24,
+                7
+              ],
+              [
+                25,
+                7
+              ],
+              [
+                25,
+                8
+              ],
+              [
+                26,
+                8
+              ],
+              [
+                26,
+                9
+              ],
+              [
+                27,
+                9
+              ],
+              [
+                27,
+                8
+              ],
+              [
+                28,
+                8
+              ],
+              [
+                28,
+                7
+              ],
+              [
+                27,
+                7
+              ],
+              [
+                27,
+                5
+              ],
+              [
+                26,
+                5
+              ],
+              [
+                26,
+                3
+              ],
+              [
+                28,
+                3
+              ],
+              [
+                28,
+                2
+              ],
+              [
+                29,
+                2
+              ],
+              [
+                29,
+                5
+              ],
+              [
+                30,
+                5
+              ],
+              [
+                30,
+                6
+              ],
+              [
+                34,
+                6
+              ],
+              [
+                34,
+                7
+              ],
+              [
+                35,
+                7
+              ],
+              [
+                35,
+                8
+              ],
+              [
+                37,
+                8
+              ],
+              [
+                37,
+                9
+              ],
+              [
+                38,
+                9
+              ],
+              [
+                38,
+                12
+              ]
+            ],
+            [
+              [
+                34,
+                7
+              ],
+              [
+                33,
+                7
+              ],
+              [
+                33,
+                8
+              ],
+              [
+                34,
+                8
+              ],
+              [
+                34,
+                7
+              ]
+            ],
+            [
+              [
+                37,
+                9
+              ],
+              [
+                36,
+                9
+              ],
+              [
+                36,
+                10
+              ],
+              [
+                37,
+                10
+              ],
+              [
+                37,
+                9
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                39,
+                9
+              ],
+              [
+                38,
+                9
+              ],
+              [
+                38,
+                8
+              ],
+              [
+                39,
+                8
+              ],
+              [
+                39,
+                9
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                39,
+                14
+              ],
+              [
+                38,
+                14
+              ],
+              [
+                38,
+                13
+              ],
+              [
+                39,
+                13
+              ],
+              [
+                39,
+                14
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                41,
+                14.007
+              ],
+              [
+                41.658,
+                14
+              ],
+              [
+                41.025,
+                14.666
+              ],
+              [
+                41,
+                14.661
+              ],
+              [
+                41,
+                14.007
+              ]
+            ]
+          ]
+        ]
+      },
+      "collection": "gdacs-hazards",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-12-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
           "NER",
-          "CMR"
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
         ],
         "monty:hazard_detail": {
           "estimate_type": "primary",
@@ -13034,28 +14959,29 @@
       },
       "collection": "gdacs-hazards",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-11-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-11-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ],
         "monty:hazard_detail": {
           "estimate_type": "primary",
@@ -14118,28 +16044,29 @@
       },
       "collection": "gdacs-hazards",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-10-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-10-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ],
         "monty:hazard_detail": {
           "estimate_type": "primary",
@@ -14322,28 +16249,29 @@
       },
       "collection": "gdacs-hazards",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-1-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-1-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ],
         "monty:hazard_detail": {
           "estimate_type": "primary",

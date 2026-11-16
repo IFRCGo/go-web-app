@@ -2,6 +2,2815 @@
   "type": "FeatureCollection",
   "features": [
     {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 35300.0,
+          "category": "people",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total65_Plus-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 755.4200000000001,
+          "category": "elderly",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total65_Plus-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total60_64-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 444.78000000000003,
+          "category": "adult_60_64",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total60_64-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total5_9-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 5100.849999999999,
+          "category": "children_5_9",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total5_9-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total55_59-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 628.34,
+          "category": "adult_55_59",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total55_59-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total50_54-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 836.61,
+          "category": "adult_50_54",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total50_54-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total45_49-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 1034.29,
+          "category": "adult_45_49",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total45_49-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total40_44-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 1299.04,
+          "category": "adult_40_44",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total40_44-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total35_39-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 1754.41,
+          "category": "adult_35_39",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total35_39-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total30_34-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 2358.04,
+          "category": "adult_30_34",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total30_34-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total25_29-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 2982.8500000000004,
+          "category": "adult_25_29",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total25_29-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total20_24-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 3561.77,
+          "category": "adult_20_24",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total20_24-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total15_19-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 4130.1,
+          "category": "children_15_19",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total15_19-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total10_14-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 4649.01,
+          "category": "children_10_14",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total10_14-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total0_4-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 5760.96,
+          "category": "children_0_4",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-total0_4-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-households-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 7844.444444444444,
+          "category": "households",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-population-households-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-capital-total-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "cost",
+          "value": 21171000.0,
+          "category": "global_currency",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-capital-total-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-capital-school-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 18.0,
+          "category": "schools",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-capital-school-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-capital-hospital-UGA",
+      "bbox": [
+        32.902280911809086,
+        1.5143947182596469,
+        32.902280911809086,
+        1.5143947182596469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.902280911809086,
+          1.5143947182596469
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Flood - Kyoga, Lira, Uganda",
+        "datetime": "2026-11-13T19:45:04Z",
+        "end_datetime": "2026-11-14T20:01:22Z",
+        "monty:corr_id": "20261113-UGA-823665-MH0600-1-GCDB",
+        "start_datetime": "2026-11-13T19:45:04Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "hospitals",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-8682604b-edbb-4bc0-89cb-30d3a391103f-571305-1794600076649-1-capital-hospital-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 15400.0,
+          "category": "people",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total65_Plus-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 329.56000000000006,
+          "category": "elderly",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total65_Plus-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total60_64-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 194.04,
+          "category": "adult_60_64",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total60_64-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total5_9-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 2225.2999999999997,
+          "category": "children_5_9",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total5_9-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total55_59-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 274.12,
+          "category": "adult_55_59",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total55_59-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total50_54-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 364.97999999999996,
+          "category": "adult_50_54",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total50_54-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total45_49-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 451.21999999999997,
+          "category": "adult_45_49",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total45_49-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total40_44-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 566.72,
+          "category": "adult_40_44",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total40_44-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total35_39-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 765.38,
+          "category": "adult_35_39",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total35_39-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total30_34-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 1028.72,
+          "category": "adult_30_34",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total30_34-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total25_29-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 1301.3000000000002,
+          "category": "adult_25_29",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total25_29-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total20_24-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 1553.8600000000001,
+          "category": "adult_20_24",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total20_24-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total15_19-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 1801.8000000000002,
+          "category": "children_15_19",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total15_19-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total10_14-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 2028.18,
+          "category": "children_10_14",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total10_14-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total0_4-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 2513.28,
+          "category": "children_0_4",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-total0_4-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-households-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 3422.222222222222,
+          "category": "households",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-population-households-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-capital-total-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "cost",
+          "value": 48979000.0,
+          "category": "global_currency",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-capital-total-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-capital-school-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 9.0,
+          "category": "schools",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-capital-school-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-capital-hospital-UGA",
+      "bbox": [
+        32.88322674149586,
+        -4.96308222986642,
+        32.88322674149586,
+        -4.96308222986642
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.88322674149586,
+          -4.96308222986642
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Heavy Rain - Kagera To Katavi Regions, Tanzania",
+        "datetime": "2026-11-12T18:00:00Z",
+        "end_datetime": "2026-11-14T17:59:00Z",
+        "monty:corr_id": "20261112-KEN-764265-MH0103-1-GCDB",
+        "start_datetime": "2026-11-12T18:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 1.0,
+          "category": "hospitals",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-a600b7c1-ed1f-4bc9-9a2b-7a9dd206a6ab-569846-1794412083951-1-capital-hospital-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "idmc-idu-impact-82258-518834-displaced",
+      "bbox": [
+        34.102692,
+        0.74074,
+        34.102692,
+        0.74074
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.102692,
+          0.74074
+        ]
+      },
+      "collection": "idmc-idu-impacts",
+      "properties": {
+        "title": "Uganda: Hailstorm - Eastern Region (Tororo) - 29/10/2026",
+        "datetime": "2026-10-29T00:00:00Z",
+        "end_datetime": "2026-11-05T00:00:00Z",
+        "monty:corr_id": "20261029-UGA-816471-MH0404-1-GCDB",
+        "start_datetime": "2026-10-29T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0404",
+          "ST",
+          "nat-met-sto-hai"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "displaced_internal",
+          "unit": "count",
+          "value": 4200,
+          "category": "people",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-impacts/items/idmc-idu-impact-82258-518834-displaced",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
       "id": "pdc-impact-ddbee6eb-e2a8-42e1-b2e6-ca1468e2d427-559018-1793048578346-1-population-total-UGA",
       "bbox": [
         38.28278066570424,
@@ -1363,6 +4172,152 @@
           "rel": "self",
           "type": "application/geo+json",
           "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-ddbee6eb-e2a8-42e1-b2e6-ca1468e2d427-559018-1793048578346-1-capital-hospital-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "idmc-idu-impact-82264-518845-displaced",
+      "bbox": [
+        31.398069,
+        -0.44735,
+        31.398069,
+        -0.44735
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.398069,
+          -0.44735
+        ]
+      },
+      "collection": "idmc-idu-impacts",
+      "properties": {
+        "title": "Uganda: Storm - Central Region (Lwengo) - 19/10/2026",
+        "datetime": "2026-10-19T00:00:00Z",
+        "end_datetime": "2026-10-25T00:00:00Z",
+        "monty:corr_id": "20261019-UGA-805658-MH0301-1-GCDB",
+        "start_datetime": "2026-10-19T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "displaced_internal",
+          "unit": "count",
+          "value": 180,
+          "category": "people",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-impacts/items/idmc-idu-impact-82264-518845-displaced",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "idmc-idu-impact-82274-518865-displaced",
+      "bbox": [
+        31.40448,
+        -0.7079,
+        31.40448,
+        -0.7079
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.40448,
+          -0.7079
+        ]
+      },
+      "collection": "idmc-idu-impacts",
+      "properties": {
+        "title": "Uganda: Storm - Central Region (Lwengo, Rakai) - 11/10/2026",
+        "datetime": "2026-10-11T00:00:00Z",
+        "end_datetime": "2026-10-11T00:00:00Z",
+        "monty:corr_id": "20261011-UGA-803858-MH0301-1-GCDB",
+        "start_datetime": "2026-10-11T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "displaced_internal",
+          "unit": "count",
+          "value": 240,
+          "category": "people",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-impacts/items/idmc-idu-impact-82274-518865-displaced",
           "auth:refs": [
             "oidc"
           ]
@@ -13675,6 +16630,79 @@
           "rel": "self",
           "type": "application/geo+json",
           "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-f55acd7f-1812-4e66-9fb5-fd38e58e5e2e-541596-1790130139658-1-capital-hospital-UGA",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "idmc-idu-impact-82273-518864-displaced",
+      "bbox": [
+        30.004601,
+        0.13102,
+        30.004601,
+        0.13102
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.004601,
+          0.13102
+        ]
+      },
+      "collection": "idmc-idu-impacts",
+      "properties": {
+        "title": "Uganda: Flood - Western Region (Kasese) - 21/09/2026",
+        "datetime": "2026-09-21T00:00:00Z",
+        "end_datetime": "2026-09-21T00:00:00Z",
+        "monty:corr_id": "20260921-UGA-811051-MH0600-1-GCDB",
+        "start_datetime": "2026-09-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0600",
+          "FL",
+          "nat-hyd-flo-flo"
+        ],
+        "monty:country_codes": [
+          "UGA"
+        ],
+        "monty:impact_detail": {
+          "type": "displaced_internal",
+          "unit": "count",
+          "value": 120,
+          "category": "people",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-impacts/items/idmc-idu-impact-82273-518864-displaced",
           "auth:refs": [
             "oidc"
           ]

@@ -2,6 +2,150 @@
   "type": "FeatureCollection",
   "features": [
     {
+      "id": "pdc-hazard-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301"
+        ],
+        "monty:country_codes": [
+          "NER",
+          "LBY",
+          "TCD"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "ADVISORY",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-hazard-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301"
+        ],
+        "monty:country_codes": [
+          "NER",
+          "LBY",
+          "TCD"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "ADVISORY",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
       "id": "pdc-hazard-ca8d853d-2672-4d41-a70a-91745064b044-566959-1794058055041",
       "bbox": [
         18.07033263766013,
