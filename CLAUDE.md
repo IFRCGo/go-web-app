@@ -236,6 +236,11 @@ rebuild. Design: `docs/superpowers/specs/2026-11-16-country-visibility-switch-de
 - Structured rows are dropped and free text is never edited. A statement located in
   a shown country is sent as it is, including a movement leg into a hidden one.
   Regional totals (`headline`, `meta`) are not split.
+- **Sudan cannot be switched off** (`visibility.NEVER_HIDDEN`). The corridors and
+  IDP layers are Sudan's, so hiding it would only half-work.
+- `manage.py test` runs with `API_CACHE_DIR` pointed at a temporary folder
+  (`config/test_runner.py`), because the refresh tests used to rewrite and
+  delete the real, git-tracked cache files.
 
 ## Things worth knowing before changing anything
 
