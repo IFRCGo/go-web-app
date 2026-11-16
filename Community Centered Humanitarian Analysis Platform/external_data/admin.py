@@ -28,10 +28,14 @@ from .models import (
     HazardEvent,
     HazardImpact,
     HumanitarianServicePoint,
+    KoboForm,
     MovementPattern,
     PlaceCoordinate,
     SeasonalCalendar,
     SourceSync,
+    CchaPrimaryData,
+    CchaPrimaryDataCopingChallenge,
+    CchaPrimaryDataHazardDetail,
 )
 
 
@@ -151,3 +155,56 @@ class HazardImpactAdmin(ReadOnly):
     list_filter = ("iso3", "impact_type", "category", "collection")
     search_fields = ("corr_id", "impact_id")
     date_hierarchy = "event_date"
+
+
+class KoboReadOnly(ReadOnly):
+    """Primary data from Kobo. Not deletable here either: a deleted row would
+    simply return on the next pull, and a Not Approved one is removed by the pull
+    itself - the place to reject a submission is Kobo's validation status."""
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+class HazardDetailInline(admin.TabularInline):
+    model = CchaPrimaryDataHazardDetail
+    extra = 0
+    can_delete = False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+
+class CopingChallengeInline(HazardDetailInline):
+    model = CchaPrimaryDataCopingChallenge
+
+
+@admin.register(CchaPrimaryData)
+class CchaPrimaryDataAdmin(KoboReadOnly):
+    """One CCHA primary-data interview per row; its hazard and coping rows inline."""
+    list_display = ("submission_id", "interview_type", "interview_date", "country", "admin1",
+                    "admin2", "gender", "age", "validation_status")
+    list_filter = ("interview_type", "country", "validation_status", "admin2", "gender")
+    search_fields = ("uuid", "enum_name", "kii_role")
+    inlines = [HazardDetailInline, CopingChallengeInline]
+
+
+@admin.register(CchaPrimaryDataHazardDetail)
+class CchaPrimaryDataHazardDetailAdmin(KoboReadOnly):
+    list_display = ("interview", "hazard", "hazard_occurence", "hazard_events",
+                    "hazard_impact")
+    list_filter = ("hazard", "hazard_impact")
+
+
+@admin.register(CchaPrimaryDataCopingChallenge)
+class CchaPrimaryDataCopingChallengeAdmin(KoboReadOnly):
+    list_display = ("interview", "hazard", "coping_challenges")
+    list_filter = ("hazard",)
+
+
+@admin.register(KoboForm)
+class KoboFormAdmin(KoboReadOnly):
+    list_display = ("form_key", "name", "form_uid", "fetched_at")

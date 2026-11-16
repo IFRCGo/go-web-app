@@ -5,6 +5,7 @@ already gives: every row here is written by a loader, so a row hand-edited in th
 browser is a row the next refresh silently overwrites.
 """
 from django.contrib import admin, messages
+from django.db.models import Case, IntegerField, Value, When
 from django.urls import path
 from django.utils import timezone
 from django.utils.html import format_html
@@ -29,16 +30,40 @@ SOURCE_LABELS = {
 # end into an instruction. `excel` is no longer here: its two workbook rows have
 # a button of their own, which re-reads the file under /work.
 FILE_BASED = {
-    "kobo": "file-based — manage.py load_hsps",
     "acaps": "CSV export — manage.py load_external acaps_seasonal",
 }
 
 
+# Primary data is what IFRC and its National Societies collected themselves, in
+# Kobo; everything else on this page is someone else's published figures.
+PRIMARY_SOURCES = {"kobo"}
+
+
+def source_category(source):
+    return "Primary data" if source in PRIMARY_SOURCES else "Secondary data"
+
+
+class CategoryFilter(admin.SimpleListFilter):
+    title = "category"
+    parameter_name = "category"
+
+    def lookups(self, request, model_admin):
+        return [("primary", "Primary data"), ("secondary", "Secondary data")]
+
+    def queryset(self, request, queryset):
+        if self.value() == "primary":
+            return queryset.filter(source__in=PRIMARY_SOURCES)
+        if self.value() == "secondary":
+            return queryset.exclude(source__in=PRIMARY_SOURCES)
+        return queryset
+
+
 @admin.register(DataSource)
 class DataSourceAdmin(admin.ModelAdmin):
-    list_display = ("source_label", "dataset", "country", "last_pulled_at",
+    list_display = ("category", "source_label", "dataset", "country", "last_pulled_at",
                     "high_water_date", "row_count", "job_status", "pull_button")
-    list_filter = ("source", "dataset", "iso3")
+    list_filter = (CategoryFilter, "source", "dataset", "iso3")
+
     search_fields = ("source", "dataset", "variant", "tool", "notes")
     change_list_template = "admin/api_calls/datasource/change_list.html"
     actions = ["pull_selected"]
@@ -108,6 +133,20 @@ class DataSourceAdmin(admin.ModelAdmin):
         if skipped:
             note += f" {len(skipped)} skipped (no API or no key)."
         self.message_user(request, note, messages.SUCCESS)
+
+    def get_ordering(self, request):
+        """Primary data first, then the order the page always had.
+
+        An expression, not an annotation: the list filters build their own
+        querysets, and an ordering that names an annotation breaks them.
+        """
+        primary_first = Case(When(source__in=PRIMARY_SOURCES, then=Value(0)),
+                             default=Value(1), output_field=IntegerField())
+        return [primary_first.asc(), "source", "dataset", "iso3", "variant"]
+
+    @admin.display(description="category")
+    def category(self, obj):
+        return source_category(obj.source)
 
     @admin.display(description="source", ordering="source")
     def source_label(self, obj):

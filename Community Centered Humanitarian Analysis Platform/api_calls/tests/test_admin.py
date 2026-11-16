@@ -21,8 +21,10 @@ class AdminTestCase(TestCase):
         self.workbook_row = SourceSync.objects.create(
             source="excel", dataset="idps", iso3="SDN", variant="sudan-idps-workbook")
         # A row with neither an API nor a command wired to the button.
+        # (Was a kobo row until Kobo got fetchers on 2026-11-16; acaps is still
+        # file-based.)
         self.file_row = SourceSync.objects.create(
-            source="kobo", dataset="service_points", iso3="TCD", variant="")
+            source="acaps", dataset="seasonal_calendar", iso3="TCD", variant="")
 
 
 class ListTests(AdminTestCase):
@@ -51,7 +53,7 @@ class ListTests(AdminTestCase):
 
     def test_a_file_based_row_names_the_command_that_loads_it(self):
         response = self.client.get(reverse("admin:api_calls_datasource_changelist"))
-        self.assertContains(response, "load_hsps")
+        self.assertContains(response, "load_external acaps_seasonal")
 
     def test_a_workbook_row_offers_a_button(self):
         """The workbook has no API, but it does have a newer file on the share.
@@ -193,3 +195,53 @@ class JobPageTests(AdminTestCase):
                                      status="running")
         response = self.client.get(f"/admin/api_calls/datasource/job/{job.id}/status/")
         self.assertEqual(response.json()["status"], "running")
+
+
+@override_settings(KOBO_TOKEN="T", HSPS_FORM_ID="aHSP", UGANDA_CCHA_FORM_ID="aUGA")
+class PrimaryDataTests(AdminTestCase):
+    """Kobo rows are primary data, with a working Pull now on each (2026-11-16)."""
+
+    def setUp(self):
+        super().setUp()
+        self.hsp_row = SourceSync.objects.create(
+            source="kobo", dataset="humanitarian_service_points", iso3=None,
+            variant="hsp-mapping")
+        # Seeded by migration, so it already exists. One regional row: the
+        # form collects in several countries.
+        self.uga_row = SourceSync.objects.get(
+            source="kobo", dataset="primary_data", iso3=None, variant="ccha_primary_data")
+
+    def _list(self, **params):
+        return self.client.get(reverse("admin:api_calls_datasource_changelist"), params)
+
+    def test_kobo_rows_are_primary_data(self):
+        from api_calls.admin import source_category
+        self.assertEqual(source_category("kobo"), "Primary data")
+        self.assertEqual(source_category("fewsnet"), "Secondary data")
+        self.assertContains(self._list(), "Primary data")
+
+    def test_both_kobo_rows_have_a_pull_now_button(self):
+        response = self._list()
+        self.assertContains(response, f"pull/{self.hsp_row.pk}/")
+        self.assertContains(response, f"pull/{self.uga_row.pk}/")
+
+    def test_kobo_not_listed_as_file_based(self):
+        from api_calls.admin import FILE_BASED
+        self.assertNotIn("kobo", FILE_BASED)
+        self.assertNotContains(self._list(), "load_hsps")
+
+    def test_category_filter_primary_shows_only_kobo(self):
+        rows = list(self._list(category="primary").context["cl"].result_list)
+        self.assertEqual({r.source for r in rows}, {"kobo"})
+        rows = list(self._list(category="secondary").context["cl"].result_list)
+        self.assertNotIn("kobo", {r.source for r in rows})
+
+    def test_primary_rows_sort_first(self):
+        rows = list(self._list().context["cl"].result_list)
+        self.assertEqual(rows[0].source, "kobo")
+
+    def test_refresh_argv_for_ccha_row(self):
+        from api_calls.views import refresh_argv
+        self.assertEqual(refresh_argv(self.uga_row, 1),
+                         ["refresh_external", "kobo", "primary_data", "--job", "1",
+                          "--variant", "ccha_primary_data"])
