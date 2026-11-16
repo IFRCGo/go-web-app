@@ -212,6 +212,31 @@ An archive already sitting on a mounted share should be registered as an
 browsed is `INSIGHT_DOCUMENT_ROOTS`; there is no hardcoded `/work` any more, and
 the host folder behind the mount is `SOURCE_HOST_DIR`.
 
+## Hiding a country from the public dashboard
+
+**Admin → Dashboard → Countries shown on the dashboard** has one tick box per
+country, detected from the level-0 boundaries (nobody types a name). Unticking
+one hides it from the map, the picker, the panels and every public `/api/`
+response, **on the server**, so nothing of it reaches the browser, not even
+DevTools. Nothing is deleted. The data on disk and in PostgreSQL stays complete,
+and ticking the box again restores the country on the next page load, with no
+rebuild. Design: `docs/superpowers/specs/2026-11-16-country-visibility-switch-design.md`.
+
+- **The switch is `country_visibility`, and no pipeline step writes it.** A data
+  pull or rebuild can never turn a country back on. `sync_countries` only adds
+  missing rows.
+- **`dashboard/views.data_file()` is fail-closed while anything is hidden.** A
+  data file with no entry in `dashboard/scrubbers.REGISTRY` is refused (404).
+  For the core files `loadData()` fetches, that stops the whole dashboard. So
+  **a new file under `dashboard/data/` needs a scrubber line**, and
+  `test_every_file_in_data_dir_has_a_scrubber` fails until it has one.
+- **A new `/api/` view must be listed in `dashboard/gated.py`**, either GATED
+  (it filters hidden countries) or REGIONAL. `test_every_api_url_is_gated_or_regional`
+  enforces this.
+- Structured rows are dropped and free text is never edited. A statement located in
+  a shown country is sent as it is, including a movement leg into a hidden one.
+  Regional totals (`headline`, `meta`) are not split.
+
 ## Things worth knowing before changing anything
 
 - `/work` is mounted **read-only**. Anything written goes under `/app`.
