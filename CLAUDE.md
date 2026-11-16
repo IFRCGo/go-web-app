@@ -42,8 +42,56 @@ positional argv that both `subprocess.Popen` and `call_command` accept. A second
 rule anywhere else is how an excel row admitted by `stale_rows()` starts failing
 inside every batch while its own button works.
 
-`kobo` and `acaps` still have no button — they take different inputs
-(`load_hsps`, a CSV export path) and the list names the command for each.
+`acaps` still has no button. It takes a CSV export path, and the list names the
+command.
+
+**Kobo is primary data, and it has buttons.** The Data sources page has a
+Category column, with `kobo` rows listed first under *Primary data*. Each Kobo form
+has its own `.env` key: `KOBO_TOKEN` for the account, plus `HSPs_FORM_ID` and
+`UGANDA_CCHA_FORM_ID`. Each key also needs its own line in `docker-compose.yml`,
+because compose passes variables one by one. After editing `.env`, run
+`docker compose up -d web`; `restart` does not re-read it. Fetchers are in
+`fetchers/kobo.py`. `plan()` fetches the form definition first, because `/data/`
+answers in codes and the labels live in the definition. The definition reaches
+the loader through `call.context`.
+- **HSPs come from Kobo now** (`loaders/kobo_hsp.py`), on the same
+  `kobo/humanitarian_service_points/hsp-mapping` row. Questions are found by
+  label, through `loaders/kobo_form.FormMap`, and the rows are built exactly as
+  the Excel parser builds them, through `load_hsps.resolve_places`. On
+  2026-11-16 the Kobo result matched the Excel set exactly, 139 of 139 rows.
+  `date_reported` is the pull date: Kobo sends no edit timestamp, and the
+  newest submission is older than the Excel set. `load_hsps` still reads a
+  workbook when one is handed over.
+- **The CCHA primary-data interviews are stored in readable tables**
+  (`loaders/ccha_primary_data.py`), as George asked so the data can be
+  understood by looking at it. **The tables are named for the form, not a
+  country.** The same CCHA form collects data in several countries (Uganda
+  first). That means:
+  - one regional Data sources row (`kobo/primary_data`, iso3 NULL, variant
+    `ccha_primary_data`);
+  - the country is a column;
+  - the `.env` key keeps its first name, `UGANDA_CCHA_FORM_ID`.
+  - `ccha_primary_data` has one row per interview (household, FGD or KII), with one
+    column per question. Values are labels, not codes, and multiple choices are
+    joined with `"; "`.
+  - Each `<question>_other` column holds the "Other (specify)" text for that
+    question.
+  - The audio columns hold Kobo links; no audio is downloaded.
+  - The two repeats are child tables: `ccha_primary_data_hazard_details` and
+    `ccha_primary_data_coping_challenges`.
+  - `loaders/ccha_primary_data.COLUMNS` maps each column to its xpath. A question
+    added to the form later lands in `unmapped` until it gets a column (a
+    model field plus a `COLUMNS` entry).
+  - The latest form definition is in `kobo_form`.
+
+  **Not Approved submissions never
+  arrive**, because they are filtered on Kobo's side. A submission rejected after
+  it was stored is deleted on the next pull, together with its repeat rows. This is the one deliberate exception
+  to "never delete because upstream stopped mentioning it". Approved, On Hold and
+  never-reviewed submissions are kept, and `validation_status` records which.
+- `api_cache/kobo/` holds interview answers and must stay out of git: it
+  belongs in `.gitignore`, unlike the rest of `api_cache`.
+  Design: `docs/superpowers/specs/2026-11-16-kobo-primary-data-design.md`.
 
 **`dtm` is the first source whose payload is not JSON.** The HDX resources
 behind `sudan-displacement-situation-countrywide-idps-iom-dtm` are `.xlsx`
@@ -114,7 +162,7 @@ MAINTENANCE.md §6 has the two statements.
 `fewsnet`, `ifrc-go`, `unhcr-refugees`, `ipc`. Claude Code reads it
 automatically; nothing else needs configuring.
 
-**For an agent, and for the sources with no fetcher** (`kobo`, `acaps`), the rule
+**For an agent, and for the source with no fetcher** (`acaps`), the rule
 is unchanged — **fetch, save, then load**, never fetch straight into the database:
 
 1. Check what is already held: `manage.py external_status`.

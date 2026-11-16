@@ -1,0 +1,3734 @@
+{
+  "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/?format=json",
+  "owner": "https://kobo.ifrc.org/api/v2/users/imafrica/?format=json",
+  "owner__username": "imafrica",
+  "parent": null,
+  "settings": {
+    "sector": {
+      "label": "Other",
+      "value": "Other"
+    },
+    "country": [
+      {
+        "label": "Uganda",
+        "value": "UGA"
+      }
+    ],
+    "description": "Community Perception of Hazards, Vulnerability, Coping Mechanism",
+    "collects_pii": null,
+    "organization": "",
+    "country_codes": [
+      "UGA"
+    ],
+    "extra_metadata": {},
+    "operational_purpose": null
+  },
+  "asset_type": "survey",
+  "files": [
+    {
+      "uid": "afG5AVh4FyePQKuT2GF5Cz8",
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/files/afG5AVh4FyePQKuT2GF5Cz8/?format=json",
+      "asset": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/?format=json",
+      "user": "https://kobo.ifrc.org/api/v2/users/imafrica/?format=json",
+      "user__username": "imafrica",
+      "file_type": "form_media",
+      "description": "default",
+      "date_created": "2026-10-05T07:11:31.588357Z",
+      "content": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/files/afG5AVh4FyePQKuT2GF5Cz8/content/?format=json",
+      "metadata": {
+        "hash": "md5:2110aa404fc5de589c0ac688ce5e3045",
+        "filename": "ifrc_urcs.png",
+        "mimetype": "image/png"
+      }
+    }
+  ],
+  "summary": {
+    "geo": true,
+    "labels": [
+      "Which interview is this?",
+      "Enumerator's Name",
+      "**Informed consent:**  My name is ${enum_name} and I am working with Uganda Red Cross in partenership with IFRC. We are conducting a survey which aims to capture community perceptions, experiences, and behavioural dynamics to complement the existing humanitarian information sources. I will need only 10-15 minutes of your time, and you can decide whether you would like to participate in this survey ?",
+      "We will save all data and may share results with other partners, in an effort to learn and provide better services. NO personal identifiable information will be collected, and the information cannot be traced back to you. Would you like to participate in this survey, giving permission to save and share non-personal information",
+      "Country"
+    ],
+    "columns": [
+      "name",
+      "type",
+      "label",
+      "required",
+      "appearance",
+      "select_from_list_name",
+      "constraint",
+      "hint",
+      "relevant",
+      "constraint_message",
+      "_or_other",
+      "choice_filter",
+      "repeat_count",
+      "calculation"
+    ],
+    "lock_all": false,
+    "lock_any": false,
+    "languages": [],
+    "row_count": 50,
+    "name_quality": {
+      "ok": 0,
+      "bad": 0,
+      "good": 50,
+      "total": 50,
+      "firsts": {}
+    },
+    "default_translation": null
+  },
+  "date_created": "2026-10-01T12:44:45.928624Z",
+  "date_modified": "2026-10-27T06:25:28.542964Z",
+  "date_deployed": "2026-10-07T12:52:09.093993Z",
+  "version_id": "vkqzAykHcPGjWBs76wG2tK",
+  "version__content_hash": "f67bdcfe5d55f318c88955c550f551209013e450",
+  "version_count": 11,
+  "has_deployment": true,
+  "deployed_version_id": "vkqzAykHcPGjWBs76wG2tK",
+  "deployed_versions": {
+    "count": 9,
+    "next": null,
+    "previous": null,
+    "results": [
+      {
+        "uid": "vkqzAykHcPGjWBs76wG2tK",
+        "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/versions/vkqzAykHcPGjWBs76wG2tK/?format=json",
+        "content_hash": "f67bdcfe5d55f318c88955c550f551209013e450",
+        "date_deployed": "2026-10-07T12:52:09.086083Z",
+        "date_modified": "2026-10-07T12:52:09.086083Z",
+        "version_number": "9"
+      },
+      {
+        "uid": "v4LHBSNDBrvucvXbMbmwdM",
+        "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/versions/v4LHBSNDBrvucvXbMbmwdM/?format=json",
+        "content_hash": "a648d949c38870062e995c9da956b3577ed31f79",
+        "date_deployed": "2026-10-05T08:04:25.814307Z",
+        "date_modified": "2026-10-05T08:04:25.814307Z",
+        "version_number": "8"
+      },
+      {
+        "uid": "vDnS8q9QpwyQn2mytXUNKJ",
+        "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/versions/vDnS8q9QpwyQn2mytXUNKJ/?format=json",
+        "content_hash": "b7d546de3c8f723bc750ca7ff88f48978fa9db1d",
+        "date_deployed": "2026-10-05T07:19:28.271213Z",
+        "date_modified": "2026-10-05T07:19:28.271213Z",
+        "version_number": "7"
+      },
+      {
+        "uid": "vVsYuaEmFa32cRRnwuEU2N",
+        "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/versions/vVsYuaEmFa32cRRnwuEU2N/?format=json",
+        "content_hash": "93eeb271e4ebccfc74944d60b5a0ea6e5ddbe026",
+        "date_deployed": "2026-10-05T07:12:22.956817Z",
+        "date_modified": "2026-10-05T07:12:22.956817Z",
+        "version_number": "6"
+      },
+      {
+        "uid": "v8GfntsPkeptKkU67pxxw6",
+        "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/versions/v8GfntsPkeptKkU67pxxw6/?format=json",
+        "content_hash": "c5469edc263ecf64d73f5c803ddf6e18ec78bd2f",
+        "date_deployed": "2026-10-02T12:40:13.377135Z",
+        "date_modified": "2026-10-02T12:40:13.377135Z",
+        "version_number": "5"
+      },
+      {
+        "uid": "vGKkRkukDZTCG6EBvyXWDc",
+        "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/versions/vGKkRkukDZTCG6EBvyXWDc/?format=json",
+        "content_hash": "e466d5d2411d70a0158ef8cddea2f960c954508f",
+        "date_deployed": "2026-10-02T12:35:41.681159Z",
+        "date_modified": "2026-10-02T12:35:41.681159Z",
+        "version_number": "4"
+      },
+      {
+        "uid": "vCSVkUctN3TMSc5TPwfPbk",
+        "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/versions/vCSVkUctN3TMSc5TPwfPbk/?format=json",
+        "content_hash": "ffd4210316d54b99c4fb6102ca1236e1c05b6055",
+        "date_deployed": "2026-10-02T12:32:55.448161Z",
+        "date_modified": "2026-10-02T12:32:55.448161Z",
+        "version_number": "3"
+      },
+      {
+        "uid": "vUTPUgXEu6kDRJQdR9iqAB",
+        "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/versions/vUTPUgXEu6kDRJQdR9iqAB/?format=json",
+        "content_hash": "01fb12f4c4f3e3ce97e5bbe4e9fbe23afd8827d7",
+        "date_deployed": "2026-10-01T12:47:46.507197Z",
+        "date_modified": "2026-10-01T12:47:46.507197Z",
+        "version_number": "2"
+      },
+      {
+        "uid": "vciwx8eQ2k2PKWFcxErfe4",
+        "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/versions/vciwx8eQ2k2PKWFcxErfe4/?format=json",
+        "content_hash": "c970f3d4f601e4d69d359e311774c022a95d5fe1",
+        "date_deployed": "2026-10-01T12:47:12.178616Z",
+        "date_modified": "2026-10-01T12:47:12.178616Z",
+        "version_number": "1"
+      }
+    ]
+  },
+  "deployment__links": {},
+  "deployment__active": false,
+  "deployment__data_download_links": {
+    "xls_legacy": "https://kc.ifrc.org/imafrica/exports/ahgoubajfpmudsusw2f88P/xls/",
+    "csv_legacy": "https://kc.ifrc.org/imafrica/exports/ahgoubajfpmudsusw2f88P/csv/",
+    "zip_legacy": "https://kc.ifrc.org/imafrica/exports/ahgoubajfpmudsusw2f88P/zip/",
+    "xls": "https://kc.ifrc.org/imafrica/reports/ahgoubajfpmudsusw2f88P/export.xlsx",
+    "csv": "https://kc.ifrc.org/imafrica/reports/ahgoubajfpmudsusw2f88P/export.csv"
+  },
+  "deployment__submission_count": 118,
+  "deployment__last_submission_time": "2026-10-09T14:16:31.487552Z",
+  "deployment__encrypted": false,
+  "deployment__uuid": "9c1d3e1958c24c30a025366673a94c57",
+  "deployment_status": "archived",
+  "report_styles": {
+    "default": {},
+    "specified": {
+      "age": {},
+      "end": {},
+      "logo": {},
+      "start": {},
+      "today": {},
+      "admin1": {},
+      "admin2": {},
+      "g_meta": {},
+      "gender": {},
+      "hh_gps": {},
+      "consent": {},
+      "country": {},
+      "hazards": {},
+      "hh_head": {},
+      "deviceid": {},
+      "end_time": {},
+      "kii_role": {},
+      "device_id": {},
+      "enum_name": {},
+      "fgd_audio": {},
+      "kii_audio": {},
+      "/2didOSPpJ": {},
+      "/bE9IubysB": {},
+      "/gOiTBK3TE": {},
+      "/gs61MTF30": {},
+      "/nE9MqlmCT": {},
+      "/sk3uyLGBu": {},
+      "g_meta_end": {},
+      "start_time": {},
+      "today_date": {},
+      "coping_gaps": {},
+      "fgd_consent": {},
+      "fgd_section": {},
+      "hazard_kind": {},
+      "hazard_name": {},
+      "hazards_end": {},
+      "kii_consent": {},
+      "kii_section": {},
+      "who_hh_head": {},
+      "data_privacy": {},
+      "demographics": {},
+      "hazard_cause": {},
+      "child_hh_head": {},
+      "coping_extent": {},
+      "hazard_events": {},
+      "hazard_header": {},
+      "hazard_impact": {},
+      "hazard_number": {},
+      "interview_end": {},
+      "vulnerability": {},
+      "fgd_no_consent": {},
+      "hazard_details": {},
+      "hh_composition": {},
+      "interview_type": {},
+      "kii_no_consent": {},
+      "meaning_coping": {},
+      "meaning_hazard": {},
+      "start-geopoint": {},
+      "consent_refused": {},
+      "coping_cohesion": {},
+      "fgd_section_end": {},
+      "hazard_evacuate": {},
+      "hazard_measures": {},
+      "hh_demographics": {},
+      "interview_start": {},
+      "kii_section_end": {},
+      "background-audio": {},
+      "demographics_end": {},
+      "fgd_target_group": {},
+      "hazard_occurence": {},
+      "coping_capacities": {},
+      "coping_challenges": {},
+      "hazard_management": {},
+      "vulnerability_end": {},
+      "coping_hazard_name": {},
+      "hazard_details_end": {},
+      "hazards_experience": {},
+      "kii_years_community": {},
+      "coping_hazard_header": {},
+      "coping_hazard_number": {},
+      "coping_capacities_end": {},
+      "meaning_vulnerability": {},
+      "vulnerabilities_group": {},
+      "hazard_affected_groups": {},
+      "kii_displacement_status": {},
+      "vulnerabilities_believe": {},
+      "coping_challenges_repeat": {},
+      "vulnerabilities_elaborate": {},
+      "vulnerabilities_differences": {},
+      "coping_challenges_repeat_end": {}
+    },
+    "kuid_names": {
+      "age": "VBAlipnBM",
+      "end": "R6zPqNhfv",
+      "logo": "WhNS1kEcs",
+      "start": "YPPqe4Ro6",
+      "today": "mlgBMdLuC",
+      "admin1": "ZkpxKojnO",
+      "admin2": "MqF3onhhv",
+      "g_meta": "Gc6sqxTkf",
+      "gender": "FHgdDRbSH",
+      "hh_gps": "P9AVJebOM",
+      "consent": "ZwxB8Iqug",
+      "country": "CZeRjVxlE",
+      "hazards": "KkqivodNO",
+      "hh_head": "ZC5XFIqMg",
+      "deviceid": "MKjwSxxf3",
+      "end_time": "3yQijLwfH",
+      "kii_role": "tuf7IQFBI",
+      "device_id": "eIT9Yliu0",
+      "enum_name": "HgpWFsAK0",
+      "fgd_audio": "joGNaKvKz",
+      "kii_audio": "ivSSAxJTB",
+      "/2didOSPpJ": "/2didOSPpJ",
+      "/bE9IubysB": "/bE9IubysB",
+      "/gOiTBK3TE": "/gOiTBK3TE",
+      "/gs61MTF30": "/gs61MTF30",
+      "/nE9MqlmCT": "/nE9MqlmCT",
+      "/sk3uyLGBu": "/sk3uyLGBu",
+      "g_meta_end": "4bWWV53M4",
+      "start_time": "qQpQlaMPA",
+      "today_date": "seFQj7I71",
+      "coping_gaps": "HvYRZKs4e",
+      "fgd_consent": "Fs97MZt9K",
+      "fgd_section": "mfrCSGpk7",
+      "hazard_kind": "9TwXXtkvP",
+      "hazard_name": "iANNMzT2C",
+      "hazards_end": "ckrUDn5DX",
+      "kii_consent": "FwbhmZCqR",
+      "kii_section": "mszAHqgI9",
+      "who_hh_head": "NtqdwXaBy",
+      "data_privacy": "XncWbTxZr",
+      "demographics": "uER0qONBR",
+      "hazard_cause": "QTST70KdJ",
+      "child_hh_head": "O6TcWAKTC",
+      "coping_extent": "wMzon4OTB",
+      "hazard_events": "HoAAx9Rcj",
+      "hazard_header": "gpY4aQvWM",
+      "hazard_impact": "EM3PyOBrh",
+      "hazard_number": "BmLJ9R6kb",
+      "interview_end": "Jf4ZyjCfZ",
+      "vulnerability": "EOsNXyM5a",
+      "fgd_no_consent": "Xa7sdjU6v",
+      "hazard_details": "jiRxx7sbf",
+      "hh_composition": "SNILw33ez",
+      "interview_type": "JgzvZaEAu",
+      "kii_no_consent": "q8BgddVyU",
+      "meaning_coping": "hFEzLf37f",
+      "meaning_hazard": "2DzXLZj5V",
+      "start-geopoint": "8RCfzjrfL",
+      "consent_refused": "buDzsj3CO",
+      "coping_cohesion": "xlJdOTf5M",
+      "fgd_section_end": "1X6J4r2P1",
+      "hazard_evacuate": "txOP7v3om",
+      "hazard_measures": "FRIkhU3bh",
+      "hh_demographics": "Ibm89phAx",
+      "interview_start": "S75rTabJx",
+      "kii_section_end": "x7sKivnEF",
+      "background-audio": "FJAQZQkQh",
+      "demographics_end": "DbFJlyLfk",
+      "fgd_target_group": "kfKNdGLsj",
+      "hazard_occurence": "Wmqz8PYFq",
+      "coping_capacities": "iClQVL2bC",
+      "coping_challenges": "gXguYTRfT",
+      "hazard_management": "us0WB0vbp",
+      "vulnerability_end": "M9JsF0qe6",
+      "coping_hazard_name": "2KArEpif4",
+      "hazard_details_end": "6uo2XCKB3",
+      "hazards_experience": "o2AawntpM",
+      "kii_years_community": "fWmGhrnNI",
+      "coping_hazard_header": "CuQkYhnmS",
+      "coping_hazard_number": "GuKIUaaqi",
+      "coping_capacities_end": "peRGePzBo",
+      "meaning_vulnerability": "P0f7PNxTt",
+      "vulnerabilities_group": "ITQ7M2Lnt",
+      "hazard_affected_groups": "jc9FIM2p5",
+      "kii_displacement_status": "tlL2DLH3v",
+      "vulnerabilities_believe": "qFPIZ2hUl",
+      "coping_challenges_repeat": "ebj9nQ7om",
+      "vulnerabilities_elaborate": "WSKS9Xb5h",
+      "vulnerabilities_differences": "X4C36j3bg",
+      "coping_challenges_repeat_end": "iMbSwPlRy"
+    }
+  },
+  "report_custom": {},
+  "advanced_features": {
+    "_version": "20250820"
+  },
+  "map_styles": {},
+  "map_custom": {},
+  "content": {
+    "schema": "1",
+    "survey": [
+      {
+        "name": "start_time",
+        "type": "start",
+        "$kuid": "qQpQlaMPA",
+        "$xpath": "start_time",
+        "$autoname": "start_time"
+      },
+      {
+        "name": "end_time",
+        "type": "end",
+        "$kuid": "3yQijLwfH",
+        "$xpath": "end_time",
+        "$autoname": "end_time"
+      },
+      {
+        "name": "today_date",
+        "type": "today",
+        "$kuid": "seFQj7I71",
+        "$xpath": "today_date",
+        "$autoname": "today_date"
+      },
+      {
+        "name": "device_id",
+        "type": "deviceid",
+        "$kuid": "eIT9Yliu0",
+        "$xpath": "device_id",
+        "$autoname": "device_id"
+      },
+      {
+        "name": "logo",
+        "type": "note",
+        "$kuid": "WhNS1kEcs",
+        "$xpath": "logo",
+        "$autoname": "logo",
+        "media::image": [
+          "ifrc_urcs.png"
+        ]
+      },
+      {
+        "name": "interview_type",
+        "type": "select_one",
+        "$kuid": "JgzvZaEAu",
+        "label": [
+          "Which interview is this?"
+        ],
+        "$xpath": "interview_type",
+        "required": true,
+        "$autoname": "interview_type",
+        "appearance": "minimal",
+        "select_from_list_name": "interview_type"
+      },
+      {
+        "name": "g_meta",
+        "type": "begin_group",
+        "$kuid": "Gc6sqxTkf",
+        "label": [
+          "1. Concent & Data Protection and Privacy"
+        ],
+        "$xpath": "g_meta",
+        "relevant": "${interview_type}='hh'",
+        "$autoname": "g_meta"
+      },
+      {
+        "name": "enum_name",
+        "type": "text",
+        "$kuid": "HgpWFsAK0",
+        "label": [
+          "Enumerator's Name"
+        ],
+        "$xpath": "g_meta/enum_name",
+        "required": true,
+        "$autoname": "enum_name",
+        "constraint": "regex(., '^[A-Za-z\\s]+$')"
+      },
+      {
+        "name": "consent",
+        "type": "select_one",
+        "$kuid": "ZwxB8Iqug",
+        "label": [
+          "**Informed consent:**  My name is ${enum_name} and I am working with Uganda Red Cross in partenership with IFRC. We are conducting a survey which aims to capture community perceptions, experiences, and behavioural dynamics to complement the existing humanitarian information sources. I will need only 10-15 minutes of your time, and you can decide whether you would like to participate in this survey ?"
+        ],
+        "$xpath": "g_meta/consent",
+        "required": true,
+        "$autoname": "consent",
+        "appearance": "minimal",
+        "select_from_list_name": "yesno"
+      },
+      {
+        "name": "data_privacy",
+        "type": "select_one",
+        "$kuid": "XncWbTxZr",
+        "label": [
+          "We will save all data and may share results with other partners, in an effort to learn and provide better services. NO personal identifiable information will be collected, and the information cannot be traced back to you. Would you like to participate in this survey, giving permission to save and share non-personal information"
+        ],
+        "$xpath": "g_meta/data_privacy",
+        "required": true,
+        "$autoname": "data_privacy",
+        "appearance": "minimal",
+        "select_from_list_name": "yesno"
+      },
+      {
+        "name": "consent_refused",
+        "type": "note",
+        "$kuid": "buDzsj3CO",
+        "label": [
+          "Thank the respondent for their time and end the interview here. Submit the form as it is - a refusal is data too."
+        ],
+        "$xpath": "g_meta/consent_refused",
+        "relevant": "${consent}='no'",
+        "$autoname": "consent_refused"
+      },
+      {
+        "name": "g_meta_end",
+        "type": "end_group",
+        "$kuid": "4bWWV53M4"
+      },
+      {
+        "name": "interview_start",
+        "type": "begin_group",
+        "$kuid": "S75rTabJx",
+        "label": [
+          "2. Interview location"
+        ],
+        "$xpath": "interview_start",
+        "relevant": "${interview_type}='hh' and ${consent}='yes'",
+        "$autoname": "interview_start"
+      },
+      {
+        "name": "country",
+        "type": "select_one",
+        "$kuid": "CZeRjVxlE",
+        "label": [
+          "Country"
+        ],
+        "$xpath": "interview_start/country",
+        "required": true,
+        "$autoname": "country",
+        "appearance": "minimal",
+        "select_from_list_name": "country"
+      },
+      {
+        "name": "admin1",
+        "type": "select_one",
+        "$kuid": "ZkpxKojnO",
+        "label": [
+          "State / Region / Governorate"
+        ],
+        "$xpath": "interview_start/admin1",
+        "required": true,
+        "$autoname": "admin1",
+        "appearance": "minimal",
+        "select_from_list_name": "admin1"
+      },
+      {
+        "name": "admin2",
+        "type": "select_one",
+        "$kuid": "MqF3onhhv",
+        "label": [
+          "District / Locality"
+        ],
+        "$xpath": "interview_start/admin2",
+        "required": true,
+        "$autoname": "admin2",
+        "appearance": "minimal",
+        "select_from_list_name": "admin2"
+      },
+      {
+        "hint": [
+          "Take the reading outside, away from walls. Do not record a GPS point inside a shelter."
+        ],
+        "name": "hh_gps",
+        "type": "geopoint",
+        "$kuid": "P9AVJebOM",
+        "label": [
+          "Record the GPS location"
+        ],
+        "$xpath": "interview_start/hh_gps",
+        "required": true,
+        "$autoname": "hh_gps"
+      },
+      {
+        "name": "interview_end",
+        "type": "end_group",
+        "$kuid": "Jf4ZyjCfZ"
+      },
+      {
+        "name": "demographics",
+        "type": "begin_group",
+        "$kuid": "uER0qONBR",
+        "label": [
+          "3. Demographics"
+        ],
+        "$xpath": "demographics",
+        "relevant": "${interview_type}='hh' and ${consent}='yes'",
+        "$autoname": "demographics"
+      },
+      {
+        "name": "hh_head",
+        "type": "select_one",
+        "$kuid": "ZC5XFIqMg",
+        "label": [
+          "Are you the head of the household?"
+        ],
+        "$xpath": "demographics/hh_head",
+        "required": true,
+        "$autoname": "hh_head",
+        "appearance": "minimal",
+        "select_from_list_name": "yesno"
+      },
+      {
+        "hint": [
+          "only for childheaded households"
+        ],
+        "name": "child_hh_head",
+        "type": "select_one",
+        "$kuid": "O6TcWAKTC",
+        "label": [
+          "Is the Household Child Headed"
+        ],
+        "$xpath": "demographics/child_hh_head",
+        "required": true,
+        "$autoname": "child_hh_head",
+        "appearance": "minimal",
+        "select_from_list_name": "yesno"
+      },
+      {
+        "name": "who_hh_head",
+        "type": "select_one",
+        "$kuid": "NtqdwXaBy",
+        "label": [
+          "Who is the head of the household?"
+        ],
+        "$xpath": "demographics/who_hh_head",
+        "relevant": "${hh_head}='no'",
+        "required": true,
+        "$autoname": "who_hh_head",
+        "appearance": "minimal",
+        "select_from_list_name": "household_head"
+      },
+      {
+        "name": "gender",
+        "type": "select_one",
+        "$kuid": "FHgdDRbSH",
+        "label": [
+          "What's your Gender"
+        ],
+        "$xpath": "demographics/gender",
+        "required": true,
+        "$autoname": "gender",
+        "appearance": "minimal",
+        "select_from_list_name": "gender"
+      },
+      {
+        "name": "age",
+        "type": "select_one",
+        "$kuid": "VBAlipnBM",
+        "label": [
+          "What's your age?"
+        ],
+        "$xpath": "demographics/age",
+        "required": true,
+        "$autoname": "age",
+        "appearance": "minimal",
+        "select_from_list_name": "age"
+      },
+      {
+        "name": "hh_composition",
+        "type": "integer",
+        "$kuid": "SNILw33ez",
+        "label": [
+          "How many people live in your household? (including yourself)"
+        ],
+        "$xpath": "demographics/hh_composition",
+        "required": true,
+        "$autoname": "hh_composition",
+        "constraint": ".>0",
+        "constraint_message": "number of people has to be more than 1"
+      },
+      {
+        "name": "hh_demographics",
+        "type": "select_multiple",
+        "$kuid": "Ibm89phAx",
+        "label": [
+          "What is the demography of your household?"
+        ],
+        "$xpath": "demographics/hh_demographics",
+        "required": true,
+        "$autoname": "hh_demographics",
+        "_or_other": true,
+        "appearance": "minimal",
+        "select_from_list_name": "demographic"
+      },
+      {
+        "name": "demographics_end",
+        "type": "end_group",
+        "$kuid": "DbFJlyLfk"
+      },
+      {
+        "name": "hazards",
+        "type": "begin_group",
+        "$kuid": "KkqivodNO",
+        "label": [
+          "4. Hazards"
+        ],
+        "$xpath": "hazards",
+        "relevant": "${interview_type}='hh' and ${consent}='yes'",
+        "$autoname": "hazards"
+      },
+      {
+        "name": "meaning_hazard",
+        "type": "text",
+        "$kuid": "2DzXLZj5V",
+        "label": [
+          "What does a hazard mean to you?"
+        ],
+        "$xpath": "hazards/meaning_hazard",
+        "required": true,
+        "$autoname": "meaning_hazard",
+        "appearance": "multiline"
+      },
+      {
+        "name": "hazards_experience",
+        "type": "select_multiple",
+        "$kuid": "o2AawntpM",
+        "label": [
+          "What hazards has this community been experiencing?"
+        ],
+        "$xpath": "hazards/hazards_experience",
+        "required": true,
+        "$autoname": "hazards_experience",
+        "_or_other": true,
+        "select_from_list_name": "hazards"
+      },
+      {
+        "hint": [
+          "Top 3"
+        ],
+        "name": "hazard_kind",
+        "type": "select_multiple",
+        "$kuid": "9TwXXtkvP",
+        "label": [
+          "What hazards have become more severe/frequent in the recent years?"
+        ],
+        "$xpath": "hazards/hazard_kind",
+        "required": true,
+        "$autoname": "hazard_kind",
+        "constraint": "count-selected(.) <= 3",
+        "choice_filter": "selected(${hazards_experience}, name)",
+        "constraint_message": "Please select a maximum of 3 hazards (top 3).",
+        "select_from_list_name": "hazards"
+      },
+      {
+        "name": "hazard_details",
+        "type": "begin_repeat",
+        "$kuid": "jiRxx7sbf",
+        "label": [
+          "Hazard details"
+        ],
+        "$xpath": "hazards/hazard_details",
+        "relevant": "${hazard_kind} != ''",
+        "$autoname": "hazard_details",
+        "repeat_count": "count-selected(${hazard_kind})"
+      },
+      {
+        "name": "hazard_name",
+        "type": "calculate",
+        "$kuid": "iANNMzT2C",
+        "$xpath": "hazards/hazard_details/hazard_name",
+        "$autoname": "hazard_name",
+        "calculation": "jr:choice-name(selected-at(${hazard_kind}, position(..)-1), '${hazard_kind}')"
+      },
+      {
+        "name": "hazard_number",
+        "type": "calculate",
+        "$kuid": "BmLJ9R6kb",
+        "$xpath": "hazards/hazard_details/hazard_number",
+        "$autoname": "hazard_number",
+        "calculation": "position(..)"
+      },
+      {
+        "name": "hazard_header",
+        "type": "note",
+        "$kuid": "gpY4aQvWM",
+        "label": [
+          "Hazard ${hazard_number}: **${hazard_name}**"
+        ],
+        "$xpath": "hazards/hazard_details/hazard_header",
+        "$autoname": "hazard_header"
+      },
+      {
+        "name": "hazard_occurence",
+        "type": "select_one",
+        "$kuid": "Wmqz8PYFq",
+        "label": [
+          "How often does ${hazard_name} occur?"
+        ],
+        "$xpath": "hazards/hazard_details/hazard_occurence",
+        "required": true,
+        "$autoname": "hazard_occurence",
+        "_or_other": true,
+        "appearance": "minimal",
+        "select_from_list_name": "frequency"
+      },
+      {
+        "name": "hazard_events",
+        "type": "select_multiple",
+        "$kuid": "HoAAx9Rcj",
+        "label": [
+          "When does ${hazard_name} usually occur?"
+        ],
+        "$xpath": "hazards/hazard_details/hazard_events",
+        "$autoname": "hazard_events",
+        "select_from_list_name": "month"
+      },
+      {
+        "name": "hazard_impact",
+        "type": "select_one",
+        "$kuid": "EM3PyOBrh",
+        "label": [
+          "How seriously does ${hazard_name} affect your household/community?"
+        ],
+        "$xpath": "hazards/hazard_details/hazard_impact",
+        "required": true,
+        "$autoname": "hazard_impact",
+        "appearance": "minimal",
+        "select_from_list_name": "hazard_effect"
+      },
+      {
+        "name": "hazard_details_end",
+        "type": "end_repeat",
+        "$kuid": "6uo2XCKB3"
+      },
+      {
+        "name": "hazard_affected_groups",
+        "type": "select_multiple",
+        "$kuid": "jc9FIM2p5",
+        "label": [
+          "Which groups experience the greatest impact?"
+        ],
+        "$xpath": "hazards/hazard_affected_groups",
+        "required": true,
+        "$autoname": "hazard_affected_groups",
+        "_or_other": true,
+        "select_from_list_name": "group"
+      },
+      {
+        "name": "hazard_cause",
+        "type": "select_multiple",
+        "$kuid": "QTST70KdJ",
+        "label": [
+          "What are the main causes of these hazards?"
+        ],
+        "$xpath": "hazards/hazard_cause",
+        "required": true,
+        "$autoname": "hazard_cause",
+        "_or_other": true,
+        "constraint": "not(selected(., 'not_know') and count-selected(.) > 1)",
+        "constraint_message": "you said \"I don't Know\"",
+        "select_from_list_name": "causes"
+      },
+      {
+        "name": "hazard_measures",
+        "type": "select_multiple",
+        "$kuid": "FRIkhU3bh",
+        "label": [
+          "What measures do you take to be resistant towards common hazards?"
+        ],
+        "$xpath": "hazards/hazard_measures",
+        "required": true,
+        "$autoname": "hazard_measures",
+        "_or_other": true,
+        "constraint": "not((selected(., 'no_specific_measures_') or selected(., 'i_dont_know_')) and count-selected(.) > 1)",
+        "constraint_message": "you said \"No Specific Measure\" or \"I don't know\"",
+        "select_from_list_name": "measures"
+      },
+      {
+        "name": "hazard_management",
+        "type": "select_multiple",
+        "$kuid": "us0WB0vbp",
+        "label": [
+          "What hazard management capacities do you have in this community?"
+        ],
+        "$xpath": "hazards/hazard_management",
+        "required": true,
+        "$autoname": "hazard_management",
+        "_or_other": true,
+        "constraint": "not((selected(., 'none') or selected(., 'i_do_not_know')) and count-selected(.) > 1)",
+        "constraint_message": "you said \"None\" or \"I don't know\"",
+        "select_from_list_name": "management"
+      },
+      {
+        "name": "hazard_evacuate",
+        "type": "select_multiple",
+        "$kuid": "txOP7v3om",
+        "label": [
+          "Where do people go when they need to leave their homes?"
+        ],
+        "$xpath": "hazards/hazard_evacuate",
+        "required": true,
+        "$autoname": "hazard_evacuate",
+        "_or_other": true,
+        "constraint": "not(selected(., 'not_know ') and count-selected(.) > 1)",
+        "constraint_message": "you said \"I don't know\"",
+        "select_from_list_name": "evacuate"
+      },
+      {
+        "name": "hazards_end",
+        "type": "end_group",
+        "$kuid": "ckrUDn5DX"
+      },
+      {
+        "name": "vulnerability",
+        "type": "begin_group",
+        "$kuid": "EOsNXyM5a",
+        "label": [
+          "5. Vulnerability"
+        ],
+        "$xpath": "vulnerability",
+        "relevant": "${interview_type}='hh' and ${consent}='yes'",
+        "$autoname": "vulnerability"
+      },
+      {
+        "name": "meaning_vulnerability",
+        "type": "text",
+        "$kuid": "P0f7PNxTt",
+        "label": [
+          "What does vulnerability mean to you?"
+        ],
+        "$xpath": "vulnerability/meaning_vulnerability",
+        "required": true,
+        "$autoname": "meaning_vulnerability",
+        "appearance": "multiline"
+      },
+      {
+        "name": "vulnerabilities_believe",
+        "type": "select_multiple",
+        "$kuid": "qFPIZ2hUl",
+        "label": [
+          "What vulnerabilities do you believe the community is facing?"
+        ],
+        "$xpath": "vulnerability/vulnerabilities_believe",
+        "required": true,
+        "$autoname": "vulnerabilities_believe",
+        "_or_other": true,
+        "constraint": "not((selected(., 'none  ') or selected(., 'i_dont_know1')) and count-selected(.) > 1)",
+        "constraint_message": "you said \"None\" or \"I don't know\"",
+        "select_from_list_name": "vulnerabilities"
+      },
+      {
+        "name": "vulnerabilities_group",
+        "type": "select_multiple",
+        "$kuid": "ITQ7M2Lnt",
+        "label": [
+          "What makes some groups more vulnerable than others?"
+        ],
+        "$xpath": "vulnerability/vulnerabilities_group",
+        "required": true,
+        "$autoname": "vulnerabilities_group",
+        "_or_other": true,
+        "select_from_list_name": "groups"
+      },
+      {
+        "name": "vulnerabilities_differences",
+        "type": "select_one",
+        "$kuid": "X4C36j3bg",
+        "label": [
+          "Are there any differences between people who arrived recently and longer-term residents?"
+        ],
+        "$xpath": "vulnerability/vulnerabilities_differences",
+        "required": true,
+        "$autoname": "vulnerabilities_differences",
+        "appearance": "minimal",
+        "select_from_list_name": "differences"
+      },
+      {
+        "name": "vulnerabilities_elaborate",
+        "type": "text",
+        "$kuid": "WSKS9Xb5h",
+        "label": [
+          "Please Elaborate"
+        ],
+        "$xpath": "vulnerability/vulnerabilities_elaborate",
+        "required": true,
+        "$autoname": "vulnerabilities_elaborate",
+        "appearance": "multiline"
+      },
+      {
+        "name": "vulnerability_end",
+        "type": "end_group",
+        "$kuid": "M9JsF0qe6"
+      },
+      {
+        "name": "coping_capacities",
+        "type": "begin_group",
+        "$kuid": "iClQVL2bC",
+        "label": [
+          "6. Coping Capacity"
+        ],
+        "$xpath": "coping_capacities",
+        "relevant": "${interview_type}='hh' and ${consent}='yes'",
+        "$autoname": "coping_capacities"
+      },
+      {
+        "name": "meaning_coping",
+        "type": "text",
+        "$kuid": "hFEzLf37f",
+        "label": [
+          "What does coping capacity mean to you?"
+        ],
+        "$xpath": "coping_capacities/meaning_coping",
+        "required": true,
+        "$autoname": "meaning_coping",
+        "appearance": "multiline"
+      },
+      {
+        "name": "coping_challenges_repeat",
+        "type": "begin_repeat",
+        "$kuid": "ebj9nQ7om",
+        "label": [
+          "Gaps/challenges per hazard"
+        ],
+        "$xpath": "coping_capacities/coping_challenges_repeat",
+        "relevant": "${hazard_kind} != ''",
+        "$autoname": "coping_challenges_repeat",
+        "repeat_count": "count-selected(${hazard_kind})"
+      },
+      {
+        "name": "coping_hazard_name",
+        "type": "calculate",
+        "$kuid": "2KArEpif4",
+        "$xpath": "coping_capacities/coping_challenges_repeat/coping_hazard_name",
+        "$autoname": "coping_hazard_name",
+        "calculation": "jr:choice-name(selected-at(${hazard_kind}, position(..)-1), '${hazard_kind}')"
+      },
+      {
+        "name": "coping_hazard_number",
+        "type": "calculate",
+        "$kuid": "GuKIUaaqi",
+        "$xpath": "coping_capacities/coping_challenges_repeat/coping_hazard_number",
+        "$autoname": "coping_hazard_number",
+        "calculation": "position(..)"
+      },
+      {
+        "name": "coping_hazard_header",
+        "type": "note",
+        "$kuid": "CuQkYhnmS",
+        "label": [
+          "Hazard ${coping_hazard_number}: **${coping_hazard_name}**"
+        ],
+        "$xpath": "coping_capacities/coping_challenges_repeat/coping_hazard_header",
+        "$autoname": "coping_hazard_header"
+      },
+      {
+        "name": "coping_challenges",
+        "type": "text",
+        "$kuid": "gXguYTRfT",
+        "label": [
+          "What gaps/challenges do you think your community has with regard to ${coping_hazard_name}?"
+        ],
+        "$xpath": "coping_capacities/coping_challenges_repeat/coping_challenges",
+        "required": true,
+        "$autoname": "coping_challenges",
+        "appearance": "multiline"
+      },
+      {
+        "name": "coping_challenges_repeat_end",
+        "type": "end_repeat",
+        "$kuid": "iMbSwPlRy"
+      },
+      {
+        "name": "coping_extent",
+        "type": "select_one",
+        "$kuid": "wMzon4OTB",
+        "label": [
+          "To what extent do you think your community can cope with a hazard?"
+        ],
+        "$xpath": "coping_capacities/coping_extent",
+        "required": true,
+        "$autoname": "coping_extent",
+        "appearance": "minimal",
+        "select_from_list_name": "extent"
+      },
+      {
+        "name": "coping_cohesion",
+        "type": "select_multiple",
+        "$kuid": "xlJdOTf5M",
+        "label": [
+          "What capacities do you have in this community with regard to social cohesion?"
+        ],
+        "$xpath": "coping_capacities/coping_cohesion",
+        "required": true,
+        "$autoname": "coping_cohesion",
+        "_or_other": true,
+        "constraint": "not(selected(., 'dont_know2') and count-selected(.) > 1)",
+        "constraint_message": "you said \"I don't Know\"",
+        "select_from_list_name": "cohesion"
+      },
+      {
+        "name": "coping_gaps",
+        "type": "select_multiple",
+        "$kuid": "HvYRZKs4e",
+        "label": [
+          "What vulnerabilities (gaps and challenges) do you have in this community with regard to social cohesion?"
+        ],
+        "$xpath": "coping_capacities/coping_gaps",
+        "required": true,
+        "$autoname": "coping_gaps",
+        "_or_other": true,
+        "constraint": "not(selected(., 'i_dont_know3') and count-selected(.) > 1)",
+        "constraint_message": "you said \"I don't Know\"",
+        "select_from_list_name": "gaps"
+      },
+      {
+        "name": "coping_capacities_end",
+        "type": "end_group",
+        "$kuid": "peRGePzBo"
+      },
+      {
+        "name": "fgd_section",
+        "type": "begin_group",
+        "$kuid": "mfrCSGpk7",
+        "label": [
+          "Focused Group Discussion (FGD)"
+        ],
+        "$xpath": "fgd_section",
+        "relevant": "${interview_type}='fgd'",
+        "$autoname": "fgd_section"
+      },
+      {
+        "name": "fgd_consent",
+        "type": "select_one",
+        "$kuid": "Fs97MZt9K",
+        "label": [
+          "Does the group provide consent for Audio recording?"
+        ],
+        "$xpath": "fgd_section/fgd_consent",
+        "required": true,
+        "$autoname": "fgd_consent",
+        "appearance": "minimal",
+        "select_from_list_name": "yesno"
+      },
+      {
+        "name": "fgd_target_group",
+        "type": "select_one",
+        "$kuid": "kfKNdGLsj",
+        "label": [
+          "Which group is the Focused Group Discussion for?"
+        ],
+        "$xpath": "fgd_section/fgd_target_group",
+        "relevant": "${fgd_consent}='yes'",
+        "required": true,
+        "$autoname": "fgd_target_group",
+        "appearance": "minimal",
+        "select_from_list_name": "fgd_group"
+      },
+      {
+        "name": "fgd_audio",
+        "type": "audio",
+        "$kuid": "joGNaKvKz",
+        "label": [
+          "Record Audio"
+        ],
+        "$xpath": "fgd_section/fgd_audio",
+        "relevant": "${fgd_consent}='yes'",
+        "required": true,
+        "$autoname": "fgd_audio"
+      },
+      {
+        "name": "fgd_no_consent",
+        "type": "note",
+        "$kuid": "Xa7sdjU6v",
+        "label": [
+          "The group has not consented to audio recording. **End the form here and record the responses on paper.**"
+        ],
+        "$xpath": "fgd_section/fgd_no_consent",
+        "relevant": "${fgd_consent}='no'",
+        "$autoname": "fgd_no_consent"
+      },
+      {
+        "name": "fgd_section_end",
+        "type": "end_group",
+        "$kuid": "1X6J4r2P1"
+      },
+      {
+        "name": "kii_section",
+        "type": "begin_group",
+        "$kuid": "mszAHqgI9",
+        "label": [
+          "Key Informant Interview (KII)"
+        ],
+        "$xpath": "kii_section",
+        "relevant": "${interview_type}='kii'",
+        "$autoname": "kii_section"
+      },
+      {
+        "name": "kii_consent",
+        "type": "select_one",
+        "$kuid": "FwbhmZCqR",
+        "label": [
+          "Does the Key informant provide Consent for Audio Recording?"
+        ],
+        "$xpath": "kii_section/kii_consent",
+        "required": true,
+        "$autoname": "kii_consent",
+        "appearance": "minimal",
+        "select_from_list_name": "yesno"
+      },
+      {
+        "name": "kii_role",
+        "type": "text",
+        "$kuid": "tuf7IQFBI",
+        "label": [
+          "What's their Role (Community Profile)?"
+        ],
+        "$xpath": "kii_section/kii_role",
+        "relevant": "${kii_consent}='yes'",
+        "required": true,
+        "$autoname": "kii_role"
+      },
+      {
+        "name": "kii_years_community",
+        "type": "integer",
+        "$kuid": "fWmGhrnNI",
+        "label": [
+          "Years in this Community?"
+        ],
+        "$xpath": "kii_section/kii_years_community",
+        "relevant": "${kii_consent}='yes'",
+        "required": true,
+        "$autoname": "kii_years_community",
+        "constraint": ".>=0 and .<=4",
+        "constraint_message": "Enter a whole number of years between 0 and 4."
+      },
+      {
+        "name": "kii_displacement_status",
+        "type": "select_one",
+        "$kuid": "tlL2DLH3v",
+        "label": [
+          "Displacement Status"
+        ],
+        "$xpath": "kii_section/kii_displacement_status",
+        "relevant": "${kii_consent}='yes'",
+        "required": true,
+        "$autoname": "kii_displacement_status",
+        "_or_other": true,
+        "appearance": "minimal",
+        "select_from_list_name": "displacement"
+      },
+      {
+        "name": "kii_audio",
+        "type": "audio",
+        "$kuid": "ivSSAxJTB",
+        "label": [
+          "Record Audio"
+        ],
+        "$xpath": "kii_section/kii_audio",
+        "relevant": "${kii_consent}='yes'",
+        "required": true,
+        "$autoname": "kii_audio"
+      },
+      {
+        "name": "kii_no_consent",
+        "type": "note",
+        "$kuid": "q8BgddVyU",
+        "label": [
+          "The key informant has not consented to audio recording. **End the form here and record the responses on paper.**"
+        ],
+        "$xpath": "kii_section/kii_no_consent",
+        "relevant": "${kii_consent}='no'",
+        "$autoname": "kii_no_consent"
+      },
+      {
+        "name": "kii_section_end",
+        "type": "end_group",
+        "$kuid": "x7sKivnEF"
+      }
+    ],
+    "choices": [
+      {
+        "name": "yes",
+        "$kuid": "zfEloCqpU",
+        "label": [
+          "YES"
+        ],
+        "list_name": "yesno",
+        "$autovalue": "yes"
+      },
+      {
+        "name": "no",
+        "$kuid": "Q8eSrTUb5",
+        "label": [
+          "NO"
+        ],
+        "list_name": "yesno",
+        "$autovalue": "no"
+      },
+      {
+        "name": "uganda",
+        "$kuid": "zZX5GoVDJ",
+        "label": [
+          "UGANDA"
+        ],
+        "list_name": "country",
+        "$autovalue": "uganda"
+      },
+      {
+        "name": "western",
+        "$kuid": "uZ0nl0V8N",
+        "label": [
+          "WESTERN"
+        ],
+        "list_name": "admin1",
+        "$autovalue": "western"
+      },
+      {
+        "name": "kiryandongo",
+        "$kuid": "pZt5b9Iui",
+        "label": [
+          "KIRYANDONGO"
+        ],
+        "list_name": "admin2",
+        "$autovalue": "kiryandongo"
+      },
+      {
+        "name": "male",
+        "$kuid": "Nit3plM7d",
+        "label": [
+          "MALE"
+        ],
+        "list_name": "gender",
+        "$autovalue": "male"
+      },
+      {
+        "name": "female",
+        "$kuid": "AD0yGHlu0",
+        "label": [
+          "FEMALE"
+        ],
+        "list_name": "gender",
+        "$autovalue": "female"
+      },
+      {
+        "name": "prefer_not_to_say",
+        "$kuid": "hbXJ7xDKP",
+        "label": [
+          "PREFER NOT TO SAY"
+        ],
+        "list_name": "gender",
+        "$autovalue": "prefer_not_to_say"
+      },
+      {
+        "name": "child",
+        "$kuid": "PDneNH4sT",
+        "label": [
+          "under 18 years"
+        ],
+        "list_name": "age",
+        "$autovalue": "child"
+      },
+      {
+        "name": "youth1",
+        "$kuid": "rIdZbAQL4",
+        "label": [
+          "19 - 24 years"
+        ],
+        "list_name": "age",
+        "$autovalue": "youth1"
+      },
+      {
+        "name": "youth2",
+        "$kuid": "9YKqLATLv",
+        "label": [
+          "25 - 34 years"
+        ],
+        "list_name": "age",
+        "$autovalue": "youth2"
+      },
+      {
+        "name": "adult1",
+        "$kuid": "db2NDAHXn",
+        "label": [
+          "35 - 44 years"
+        ],
+        "list_name": "age",
+        "$autovalue": "adult1"
+      },
+      {
+        "name": "adult2",
+        "$kuid": "9j2dVSm9j",
+        "label": [
+          "45 - 54 years"
+        ],
+        "list_name": "age",
+        "$autovalue": "adult2"
+      },
+      {
+        "name": "adult3",
+        "$kuid": "P9nakrNOp",
+        "label": [
+          "55 - 64 years"
+        ],
+        "list_name": "age",
+        "$autovalue": "adult3"
+      },
+      {
+        "name": "old",
+        "$kuid": "bwZWsN7jv",
+        "label": [
+          "65 years and above"
+        ],
+        "list_name": "age",
+        "$autovalue": "old"
+      },
+      {
+        "name": "female_headed_house",
+        "$kuid": "uuNobq4uR",
+        "label": [
+          "Female Headed Household"
+        ],
+        "list_name": "household_head",
+        "$autovalue": "female_headed_house"
+      },
+      {
+        "name": "male_headed_house",
+        "$kuid": "LukflO3Q6",
+        "label": [
+          "Male Headed Household"
+        ],
+        "list_name": "household_head",
+        "$autovalue": "male_headed_house"
+      },
+      {
+        "name": "under5",
+        "$kuid": "IwnRGbTpg",
+        "label": [
+          "There are children under 5 yrs"
+        ],
+        "list_name": "demographic",
+        "$autovalue": "under5"
+      },
+      {
+        "name": "children6_17",
+        "$kuid": "OnTLkGSwg",
+        "label": [
+          "There are children between 6 - 17 yrs"
+        ],
+        "list_name": "demographic",
+        "$autovalue": "children6_17"
+      },
+      {
+        "name": "adults25_44",
+        "$kuid": "qPfu10B0t",
+        "label": [
+          "There are adults between 25 - 44 yrs"
+        ],
+        "list_name": "demographic",
+        "$autovalue": "adults25_44"
+      },
+      {
+        "name": "adults45_64",
+        "$kuid": "aqWQwvP3O",
+        "label": [
+          "There are adults between 45 - 64 yrs"
+        ],
+        "list_name": "demographic",
+        "$autovalue": "adults45_64"
+      },
+      {
+        "name": "above65",
+        "$kuid": "Sffyw2Dwl",
+        "label": [
+          "There are older persons above 65 yrs"
+        ],
+        "list_name": "demographic",
+        "$autovalue": "above65"
+      },
+      {
+        "name": "withPWD",
+        "$kuid": "dFpnDUHRF",
+        "label": [
+          "There are Persons with Disabilities"
+        ],
+        "list_name": "demographic",
+        "$autovalue": "withPWD"
+      },
+      {
+        "name": "pregnant_lactating",
+        "$kuid": "CmtW1V6hf",
+        "label": [
+          "Pregnant and lactating women"
+        ],
+        "list_name": "demographic",
+        "$autovalue": "pregnant_lactating"
+      },
+      {
+        "name": "daily",
+        "$kuid": "x7r8WrNIs",
+        "label": [
+          "Daily"
+        ],
+        "list_name": "frequency",
+        "$autovalue": "daily"
+      },
+      {
+        "name": "weekly",
+        "$kuid": "U3pAnPGsO",
+        "label": [
+          "Weekly"
+        ],
+        "list_name": "frequency",
+        "$autovalue": "weekly"
+      },
+      {
+        "name": "monthly",
+        "$kuid": "vrTU8PJC6",
+        "label": [
+          "Monthly"
+        ],
+        "list_name": "frequency",
+        "$autovalue": "monthly"
+      },
+      {
+        "name": "quarterly",
+        "$kuid": "Q7N0UTS3I",
+        "label": [
+          "Quarterly (after 3 months)"
+        ],
+        "list_name": "frequency",
+        "$autovalue": "quarterly"
+      },
+      {
+        "name": "yearly",
+        "$kuid": "UkS4ygvsJ",
+        "label": [
+          "Yearly"
+        ],
+        "list_name": "frequency",
+        "$autovalue": "yearly"
+      },
+      {
+        "name": "slightly",
+        "$kuid": "nR9SMzeKk",
+        "label": [
+          "Minimally"
+        ],
+        "list_name": "hazard_effect",
+        "$autovalue": "slightly"
+      },
+      {
+        "name": "moderately",
+        "$kuid": "xMTThMi4I",
+        "label": [
+          "Moderately"
+        ],
+        "list_name": "hazard_effect",
+        "$autovalue": "moderately"
+      },
+      {
+        "name": "seriously",
+        "$kuid": "cnra3OdQL",
+        "label": [
+          "Significantly"
+        ],
+        "list_name": "hazard_effect",
+        "$autovalue": "seriously"
+      },
+      {
+        "name": "very_seriously",
+        "$kuid": "caMMk4Bt9",
+        "label": [
+          "Severely"
+        ],
+        "list_name": "hazard_effect",
+        "$autovalue": "very_seriously"
+      },
+      {
+        "name": "don’t_know",
+        "$kuid": "k0g335LUa",
+        "label": [
+          "Unsure"
+        ],
+        "list_name": "hazard_effect",
+        "$autovalue": "don’t_know"
+      },
+      {
+        "name": "not_applicable",
+        "$kuid": "5JYIfZHAd",
+        "label": [
+          "Not Relevant"
+        ],
+        "list_name": "hazard_effect",
+        "$autovalue": "not_applicable"
+      },
+      {
+        "name": "children",
+        "$kuid": "msUC2fVLk",
+        "label": [
+          "Children"
+        ],
+        "list_name": "group",
+        "$autovalue": "children"
+      },
+      {
+        "name": "women",
+        "$kuid": "HKoELOAs7",
+        "label": [
+          "Women"
+        ],
+        "list_name": "group",
+        "$autovalue": "women"
+      },
+      {
+        "name": "men",
+        "$kuid": "kW0Bio5K6",
+        "label": [
+          "Men"
+        ],
+        "list_name": "group",
+        "$autovalue": "men"
+      },
+      {
+        "name": "older_person",
+        "$kuid": "ZzEecZlWu",
+        "label": [
+          "Older persons (65+ years)"
+        ],
+        "list_name": "group",
+        "$autovalue": "older_person"
+      },
+      {
+        "name": "persons_with_disabilities",
+        "$kuid": "YvcyAFL16",
+        "label": [
+          "Persons with disabilities"
+        ],
+        "list_name": "group",
+        "$autovalue": "persons_with_disabilities"
+      },
+      {
+        "name": "pregnant_and_lactating_women",
+        "$kuid": "bshIvpibG",
+        "label": [
+          "Pregnant and lactating women"
+        ],
+        "list_name": "group",
+        "$autovalue": "pregnant_and_lactating_women"
+      },
+      {
+        "name": "low_income",
+        "$kuid": "IHGRXiCh6",
+        "label": [
+          "Low-income households"
+        ],
+        "list_name": "group",
+        "$autovalue": "low_income"
+      },
+      {
+        "name": "people_living_alone",
+        "$kuid": "SpxN2AImv",
+        "label": [
+          "People living alone"
+        ],
+        "list_name": "group",
+        "$autovalue": "people_living_alone"
+      },
+      {
+        "name": "people_with_chronic_illnesses",
+        "$kuid": "bUjF87w0C",
+        "label": [
+          "People with chronic illnesses"
+        ],
+        "list_name": "group",
+        "$autovalue": "people_with_chronic_illnesses"
+      },
+      {
+        "name": "flood",
+        "$kuid": "SewChsLeO",
+        "label": [
+          "Heavy rainfall / flooding"
+        ],
+        "list_name": "causes",
+        "$autovalue": "flood"
+      },
+      {
+        "name": "drought",
+        "$kuid": "Pn5Fo4p6j",
+        "label": [
+          "Drought / lack of rainfall"
+        ],
+        "list_name": "causes",
+        "$autovalue": "drought"
+      },
+      {
+        "name": "storms",
+        "$kuid": "kJdSdRiaT",
+        "label": [
+          "Strong winds / storms"
+        ],
+        "list_name": "causes",
+        "$autovalue": "storms"
+      },
+      {
+        "name": "heat",
+        "$kuid": "mUSMDgdmm",
+        "label": [
+          "Extreme temperatures"
+        ],
+        "list_name": "causes",
+        "$autovalue": "heat"
+      },
+      {
+        "name": "degradation",
+        "$kuid": "h6mlT520S",
+        "label": [
+          "Environmental degradation (deforestation, soil erosion, land degradation)"
+        ],
+        "list_name": "causes",
+        "$autovalue": "degradation"
+      },
+      {
+        "name": "poor_drainage",
+        "$kuid": "PqGb26LMd",
+        "label": [
+          "Poor drainage systems"
+        ],
+        "list_name": "causes",
+        "$autovalue": "poor_drainage"
+      },
+      {
+        "name": "poor_waste_management",
+        "$kuid": "SSHedM52a",
+        "label": [
+          "Poor waste management"
+        ],
+        "list_name": "causes",
+        "$autovalue": "poor_waste_management"
+      },
+      {
+        "name": "poor_infrastructure",
+        "$kuid": "NCBde55f9",
+        "label": [
+          "Poor infrastructure / weak buildings"
+        ],
+        "list_name": "causes",
+        "$autovalue": "poor_infrastructure"
+      },
+      {
+        "name": "conflict",
+        "$kuid": "cKs7aiJQi",
+        "label": [
+          "Conflict / insecurity"
+        ],
+        "list_name": "causes",
+        "$autovalue": "conflict"
+      },
+      {
+        "name": "disease",
+        "$kuid": "oFozKJYhC",
+        "label": [
+          "Disease outbreaks"
+        ],
+        "list_name": "causes",
+        "$autovalue": "disease"
+      },
+      {
+        "name": "overcrowding",
+        "$kuid": "Dm2EUdBgE",
+        "label": [
+          "Population growth / overcrowding"
+        ],
+        "list_name": "causes",
+        "$autovalue": "overcrowding"
+      },
+      {
+        "name": "climate_change",
+        "$kuid": "tfCpDoj1m",
+        "label": [
+          "Climate change"
+        ],
+        "list_name": "causes",
+        "$autovalue": "climate_change"
+      },
+      {
+        "name": "industries",
+        "$kuid": "u8aRA7rOx",
+        "label": [
+          "Industrial activities"
+        ],
+        "list_name": "causes",
+        "$autovalue": "industries"
+      },
+      {
+        "name": "not_know",
+        "$kuid": "BfnXoiB15",
+        "label": [
+          "I don't know"
+        ],
+        "list_name": "causes",
+        "$autovalue": "not_know"
+      },
+      {
+        "name": "january",
+        "$kuid": "xCDMfFtKb",
+        "label": [
+          "January"
+        ],
+        "list_name": "month",
+        "$autovalue": "january"
+      },
+      {
+        "name": "february",
+        "$kuid": "lG0OUIEGj",
+        "label": [
+          "February"
+        ],
+        "list_name": "month",
+        "$autovalue": "february"
+      },
+      {
+        "name": "march",
+        "$kuid": "w5wmV3GNU",
+        "label": [
+          "March"
+        ],
+        "list_name": "month",
+        "$autovalue": "march"
+      },
+      {
+        "name": "april",
+        "$kuid": "vT9cALLuU",
+        "label": [
+          "April"
+        ],
+        "list_name": "month",
+        "$autovalue": "april"
+      },
+      {
+        "name": "may",
+        "$kuid": "YXIuzt6JN",
+        "label": [
+          "May"
+        ],
+        "list_name": "month",
+        "$autovalue": "may"
+      },
+      {
+        "name": "june",
+        "$kuid": "Hw9jwKZtz",
+        "label": [
+          "June"
+        ],
+        "list_name": "month",
+        "$autovalue": "june"
+      },
+      {
+        "name": "july",
+        "$kuid": "fiDGvgE5i",
+        "label": [
+          "July"
+        ],
+        "list_name": "month",
+        "$autovalue": "july"
+      },
+      {
+        "name": "august",
+        "$kuid": "KouX9AK3Y",
+        "label": [
+          "August"
+        ],
+        "list_name": "month",
+        "$autovalue": "august"
+      },
+      {
+        "name": "september",
+        "$kuid": "cQzfwPQJe",
+        "label": [
+          "September"
+        ],
+        "list_name": "month",
+        "$autovalue": "september"
+      },
+      {
+        "name": "october",
+        "$kuid": "Wn3MVvfQN",
+        "label": [
+          "October"
+        ],
+        "list_name": "month",
+        "$autovalue": "october"
+      },
+      {
+        "name": "november",
+        "$kuid": "FcHNZOT60",
+        "label": [
+          "November"
+        ],
+        "list_name": "month",
+        "$autovalue": "november"
+      },
+      {
+        "name": "december",
+        "$kuid": "aAvl9ugyX",
+        "label": [
+          "December"
+        ],
+        "list_name": "month",
+        "$autovalue": "december"
+      },
+      {
+        "name": "monitoring_hazards",
+        "$kuid": "iV3qBDFwk",
+        "label": [
+          "Monitoring hazards"
+        ],
+        "list_name": "measures",
+        "$autovalue": "monitoring_hazards"
+      },
+      {
+        "name": "stock_emergency_supplies",
+        "$kuid": "voKOEfGuj",
+        "label": [
+          "Stock Emergency supplies"
+        ],
+        "list_name": "measures",
+        "$autovalue": "stock_emergency_supplies"
+      },
+      {
+        "name": "identifying_safe_areas",
+        "$kuid": "dHRxM2o6s",
+        "label": [
+          "Identifying safe areas"
+        ],
+        "list_name": "measures",
+        "$autovalue": "identifying_safe_areas"
+      },
+      {
+        "name": "strengthening_repairing_house",
+        "$kuid": "K8IPnQbSu",
+        "label": [
+          "Strengthening/repairing house"
+        ],
+        "list_name": "measures",
+        "$autovalue": "strengthening_repairing_house"
+      },
+      {
+        "name": "proper_waste_disposal",
+        "$kuid": "a8HOGf8sH",
+        "label": [
+          "Proper waste disposal"
+        ],
+        "list_name": "measures",
+        "$autovalue": "proper_waste_disposal"
+      },
+      {
+        "name": "improving_drainage_around_the_house/community",
+        "$kuid": "R9n6KS8kM",
+        "label": [
+          "Improving drainage around the house/community"
+        ],
+        "list_name": "measures",
+        "$autovalue": "improving_drainage_around_the_house/community"
+      },
+      {
+        "name": "stocking_some_emergency_funds",
+        "$kuid": "wpTdaeTej",
+        "label": [
+          "Stocking some Emergency funds"
+        ],
+        "list_name": "measures",
+        "$autovalue": "stocking_some_emergency_funds"
+      },
+      {
+        "name": "diversifying_sources_of_income",
+        "$kuid": "sTWcHuHGY",
+        "label": [
+          "Diversifying sources of income"
+        ],
+        "list_name": "measures",
+        "$autovalue": "diversifying_sources_of_income"
+      },
+      {
+        "name": "participating_in_community_preparedness_activities",
+        "$kuid": "nD1klNX2b",
+        "label": [
+          "Participating in community preparedness activities"
+        ],
+        "list_name": "measures",
+        "$autovalue": "participating_in_community_preparedness_activities"
+      },
+      {
+        "name": "participating_in_disaster_preparedness_trainings",
+        "$kuid": "lF19jLb7E",
+        "label": [
+          "Participating in disaster preparedness trainings"
+        ],
+        "list_name": "measures",
+        "$autovalue": "participating_in_disaster_preparedness_trainings"
+      },
+      {
+        "name": "relocating",
+        "$kuid": "rgEknzRCm",
+        "label": [
+          "Relocating"
+        ],
+        "list_name": "measures",
+        "$autovalue": "relocating"
+      },
+      {
+        "name": "i_dont_know_",
+        "$kuid": "S8xKpzz5z",
+        "label": [
+          "I don’t know"
+        ],
+        "list_name": "measures",
+        "$autovalue": "i_dont_know_"
+      },
+      {
+        "name": "no_specific_measures_",
+        "$kuid": "oOP5AvOLo",
+        "label": [
+          "No specific measures"
+        ],
+        "list_name": "measures",
+        "$autovalue": "no_specific_measures_"
+      },
+      {
+        "name": "community_disaster_management_team",
+        "$kuid": "EKvF91y0n",
+        "label": [
+          "Community disaster management team"
+        ],
+        "list_name": "management",
+        "$autovalue": "community_disaster_management_team"
+      },
+      {
+        "name": "early_warning_systems",
+        "$kuid": "jn2W2rQsB",
+        "label": [
+          "Early warning systems"
+        ],
+        "list_name": "management",
+        "$autovalue": "early_warning_systems"
+      },
+      {
+        "name": "evacuation_plans",
+        "$kuid": "c3mLwFOMX",
+        "label": [
+          "Evacuation plans"
+        ],
+        "list_name": "management",
+        "$autovalue": "evacuation_plans"
+      },
+      {
+        "name": "shelters",
+        "$kuid": "OyQOun11I",
+        "label": [
+          "Shelters"
+        ],
+        "list_name": "management",
+        "$autovalue": "shelters"
+      },
+      {
+        "name": "community_awareness",
+        "$kuid": "hiLOtCqiu",
+        "label": [
+          "Community awareness"
+        ],
+        "list_name": "management",
+        "$autovalue": "community_awareness"
+      },
+      {
+        "name": "preparedness_plans",
+        "$kuid": "H4AWZuAdM",
+        "label": [
+          "Preparedness plans"
+        ],
+        "list_name": "management",
+        "$autovalue": "preparedness_plans"
+      },
+      {
+        "name": "first_aid_services",
+        "$kuid": "tlkAB3Krx",
+        "label": [
+          "First aid services"
+        ],
+        "list_name": "management",
+        "$autovalue": "first_aid_services"
+      },
+      {
+        "name": "emergency_supplies",
+        "$kuid": "9e9M0ur4O",
+        "label": [
+          "Emergency supplies"
+        ],
+        "list_name": "management",
+        "$autovalue": "emergency_supplies"
+      },
+      {
+        "name": "health_facilities",
+        "$kuid": "fHXySBGzc",
+        "label": [
+          "Health facilities"
+        ],
+        "list_name": "management",
+        "$autovalue": "health_facilities"
+      },
+      {
+        "name": "local_government_support",
+        "$kuid": "PAYR6pTZg",
+        "label": [
+          "Local government support"
+        ],
+        "list_name": "management",
+        "$autovalue": "local_government_support"
+      },
+      {
+        "name": "support_from_ngos",
+        "$kuid": "RMMjzfdqh",
+        "label": [
+          "Support from NGOs"
+        ],
+        "list_name": "management",
+        "$autovalue": "support_from_ngos"
+      },
+      {
+        "name": "none",
+        "$kuid": "vkrjOEoiy",
+        "label": [
+          "None"
+        ],
+        "list_name": "management",
+        "$autovalue": "none"
+      },
+      {
+        "name": "i_do_not_know",
+        "$kuid": "VtGUtkjwJ",
+        "label": [
+          "I do not know"
+        ],
+        "list_name": "management",
+        "$autovalue": "i_do_not_know"
+      },
+      {
+        "name": "evacuation_shelters_centers",
+        "$kuid": "2XspXt3ar",
+        "label": [
+          "Evacuation shelters/centers"
+        ],
+        "list_name": "evacuate",
+        "$autovalue": "evacuation_shelters_centers"
+      },
+      {
+        "name": "schools",
+        "$kuid": "97ozyx65I",
+        "label": [
+          "Schools"
+        ],
+        "list_name": "evacuate",
+        "$autovalue": "schools"
+      },
+      {
+        "name": "community_centers",
+        "$kuid": "VnSKx39c0",
+        "label": [
+          "Community centers"
+        ],
+        "list_name": "evacuate",
+        "$autovalue": "community_centers"
+      },
+      {
+        "name": "religious_place",
+        "$kuid": "FTXNEeLzP",
+        "label": [
+          "Religious place"
+        ],
+        "list_name": "evacuate",
+        "$autovalue": "religious_place"
+      },
+      {
+        "name": "health_facility",
+        "$kuid": "RN4wonKM2",
+        "label": [
+          "Health facility"
+        ],
+        "list_name": "evacuate",
+        "$autovalue": "health_facility"
+      },
+      {
+        "name": "governmental_facility",
+        "$kuid": "VTNHExMgH",
+        "label": [
+          "Governmental facility"
+        ],
+        "list_name": "evacuate",
+        "$autovalue": "governmental_facility"
+      },
+      {
+        "name": "neighbours",
+        "$kuid": "fBBLbddS7",
+        "label": [
+          "Neighbours"
+        ],
+        "list_name": "evacuate",
+        "$autovalue": "neighbours"
+      },
+      {
+        "name": "family_home",
+        "$kuid": "qb92aeMPa",
+        "label": [
+          "Family home"
+        ],
+        "list_name": "evacuate",
+        "$autovalue": "family_home"
+      },
+      {
+        "name": "open_public_spaces",
+        "$kuid": "VupC5ka0r",
+        "label": [
+          "Open public spaces"
+        ],
+        "list_name": "evacuate",
+        "$autovalue": "open_public_spaces"
+      },
+      {
+        "name": "not_know",
+        "$kuid": "Yis2UKxx8",
+        "label": [
+          "I don’t know"
+        ],
+        "list_name": "evacuate",
+        "$autovalue": "not_know"
+      },
+      {
+        "name": "they_do_not_evacuate",
+        "$kuid": "XPpz3hzVV",
+        "label": [
+          "They do not evacuate"
+        ],
+        "list_name": "evacuate",
+        "$autovalue": "they_do_not_evacuate"
+      },
+      {
+        "name": "lack_of_income",
+        "$kuid": "sm1USwSXX",
+        "label": [
+          "Lack of income"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "lack_of_income"
+      },
+      {
+        "name": "unemployment_/_lack_of_job_opportunities",
+        "$kuid": "Nm3H8k9Ar",
+        "label": [
+          "Unemployment / lack of job opportunities"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "unemployment_/_lack_of_job_opportunities"
+      },
+      {
+        "name": "food_insecurity_/_hunger",
+        "$kuid": "CKWSujNGf",
+        "label": [
+          "Food insecurity / hunger"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "food_insecurity_/_hunger"
+      },
+      {
+        "name": "lack_of_access_to_healthcare",
+        "$kuid": "mKc93jpsJ",
+        "label": [
+          "Lack of access to healthcare"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "lack_of_access_to_healthcare"
+      },
+      {
+        "name": "poor_access_to_education",
+        "$kuid": "ib58fufMn",
+        "label": [
+          "Poor access to education"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "poor_access_to_education"
+      },
+      {
+        "name": "lack_of_clean_water",
+        "$kuid": "C9Me1YlIc",
+        "label": [
+          "Lack of clean water"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "lack_of_clean_water"
+      },
+      {
+        "name": "long_distances_to_water_points",
+        "$kuid": "rT74mWcyZ",
+        "label": [
+          "Long distances to water points"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "long_distances_to_water_points"
+      },
+      {
+        "name": "long_distances_to_health_care_facilities",
+        "$kuid": "kRfRg4n4M",
+        "label": [
+          "Long distances to health care facilities"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "long_distances_to_health_care_facilities"
+      },
+      {
+        "name": "poor_sanitation_/_hygiene",
+        "$kuid": "9FmKqlQNI",
+        "label": [
+          "Poor sanitation / hygiene"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "poor_sanitation_/_hygiene"
+      },
+      {
+        "name": "inadequate_housing",
+        "$kuid": "rR5O2Orji",
+        "label": [
+          "Inadequate housing"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "inadequate_housing"
+      },
+      {
+        "name": "crime_and_insecurity",
+        "$kuid": "aB1PRqB0E",
+        "label": [
+          "Crime and insecurity"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "crime_and_insecurity"
+      },
+      {
+        "name": "gender-based_violence",
+        "$kuid": "aHbUx1Pe1",
+        "label": [
+          "Gender-based violence"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "gender-based_violence"
+      },
+      {
+        "name": "child_protection_concerns",
+        "$kuid": "F0p9lEsnT",
+        "label": [
+          "Child protection concerns"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "child_protection_concerns"
+      },
+      {
+        "name": "substance_abuse",
+        "$kuid": "neoyllKHn",
+        "label": [
+          "Substance abuse"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "substance_abuse"
+      },
+      {
+        "name": "social_exclusion",
+        "$kuid": "JAVAoNvA2",
+        "label": [
+          "Social exclusion"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "social_exclusion"
+      },
+      {
+        "name": "domestic_violence",
+        "$kuid": "YwcFbUz5p",
+        "label": [
+          "Domestic violence"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "domestic_violence"
+      },
+      {
+        "name": "child_marriage",
+        "$kuid": "bU6lOgUml",
+        "label": [
+          "Child marriage"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "child_marriage"
+      },
+      {
+        "name": "disability-related_barriers",
+        "$kuid": "YbaH8kPQU",
+        "label": [
+          "Disability-related barriers"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "disability-related_barriers"
+      },
+      {
+        "name": "environmental_problems_/_climate-related_risks",
+        "$kuid": "5nKOzG3t6",
+        "label": [
+          "Environmental problems / climate-related risks"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "environmental_problems_/_climate-related_risks"
+      },
+      {
+        "name": "natural_disasters",
+        "$kuid": "4AXtCf9Yo",
+        "label": [
+          "Natural disasters"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "natural_disasters"
+      },
+      {
+        "name": "lack_of_access_to_social_services",
+        "$kuid": "9Sdo3TnGI",
+        "label": [
+          "Lack of access to social services"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "lack_of_access_to_social_services"
+      },
+      {
+        "name": "political_or_community_conflict",
+        "$kuid": "w89VAihQy",
+        "label": [
+          "Political or community conflict"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "political_or_community_conflict"
+      },
+      {
+        "name": "lack_of_information_or_awareness",
+        "$kuid": "GptKS366Z",
+        "label": [
+          "Lack of information or awareness"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "lack_of_information_or_awareness"
+      },
+      {
+        "name": "ethnic_tensions",
+        "$kuid": "sp2MOYZwz",
+        "label": [
+          "Ethnic tensions"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "ethnic_tensions"
+      },
+      {
+        "name": "none",
+        "$kuid": "uSCM6SEuV",
+        "label": [
+          "None"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "none"
+      },
+      {
+        "name": "i_dont_know1",
+        "$kuid": "iThV7Y3qO",
+        "label": [
+          "I don’t know"
+        ],
+        "list_name": "vulnerabilities",
+        "$autovalue": "i_dont_know1"
+      },
+      {
+        "name": "biological",
+        "$kuid": "PhDxVkFZt",
+        "label": [
+          "Biological"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "biological"
+      },
+      {
+        "name": "chemical",
+        "$kuid": "rYN8vFhyJ",
+        "label": [
+          "Chemical"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "chemical"
+      },
+      {
+        "name": "civil_unrest",
+        "$kuid": "WPansuR1D",
+        "label": [
+          "Civil Unrest"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "civil_unrest"
+      },
+      {
+        "name": "cold_wave",
+        "$kuid": "DhCSmdQEu",
+        "label": [
+          "Cold Wave"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "cold_wave"
+      },
+      {
+        "name": "cyclone",
+        "$kuid": "uqmyfAUiM",
+        "label": [
+          "Cyclone"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "cyclone"
+      },
+      {
+        "name": "drought",
+        "$kuid": "DJ5Ar9fzH",
+        "label": [
+          "Drought"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "drought"
+      },
+      {
+        "name": "earthquake",
+        "$kuid": "bwzcEfK2L",
+        "label": [
+          "Earthquake"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "earthquake"
+      },
+      {
+        "name": "epidemic",
+        "$kuid": "0F4SfFlbI",
+        "label": [
+          "Epidemic"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "epidemic"
+      },
+      {
+        "name": "fire",
+        "$kuid": "SuWSFJSp3",
+        "label": [
+          "Fire"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "fire"
+      },
+      {
+        "name": "flood",
+        "$kuid": "SMkpr5iZ8",
+        "label": [
+          "Flood"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "flood"
+      },
+      {
+        "name": "food_insecurity",
+        "$kuid": "FYwssuWod",
+        "label": [
+          "Food Insecurity"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "food_insecurity"
+      },
+      {
+        "name": "heat_wave",
+        "$kuid": "BNwPF0Yy7",
+        "label": [
+          "Heat Wave"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "heat_wave"
+      },
+      {
+        "name": "insect_infestation",
+        "$kuid": "2YOTWvrfo",
+        "label": [
+          "Insect Infestation"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "insect_infestation"
+      },
+      {
+        "name": "landslide",
+        "$kuid": "jCcB29ReH",
+        "label": [
+          "Landslide"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "landslide"
+      },
+      {
+        "name": "pluvial/flash_flood",
+        "$kuid": "jS4xdSGKp",
+        "label": [
+          "Pluvial/Flash Flood"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "pluvial/flash_flood"
+      },
+      {
+        "name": "population_movement",
+        "$kuid": "CW8Mo4qYv",
+        "label": [
+          "Population Movement"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "population_movement"
+      },
+      {
+        "name": "radiological",
+        "$kuid": "c63r3l6N5",
+        "label": [
+          "Radiological"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "radiological"
+      },
+      {
+        "name": "storm_surge",
+        "$kuid": "0jA7HpdC8",
+        "label": [
+          "Storm Surge"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "storm_surge"
+      },
+      {
+        "name": "transport_accident",
+        "$kuid": "kqEnogrW5",
+        "label": [
+          "Transport Accident"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "transport_accident"
+      },
+      {
+        "name": "transport_emergency",
+        "$kuid": "80aE9eD0o",
+        "label": [
+          "Transport Emergency"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "transport_emergency"
+      },
+      {
+        "name": "tsunami",
+        "$kuid": "DlCygv1Ek",
+        "label": [
+          "Tsunami"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "tsunami"
+      },
+      {
+        "name": "volcanic_eruption",
+        "$kuid": "GMKv5pZpq",
+        "label": [
+          "Volcanic Eruption"
+        ],
+        "list_name": "hazards",
+        "$autovalue": "volcanic_eruption"
+      },
+      {
+        "name": "age_(young_children_or_older_persons)",
+        "$kuid": "T3pXu8iRA",
+        "label": [
+          "Age (young children or older persons)"
+        ],
+        "list_name": "groups",
+        "$autovalue": "age_(young_children_or_older_persons)"
+      },
+      {
+        "name": "disability_or_limited_mobility",
+        "$kuid": "oHAGvBJnD",
+        "label": [
+          "Disability or limited mobility"
+        ],
+        "list_name": "groups",
+        "$autovalue": "disability_or_limited_mobility"
+      },
+      {
+        "name": "poor_health_or_chronic_illness",
+        "$kuid": "b0UST1AO9",
+        "label": [
+          "Poor health or chronic illness"
+        ],
+        "list_name": "groups",
+        "$autovalue": "poor_health_or_chronic_illness"
+      },
+      {
+        "name": "pregnancy_or_breastfeeding",
+        "$kuid": "zLpdKDxwy",
+        "label": [
+          "Pregnancy or breastfeeding"
+        ],
+        "list_name": "groups",
+        "$autovalue": "pregnancy_or_breastfeeding"
+      },
+      {
+        "name": "low_household_income",
+        "$kuid": "U3mpCLtIc",
+        "label": [
+          "Low household income"
+        ],
+        "list_name": "groups",
+        "$autovalue": "low_household_income"
+      },
+      {
+        "name": "limited_access_to_food_and_water",
+        "$kuid": "CIo8paRu0",
+        "label": [
+          "Limited access to food and water"
+        ],
+        "list_name": "groups",
+        "$autovalue": "limited_access_to_food_and_water"
+      },
+      {
+        "name": "limited_access_to_healthcare",
+        "$kuid": "apYYgT4r7",
+        "label": [
+          "Limited access to healthcare"
+        ],
+        "list_name": "groups",
+        "$autovalue": "limited_access_to_healthcare"
+      },
+      {
+        "name": "limited_access_to_information_and_early_warnings",
+        "$kuid": "LnEY9sfXp",
+        "label": [
+          "Limited access to information and early warnings"
+        ],
+        "list_name": "groups",
+        "$autovalue": "limited_access_to_information_and_early_warnings"
+      },
+      {
+        "name": "limited_access_to_transportation",
+        "$kuid": "NFI4FNQVi",
+        "label": [
+          "Limited access to transportation"
+        ],
+        "list_name": "groups",
+        "$autovalue": "limited_access_to_transportation"
+      },
+      {
+        "name": "living_in_high-risk_areas",
+        "$kuid": "RSrEdcqyk",
+        "label": [
+          "Living in high-risk areas"
+        ],
+        "list_name": "groups",
+        "$autovalue": "living_in_high-risk_areas"
+      },
+      {
+        "name": "poor_housing_or_weak_infrastructure",
+        "$kuid": "B2FSCgrvx",
+        "label": [
+          "Poor housing or weak infrastructure"
+        ],
+        "list_name": "groups",
+        "$autovalue": "poor_housing_or_weak_infrastructure"
+      },
+      {
+        "name": "limited_social_support_/_isolation",
+        "$kuid": "UdrumJXgB",
+        "label": [
+          "Limited social support / isolation"
+        ],
+        "list_name": "groups",
+        "$autovalue": "limited_social_support_/_isolation"
+      },
+      {
+        "name": "lack_of_education_or_awareness",
+        "$kuid": "VM6aFk2wR",
+        "label": [
+          "Lack of education or awareness"
+        ],
+        "list_name": "groups",
+        "$autovalue": "lack_of_education_or_awareness"
+      },
+      {
+        "name": "dependence_on_natural_resources_for_livelihoods",
+        "$kuid": "LoQWxayNC",
+        "label": [
+          "Dependence on natural resources for livelihoods"
+        ],
+        "list_name": "groups",
+        "$autovalue": "dependence_on_natural_resources_for_livelihoods"
+      },
+      {
+        "name": "limited_savings_or_financial_resources",
+        "$kuid": "tqPWRDp4s",
+        "label": [
+          "Limited savings or financial resources"
+        ],
+        "list_name": "groups",
+        "$autovalue": "limited_savings_or_financial_resources"
+      },
+      {
+        "name": "gender-related_factors",
+        "$kuid": "FbAI1Lvj3",
+        "label": [
+          "Gender-related factors"
+        ],
+        "list_name": "groups",
+        "$autovalue": "gender-related_factors"
+      },
+      {
+        "name": "displacement_or_lack_of_secure_housing",
+        "$kuid": "D6DKrwgTt",
+        "label": [
+          "Displacement or lack of secure housing"
+        ],
+        "list_name": "groups",
+        "$autovalue": "displacement_or_lack_of_secure_housing"
+      },
+      {
+        "name": "language_or_communication_barriers",
+        "$kuid": "DtoZOQJ5V",
+        "label": [
+          "Language or communication barriers"
+        ],
+        "list_name": "groups",
+        "$autovalue": "language_or_communication_barriers"
+      },
+      {
+        "name": "conflict_or_insecurity",
+        "$kuid": "VZR2ner9z",
+        "label": [
+          "Conflict or insecurity"
+        ],
+        "list_name": "groups",
+        "$autovalue": "conflict_or_insecurity"
+      },
+      {
+        "name": "social_exclusion",
+        "$kuid": "6dka8oZiu",
+        "label": [
+          "Social exclusion"
+        ],
+        "list_name": "groups",
+        "$autovalue": "social_exclusion"
+      },
+      {
+        "name": "significant",
+        "$kuid": "ImCW5N3Qt",
+        "label": [
+          "Yes, significant differences"
+        ],
+        "list_name": "differences",
+        "$autovalue": "significant"
+      },
+      {
+        "name": "some",
+        "$kuid": "k3hkzHkVa",
+        "label": [
+          "Yes, some differences"
+        ],
+        "list_name": "differences",
+        "$autovalue": "some"
+      },
+      {
+        "name": "no",
+        "$kuid": "HiyP9A0uX",
+        "label": [
+          "No significant differences"
+        ],
+        "list_name": "differences",
+        "$autovalue": "no"
+      },
+      {
+        "name": "dontknow",
+        "$kuid": "XdyTUzP6N",
+        "label": [
+          "I don’t know"
+        ],
+        "list_name": "differences",
+        "$autovalue": "dontknow"
+      },
+      {
+        "name": "na",
+        "$kuid": "9Ietubql1",
+        "label": [
+          "Not applicable"
+        ],
+        "list_name": "differences",
+        "$autovalue": "na"
+      },
+      {
+        "name": "not_at_all",
+        "$kuid": "xJU5UElwQ",
+        "label": [
+          "Not at all"
+        ],
+        "list_name": "extent",
+        "$autovalue": "not_at_all"
+      },
+      {
+        "name": "to_a_small_extent",
+        "$kuid": "GRCbr6jyP",
+        "label": [
+          "To a small extent"
+        ],
+        "list_name": "extent",
+        "$autovalue": "to_a_small_extent"
+      },
+      {
+        "name": "to_a_moderate_extent",
+        "$kuid": "8cLvRL6RZ",
+        "label": [
+          "To a moderate extent"
+        ],
+        "list_name": "extent",
+        "$autovalue": "to_a_moderate_extent"
+      },
+      {
+        "name": "to_a_large_extent",
+        "$kuid": "SnAj12EP2",
+        "label": [
+          "To a large extent"
+        ],
+        "list_name": "extent",
+        "$autovalue": "to_a_large_extent"
+      },
+      {
+        "name": "to_a_very_large_extent",
+        "$kuid": "XQXtXPnQN",
+        "label": [
+          "To a very large extent"
+        ],
+        "list_name": "extent",
+        "$autovalue": "to_a_very_large_extent"
+      },
+      {
+        "name": "i_don_’_t_know",
+        "$kuid": "7twY2UKws",
+        "label": [
+          "I don’t know"
+        ],
+        "list_name": "extent",
+        "$autovalue": "i_don_’_t_know"
+      },
+      {
+        "name": "strong_community_networks_and_relationships",
+        "$kuid": "YrEvK5hmI",
+        "label": [
+          "Strong community networks and relationships"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "strong_community_networks_and_relationships"
+      },
+      {
+        "name": "community_groups_and_associations",
+        "$kuid": "jbBLAyO4b",
+        "label": [
+          "Community groups and associations"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "community_groups_and_associations"
+      },
+      {
+        "name": "community_leaders_who_bring_people_together",
+        "$kuid": "uufZnFpYN",
+        "label": [
+          "Community leaders who bring people together"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "community_leaders_who_bring_people_together"
+      },
+      {
+        "name": "regular_community_meetings_and_dialogue",
+        "$kuid": "7vbrPthE5",
+        "label": [
+          "Regular community meetings and dialogue"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "regular_community_meetings_and_dialogue"
+      },
+      {
+        "name": "mutual_support_among_households",
+        "$kuid": "XiuWlZW2d",
+        "label": [
+          "Mutual support among households"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "mutual_support_among_households"
+      },
+      {
+        "name": "community_members_help_vulnerable_groups",
+        "$kuid": "4H0HP1oro",
+        "label": [
+          "Community members help vulnerable groups"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "community_members_help_vulnerable_groups"
+      },
+      {
+        "name": "collective_action_during_emergencies",
+        "$kuid": "1QJjapakX",
+        "label": [
+          "Collective action during emergencies"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "collective_action_during_emergencies"
+      },
+      {
+        "name": "community_conflict-resolution_mechanisms",
+        "$kuid": "LppBZLppB",
+        "label": [
+          "Community conflict-resolution mechanisms"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "community_conflict-resolution_mechanisms"
+      },
+      {
+        "name": "trust_among_community_members",
+        "$kuid": "X17CUTUu5",
+        "label": [
+          "Trust among community members"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "trust_among_community_members"
+      },
+      {
+        "name": "cooperation_between_different_ethnic/cultural_groups",
+        "$kuid": "k264NBb3J",
+        "label": [
+          "Cooperation between different ethnic/cultural groups"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "cooperation_between_different_ethnic/cultural_groups"
+      },
+      {
+        "name": "cooperation_between_different_religious_groups",
+        "$kuid": "ChKgBOigs",
+        "label": [
+          "Cooperation between different religious groups"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "cooperation_between_different_religious_groups"
+      },
+      {
+        "name": "youth_and_women’s_participation_in_community_activities",
+        "$kuid": "XLCsibN2k",
+        "label": [
+          "Youth and women’s participation in community activities"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "youth_and_women’s_participation_in_community_activities"
+      },
+      {
+        "name": "community_volunteer_groups",
+        "$kuid": "L7A0OQDeX",
+        "label": [
+          "Community volunteer groups"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "community_volunteer_groups"
+      },
+      {
+        "name": "shared_community_resources_and_facilities",
+        "$kuid": "7muNqjs51",
+        "label": [
+          "Shared community resources and facilities"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "shared_community_resources_and_facilities"
+      },
+      {
+        "name": "strong_communication_and_information-sharing_networks",
+        "$kuid": "abQgn4jHe",
+        "label": [
+          "Strong communication and information-sharing networks"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "strong_communication_and_information-sharing_networks"
+      },
+      {
+        "name": "traditional/community_structures_that_promote_unity",
+        "$kuid": "Kz3N16OMA",
+        "label": [
+          "Traditional/community structures that promote unity"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "traditional/community_structures_that_promote_unity"
+      },
+      {
+        "name": "support_from_local_government,_ngos,_or_community-based_organizations",
+        "$kuid": "YBU6049VM",
+        "label": [
+          "Support from local government, NGOs, or community-based organizations"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "support_from_local_government,_ngos,_or_community-based_organizations"
+      },
+      {
+        "name": "no_significant_social_cohesion_capacities",
+        "$kuid": "IBphk0lSH",
+        "label": [
+          "No significant social cohesion capacities"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "no_significant_social_cohesion_capacities"
+      },
+      {
+        "name": "dont_know2",
+        "$kuid": "evZeikhGn",
+        "label": [
+          "Don’t know"
+        ],
+        "list_name": "cohesion",
+        "$autovalue": "dont_know2"
+      },
+      {
+        "name": "lack_of_trust_among_community_members",
+        "$kuid": "JtpukwmOD",
+        "label": [
+          "Lack of trust among community members"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "lack_of_trust_among_community_members"
+      },
+      {
+        "name": "weak_community_networks_and_relationships",
+        "$kuid": "qHFGnF6s9",
+        "label": [
+          "Weak community networks and relationships"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "weak_community_networks_and_relationships"
+      },
+      {
+        "name": "limited_participation_in_community_activities",
+        "$kuid": "4ceh64pCa",
+        "label": [
+          "Limited participation in community activities"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "limited_participation_in_community_activities"
+      },
+      {
+        "name": "conflicts_between_community_members",
+        "$kuid": "6X4QpTQjH",
+        "label": [
+          "Conflicts between community members"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "conflicts_between_community_members"
+      },
+      {
+        "name": "ethnic_or_cultural_tensions",
+        "$kuid": "cDb1axYKY",
+        "label": [
+          "Ethnic or cultural tensions"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "ethnic_or_cultural_tensions"
+      },
+      {
+        "name": "religious_tensions",
+        "$kuid": "cyvEkhbuU",
+        "label": [
+          "Religious tensions"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "religious_tensions"
+      },
+      {
+        "name": "political_tensions_or_divisions",
+        "$kuid": "3dlwSyNGQ",
+        "label": [
+          "Political tensions or divisions"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "political_tensions_or_divisions"
+      },
+      {
+        "name": "gender-based_discrimination_or_exclusion",
+        "$kuid": "JmgxdVCNJ",
+        "label": [
+          "Gender-based discrimination or exclusion"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "gender-based_discrimination_or_exclusion"
+      },
+      {
+        "name": "exclusion_of_youth_from_decision-making",
+        "$kuid": "UP8tS0RPT",
+        "label": [
+          "Exclusion of youth from decision-making"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "exclusion_of_youth_from_decision-making"
+      },
+      {
+        "name": "exclusion_of_women_from_decision-making",
+        "$kuid": "zgFBAANtL",
+        "label": [
+          "Exclusion of women from decision-making"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "exclusion_of_women_from_decision-making"
+      },
+      {
+        "name": "exclusion_of_persons_with_disabilities_or_other_vulnerable_groups",
+        "$kuid": "i4CKZZYgT",
+        "label": [
+          "Exclusion of persons with disabilities or other vulnerable groups"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "exclusion_of_persons_with_disabilities_or_other_vulnerable_groups"
+      },
+      {
+        "name": "weak_or_ineffective_community_leadership",
+        "$kuid": "bvLE2Sjha",
+        "label": [
+          "Weak or ineffective community leadership"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "weak_or_ineffective_community_leadership"
+      },
+      {
+        "name": "limited_community_dialogue_and_communication",
+        "$kuid": "mJ7QR7k37",
+        "label": [
+          "Limited community dialogue and communication"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "limited_community_dialogue_and_communication"
+      },
+      {
+        "name": "lack_of_effective_conflict-resolution_mechanisms",
+        "$kuid": "YfYhhMprY",
+        "label": [
+          "Lack of effective conflict-resolution mechanisms"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "lack_of_effective_conflict-resolution_mechanisms"
+      },
+      {
+        "name": "poor_information_sharing_and_communication",
+        "$kuid": "7o8vYbk8B",
+        "label": [
+          "Poor information sharing and communication"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "poor_information_sharing_and_communication"
+      },
+      {
+        "name": "competition_over_resources_and_services",
+        "$kuid": "sdFaYrdZX",
+        "label": [
+          "Competition over resources and services"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "competition_over_resources_and_services"
+      },
+      {
+        "name": "economic_inequality",
+        "$kuid": "MP6flbBT4",
+        "label": [
+          "Economic inequality"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "economic_inequality"
+      },
+      {
+        "name": "limited_support_from_government_or_local_institutions",
+        "$kuid": "6cRYioZyg",
+        "label": [
+          "Limited support from government or local institutions"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "limited_support_from_government_or_local_institutions"
+      },
+      {
+        "name": "limited_support_from_ngos",
+        "$kuid": "0w8Wv2AQm",
+        "label": [
+          "Limited support from NGOs"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "limited_support_from_ngos"
+      },
+      {
+        "name": "misinformation_or_rumours",
+        "$kuid": "7F3TpxXAQ",
+        "label": [
+          "Misinformation or rumours"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "misinformation_or_rumours"
+      },
+      {
+        "name": "fear_or_insecurity_within_the_community",
+        "$kuid": "QKWDmzZfj",
+        "label": [
+          "Fear or insecurity within the community"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "fear_or_insecurity_within_the_community"
+      },
+      {
+        "name": "social_isolation_of_some_households/groups",
+        "$kuid": "cdRWQasFV",
+        "label": [
+          "Social isolation of some households/groups"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "social_isolation_of_some_households/groups"
+      },
+      {
+        "name": "no_significant_vulnerabilities",
+        "$kuid": "UDgbBx9Xp",
+        "label": [
+          "No significant vulnerabilities"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "no_significant_vulnerabilities"
+      },
+      {
+        "name": "i_dont_know3",
+        "$kuid": "FLNu6YCp5",
+        "label": [
+          "I don’t know"
+        ],
+        "list_name": "gaps",
+        "$autovalue": "i_dont_know3"
+      },
+      {
+        "name": "hh",
+        "$kuid": "OYjOYYSXQ",
+        "label": [
+          "Household Survey"
+        ],
+        "list_name": "interview_type",
+        "$autovalue": "hh"
+      },
+      {
+        "name": "fgd",
+        "$kuid": "gtNrEPG58",
+        "label": [
+          "Focused Group Discussion (FGD)"
+        ],
+        "list_name": "interview_type",
+        "$autovalue": "fgd"
+      },
+      {
+        "name": "kii",
+        "$kuid": "nYIPQ9RDi",
+        "label": [
+          "Key Informant Interview (KII)"
+        ],
+        "list_name": "interview_type",
+        "$autovalue": "kii"
+      },
+      {
+        "name": "women",
+        "$kuid": "xd4rHN3kr",
+        "label": [
+          "Women"
+        ],
+        "list_name": "fgd_group",
+        "$autovalue": "women"
+      },
+      {
+        "name": "men",
+        "$kuid": "PQvW3Qvz5",
+        "label": [
+          "Men"
+        ],
+        "list_name": "fgd_group",
+        "$autovalue": "men"
+      },
+      {
+        "name": "youth",
+        "$kuid": "PD1bRyGfq",
+        "label": [
+          "Youth"
+        ],
+        "list_name": "fgd_group",
+        "$autovalue": "youth"
+      },
+      {
+        "name": "pwd",
+        "$kuid": "pcCInCa8P",
+        "label": [
+          "Persons with Disabilities"
+        ],
+        "list_name": "fgd_group",
+        "$autovalue": "pwd"
+      },
+      {
+        "name": "mixed_group",
+        "$kuid": "0GT79Jdre",
+        "label": [
+          "Mixed Group"
+        ],
+        "list_name": "fgd_group",
+        "$autovalue": "mixed_group"
+      },
+      {
+        "name": "host",
+        "$kuid": "w8NRPZjWV",
+        "label": [
+          "Host community (not displaced)"
+        ],
+        "list_name": "displacement",
+        "$autovalue": "host"
+      },
+      {
+        "name": "idp",
+        "$kuid": "lLKEyN19C",
+        "label": [
+          "Internally displaced person (IDP)"
+        ],
+        "list_name": "displacement",
+        "$autovalue": "idp"
+      },
+      {
+        "name": "refugee",
+        "$kuid": "WXbliAFzA",
+        "label": [
+          "Refugee"
+        ],
+        "list_name": "displacement",
+        "$autovalue": "refugee"
+      },
+      {
+        "name": "returnee",
+        "$kuid": "vrqiDeOhk",
+        "label": [
+          "Returnee"
+        ],
+        "list_name": "displacement",
+        "$autovalue": "returnee"
+      }
+    ],
+    "settings": {
+      "style": "theme-grid no-text-transform"
+    },
+    "translated": [
+      "hint",
+      "label",
+      "media::image"
+    ],
+    "translations": [
+      null
+    ]
+  },
+  "downloads": [
+    {
+      "format": "xls",
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/?format=json.xls"
+    },
+    {
+      "format": "xml",
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/?format=json.xml"
+    }
+  ],
+  "embeds": [
+    {
+      "format": "xls",
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/xls/?format=json"
+    },
+    {
+      "format": "xform",
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/xform/?format=json"
+    }
+  ],
+  "analysis_form_json": {
+    "additional_fields": [
+      {
+        "language": "ar",
+        "source": "fgd_section/fgd_audio",
+        "type": "transcript",
+        "name": "fgd_section/fgd_audio/transcript_ar",
+        "dtpath": "fgd_section/fgd_audio/transcript_ar"
+      },
+      {
+        "language": "ar",
+        "source": "kii_section/kii_audio",
+        "type": "transcript",
+        "name": "kii_section/kii_audio/transcript_ar",
+        "dtpath": "kii_section/kii_audio/transcript_ar"
+      },
+      {
+        "language": "ar",
+        "source": "fgd_section/fgd_audio",
+        "type": "translation",
+        "name": "fgd_section/fgd_audio/translation_ar",
+        "dtpath": "fgd_section/fgd_audio/translation_ar"
+      },
+      {
+        "language": "en",
+        "source": "fgd_section/fgd_audio",
+        "type": "translation",
+        "name": "fgd_section/fgd_audio/translation_en",
+        "dtpath": "fgd_section/fgd_audio/translation_en"
+      }
+    ]
+  },
+  "xform_link": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/xform/?format=json",
+  "hooks_link": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/hooks/?format=json",
+  "tag_string": "",
+  "uid": "ahgoubajfpmudsusw2f88P",
+  "kind": "asset",
+  "xls_link": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/xls/?format=json",
+  "name": "Community Centered Humanitarian Analysis - Survey",
+  "assignable_permissions": [
+    {
+      "url": "https://kobo.ifrc.org/api/v2/permissions/view_asset/?format=json",
+      "label": "View form"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/permissions/change_asset/?format=json",
+      "label": "Edit form"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/permissions/manage_asset/?format=json",
+      "label": "Manage project"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/permissions/add_submissions/?format=json",
+      "label": "Add submissions"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/permissions/view_submissions/?format=json",
+      "label": "View submissions"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/permissions/partial_submissions/?format=json",
+      "label": {
+        "default": "Act on submissions only from specific users",
+        "view_submissions": "View submissions only from specific users",
+        "change_submissions": "Edit submissions only from specific users",
+        "delete_submissions": "Delete submissions only from specific users",
+        "validate_submissions": "Validate submissions only from specific users"
+      }
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/permissions/change_submissions/?format=json",
+      "label": "Edit submissions"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/permissions/delete_submissions/?format=json",
+      "label": "Delete submissions"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/permissions/validate_submissions/?format=json",
+      "label": "Validate submissions"
+    }
+  ],
+  "permissions": [
+    {
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/permission-assignments/pPxN7FjMHoQv65ppLFWQV6/?format=json",
+      "user": "https://kobo.ifrc.org/api/v2/users/AnonymousUser/?format=json",
+      "permission": "https://kobo.ifrc.org/api/v2/permissions/add_submissions/?format=json",
+      "label": "Add submissions"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/permission-assignments/pSp7fXJZ94waESiVMghgmc/?format=json",
+      "user": "https://kobo.ifrc.org/api/v2/users/imafrica/?format=json",
+      "permission": "https://kobo.ifrc.org/api/v2/permissions/add_submissions/?format=json",
+      "label": "Add submissions"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/permission-assignments/p23guMgw9o8QQLszWdLmKZ/?format=json",
+      "user": "https://kobo.ifrc.org/api/v2/users/imafrica/?format=json",
+      "permission": "https://kobo.ifrc.org/api/v2/permissions/change_asset/?format=json",
+      "label": "Edit form"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/permission-assignments/py7rhHTxAMzkrCA27QqUNZ/?format=json",
+      "user": "https://kobo.ifrc.org/api/v2/users/imafrica/?format=json",
+      "permission": "https://kobo.ifrc.org/api/v2/permissions/change_submissions/?format=json",
+      "label": "Edit submissions"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/permission-assignments/pefzWc4aQrd9SyXj5Ah3at/?format=json",
+      "user": "https://kobo.ifrc.org/api/v2/users/imafrica/?format=json",
+      "permission": "https://kobo.ifrc.org/api/v2/permissions/delete_submissions/?format=json",
+      "label": "Delete submissions"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/permission-assignments/pePpGrvN3Mzr86U3i78u5W/?format=json",
+      "user": "https://kobo.ifrc.org/api/v2/users/imafrica/?format=json",
+      "permission": "https://kobo.ifrc.org/api/v2/permissions/manage_asset/?format=json",
+      "label": "Manage project"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/permission-assignments/pDS9RjbFWJPWjqmk9fWz42/?format=json",
+      "user": "https://kobo.ifrc.org/api/v2/users/imafrica/?format=json",
+      "permission": "https://kobo.ifrc.org/api/v2/permissions/validate_submissions/?format=json",
+      "label": "Validate submissions"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/permission-assignments/p4C8sKnuvVtqagqvkp2KYY/?format=json",
+      "user": "https://kobo.ifrc.org/api/v2/users/imafrica/?format=json",
+      "permission": "https://kobo.ifrc.org/api/v2/permissions/view_asset/?format=json",
+      "label": "View form"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/permission-assignments/puwMX2DgXkAgg3q3JQ9wmd/?format=json",
+      "user": "https://kobo.ifrc.org/api/v2/users/imafrica/?format=json",
+      "permission": "https://kobo.ifrc.org/api/v2/permissions/view_submissions/?format=json",
+      "label": "View submissions"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/permission-assignments/pHNFQ5DSHiEQ4UXjjKQUvs/?format=json",
+      "user": "https://kobo.ifrc.org/api/v2/users/urcs_im/?format=json",
+      "permission": "https://kobo.ifrc.org/api/v2/permissions/view_asset/?format=json",
+      "label": "View form"
+    },
+    {
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/permission-assignments/pj3KPbkejssxji74cyhyjq/?format=json",
+      "user": "https://kobo.ifrc.org/api/v2/users/urcs_im/?format=json",
+      "permission": "https://kobo.ifrc.org/api/v2/permissions/view_submissions/?format=json",
+      "label": "View submissions"
+    }
+  ],
+  "effective_permissions": [
+    {
+      "codename": "change_submissions"
+    },
+    {
+      "codename": "change_asset"
+    },
+    {
+      "codename": "manage_asset"
+    },
+    {
+      "codename": "view_submissions"
+    },
+    {
+      "codename": "validate_submissions"
+    },
+    {
+      "codename": "view_asset"
+    },
+    {
+      "codename": "delete_submissions"
+    },
+    {
+      "codename": "delete_asset"
+    },
+    {
+      "codename": "add_submissions"
+    }
+  ],
+  "exports": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/exports/?format=json",
+  "export_settings": [
+    {
+      "uid": "esSH79Y62WFv9EXESuvtNcn",
+      "url": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/export-settings/esSH79Y62WFv9EXESuvtNcn/?format=json",
+      "data_url_csv": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/export-settings/esSH79Y62WFv9EXESuvtNcn/data.csv?format=json",
+      "data_url_xlsx": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/export-settings/esSH79Y62WFv9EXESuvtNcn/data.xlsx?format=json",
+      "name": "",
+      "date_modified": "2026-11-11T06:09:50.041298Z",
+      "export_settings": {
+        "lang": "_default",
+        "type": "xls",
+        "query": {},
+        "fields": [
+          "start_time",
+          "end_time",
+          "today_date",
+          "interview_type",
+          "g_meta/enum_name",
+          "g_meta/consent",
+          "g_meta/data_privacy",
+          "g_meta/consent_refused",
+          "interview_start/country",
+          "interview_start/admin1",
+          "interview_start/admin2",
+          "interview_start/hh_gps",
+          "demographics/hh_head",
+          "demographics/child_hh_head",
+          "demographics/who_hh_head",
+          "demographics/gender",
+          "demographics/age",
+          "demographics/hh_composition",
+          "demographics/hh_demographics",
+          "hazards/meaning_hazard",
+          "hazards/hazards_experience",
+          "hazards/hazard_kind",
+          "hazards/hazard_details/hazard_name",
+          "hazards/hazard_details/hazard_number",
+          "hazards/hazard_details/hazard_header",
+          "hazards/hazard_details/hazard_occurence",
+          "hazards/hazard_details/hazard_events",
+          "hazards/hazard_details/hazard_impact",
+          "hazards/hazard_affected_groups",
+          "hazards/hazard_cause",
+          "hazards/hazard_measures",
+          "hazards/hazard_management",
+          "hazards/hazard_evacuate",
+          "vulnerability/meaning_vulnerability",
+          "vulnerability/vulnerabilities_believe",
+          "vulnerability/vulnerabilities_group",
+          "vulnerability/vulnerabilities_differences",
+          "vulnerability/vulnerabilities_elaborate",
+          "coping_capacities/meaning_coping",
+          "coping_capacities/coping_challenges_repeat/coping_hazard_name",
+          "coping_capacities/coping_challenges_repeat/coping_hazard_number",
+          "coping_capacities/coping_challenges_repeat/coping_hazard_header",
+          "coping_capacities/coping_challenges_repeat/coping_challenges",
+          "coping_capacities/coping_extent",
+          "coping_capacities/coping_cohesion",
+          "coping_capacities/coping_gaps",
+          "fgd_section/fgd_consent",
+          "fgd_section/fgd_target_group",
+          "fgd_section/fgd_audio",
+          "fgd_section/fgd_no_consent",
+          "kii_section/kii_consent",
+          "kii_section/kii_role",
+          "kii_section/kii_years_community",
+          "kii_section/kii_displacement_status",
+          "kii_section/kii_audio",
+          "kii_section/kii_no_consent",
+          "_uuid"
+        ],
+        "group_sep": "/",
+        "multiple_select": "both",
+        "include_media_url": true,
+        "xls_types_as_text": false,
+        "hierarchy_in_labels": false,
+        "fields_from_all_versions": true
+      }
+    }
+  ],
+  "data": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/data/?format=json",
+  "children": {
+    "count": 0
+  },
+  "subscribers_count": 0,
+  "status": "shared",
+  "access_types": null,
+  "data_sharing": {},
+  "paired_data": "https://kobo.ifrc.org/api/v2/assets/ahgoubajfpmudsusw2f88P/paired-data/?format=json",
+  "project_ownership": null,
+  "owner_label": "imafrica",
+  "last_modified_by": "imafrica",
+  "created_by": "imafrica"
+}

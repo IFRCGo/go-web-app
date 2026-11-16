@@ -116,6 +116,11 @@ services:
       # defaults to staging; production wants IFRC GO OIDC credentials.
       IFRC_API_TOKEN: ${IFRC_API_TOKEN:-}
       MONTANDON_STAC_URL: ${MONTANDON_STAC_URL:-}
+      # Kobo: the account token, and one named key per form pulled.
+      KOBO_URL: ${KOBO_URL:-}
+      KOBO_TOKEN: ${KOBO_TOKEN:-}
+      HSPs_FORM_ID: ${HSPs_FORM_ID:-}
+      UGANDA_CCHA_FORM_ID: ${UGANDA_CCHA_FORM_ID:-}
 
       # The basemap drawn under the dashboard: the shared IFRC GO style on
       # Mapbox, whose defaults are the public values published by GO itself

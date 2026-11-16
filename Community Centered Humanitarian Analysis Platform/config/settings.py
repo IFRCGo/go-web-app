@@ -117,6 +117,16 @@ IFRC_API_TOKEN = os.environ.get("IFRC_API_TOKEN") or ""
 MONTANDON_STAC_URL = (os.environ.get("MONTANDON_STAC_URL")
                       or "https://montandon-eoapi-stage.ifrc.org/stac")
 
+# Kobo (kobo.ifrc.org): one account token, and one named key per form. A form
+# is named, not numbered, so the .env says which form it is: HSPs_FORM_ID is the
+# Humanitarian Service Point mapping form, UGANDA_CCHA_FORM_ID the Uganda
+# primary data collection. The env name keeps George's spelling ("HSPs"); the
+# setting is upper-case like every other.
+KOBO_URL = (os.environ.get("KOBO_URL") or "https://kobo.ifrc.org").rstrip("/")
+KOBO_TOKEN = os.environ.get("KOBO_TOKEN") or ""
+HSPS_FORM_ID = os.environ.get("HSPs_FORM_ID") or ""
+UGANDA_CCHA_FORM_ID = os.environ.get("UGANDA_CCHA_FORM_ID") or ""
+
 
 def env_paths(name: str, default: list) -> list:
     """A path-separator list from the environment, falling back when empty.

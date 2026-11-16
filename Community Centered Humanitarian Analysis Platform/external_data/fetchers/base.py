@@ -27,7 +27,7 @@ from django.conf import settings
 from external_data.fetchers import fetcher_for  # noqa: F401  (re-exported)
 
 # Every setting whose value must never appear in a log line or an error message.
-SECRET_SETTINGS = ("IPC_API_KEY", "HDX_API_TOKEN", "IFRC_API_TOKEN")
+SECRET_SETTINGS = ("IPC_API_KEY", "HDX_API_TOKEN", "IFRC_API_TOKEN", "KOBO_TOKEN")
 
 # How far BEHIND the watermark a narrowed request starts.
 #
@@ -84,6 +84,10 @@ class Call:
     # It lives on the Call for the same reason `paginated` and `method` do:
     # what an endpoint serves is the fetcher's knowledge, not the runner's.
     format: str = "json"
+    # HOW a paginated GET pages. 'offset' is HAPI's: the pager builds the next
+    # offset itself. 'next_url' is Kobo's: the server hands back a complete
+    # `next` URL, start and limit included, and it is followed verbatim.
+    pager: str = "offset"
 
 
 class Fetcher:
@@ -144,11 +148,16 @@ def redact(text):
     return out
 
 
-def http_get_json(url, params, timeout=60):
-    """GET and decode, or raise FetchError with the secrets already removed."""
+def http_get_json(url, params, timeout=60, headers=None):
+    """GET and decode, or raise FetchError with the secrets already removed.
+
+    `headers` is for a token that travels in a header, Kobo's among them. It is
+    merged over Accept, never instead of it.
+    """
     try:
         response = requests.get(url, params=params, timeout=timeout,
-                                headers={"Accept": "application/json"})
+                                headers={"Accept": "application/json",
+                                         **(headers or {})})
         response.raise_for_status()
         return response.json()
     except requests.RequestException as exc:
@@ -237,13 +246,37 @@ def fetch(call):
         return (fetch_all_pages_token(call.url, call.body, call.headers)
                 if call.paginated
                 else http_post_json(call.url, call.body, call.headers))
+    if call.paginated and call.pager == "next_url":
+        return fetch_next_url_pages(call.url, call.params, call.headers)
     if call.paginated:
         # Left in hdx.py on purpose: test_fetcher_hdx patches its http_get_json
         # by name, and moving the function would break four passing tests for
         # no gain. Imported lazily, exactly as the runner used to do.
         from external_data.fetchers.hdx import fetch_all_pages
         return fetch_all_pages(call.url, call.params)
-    return http_get_json(call.url, call.params)
+    return http_get_json(call.url, call.params, headers=call.headers)
+
+
+def fetch_next_url_pages(url, params, headers):
+    """Follow Kobo's `next` to the end, and return one {count, results} payload.
+
+    `next` is a complete URL that already carries start and limit, so it is sent
+    back VERBATIM and with no params - sending them again would double them. The
+    header goes on every page: Kobo checks the token per request, and a second
+    page fetched without it answers 401 or, worse, an empty public view.
+
+    Stops at MAX_PAGES, like every pager here: a `next` chain that never ends is
+    a server fault, not a reason to page for ever.
+    """
+    results, page_url, page_params, count, pages = [], url, params, None, 0
+    while page_url and pages < MAX_PAGES:
+        page = http_get_json(page_url, page_params, headers=headers)
+        if count is None:
+            count = page.get("count")
+        results.extend(page.get("results", []))
+        page_url, page_params = page.get("next"), None
+        pages += 1
+    return {"count": count, "results": results}
 
 
 def crisis_floor():

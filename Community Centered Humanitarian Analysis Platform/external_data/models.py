@@ -711,3 +711,169 @@ class HazardImpact(models.Model):
 
     def __str__(self):
         return f"{self.corr_id} {self.impact_type} {self.value:,.0f}"
+
+
+class KoboForm(models.Model):
+    """The latest definition of a Kobo form whose submissions are held.
+
+    Kept so `kobo_submission.answers` can be read later - question labels,
+    choice labels, which repeat is which - without another call to Kobo, and
+    so the definition the answers were read against is on record. One row per
+    form, overwritten by every pull.
+    """
+
+    form_uid = models.TextField(unique=True)
+    form_key = models.TextField(db_index=True, help_text="Short name, e.g. ccha_primary_data")
+    name = models.TextField(blank=True, default="")
+    definition = models.JSONField(help_text="GET /api/v2/assets/{uid}/, as Kobo sent it")
+    fetched_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "kobo_form"
+        ordering = ["form_key"]
+
+    def __str__(self):
+        return self.name or self.form_key
+
+
+class CchaPrimaryData(models.Model):
+    """One CCHA primary-data interview from Kobo: household, FGD or KII, one row each.
+
+    ONE TABLE FOR EVERY COUNTRY. The same CCHA form is used for data collection
+    in several countries (Uganda first), so the table is named for the form, not
+    a country (George, 2026-11-16); `country`, `admin1` and `admin2` say where.
+
+    READABLE ON PURPOSE (George, 2026-11-16): one column per question, named
+    after the question's short name in the form, holding the answer as its
+    LABEL rather than Kobo's code. Multiple choices are joined with "; ", and an
+    "Other (specify)" answer sits in the <question>_other column beside it. The
+    column's verbose_name is the question wording, so Admin reads like the form.
+    The two repeats - hazard details and gaps per hazard - are child tables.
+
+    `interview_type` says which kind of interview a row is. A household row
+    leaves the FGD and KII columns blank, and the reverse.
+
+    AUDIO IS A LINK. fgd_audio and kii_audio hold Kobo's download URL; the
+    recording stays in Kobo under the account's access control.
+
+    NOT APPROVED IS NEVER HERE: filtered out on Kobo's side, and deleted (with
+    its repeat rows) if rejected after it was stored. Approved, On Hold and
+    never-reviewed interviews are kept; validation_status says which.
+
+    `unmapped` catches the answer to any question added to the form after
+    these columns were written, so nothing is dropped before the code catches
+    up. Empty today. The columns are listed in loaders/ccha_primary_data.COLUMNS,
+    and a test checks every one of them is a field here.
+    """
+
+    submission_id = models.BigIntegerField(unique=True, help_text="Kobo _id")
+    uuid = models.TextField(blank=True, default="", help_text="Kobo _uuid")
+    submitted_at = models.DateTimeField(null=True, blank=True)
+    validation_status = models.CharField(
+        max_length=32, blank=True, default="", db_index=True,
+        help_text="approved / on_hold / blank when never reviewed")
+    interview_date = models.DateField(null=True, blank=True)
+    started_at = models.DateTimeField(null=True, blank=True)
+    ended_at = models.DateTimeField(null=True, blank=True)
+
+    interview_type = models.TextField(null=True, blank=True, verbose_name="Which interview is this?")
+    enum_name = models.TextField(null=True, blank=True, verbose_name="Enumerator's Name")
+    consent = models.TextField(null=True, blank=True, verbose_name="Informed consent given")
+    data_privacy = models.TextField(null=True, blank=True, verbose_name="Agreed to data saving and sharing")
+    country = models.TextField(null=True, blank=True, verbose_name="Country")
+    admin1 = models.TextField(null=True, blank=True, verbose_name="State / Region / Governorate")
+    admin2 = models.TextField(null=True, blank=True, verbose_name="District / Locality")
+    latitude = models.FloatField(null=True, blank=True, verbose_name="Record the GPS location (latitude)")
+    longitude = models.FloatField(null=True, blank=True, verbose_name="Record the GPS location (longitude)")
+    hh_head = models.TextField(null=True, blank=True, verbose_name="Are you the head of the household?")
+    child_hh_head = models.TextField(null=True, blank=True, verbose_name="Is the Household Child Headed")
+    who_hh_head = models.TextField(null=True, blank=True, verbose_name="Who is the head of the household?")
+    gender = models.TextField(null=True, blank=True, verbose_name="What's your Gender")
+    age = models.TextField(null=True, blank=True, verbose_name="What's your age?")
+    hh_composition = models.IntegerField(null=True, blank=True, verbose_name="How many people live in your household? (including yourself)")
+    hh_demographics = models.TextField(null=True, blank=True, verbose_name="What is the demography of your household?")
+    hh_demographics_other = models.TextField(null=True, blank=True, verbose_name="What is the demography of your household? - other (specify)")
+    meaning_hazard = models.TextField(null=True, blank=True, verbose_name="What does a hazard mean to you?")
+    hazards_experience = models.TextField(null=True, blank=True, verbose_name="What hazards has this community been experiencing?")
+    hazards_experience_other = models.TextField(null=True, blank=True, verbose_name="What hazards has this community been experiencing? - other (specify)")
+    hazard_kind = models.TextField(null=True, blank=True, verbose_name="What hazards have become more severe/frequent in the recent years?")
+    hazard_kind_other = models.TextField(null=True, blank=True, verbose_name="What hazards have become more severe/frequent in the recent years? - other (specify)")
+    hazard_affected_groups = models.TextField(null=True, blank=True, verbose_name="Which groups experience the greatest impact?")
+    hazard_affected_groups_other = models.TextField(null=True, blank=True, verbose_name="Which groups experience the greatest impact? - other (specify)")
+    hazard_cause = models.TextField(null=True, blank=True, verbose_name="What are the main causes of these hazards?")
+    hazard_cause_other = models.TextField(null=True, blank=True, verbose_name="What are the main causes of these hazards? - other (specify)")
+    hazard_measures = models.TextField(null=True, blank=True, verbose_name="What measures do you take to be resistant towards common hazards?")
+    hazard_measures_other = models.TextField(null=True, blank=True, verbose_name="What measures do you take to be resistant towards common hazards? - other (specify)")
+    hazard_management = models.TextField(null=True, blank=True, verbose_name="What hazard management capacities do you have in this community?")
+    hazard_management_other = models.TextField(null=True, blank=True, verbose_name="What hazard management capacities do you have in this community? - other (specify)")
+    hazard_evacuate = models.TextField(null=True, blank=True, verbose_name="Where do people go when they need to leave their homes?")
+    hazard_evacuate_other = models.TextField(null=True, blank=True, verbose_name="Where do people go when they need to leave their homes? - other (specify)")
+    meaning_vulnerability = models.TextField(null=True, blank=True, verbose_name="What does vulnerability mean to you?")
+    vulnerabilities_believe = models.TextField(null=True, blank=True, verbose_name="What vulnerabilities do you believe the community is facing?")
+    vulnerabilities_believe_other = models.TextField(null=True, blank=True, verbose_name="What vulnerabilities do you believe the community is facing? - other (specify)")
+    vulnerabilities_group = models.TextField(null=True, blank=True, verbose_name="What makes some groups more vulnerable than others?")
+    vulnerabilities_group_other = models.TextField(null=True, blank=True, verbose_name="What makes some groups more vulnerable than others? - other (specify)")
+    vulnerabilities_differences = models.TextField(null=True, blank=True, verbose_name="Are there any differences between people who arrived recently and longer-term residents?")
+    vulnerabilities_elaborate = models.TextField(null=True, blank=True, verbose_name="Please Elaborate")
+    meaning_coping = models.TextField(null=True, blank=True, verbose_name="What does coping capacity mean to you?")
+    coping_extent = models.TextField(null=True, blank=True, verbose_name="To what extent do you think your community can cope with a hazard?")
+    coping_cohesion = models.TextField(null=True, blank=True, verbose_name="What capacities do you have in this community with regard to social cohesion?")
+    coping_cohesion_other = models.TextField(null=True, blank=True, verbose_name="What capacities do you have in this community with regard to social cohesion? - other (specify)")
+    coping_gaps = models.TextField(null=True, blank=True, verbose_name="What vulnerabilities (gaps and challenges) do you have in this community with regard to...")
+    coping_gaps_other = models.TextField(null=True, blank=True, verbose_name="What vulnerabilities (gaps and challenges) do you have in this community with regard to... - other (specify)")
+    fgd_consent = models.TextField(null=True, blank=True, verbose_name="Does the group provide consent for Audio recording?")
+    fgd_target_group = models.TextField(null=True, blank=True, verbose_name="Which group is the Focused Group Discussion for?")
+    fgd_audio = models.TextField(null=True, blank=True, verbose_name="Record Audio (Kobo link)")
+    kii_consent = models.TextField(null=True, blank=True, verbose_name="Does the Key informant provide Consent for Audio Recording?")
+    kii_role = models.TextField(null=True, blank=True, verbose_name="What's their Role (Community Profile)?")
+    kii_years_community = models.IntegerField(null=True, blank=True, verbose_name="Years in this Community?")
+    kii_displacement_status = models.TextField(null=True, blank=True, verbose_name="Displacement Status")
+    kii_audio = models.TextField(null=True, blank=True, verbose_name="Record Audio (Kobo link)")
+
+    unmapped = models.JSONField(
+        default=dict, blank=True,
+        help_text="Answers to questions with no column yet (added to the form later)")
+
+    class Meta:
+        db_table = "ccha_primary_data"
+        ordering = ["-submitted_at"]
+        verbose_name = "CCHA primary data interview"
+
+    def __str__(self):
+        return f"{self.interview_type or 'interview'} #{self.submission_id}"
+
+
+class CchaPrimaryDataHazardDetail(models.Model):
+    """The 'Hazard details' repeat: one row per hazard named in an interview."""
+
+    interview = models.ForeignKey(CchaPrimaryData, on_delete=models.CASCADE,
+                                  related_name="hazard_details")
+    hazard_number = models.IntegerField(null=True, blank=True)
+    hazard = models.TextField(null=True, blank=True)
+    hazard_occurence = models.TextField(null=True, blank=True, verbose_name="How often it occurs")
+    hazard_occurence_other = models.TextField(null=True, blank=True,
+                                              verbose_name="How often it occurs - other")
+    hazard_events = models.TextField(null=True, blank=True, verbose_name="When it usually occurs")
+    hazard_impact = models.TextField(null=True, blank=True,
+                                     verbose_name="How seriously it affects the household/community")
+
+    class Meta:
+        db_table = "ccha_primary_data_hazard_details"
+        ordering = ["interview", "hazard_number"]
+        verbose_name = "CCHA primary data hazard detail"
+
+
+class CchaPrimaryDataCopingChallenge(models.Model):
+    """The 'Gaps/challenges per hazard' repeat: one row per hazard per interview."""
+
+    interview = models.ForeignKey(CchaPrimaryData, on_delete=models.CASCADE,
+                                  related_name="coping_challenges")
+    hazard_number = models.IntegerField(null=True, blank=True)
+    hazard = models.TextField(null=True, blank=True)
+    coping_challenges = models.TextField(
+        null=True, blank=True, verbose_name="Gaps/challenges the community has with this hazard")
+
+    class Meta:
+        db_table = "ccha_primary_data_coping_challenges"
+        ordering = ["interview", "hazard_number"]
+        verbose_name = "CCHA primary data coping challenge"

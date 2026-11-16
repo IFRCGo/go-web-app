@@ -1,0 +1,878 @@
+{
+ "uid": "aHSP",
+ "name": "Humanitarian Service Points Mapping",
+ "content": {
+  "survey": [
+   {
+    "name": "start",
+    "type": "start",
+    "$kuid": "toSrIz63o",
+    "$xpath": "start",
+    "$autoname": "start"
+   },
+   {
+    "name": "end",
+    "type": "end",
+    "$kuid": "H1Strj8E1",
+    "$xpath": "end",
+    "$autoname": "end"
+   },
+   {
+    "name": "today",
+    "type": "today",
+    "$kuid": "sU9Yv68nO",
+    "$xpath": "today",
+    "$autoname": "today"
+   },
+   {
+    "name": "intro_section",
+    "type": "begin_group",
+    "$kuid": "PHdYFN96i",
+    "$xpath": "intro_section",
+    "$autoname": "intro_section",
+    "appearance": "field-list"
+   },
+   {
+    "name": "ifrc_logo",
+    "type": "note",
+    "$kuid": "mu5WNRL0q",
+    "label": [
+     "International Federation of Red Cross and Red Crescent Societies"
+    ],
+    "$xpath": "intro_section/ifrc_logo",
+    "$autoname": "ifrc_logo",
+    "appearance": "w8",
+    "media::image": [
+     "Logo-Horizontal-RGB-72ppi.png"
+    ]
+   },
+   {
+    "name": "intro",
+    "type": "note",
+    "$kuid": "XgvkUFepP",
+    "label": [
+     "**Humanitarian Service Point Mapping**\nThis form records humanitarian service points and the services they provide."
+    ],
+    "$xpath": "intro_section/intro",
+    "$autoname": "intro",
+    "appearance": "w8"
+   },
+   {
+    "name": "country",
+    "type": "select_one",
+    "$kuid": "lShCM8hTP",
+    "label": [
+     "Country"
+    ],
+    "$xpath": "intro_section/country",
+    "required": true,
+    "$autoname": "country",
+    "appearance": "minimal w4",
+    "select_from_list_name": "country"
+   },
+   {
+    "hint": [
+     "Yes = record services once, then tick all provinces & districts covered.  No = add each location separately with its own services."
+    ],
+    "name": "same_services",
+    "type": "select_one",
+    "$kuid": "034rmOaPL",
+    "label": [
+     "Are the SAME services offered across all HSP's?"
+    ],
+    "$xpath": "intro_section/same_services",
+    "required": true,
+    "$autoname": "same_services",
+    "appearance": "minimal w4",
+    "select_from_list_name": "yes_no"
+   },
+   {
+    "name": "max_hsps",
+    "type": "calculate",
+    "$kuid": "Lo8yIN4Eg",
+    "$xpath": "intro_section/max_hsps",
+    "$autoname": "max_hsps",
+    "calculation": "if(${country}='UGA',135,if(${country}='TCD',70,if(${country}='SSD',78,if(${country}='SDN',189,if(${country}='ETH',92,if(${country}='EGY',367,0))))))"
+   },
+   {
+    "hint": [
+     "Enter 0 if there are none. Maximum = number of districts in the selected country (${max_hsps})."
+    ],
+    "name": "num_hsps",
+    "type": "integer",
+    "$kuid": "IejwFLQNw",
+    "label": [
+     "How many humanitarian service points (HSPs) are there?"
+    ],
+    "$xpath": "intro_section/num_hsps",
+    "relevant": "${same_services}='no'",
+    "required": true,
+    "$autoname": "num_hsps",
+    "appearance": "w8",
+    "constraint": ". >= 0 and . <= ${max_hsps}",
+    "constraint_message": "The number of HSPs cannot exceed the number of districts in the selected country (${max_hsps})."
+   },
+   {
+    "hint": [
+     "Select all IFRC thematic areas provided."
+    ],
+    "name": "services_all",
+    "type": "select_multiple",
+    "$kuid": "bNdQ7oL17",
+    "label": [
+     "Services offered (applies to ALL locations)"
+    ],
+    "$xpath": "intro_section/services_all",
+    "relevant": "${same_services}='yes'",
+    "required": true,
+    "$autoname": "services_all",
+    "appearance": "w8",
+    "select_from_list_name": "services"
+   },
+   {
+    "hint": [
+     "Select every province/region where the services above are offered."
+    ],
+    "name": "province_all",
+    "type": "select_multiple",
+    "$kuid": "7qIcLyW2a",
+    "label": [
+     "Provinces / Regions where these services are offered"
+    ],
+    "$xpath": "intro_section/province_all",
+    "relevant": "${same_services}='yes'",
+    "required": true,
+    "$autoname": "province_all",
+    "appearance": "minimal w8",
+    "choice_filter": "country=${country}",
+    "select_from_list_name": "province"
+   },
+   {
+    "hint": [
+     "Select every district where the services above are offered."
+    ],
+    "name": "district_all",
+    "type": "select_multiple",
+    "$kuid": "AsS7sghxZ",
+    "label": [
+     "Districts where these services are offered"
+    ],
+    "$xpath": "intro_section/district_all",
+    "relevant": "${same_services}='yes'",
+    "required": true,
+    "$autoname": "district_all",
+    "appearance": "minimal w8",
+    "choice_filter": "selected(${province_all}, province)",
+    "select_from_list_name": "district"
+   },
+   {
+    "name": "intro_section",
+    "type": "end_group",
+    "$kuid": "7Vo9W1TDn"
+   },
+   {
+    "name": "location",
+    "type": "begin_repeat",
+    "$kuid": "gJNDlRe12",
+    "label": [
+     "Service point location"
+    ],
+    "$xpath": "location",
+    "relevant": "${same_services}='no'",
+    "$autoname": "location",
+    "appearance": "field-list",
+    "repeat_count": "${num_hsps}"
+   },
+   {
+    "name": "province",
+    "type": "select_one",
+    "$kuid": "0t4MxHoXu",
+    "label": [
+     "Province / Region"
+    ],
+    "$xpath": "location/province",
+    "required": true,
+    "$autoname": "province",
+    "appearance": "minimal w4",
+    "choice_filter": "country=${country}",
+    "select_from_list_name": "province"
+   },
+   {
+    "name": "district",
+    "type": "select_one",
+    "$kuid": "7ZZAstFz8",
+    "label": [
+     "District"
+    ],
+    "$xpath": "location/district",
+    "required": true,
+    "$autoname": "district",
+    "appearance": "minimal w4",
+    "choice_filter": "province=${province} and (not(selected(${selected_districts}, name)) or name=${district})",
+    "select_from_list_name": "district"
+   },
+   {
+    "hint": [
+     "Select all IFRC thematic areas provided here."
+    ],
+    "name": "services_loc",
+    "type": "select_multiple",
+    "$kuid": "GkZAN1I9u",
+    "label": [
+     "Services offered at THIS location"
+    ],
+    "$xpath": "location/services_loc",
+    "relevant": "${same_services}='no'",
+    "required": true,
+    "$autoname": "services_loc",
+    "appearance": "w8",
+    "select_from_list_name": "services"
+   },
+   {
+    "name": "location",
+    "type": "end_repeat",
+    "$kuid": "EN8qbazvJ"
+   },
+   {
+    "name": "selected_districts",
+    "type": "calculate",
+    "$kuid": "5M2qj8yip",
+    "$xpath": "selected_districts",
+    "$autoname": "selected_districts",
+    "calculation": "join(' ', ${district})"
+   },
+   {
+    "name": "acknowledgement",
+    "type": "begin_group",
+    "$kuid": "mqkVTC6vF",
+    "label": [
+     "Acknowledgement"
+    ],
+    "$xpath": "acknowledgement",
+    "$autoname": "acknowledgement",
+    "appearance": "field-list"
+   },
+   {
+    "name": "ack_intro",
+    "type": "note",
+    "$kuid": "VBLiw2yri",
+    "label": [
+     "Please review your entries above before submitting."
+    ],
+    "$xpath": "acknowledgement/ack_intro",
+    "$autoname": "ack_intro",
+    "appearance": "w8"
+   },
+   {
+    "name": "focal_name",
+    "type": "text",
+    "$kuid": "l99vbkQY8",
+    "label": [
+     "Name of person completing this form"
+    ],
+    "$xpath": "acknowledgement/focal_name",
+    "required": true,
+    "$autoname": "focal_name",
+    "appearance": "w8",
+    "constraint": "regex(., \"^[A-Za-zÀ-ÿ '-]+$\")",
+    "constraint_message": "Please enter letters only (no numbers, e.g. Jane Doe)."
+   },
+   {
+    "hint": [
+     "Optional"
+    ],
+    "name": "focal_role",
+    "type": "text",
+    "$kuid": "qPMVRAJhn",
+    "label": [
+     "Role / position"
+    ],
+    "$xpath": "acknowledgement/focal_role",
+    "$autoname": "focal_role",
+    "appearance": "w8"
+   },
+   {
+    "hint": [
+     "Required for any follow-ups."
+    ],
+    "name": "focal_email",
+    "type": "text",
+    "$kuid": "YK3aRQTmU",
+    "label": [
+     "Email address"
+    ],
+    "$xpath": "acknowledgement/focal_email",
+    "required": true,
+    "$autoname": "focal_email",
+    "appearance": "w8",
+    "constraint": "regex(., \"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$\")",
+    "constraint_message": "Enter a valid email address (e.g. name@example.org)."
+   },
+   {
+    "name": "acknowledgement_001",
+    "type": "acknowledge",
+    "$kuid": "MVc7WkbYU",
+    "label": [
+     "I confirm that the information provided is accurate to the best of my knowledge, and I consent to it being used by the IFRC and its member National Societies for humanitarian purposes."
+    ],
+    "$xpath": "acknowledgement/acknowledgement_001",
+    "required": true,
+    "$autoname": "acknowledgement_001",
+    "appearance": "w8"
+   },
+   {
+    "name": "thanks",
+    "type": "note",
+    "$kuid": "cfK9qKjgR",
+    "label": [
+     "Thank you for supporting humanitarian service mapping."
+    ],
+    "$xpath": "acknowledgement/thanks",
+    "$autoname": "thanks",
+    "appearance": "w8"
+   },
+   {
+    "name": "acknowledgement",
+    "type": "end_group",
+    "$kuid": "v9yQiAYf8"
+   }
+  ],
+  "choices": [
+   {
+    "name": "TCD",
+    "$kuid": "0kVJIRocg",
+    "label": [
+     "Chad"
+    ],
+    "list_name": "country",
+    "$autovalue": "TCD"
+   },
+   {
+    "name": "EGY",
+    "$kuid": "ItNJjL81o",
+    "label": [
+     "Egypt"
+    ],
+    "list_name": "country",
+    "$autovalue": "EGY"
+   },
+   {
+    "name": "ETH",
+    "$kuid": "DTpc0acE8",
+    "label": [
+     "Ethiopia"
+    ],
+    "list_name": "country",
+    "$autovalue": "ETH"
+   },
+   {
+    "name": "SSD",
+    "$kuid": "kkldReihI",
+    "label": [
+     "South Sudan"
+    ],
+    "list_name": "country",
+    "$autovalue": "SSD"
+   },
+   {
+    "name": "SDN",
+    "$kuid": "0MNE7gGQl",
+    "label": [
+     "Sudan"
+    ],
+    "list_name": "country",
+    "$autovalue": "SDN"
+   },
+   {
+    "name": "UGA",
+    "$kuid": "63HpRlr8e",
+    "label": [
+     "Uganda"
+    ],
+    "list_name": "country",
+    "$autovalue": "UGA"
+   },
+   {
+    "name": "EG28",
+    "$kuid": "5VlBi3H9L",
+    "label": [
+     "Aswan"
+    ],
+    "country": "EGY",
+    "list_name": "province",
+    "$autovalue": "EG28"
+   },
+   {
+    "name": "EG01",
+    "$kuid": "TjWziPoKj",
+    "label": [
+     "Cairo"
+    ],
+    "country": "EGY",
+    "list_name": "province",
+    "$autovalue": "EG01"
+   },
+   {
+    "name": "EG21",
+    "$kuid": "XQWn9pJoK",
+    "label": [
+     "Giza"
+    ],
+    "country": "EGY",
+    "list_name": "province",
+    "$autovalue": "EG21"
+   },
+   {
+    "name": "ET03",
+    "$kuid": "dzwmeWJXv",
+    "label": [
+     "Amhara"
+    ],
+    "country": "ETH",
+    "list_name": "province",
+    "$autovalue": "ET03"
+   },
+   {
+    "name": "SD11",
+    "$kuid": "EhVKT9TMb",
+    "label": [
+     "Kassala"
+    ],
+    "country": "SDN",
+    "list_name": "province",
+    "$autovalue": "SD11"
+   },
+   {
+    "name": "SD17",
+    "$kuid": "iwbB78NcQ",
+    "label": [
+     "Northern"
+    ],
+    "country": "SDN",
+    "list_name": "province",
+    "$autovalue": "SD17"
+   },
+   {
+    "name": "SD10",
+    "$kuid": "Pozz8Ppto",
+    "label": [
+     "Red Sea"
+    ],
+    "country": "SDN",
+    "list_name": "province",
+    "$autovalue": "SD10"
+   },
+   {
+    "name": "SD16",
+    "$kuid": "M8TsQWMJy",
+    "label": [
+     "River Nile"
+    ],
+    "country": "SDN",
+    "list_name": "province",
+    "$autovalue": "SD16"
+   },
+   {
+    "name": "SD04",
+    "$kuid": "7wbnlTH6t",
+    "label": [
+     "West Darfur"
+    ],
+    "country": "SDN",
+    "list_name": "province",
+    "$autovalue": "SD04"
+   },
+   {
+    "name": "SD09",
+    "$kuid": "yzDd5wwcF",
+    "label": [
+     "White Nile"
+    ],
+    "country": "SDN",
+    "list_name": "province",
+    "$autovalue": "SD09"
+   },
+   {
+    "name": "SS05",
+    "$kuid": "OxKouIbJH",
+    "label": [
+     "Northern Bahr el Ghazal"
+    ],
+    "country": "SSD",
+    "list_name": "province",
+    "$autovalue": "SS05"
+   },
+   {
+    "name": "SS07",
+    "$kuid": "PN67snpFD",
+    "label": [
+     "Upper Nile"
+    ],
+    "country": "SSD",
+    "list_name": "province",
+    "$autovalue": "SS07"
+   },
+   {
+    "name": "TCD14",
+    "$kuid": "lpw9IJwWq",
+    "label": [
+     "Ouaddaï"
+    ],
+    "country": "TCD",
+    "list_name": "province",
+    "$autovalue": "TCD14"
+   },
+   {
+    "name": "UG4",
+    "$kuid": "DozlvmLpv",
+    "label": [
+     "Western"
+    ],
+    "country": "UGA",
+    "list_name": "province",
+    "$autovalue": "UG4"
+   },
+   {
+    "name": "EG0130",
+    "$kuid": "nWjsUB28i",
+    "label": [
+     "Ain Shams"
+    ],
+    "province": "EG01",
+    "list_name": "district",
+    "$autovalue": "EG0130"
+   },
+   {
+    "name": "EG0104",
+    "$kuid": "bBUTVOgjh",
+    "label": [
+     "Maadi"
+    ],
+    "province": "EG01",
+    "list_name": "district",
+    "$autovalue": "EG0104"
+   },
+   {
+    "name": "EG2107",
+    "$kuid": "wjhKc9rxj",
+    "label": [
+     "6 October-1"
+    ],
+    "province": "EG21",
+    "list_name": "district",
+    "$autovalue": "EG2107"
+   },
+   {
+    "name": "EG2106",
+    "$kuid": "fZlvMi9nA",
+    "label": [
+     "Al-Ahram"
+    ],
+    "province": "EG21",
+    "list_name": "district",
+    "$autovalue": "EG2106"
+   },
+   {
+    "name": "EG2810",
+    "$kuid": "tOJpYMVTn",
+    "label": [
+     "Qustul"
+    ],
+    "province": "EG28",
+    "list_name": "district",
+    "$autovalue": "EG2810"
+   },
+   {
+    "name": "EG2811",
+    "$kuid": "muTq5iPys",
+    "label": [
+     "Arkeen"
+    ],
+    "province": "EG28",
+    "list_name": "district",
+    "$autovalue": "EG2811"
+   },
+   {
+    "name": "ET0311",
+    "$kuid": "5aV8uRPk8",
+    "label": [
+     "Central Gondar"
+    ],
+    "province": "ET03",
+    "list_name": "district",
+    "$autovalue": "ET0311"
+   },
+   {
+    "name": "SD04115",
+    "$kuid": "waZlMRsKp",
+    "label": [
+     "Ag Geneina"
+    ],
+    "province": "SD04",
+    "list_name": "district",
+    "$autovalue": "SD04115"
+   },
+   {
+    "name": "SD10064",
+    "$kuid": "UevHlXWvw",
+    "label": [
+     "Port Sudan"
+    ],
+    "province": "SD10",
+    "list_name": "district",
+    "$autovalue": "SD10064"
+   },
+   {
+    "name": "SD11056",
+    "$kuid": "nIUyZhkUs",
+    "label": [
+     "Reifi Kassla"
+    ],
+    "province": "SD11",
+    "list_name": "district",
+    "$autovalue": "SD11056"
+   },
+   {
+    "name": "SD11061",
+    "$kuid": "sKiLipckl",
+    "label": [
+     "Reifi Wad Elhilaiw"
+    ],
+    "province": "SD11",
+    "list_name": "district",
+    "$autovalue": "SD11061"
+   },
+   {
+    "name": "SD16011",
+    "$kuid": "9jV6NHwL8",
+    "label": [
+     "Ad Damar"
+    ],
+    "province": "SD16",
+    "list_name": "district",
+    "$autovalue": "SD16011"
+   },
+   {
+    "name": "SD16009",
+    "$kuid": "yRuv6PVYM",
+    "label": [
+     "Al Matama"
+    ],
+    "province": "SD16",
+    "list_name": "district",
+    "$autovalue": "SD16009"
+   },
+   {
+    "name": "SD16012",
+    "$kuid": "p1EzafaOH",
+    "label": [
+     "Atbara"
+    ],
+    "province": "SD16",
+    "list_name": "district",
+    "$autovalue": "SD16012"
+   },
+   {
+    "name": "SD17019",
+    "$kuid": "ONV6hxSg7",
+    "label": [
+     "Ad Dabbah"
+    ],
+    "province": "SD17",
+    "list_name": "district",
+    "$autovalue": "SD17019"
+   },
+   {
+    "name": "SD17017",
+    "$kuid": "2PFCbZk2S",
+    "label": [
+     "Dongola"
+    ],
+    "province": "SD17",
+    "list_name": "district",
+    "$autovalue": "SD17017"
+   },
+   {
+    "name": "SD17014",
+    "$kuid": "F0sP5H5D8",
+    "label": [
+     "Halfa"
+    ],
+    "province": "SD17",
+    "list_name": "district",
+    "$autovalue": "SD17014"
+   },
+   {
+    "name": "SD17020",
+    "$kuid": "ymmLj7c3t",
+    "label": [
+     "Merwoe"
+    ],
+    "province": "SD17",
+    "list_name": "district",
+    "$autovalue": "SD17020"
+   },
+   {
+    "name": "SS0503",
+    "$kuid": "xYmnBdQTS",
+    "label": [
+     "Aweil North"
+    ],
+    "province": "SS05",
+    "list_name": "district",
+    "$autovalue": "SS0503"
+   },
+   {
+    "name": "SS0702",
+    "$kuid": "IdhhpeH9e",
+    "label": [
+     "Fashoda"
+    ],
+    "province": "SS07",
+    "list_name": "district",
+    "$autovalue": "SS0702"
+   },
+   {
+    "name": "SS0711",
+    "$kuid": "d8vidDFnl",
+    "label": [
+     "Renk"
+    ],
+    "province": "SS07",
+    "list_name": "district",
+    "$autovalue": "SS0711"
+   },
+   {
+    "name": "TCD1403",
+    "$kuid": "175SyCujj",
+    "label": [
+     "Assoungha"
+    ],
+    "province": "TCD14",
+    "list_name": "district",
+    "$autovalue": "TCD1403"
+   },
+   {
+    "name": "UG4120",
+    "$kuid": "rPJOlyZib",
+    "label": [
+     "Kiryandongo"
+    ],
+    "province": "UG4",
+    "list_name": "district",
+    "$autovalue": "UG4120"
+   },
+   {
+    "name": "health",
+    "$kuid": "jrtqaNLQg",
+    "label": [
+     "Health"
+    ],
+    "list_name": "services",
+    "$autovalue": "health"
+   },
+   {
+    "name": "migration",
+    "$kuid": "n20AGPn7b",
+    "label": [
+     "Migration"
+    ],
+    "list_name": "services",
+    "$autovalue": "migration"
+   },
+   {
+    "name": "cva",
+    "$kuid": "Wy9UAGDku",
+    "label": [
+     "Cash & Voucher Assistance"
+    ],
+    "list_name": "services",
+    "$autovalue": "cva"
+   },
+   {
+    "name": "fsl",
+    "$kuid": "a30KstK2M",
+    "label": [
+     "Food Security & Livelihoods"
+    ],
+    "list_name": "services",
+    "$autovalue": "fsl"
+   },
+   {
+    "name": "wash",
+    "$kuid": "XSS4dCWwA",
+    "label": [
+     "Water, Sanitation & Hygiene"
+    ],
+    "list_name": "services",
+    "$autovalue": "wash"
+   },
+   {
+    "name": "pgi",
+    "$kuid": "4NbB84Lql",
+    "label": [
+     "Protection, Gender & Inclusion"
+    ],
+    "list_name": "services",
+    "$autovalue": "pgi"
+   },
+   {
+    "name": "drm",
+    "$kuid": "r93RI947J",
+    "label": [
+     "Disaster Risk Management"
+    ],
+    "list_name": "services",
+    "$autovalue": "drm"
+   },
+   {
+    "name": "shelter",
+    "$kuid": "yNEv2XwO8",
+    "label": [
+     "Shelter"
+    ],
+    "list_name": "services",
+    "$autovalue": "shelter"
+   },
+   {
+    "name": "nsd",
+    "$kuid": "YyUgak97L",
+    "label": [
+     "National Society Development"
+    ],
+    "list_name": "services",
+    "$autovalue": "nsd"
+   },
+   {
+    "name": "cea",
+    "$kuid": "bZdczRtJb",
+    "label": [
+     "Community Engagement & Accountability"
+    ],
+    "list_name": "services",
+    "$autovalue": "cea"
+   },
+   {
+    "name": "yes",
+    "$kuid": "Aj6zicLLw",
+    "label": [
+     "Yes"
+    ],
+    "list_name": "yes_no",
+    "$autovalue": "yes"
+   },
+   {
+    "name": "no",
+    "$kuid": "q7slfVYZ2",
+    "label": [
+     "No"
+    ],
+    "list_name": "yes_no",
+    "$autovalue": "no"
+   }
+  ],
+  "translations": [
+   null
+  ]
+ }
+}
