@@ -20,11 +20,36 @@ every time it runs, and static files are collected once at start-up; serving
 them through this view instead means a browser refresh shows the new numbers
 immediately, with no collectstatic and no restart.
 """
+import json
 import mimetypes
+from collections import OrderedDict
 
 from django.conf import settings
-from django.http import FileResponse, Http404
+from django.http import FileResponse, Http404, HttpResponse
 from django.shortcuts import render
+
+from .scrubbers import WHOLE_FILE, scrubber_for
+from .visibility import hidden_countries
+
+# Scrubbed bodies, keyed (path, mtime, hidden set): a rewritten file or a switch
+# flipped in Admin each produce a new key, so nothing stale is ever served.
+_SCRUB_CACHE: "OrderedDict[tuple, bytes | None]" = OrderedDict()
+_SCRUB_CACHE_SIZE = 32
+
+
+def _scrubbed(target, relpath, scrub, hidden):
+    """The cleaned file as bytes, or None when the whole file is hidden."""
+    key = (relpath, target.stat().st_mtime_ns, hidden.key())
+    if key in _SCRUB_CACHE:
+        _SCRUB_CACHE.move_to_end(key)
+        return _SCRUB_CACHE[key]
+    result = scrub(json.loads(target.read_text(encoding="utf-8")), hidden)
+    payload = None if result is WHOLE_FILE else json.dumps(
+        result, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    _SCRUB_CACHE[key] = payload
+    while len(_SCRUB_CACHE) > _SCRUB_CACHE_SIZE:
+        _SCRUB_CACHE.popitem(last=False)
+    return payload
 
 # GeoJSON is not in Python's built-in table of file types, so register it.
 # Without this the browser would receive the boundary files as plain text.
@@ -55,6 +80,24 @@ def data_file(request, path: str):
         raise Http404("file not found")
 
     content_type, _ = mimetypes.guess_type(target.name)
+
+    # THE VISIBILITY GATE. While any country is switched off in Admin, the file
+    # is cleaned of it before it leaves the server, so nothing of a hidden
+    # country reaches the browser - not even DevTools. Fail-closed: a file with
+    # no registered scrubber is refused rather than sent whole.
+    hidden = hidden_countries()
+    if hidden:
+        relpath = target.relative_to(base).as_posix()
+        scrub = scrubber_for(relpath)
+        if scrub is None:
+            raise Http404("file not available while a country is hidden")
+        payload = _scrubbed(target, relpath, scrub, hidden)
+        if payload is None:
+            raise Http404("file belongs to a hidden country")
+        response = HttpResponse(payload, content_type=content_type or "application/json")
+        response["Cache-Control"] = "no-store"
+        return response
+
     response = FileResponse(
         target.open("rb"), content_type=content_type or "application/octet-stream"
     )
