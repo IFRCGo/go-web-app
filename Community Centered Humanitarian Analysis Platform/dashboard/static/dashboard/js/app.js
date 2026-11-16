@@ -627,7 +627,16 @@ async function loadData() {
     .then((body) => body.results)
     .catch(() => []);
   // ipc_areas_fs.geojson (~2 MB) is lazy-loaded on first food-security toggle
-  state.endDate = Date.parse(state.data.meta.date_max);
+  /* The timeline ends at the newest thing there is to draw. meta.date_max is
+     only the newest PDF; a workbook or API figure dated after it would sit past
+     the end of the slider and never be shown. data_dates.json (written by the
+     Rebuild) carries the newest observation per country, already scrubbed of
+     hidden ones. Tolerates absence: a dashboard not yet rebuilt has no file. */
+  const dataDates = await fetch("data/data_dates.json")
+    .then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  state.endDate = Math.max(
+    Date.parse(state.data.meta.date_max) || 0,
+    ...((dataDates && dataDates.countries) || []).map((c) => Date.parse(c.date) || 0));
   // Work out which country every row belongs to, once, before anything draws.
   deriveCountries();
   $("#last-updated").textContent = fmtDate(state.endDate);

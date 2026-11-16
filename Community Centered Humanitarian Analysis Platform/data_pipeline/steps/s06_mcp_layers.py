@@ -55,6 +55,32 @@ def dump(name, obj):
     print(f"  {name:24} {p.stat().st_size / 1024:8.1f} KB")
 
 
+# ============================================================ how far the data runs
+def build_data_dates():
+    """The newest observation date in movement_patterns, per country.
+
+    The timeline used to end at meta.date_max - the newest PDF, written by s05,
+    which the Rebuild button does not run. A workbook saved with 9 Nov figures
+    loaded, the rebuild drew them, and the slider still stopped on 2 Nov, so
+    every point after the newest PDF was past the end of the map. app.js ends
+    the timeline at the later of the two.
+
+    Observations only: hazard events and IPC projections are dated ahead on
+    purpose, and a future date here would end the slider in an empty future.
+    Per country (iso3) so that the scrubber can drop a hidden country's date
+    along with its rows.
+    """
+    from datetime import date
+    from django.db.models import Max
+
+    rows = (MovementPattern.objects
+            .filter(date__lte=date.today())
+            .exclude(iso3=None)
+            .values("iso3").annotate(last=Max("date")).order_by("iso3"))
+    dump("data_dates.json", {"countries": [
+        {"country": r["iso3"], "date": r["last"].isoformat()} for r in rows]})
+
+
 # ============================================================ border crossings
 def build_crossings():
     """The curated crossings, from the border_crossings table."""
@@ -809,6 +835,7 @@ def run():
     build_hazards()
     build_hazard_events()
     build_theme_areas()
+    build_data_dates()
 
 
 # ============================================================ hazards
