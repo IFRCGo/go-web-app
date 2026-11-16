@@ -20,6 +20,8 @@ cannot see that is being told less than we know.
 from django.db.models import Q
 from django.http import JsonResponse
 
+from dashboard.visibility import hidden_countries
+
 from .management.commands.external_status import status_rows
 from .models import (BorderCrossing, FoodSecurityArea, HumanitarianServicePoint,
                      MovementPattern, SeasonalCalendar)
@@ -71,7 +73,7 @@ def seasonal(request):
     has one placeholder band and Egypt has no lean season at all, and those are
     answers rather than errors.
     """
-    rows = SeasonalCalendar.objects.all()
+    rows = SeasonalCalendar.objects.exclude(iso3__in=hidden_countries().iso3)
     for field in ("iso3", "source", "purpose", "season_type"):
         if value := request.GET.get(field):
             rows = rows.filter(**{field: value})
@@ -99,7 +101,7 @@ def food_security(request):
     Geometry is NOT returned here - it is large, and the map reads it from the
     dashboard layer. This endpoint is for the numbers.
     """
-    rows = FoodSecurityArea.objects.all()
+    rows = FoodSecurityArea.objects.exclude(iso3__in=hidden_countries().iso3)
     for field in ("iso3", "source", "period_type"):
         if value := request.GET.get(field):
             rows = rows.filter(**{field: value})
@@ -135,7 +137,7 @@ def movement(request):
     things on different dates, and a caller who wants both should union them
     knowingly rather than be handed a silent blend.
     """
-    rows = MovementPattern.objects.all()
+    rows = MovementPattern.objects.exclude(iso3__in=hidden_countries().iso3)
     for field in ("iso3", "metric", "source", "admin_pcode"):
         if value := request.GET.get(field):
             rows = rows.filter(**{field: value})
@@ -169,7 +171,8 @@ def community_insights(request):
     """
     from data_track.models import NarrativeTag
 
-    rows = NarrativeTag.objects.exclude(snippet=None).exclude(snippet="")
+    rows = (NarrativeTag.objects.exclude(snippet=None).exclude(snippet="")
+            .exclude(country__in=hidden_countries().names))
     for field in ("dimension", "tag", "country", "area_id"):
         if value := request.GET.get(field):
             rows = rows.filter(**{field: value})
@@ -196,7 +199,7 @@ def hsps(request):
     a service point at this spot" - the source holds no coordinates. `lat`/`lon` are
     the district's own point-on-surface, a label position rather than an address.
     """
-    rows = HumanitarianServicePoint.objects.all()
+    rows = HumanitarianServicePoint.objects.exclude(iso3__in=hidden_countries().iso3)
     for field in ("iso3", "service", "scope", "admin_pcode"):
         if value := request.GET.get(field):
             rows = rows.filter(**{field: value})
@@ -224,7 +227,7 @@ def hsps(request):
 
 def crossings(request):
     """The curated border crossings, tagged to the movement corridors."""
-    rows = BorderCrossing.objects.all()
+    rows = BorderCrossing.objects.exclude(iso3__in=hidden_countries().iso3)
     if iso3 := request.GET.get("iso3"):
         rows = rows.filter(iso3=iso3)
     data = [
@@ -245,5 +248,6 @@ def sync(request):
     The same rows `manage.py external_status` prints - imported from that command
     rather than rebuilt, so the two can never disagree about what the database has.
     """
-    rows = status_rows()
+    hidden = hidden_countries()
+    rows = [r for r in status_rows() if not hidden.hides(r.get("iso3"))]
     return _page(rows, len(rows))

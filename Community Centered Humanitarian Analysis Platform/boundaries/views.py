@@ -24,6 +24,8 @@ from django.db import connection
 from django.http import (HttpResponse, HttpResponseNotAllowed, JsonResponse,
                          StreamingHttpResponse)
 
+from dashboard.visibility import hidden_countries
+
 from . import geo
 from .models import BoundarySource
 
@@ -62,10 +64,15 @@ def _geojson(rows, etag):
 
 
 def _library_etag(*parts):
-    """A fingerprint of the library's state plus this particular question."""
+    """A fingerprint of the library's state plus this particular question.
+
+    The hidden-country set is part of it: without that, a browser holding a
+    response from before a country was switched off would be told 304 and keep
+    drawing it.
+    """
     stamp = BoundarySource.objects.order_by("-ingested_at").values_list(
         "ingested_at", flat=True).first()
-    raw = "|".join([str(stamp)] + [str(p) for p in parts])
+    raw = "|".join([str(stamp), "hidden=" + hidden_countries().key()] + [str(p) for p in parts])
     return '"' + hashlib.sha1(raw.encode()).hexdigest()[:16] + '"'
 
 
@@ -84,7 +91,8 @@ def layers(request):
             GROUP BY a.iso3, a.country_name, a.level, a.kind
             ORDER BY a.country_name, a.level
         """)
-        rows = cur.fetchall()
+        hidden = hidden_countries()
+        rows = [r for r in cur.fetchall() if not hidden.hides(r[0])]
     with connection.cursor() as cur:
         cur.execute("""
             SELECT layer, kind, count(*), min(s.publisher)
@@ -114,7 +122,8 @@ def layer(request):
     kind = request.GET.get("kind")
     full = request.GET.get("full") == "1"
 
-    where, params = ["1=1"], []
+    # Hidden countries are simply not in the library as far as the public sees.
+    where, params = ["iso3 <> ALL(%s)"], [list(hidden_countries().iso3)]
     if iso3:
         where.append("iso3 = %s")
         params.append(iso3)
@@ -169,7 +178,8 @@ def features(request):
         return HttpResponse(status=304)
 
     cur = connection.cursor()
-    cur.execute(geo.features_sql("pcode = ANY(%s)"), [ids])
+    cur.execute(geo.features_sql("pcode = ANY(%s) AND iso3 <> ALL(%s)"),
+                [ids, list(hidden_countries().iso3)])
     return _geojson(cur, etag)
 
 
