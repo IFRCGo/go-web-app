@@ -2,6 +2,406 @@
   "type": "FeatureCollection",
   "features": [
     {
+      "id": "pdc-event-9b29331a-8ff5-40de-ade9-2773eb8027fc-572425-1794780403505",
+      "bbox": [
+        35.38043731656247,
+        12.18259406502516,
+        35.38043731656247,
+        12.18259406502516
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.38043731656247,
+          12.18259406502516
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Amhara and Sennar border region, Ethiopia and Sudan",
+        "datetime": "2026-11-15T13:41:42Z",
+        "end_datetime": "2026-11-16T22:06:50Z",
+        "monty:corr_id": "20261115-SDN-919078-EN0205-1-GCDB",
+        "start_datetime": "2026-11-15T13:41:42Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "SDN",
+          "ETH"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-9b29331a-8ff5-40de-ade9-2773eb8027fc-572425-1794780403505",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-9b29331a-8ff5-40de-ade9-2773eb8027fc-572425-1794757716500",
+      "bbox": [
+        35.38043731656247,
+        12.18259406502516,
+        35.38043731656247,
+        12.18259406502516
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.38043731656247,
+          12.18259406502516
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Amhara and Sennar border region, Ethiopia and Sudan",
+        "datetime": "2026-11-15T13:41:42Z",
+        "end_datetime": "2026-11-16T22:06:50Z",
+        "monty:corr_id": "20261115-SDN-919078-EN0205-1-GCDB",
+        "start_datetime": "2026-11-15T13:41:42Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "SDN",
+          "ETH"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-9b29331a-8ff5-40de-ade9-2773eb8027fc-572425-1794757716500",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-e333fde3-7d8c-4d2a-a0fe-c0e9958eccb7-570464-1794493402305",
+      "bbox": [
+        41.183631896972656,
+        12.663117408752441,
+        41.183631896972656,
+        12.663117408752441
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.183631896972656,
+          12.663117408752441
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Landslide - Afar Triangle, Afar Zone 1, Afar, Ethiopia",
+        "datetime": "2026-11-12T14:15:30Z",
+        "end_datetime": "2026-11-13T02:53:34Z",
+        "monty:corr_id": "20261112-ERI-924507-GH0300-1-GCDB",
+        "start_datetime": "2026-11-12T14:15:30Z",
+        "monty:hazard_codes": [
+          "GH0300",
+          "LS",
+          "nat-geo-mmd-lan"
+        ],
+        "monty:country_codes": [
+          "ERI",
+          "ETH"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-e333fde3-7d8c-4d2a-a0fe-c0e9958eccb7-570464-1794493402305",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-6f008d58-a13e-4360-84ba-0e7c8256e864-571130-1794602203970",
+      "bbox": [
+        35.60050180105368,
+        12.38916378124679,
+        35.60050180105368,
+        12.38916378124679
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.60050180105368,
+          12.38916378124679
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Semen Gondar, Amhara, Ethiopia",
+        "datetime": "2026-11-12T13:31:42Z",
+        "end_datetime": "2026-11-14T02:36:49Z",
+        "monty:corr_id": "20261112-ETH-920879-EN0205-1-GCDB",
+        "start_datetime": "2026-11-12T13:31:42Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "ETH"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-6f008d58-a13e-4360-84ba-0e7c8256e864-571130-1794602203970",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-6028c9e2-66c1-4a41-8c55-6de022b024e6-569171-1794354636530",
+      "bbox": [
+        34.56845354091153,
+        8.22209224194556,
+        34.56845354091153,
+        8.22209224194556
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.56845354091153,
+          8.22209224194556
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Agnuak, Gambela Peoples, Ethiopia",
+        "datetime": "2026-11-10T15:04:56Z",
+        "end_datetime": "2026-11-11T23:50:43Z",
+        "monty:corr_id": "20261110-ETH-883074-EN0205-1-GCDB",
+        "start_datetime": "2026-11-10T15:04:56Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "ETH"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-6028c9e2-66c1-4a41-8c55-6de022b024e6-569171-1794354636530",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033702-1",
+      "bbox": [
+        35.3747,
+        11.8643,
+        35.3747,
+        11.8643
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.3747,
+          11.8643
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Ethiopia, Sudan",
+        "datetime": "2026-11-08T00:00:00Z",
+        "end_datetime": "2026-11-10T00:00:00Z",
+        "monty:corr_id": "20261108-SDN-917278-EN0205-1-GCDB",
+        "start_datetime": "2026-11-08T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "SDN",
+          "ETH"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033702-1",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
       "id": "pdc-event-556fc68b-9d1d-4d6a-8b06-b57a36a7a8e0-565532-1793912393646",
       "bbox": [
         35.77062473737432,
@@ -5219,939 +5619,6 @@
       ]
     },
     {
-      "id": "gdacs-event-1027450-9",
-      "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.125,
-          9.246
-        ]
-      },
-      "collection": "gdacs-events",
-      "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-9-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
-        "monty:hazard_codes": [
-          "MH0401",
-          "DR",
-          "nat-cli-dro-dro"
-        ],
-        "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
-          "KEN",
-          "DJI",
-          "NGA",
-          "NER",
-          "SSD",
-          "CMR",
-          "SDN"
-        ]
-      },
-      "links": [
-        {
-          "rel": "collection",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "parent",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "root",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "self",
-          "type": "application/geo+json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-9",
-          "auth:refs": [
-            "oidc"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "gdacs-event-1027450-8",
-      "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.125,
-          9.246
-        ]
-      },
-      "collection": "gdacs-events",
-      "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-8-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
-        "monty:hazard_codes": [
-          "MH0401",
-          "DR",
-          "nat-cli-dro-dro"
-        ],
-        "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
-          "KEN",
-          "DJI",
-          "NGA",
-          "NER",
-          "SSD",
-          "CMR",
-          "SDN"
-        ]
-      },
-      "links": [
-        {
-          "rel": "collection",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "parent",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "root",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "self",
-          "type": "application/geo+json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-8",
-          "auth:refs": [
-            "oidc"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "gdacs-event-1027450-7",
-      "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.125,
-          9.246
-        ]
-      },
-      "collection": "gdacs-events",
-      "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-7-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
-        "monty:hazard_codes": [
-          "MH0401",
-          "DR",
-          "nat-cli-dro-dro"
-        ],
-        "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
-          "KEN",
-          "DJI",
-          "NGA",
-          "NER",
-          "SSD",
-          "CMR",
-          "SDN"
-        ]
-      },
-      "links": [
-        {
-          "rel": "collection",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "parent",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "root",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "self",
-          "type": "application/geo+json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-7",
-          "auth:refs": [
-            "oidc"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "gdacs-event-1027450-6",
-      "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.125,
-          9.246
-        ]
-      },
-      "collection": "gdacs-events",
-      "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-6-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
-        "monty:hazard_codes": [
-          "MH0401",
-          "DR",
-          "nat-cli-dro-dro"
-        ],
-        "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
-          "KEN",
-          "DJI",
-          "NGA",
-          "NER",
-          "SSD",
-          "CMR",
-          "SDN"
-        ]
-      },
-      "links": [
-        {
-          "rel": "collection",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "parent",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "root",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "self",
-          "type": "application/geo+json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-6",
-          "auth:refs": [
-            "oidc"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "gdacs-event-1027450-5",
-      "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.125,
-          9.246
-        ]
-      },
-      "collection": "gdacs-events",
-      "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-5-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
-        "monty:hazard_codes": [
-          "MH0401",
-          "DR",
-          "nat-cli-dro-dro"
-        ],
-        "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
-          "KEN",
-          "DJI",
-          "NGA",
-          "NER",
-          "SSD",
-          "CMR",
-          "SDN"
-        ]
-      },
-      "links": [
-        {
-          "rel": "collection",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "parent",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "root",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "self",
-          "type": "application/geo+json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-5",
-          "auth:refs": [
-            "oidc"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "gdacs-event-1027450-4",
-      "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.125,
-          9.246
-        ]
-      },
-      "collection": "gdacs-events",
-      "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-4-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
-        "monty:hazard_codes": [
-          "MH0401",
-          "DR",
-          "nat-cli-dro-dro"
-        ],
-        "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
-          "KEN",
-          "DJI",
-          "NGA",
-          "NER",
-          "SSD",
-          "CMR",
-          "SDN"
-        ]
-      },
-      "links": [
-        {
-          "rel": "collection",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "parent",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "root",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "self",
-          "type": "application/geo+json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-4",
-          "auth:refs": [
-            "oidc"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "gdacs-event-1027450-3",
-      "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.125,
-          9.246
-        ]
-      },
-      "collection": "gdacs-events",
-      "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-3-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
-        "monty:hazard_codes": [
-          "MH0401",
-          "DR",
-          "nat-cli-dro-dro"
-        ],
-        "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
-          "KEN",
-          "DJI",
-          "NGA",
-          "NER",
-          "SSD",
-          "CMR",
-          "SDN"
-        ]
-      },
-      "links": [
-        {
-          "rel": "collection",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "parent",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "root",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "self",
-          "type": "application/geo+json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-3",
-          "auth:refs": [
-            "oidc"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "gdacs-event-1027450-2",
-      "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.125,
-          9.246
-        ]
-      },
-      "collection": "gdacs-events",
-      "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-2-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
-        "monty:hazard_codes": [
-          "MH0401",
-          "DR",
-          "nat-cli-dro-dro"
-        ],
-        "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
-          "KEN",
-          "DJI",
-          "NGA",
-          "NER",
-          "SSD",
-          "CMR",
-          "SDN"
-        ]
-      },
-      "links": [
-        {
-          "rel": "collection",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "parent",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "root",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "self",
-          "type": "application/geo+json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-2",
-          "auth:refs": [
-            "oidc"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "gdacs-event-1027450-12",
-      "bbox": [
-        25.173,
-        8.344,
-        25.173,
-        8.344
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          25.173,
-          8.344
-        ]
-      },
-      "collection": "gdacs-events",
-      "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Eritrea, Ethiopia, Niger, Nigeria, Sudan, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-26T00:00:00Z",
-        "monty:corr_id": "20260621-ETH-884827-MH0401-12-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
-        "monty:hazard_codes": [
-          "MH0401",
-          "DR",
-          "nat-cli-dro-dro"
-        ],
-        "monty:country_codes": [
-          "ETH",
-          "NGA",
-          "COD",
-          "TCD",
-          "ERI",
-          "SDN",
-          "SSD",
-          "CAF",
-          "NER",
-          "CMR"
-        ]
-      },
-      "links": [
-        {
-          "rel": "collection",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "parent",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "root",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "self",
-          "type": "application/geo+json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-12",
-          "auth:refs": [
-            "oidc"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "gdacs-event-1027450-11",
-      "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.125,
-          9.246
-        ]
-      },
-      "collection": "gdacs-events",
-      "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-11-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
-        "monty:hazard_codes": [
-          "MH0401",
-          "DR",
-          "nat-cli-dro-dro"
-        ],
-        "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
-          "KEN",
-          "DJI",
-          "NGA",
-          "NER",
-          "SSD",
-          "CMR",
-          "SDN"
-        ]
-      },
-      "links": [
-        {
-          "rel": "collection",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "parent",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "root",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "self",
-          "type": "application/geo+json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-11",
-          "auth:refs": [
-            "oidc"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "gdacs-event-1027450-10",
-      "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.125,
-          9.246
-        ]
-      },
-      "collection": "gdacs-events",
-      "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-10-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
-        "monty:hazard_codes": [
-          "MH0401",
-          "DR",
-          "nat-cli-dro-dro"
-        ],
-        "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
-          "KEN",
-          "DJI",
-          "NGA",
-          "NER",
-          "SSD",
-          "CMR",
-          "SDN"
-        ]
-      },
-      "links": [
-        {
-          "rel": "collection",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "parent",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "root",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "self",
-          "type": "application/geo+json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-10",
-          "auth:refs": [
-            "oidc"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "gdacs-event-1027450-1",
-      "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.125,
-          9.246
-        ]
-      },
-      "collection": "gdacs-events",
-      "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-1-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
-        "monty:hazard_codes": [
-          "MH0401",
-          "DR",
-          "nat-cli-dro-dro"
-        ],
-        "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
-          "KEN",
-          "DJI",
-          "NGA",
-          "NER",
-          "SSD",
-          "CMR",
-          "SDN"
-        ]
-      },
-      "links": [
-        {
-          "rel": "collection",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "parent",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "root",
-          "type": "application/json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
-          "auth:refs": [
-            "oidc"
-          ]
-        },
-        {
-          "rel": "self",
-          "type": "application/geo+json",
-          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-1",
-          "auth:refs": [
-            "oidc"
-          ]
-        }
-      ]
-    },
-    {
       "id": "idmc-idu-event-81350",
       "bbox": [
         38.314411,
@@ -6211,6 +5678,1033 @@
           "rel": "self",
           "type": "application/geo+json",
           "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-events/items/idmc-idu-event-81350",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-9",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-9-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-9",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-8",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-8-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-8",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-7",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-7-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-7",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-6",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-6-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-6",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-5",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-5-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-5",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-4",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-4-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-4",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-3",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-3-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-3",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-2",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-2-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-2",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-13",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-13-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-13",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-12",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-12-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-12",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-11",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-11-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-11",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-10",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-10-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-10",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-1",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-1-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-1",
           "auth:refs": [
             "oidc"
           ]
@@ -7713,6 +8207,72 @@
           "rel": "self",
           "type": "application/geo+json",
           "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1028584-1",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "idmc-idu-event-82253",
+      "bbox": [
+        37.74968,
+        6.83336,
+        37.74968,
+        6.83336
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.74968,
+          6.83336
+        ]
+      },
+      "collection": "idmc-idu-events",
+      "properties": {
+        "title": "Ethiopia: Landslide/Wet mass movement - South Ethiopia Region (Wolaita Zone) - 24/04/2026",
+        "datetime": "2026-04-24T00:00:00Z",
+        "end_datetime": "2026-04-24T00:00:00Z",
+        "monty:corr_id": "20260424-ETH-870489-GH0304-1-GCDB",
+        "start_datetime": "2026-04-24T00:00:00Z",
+        "monty:hazard_codes": [
+          "GH0304",
+          "LS",
+          "nat-hyd-mmw-lan"
+        ],
+        "monty:country_codes": [
+          "ETH"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/idmc-idu-events/items/idmc-idu-event-82253",
           "auth:refs": [
             "oidc"
           ]

@@ -2,6 +2,3254 @@
   "type": "FeatureCollection",
   "features": [
     {
+      "id": "pdc-event-27335cb8-cba2-4b84-be16-6276ad8ab8df-572590-1794782064886",
+      "bbox": [
+        20.82528900369272,
+        10.359815172415079,
+        20.82528900369272,
+        10.359815172415079
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.82528900369272,
+          10.359815172415079
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Salamat, Chad",
+        "datetime": "2026-11-15T15:51:42Z",
+        "end_datetime": "2026-11-16T04:34:43Z",
+        "monty:corr_id": "20261115-TCD-902805-EN0205-1-GCDB",
+        "start_datetime": "2026-11-15T15:51:42Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-27335cb8-cba2-4b84-be16-6276ad8ab8df-572590-1794782064886",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-f5a2f46f-6ddb-4ff0-a3a7-a758be790d04-572602-1794784984677",
+      "bbox": [
+        20.86121381053329,
+        10.58433198449373,
+        20.86121381053329,
+        10.58433198449373
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.86121381053329,
+          10.58433198449373
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Salamat Region, Chad",
+        "datetime": "2026-11-15T15:41:42Z",
+        "end_datetime": "2026-11-16T05:23:17Z",
+        "monty:corr_id": "20261115-TCD-904605-EN0205-1-GCDB",
+        "start_datetime": "2026-11-15T15:41:42Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-f5a2f46f-6ddb-4ff0-a3a7-a758be790d04-572602-1794784984677",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-81af3d78-d0f0-4cdb-a002-7e57bd1238c0-572429-1794784964624",
+      "bbox": [
+        19.49535817264341,
+        10.29102493875332,
+        19.49535817264341,
+        10.29102493875332
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.49535817264341,
+          10.29102493875332
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Lac Iro, Moyen-Chari, Chad",
+        "datetime": "2026-11-15T15:41:42Z",
+        "end_datetime": "2026-11-16T23:22:52Z",
+        "monty:corr_id": "20261115-TCD-902798-EN0205-1-GCDB",
+        "start_datetime": "2026-11-15T15:41:42Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-81af3d78-d0f0-4cdb-a002-7e57bd1238c0-572429-1794784964624",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-65de9fc7-c3ed-45e0-969b-3d4b38b4c76d-572598-1794782068770",
+      "bbox": [
+        21.300889129125043,
+        11.072627288010256,
+        21.300889129125043,
+        11.072627288010256
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.300889129125043,
+          11.072627288010256
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Haraze Mangueigne, Salamat, Chad",
+        "datetime": "2026-11-15T15:21:42Z",
+        "end_datetime": "2026-11-16T04:34:48Z",
+        "monty:corr_id": "20261115-TCD-910007-EN0205-1-GCDB",
+        "start_datetime": "2026-11-15T15:21:42Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-65de9fc7-c3ed-45e0-969b-3d4b38b4c76d-572598-1794782068770",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-889436b3-aa57-47f2-81d0-fe319b1cf5a5-572422-1794778924241",
+      "bbox": [
+        20.51148160634113,
+        10.16064216078942,
+        20.51148160634113,
+        10.16064216078942
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.51148160634113,
+          10.16064216078942
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Barh Azoum, Salamat, Chad",
+        "datetime": "2026-11-15T14:51:47Z",
+        "end_datetime": "2026-11-16T21:42:06Z",
+        "monty:corr_id": "20261115-TCD-901003-EN0205-1-GCDB",
+        "start_datetime": "2026-11-15T14:51:47Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-889436b3-aa57-47f2-81d0-fe319b1cf5a5-572422-1794778924241",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-0d665a87-733e-4fce-a0a1-2e8befd79227-572392-1794784985487",
+      "bbox": [
+        16.96802876190866,
+        10.67449397527489,
+        16.96802876190866,
+        10.67449397527489
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.96802876190866,
+          10.67449397527489
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Loug Chari, Chari-Baguirmi, Chad",
+        "datetime": "2026-11-15T14:51:47Z",
+        "end_datetime": "2026-11-16T05:23:18Z",
+        "monty:corr_id": "20261115-TCD-906386-EN0205-1-GCDB",
+        "start_datetime": "2026-11-15T14:51:47Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-0d665a87-733e-4fce-a0a1-2e8befd79227-572392-1794784985487",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-0d665a87-733e-4fce-a0a1-2e8befd79227-572392-1794756036671",
+      "bbox": [
+        16.96802876190866,
+        10.67449397527489,
+        16.96802876190866,
+        10.67449397527489
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.96802876190866,
+          10.67449397527489
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Loug Chari, Chari-Baguirmi, Chad",
+        "datetime": "2026-11-15T14:51:47Z",
+        "end_datetime": "2026-11-16T05:23:18Z",
+        "monty:corr_id": "20261115-TCD-906386-EN0205-1-GCDB",
+        "start_datetime": "2026-11-15T14:51:47Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-0d665a87-733e-4fce-a0a1-2e8befd79227-572392-1794756036671",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-8437d0f9-b9c4-4dbc-817b-12f878a92190-571839-1794694303758",
+      "bbox": [
+        17.23016935379966,
+        12.94417905641349,
+        17.23016935379966,
+        12.94417905641349
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.23016935379966,
+          12.94417905641349
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Batha Oues, Batha, Chad",
+        "datetime": "2026-11-14T16:01:42Z",
+        "end_datetime": "2026-11-15T04:11:47Z",
+        "monty:corr_id": "20261114-TCD-926187-EN0205-1-GCDB",
+        "start_datetime": "2026-11-14T16:01:42Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-8437d0f9-b9c4-4dbc-817b-12f878a92190-571839-1794694303758",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-e9fe9bc2-1eaa-432a-83b5-e09ba976a5e3-572522-1794774161670",
+      "bbox": [
+        20.274314375275868,
+        12.019735277880468,
+        20.274314375275868,
+        12.019735277880468
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.274314375275868,
+          12.019735277880468
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Salamat and Sila Regions, Chad",
+        "datetime": "2026-11-14T15:01:54Z",
+        "end_datetime": "2026-11-16T02:22:48Z",
+        "monty:corr_id": "20261114-TCD-917202-EN0205-1-GCDB",
+        "start_datetime": "2026-11-14T15:01:54Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-e9fe9bc2-1eaa-432a-83b5-e09ba976a5e3-572522-1794774161670",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-e43519ec-123b-46c7-acd3-a14fd0320dab-571809-1794690734309",
+      "bbox": [
+        20.55381037523205,
+        10.31192630128897,
+        20.55381037523205,
+        10.31192630128897
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.55381037523205,
+          10.31192630128897
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Barh Azoum, Salamat, Chad",
+        "datetime": "2026-11-14T15:01:54Z",
+        "end_datetime": "2026-11-15T03:12:18Z",
+        "monty:corr_id": "20261114-TCD-902804-EN0205-1-GCDB",
+        "start_datetime": "2026-11-14T15:01:54Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-e43519ec-123b-46c7-acd3-a14fd0320dab-571809-1794690734309",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-bea057ed-63fc-480e-83a6-b4b34cf6c094-571813-1794690734691",
+      "bbox": [
+        21.53726467233648,
+        10.90996375303575,
+        21.53726467233648,
+        10.90996375303575
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.53726467233648,
+          10.90996375303575
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Haraze Mangueigne, Salamat, Chad",
+        "datetime": "2026-11-14T15:01:54Z",
+        "end_datetime": "2026-11-15T03:12:18Z",
+        "monty:corr_id": "20261114-TCD-908208-EN0205-1-GCDB",
+        "start_datetime": "2026-11-14T15:01:54Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-bea057ed-63fc-480e-83a6-b4b34cf6c094-571813-1794690734691",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "NER",
+          "LBY",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-6e0ea333-dc1a-4092-98a3-abe868164301-571220-1794606708141",
+      "bbox": [
+        20.57432977680044,
+        12.04221750530271,
+        20.57432977680044,
+        12.04221750530271
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.57432977680044,
+          12.04221750530271
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Djourf Al Ahmar, Sila, Chad",
+        "datetime": "2026-11-13T15:02:40Z",
+        "end_datetime": "2026-11-14T03:51:57Z",
+        "monty:corr_id": "20261113-TCD-917204-EN0205-1-GCDB",
+        "start_datetime": "2026-11-13T15:02:40Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-6e0ea333-dc1a-4092-98a3-abe868164301-571220-1794606708141",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-3989bcb3-ec36-4435-b4e1-7a76f083b7ae-571142-1794578898512",
+      "bbox": [
+        15.44711631855262,
+        14.57882834375525,
+        15.44711631855262,
+        14.57882834375525
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.44711631855262,
+          14.57882834375525
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Dry Haze - Barh El Gazal, Kanem, Lac, Chad",
+        "datetime": "2026-11-13T13:00:00Z",
+        "end_datetime": "2026-11-14T13:00:00Z",
+        "monty:corr_id": "20261113-NER-940578-MH0103-1-GCDB",
+        "start_datetime": "2026-11-13T13:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103",
+          "ST",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "NER",
+          "NGA",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-3989bcb3-ec36-4435-b4e1-7a76f083b7ae-571142-1794578898512",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-760109ee-1461-4fff-a1a4-8a750b9b6784-570532-1794520909922",
+      "bbox": [
+        19.54928561428613,
+        9.94194342508765,
+        19.54928561428613,
+        9.94194342508765
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.54928561428613,
+          9.94194342508765
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Lac Iro, Moyen-Chari, Chad",
+        "datetime": "2026-11-12T15:51:42Z",
+        "end_datetime": "2026-11-13T04:02:00Z",
+        "monty:corr_id": "20261112-TCD-899198-EN0205-1-GCDB",
+        "start_datetime": "2026-11-12T15:51:42Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-760109ee-1461-4fff-a1a4-8a750b9b6784-570532-1794520909922",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-cd203c42-ea2d-4779-a533-d771a020d2f3-570853-1794539295799",
+      "bbox": [
+        20.170433746377043,
+        10.782166442071583,
+        20.170433746377043,
+        10.782166442071583
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.170433746377043,
+          10.782166442071583
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Barh Azoum, Salamat, Chad",
+        "datetime": "2026-11-12T14:31:42Z",
+        "end_datetime": "2026-11-13T09:08:27Z",
+        "monty:corr_id": "20261112-TCD-906402-EN0205-1-GCDB",
+        "start_datetime": "2026-11-12T14:31:42Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-cd203c42-ea2d-4779-a533-d771a020d2f3-570853-1794539295799",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-e38b563c-f514-4ee8-9355-09715a93408b-570470-1794520944437",
+      "bbox": [
+        20.31791363570728,
+        11.88209595599454,
+        20.31791363570728,
+        11.88209595599454
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.31791363570728,
+          11.88209595599454
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Barh Azoum, Salamat, Chad",
+        "datetime": "2026-11-12T14:21:44Z",
+        "end_datetime": "2026-11-13T04:02:31Z",
+        "monty:corr_id": "20261112-TCD-917202-EN0205-1-GCDB",
+        "start_datetime": "2026-11-12T14:21:44Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-e38b563c-f514-4ee8-9355-09715a93408b-570470-1794520944437",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-e38b563c-f514-4ee8-9355-09715a93408b-570470-1794493634839",
+      "bbox": [
+        20.31791363570728,
+        11.88209595599454,
+        20.31791363570728,
+        11.88209595599454
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.31791363570728,
+          11.88209595599454
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Barh Azoum, Salamat, Chad",
+        "datetime": "2026-11-12T14:21:44Z",
+        "end_datetime": "2026-11-13T04:02:31Z",
+        "monty:corr_id": "20261112-TCD-917202-EN0205-1-GCDB",
+        "start_datetime": "2026-11-12T14:21:44Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-e38b563c-f514-4ee8-9355-09715a93408b-570470-1794493634839",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-184bbdb4-a4c1-4119-8624-760eb700b57d-569867-1794437803404",
+      "bbox": [
+        19.93193767192094,
+        9.37529670661477,
+        19.93193767192094,
+        9.37529670661477
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.93193767192094,
+          9.37529670661477
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Haraze Mangueigne, Chad",
+        "datetime": "2026-11-11T14:32:07Z",
+        "end_datetime": "2026-11-12T22:56:47Z",
+        "monty:corr_id": "20261111-TCD-893800-EN0205-1-GCDB",
+        "start_datetime": "2026-11-11T14:32:07Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-184bbdb4-a4c1-4119-8624-760eb700b57d-569867-1794437803404",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-21c64d1e-5437-4a5c-9ca6-b6f8f682dcc1-569296-1794343692103",
+      "bbox": [
+        20.995864493567876,
+        10.688065264593469,
+        20.995864493567876,
+        10.688065264593469
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.995864493567876,
+          10.688065264593469
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Salamat Region, Chad",
+        "datetime": "2026-11-10T16:04:48Z",
+        "end_datetime": "2026-11-11T02:48:24Z",
+        "monty:corr_id": "20261110-TCD-906406-EN0205-1-GCDB",
+        "start_datetime": "2026-11-10T16:04:48Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-21c64d1e-5437-4a5c-9ca6-b6f8f682dcc1-569296-1794343692103",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-d5883d78-6bba-4bb3-8a13-8979383f893c-569273-1794342139278",
+      "bbox": [
+        21.715595172180677,
+        10.305179181863704,
+        21.715595172180677,
+        10.305179181863704
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.715595172180677,
+          10.305179181863704
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Birao area near Vakaga–Salamat border, Central African Republic and Chad",
+        "datetime": "2026-11-10T15:24:48Z",
+        "end_datetime": "2026-11-11T20:22:31Z",
+        "monty:corr_id": "20261110-CAF-902809-EN0205-1-GCDB",
+        "start_datetime": "2026-11-10T15:24:48Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "CAF",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-d5883d78-6bba-4bb3-8a13-8979383f893c-569273-1794342139278",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-d49b0ecd-5e1d-443f-9819-d28a5d36fcb8-569240-1794338834884",
+      "bbox": [
+        20.42988450311269,
+        10.493583526692241,
+        20.42988450311269,
+        10.493583526692241
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.42988450311269,
+          10.493583526692241
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Barh Azoum, Salamat, Chad",
+        "datetime": "2026-11-10T15:24:48Z",
+        "end_datetime": "2026-11-11T19:27:29Z",
+        "monty:corr_id": "20261110-TCD-904603-EN0205-1-GCDB",
+        "start_datetime": "2026-11-10T15:24:48Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-d49b0ecd-5e1d-443f-9819-d28a5d36fcb8-569240-1794338834884",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-5ade7098-4c5b-4957-9600-fdb0bd425144-569264-1794341243778",
+      "bbox": [
+        19.952771603445125,
+        10.840636185401637,
+        19.952771603445125,
+        10.840636185401637
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.952771603445125,
+          10.840636185401637
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Barh Azoum, Salamat, Chad",
+        "datetime": "2026-11-10T13:44:48Z",
+        "end_datetime": "2026-11-11T20:07:28Z",
+        "monty:corr_id": "20261110-TCD-906401-EN0205-1-GCDB",
+        "start_datetime": "2026-11-10T13:44:48Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-5ade7098-4c5b-4957-9600-fdb0bd425144-569264-1794341243778",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-5f629f84-f44e-4ce9-8602-62e97d287dd6-568454-1794264324466",
+      "bbox": [
+        20.70477922316539,
+        10.3000448654697,
+        20.70477922316539,
+        10.3000448654697
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.70477922316539,
+          10.3000448654697
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Barh Azoum, Salamat, Chad",
+        "datetime": "2026-11-09T14:45:01Z",
+        "end_datetime": "2026-11-10T22:45:38Z",
+        "monty:corr_id": "20261109-TCD-902804-EN0205-1-GCDB",
+        "start_datetime": "2026-11-09T14:45:01Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-5f629f84-f44e-4ce9-8602-62e97d287dd6-568454-1794264324466",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-4012d4d1-8e01-4bd0-a121-e68b11dffc14-568453-1794265790240",
+      "bbox": [
+        20.4615615888184,
+        9.85724160341694,
+        20.4615615888184,
+        9.85724160341694
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.4615615888184,
+          9.85724160341694
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Haraze Mangueigne, Salamat, Chad",
+        "datetime": "2026-11-09T14:45:01Z",
+        "end_datetime": "2026-11-10T23:09:54Z",
+        "monty:corr_id": "20261109-TCD-899203-EN0205-1-GCDB",
+        "start_datetime": "2026-11-09T14:45:01Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-4012d4d1-8e01-4bd0-a121-e68b11dffc14-568453-1794265790240",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-4012d4d1-8e01-4bd0-a121-e68b11dffc14-568453-1794242464515",
+      "bbox": [
+        20.4615615888184,
+        9.85724160341694,
+        20.4615615888184,
+        9.85724160341694
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.4615615888184,
+          9.85724160341694
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Potential Wildfire - Haraze Mangueigne, Salamat, Chad",
+        "datetime": "2026-11-09T14:45:01Z",
+        "end_datetime": "2026-11-10T23:09:54Z",
+        "monty:corr_id": "20261109-TCD-899203-EN0205-1-GCDB",
+        "start_datetime": "2026-11-09T14:45:01Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-4012d4d1-8e01-4bd0-a121-e68b11dffc14-568453-1794242464515",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-event-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-events",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "NER",
+          "LBY",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033776-6",
+      "bbox": [
+        20.4785,
+        10.406,
+        20.4785,
+        10.406
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.4785,
+          10.406
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-902803-EN0205-6-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033776-6",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033776-5",
+      "bbox": [
+        20.4785,
+        10.406,
+        20.4785,
+        10.406
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.4785,
+          10.406
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-902803-EN0205-5-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033776-5",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033776-4",
+      "bbox": [
+        20.4785,
+        10.406,
+        20.4785,
+        10.406
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.4785,
+          10.406
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-902803-EN0205-4-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033776-4",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033776-3",
+      "bbox": [
+        20.4785,
+        10.406,
+        20.4785,
+        10.406
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.4785,
+          10.406
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-902803-EN0205-3-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033776-3",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033776-2",
+      "bbox": [
+        20.4785,
+        10.406,
+        20.4785,
+        10.406
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.4785,
+          10.406
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-902803-EN0205-2-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033776-2",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033776-1",
+      "bbox": [
+        20.4785,
+        10.406,
+        20.4785,
+        10.406
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.4785,
+          10.406
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-902803-EN0205-1-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033776-1",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033743-9",
+      "bbox": [
+        19.9122,
+        10.792,
+        19.9122,
+        10.792
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.9122,
+          10.792
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-906400-EN0205-9-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033743-9",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033743-8",
+      "bbox": [
+        19.9122,
+        10.792,
+        19.9122,
+        10.792
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.9122,
+          10.792
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-906400-EN0205-8-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033743-8",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033743-7",
+      "bbox": [
+        19.9122,
+        10.792,
+        19.9122,
+        10.792
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.9122,
+          10.792
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-906400-EN0205-7-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033743-7",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033743-6",
+      "bbox": [
+        19.9122,
+        10.792,
+        19.9122,
+        10.792
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.9122,
+          10.792
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-906400-EN0205-6-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033743-6",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033743-5",
+      "bbox": [
+        19.9122,
+        10.792,
+        19.9122,
+        10.792
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.9122,
+          10.792
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-906400-EN0205-5-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033743-5",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033743-4",
+      "bbox": [
+        19.9122,
+        10.792,
+        19.9122,
+        10.792
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.9122,
+          10.792
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-906400-EN0205-4-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033743-4",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033743-3",
+      "bbox": [
+        19.9122,
+        10.792,
+        19.9122,
+        10.792
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.9122,
+          10.792
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-906400-EN0205-3-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033743-3",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033743-2",
+      "bbox": [
+        19.9122,
+        10.792,
+        19.9122,
+        10.792
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.9122,
+          10.792
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-906400-EN0205-2-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033743-2",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033743-1",
+      "bbox": [
+        19.9122,
+        10.792,
+        19.9122,
+        10.792
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.9122,
+          10.792
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-TCD-906400-EN0205-1-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033743-1",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033697-7",
+      "bbox": [
+        20.8392,
+        9.2108,
+        20.8392,
+        9.2108
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.8392,
+          9.2108
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Central African Republic, Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-CAF-892005-EN0205-7-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "CAF",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033697-7",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033697-6",
+      "bbox": [
+        20.8392,
+        9.2108,
+        20.8392,
+        9.2108
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.8392,
+          9.2108
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Central African Republic, Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-CAF-892005-EN0205-6-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "CAF",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033697-6",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033697-5",
+      "bbox": [
+        20.8392,
+        9.2108,
+        20.8392,
+        9.2108
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.8392,
+          9.2108
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Central African Republic, Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-CAF-892005-EN0205-5-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "CAF",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033697-5",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033697-4",
+      "bbox": [
+        20.8392,
+        9.2108,
+        20.8392,
+        9.2108
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.8392,
+          9.2108
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Central African Republic, Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-CAF-892005-EN0205-4-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "CAF",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033697-4",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033697-3",
+      "bbox": [
+        20.8392,
+        9.2108,
+        20.8392,
+        9.2108
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.8392,
+          9.2108
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Central African Republic, Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-CAF-892005-EN0205-3-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "CAF",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033697-3",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033697-2",
+      "bbox": [
+        20.8392,
+        9.2108,
+        20.8392,
+        9.2108
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.8392,
+          9.2108
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Central African Republic, Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-CAF-892005-EN0205-2-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "CAF",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033697-2",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033697-1",
+      "bbox": [
+        20.8392,
+        9.2108,
+        20.8392,
+        9.2108
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.8392,
+          9.2108
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Central African Republic, Chad",
+        "datetime": "2026-11-09T00:00:00Z",
+        "end_datetime": "2026-11-15T00:00:00Z",
+        "monty:corr_id": "20261109-CAF-892005-EN0205-1-GCDB",
+        "start_datetime": "2026-11-09T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "CAF",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033697-1",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
       "id": "pdc-event-e2228459-02af-4a0e-9e26-81fc9e172e28-566949-1794058053232",
       "bbox": [
         17.19396905831712,
@@ -62,6 +3310,336 @@
           "rel": "self",
           "type": "application/geo+json",
           "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-e2228459-02af-4a0e-9e26-81fc9e172e28-566949-1794058053232",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033800-5",
+      "bbox": [
+        20.754,
+        10.934,
+        20.754,
+        10.934
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.754,
+          10.934
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-08T00:00:00Z",
+        "end_datetime": "2026-11-14T00:00:00Z",
+        "monty:corr_id": "20261108-TCD-908205-EN0205-5-GCDB",
+        "start_datetime": "2026-11-08T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033800-5",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033800-4",
+      "bbox": [
+        20.754,
+        10.934,
+        20.754,
+        10.934
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.754,
+          10.934
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-08T00:00:00Z",
+        "end_datetime": "2026-11-14T00:00:00Z",
+        "monty:corr_id": "20261108-TCD-908205-EN0205-4-GCDB",
+        "start_datetime": "2026-11-08T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033800-4",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033800-3",
+      "bbox": [
+        20.754,
+        10.934,
+        20.754,
+        10.934
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.754,
+          10.934
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-08T00:00:00Z",
+        "end_datetime": "2026-11-14T00:00:00Z",
+        "monty:corr_id": "20261108-TCD-908205-EN0205-3-GCDB",
+        "start_datetime": "2026-11-08T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033800-3",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033800-2",
+      "bbox": [
+        20.754,
+        10.934,
+        20.754,
+        10.934
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.754,
+          10.934
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-08T00:00:00Z",
+        "end_datetime": "2026-11-14T00:00:00Z",
+        "monty:corr_id": "20261108-TCD-908205-EN0205-2-GCDB",
+        "start_datetime": "2026-11-08T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033800-2",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033800-1",
+      "bbox": [
+        20.754,
+        10.934,
+        20.754,
+        10.934
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.754,
+          10.934
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-08T00:00:00Z",
+        "end_datetime": "2026-11-14T00:00:00Z",
+        "monty:corr_id": "20261108-TCD-908205-EN0205-1-GCDB",
+        "start_datetime": "2026-11-08T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033800-1",
           "auth:refs": [
             "oidc"
           ]
@@ -547,6 +4125,204 @@
       ]
     },
     {
+      "id": "gdacs-event-1033804-3",
+      "bbox": [
+        20.1648,
+        10.7698,
+        20.1648,
+        10.7698
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.1648,
+          10.7698
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-07T00:00:00Z",
+        "end_datetime": "2026-11-13T00:00:00Z",
+        "monty:corr_id": "20261107-TCD-906402-EN0205-3-GCDB",
+        "start_datetime": "2026-11-07T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033804-3",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033804-2",
+      "bbox": [
+        20.1648,
+        10.7698,
+        20.1648,
+        10.7698
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.1648,
+          10.7698
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-07T00:00:00Z",
+        "end_datetime": "2026-11-13T00:00:00Z",
+        "monty:corr_id": "20261107-TCD-906402-EN0205-2-GCDB",
+        "start_datetime": "2026-11-07T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033804-2",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033804-1",
+      "bbox": [
+        20.1648,
+        10.7698,
+        20.1648,
+        10.7698
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.1648,
+          10.7698
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-07T00:00:00Z",
+        "end_datetime": "2026-11-13T00:00:00Z",
+        "monty:corr_id": "20261107-TCD-906402-EN0205-1-GCDB",
+        "start_datetime": "2026-11-07T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033804-1",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
       "id": "pdc-event-d25c3b04-6ce4-4da3-ab1d-61fcd8e82adf-566332-1794001190541",
       "bbox": [
         20.9152770851668,
@@ -742,6 +4518,274 @@
           "rel": "self",
           "type": "application/geo+json",
           "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-3fcbc73d-3480-4c91-9e6e-5b0aebbed151-566235-1793968691573",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033807-4",
+      "bbox": [
+        19.9487,
+        9.3721,
+        19.9487,
+        9.3721
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.9487,
+          9.3721
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad, Central African Republic",
+        "datetime": "2026-11-06T00:00:00Z",
+        "end_datetime": "2026-11-14T00:00:00Z",
+        "monty:corr_id": "20261106-CAF-893800-EN0205-4-GCDB",
+        "start_datetime": "2026-11-06T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "CAF",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033807-4",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033807-3",
+      "bbox": [
+        19.9487,
+        9.3721,
+        19.9487,
+        9.3721
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.9487,
+          9.3721
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad, Central African Republic",
+        "datetime": "2026-11-06T00:00:00Z",
+        "end_datetime": "2026-11-14T00:00:00Z",
+        "monty:corr_id": "20261106-CAF-893800-EN0205-3-GCDB",
+        "start_datetime": "2026-11-06T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "CAF",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033807-3",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033807-2",
+      "bbox": [
+        19.9487,
+        9.3721,
+        19.9487,
+        9.3721
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.9487,
+          9.3721
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad, Central African Republic",
+        "datetime": "2026-11-06T00:00:00Z",
+        "end_datetime": "2026-11-14T00:00:00Z",
+        "monty:corr_id": "20261106-CAF-893800-EN0205-2-GCDB",
+        "start_datetime": "2026-11-06T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "CAF",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033807-2",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033807-1",
+      "bbox": [
+        19.9487,
+        9.3721,
+        19.9487,
+        9.3721
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.9487,
+          9.3721
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad, Central African Republic",
+        "datetime": "2026-11-06T00:00:00Z",
+        "end_datetime": "2026-11-14T00:00:00Z",
+        "monty:corr_id": "20261106-CAF-893800-EN0205-1-GCDB",
+        "start_datetime": "2026-11-06T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "CAF",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033807-1",
           "auth:refs": [
             "oidc"
           ]
@@ -2015,25 +6059,91 @@
       ]
     },
     {
-      "id": "gdacs-event-1033548-1",
+      "id": "gdacs-event-1033548-2",
       "bbox": [
-        20.8852,
-        10.2101,
-        20.8852,
-        10.2101
+        20.8847,
+        10.21,
+        20.8847,
+        10.21
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          20.8852,
-          10.2101
+          20.8847,
+          10.21
         ]
       },
       "collection": "gdacs-events",
       "properties": {
         "title": "Forest fires in Chad",
         "datetime": "2026-11-01T00:00:00Z",
-        "end_datetime": "2026-11-06T00:00:00Z",
+        "end_datetime": "2026-11-09T00:00:00Z",
+        "monty:corr_id": "20261101-TCD-901005-EN0205-2-GCDB",
+        "start_datetime": "2026-11-01T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033548-2",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033548-1",
+      "bbox": [
+        20.8847,
+        10.21,
+        20.8847,
+        10.21
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.8847,
+          10.21
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-11-01T00:00:00Z",
+        "end_datetime": "2026-11-09T00:00:00Z",
         "monty:corr_id": "20261101-TCD-901005-EN0205-1-GCDB",
         "start_datetime": "2026-11-01T00:00:00Z",
         "monty:hazard_codes": [
@@ -2949,6 +7059,72 @@
           "rel": "self",
           "type": "application/geo+json",
           "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-events/items/pdc-event-d217c895-82f6-4118-b58f-88739d565092-561554-1793347220633",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1033768-1",
+      "bbox": [
+        21.0843,
+        11.3544,
+        21.0843,
+        11.3544
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.0843,
+          11.3544
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Forest fires in Chad",
+        "datetime": "2026-10-28T00:00:00Z",
+        "end_datetime": "2026-11-11T00:00:00Z",
+        "monty:corr_id": "20261028-TCD-911806-EN0205-1-GCDB",
+        "start_datetime": "2026-10-28T00:00:00Z",
+        "monty:hazard_codes": [
+          "EN0205",
+          "WF",
+          "nat-cli-wil-wil"
+        ],
+        "monty:country_codes": [
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1033768-1",
           "auth:refs": [
             "oidc"
           ]
@@ -13158,44 +17334,45 @@
     {
       "id": "gdacs-event-1027450-9",
       "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
+        31.76,
+        9.405,
+        31.76,
+        9.405
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.125,
-          9.246
+          31.76,
+          9.405
         ]
       },
       "collection": "gdacs-events",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-9-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-9-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401",
           "DR",
           "nat-cli-dro-dro"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ]
       },
       "links": [
@@ -13236,44 +17413,45 @@
     {
       "id": "gdacs-event-1027450-8",
       "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
+        31.76,
+        9.405,
+        31.76,
+        9.405
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.125,
-          9.246
+          31.76,
+          9.405
         ]
       },
       "collection": "gdacs-events",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-8-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-8-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401",
           "DR",
           "nat-cli-dro-dro"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ]
       },
       "links": [
@@ -13314,44 +17492,45 @@
     {
       "id": "gdacs-event-1027450-7",
       "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
+        31.76,
+        9.405,
+        31.76,
+        9.405
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.125,
-          9.246
+          31.76,
+          9.405
         ]
       },
       "collection": "gdacs-events",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-7-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-7-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401",
           "DR",
           "nat-cli-dro-dro"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ]
       },
       "links": [
@@ -13392,44 +17571,45 @@
     {
       "id": "gdacs-event-1027450-6",
       "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
+        31.76,
+        9.405,
+        31.76,
+        9.405
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.125,
-          9.246
+          31.76,
+          9.405
         ]
       },
       "collection": "gdacs-events",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-6-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-6-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401",
           "DR",
           "nat-cli-dro-dro"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ]
       },
       "links": [
@@ -13470,44 +17650,45 @@
     {
       "id": "gdacs-event-1027450-5",
       "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
+        31.76,
+        9.405,
+        31.76,
+        9.405
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.125,
-          9.246
+          31.76,
+          9.405
         ]
       },
       "collection": "gdacs-events",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-5-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-5-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401",
           "DR",
           "nat-cli-dro-dro"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ]
       },
       "links": [
@@ -13548,44 +17729,45 @@
     {
       "id": "gdacs-event-1027450-4",
       "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
+        31.76,
+        9.405,
+        31.76,
+        9.405
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.125,
-          9.246
+          31.76,
+          9.405
         ]
       },
       "collection": "gdacs-events",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-4-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-4-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401",
           "DR",
           "nat-cli-dro-dro"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ]
       },
       "links": [
@@ -13626,44 +17808,45 @@
     {
       "id": "gdacs-event-1027450-3",
       "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
+        31.76,
+        9.405,
+        31.76,
+        9.405
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.125,
-          9.246
+          31.76,
+          9.405
         ]
       },
       "collection": "gdacs-events",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-3-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-3-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401",
           "DR",
           "nat-cli-dro-dro"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ]
       },
       "links": [
@@ -13704,44 +17887,45 @@
     {
       "id": "gdacs-event-1027450-2",
       "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
+        31.76,
+        9.405,
+        31.76,
+        9.405
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.125,
-          9.246
+          31.76,
+          9.405
         ]
       },
       "collection": "gdacs-events",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-2-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-2-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401",
           "DR",
           "nat-cli-dro-dro"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ]
       },
       "links": [
@@ -13780,43 +17964,126 @@
       ]
     },
     {
-      "id": "gdacs-event-1027450-12",
+      "id": "gdacs-event-1027450-13",
       "bbox": [
-        25.173,
-        8.344,
-        25.173,
-        8.344
+        31.76,
+        9.405,
+        31.76,
+        9.405
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          25.173,
-          8.344
+          31.76,
+          9.405
         ]
       },
       "collection": "gdacs-events",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Eritrea, Ethiopia, Niger, Nigeria, Sudan, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-26T00:00:00Z",
-        "monty:corr_id": "20260621-ETH-884827-MH0401-12-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-13-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401",
           "DR",
           "nat-cli-dro-dro"
         ],
         "monty:country_codes": [
+          "TZA",
+          "KEN",
+          "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
           "ETH",
           "NGA",
           "COD",
-          "TCD",
-          "ERI",
-          "SDN",
-          "SSD",
+          "BDI",
           "CAF",
+          "SSD",
+          "TCD"
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/gdacs-events/items/gdacs-event-1027450-13",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gdacs-event-1027450-12",
+      "bbox": [
+        31.76,
+        9.405,
+        31.76,
+        9.405
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.76,
+          9.405
+        ]
+      },
+      "collection": "gdacs-events",
+      "properties": {
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-12-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0401",
+          "DR",
+          "nat-cli-dro-dro"
+        ],
+        "monty:country_codes": [
+          "TZA",
+          "KEN",
           "NER",
-          "CMR"
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
+          "SSD",
+          "TCD"
         ]
       },
       "links": [
@@ -13857,44 +18124,45 @@
     {
       "id": "gdacs-event-1027450-11",
       "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
+        31.76,
+        9.405,
+        31.76,
+        9.405
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.125,
-          9.246
+          31.76,
+          9.405
         ]
       },
       "collection": "gdacs-events",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-11-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-11-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401",
           "DR",
           "nat-cli-dro-dro"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ]
       },
       "links": [
@@ -13935,44 +18203,45 @@
     {
       "id": "gdacs-event-1027450-10",
       "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
+        31.76,
+        9.405,
+        31.76,
+        9.405
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.125,
-          9.246
+          31.76,
+          9.405
         ]
       },
       "collection": "gdacs-events",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-10-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-10-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401",
           "DR",
           "nat-cli-dro-dro"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ]
       },
       "links": [
@@ -14013,44 +18282,45 @@
     {
       "id": "gdacs-event-1027450-1",
       "bbox": [
-        26.125,
-        9.246,
-        26.125,
-        9.246
+        31.76,
+        9.405,
+        31.76,
+        9.405
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.125,
-          9.246
+          31.76,
+          9.405
         ]
       },
       "collection": "gdacs-events",
       "properties": {
-        "title": "Drought in Democratic Republic of Congo, Central African Republic, Cameroon, Djibouti, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Sudan, Somalia, South Sudan, Chad",
-        "datetime": "2026-06-21T00:00:00Z",
-        "end_datetime": "2026-10-02T00:00:00Z",
-        "monty:corr_id": "20260621-CAF-892031-MH0401-1-GCDB",
-        "start_datetime": "2026-06-21T00:00:00Z",
+        "title": "Drought in Burundi, Democratic Republic of Congo, Central African Republic, Eritrea, Ethiopia, Kenya, Niger, Nigeria, Rwanda, Sudan, South Sudan, Chad, Tanzania, Uganda",
+        "datetime": "2026-05-21T00:00:00Z",
+        "end_datetime": "2026-11-12T08:29:24Z",
+        "monty:corr_id": "20260521-TZA-893860-MH0401-1-GCDB",
+        "start_datetime": "2026-05-21T00:00:00Z",
         "monty:hazard_codes": [
           "MH0401",
           "DR",
           "nat-cli-dro-dro"
         ],
         "monty:country_codes": [
-          "CAF",
-          "COD",
-          "ETH",
-          "TCD",
-          "SOM",
-          "ERI",
+          "TZA",
           "KEN",
-          "DJI",
-          "NGA",
           "NER",
+          "ERI",
+          "RWA",
+          "SDN",
+          "UGA",
+          "ETH",
+          "NGA",
+          "COD",
+          "BDI",
+          "CAF",
           "SSD",
-          "CMR",
-          "SDN"
+          "TCD"
         ]
       },
       "links": [

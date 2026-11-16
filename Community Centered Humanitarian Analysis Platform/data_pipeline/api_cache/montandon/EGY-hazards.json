@@ -2,6 +2,222 @@
   "type": "FeatureCollection",
   "features": [
     {
+      "id": "pdc-hazard-358649d5-8966-433f-b69e-577ebd55db4c-572633-1794787091029",
+      "bbox": [
+        34.80157241801462,
+        31.01291116893077,
+        34.80157241801462,
+        31.01291116893077
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.80157241801462,
+          31.01291116893077
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Dense Fog - Northwestern, Northeastern And Western Negev, Israel",
+        "datetime": "2026-11-16T00:00:00Z",
+        "end_datetime": "2026-11-16T04:00:00Z",
+        "monty:corr_id": "20261116-PSE-1088275-MH0103-1-GCDB",
+        "start_datetime": "2026-11-16T00:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103"
+        ],
+        "monty:country_codes": [
+          "PSE",
+          "ISR",
+          "EGY"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "WARNING",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-358649d5-8966-433f-b69e-577ebd55db4c-572633-1794787091029",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-hazard-362e2bd5-e445-456f-b340-92be72f7b0eb-572576-1794787208824",
+      "bbox": [
+        34.83763810472967,
+        31.03508573239287,
+        34.83763810472967,
+        31.03508573239287
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.83763810472967,
+          31.03508573239287
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Dense Fog - North Western Negev, Israel",
+        "datetime": "2026-11-15T21:32:00Z",
+        "end_datetime": "2026-11-16T00:15:15Z",
+        "monty:corr_id": "20261115-PSE-1088275-MH0103-1-GCDB",
+        "start_datetime": "2026-11-15T21:32:00Z",
+        "monty:hazard_codes": [
+          "MH0103"
+        ],
+        "monty:country_codes": [
+          "PSE",
+          "ISR",
+          "EGY"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "WARNING",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-362e2bd5-e445-456f-b340-92be72f7b0eb-572576-1794787208824",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-hazard-e09c6bb2-9832-4b3c-81d9-68730b6815f6-572505-1794787210005",
+      "bbox": [
+        34.80157241801462,
+        31.01291116893077,
+        34.80157241801462,
+        31.01291116893077
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.80157241801462,
+          31.01291116893077
+        ]
+      },
+      "collection": "pdc-hazards",
+      "properties": {
+        "title": "Dense Fog - Negev, Israel",
+        "datetime": "2026-11-15T20:00:00Z",
+        "end_datetime": "2026-11-16T00:15:15Z",
+        "monty:corr_id": "20261115-PSE-1088275-MH0103-1-GCDB",
+        "start_datetime": "2026-11-15T20:00:00Z",
+        "monty:hazard_codes": [
+          "MH0103"
+        ],
+        "monty:country_codes": [
+          "PSE",
+          "ISR",
+          "EGY"
+        ],
+        "monty:hazard_detail": {
+          "estimate_type": "primary",
+          "severity_unit": "PDC Severity Score",
+          "severity_label": "INFORMATION",
+          "severity_value": 0.1
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-hazards/items/pdc-hazard-e09c6bb2-9832-4b3c-81d9-68730b6815f6-572505-1794787210005",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
       "id": "pdc-hazard-ec873cf4-7ef6-4f4a-91c6-201bda2fcf89-567083-1794081649289",
       "bbox": [
         34.9090624233561,

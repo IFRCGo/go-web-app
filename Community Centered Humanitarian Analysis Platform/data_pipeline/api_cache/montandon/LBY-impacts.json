@@ -2,6 +2,2742 @@
   "type": "FeatureCollection",
   "features": [
     {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "people",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total65_Plus-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "elderly",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total65_Plus-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total60_64-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_60_64",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total60_64-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total5_9-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "children_5_9",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total5_9-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total55_59-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_55_59",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total55_59-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total50_54-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_50_54",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total50_54-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total45_49-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_45_49",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total45_49-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total40_44-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_40_44",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total40_44-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total35_39-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_35_39",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total35_39-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total30_34-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_30_34",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total30_34-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total25_29-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_25_29",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total25_29-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total20_24-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_20_24",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total20_24-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total15_19-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "children_15_19",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total15_19-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total10_14-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "children_10_14",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total10_14-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total0_4-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "children_0_4",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-total0_4-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-households-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "households",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-population-households-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-capital-total-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "cost",
+          "value": 0.0,
+          "category": "global_currency",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-capital-total-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-capital-school-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "schools",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-capital-school-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-capital-hospital-LBY",
+      "bbox": [
+        18.31347221518304,
+        18.36611144467799,
+        18.31347221518304,
+        18.36611144467799
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.31347221518304,
+          18.36611144467799
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou Province, Chad",
+        "datetime": "2026-11-14T12:00:00Z",
+        "end_datetime": "2026-11-14T14:00:00Z",
+        "monty:corr_id": "20261114-NER-974792-MH0301-1-GCDB",
+        "start_datetime": "2026-11-14T12:00:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "hospitals",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7d098338-c106-45c1-8c82-566ea0ee554e-571143-1794578893353-1-capital-hospital-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "people",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total65_Plus-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "elderly",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total65_Plus-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total60_64-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_60_64",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total60_64-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total5_9-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "children_5_9",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total5_9-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total55_59-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_55_59",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total55_59-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total50_54-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_50_54",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total50_54-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total45_49-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_45_49",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total45_49-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total40_44-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_40_44",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total40_44-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total35_39-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_35_39",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total35_39-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total30_34-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_30_34",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total30_34-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total25_29-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_25_29",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total25_29-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total20_24-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "adult_20_24",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total20_24-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total15_19-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "children_15_19",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total15_19-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total10_14-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "children_10_14",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total10_14-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total0_4-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "children_0_4",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-total0_4-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-households-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "households",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-population-households-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-capital-total-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "cost",
+          "value": 0.0,
+          "category": "global_currency",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-capital-total-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-capital-school-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "schools",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-capital-school-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-capital-hospital-LBY",
+      "bbox": [
+        17.81460774914612,
+        16.36032704887673,
+        17.81460774914612,
+        16.36032704887673
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.81460774914612,
+          16.36032704887673
+        ]
+      },
+      "collection": "pdc-impacts",
+      "properties": {
+        "title": "Blowing Dust - Borkou, Kanem, Batha, Barh El Ghazel, Chad",
+        "datetime": "2026-11-09T12:41:00Z",
+        "end_datetime": "2026-11-10T14:00:00Z",
+        "monty:corr_id": "20261109-NER-956790-MH0301-1-GCDB",
+        "start_datetime": "2026-11-09T12:41:00Z",
+        "monty:hazard_codes": [
+          "MH0301",
+          "VW",
+          "nat-met-sto-sto"
+        ],
+        "monty:country_codes": [
+          "LBY"
+        ],
+        "monty:impact_detail": {
+          "type": "affected_total",
+          "value": 0.0,
+          "category": "hospitals",
+          "estimate_type": "primary"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/",
+          "auth:refs": [
+            "oidc"
+          ]
+        },
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "href": "https://montandon-eoapi-stage.ifrc.org/stac/collections/pdc-impacts/items/pdc-impact-7e05bc92-d7c0-4ecf-a083-5e68994f117a-568344-1794229089763-1-capital-hospital-LBY",
+          "auth:refs": [
+            "oidc"
+          ]
+        }
+      ]
+    },
+    {
       "id": "pdc-impact-ca8d853d-2672-4d41-a70a-91745064b044-566959-1794058055041-1-population-total-LBY",
       "bbox": [
         18.07033263766013,
