@@ -31,6 +31,12 @@ from django.shortcuts import render
 from .scrubbers import WHOLE_FILE, scrubber_for
 from .visibility import hidden_countries
 
+# The countries the picker offers, in dropdown order: Sudan first as the origin
+# of the crisis, then its neighbours alphabetically. Each name must match the
+# "name" property in data/boundaries/admin0.geojson. index() removes hidden ones.
+DASHBOARD_COUNTRIES = ["Sudan", "Central African Republic", "Chad", "Egypt",
+                       "Ethiopia", "Libya", "South Sudan", "Uganda"]
+
 # Scrubbed bodies, keyed (path, mtime, hidden set): a rewritten file or a switch
 # flipped in Admin each produce a new key, so nothing stale is ever served.
 _SCRUB_CACHE: "OrderedDict[tuple, bytes | None]" = OrderedDict()
@@ -63,9 +69,11 @@ def index(request):
     app.js so the IFRC GO style or its Mapbox token can be changed from .env
     alone. Both are public values; see MAPBOX_* in config/settings.py.
     """
+    hidden = hidden_countries()
     return render(request, "dashboard/index.html", {
         "mapbox_style_url": settings.MAPBOX_STYLE_URL,
         "mapbox_access_token": settings.MAPBOX_ACCESS_TOKEN,
+        "shown_countries": [c for c in DASHBOARD_COUNTRIES if not hidden.hides(c)],
     })
 
 

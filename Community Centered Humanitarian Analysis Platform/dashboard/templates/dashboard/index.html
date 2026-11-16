@@ -312,6 +312,9 @@
     token: "{{ mapbox_access_token|escapejs }}",
   };
 </script>
+<!-- The countries the picker may offer: the dashboard's eight minus any
+     switched off in Admin → Countries shown on the dashboard. -->
+{{ shown_countries|json_script:"shown-countries" }}
 <!-- Load the map library first, then our code, which needs it. -->
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="{% static 'dashboard/js/app.js' %}"></script>

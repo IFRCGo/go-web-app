@@ -88,3 +88,27 @@ class CoverageTests(TestCase):
         missing = [p.relative_to(base).as_posix() for p in base.rglob("*")
                    if p.is_file() and scrubbers.scrubber_for(p.relative_to(base).as_posix()) is None]
         self.assertEqual(missing, [])
+
+
+class PageTests(TestCase):
+    def shown(self):
+        r = self.client.get("/")
+        self.assertEqual(r.status_code, 200)
+        html = r.content.decode()
+        start = html.index('id="shown-countries"')
+        return json.loads(html[html.index(">", start) + 1:html.index("</script>", start)])
+
+    def test_index_lists_only_shown_countries(self):
+        CountryVisibility.objects.create(iso3="LBY", name="Libya", shown=False)
+        CountryVisibility.objects.create(iso3="CAF", name="Central African Republic", shown=False)
+        self.assertEqual(self.shown(), ["Sudan", "Chad", "Egypt", "Ethiopia", "South Sudan", "Uganda"])
+
+    def test_index_lists_all_eight_when_nothing_hidden(self):
+        self.assertEqual(self.shown(), ["Sudan", "Central African Republic", "Chad", "Egypt",
+                                        "Ethiopia", "Libya", "South Sudan", "Uganda"])
+
+    def test_app_js_has_no_hardcoded_picker_list(self):
+        app_js = Path(settings.BASE_DIR) / "dashboard" / "static" / "dashboard" / "js" / "app.js"
+        src = app_js.read_text(encoding="utf-8")
+        self.assertFalse('const COUNTRIES = ["Sudan"' in src, "picker list still hard-coded")
+        self.assertTrue('getElementById("shown-countries")' in src, "app.js does not read the list")
