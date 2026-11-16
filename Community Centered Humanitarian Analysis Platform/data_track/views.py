@@ -70,7 +70,7 @@ def meta(request):
 
 def documents(request):
     """The catalogue of source PDFs. Optional filters: ?family=... &country=..."""
-    rows = Document.objects.exclude(country_focus__in=hidden_countries().names)
+    rows = Document.objects.exclude(country_focus__in=hidden_countries().labels)
     if family := request.GET.get("family"):
         rows = rows.filter(family=family)
     if country := request.GET.get("country"):
@@ -157,7 +157,7 @@ def figures(request):
     Filters: ?metric=idps &country=Chad &method=narrative_regex &limit=200
     The limit is capped at 5000 so one request can never dump the whole table.
     """
-    rows = PopulationFigure.objects.exclude(country__in=hidden_countries().names)
+    rows = PopulationFigure.objects.exclude(country__in=hidden_countries().labels)
     for field in ("metric", "country", "method", "confidence"):
         if value := request.GET.get(field):
             rows = rows.filter(**{field: value})
@@ -191,7 +191,7 @@ def tags(request):
     movement_pattern) to get just one group of toggles.
     """
     rows = (NarrativeTag.objects.exclude(report_date=None)
-            .exclude(country__in=hidden_countries().names))
+            .exclude(country__in=hidden_countries().labels))
     if dimension := request.GET.get("dimension"):
         rows = rows.filter(dimension=dimension)
 

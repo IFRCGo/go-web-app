@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.utils import timezone
 
 from .models import CountryVisibility
-from .visibility import sync_countries
+from .visibility import NEVER_HIDDEN, sync_countries
 
 
 @admin.register(CountryVisibility)
@@ -24,10 +24,13 @@ class CountryVisibilityAdmin(admin.ModelAdmin):
         sync_countries()
         extra_context = {**(extra_context or {}), "subtitle": (
             "Switching a country off hides it from the dashboard and its public API "
-            "at the next page load. Nothing is deleted; switch it back on to restore it.")}
+            "at the next page load. Nothing is deleted; switch it back on to restore it. "
+            "Sudan always stays on.")}
         return super().changelist_view(request, extra_context)
 
     def save_model(self, request, obj, form, change):
+        if obj.iso3 in NEVER_HIDDEN:
+            obj.shown = True  # Sudan is what the dashboard is about
         if "shown" in form.changed_data:
             obj.changed_at = timezone.now()
             obj.changed_by = request.user.get_username()

@@ -14,6 +14,10 @@ from .models import CountryVisibility
 # Values that mean "not one country" and are therefore never hidden.
 _NOT_A_COUNTRY = {None, "", "Regional"}
 
+# The dashboard is the story of displacement FROM Sudan: its corridors and IDP
+# layers have no other country to hang on, so Sudan cannot be switched off.
+NEVER_HIDDEN = {"SDN"}
+
 
 @dataclass(frozen=True)
 class Hidden:
@@ -24,9 +28,15 @@ class Hidden:
         return bool(self.iso3)
 
     def hides(self, value) -> bool:
-        if value in _NOT_A_COUNTRY:
+        if not isinstance(value, str) or value in _NOT_A_COUNTRY:
             return False
         return value in self.iso3 or value in self.names
+
+    @property
+    def labels(self) -> frozenset:
+        """Names and codes together, for name fields that sometimes hold an
+        ISO3 code ('SDN' sits in Document.country_focus today)."""
+        return self.names | self.iso3
 
     def key(self) -> str:
         """Stable text for cache keys and ETags."""
@@ -34,7 +44,8 @@ class Hidden:
 
 
 def hidden_countries() -> Hidden:
-    rows = CountryVisibility.objects.filter(shown=False).values_list("iso3", "name")
+    rows = (CountryVisibility.objects.filter(shown=False).exclude(iso3__in=NEVER_HIDDEN)
+            .values_list("iso3", "name"))
     return Hidden(frozenset(r[0] for r in rows), frozenset(r[1] for r in rows))
 
 

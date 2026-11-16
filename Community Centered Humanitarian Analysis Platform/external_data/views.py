@@ -172,7 +172,7 @@ def community_insights(request):
     from data_track.models import NarrativeTag
 
     rows = (NarrativeTag.objects.exclude(snippet=None).exclude(snippet="")
-            .exclude(country__in=hidden_countries().names))
+            .exclude(country__in=hidden_countries().labels))
     for field in ("dimension", "tag", "country", "area_id"):
         if value := request.GET.get(field):
             rows = rows.filter(**{field: value})

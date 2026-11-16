@@ -22,6 +22,7 @@ immediately, with no collectstatic and no restart.
 """
 import json
 import mimetypes
+import threading
 from collections import OrderedDict
 
 from django.conf import settings
@@ -41,20 +42,27 @@ DASHBOARD_COUNTRIES = ["Sudan", "Central African Republic", "Chad", "Egypt",
 # flipped in Admin each produce a new key, so nothing stale is ever served.
 _SCRUB_CACHE: "OrderedDict[tuple, bytes | None]" = OrderedDict()
 _SCRUB_CACHE_SIZE = 32
+# gunicorn runs threads: lookups, inserts and evictions happen under one lock.
+_SCRUB_LOCK = threading.Lock()
 
 
 def _scrubbed(target, relpath, scrub, hidden):
     """The cleaned file as bytes, or None when the whole file is hidden."""
     key = (relpath, target.stat().st_mtime_ns, hidden.key())
-    if key in _SCRUB_CACHE:
-        _SCRUB_CACHE.move_to_end(key)
-        return _SCRUB_CACHE[key]
+    with _SCRUB_LOCK:
+        try:
+            payload = _SCRUB_CACHE[key]
+            _SCRUB_CACHE.move_to_end(key)
+            return payload
+        except KeyError:
+            pass  # not cached, or evicted meanwhile: compute it below
     result = scrub(json.loads(target.read_text(encoding="utf-8")), hidden)
     payload = None if result is WHOLE_FILE else json.dumps(
         result, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-    _SCRUB_CACHE[key] = payload
-    while len(_SCRUB_CACHE) > _SCRUB_CACHE_SIZE:
-        _SCRUB_CACHE.popitem(last=False)
+    with _SCRUB_LOCK:
+        _SCRUB_CACHE[key] = payload
+        while len(_SCRUB_CACHE) > _SCRUB_CACHE_SIZE:
+            _SCRUB_CACHE.popitem(last=False)
     return payload
 
 # GeoJSON is not in Python's built-in table of file types, so register it.
