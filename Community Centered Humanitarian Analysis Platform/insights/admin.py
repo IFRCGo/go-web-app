@@ -24,7 +24,7 @@ from insights.forms import InsightFolderForm, InsightPlaceForm, InsightUploadFor
 from insights.intake import catalogue_file, catalogue_folder
 from insights.loader import load
 from insights.models import (
-    DocumentsToInsights, ExtractionJob, Insight, InsightCoding, InsightFigure,
+    DocumentsToInsights, ExtractionJob, FieldDataTagMap, Insight, InsightCoding, InsightFigure,
     InsightFolder, InsightMovement, InsightUpload, PublishedInsight,
 )
 
@@ -57,7 +57,7 @@ class InsightMovementInline(admin.TabularInline):
 class InsightAdmin(admin.ModelAdmin):
     inlines = [InsightCodingInline, InsightFigureInline, InsightMovementInline]
     form = InsightPlaceForm
-    list_display = ("opening", "iso3", "place_name_as_written", "voice_type",
+    list_display = ("opening", "iso3", "place_name_as_written", "voice_type", "channel",
                     "themes", "status", "stated_on", "method")
     # No "status" here: a choices filter lists every choice whatever the
     # queryset holds, so "Published" would be an option returning nothing.
@@ -65,14 +65,14 @@ class InsightAdmin(admin.ModelAdmin):
     search_fields = ("quote", "quote_translated", "place_name_as_written")
     date_hierarchy = "stated_on"
     actions = ["publish_selected", "reject_selected"]
-    readonly_fields = ("resolved_to", "quote_sha1", "source_link", "reviewed_by",
+    readonly_fields = ("answers_question", "resolved_to", "quote_sha1", "source_link", "reviewed_by",
                        "reviewed_at", "created_at")
     fieldsets = (
         ("The statement", {
             "fields": ("quote", "quote_language", "quote_translated"),
             "description": "Read this first. Edit only to repair an OCR artefact.",
         }),
-        ("What it is", {"fields": ("voice_type", "channel", "stated_on")}),
+        ("What it is", {"fields": ("voice_type", "channel", "answers_question", "stated_on")}),
         ("Where", {
             "fields": ("country", "state", "district", "place_name_as_written",
                        "resolved_to"),
@@ -159,6 +159,16 @@ class InsightAdmin(admin.ModelAdmin):
         if not obj.document_id:
             return "— typed by hand, no source document"
         return format_html("{} (page {})", obj.document.file_name, obj.page or "?")
+
+    @admin.display(description="Answers the question")
+    def answers_question(self, obj):
+        """For Field data: the survey question this text follows, so a reviewer
+        reads the answer in context. Blank for every other statement."""
+        from insights.field_data import context_for
+        wording, answer = context_for(obj)
+        if not wording:
+            return "—"
+        return format_html("{}<br><strong>{}</strong>", wording, answer) if answer else wording
 
     @admin.action(description="Publish selected insights")
     def publish_selected(self, request, queryset):
@@ -596,3 +606,11 @@ class DocumentsToInsightsAdmin(admin.ModelAdmin):
         # "Add extraction job" would create an empty batch with no documents
         # and no way to add any. Batches are started by the wizard.
         return False
+
+
+@admin.register(FieldDataTagMap)
+class FieldDataTagMapAdmin(admin.ModelAdmin):
+    """Which theme a survey answer label is coded to (insights/field_data.py)."""
+    list_display = ("label", "dimension", "tag", "form_key")
+    list_filter = ("dimension", "form_key")
+    search_fields = ("label", "tag")

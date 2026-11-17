@@ -89,6 +89,28 @@ the loader through `call.context`.
   it was stored is deleted on the next pull, together with its repeat rows. This is the one deliberate exception
   to "never delete because upstream stopped mentioning it". Approved, On Hold and
   never-reviewed submissions are kept, and `validation_status` records which.
+- **The household survey reaches the dashboard as "Field data"**
+  (`insights/field_data.py`). It arrives in two ways:
+  - **Statements.** Each pull ends by writing households' follow-up text into the review
+    queue as PENDING insights with `channel="primary"`, displayed as "Field data". The text
+    covered is "Please elaborate", "Other (specify)" and the gaps listed per hazard.
+    Statements typed by hand in Admin are `manual`, displayed as "Primary input".
+    - Each statement is coded to the dimension of the question it follows and is keyed
+      `(field_interview, field_question, field_item)`, because two households can write
+      the same words.
+    - A re-pull never touches a published or rejected statement.
+    - Survey labels are coded to taxonomy tags through the editable
+      `FieldDataTagMap` table. A label with no row is coded `other`.
+    - This pull is the one writer to `insights` besides extraction. It is not a
+      `data_pipeline` step.
+  - **The summary card.** Rebuild writes `dashboard/data/field_surveys.json` from
+    `s06.build_field_surveys()`: households only, counted per district, and only for a
+    place with at least 5 households. The card is drawn in the Community Insights
+    panel (Community and Both tabs), not in a map popup. Clicking the marker opens
+    the card there.
+  - Household GPS never leaves the server. It is used only to find the district
+    when its name is blank. Design:
+    `docs/superpowers/specs/2026-11-17-field-data-household-survey-design.md`.
 - `api_cache/kobo/` holds interview answers and must stay out of git: it
   belongs in `.gitignore`, unlike the rest of `api_cache`.
   Design: `docs/superpowers/specs/2026-11-16-kobo-primary-data-design.md`.

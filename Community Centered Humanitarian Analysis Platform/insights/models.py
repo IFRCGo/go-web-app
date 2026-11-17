@@ -21,7 +21,10 @@ from django.conf import settings
 from django.db import models
 
 VOICE_TYPES = [("community", "Community voice"), ("secondary_analysis", "Secondary analysis")]
-CHANNELS = [("document_ai", "Document (AI)"), ("manual", "Typed by hand"), ("primary", "Primary collection")]
+# Display labels only; the stored values never changed (George, 2026-11-17).
+# "primary" rows come from a Kobo pull (insights/field_data.py) - FIELD DATA.
+# "manual" rows are typed in Admin - PRIMARY INPUT.
+CHANNELS = [("document_ai", "Document (AI)"), ("manual", "Primary input"), ("primary", "Field data")]
 STATUSES = [("pending", "Pending review"), ("published", "Published"), ("rejected", "Rejected")]
 DIMENSIONS = [("hazard", "Hazard"), ("vulnerability", "Vulnerability"), ("need", "Need"),
               ("coping", "Coping"), ("movement_pattern", "Movement pattern")]
@@ -261,6 +264,26 @@ class Insight(models.Model):
     lat = models.FloatField(null=True, blank=True)
     lon = models.FloatField(null=True, blank=True)
 
+    # ---- field data: which Kobo interview, which answer
+    # Set only on rows insights/field_data.py writes from a Kobo pull. This is
+    # the natural key for those rows: two households can write the identical
+    # words, so the quote cannot be. CASCADE on purpose - an interview rejected
+    # in Kobo after it was stored is deleted on the next pull, and what it said
+    # goes with it, published or not.
+    field_interview = models.ForeignKey(
+        "external_data.CchaPrimaryData", on_delete=models.CASCADE, null=True, blank=True,
+        related_name="statements")
+    field_question = models.TextField(
+        null=True, blank=True,
+        help_text="The follow-up column this answers, e.g. vulnerabilities_elaborate")
+    field_item = models.IntegerField(
+        default=0, help_text="The repeat's hazard_number; 0 outside a repeat")
+    # What the last Kobo pull said for this statement (quote, date, place). A
+    # re-pull changes a pending row only where KOBO changed since then, so a
+    # reviewer's own corrections to a pending row (placing it, fixing a typo)
+    # are not undone by the next pull.
+    field_kobo = models.JSONField(default=dict, blank=True)
+
     # ---- optional, and usually absent
     people_affected = models.BigIntegerField(null=True, blank=True)
     severity = models.IntegerField(null=True, blank=True, help_text="1-5, as Event.severity")
@@ -293,9 +316,17 @@ class Insight(models.Model):
             # nulls_distinct=False because a manual insight has a null document and
             # a null page. Under PostgreSQL's default rule two NULLs never collide,
             # so every duplicate hand-typed statement would be accepted silently.
+            # Field-data rows are excluded: they have no document and no page
+            # either, so two households saying "Lack of job" would collide.
             models.UniqueConstraint(
                 fields=["document", "page", "quote_sha1"],
                 name="uniq_insight_quote", nulls_distinct=False,
+                condition=models.Q(field_interview__isnull=True),
+            ),
+            models.UniqueConstraint(
+                fields=["field_interview", "field_question", "field_item"],
+                name="uniq_field_statement",
+                condition=models.Q(field_interview__isnull=False),
             ),
         ]
         indexes = [
@@ -478,3 +509,46 @@ class PublishedInsight(Insight):
         proxy = True
         verbose_name = "Published insight"
         verbose_name_plural = "Part 3 — Published insights"
+
+
+class FieldDataTagMap(models.Model):
+    """A survey answer label -> a taxonomy tag, per form and dimension.
+
+    The CCHA form's answer lists are not the taxonomy ("Insect Infestation" has
+    no key), so a field statement about a named hazard is coded through this
+    table. Curated values belong in a table a person can edit, not a dict in a
+    loader. A label with no row codes as 'other', with the label in tag_raw, so
+    the reviewer sees it and can add a row.
+    """
+
+    form_key = models.TextField(default="ccha_primary_data")
+    label = models.TextField(help_text="The answer exactly as the form labels it")
+    dimension = models.TextField(choices=DIMENSIONS)
+    tag = models.TextField(help_text="A key in taxonomy.json under this dimension, or 'other'")
+
+    class Meta:
+        db_table = "field_data_tag_map"
+        ordering = ["form_key", "dimension", "label"]
+        unique_together = [("form_key", "label", "dimension")]
+        verbose_name = "Field data → theme mapping"
+        verbose_name_plural = "Field data → theme mappings"
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        from insights.taxonomy import OTHER, tags_by_dimension
+        allowed = set(tags_by_dimension().get(self.dimension, [])) | {OTHER}
+        if self.tag not in allowed:
+            raise ValidationError({"tag": f"'{self.tag}' is not a {self.dimension} tag "
+                                          f"in taxonomy.json (or 'other')."})
+
+    @classmethod
+    def lookup(cls, form_key, label, dimension):
+        """The mapped tag, or None. Case-insensitive on the label."""
+        if not label:
+            return None
+        return (cls.objects.filter(form_key=form_key, dimension=dimension,
+                                   label__iexact=label.strip())
+                .values_list("tag", flat=True).first())
+
+    def __str__(self):
+        return f"{self.label} → {self.dimension}:{self.tag}"

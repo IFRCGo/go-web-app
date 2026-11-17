@@ -324,3 +324,20 @@ class ChildInlineTests(TestCase):
             inline for inline in django_admin.site._registry[Insight].inlines
             if inline.model is InsightCoding)
         self.assertIn("role", coding_inline.fields)
+
+
+class FieldDataAdminTests(TestCase):
+    def setUp(self):
+        from django.contrib.auth.models import User
+        self.client.force_login(User.objects.create_superuser("rv", "rv@example.org", "pw"))
+
+    def test_part2_change_page_shows_parent_question(self):
+        from external_data.models import CchaPrimaryData
+        iv = CchaPrimaryData.objects.create(submission_id=1, interview_type="Household Survey",
+                                            vulnerabilities_differences="Yes, some differences")
+        row = Insight.objects.create(quote="Words", channel="primary", stated_on="2026-10-08",
+                                     iso3="UGA", method="kobo", field_interview=iv,
+                                     field_question="vulnerabilities_elaborate")
+        page = self.client.get(reverse("admin:insights_insight_change", args=[row.pk]))
+        self.assertContains(page, "arrived recently and longer-term residents")
+        self.assertContains(page, "Yes, some differences")

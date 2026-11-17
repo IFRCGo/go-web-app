@@ -87,6 +87,11 @@ class JsonFileTests(TestCase):
             {"points": [{"country": "Libya"}, {"country": "Chad"}, {"country": "Sudan"}]}, H)
         self.assertEqual([c["country"] for c in out["points"]], ["Chad", "Sudan"])
 
+    def test_field_surveys_hidden_country_dropped(self):
+        out = S.scrubber_for("field_surveys.json")(
+            {"surveys": [{"iso3": "LBY", "place": "x"}, {"iso3": "UGA", "place": "y"}]}, H)
+        self.assertEqual([s["place"] for s in out["surveys"]], ["y"])
+
     def test_flows(self):
         data = {k: {} for k in ("sudan-car", "libya-sudan-return", "sudan-chad",
                                 "south_sudan-sudan-influx", "sudan-south_sudan")}
@@ -202,7 +207,8 @@ class RegistryTests(TestCase):
                    "crossings.json", "flows.json", "documents.json", "tags.json",
                    "hazard_events.json", "events.json", "idp_localities.json",
                    "idp_states.json", "returnee_localities.json", "headline.json",
-                   "meta.json", "hazards.json", "water.geojson"]
+                   "meta.json", "hazards.json", "water.geojson", "data_dates.json",
+                   "field_surveys.json"]
         import fnmatch
         for pattern, _ in S.REGISTRY:
             self.assertTrue(any(fnmatch.fnmatchcase(s, pattern) for s in samples), pattern)

@@ -16,6 +16,7 @@ Outputs into dashboard/data/:
   ipc_areas_fs.geojson    Sudan's IPC snapshots over time            (IPC)
   ipc_fs/<ISO3>.geojson   the same, per country, for the rest        (IPC/CH)
   hsps.geojson            humanitarian service points, by district   (Kobo)
+  field_surveys.json      CCHA household survey, counted per district (Kobo)
   seasonal.json           seasonal calendars, now one per country    (ACAPS)
   aoi_ipc.geojson         IFRC Areas of Interest + their IPC phase
 
@@ -42,6 +43,7 @@ CRISIS_START = settings.CRISIS_START
 # this situation, so the figures on it are UNHCR's, not a local derivation.
 UNHCR_PORTAL = "https://data.unhcr.org/en/situations/sudansituation"
 
+from boundaries.models import AdminArea
 from external_data.models import (BorderCrossing, DisplacementBreakdown,
                                   FoodSecurityArea, HumanitarianServicePoint,
                                   MovementPattern, SeasonalCalendar)
@@ -77,8 +79,97 @@ def build_data_dates():
             .filter(date__lte=date.today())
             .exclude(iso3=None)
             .values("iso3").annotate(last=Max("date")).order_by("iso3"))
+    last = {r["iso3"]: r["last"].isoformat() for r in rows}
+    # A household survey is an observation too: its last day of collection
+    # reaches the timeline, or the Field data marker sits past the slider's end.
+    for entry in field_survey_entries():
+        if entry["date_to"] <= date.today().isoformat():
+            last[entry["iso3"]] = max(last.get(entry["iso3"], ""), entry["date_to"])
     dump("data_dates.json", {"countries": [
-        {"country": r["iso3"], "date": r["last"].isoformat()} for r in rows]})
+        {"country": iso3, "date": d} for iso3, d in sorted(last.items())]})
+
+
+# ============================================================ field data (CCHA survey)
+# Which column feeds which part of the card, in the card's order: hazards, who
+# is most affected, coping, gaps. Labels stay as households were asked them.
+FIELD_SECTIONS = {
+    "hazards": {"experienced": "hazards_experience", "worsening": "hazard_kind",
+                "causes": "hazard_cause"},
+    "vulnerable": {"most_affected": "hazard_affected_groups", "why": "vulnerabilities_group",
+                   "vulnerabilities": "vulnerabilities_believe",
+                   "newcomers_vs_residents": "vulnerabilities_differences"},
+    "coping": {"extent": "coping_extent", "measures": "hazard_measures",
+               "capacities": "hazard_management", "cohesion": "coping_cohesion",
+               "evacuate_to": "hazard_evacuate"},
+    "gaps": {"cohesion_gaps": "coping_gaps"},
+}
+# Counts on fewer homes than this would identify them (spec, 2026-11-17).
+FIELD_MIN_HOUSEHOLDS = 5
+
+
+def _ranked(counter):
+    return [[label, n] for label, n in sorted(counter.items(), key=lambda kv: (-kv[1], kv[0]))]
+
+
+def field_survey_entries():
+    """One entry per surveyed district, households only. Placement is the
+    district's label point (insights.field_data.place_for); no household
+    coordinate is read into the result."""
+    from external_data.models import CchaPrimaryData
+    from insights.field_data import HOUSEHOLD, place_for
+
+    groups = collections.defaultdict(list)
+    for iv in (CchaPrimaryData.objects.filter(interview_type=HOUSEHOLD)
+               .exclude(interview_date=None).prefetch_related("hazard_details")):
+        place = place_for(iv)
+        if place["admin_pcode"]:
+            groups[(place["iso3"], place["admin_pcode"])].append(iv)
+
+    entries = []
+    for (iso3, pcode), ivs in sorted(groups.items()):
+        if len(ivs) < FIELD_MIN_HOUSEHOLDS:
+            continue
+        area = AdminArea.objects.get(kind=AdminArea.KIND_ADMIN, pcode=pcode)
+        sections = {}
+        for section, keys in FIELD_SECTIONS.items():
+            sections[section] = {}
+            for key, column in keys.items():
+                counter = collections.Counter()
+                for iv in ivs:
+                    # set(): a multi-select counts once per household.
+                    counter.update({p.strip() for p in (getattr(iv, column) or "").split("; ")
+                                    if p.strip()})
+                sections[section][key] = _ranked(counter)
+        per = {}
+        for iv in ivs:
+            for h in iv.hazard_details.all():
+                if not h.hazard:
+                    continue
+                slot = per.setdefault(h.hazard, {"hazard": h.hazard, "households": set(),
+                                                 "impact": collections.Counter(),
+                                                 "frequency": collections.Counter()})
+                slot["households"].add(iv.pk)
+                if h.hazard_impact:
+                    slot["impact"][h.hazard_impact] += 1
+                if h.hazard_occurence:
+                    slot["frequency"][h.hazard_occurence] += 1
+        sections["hazards"]["per_hazard"] = [
+            {"hazard": p["hazard"], "n": len(p["households"]),
+             "impact": dict(p["impact"].most_common()),
+             "frequency": dict(p["frequency"].most_common())}
+            for p in sorted(per.values(), key=lambda p: (-len(p["households"]), p["hazard"]))]
+        dates = sorted(iv.interview_date for iv in ivs)
+        entries.append({
+            "iso3": iso3, "pcode": pcode, "place": area.name,
+            "lat": area.center_lat, "lon": area.center_lon, "type": "household",
+            "n": len(ivs), "date_from": dates[0].isoformat(), "date_to": dates[-1].isoformat(),
+            "sections": sections,
+        })
+    return entries
+
+
+def build_field_surveys():
+    dump("field_surveys.json", {"surveys": field_survey_entries()})
 
 
 # ============================================================ border crossings
@@ -835,6 +926,7 @@ def run():
     build_hazards()
     build_hazard_events()
     build_theme_areas()
+    build_field_surveys()
     build_data_dates()
 
 
