@@ -166,3 +166,42 @@ class ComprehensiveFieldTests(TestCase):
         self.insight.status = "pending"
         self.insight.save()
         self.assertEqual(self.get("?iso3=EGY")["count"], 0)
+
+
+class FieldDataApiTests(TestCase):
+    """Field statements carry the question they answer; the household's GPS never travels."""
+
+    def setUp(self):
+        from external_data.models import CchaPrimaryData
+        self.iv = CchaPrimaryData.objects.create(
+            submission_id=1, interview_type="Household Survey", latitude=1.9512345,
+            longitude=32.0612345, vulnerabilities_differences="Yes, significant differences")
+        make("Everything goes to new arrivals", channel="primary", iso3="UGA", method="kobo",
+             field_interview=self.iv, field_question="vulnerabilities_elaborate",
+             lat=1.991, lon=32.051)
+        make("A pending field statement", channel="primary", iso3="UGA", method="kobo",
+             status="pending", field_interview=self.iv, field_question="hazard_kind_other")
+
+    def rows(self):
+        return self.client.get("/api/insights/").json()["results"]
+
+    def test_api_field_context_for_elaboration(self):
+        row = next(r for r in self.rows() if r["channel"] == "primary")
+        self.assertEqual(row["field_context"], "Are there any differences between people who "
+                                               "arrived recently and longer-term residents?")
+        self.assertEqual(row["field_context_answer"], "Yes, significant differences")
+
+    def test_api_field_context_null_for_document_rows(self):
+        make("A typed statement.")
+        row = next(r for r in self.rows() if r["quote"] == "A typed statement.")
+        self.assertIsNone(row["field_context"])
+        self.assertIsNone(row["field_context_answer"])
+
+    def test_api_pending_field_data_not_sent(self):
+        self.assertNotIn("A pending field statement", [r["quote"] for r in self.rows()])
+
+    def test_api_never_sends_household_gps(self):
+        text = self.client.get("/api/insights/").content.decode()
+        self.assertNotIn("1.9512345", text)
+        self.assertNotIn("32.0612345", text)
+        self.assertNotIn("field_interview", text)

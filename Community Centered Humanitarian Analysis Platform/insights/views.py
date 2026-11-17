@@ -12,6 +12,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 
 from dashboard.visibility import hidden_countries
+from insights.field_data import context_for
 from insights.models import Insight
 
 MAX_LIMIT = 2000
@@ -29,8 +30,9 @@ def insights(request):
     &tag= &role= &flow_type= &admin_pcode= &from= &to= &q=
     """
     rows = (Insight.objects.filter(status="published")
-            .select_related("document")
-            .prefetch_related("codings", "figures", "movements")
+            .select_related("document", "field_interview")
+            .prefetch_related("codings", "figures", "movements",
+                              "field_interview__coping_challenges")
             # A statement located in a hidden country is not sent. One located in
             # a shown country is sent as it is, movement legs included.
             .exclude(iso3__in=hidden_countries().iso3))
@@ -70,6 +72,13 @@ def insights(request):
 
     rows = rows.distinct()
     total = rows.count()
+
+    def field_context(row):
+        # The question a Field-data statement answers (and, for a single-choice
+        # parent, the household's answer to it). Never the interview itself:
+        # its GPS stays on the server.
+        wording, answer = context_for(row)
+        return {"field_context": wording, "field_context_answer": answer}
 
     data = [
         {
@@ -123,6 +132,7 @@ def insights(request):
             ],
             "source_document": row.document.file_name if row.document_id else None,
             "page": row.page,
+            **field_context(row),
         }
         for row in rows.order_by("-stated_on", "id")[: _limit(request)]
     ]

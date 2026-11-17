@@ -66,3 +66,16 @@ class DataDatesTests(TestCase):
         self.assertIsNotNone(scrub)
         self.assertEqual(scrub(data, Hidden())["countries"],
                          [{"country": "TCD", "date": "2026-11-09"}])
+
+
+class SurveyDateTests(DataDatesTests):
+    """A household survey is an observation: its last day ends the country's timeline."""
+
+    def test_survey_date_extends_country_date(self):
+        from insights.tests.test_field_data_place import interview, uganda
+        uganda()
+        observed(date(2026, 9, 1), "UGA")
+        for i in range(5):
+            interview(i + 1, interview_date=date(2026, 10, 9))
+        s06.build_field_surveys()
+        self.assertEqual(self.build()["countries"], [{"country": "UGA", "date": "2026-10-09"}])

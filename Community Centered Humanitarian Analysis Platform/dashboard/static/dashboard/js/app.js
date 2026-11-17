@@ -110,6 +110,7 @@ const COLOR_RETURNEE = paletteColor("--returnee", "#00ab84");
 // Humanitarian service points. Deliberately not one of the pillar colours:
 // a service is a response, not a finding about a place.
 const COLOR_HSP = paletteColor("--hsp", "#6b3a90");
+const COLOR_FIELD = paletteColor("--field-data", "#ee2435");
 
 /* The four theme groups, their display names and their colours. These match
    the "dimension" values the pipeline writes into tags.json, and each one is
@@ -188,7 +189,9 @@ const state = {
   showIDP: false, showIDPStates: false, showReturnees: false,
   showRefugees: false,
   showRefugeeCamps: false, showFoodsec: false,
-  showCrossings: true, showAOI: false, showHSP: false,
+  showCrossings: true, showAOI: false, showHSP: false, showFieldData: true,
+  fieldClosed: new Set(),  // survey cards folded in the Community tab (by pcode|type)
+  fieldFull: new Set(),    // survey cards showing every answer, not the top few
 };
 
 /* ========================= 2. HELPERS =================================== */
@@ -619,6 +622,9 @@ async function loadData() {
   ]);
   state.data.hazards = hazardBook;
   state.data.hazardEvents = hazardEvents;
+  // Field data: the CCHA household survey, counted per district on Rebuild.
+  state.data.field_surveys = await fetch("data/field_surveys.json")
+    .then((r) => (r.ok ? r.json() : null)).catch(() => null);
   // Community insights are the one panel that reads the database live, so a
   // statement published in Admin appears on the next refresh. Failure is not
   // fatal: the panel falls back to the analyst snippets from tags.json.
@@ -1137,7 +1143,8 @@ function addLayers(m) {
         ${head}
         ${placed}
         ${shown.map((it) => `<div class="ip-item">
-          <div class="ip-voice">${it.voice === "community" ? "Community" : "Analyst"}</div>
+          <div class="ip-voice">${it.voice === "community" ? "Community" : "Analyst"} ${channelBadgeHtml(it.channel)}</div>
+          ${fieldContextHtml(it)}
           <blockquote>${escapeHTML(it.quote)}</blockquote>
           <div class="ip-meta">${escapeHTML(it.date || "")}${
             it.source ? ` · ${escapeHTML(it.source)}` : ""}</div>
@@ -1261,6 +1268,20 @@ function addLayers(m) {
       "circle-color": COLOR_HSP,
       "circle-opacity": 0.75,
       "circle-stroke-color": WHITE, "circle-stroke-width": 1.6,
+    },
+  });
+
+  // ---- field data: household surveys ----
+  // One marker per surveyed district, never per household: the household's own
+  // GPS never reaches the browser. White with a thick IFRC-red ring so it reads
+  // apart from the filled insight bubbles and the purple service points.
+  m.addSource("field-surveys", { type: "geojson", data: empty() });
+  m.addLayer({
+    id: "field-survey-dots", type: "circle", source: "field-surveys",
+    paint: {
+      "circle-radius": 9,
+      "circle-color": WHITE,
+      "circle-stroke-color": COLOR_FIELD, "circle-stroke-width": 3.5,
     },
   });
 
@@ -1559,6 +1580,15 @@ function addLayers(m) {
         : "District-level: the source publishes no site coordinates."}</span><br>
       ${sourceLine("kobo", "reported " + (p.date_reported || ""))}`;
   }, "Humanitarian service points");
+  /* No popup: the survey's card is in the Community Insights panel, under the
+     Community tab. A click on the marker opens that card and brings it into
+     view; the marker only needs to look clickable. */
+  m.on("click", "field-survey-dots", (e) => {
+    const key = e.features[0] && e.features[0].properties.key;
+    if (key) focusFieldSurvey(key);
+  });
+  m.on("mouseenter", "field-survey-dots", () => { m.getCanvas().style.cursor = "pointer"; });
+  m.on("mouseleave", "field-survey-dots", () => { m.getCanvas().style.cursor = ""; });
   /* WHERE IFRC WORKS, AND NOTHING ELSE. This bubble used to go on to report the
      worst IPC phase inside the area and the share of its sub-areas in Phase 3+.
      That is a food-security finding; the IPC layer two rows up in the layer
@@ -2474,6 +2504,8 @@ function allVoices() {
       voice: row.voice_type, place: row.place_name, date: row.date,
       source: row.source_document, matchMethod: row.match_method,
       lat: row.lat, lon: row.lon, id: row.id, codings,
+      channel: row.channel, field_context: row.field_context,
+      field_context_answer: row.field_context_answer,
     });
   }
 
@@ -2589,7 +2621,13 @@ function renderVoices() {
   const wireClear = () => {
     const btn = el.querySelector(".voices-clear");
     if (btn) btn.addEventListener("click", clearVoiceSelection);
+    wireFieldPanel(el);
   };
+
+  // The household-survey card(s), above the month's statements: Community and
+  // Both tabs only, and only in the plain month view (see fieldPanelHtml).
+  const fieldHtml = !searching && !selection && state.voiceTab !== "analyst"
+    ? fieldPanelHtml() : "";
 
   if (!picks.length) {
     /* An empty selection should not be reachable - the ids came from a bubble
@@ -2597,7 +2635,7 @@ function renderVoices() {
        because the two are rebuilt by different events, and a selection left
        stale by a filter change must not present itself as "this month is
        empty" when the month is not. */
-    el.innerHTML = selBanner + `<div class="voices-empty">${searching
+    el.innerHTML = selBanner + fieldHtml + `<div class="voices-empty">${searching
       ? `No quote matches “${escapeHTML(state.voiceSearch)}” in this tab.`
       : selection
         ? "Those statements are no longer in scope under the current filters."
@@ -2617,15 +2655,16 @@ function renderVoices() {
 
   const unmapped = picks.filter((v) => v.voice === "community" && v.lat == null).length;
 
-  el.innerHTML = selBanner + picks.map((p, i) => `<div class="voice${
+  el.innerHTML = selBanner + fieldHtml + picks.map((p, i) => `<div class="voice${
       p.voice === "community" ? " is-community" : ""}${searching ? " voice-hit" : ""}${
       selection && p.id != null && selection.has(String(p.id)) ? " is-selected" : ""}"
       style="border-color:${DIM_META[p.dim].color}"
       data-month="${p.mk}" data-i="${i}" data-id="${p.id || ""}">
+      ${fieldContextHtml(p)}
       <div class="v-full">${searching ? highlight(p.full, q) : escapeHTML(p.full)}</div>
       ${p.translated ? `<div class="v-translated">${escapeHTML(p.translated)}</div>` : ""}
       <div class="v-meta">
-        <span class="v-voice">${p.voice === "community" ? "Community" : "Analyst"}</span>
+        <span class="v-voice">${p.voice === "community" ? "Community" : "Analyst"}</span> ${channelBadgeHtml(p.channel)}
         ${Array.isArray(p.codings)
           ? codingChips(p.codings)
           : ` · ${DIM_META[p.dim].label} · ${escapeHTML(p.tag.replace(/_/g, " "))}`}
@@ -3212,6 +3251,161 @@ function renderHSP() {
   setSource("hsps", filterFC(state.data.hsps));
 }
 
+/* FIELD DATA - the CCHA household survey, one marker per surveyed district.
+
+   The marker appears once the timeline reaches the first day of collection
+   and STAYS: a survey's findings hold until the next round replaces them.
+   That is unlike the insight bubbles, which are month-by-month; the card's
+   own quote list follows the marker, not the month (see fieldSurveyCardHtml). */
+function fieldSurveys() {
+  return ((state.data.field_surveys || {}).surveys) || [];
+}
+
+/* The surveys the timeline has reached, in the countries shown. One rule for
+   the marker and the panel card, so the two can never disagree. */
+function visibleFieldSurveys() {
+  if (!state.showFieldData) return [];
+  return fieldSurveys()
+    .filter((s) => countryOn(ISO3_TO_COUNTRY[s.iso3]))
+    .filter((s) => state.current >= Date.parse(s.date_from));
+}
+
+function fieldKey(s) { return `${s.pcode}|${s.type}`; }
+
+/* THE SURVEY CARD IN THE COMMUNITY TAB.
+
+   Shown above the month's statements on the Community and Both tabs, never
+   while searching or showing a bubble selection (those answer a narrower
+   question). Each card can be folded; what is folded and whether "Show all"
+   is on are remembered for the session, so the slider redrawing the panel
+   does not undo them. */
+function fieldPanelHtml() {
+  return visibleFieldSurveys().map((s) => {
+    const key = fieldKey(s);
+    const open = !state.fieldClosed.has(key);
+    const full = state.fieldFull.has(key);
+    return `<details class="field-panel" data-key="${escapeHTML(key)}"${open ? " open" : ""}>
+      <summary>${channelBadgeHtml("primary")} <b>${escapeHTML(s.place)}</b> · Household survey · ${s.n} households</summary>
+      ${fieldSurveyCardHtml(s, full)}
+      <button type="button" class="fd-toggle">${full ? "Show the top answers only" : "Show all answers and statements"}</button>
+    </details>`;
+  }).join("");
+}
+
+function wireFieldPanel(el) {
+  for (const node of el.querySelectorAll(".field-panel")) {
+    const key = node.dataset.key;
+    node.addEventListener("toggle", () => {
+      if (node.open) state.fieldClosed.delete(key); else state.fieldClosed.add(key);
+    });
+    node.querySelector(".fd-toggle").addEventListener("click", () => {
+      if (state.fieldFull.has(key)) state.fieldFull.delete(key); else state.fieldFull.add(key);
+      renderVoices();
+    });
+  }
+}
+
+/* A click on the marker: switch to the Community tab if another is showing,
+   drop any search or selection that would hide the card, open it, and scroll
+   it into view. */
+function focusFieldSurvey(key) {
+  if (state.voiceTab === "analyst") {
+    const tab = document.querySelector('.voice-tab[data-tab="community"]');
+    if (tab) { tab.click(); }
+  }
+  if (state.voiceSearch) {
+    state.voiceSearch = "";
+    const input = $("#voice-search");
+    if (input) input.value = "";
+  }
+  state.voiceSelection = null;
+  state.fieldClosed.delete(key);
+  renderVoices();
+  const card = [...document.querySelectorAll("#voices .field-panel")].find((n) => n.dataset.key === key);
+  if (card) {
+    card.scrollIntoView({ behavior: "smooth", block: "start" });
+    card.classList.remove("is-flash");
+    void card.offsetWidth;
+    card.classList.add("is-flash");
+  }
+}
+
+function renderFieldData() {
+  if (!state.showFieldData) { setSource("field-surveys", empty()); return; }
+  const feats = visibleFieldSurveys()
+    .map((s) => ({
+      type: "Feature",
+      geometry: { type: "Point", coordinates: [s.lon, s.lat] },
+      // Only a key: the card reads the entry itself, so nothing nested goes
+      // through MapLibre's property stringification.
+      properties: { key: fieldKey(s), country: ISO3_TO_COUNTRY[s.iso3] || s.iso3 },
+    }));
+  setSource("field-surveys", { type: "FeatureCollection", features: feats });
+}
+
+/* "Field data" for a Kobo-pulled statement, "Primary input" for one typed in
+   Admin, nothing for one extracted from a document. */
+function channelBadgeHtml(channel) {
+  const label = { primary: "Field data", manual: "Primary input" }[channel];
+  return label ? `<span class="ch-badge ch-${channel}">${label}</span>` : "";
+}
+
+/* The question a Field-data statement answers, shown above the quote. */
+function fieldContextHtml(row) {
+  if (!row.field_context) return "";
+  return `<div class="fd-on">On: “${escapeHTML(row.field_context)}”${
+    row.field_context_answer ? ` — <b>${escapeHTML(row.field_context_answer)}</b>` : ""}</div>`;
+}
+
+function fieldSurveyCardHtml(s, pinned) {
+  const pct = (n) => Math.round((100 * n) / s.n);
+  const bars = (rows, top) => {
+    const shown = pinned ? rows : rows.slice(0, top);
+    if (!shown.length) return `<div class="fd-none">No answers recorded.</div>`;
+    return shown.map(([label, n]) => `<div class="fd-bar">
+        <span class="fd-bar-l">${escapeHTML(label)}</span>
+        <span class="fd-bar-t"><span style="width:${pct(n)}%"></span></span>
+        <span class="fd-bar-n">${pct(n)}%</span></div>`).join("") +
+      (!pinned && rows.length > top ? `<div class="fd-more">+${rows.length - top} more</div>` : "");
+  };
+  const block = (title, colour, inner) =>
+    `<div class="fd-block" style="border-color:${colour}"><div class="fd-h" style="color:${colour}">${title}</div>${inner}</div>`;
+  const sub = (label, inner) => `<div class="fd-sub">${label}</div>${inner}`;
+  const H = s.sections.hazards, V = s.sections.vulnerable, C = s.sections.coping, G = s.sections.gaps;
+  const range = s.date_from === s.date_to ? fmtDate(Date.parse(s.date_from))
+    : `${fmtDate(Date.parse(s.date_from))} – ${fmtDate(Date.parse(s.date_to))}`;
+
+  // WHAT HOUSEHOLDS SAID: published Field-data statements at this place.
+  // Deliberately NOT filtered by the slider month or the theme chips: the card
+  // is the survey's view and must not go empty when the slider moves on.
+  const said = (state.data.insights || [])
+    .filter((r) => r.channel === "primary" && r.admin_pcode === s.pcode);
+  const CAP = 2;
+  const quotes = (pinned ? said : said.slice(0, CAP)).map((r) => {
+    const dims = [...new Set((r.codings || []).map((c) => c.dimension))]
+      .filter((d) => DIM_META[d]).map((d) => DIM_META[d].label).join(" · ");
+    return `<div class="fd-quote">
+        <div class="fd-q-meta">${channelBadgeHtml(r.channel)}${dims ? ` ${escapeHTML(dims)}` : ""}</div>
+        ${fieldContextHtml(r)}
+        <blockquote>${escapeHTML(r.quote)}</blockquote></div>`;
+  }).join("");
+
+  return `<div class="field-card">
+    <div class="fd-head">Collected ${range} · IFRC household survey</div>
+    ${block("Hazards", DIM_META.hazard.color,
+      sub("Experienced", bars(H.experienced, 5)) + sub("Getting worse", bars(H.worsening, 3)))}
+    ${block("Who is most affected", DIM_META.vulnerability.color,
+      sub("Groups hit hardest", bars(V.most_affected, 5)) + sub("Why", bars(V.why, 3)))}
+    ${block("Coping", DIM_META.coping.color,
+      sub("Can the community cope with a hazard?", bars(C.extent, 4)) + sub("What households do", bars(C.measures, 3)))}
+    ${block("Gaps", DIM_META.need.color, sub("Gaps and challenges in social cohesion", bars(G.cohesion_gaps, 5)))}
+    <div class="fd-said"><div class="fd-h">What households said</div>${said.length ? quotes +
+      (!pinned && said.length > CAP ? `<div class="fd-more">…and ${said.length - CAP} more</div>` : "")
+      : `<div class="fd-none">No statements published yet.</div>`}</div>
+    <div class="pp-note">Share of the ${s.n} households interviewed who named each answer (several could be named). District-level: no household location is shown.</div>
+  </div>`;
+}
+
 function renderAOI() {
   setSource("aoi", state.showAOI ? filterFC(state.data.aoi) : empty());
 }
@@ -3459,6 +3653,9 @@ function renderInsightBubbles() {
       date: row.date || "",
       source: row.source_document || "",
       voice: row.voice_type,
+      channel: row.channel,
+      field_context: row.field_context,
+      field_context_answer: row.field_context_answer,
     });
   }
 
@@ -3489,6 +3686,7 @@ function drawMapLayers() {
   renderFlows();
   renderCrossings();
   renderHSP();
+  renderFieldData();
   renderIDP();
   renderIDPStates();
   renderReturnees();
@@ -3996,6 +4194,12 @@ function initControls() {
   layer("#toggle-aoi", "showAOI");
   // Food security is the exception: its file is about 2 MB, so it is only
   // downloaded the first time someone asks for it.
+  // The survey card lives in the Community tab, so the panel follows the toggle too.
+  $("#toggle-field-data").addEventListener("change", (e) => {
+    state.showFieldData = e.target.checked;
+    renderMapLayers();
+    renderVoices();
+  });
   $("#toggle-hsps").addEventListener("change", (e) => {
     state.showHSP = e.target.checked;
     renderMapLayers();

@@ -126,6 +126,7 @@
   --idp-state:    var(--ifrc-purple-light);   /* IDP admin1 - the coarser aggregate */
   --refugees:     var(--ifrc-blue-medium);    /* host-country totals and camps */
   --hsp:          #7b4ea3;                    /* humanitarian service points */
+  --field-data:   var(--ifrc-red);            /* CCHA household survey markers (ring) */
   /* Returnee localities. Green because --return (dark green) is already
      "movement back into Sudan" for the corridor arrows; this is that same
      movement at its DESTINATION, one step lighter so the two read as related
@@ -962,3 +963,46 @@ body.resizing, body.resizing * { user-select: none !important; cursor: col-resiz
   font: inherit; color: var(--accent); text-decoration: underline;
 }
 .voices-clear:hover { text-decoration: none; }
+
+/* ---------------------------------------------------------------- field data
+   The household-survey card (fieldSurveyCardHtml) and the channel badges. */
+.ch-badge {
+  display: inline-block; font-size: 9px; text-transform: uppercase; letter-spacing: .05em;
+  font-weight: 700; padding: 1px 5px; border-radius: 3px; margin-left: 4px;
+  border: 1px solid currentColor; opacity: 1;
+}
+.ch-badge.ch-primary { color: var(--field-data); }
+.ch-badge.ch-manual { color: var(--event); }
+.fd-on { font-size: 11px; color: var(--muted); margin: 3px 0; }
+/* In the Community tab the card fills the panel's width, inside a fold. */
+.field-panel {
+  border: 1px solid var(--border); border-left: 3px solid var(--field-data);
+  border-radius: 4px; padding: 6px 8px; margin: 0 0 8px; scroll-margin-top: 8px;
+}
+.field-panel > summary { cursor: pointer; font-size: 12px; line-height: 1.5; }
+.field-panel > summary .ch-badge { margin-left: 0; }
+.field-panel[open] > summary { margin-bottom: 4px; }
+.field-panel .fd-toggle {
+  margin-top: 6px; font: inherit; font-size: 11px; background: none; border: 0; padding: 0;
+  color: var(--field-data); text-decoration: underline; cursor: pointer;
+}
+.field-panel.is-flash { animation: fd-flash 1.2s ease-out; }
+@keyframes fd-flash { from { box-shadow: 0 0 0 3px var(--field-data); } to { box-shadow: 0 0 0 0 transparent; } }
+.field-card { min-width: 0; }
+/* The panel is narrow: wrap a long answer rather than cut it to "Food Insecuri…". */
+.field-panel .field-card .fd-bar { grid-template-columns: 1fr 48px 30px; margin: 2px 0; }
+.field-panel .field-card .fd-bar-l { white-space: normal; overflow: visible; line-height: 1.25; }
+.field-card .fd-head { color: var(--muted); }
+.field-card .fd-head { font-size: 12px; margin-bottom: 6px; }
+.field-card .fd-block { border-left: 3px solid; padding-left: 7px; margin: 6px 0; }
+.field-card .fd-h { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; font-weight: 700; }
+.field-card .fd-sub { font-size: 10.5px; color: var(--muted); margin: 3px 0 1px; }
+.field-card .fd-bar { display: grid; grid-template-columns: 1fr 70px 32px; gap: 5px; align-items: center; font-size: 11px; }
+.field-card .fd-bar-l { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.field-card .fd-bar-t { background: var(--border); height: 6px; border-radius: 3px; overflow: hidden; }
+.field-card .fd-bar-t span { display: block; height: 100%; background: var(--text); opacity: .55; }
+.field-card .fd-bar-n { text-align: right; color: var(--muted); }
+.field-card .fd-more, .field-card .fd-none { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.field-card .fd-said { margin-top: 8px; border-top: 1px solid var(--border); padding-top: 6px; }
+.field-card .fd-quote + .fd-quote { border-top: 1px dashed var(--border); margin-top: 6px; padding-top: 6px; }
+.field-card blockquote { margin: 3px 0; font-size: 12px; line-height: 1.4; white-space: pre-wrap; }

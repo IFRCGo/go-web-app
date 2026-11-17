@@ -46,6 +46,7 @@ FORM = {"uid": "aUGA", "name": "Community Centered Humanitarian Analysis - Surve
             {"type": "end_group"},
         ], "choices": [
             {"list_name": "interview_type", "name": "hh", "label": ["Household"]},
+            {"list_name": "interview_type", "name": "hhs", "label": ["Household Survey"]},
             {"list_name": "country", "name": "UGA", "label": ["Uganda"]},
             {"list_name": "hazards", "name": "flood", "label": ["Floods"]},
             {"list_name": "hazards", "name": "drought", "label": ["Drought"]},
@@ -189,6 +190,19 @@ class LoadTests(TestCase):
         self.assertTrue(SourceSync.objects.filter(
             source="kobo", dataset="primary_data", iso3=None,
             variant="ccha_primary_data").exists())
+
+
+class FieldDataTests(TestCase):
+    """The pull ends by queueing households' own words for review (insights/field_data.py)."""
+
+    def test_pull_queues_field_data_and_not_approved_removes_it(self):
+        from insights.models import Insight
+        pull(sub(1, interview_type="hhs"))
+        self.assertEqual(set(Insight.objects.values_list("field_question", "quote", "status", "channel")),
+                         {("coping_challenges", "No boats", "pending", "primary"),
+                          ("hazards_experience_other", "Landslide", "pending", "primary")})
+        pull(sub(2), not_approved=[1])   # "hh" (not a household survey): queues nothing
+        self.assertFalse(Insight.objects.exists())
 
 
 class AllRejectedTests(TestCase):

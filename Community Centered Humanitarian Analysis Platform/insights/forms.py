@@ -227,6 +227,12 @@ class InsightPlaceForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # "Field data" is what a Kobo pull writes (insights/field_data.py); a
+        # person typing a statement is "Primary input". The choice stays only on
+        # a row that already is field data, or saving it would fail validation.
+        if "channel" in self.fields and self.instance.channel != "primary":
+            self.fields["channel"].choices = [
+                c for c in self.fields["channel"].choices if c[0] != "primary"]
         # What this row's location was BEFORE the reviewer touched the page.
         # save() compares against it to tell "moved it" from "left it alone";
         # it must be read off the instance, never off the POST.

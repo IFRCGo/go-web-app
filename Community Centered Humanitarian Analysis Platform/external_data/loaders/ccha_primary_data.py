@@ -238,6 +238,15 @@ class CchaPrimaryDataLoader(Loader):
                       "definition": form})
         delete_rejected(ctx.get("not_approved_ids"))
 
+        # Households' own words into the review queue, as PENDING Field-data
+        # statements. After delete_rejected, so a rejected interview's
+        # statements have already gone with it (CASCADE).
+        from insights.field_data import sync_statements
+        counts = sync_statements(
+            CchaPrimaryData.objects.filter(submission_id__in=self._children)
+            .prefetch_related("coping_challenges", "statements"))
+        print(f"  field data statements: {counts}")
+
     def sync_key(self, iso3, context=None):
         return {"source": "kobo", "dataset": "primary_data", "iso3": iso3,
                 "variant": (context or {})["form_key"]}
