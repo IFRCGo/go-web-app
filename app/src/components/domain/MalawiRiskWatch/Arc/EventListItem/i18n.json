@@ -1,0 +1,7 @@
+{
+    "namespace": "malawiRiskWatch",
+    "strings": {
+        "arcEventListPopulationImpacted": "Population impacted",
+        "arcEventListTriggered": "Triggered"
+    }
+}

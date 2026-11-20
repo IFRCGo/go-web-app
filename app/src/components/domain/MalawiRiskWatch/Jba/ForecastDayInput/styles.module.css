@@ -1,0 +1,66 @@
+.forecast-day-input {
+    .impact {
+        color: var(--go-ui-color-text-light);
+        font-size: var(--go-ui-font-size-sm);
+    }
+
+    .chart {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--go-ui-spacing-2xs);
+    }
+
+    .y-axis {
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column;
+        justify-content: space-between;
+        border-right: var(--go-ui-width-separator-sm) solid var(--go-ui-color-gray-40);
+        padding-right: var(--go-ui-spacing-3xs);
+        /* Match the bar-track height so the baseline tick sits on the bar floor */
+        height: 3rem;
+        line-height: 1;
+        color: var(--go-ui-color-text-light);
+        font-size: var(--go-ui-font-size-2xs);
+    }
+
+    .bars {
+        display: flex;
+        align-items: flex-end;
+        flex-grow: 1;
+        gap: var(--go-ui-spacing-3xs);
+
+        .day {
+            display: flex;
+            align-items: center;
+            flex-basis: 0;
+            flex-direction: column;
+            flex-grow: 1;
+            border-bottom: var(--go-ui-width-separator-md) solid transparent;
+            padding-bottom: var(--go-ui-spacing-3xs);
+            line-height: var(--go-ui-line-height-sm);
+            color: var(--go-ui-color-text-light);
+            font-size: var(--go-ui-font-size-2xs);
+            gap: var(--go-ui-spacing-3xs);
+
+            .bar-track {
+                display: flex;
+                align-items: flex-end;
+                width: 100%;
+                height: 3rem;
+
+                .bar {
+                    border-radius: var(--go-ui-border-radius-sm) var(--go-ui-border-radius-sm) 0 0;
+                    background-color: var(--go-ui-color-gray-40);
+                    width: 100%;
+                }
+            }
+
+            &.active {
+                border-bottom-color: var(--go-ui-color-primary-red);
+                color: var(--go-ui-color-primary-red);
+                font-weight: var(--go-ui-font-weight-semibold);
+            }
+        }
+    }
+}

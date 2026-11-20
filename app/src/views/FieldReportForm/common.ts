@@ -20,6 +20,7 @@ import {
     undefinedValue,
 } from '@togglecorp/toggle-form';
 
+import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import {
     type ContactType,
     DISASTER_TYPE_EPIDEMIC,
@@ -63,6 +64,24 @@ export type FormValue = Omit<
 };
 
 export type PartialFormValue = PurgeNull<PartialForm<FormValue, 'uuid' | 'ctype' | 'organization'>>;
+
+// The form fetches district labels only on demand, so prefilled
+// districts need their options passed along.
+export interface NewFieldReportRouteState {
+    initialValue: PartialFormValue;
+    districtOptions?: DistrictItem[];
+}
+
+export function getNewFieldReportRouteState(
+    initialValue: PartialFormValue,
+    districtOptions?: DistrictItem[],
+): NewFieldReportRouteState {
+    return {
+        initialValue,
+        districtOptions,
+    };
+}
+
 type FormSchema = ObjectSchema<PartialFormValue>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
@@ -287,6 +306,9 @@ export const reportSchema: FormSchema = {
             dtype: { required: true },
             title: { required: true, requiredValidation: requiredStringCondition },
             start_date: { required: true },
+            // Set when the report is prefilled from an external system
+            external_source: {},
+            external_source_id: {},
             request_assistance: {},
             ns_request_assistance: {},
 

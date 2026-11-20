@@ -1,0 +1,8 @@
+{
+    "namespace": "malawiRiskWatch",
+    "strings": {
+        "localUnitTypeLabel": "Type",
+        "localUnitFacilityTypeLabel": "Facility type",
+        "localUnitAddressLabel": "Address"
+    }
+}

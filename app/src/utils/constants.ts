@@ -146,6 +146,7 @@ export type CategoryType = components<'read'>['schemas']['ApiActionCategoryEnumK
 export const DISASTER_TYPE_EPIDEMIC = 1;
 export const DISASTER_TYPE_OTHER = 13;
 export const DISASTER_TYPE_DROUGHT = 20;
+export const DISASTER_TYPE_FLOOD = 12;
 
 type Visibility = components<'read'>['schemas']['ApiVisibilityChoicesEnumKey'];
 export const VISIBILITY_RCRC_MOVEMENT = 1 satisfies Visibility;

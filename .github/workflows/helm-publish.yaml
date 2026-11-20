@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Publish web-app-serve
         uses: toggle-corp/web-app-serve-action@v0.2.0
