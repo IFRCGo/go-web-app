@@ -9,4 +9,4 @@
 	url = git@github.com:IFRCGo/cacheppuccino.git
 [submodule "malawi-risk-watch-backend"]
 	path = malawi-risk-watch-backend
-	url = git@github.com:toggle-corp/malawi-risk-watch-backend.git
+	url = git@github.com:IFRCGo/malawi-risk-watch-backend.git
