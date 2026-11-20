@@ -34,6 +34,10 @@ import {
 import DetailsFailedToLoadMessage from '#components/domain/DetailsFailedToLoadMessage';
 import Link from '#components/Link';
 import Page from '#components/Page';
+import {
+    countryIdToRegionIdMap,
+    isCountryIdRegion,
+} from '#utils/domain/country';
 import { useRequest } from '#utils/restRequest';
 
 import FlashUpdateExportModal from './FlashUpdateExportModal';
@@ -168,18 +172,24 @@ export function Component() {
                 </>
             )}
             description={!shouldHideDetails && countryDistricts && countryDistricts.map(
-                (country, i) => (
-                    <Fragment key={country.country_details.id}>
-                        <Link
-                            to="countriesLayout"
-                            urlParams={{ countryId: country?.country_details.id }}
-                            withLinkIcon
-                        >
-                            {country.country_details.name}
-                        </Link>
-                        {i !== countryDistricts.length - 1 && ', '}
-                    </Fragment>
-                ),
+                (country, i) => {
+                    const countryId = country?.country_details.id;
+                    const isRegion = isCountryIdRegion(countryId);
+                    return (
+                        <Fragment key={country.country_details.id}>
+                            <Link
+                                to={isRegion ? 'regionsLayout' : 'countriesLayout'}
+                                urlParams={isRegion
+                                    ? { regionId: countryIdToRegionIdMap[countryId as number] }
+                                    : { countryId }}
+                                withLinkIcon
+                            >
+                                {country.country_details.name}
+                            </Link>
+                            {i !== countryDistricts.length - 1 && ', '}
+                        </Fragment>
+                    );
+                },
             )}
             contentOriginalLanguage={flashUpdateResponse?.translation_module_original_language}
         >

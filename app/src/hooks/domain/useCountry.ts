@@ -9,6 +9,7 @@ import {
 } from '@togglecorp/fujs';
 
 import DomainContext, { type Countries } from '#contexts/domain';
+import { COUNTRY_RECORD_TYPE_REGION } from '#utils/constants';
 
 export type PartialCountry = NonNullable<Countries['results']>[number];
 
@@ -35,8 +36,24 @@ export function isValidCountry(country: PartialCountry): country is Country {
     );
 }
 
+// NOTE: The 5 IFRC regions (Africa, Americas, Asia-Pacific, Europe, MENA) are stored as
+// "Country" records with record_type REGION so that they can be referenced wherever a
+// country FK is expected (e.g. Flash Update's country_district). They have no iso/iso3
+// codes, so they fail isValidCountry and need this separate, relaxed check.
+function isValidRegionCountry(country: PartialCountry): country is Country {
+    return (
+        isDefined(country.id)
+        && isTruthyString(country.name)
+        && country.record_type === COUNTRY_RECORD_TYPE_REGION
+        && !!country.independent
+        && !country.is_deprecated
+    );
+}
+
 type ListProps = {
     region?: number;
+    // NOTE: When true, also includes the 5 IFRC region entries (e.g. "Africa Region")
+    includeRegions?: boolean;
     id?: never;
     iso3?: never;
 }
@@ -45,12 +62,14 @@ type PropsForId = {
     id: number;
     iso3?: never;
     region?: never;
+    includeRegions?: never;
 }
 
 type PropsForIso3 = {
     iso3: string;
     id?: never;
     region?: never;
+    includeRegions?: never;
 }
 
 function useCountry(props?: ListProps): Array<Country>
@@ -68,11 +87,16 @@ function useCountry(
         [register],
     );
 
+    const includeRegions = props?.includeRegions;
+
     const countries = useMemo(
         () => (
-            countriesUnsafe?.results?.filter(isValidCountry)
+            countriesUnsafe?.results?.filter(
+                (country): country is Country => isValidCountry(country)
+                    || (!!includeRegions && isValidRegionCountry(country)),
+            )
         ),
-        [countriesUnsafe],
+        [countriesUnsafe, includeRegions],
     );
 
     const returnValue = useMemo(
