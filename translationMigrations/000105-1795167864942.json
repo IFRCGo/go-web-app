@@ -1,0 +1,893 @@
+{
+    "parent": "000104-1793185335527.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "activationChecklistDrefLaunched",
+            "namespace": "malawiRiskWatch",
+            "value": "Imminent DREF launched"
+        },
+        {
+            "action": "add",
+            "key": "activationChecklistEmergencyCreated",
+            "namespace": "malawiRiskWatch",
+            "value": "Emergency created"
+        },
+        {
+            "action": "add",
+            "key": "activationChecklistHeading",
+            "namespace": "malawiRiskWatch",
+            "value": "Activation status"
+        },
+        {
+            "action": "add",
+            "key": "activationChecklistViewEmergency",
+            "namespace": "malawiRiskWatch",
+            "value": "View emergency"
+        },
+        {
+            "action": "add",
+            "key": "activationChecklistViewReport",
+            "namespace": "malawiRiskWatch",
+            "value": "View report"
+        },
+        {
+            "action": "add",
+            "key": "arcActivationMrcsConfirmed",
+            "namespace": "malawiRiskWatch",
+            "value": "MRCS confirmed"
+        },
+        {
+            "action": "add",
+            "key": "arcActivationRainfallObserved",
+            "namespace": "malawiRiskWatch",
+            "value": "Rainfall observed"
+        },
+        {
+            "action": "add",
+            "key": "arcActivationReportCreated",
+            "namespace": "malawiRiskWatch",
+            "value": "Field report created"
+        },
+        {
+            "action": "add",
+            "key": "arcActivationReviewConfirmed",
+            "namespace": "malawiRiskWatch",
+            "value": "Confirmed"
+        },
+        {
+            "action": "add",
+            "key": "arcActivationReviewPending",
+            "namespace": "malawiRiskWatch",
+            "value": "Pending review"
+        },
+        {
+            "action": "add",
+            "key": "arcActivationReviewRejected",
+            "namespace": "malawiRiskWatch",
+            "value": "Rejected"
+        },
+        {
+            "action": "add",
+            "key": "arcActivationThresholdExceeded",
+            "namespace": "malawiRiskWatch",
+            "value": "District trigger active"
+        },
+        {
+            "action": "add",
+            "key": "arcEventDetailsCreateReport",
+            "namespace": "malawiRiskWatch",
+            "value": "Create field report"
+        },
+        {
+            "action": "add",
+            "key": "arcEventDetailsObservationDate",
+            "namespace": "malawiRiskWatch",
+            "value": "Observed"
+        },
+        {
+            "action": "add",
+            "key": "arcEventDetailsPopulationImpacted",
+            "namespace": "malawiRiskWatch",
+            "value": "Population impacted"
+        },
+        {
+            "action": "add",
+            "key": "arcEventDetailsReportDescription",
+            "namespace": "malawiRiskWatch",
+            "value": "The parametric trigger model observation of {date} estimates {impact} people impacted in {district}."
+        },
+        {
+            "action": "add",
+            "key": "arcEventDetailsReportTitle",
+            "namespace": "malawiRiskWatch",
+            "value": "Parametric trigger - {district}"
+        },
+        {
+            "action": "add",
+            "key": "arcEventDetailsReturnPeriod",
+            "namespace": "malawiRiskWatch",
+            "value": "Return period"
+        },
+        {
+            "action": "add",
+            "key": "arcEventDetailsReturnPeriodValue",
+            "namespace": "malawiRiskWatch",
+            "value": "{years}-year"
+        },
+        {
+            "action": "add",
+            "key": "arcEventListPopulationImpacted",
+            "namespace": "malawiRiskWatch",
+            "value": "Population impacted"
+        },
+        {
+            "action": "add",
+            "key": "arcEventListTriggered",
+            "namespace": "malawiRiskWatch",
+            "value": "Triggered"
+        },
+        {
+            "action": "add",
+            "key": "arcLoadFailedMessage",
+            "namespace": "malawiRiskWatch",
+            "value": "Failed to load the parametric trigger model"
+        },
+        {
+            "action": "add",
+            "key": "arcMapInfoLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Basemap sources: ICRC, UN CODs"
+        },
+        {
+            "action": "add",
+            "key": "arcMapSourcesLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Basemap sources: ICRC, {uncodsLink}"
+        },
+        {
+            "action": "add",
+            "key": "arcMetricLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Parametric model: population impacted"
+        },
+        {
+            "action": "add",
+            "key": "arcNoImpactMessage",
+            "namespace": "malawiRiskWatch",
+            "value": "No modelled impact for this date"
+        },
+        {
+            "action": "add",
+            "key": "arcNoObservationsMessage",
+            "namespace": "malawiRiskWatch",
+            "value": "No parametric model observations available yet"
+        },
+        {
+            "action": "add",
+            "key": "arcObservationDateLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Observation date"
+        },
+        {
+            "action": "add",
+            "key": "arcObservationInfoTitle",
+            "namespace": "malawiRiskWatch",
+            "value": "Observation"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerDistrictsLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Districts"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerDistrictsValue",
+            "namespace": "malawiRiskWatch",
+            "value": "{count} of {total}"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerExceeded",
+            "namespace": "malawiRiskWatch",
+            "value": "Exceeded"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerHeading",
+            "namespace": "malawiRiskWatch",
+            "value": "National trigger"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerInfo",
+            "namespace": "malawiRiskWatch",
+            "value": "The national return period is the highest district return period on this date. The trigger is exceeded at a {threshold}-year return period or higher. The MRCS review refers to the trigger record raised by the model pipeline for this date."
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerInfoTitle",
+            "namespace": "malawiRiskWatch",
+            "value": "National trigger"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerNotesLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Notes"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerNotExceeded",
+            "namespace": "malawiRiskWatch",
+            "value": "Not exceeded"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerReturnPeriodLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Return period"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerReturnPeriodValue",
+            "namespace": "malawiRiskWatch",
+            "value": "{years}-year"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerReviewConfirmed",
+            "namespace": "malawiRiskWatch",
+            "value": "Confirmed"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerReviewLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "MRCS review"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerReviewLink",
+            "namespace": "malawiRiskWatch",
+            "value": "Review"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerReviewNone",
+            "namespace": "malawiRiskWatch",
+            "value": "None"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerReviewPending",
+            "namespace": "malawiRiskWatch",
+            "value": "Pending"
+        },
+        {
+            "action": "add",
+            "key": "arcTriggerReviewRejected",
+            "namespace": "malawiRiskWatch",
+            "value": "Rejected"
+        },
+        {
+            "action": "add",
+            "key": "jbaActivationForecastIssued",
+            "namespace": "malawiRiskWatch",
+            "value": "Forecast issued"
+        },
+        {
+            "action": "add",
+            "key": "jbaActivationReportCreated",
+            "namespace": "malawiRiskWatch",
+            "value": "Early warning report created"
+        },
+        {
+            "action": "add",
+            "key": "jbaActivationThresholdExceeded",
+            "namespace": "malawiRiskWatch",
+            "value": "Impact threshold exceeded"
+        },
+        {
+            "action": "add",
+            "key": "jbaBaselineExposureElderly",
+            "namespace": "malawiRiskWatch",
+            "value": "Elderly (65+)"
+        },
+        {
+            "action": "add",
+            "key": "jbaBaselineExposureFemale",
+            "namespace": "malawiRiskWatch",
+            "value": "Female"
+        },
+        {
+            "action": "add",
+            "key": "jbaBaselineExposureHeading",
+            "namespace": "malawiRiskWatch",
+            "value": "Baseline flood exposure"
+        },
+        {
+            "action": "add",
+            "key": "jbaBaselineExposureInfo",
+            "namespace": "malawiRiskWatch",
+            "value": "Population exposed to a 1-in-100-year flood (30 cm depth) in this district, from HDX. This is a static estimate and not part of the forecast."
+        },
+        {
+            "action": "add",
+            "key": "jbaBaselineExposureUnder15",
+            "namespace": "malawiRiskWatch",
+            "value": "Under-15"
+        },
+        {
+            "action": "add",
+            "key": "jbaBaselineExposureUnder5",
+            "namespace": "malawiRiskWatch",
+            "value": "Under-5"
+        },
+        {
+            "action": "add",
+            "key": "jbaEventDetailsCreateReport",
+            "namespace": "malawiRiskWatch",
+            "value": "Create early warning report"
+        },
+        {
+            "action": "add",
+            "key": "jbaEventDetailsPopulationImpacted",
+            "namespace": "malawiRiskWatch",
+            "value": "Population impacted"
+        },
+        {
+            "action": "add",
+            "key": "jbaEventDetailsReportDescription",
+            "namespace": "malawiRiskWatch",
+            "value": "Flood Foresight (JBA) forecast issued on {issueDate} projects {impact} people impacted in {district} at a lead time of {leadTime} days (target date {targetDate})."
+        },
+        {
+            "action": "add",
+            "key": "jbaEventDetailsReportTitle",
+            "namespace": "malawiRiskWatch",
+            "value": "Flood forecast - {district}"
+        },
+        {
+            "action": "add",
+            "key": "jbaEventDetailsTargetDate",
+            "namespace": "malawiRiskWatch",
+            "value": "Target date"
+        },
+        {
+            "action": "add",
+            "key": "jbaEventDetailsTrajectoryHeading",
+            "namespace": "malawiRiskWatch",
+            "value": "Forecast trajectory"
+        },
+        {
+            "action": "add",
+            "key": "jbaEventDetailsTrajectoryInfo",
+            "namespace": "malawiRiskWatch",
+            "value": "Population impacted at each lead time of this forecast run. The highlighted point is the selected lead time."
+        },
+        {
+            "action": "add",
+            "key": "jbaEventListPopulationImpacted",
+            "namespace": "malawiRiskWatch",
+            "value": "Population impacted"
+        },
+        {
+            "action": "add",
+            "key": "jbaForecastDayLead",
+            "namespace": "malawiRiskWatch",
+            "value": "{days}d"
+        },
+        {
+            "action": "add",
+            "key": "jbaForecastDayPeopleImpacted",
+            "namespace": "malawiRiskWatch",
+            "value": "{count} people impacted"
+        },
+        {
+            "action": "add",
+            "key": "jbaForecastDaySummary",
+            "namespace": "malawiRiskWatch",
+            "value": "Day {day} ({date})"
+        },
+        {
+            "action": "add",
+            "key": "jbaForecastIssuedLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Forecast issued"
+        },
+        {
+            "action": "add",
+            "key": "jbaForecastMetricLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Forecast: population impacted"
+        },
+        {
+            "action": "add",
+            "key": "jbaLoadFailedMessage",
+            "namespace": "malawiRiskWatch",
+            "value": "Failed to load the flood forecast"
+        },
+        {
+            "action": "add",
+            "key": "jbaMapInfoLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Basemap sources: ICRC, UN CODs"
+        },
+        {
+            "action": "add",
+            "key": "jbaMapSourcesLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Basemap sources: ICRC, {uncodsLink}"
+        },
+        {
+            "action": "add",
+            "key": "jbaNoImpactMessage",
+            "namespace": "malawiRiskWatch",
+            "value": "No flood impact forecasted for this day"
+        },
+        {
+            "action": "add",
+            "key": "jbaRasterLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Forecast: flood extent (ensemble agreement)"
+        },
+        {
+            "action": "add",
+            "key": "jbaRunInfoTitle",
+            "namespace": "malawiRiskWatch",
+            "value": "Forecast run"
+        },
+        {
+            "action": "add",
+            "key": "jbaRunStatusLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Run status"
+        },
+        {
+            "action": "add",
+            "key": "jbaTrajectoryChartTooltipPopulationImpacted",
+            "namespace": "malawiRiskWatch",
+            "value": "Population impacted"
+        },
+        {
+            "action": "add",
+            "key": "jbaTrajectoryChartTooltipTargetDate",
+            "namespace": "malawiRiskWatch",
+            "value": "Target date"
+        },
+        {
+            "action": "add",
+            "key": "jbaTrajectoryChartTooltipTitle",
+            "namespace": "malawiRiskWatch",
+            "value": "Lead time: {leadTime} days"
+        },
+        {
+            "action": "add",
+            "key": "jbaTrajectoryChartXAxisLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Lead time (days)"
+        },
+        {
+            "action": "add",
+            "key": "jbaTrajectoryChartYAxisLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Population impacted"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelAccess",
+            "namespace": "malawiRiskWatch",
+            "value": "Access"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelAccessEducation",
+            "namespace": "malawiRiskWatch",
+            "value": "Population within 5 km of education"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelAccessHospitals",
+            "namespace": "malawiRiskWatch",
+            "value": "Population within 30 min of a hospital"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelAccessPrimaryCare",
+            "namespace": "malawiRiskWatch",
+            "value": "Population within 30 min of primary care"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelBubbleSection",
+            "namespace": "malawiRiskWatch",
+            "value": "Event bubbles"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelColorBlue",
+            "namespace": "malawiRiskWatch",
+            "value": "Blue"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelColorGrey",
+            "namespace": "malawiRiskWatch",
+            "value": "Grey"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelColorLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Color"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelColorRed",
+            "namespace": "malawiRiskWatch",
+            "value": "Red"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelDemographics",
+            "namespace": "malawiRiskWatch",
+            "value": "Demographics"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelDemographicsElderly",
+            "namespace": "malawiRiskWatch",
+            "value": "Elderly population"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelDemographicsFemale",
+            "namespace": "malawiRiskWatch",
+            "value": "Female population"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelDemographicsUnder15",
+            "namespace": "malawiRiskWatch",
+            "value": "Under-15 population"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelDone",
+            "namespace": "malawiRiskWatch",
+            "value": "Done"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelFacilities",
+            "namespace": "malawiRiskWatch",
+            "value": "Facilities"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelFacilitiesHospitals",
+            "namespace": "malawiRiskWatch",
+            "value": "Hospitals"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelFloodExposure",
+            "namespace": "malawiRiskWatch",
+            "value": "Flood exposure (1-in-100-year)"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelFloodExposureEducation",
+            "namespace": "malawiRiskWatch",
+            "value": "Education facilities at risk (%)"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelFloodExposureElderly",
+            "namespace": "malawiRiskWatch",
+            "value": "Elderly population exposed"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelFloodExposureFemale",
+            "namespace": "malawiRiskWatch",
+            "value": "Female population exposed"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelFloodExposureHospitals",
+            "namespace": "malawiRiskWatch",
+            "value": "Hospitals at risk (%)"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelFloodExposureUnder15",
+            "namespace": "malawiRiskWatch",
+            "value": "Under-15 population exposed"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelHeading",
+            "namespace": "malawiRiskWatch",
+            "value": "Map layers"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Layers"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelLocalUnits",
+            "namespace": "malawiRiskWatch",
+            "value": "Local units"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelLocalUnitsDescription",
+            "namespace": "malawiRiskWatch",
+            "value": "Show National Society branch locations"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelOpacityLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Opacity"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelOpacityValue",
+            "namespace": "malawiRiskWatch",
+            "value": "{value}%"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelOptionLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "{dataset}: {metric}"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelRasterSection",
+            "namespace": "malawiRiskWatch",
+            "value": "Raster overlay"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelReset",
+            "namespace": "malawiRiskWatch",
+            "value": "Reset"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelRuralPercent",
+            "namespace": "malawiRiskWatch",
+            "value": "Rural (%)"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelRuralPopulation",
+            "namespace": "malawiRiskWatch",
+            "value": "Rural population"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelRuralUnder15",
+            "namespace": "malawiRiskWatch",
+            "value": "Rural under-15 population"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelSelectMetric",
+            "namespace": "malawiRiskWatch",
+            "value": "Select a metric"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelSelectRaster",
+            "namespace": "malawiRiskWatch",
+            "value": "Select a raster"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelShadeSection",
+            "namespace": "malawiRiskWatch",
+            "value": "District shading"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelVulnerability",
+            "namespace": "malawiRiskWatch",
+            "value": "Vulnerability"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelVulnerabilityElderly",
+            "namespace": "malawiRiskWatch",
+            "value": "Elderly population"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelVulnerabilityFemale",
+            "namespace": "malawiRiskWatch",
+            "value": "Female population"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelVulnerabilityRural",
+            "namespace": "malawiRiskWatch",
+            "value": "Rural population (%)"
+        },
+        {
+            "action": "add",
+            "key": "layersPanelVulnerabilityUnder15",
+            "namespace": "malawiRiskWatch",
+            "value": "Under-15 population"
+        },
+        {
+            "action": "add",
+            "key": "localUnitAddressLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Address"
+        },
+        {
+            "action": "add",
+            "key": "localUnitFacilityTypeLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Facility type"
+        },
+        {
+            "action": "add",
+            "key": "localUnitTypeLabel",
+            "namespace": "malawiRiskWatch",
+            "value": "Type"
+        },
+        {
+            "action": "add",
+            "key": "malawiIntroDecideDescription",
+            "namespace": "malawiRiskWatch",
+            "value": "Generate early warning and response reports that feed directly into Red Cross operations and partner coordination."
+        },
+        {
+            "action": "add",
+            "key": "malawiIntroDecideTitle",
+            "namespace": "malawiRiskWatch",
+            "value": "Support operational decisions"
+        },
+        {
+            "action": "add",
+            "key": "malawiIntroDescription",
+            "namespace": "malawiRiskWatch",
+            "value": "Malawi Risk Watch combines forecast models, confirmed event information, contextual risk layers, and operational reporting to support anticipatory action, response coordination, and learning across MRCS and IFRC workflows."
+        },
+        {
+            "action": "add",
+            "key": "malawiIntroHeading",
+            "namespace": "malawiRiskWatch",
+            "value": "Malawi Risk Watch"
+        },
+        {
+            "action": "add",
+            "key": "malawiIntroHowItWorks",
+            "namespace": "malawiRiskWatch",
+            "value": "How it works"
+        },
+        {
+            "action": "add",
+            "key": "malawiIntroInterpretDescription",
+            "namespace": "malawiRiskWatch",
+            "value": "Overlay hazard signals with exposure, vulnerability, critical services and Red Cross presence to see where impacts may be highest."
+        },
+        {
+            "action": "add",
+            "key": "malawiIntroInterpretTitle",
+            "namespace": "malawiRiskWatch",
+            "value": "Interpret risk in context"
+        },
+        {
+            "action": "add",
+            "key": "malawiIntroLearnDescription",
+            "namespace": "malawiRiskWatch",
+            "value": "Link events, activations and reports over time to compare forecast with observed impacts and improve thresholds and models."
+        },
+        {
+            "action": "add",
+            "key": "malawiIntroLearnTitle",
+            "namespace": "malawiRiskWatch",
+            "value": "Record, compare, and learn"
+        },
+        {
+            "action": "add",
+            "key": "malawiIntroMonitorDescription",
+            "namespace": "malawiRiskWatch",
+            "value": "Track forecasted and confirmed hazards from model outputs and partner sources. Forecasts support early readiness; confirmed events support response decisions."
+        },
+        {
+            "action": "add",
+            "key": "malawiIntroMonitorTitle",
+            "namespace": "malawiRiskWatch",
+            "value": "Monitor hazard signals"
+        },
+        {
+            "action": "add",
+            "key": "malawiIntroTagline",
+            "namespace": "malawiRiskWatch",
+            "value": "From hazard signals to Red Cross action"
+        },
+        {
+            "action": "add",
+            "key": "thematicLegendFailed",
+            "namespace": "malawiRiskWatch",
+            "value": "Could not load this layer"
+        },
+        {
+            "action": "add",
+            "key": "thematicLegendLocalUnits",
+            "namespace": "malawiRiskWatch",
+            "value": "Local units"
+        },
+        {
+            "action": "add",
+            "key": "thematicLegendPercent",
+            "namespace": "malawiRiskWatch",
+            "value": "{value}%"
+        },
+        {
+            "action": "add",
+            "key": "thematicLegendRasterUnavailable",
+            "namespace": "malawiRiskWatch",
+            "value": "Not available for this day"
+        },
+        {
+            "action": "add",
+            "key": "thematicLegendSource",
+            "namespace": "malawiRiskWatch",
+            "value": "HDX, updated {date}"
+        },
+        {
+            "action": "add",
+            "key": "thematicLegendUpTo",
+            "namespace": "malawiRiskWatch",
+            "value": "≤ {value}"
+        },
+        {
+            "action": "add",
+            "key": "arcDescription",
+            "namespace": "riskImminentEvents",
+            "value": "This layer displays the status of the parametric trigger model that supports the Parametric Flood Insurance Policy of the Malawi Red Cross Society. It shows the trigger status and impacted population for each district only. It is not designed to be used in combination with other data including vulnerability data."
+        },
+        {
+            "action": "add",
+            "key": "arcTitle",
+            "namespace": "riskImminentEvents",
+            "value": "Source: Parametric Trigger Model (ARC)"
+        },
+        {
+            "action": "add",
+            "key": "imminentEventsSourceArcLabel",
+            "namespace": "riskImminentEvents",
+            "value": "Parametric Trigger Model"
+        },
+        {
+            "action": "add",
+            "key": "imminentEventsSourceJbaLabel",
+            "namespace": "riskImminentEvents",
+            "value": "Flood Foresight (JBA)"
+        },
+        {
+            "action": "add",
+            "key": "jbaDescription",
+            "namespace": "riskImminentEvents",
+            "value": "This impact-based flood forecast is produced using Flood Foresight, a JBA product. The data provides an indicative assessment of potential flood impacts and is intended for situational awareness purposes only. It should not be considered a substitute for detailed flood modelling or risk assessment. JBA makes no warranty as to the accuracy, completeness, or fitness for purpose of the information provided."
+        },
+        {
+            "action": "add",
+            "key": "jbaTitle",
+            "namespace": "riskImminentEvents",
+            "value": "Source: Flood Foresight (JBA)"
+        }
+    ]
+}
