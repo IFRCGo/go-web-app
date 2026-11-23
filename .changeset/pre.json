@@ -7,6 +7,7 @@
     "@ifrc-go/ui": "2.5.0"
   },
   "changesets": [
+    "calm-maps-count",
     "malawi-risk-watch"
   ]
 }
