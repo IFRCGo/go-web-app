@@ -37,7 +37,7 @@ function ShareUserItem(props: Props) {
             readOnly
             spacingOffset={-2}
             spacing="sm"
-            after={(
+            after={onUserRemove && (
                 <Button
                     name={userId}
                     onClick={onUserRemove}
