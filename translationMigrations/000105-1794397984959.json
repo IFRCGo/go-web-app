@@ -1,0 +1,23 @@
+{
+    "parent": "000104-1793185335527.json",
+    "actions": [
+        {
+            "action": "update",
+            "key": "flashUpdateFormContextCountryDescription",
+            "namespace": "flashUpdateForm",
+            "newValue": "Anticipated country, region or several countries/regions (max 10)."
+        },
+        {
+            "action": "update",
+            "key": "flashUpdateFormContextCountryLabel",
+            "namespace": "flashUpdateForm",
+            "newValue": "Select a country or region"
+        },
+        {
+            "action": "update",
+            "key": "flashUpdateFormContextCountryTitle",
+            "namespace": "flashUpdateForm",
+            "newValue": "Geographical area"
+        }
+    ]
+}
