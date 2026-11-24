@@ -15,6 +15,7 @@
         "searchCountriesTitle": "Countries",
         "searchRegionsTitle": "Regions",
         "searchProvincesTitle": "Provinces",
+        "searchUrlsTitle": "Pages",
 
         "searchGoBack": "Go Back",
         "searchViewAll": "View all results for {searchCategory} ({numResults})",
