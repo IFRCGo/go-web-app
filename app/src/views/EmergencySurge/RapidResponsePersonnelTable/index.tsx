@@ -39,7 +39,7 @@ type PersonnelTableItem = NonNullable<GoApiResponse<'/api/v2/personnel/'>['resul
 const now = new Date().toISOString();
 
 interface Props {
-    emergencyId?: string;
+    emergencyId?: number;
 }
 
 export default function RapidResponsePersonnelTable(props: Props) {
@@ -76,7 +76,7 @@ export default function RapidResponsePersonnelTable(props: Props) {
             limit,
             offset,
             ordering,
-            event_deployed_to: Number(emergencyId),
+            event_deployed_to: emergencyId,
             end_date__gt: now,
         },
     });

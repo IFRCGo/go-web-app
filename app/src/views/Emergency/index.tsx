@@ -90,11 +90,13 @@ export function Component() {
         error: emergencyResponseError,
         pending: emergencyPending,
     } = useRequest({
-        // FIXME: need to check if emergencyId can be ''
-        skip: isNotDefined(emergencyId),
+        skip: !isTruthyString(emergencyId),
         url: '/api/v2/emergency/{id}/',
         pathVariables: {
-            id: Number(emergencyId),
+            // NOTE: the server also resolves this lookup by slug (e.g.
+            // "ukraine-crisis"); the generated type still declares `id` as
+            // a number since the schema isn't aware of the slug lookup
+            id: emergencyId as unknown as number,
         },
         shouldPoll: (attempt) => {
             if (attempt.errored || !isDrefSummaryInProgress(attempt.value)) {
@@ -119,12 +121,11 @@ export function Component() {
         response: emergencySnippetResponse,
         pending: emergencySnippetPending,
     } = useRequest({
-        // FIXME: need to check if emergencyId can be ''
-        skip: isNotDefined(emergencyId),
+        skip: isNotDefined(emergencyResponse),
         url: '/api/v2/event_snippet/',
-        query: {
-            event: Number(emergencyId),
-        },
+        query: isDefined(emergencyResponse) ? {
+            event: emergencyResponse.id,
+        } : undefined,
     });
 
     const {
@@ -167,7 +168,9 @@ export function Component() {
         () => true,
     );
 
-    const isSubscribed = isDefined(emergencyId) ? subscriptionMap[Number(emergencyId)] : false;
+    const isSubscribed = isDefined(emergencyResponse)
+        ? subscriptionMap[emergencyResponse.id]
+        : false;
 
     const { isAuthenticated } = useAuth();
     const { isGuestUser } = usePermissions();
@@ -309,7 +312,7 @@ export function Component() {
             actions={isAuthenticated && (
                 <>
                     <Button
-                        name={Number(emergencyId)}
+                        name={emergencyResponse?.id}
                         disabled={subscriptionPending}
                         onClick={isSubscribed ? triggerRemoveSubscription : triggerAddSubscription}
                     >
@@ -323,7 +326,7 @@ export function Component() {
                         // to the admin form
                         <Link
                             external
-                            href={resolveUrl(adminUrl, `api/event/${emergencyId}/change/`)}
+                            href={resolveUrl(adminUrl, `api/event/${emergencyResponse?.id}/change/`)}
                             colorVariant="primary"
                             styleVariant="outline"
                             before={<PencilFillIcon />}

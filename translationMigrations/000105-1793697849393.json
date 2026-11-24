@@ -1,0 +1,15 @@
+{
+    "parent": "000104-1793185335527.json",
+    "actions": [
+        {
+            "action": "remove",
+            "key": "emergencySlugEventError",
+            "namespace": "emergencySlug"
+        },
+        {
+            "action": "remove",
+            "key": "emergencySlugFetchingEvent",
+            "namespace": "emergencySlug"
+        }
+    ]
+}

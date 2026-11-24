@@ -34,7 +34,7 @@ import i18n from './i18n.json';
 type EruTableItem = NonNullable<GoApiResponse<'/api/v2/eru/'>['results']>[number];
 
 interface Props {
-    emergencyId?: string;
+    emergencyId?: number;
 }
 
 export default function DeployedErusTable(props: Props) {
@@ -88,7 +88,7 @@ export default function DeployedErusTable(props: Props) {
             offset,
             ordering,
             deployed_to__isnull: false,
-            event: Number(emergencyId),
+            event: emergencyId,
         },
     });
 

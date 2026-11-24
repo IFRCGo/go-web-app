@@ -2,7 +2,7 @@ import {
     useCallback,
     useMemo,
 } from 'react';
-import { useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { DownloadFillIcon } from '@ifrc-go/icons';
 import {
     Container,
@@ -43,6 +43,7 @@ import {
     createRegionListColumn,
     createTitleColumn,
 } from '#utils/domain/tableHelpers';
+import { type EmergencyOutletContext } from '#utils/outletContext';
 import { resolveUrl } from '#utils/resolveUrl';
 import {
     type GoApiResponse,
@@ -61,16 +62,19 @@ const PAGE_SIZE = 10;
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { emergencyId } = useParams<{ emergencyId: string }>();
+    const { emergencyResponse: emergencySummaryResponse } = useOutletContext<
+        EmergencyOutletContext
+    >();
+    const emergencyNumericId = emergencySummaryResponse?.id;
 
     const {
         response: emergencyResponse,
     } = useRequest({
-        skip: isNotDefined(emergencyId),
+        skip: isNotDefined(emergencyNumericId),
         url: '/api/v2/event/{id}/',
-        pathVariables: {
-            id: Number(emergencyId),
-        },
+        pathVariables: isDefined(emergencyNumericId) ? {
+            id: emergencyNumericId,
+        } : undefined,
     });
 
     const {
@@ -107,17 +111,17 @@ export function Component() {
         } : undefined, // TODO: we need to add search filter in server
     });
 
-    // filtering by event means this no longer waits on the emergency response;
+    // filtering by event means this no longer waits on the event detail fetch;
     // the section below is still gated on the emergency's appeals, so an event
     // without one never renders the result
     const {
         pending: appealDocumentsPending,
         response: appealDocumentsResponse,
     } = useRequest({
-        skip: isNotDefined(emergencyId),
+        skip: isNotDefined(emergencyNumericId),
         url: '/api/v2/appeal_document/',
         query: {
-            event_id: Number(emergencyId),
+            event_id: emergencyNumericId,
             limit: appealDocumentsLimit,
             offset: appealDocumentsOffset,
             ordering: getOrderingWithFallback(orderingAppealDocuments, ['-created_at']),
