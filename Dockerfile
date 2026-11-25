@@ -61,7 +61,7 @@ RUN WEB_APP_SERVE_ENABLED=true pnpm build
 
 # ---------------------------------------------------------------------
 # Final image using web-app-serve
-FROM ghcr.io/toggle-corp/web-app-serve:v0.1.2 AS web-app-serve
+FROM ghcr.io/toggle-corp/web-app-serve:v0.2.0 AS web-app-serve
 
 LABEL maintainer="IFRC"
 LABEL org.opencontainers.image.source="https://github.com/IFRCGo/go-web-app"
