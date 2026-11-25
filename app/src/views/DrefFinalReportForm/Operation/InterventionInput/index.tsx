@@ -63,6 +63,7 @@ function InterventionInput(props: Props) {
     const strings = useTranslation(i18n);
 
     const onFieldChange = useFormObject(index, onChange, defaultInterventionValue);
+    const isSavedIntervention = isDefined(value.id);
 
     const interventionLabel = isDefined(value.title)
         ? titleMap?.[value.title]
@@ -141,8 +142,10 @@ function InterventionInput(props: Props) {
                     name={index}
                     onClick={onRemove}
                     styleVariant="action"
-                    title={strings.drefFormRemoveIntervention}
-                    disabled={disabled || readOnly}
+                    title={isSavedIntervention
+                        ? strings.drefFinalReportInterventionCannotBeRemoved
+                        : strings.drefFormRemoveIntervention}
+                    disabled={disabled || readOnly || isSavedIntervention}
                     before={<DeleteBinTwoLineIcon />}
                 >
                     {strings.drefFinalReportRemoveIntervention}

@@ -13,6 +13,7 @@
         "drefFormIndicatorsLabel": "Indicators",
         "drefFormRemoveIntervention": "Remove Intervention",
         "drefFormNoIndicatorMessage": "No indicators",
-        "drefFinalReportRemoveIntervention": "Remove Intervention"
+        "drefFinalReportRemoveIntervention": "Remove Intervention",
+        "drefFinalReportInterventionCannotBeRemoved": "This intervention comes from the approved DREF Application or Operational Update and can't be removed"
     }
 }

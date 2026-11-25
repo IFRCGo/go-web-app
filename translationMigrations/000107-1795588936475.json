@@ -1,0 +1,17 @@
+{
+    "parent": "000106-1795264409258.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "drefFinalReportInterventionCannotBeRemoved",
+            "namespace": "drefFinalReportForm",
+            "value": "This intervention comes from the approved DREF Application or Operational Update and can't be removed"
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportInterventionCannotBeRemoved",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "This intervention comes from the approved DREF Application or Operational Update and can't be removed"
+        }
+    ]
+}
